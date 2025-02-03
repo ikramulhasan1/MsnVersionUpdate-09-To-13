@@ -10,3 +10,5 @@ export default defineConfig({
         ]),
     ],
 });
+
+// Path: resources/css/app.css
