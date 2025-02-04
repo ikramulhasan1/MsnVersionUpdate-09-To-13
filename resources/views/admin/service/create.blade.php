@@ -39,7 +39,7 @@
 
                         <div class="form-group">
                             <label for="short_desc">{{ __('dashboard.short_desc') }} <span>*</span></label>
-                            <textarea class="form-control" name="short_desc" id="editor" rows="4" required>{{ old('short_desc') }}</textarea>
+                            <textarea class="form-control summernote" name="short_desc" id="short_desc" rows="4" required>{{ old('short_desc') }}</textarea>
 
                             <div class="invalid-feedback">
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.short_desc') }}
@@ -48,7 +48,7 @@
 
                         <div class="form-group">
                             <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
-                            <textarea class="form-control" name="description" id="editor1" rows="8" required>{{ old('description') }}</textarea>
+                            <textarea class="form-control textMediaEditor" name="description" id="description" rows="8" required>{{ old('description') }}</textarea>
 
                             <div class="invalid-feedback">
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
