@@ -89,5 +89,58 @@
     
 </div> <!-- container -->
 <!-- End Content-->
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            toolbar: [
+                'sourceEditing', '|',
+                'heading', '|',
+                'bold', 'italic', 'link', '|',
+                'bulletedList', 'numberedList', '|',
+                'blockQuote', '|',
+                'undo', 'redo', '|',
+                'imageUpload', 'mediaEmbed', 'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|',
+                'code', 'codeBlock', '|',
+                'specialCharacters' // Adds the special characters button
+            ],
+            specialCharacters: {
+                categories: [
+                    'Emoji', // Adds emoji characters
+                    'Mathematical',
+                    'Arrows',
+                    'Currency'
+                ]
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
 
-@endsection
+    ClassicEditor
+        .create(document.querySelector('#editor1'), {
+            toolbar: [
+                'sourceEditing', '|',
+                'heading', '|',
+                'bold', 'italic', 'link', '|',
+                'bulletedList', 'numberedList', '|',
+                'blockQuote', '|',
+                'undo', 'redo', '|',
+                'imageUpload', 'mediaEmbed', 'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|',
+                'code', 'codeBlock', '|',
+                'specialCharacters' // Adds the special characters button
+            ],
+            specialCharacters: {
+                categories: [
+                    'Emoji', // Adds emoji characters
+                    'Mathematical',
+                    'Arrows',
+                    'Currency'
+                ]
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        }); 
+</script>
+@endsection 
+

@@ -18,7 +18,7 @@ class CreateServicesTable extends Migration
             $table->string('title')->unique();
             $table->string('slug')->unique();
             $table->text('short_desc')->nullable();
-            $table->text('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('image_path', 500)->nullable();
             $table->string('file_path', 500)->nullable();
             $table->boolean('status')->default('1');
