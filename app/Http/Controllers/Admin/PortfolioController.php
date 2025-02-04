@@ -42,7 +42,7 @@ class PortfolioController extends Controller
 
         $data['rows'] = Portfolio::orderBy('id', 'desc')->get();
 
-        return view($this->view.'.index', $data);
+        return view($this->view . '.index', $data);
     }
 
     /**
@@ -59,7 +59,7 @@ class PortfolioController extends Controller
 
         $data['categories'] = PortfolioCategory::where('status', '1')->get();
 
-        return view($this->view.'.create', $data);
+        return view($this->view . '.create', $data);
     }
 
     /**
@@ -81,47 +81,48 @@ class PortfolioController extends Controller
 
 
         // image upload, fit and store inside public folder 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             //Upload New Image
             $filenameWithExt = $request->file('image')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME); 
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('image')->getClientOriginalExtension();
-            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
 
             //Crete Folder Location
-            $path = public_path('uploads/'.$this->path.'/');
+            $path = public_path('uploads/' . $this->path . '/');
             if (! File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
             //Resize And Crop as Fit image here (800 width, 500 height)
-            $thumbnailpath = $path.$fileNameToStore;
-            $img = Image::make($request->file('image')->getRealPath())->fit(800, 500, function ($constraint) { $constraint->upsize(); })->save($thumbnailpath);
-        }
-        else{
+            $thumbnailpath = $path . $fileNameToStore;
+            $img = Image::make($request->file('image')->getRealPath())->fit(800, 500, function ($constraint) {
+                $constraint->upsize();
+            })->save($thumbnailpath);
+        } else {
             $fileNameToStore = 'noimage.jpg'; // if no image selected this will be the default image
         }
 
 
         // Get content with media file
-        $content=$request->input('description');
-        
+        $content = $request->input('description');
+
         $dom = new \DomDocument();
         libxml_use_internal_errors(true);
         $dom->encoding = 'utf-8';
-        $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);    
+        $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         $images = $dom->getElementsByTagName('img');
-       // foreach <img> in the submited content
-        foreach($images as $img){
+        // foreach <img> in the submited content
+        foreach ($images as $img) {
             $src = $img->getAttribute('src');
-            
+
             // if the img source is 'data-url'
-            if(preg_match('/data:image/', $src)){                
+            if (preg_match('/data:image/', $src)) {
                 // get the mimetype
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-                $mimetype = $groups['mime'];                
+                $mimetype = $groups['mime'];
                 // Generating a random filename
-                $filename = uniqid().'_'.time();
+                $filename = uniqid() . '_' . time();
 
                 //Crete Folder Location
                 $path = public_path('uploads/media/');
@@ -129,17 +130,17 @@ class PortfolioController extends Controller
                     File::makeDirectory($path, 0777, true, true);
                 }
 
-                $filepath = "/uploads/media/$filename.$mimetype";    
+                $filepath = "/uploads/media/$filename.$mimetype";
                 // @see http://image.intervention.io/api/
                 $image = Image::make($src)
-                  // resize if required
-                  //->resize(500, null) 
-                  ->resize(800, null, function ($constraint) {
+                    // resize if required
+                    //->resize(500, null) 
+                    ->resize(800, null, function ($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     })
-                  ->encode($mimetype, 100)  // encode file to the specified mimetype
-                  ->save(public_path($filepath));                
+                    ->encode($mimetype, 100)  // encode file to the specified mimetype
+                    ->save(public_path($filepath));
                 $new_src = asset($filepath);
                 $img->removeAttribute('src');
                 $img->setAttribute('src', $new_src);
@@ -155,15 +156,16 @@ class PortfolioController extends Controller
         $portfolio->image_path = $fileNameToStore;
         $portfolio->video_id = $request->video_id;
         $portfolio->link = $request->link;
+        $portfolio->link2 = $request->link2;
         $portfolio->save();
 
         // Attach
         $portfolio->categories()->attach($request->categories);
-        
+
 
         Toastr::success(__('dashboard.created_successfully'), __('dashboard.success'));
 
-        return redirect()->route($this->route.'.index');
+        return redirect()->route($this->route . '.index');
     }
 
     /**
@@ -182,7 +184,7 @@ class PortfolioController extends Controller
 
         $data['row'] = $portfolio;
 
-        return view($this->view.'.show', $data);
+        return view($this->view . '.show', $data);
     }
 
     /**
@@ -202,7 +204,7 @@ class PortfolioController extends Controller
         $data['row'] = $portfolio;
         $data['categories'] = PortfolioCategory::where('status', '1')->get();
 
-        return view($this->view.'.edit', $data);
+        return view($this->view . '.edit', $data);
     }
 
     /**
@@ -216,7 +218,7 @@ class PortfolioController extends Controller
     {
         // Field Validation
         $request->validate([
-            'title' => 'required|max:191|unique:portfolios,title,'.$portfolio->id,
+            'title' => 'required|max:191|unique:portfolios,title,' . $portfolio->id,
             'categories' => 'required',
             'description' => 'required',
             'image' => 'nullable|image',
@@ -225,54 +227,55 @@ class PortfolioController extends Controller
 
 
         // image upload, fit and store inside public folder 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
 
-            $file_path = public_path('uploads/'.$this->path.'/'.$portfolio->image_path);
-            if(File::isFile($file_path)){
+            $file_path = public_path('uploads/' . $this->path . '/' . $portfolio->image_path);
+            if (File::isFile($file_path)) {
                 File::delete($file_path);
             }
 
             //Upload New Image
             $filenameWithExt = $request->file('image')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME); 
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('image')->getClientOriginalExtension();
-            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
 
             //Crete Folder Location
-            $path = public_path('uploads/'.$this->path.'/');
+            $path = public_path('uploads/' . $this->path . '/');
             if (! File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
             //Resize And Crop as Fit image here (800 width, 500 height)
-            $thumbnailpath = $path.$fileNameToStore;
-            $img = Image::make($request->file('image')->getRealPath())->fit(800, 500, function ($constraint) { $constraint->upsize(); })->save($thumbnailpath);
-        }
-        else{
+            $thumbnailpath = $path . $fileNameToStore;
+            $img = Image::make($request->file('image')->getRealPath())->fit(800, 500, function ($constraint) {
+                $constraint->upsize();
+            })->save($thumbnailpath);
+        } else {
 
-            $fileNameToStore = $portfolio->image_path; 
+            $fileNameToStore = $portfolio->image_path;
         }
 
 
         // Get content with media file
-        $content=$request->input('description');
-        
+        $content = $request->input('description');
+
         $dom = new \DomDocument();
         libxml_use_internal_errors(true);
         $dom->encoding = 'utf-8';
-        $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);    
+        $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         $images = $dom->getElementsByTagName('img');
-       // foreach <img> in the submited content
-        foreach($images as $img){
+        // foreach <img> in the submited content
+        foreach ($images as $img) {
             $src = $img->getAttribute('src');
-            
+
             // if the img source is 'data-url'
-            if(preg_match('/data:image/', $src)){                
+            if (preg_match('/data:image/', $src)) {
                 // get the mimetype
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-                $mimetype = $groups['mime'];                
+                $mimetype = $groups['mime'];
                 // Generating a random filename
-                $filename = uniqid().'_'.time();
+                $filename = uniqid() . '_' . time();
 
                 //Crete Folder Location
                 $path = public_path('uploads/media/');
@@ -280,17 +283,17 @@ class PortfolioController extends Controller
                     File::makeDirectory($path, 0777, true, true);
                 }
 
-                $filepath = "/uploads/media/$filename.$mimetype";    
+                $filepath = "/uploads/media/$filename.$mimetype";
                 // @see http://image.intervention.io/api/
                 $image = Image::make($src)
-                  // resize if required
-                  //->resize(500, null) 
-                  ->resize(800, null, function ($constraint) {
+                    // resize if required
+                    //->resize(500, null) 
+                    ->resize(800, null, function ($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     })
-                  ->encode($mimetype, 100)  // encode file to the specified mimetype
-                  ->save(public_path($filepath));                
+                    ->encode($mimetype, 100)  // encode file to the specified mimetype
+                    ->save(public_path($filepath));
                 $new_src = asset($filepath);
                 $img->removeAttribute('src');
                 $img->setAttribute('src', $new_src);
@@ -305,6 +308,7 @@ class PortfolioController extends Controller
         $portfolio->image_path = $fileNameToStore;
         $portfolio->video_id = $request->video_id;
         $portfolio->link = $request->link;
+        $portfolio->link2 = $request->link2;
         $portfolio->status = $request->status;
         $portfolio->save();
 
@@ -326,8 +330,8 @@ class PortfolioController extends Controller
     public function destroy(Portfolio $portfolio)
     {
         // Delete Data
-        $image_path = public_path('uploads/'.$this->path.'/'.$portfolio->image_path);
-        if(File::isFile($image_path)){
+        $image_path = public_path('uploads/' . $this->path . '/' . $portfolio->image_path);
+        if (File::isFile($image_path)) {
             File::delete($image_path);
         }
 
