@@ -4,11 +4,11 @@
 
 <!-- Start Content-->
 <div class="container-fluid">
-    
+
     <!-- start page title -->
     <!-- Include page breadcrumb -->
     @include('admin.inc.breadcrumb')
-    <!-- end page title --> 
+    <!-- end page title -->
 
 
     <div class="row">
@@ -24,123 +24,105 @@
                     <h4 class="header-title">{{ __('dashboard.edit') }} {{ $title }}</h4>
                 </div>
                 <form class="needs-validation" novalidate action="{{ route($route.'.update', $row->id) }}" method="post" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="card-body">
+                    @csrf
+                    @method('PUT')
+                    <div class="card-body">
 
-                    <!-- Form Start -->
-                    <div class="form-group">
-                        <label for="title">{{ __('dashboard.title') }} <span>*</span></label>
-                        <input type="text" class="form-control" name="title" id="title" value="{{ $row->title }}" required>
+                        <!-- Form Start -->
+                        <div class="form-group">
+                            <label for="title">{{ __('dashboard.title') }} <span>*</span></label>
+                            <input type="text" class="form-control" name="title" id="title" value="{{ $row->title }}" required>
 
-                        <div class="invalid-feedback">
-                          {{ __('dashboard.please_provide') }} {{ __('dashboard.title') }}
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.title') }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="short_desc">{{ __('dashboard.short_desc') }} <span>*</span></label>
+                            <textarea class="form-control" name="short_desc" id="editor" rows="4" required>{{ $row->short_desc }}</textarea>
+
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.short_desc') }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
+                            <textarea class="form-control" name="description" id="editor1" rows="8" required>{{ $row->description }}</textarea>
+
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="image">{{ __('dashboard.thumbnail') }} <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
+                            <input type="file" class="form-control" name="image" id="image">
+
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.thumbnail') }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status">{{ __('dashboard.select_status') }}</label>
+                            <select class="wide" name="status" id="status" data-plugin="customselect">
+                                <option value="1" @if( $row->status == 1 ) selected @endif>{{ __('dashboard.active') }}</option>
+                                <option value="0" @if( $row->status == 0 ) selected @endif>{{ __('dashboard.inactive') }}</option>
+                            </select>
+                        </div>
+                        <!-- Form End -->
+
+                    </div>
+                    <div class="card-footer">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">{{ __('dashboard.update') }}</button>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="short_desc">{{ __('dashboard.short_desc') }} <span>*</span></label>
-                        <textarea class="form-control summernote" name="short_desc" id="short_desc" rows="4" required>{{ $row->short_desc }}</textarea>
-
-                        <div class="invalid-feedback">
-                          {{ __('dashboard.please_provide') }} {{ __('dashboard.short_desc') }}
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
-                        <textarea class="form-control textMediaEditor" name="description" id="description" rows="8" required>{{ $row->description }}</textarea>
-
-                        <div class="invalid-feedback">
-                          {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="image">{{ __('dashboard.thumbnail') }} <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
-                        <input type="file" class="form-control" name="image" id="image">
-
-                        <div class="invalid-feedback">
-                          {{ __('dashboard.please_provide') }} {{ __('dashboard.thumbnail') }}
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="status">{{ __('dashboard.select_status') }}</label>
-                        <select class="wide" name="status" id="status" data-plugin="customselect">
-                            <option value="1" @if( $row->status == 1 ) selected @endif>{{ __('dashboard.active') }}</option>
-                            <option value="0" @if( $row->status == 0 ) selected @endif>{{ __('dashboard.inactive') }}</option>
-                        </select>
-                    </div>
-                    <!-- Form End -->
-                    
-                </div>
-                <div class="card-footer">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">{{ __('dashboard.update') }}</button>
-                    </div>
-                </div>
                 </form>
             </div>
         </div><!-- end col-->
     </div>
     <!-- end row-->
 
-    
+
 </div> <!-- container -->
 <!-- End Content-->
 <script>
-    ClassicEditor
-        .create(document.querySelector('#editor'), {
-            toolbar: [
-                'sourceEditing', '|',
-                'heading', '|',
-                'bold', 'italic', 'link', '|',
-                'bulletedList', 'numberedList', '|',
-                'blockQuote', '|',
-                'undo', 'redo', '|',
-                'imageUpload', 'mediaEmbed', 'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|',
-                'code', 'codeBlock', '|',
-                'specialCharacters' // Adds the special characters button
-            ],
-            specialCharacters: {
-                categories: [
-                    'Emoji', // Adds emoji characters
-                    'Mathematical',
-                    'Arrows',
-                    'Currency'
-                ]
+    CKEDITOR.replace('editor', {
+        on: {
+            instanceReady: function(ev) {
+                this.dataProcessor.writer.setRules('strong', {
+                    indent: false,
+                    breakBeforeOpen: false,
+                    breakAfterOpen: false,
+                    breakBeforeClose: false,
+                    breakAfterClose: false
+                });
             }
-        })
-        .catch(error => {
-            console.error(error);
-        });
-
-    ClassicEditor
-        .create(document.querySelector('#editor1'), {
-            toolbar: [
-                'sourceEditing', '|',
-                'heading', '|',
-                'bold', 'italic', 'link', '|',
-                'bulletedList', 'numberedList', '|',
-                'blockQuote', '|',
-                'undo', 'redo', '|',
-                'imageUpload', 'mediaEmbed', 'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|',
-                'code', 'codeBlock', '|',
-                'specialCharacters' // Adds the special characters button
-            ],
-            specialCharacters: {
-                categories: [
-                    'Emoji', // Adds emoji characters
-                    'Mathematical',
-                    'Arrows',
-                    'Currency'
-                ]
+        },
+        coreStyles_bold: {
+            element: 'b',
+            overrides: 'strong'
+        } // Converts <strong> to <b>
+    });
+    CKEDITOR.replace('editor1', {
+        on: {
+            instanceReady: function(ev) {
+                this.dataProcessor.writer.setRules('strong', {
+                    indent: false,
+                    breakBeforeOpen: false,
+                    breakAfterOpen: false,
+                    breakBeforeClose: false,
+                    breakAfterClose: false
+                });
             }
-        })
-        .catch(error => {
-            console.error(error);
-        }); 
+        },
+        coreStyles_bold: {
+            element: 'b',
+            overrides: 'strong'
+        } // Converts <strong> to <b>
+    });
 </script>
-@endsection 
-
+@endsection
