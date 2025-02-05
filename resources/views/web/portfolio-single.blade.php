@@ -57,7 +57,16 @@ $header = \App\Models\PageSetup::page('portfolio');
 
     table th,
     table td {
-        padding: px;
+        border: solid;
+    }
+
+    table th>ol>li,
+    table td>ul>li,
+    table th>ul>li,
+    table td>ol>li {
+        list-style: initial !important;
+        margin-left: 20px;
+
     }
 
     .marker {
@@ -66,13 +75,14 @@ $header = \App\Models\PageSetup::page('portfolio');
 
     /* </p><table border="1" cellpadding="1" cellspacing="1" style="width:500px">  */
 
-    .description>ul,li {
+    .description>ul>li {
         margin-left: 30px !important;
         list-style: initial;
         font-size: 16px !important;
     }
 
-    .description>ol,li {
+
+    .description>ol>li {
         /* list-style: decimal; */
         margin-left: 30px !important;
         all: revert;

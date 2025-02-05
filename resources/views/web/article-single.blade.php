@@ -45,13 +45,13 @@ $header = \App\Models\PageSetup::page('blog');
 
 @section('content')
 <style>
-    .description>ul,li {
+    .description>ul>li {
         margin-left: 30px !important;
         list-style: initial;
         font-size: 16px !important;
     }
 
-    .description>ol,li {
+    .description>ol>li {
         /* list-style: decimal; */
         margin-left: 30px !important;
         all: revert;

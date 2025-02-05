@@ -25,13 +25,13 @@ $header = \App\Models\PageSetup::page('about-us');
 
 @section('content')
 <style>
-    .description>ul,li {
+    .description>ul>li {
         margin-left: 30px !important;
         list-style: initial;
         font-size: 16px !important;
     }
 
-    .description>ol,li {
+    .description>ol>li {
         /* list-style: decimal; */
         margin-left: 30px !important;
         all: revert;
@@ -56,6 +56,15 @@ $header = \App\Models\PageSetup::page('about-us');
     table th,
     table td {
         border: solid;
+    }
+
+    table th>ol>li,
+    table td>ul>li,
+    table th>ul>li,
+    table td>ol>li {
+        list-style: initial !important;
+        margin-left: 20px;
+
     }
 
     table th,
