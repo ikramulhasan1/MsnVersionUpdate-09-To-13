@@ -44,7 +44,34 @@ $header = \App\Models\PageSetup::page('portfolio');
 @endsection
 
 @section('content')
+<style>
+    .description>ul>li {
+        margin-left: 30px !important;
+        list-style: initial;
+        font-size: 16px !important;
+    }
 
+    .description>ol>li {
+        /* list-style: decimal; */
+        margin-left: 30px !important;
+        all: revert;
+        font-size: 16px !important;
+    }
+
+    .description>p>a {
+        color: blue;
+        font-weight: bold;
+        text-decoration: underline;
+    }
+
+    .description>p {
+        font-size: 18px !important;
+    }
+
+    .marker {
+        background-color: yellow;
+    }
+</style>
 <!--Page Title-->
 <section class="page-title">
     <div class="container">

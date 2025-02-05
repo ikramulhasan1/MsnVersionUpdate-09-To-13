@@ -49,7 +49,6 @@ $header = \App\Models\PageSetup::page('services');
         margin-left: 30px !important;
         list-style: initial;
         font-size: 16px !important;
-
     }
 
     .description>ol>li {
@@ -57,7 +56,6 @@ $header = \App\Models\PageSetup::page('services');
         margin-left: 30px !important;
         all: revert;
         font-size: 16px !important;
-
     }
 
     .description>p>a {
@@ -68,6 +66,10 @@ $header = \App\Models\PageSetup::page('services');
 
     .description>p {
         font-size: 18px !important;
+    }
+
+    .marker {
+        background-color: yellow;
     }
 </style>
 <!--Page Title-->
@@ -119,6 +121,7 @@ $header = \App\Models\PageSetup::page('services');
                             </div>
                         </div>
                         <h2>{{ $service->title }}</h2>
+                        
                         <div class="text description">
                             <!-- {!! $service->description !!} -->
                             {!! $service->description !!}
