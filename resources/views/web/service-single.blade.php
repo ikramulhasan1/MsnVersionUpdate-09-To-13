@@ -45,13 +45,13 @@ $header = \App\Models\PageSetup::page('services');
 
 @section('content')
 <style>
-    .description>ul>li {
+    .description>ul,li {
         margin-left: 30px !important;
         list-style: initial;
         font-size: 16px !important;
     }
 
-    .description>ol>li {
+    .description>ol,li {
         /* list-style: decimal; */
         margin-left: 30px !important;
         all: revert;
@@ -70,6 +70,17 @@ $header = \App\Models\PageSetup::page('services');
 
     .marker {
         background-color: yellow;
+    }
+
+    table,
+    table th,
+    table td {
+        border: solid;
+    }
+
+    table th,
+    table td {
+        padding: 5px;
     }
 </style>
 <!--Page Title-->
@@ -121,7 +132,7 @@ $header = \App\Models\PageSetup::page('services');
                             </div>
                         </div>
                         <h2>{{ $service->title }}</h2>
-                        
+
                         <div class="text description">
                             <!-- {!! $service->description !!} -->
                             {!! $service->description !!}

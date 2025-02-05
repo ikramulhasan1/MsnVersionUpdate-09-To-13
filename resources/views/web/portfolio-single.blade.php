@@ -45,13 +45,34 @@ $header = \App\Models\PageSetup::page('portfolio');
 
 @section('content')
 <style>
-    .description>ul>li {
+    table {
+        width: px;
+    }
+
+    table,
+    table th,
+    table td {
+        border: solid;
+    }
+
+    table th,
+    table td {
+        padding: px;
+    }
+
+    .marker {
+        background-color: yellow;
+    }
+
+    /* </p><table border="1" cellpadding="1" cellspacing="1" style="width:500px">  */
+
+    .description>ul,li {
         margin-left: 30px !important;
         list-style: initial;
         font-size: 16px !important;
     }
 
-    .description>ol>li {
+    .description>ol,li {
         /* list-style: decimal; */
         margin-left: 30px !important;
         all: revert;
@@ -66,10 +87,6 @@ $header = \App\Models\PageSetup::page('portfolio');
 
     .description>p {
         font-size: 18px !important;
-    }
-
-    .marker {
-        background-color: yellow;
     }
 </style>
 <!--Page Title-->
@@ -126,8 +143,8 @@ $header = \App\Models\PageSetup::page('portfolio');
                     <div class="content-column col-lg-8 col-md-12 col-sm-12">
                         <div class="inner-column">
                             <h2>{{ $portfolio->title }}</h2>
-
                             <div class="description">
+
                                 {!! $portfolio->description !!}
                             </div>
 
