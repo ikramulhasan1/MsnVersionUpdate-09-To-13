@@ -127,7 +127,7 @@ $header = \App\Models\PageSetup::page('portfolio');
                         <div class="inner-column">
                             <h2>{{ $portfolio->title }}</h2>
 
-                            <div>
+                            <div class="description">
                                 {!! $portfolio->description !!}
                             </div>
 
