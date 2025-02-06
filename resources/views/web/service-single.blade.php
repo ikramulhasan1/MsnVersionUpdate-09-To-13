@@ -99,7 +99,7 @@ $header = \App\Models\PageSetup::page('services');
         <div class="inner-container clearfix">
             <div class="title-box">
                 <h1>{{ $service->title }}</h1>
-            </div>
+            </div >
             <div class="bread-crumb">
                 <ul>
                     <li>{{ __('navbar.service-detail') }}</li>

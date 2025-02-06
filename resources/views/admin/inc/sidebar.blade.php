@@ -61,12 +61,12 @@
             </a>
         </li>
 
-        <li>
+        <!-- <li>
             <a href="{{ route('admin.pricing.index') }}">
                 <span class="icon"><i class="fas fa-tags"></i></span>
                 <span> {{ trans_choice('dashboard.pricing', 2) }} </span>
             </a>
-        </li>
+        </li> -->
 
         <li>
             <a href="javascript: void(0);">
