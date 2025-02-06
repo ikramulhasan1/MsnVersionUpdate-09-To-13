@@ -324,7 +324,7 @@
                                     $page_pricing = \App\Models\PageSetup::page('pricing');
                                     @endphp
                                     @if(isset($page_pricing))
-                                    <li class="{{ Request::is('pricing*') ? 'current' : '' }}"><a href="{{ route('pricing') }}">{{ $page_pricing->title }}</a></li>
+                                    <!-- <li class="{{ Request::is('pricing*') ? 'current' : '' }}"><a href="{{ route('pricing') }}">{{ $page_pricing->title }}</a></li> -->
                                     @endif
 
                                     @php
