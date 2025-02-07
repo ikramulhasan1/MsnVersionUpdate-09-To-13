@@ -157,6 +157,7 @@ class PortfolioController extends Controller
         $portfolio->video_id = $request->video_id;
         $portfolio->link = $request->link;
         $portfolio->link2 = $request->link2;
+        $portfolio->link3 = $request->link3;
         $portfolio->save();
 
         // Attach
@@ -309,6 +310,7 @@ class PortfolioController extends Controller
         $portfolio->video_id = $request->video_id;
         $portfolio->link = $request->link;
         $portfolio->link2 = $request->link2;
+        $portfolio->link3 = $request->link3;
         $portfolio->status = $request->status;
         $portfolio->save();
 

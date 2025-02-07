@@ -4,11 +4,11 @@
 
 <!-- Start Content-->
 <div class="container-fluid">
-    
+
     <!-- start page title -->
     <!-- Include page breadcrumb -->
     @include('admin.inc.breadcrumb')
-    <!-- end page title --> 
+    <!-- end page title -->
 
 
     <div class="row">
@@ -18,7 +18,7 @@
     </div>
 
     <div class="row">
-        <div class="col-12 col-lg-8">
+        <div class="col-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
                     <h4 class="header-title">{{ __('dashboard.view') }} {{ $title }}</h4>
@@ -27,19 +27,19 @@
 
                     <!-- Details View Start -->
                     <h4><span class="text-highlight">{{ __('dashboard.title') }}:</span> {{ $row->title }}</h4>
-                    <p><span class="text-highlight">{{ __('dashboard.category') }}:</span> 
+                    <p><span class="text-highlight">{{ __('dashboard.category') }}:</span>
                         @foreach($row->categories as $category)
-                            <span class="badge badge-primary">{{ $category->title }}</span> 
+                        <span class="badge badge-primary">{{ $category->title }}</span>
                         @endforeach
                     </p>
-                    <hr/>
+                    <hr />
 
                     @if(!empty($row->video_id))
                     <p><span class="text-highlight">{{ __('dashboard.youtube_video') }}:</span></p>
                     <div class="embed-responsive embed-responsive-16by9">
-                      <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ $row->video_id }}?rel=0" allowfullscreen></iframe>
+                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ $row->video_id }}?rel=0" allowfullscreen></iframe>
                     </div>
-                    <br/>
+                    <br />
                     @endif
 
                     @if(is_file('uploads/'.$path.'/'.$row->image_path))
@@ -47,20 +47,28 @@
                     <img src="{{ asset('uploads/'.$path.'/'.$row->image_path) }}" class="img-fluid" alt="Portfolio">
                     @endif
 
-                    <hr/>
+                    <hr />
                     <p><span class="text-highlight">{{ __('dashboard.description') }}:</span> {!! $row->description !!}</p>
 
                     @if(!empty($row->link))
-                    <hr/>
+                    <hr />
                     <p><span class="badge badge-primary">{{ __('dashboard.web_link') }}:</span> <a href="{{ $row->link }}" target="_blank">{{ $row->link }}</a></p>
                     @endif
-                    <hr/>
-                    <p><span class="text-highlight">{{ __('dashboard.status') }}:</span> 
-                    @if( $row->status == 1 )
-                    <span class="badge badge-success badge-pill">{{ __('dashboard.active') }}</span>
-                    @else
-                    <span class="badge badge-danger badge-pill">{{ __('dashboard.inactive') }}</span>
+                    @if(!empty($row->link2))
+                    <hr />
+                    <p><span class="badge badge-primary">{{ __('Admin Panel') }}:</span> <a href="{{ $row->link2 }}" target="_blank">{{ $row->link2 }}</a></p>
                     @endif
+                    @if(!empty($row->link3))
+                    <hr />
+                    <p><span class="badge badge-primary">{{ __('User Panel') }}:</span> <a href="{{ $row->link3 }}" target="_blank">{{ $row->link3 }}</a></p>
+                    @endif
+                    <hr />
+                    <p><span class="text-highlight">{{ __('dashboard.status') }}:</span>
+                        @if( $row->status == 1 )
+                        <span class="badge badge-success badge-pill">{{ __('dashboard.active') }}</span>
+                        @else
+                        <span class="badge badge-danger badge-pill">{{ __('dashboard.inactive') }}</span>
+                        @endif
                     </p>
                     <!-- Details View End -->
                 </div>
@@ -69,7 +77,7 @@
     </div>
     <!-- end row-->
 
-    
+
 </div> <!-- container -->
 <!-- End Content-->
 

@@ -142,6 +142,11 @@ $header = \App\Models\PageSetup::page('portfolio');
                         <a target="_blank" href="{{ $portfolio->link2 }}"><img style="width:100%; height: 100%; box-shadow: 10px 10px 8px #888888;" src="{{ asset('uploads/portfolio/view/Admin.png') }}" alt="Admin view"></a>
                     </div>
                     @endif
+                    @if (!empty($portfolio->link3))
+                    <div class="content-column col-lg-6 col-md-6 col-sm-12">
+                        <a target="_blank" href="{{ $portfolio->link3 }}"><img style="width:100%; height: 100%; box-shadow: 10px 10px 8px #888888;" src="{{ asset('uploads/portfolio/view/User.png') }}" alt="Admin view"></a>
+                    </div>
+                    @endif
                 </div>
             </div>
 

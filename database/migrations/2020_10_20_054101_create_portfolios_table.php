@@ -22,6 +22,7 @@ class CreatePortfoliosTable extends Migration
             $table->string('video_id')->nullable();
             $table->string('link')->nullable();
             $table->string('link2')->nullable();
+            $table->string('link3')->nullable();
             $table->boolean('status')->default('1');
             $table->timestamps();
         });

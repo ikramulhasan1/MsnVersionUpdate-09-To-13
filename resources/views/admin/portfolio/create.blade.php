@@ -86,8 +86,16 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="link2">Admin Link</label>
+                            <label for="link2">Admin Panel</label>
                             <input type="url" class="form-control" name="link2" id="link2" value="{{ old('link2') }}">
+
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.web_link') }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="link3">User Panel</label>
+                            <input type="url" class="form-control" name="link3" id="link3" value="{{ old('link3') }}">
 
                             <div class="invalid-feedback">
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.web_link') }}
