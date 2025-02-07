@@ -374,7 +374,7 @@
         </header>
         <!--End Main Header -->
 
-
+        <!--  -->
         <!-- Content Start -->
         @yield('content')
         <!-- Content End -->
