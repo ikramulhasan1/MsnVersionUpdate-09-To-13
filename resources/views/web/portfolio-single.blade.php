@@ -130,7 +130,7 @@ $header = \App\Models\PageSetup::page('portfolio');
                     </div>
                 </div>
             </div>
-            <div class="my-2">
+            <div class="my-5">
                 <div class="row d-flex justify-content-between content-column col-lg-8 col-md-12 col-sm-12">
                     @if (!empty($portfolio->link))
                     <div class="content-column col-lg-4 col-md-4 col-sm-12">
