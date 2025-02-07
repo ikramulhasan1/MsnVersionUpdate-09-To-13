@@ -1,72 +1,84 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# Multipurpose Business Website CMS
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## Application Preview
+### Website: Front View
+### Admin Panel: Dashboard
+**Admin Login**  
+E-mail: `admin@mail.com`  
+Password: `admin1234`  
 
-## About Laravel
+## What Does It Offer for Business Branding?
+This script is a **multipurpose business website CMS (Content Management System)** that is **fully customizable and 100% dynamic**. Through the powerful **Admin Panel**, you can easily manage various sections of the website, including:
+- **About Us** (including Mission & Vision)
+- **Contact Page Details**
+- **Sliders, Portfolios, Services, Pricing Plans, Testimonials, Team Members**
+- **FAQs, Blog Posts, Work Process, Features, Counters, Quote Requests, Invoices, Emails, Subscribers**
+- **Custom Pages, Social Profiles, and more**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The system allows you to:
+- **Rename and reorder sections** dynamically
+- **Show or hide sections and pages** as needed
+- **Activate or deactivate Quote Request pages**
+- **Manage invoices and payments**
+- **Provide a professional look with a fully responsive design** that works seamlessly across all devices and browsers
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Suitable for Various Business Types
+This CMS is designed to be used for **multiple business purposes**, including:
+- **Creative Agencies, IT Companies, Freelancers**
+- **Restaurants, Hotels, Spas, Salons**
+- **Construction, Architecture, Interior Design**
+- **Financial Services, Banks, Consulting Firms**
+- **Automotive, Electronics, Power, Cleaning Services**
+- **Garments, Textile, Leather, Chemicals, Food, Transport**
+- **Law Firms and many more industries**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Why Choose This CMS?
+- **Easy to Manage** – No technical expertise required
+- **Developed in Laravel** – Easily customizable by developers
+- **Stronger Security** – More robust than other popular CMS platforms
+- **SEO Optimized** – Enhanced online visibility
+- **Customizable** – Easily modify design and functionality
 
-## Learning Laravel
+> **Need Customization?** If this script doesn’t fully match your requirements, you can request **custom modifications** at an **affordable price**.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**Support Mail:** [hitechparks@gmail.com](mailto:hitechparks@gmail.com)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1400 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## Features
+### Website Features:
+✔ **100% Dynamic Content**  
+✔ **SEO Optimized** (Custom Meta Keywords, SEO-friendly URLs)  
+✔ **Responsive Design** (Bootstrap v4, Font Awesome Icons, Animated CSS)  
+✔ **Multiple Pages** – About Us, Services, Portfolio, FAQs, Blog, Pricing Plans, Testimonials, etc.  
+✔ **Live Chat Integration** (Messenger & WhatsApp)  
+✔ **Google Font & Social Meta Tags Integration**  
+✔ **Contact Mail System Integration**  
+✔ **Custom Logo, Icons, and CSS Settings**  
+✔ **Cross-Browser Support**  
+✔ **Translatable Content**  
+✔ **Invoice & Payment System (PayPal Integrated)**  
+✔ **Quote Request System**  
+✔ **Manage Subscribers & Email Notifications**  
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Admin Panel Features:
+✔ **Easy Installation**  
+✔ **Simple & Powerful Admin Panel**  
+✔ **Manage & Send Invoices**  
+✔ **Manage Quote Requests & Payments**  
+✔ **Admin & Customer Email Notifications**  
+✔ **Manage Contact Details, About Us, Sliders, Portfolios, Services, Partners, Pricing Plans**  
+✔ **Manage Blog, FAQs, Work Process, Features, Testimonials, Counters**  
+✔ **Create Unlimited Custom Pages & Sections**  
+✔ **Admin & Website Settings**  
+✔ **PayPal Payment Method Integrated**  
+✔ **Forgot Password & Password Change Feature**  
+✔ **Well-Commented Code & Documentation Included**  
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
+## Version
+**Current Version:** 4.2.0
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**For any queries or customization requests, contact us at:** [hitechparks@gmail.com](mailto:hitechparks@gmail.com)
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
