@@ -71,7 +71,7 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
 
     // Dashboard Route
     Route::get('/', 'DashboardController@index')->name('dashboard.index');
-    Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
+    // Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
 
     // Get Quote Routes
     Route::resource('get-quote', 'GetQuoteController');
