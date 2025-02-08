@@ -74,7 +74,7 @@ class PortfolioController extends Controller
         $request->validate([
             'title' => 'required|max:191|unique:portfolios,title',
             'categories' => 'required',
-            'description' => 'required',
+            'description' => 'required|string|max:16777215',
             'image' => 'required|image',
             'video_id' => 'nullable|max:100',
         ]);
@@ -221,7 +221,7 @@ class PortfolioController extends Controller
         $request->validate([
             'title' => 'required|max:191|unique:portfolios,title,' . $portfolio->id,
             'categories' => 'required',
-            'description' => 'required',
+            'description' => 'required|string|max:16777215',
             'image' => 'nullable|image',
             'video_id' => 'nullable|max:100',
         ]);
