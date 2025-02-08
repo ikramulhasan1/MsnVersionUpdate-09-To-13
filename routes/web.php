@@ -67,7 +67,7 @@ Route::middleware(['XSS'])->namespace('Web')->group(function () {
 Auth::routes(['register' => false]);
 
 // Admin Routes
-Route::middleware(['auth:web'])->name('admin.')->namespace('Admin')->prefix('admin')->group(function () {
+Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->prefix('admin')->group(function () {
 
     // Dashboard Route
     Route::get('/', 'DashboardController@index')->name('dashboard.index');
