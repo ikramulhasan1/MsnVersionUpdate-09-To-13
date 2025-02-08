@@ -74,7 +74,7 @@ class PortfolioController extends Controller
         $request->validate([
             'title' => 'required|max:191|unique:portfolios,title',
             'categories' => 'required',
-            'description' => 'required|string|max:16777215',
+            'description' => 'required',
             'image' => 'required|image',
             'video_id' => 'nullable|max:100',
         ]);
@@ -152,7 +152,8 @@ class PortfolioController extends Controller
         $portfolio = new Portfolio;
         $portfolio->title = $request->title;
         $portfolio->slug = Str::slug($request->title, '-');
-        $portfolio->description = $dom->saveHTML();
+        $portfolio->description = $request->description;
+        // $portfolio->description = $dom->saveHTML();
         $portfolio->image_path = $fileNameToStore;
         $portfolio->video_id = $request->video_id;
         $portfolio->link = $request->link;
@@ -221,7 +222,7 @@ class PortfolioController extends Controller
         $request->validate([
             'title' => 'required|max:191|unique:portfolios,title,' . $portfolio->id,
             'categories' => 'required',
-            'description' => 'required|string|max:16777215',
+            'description' => 'required',
             'image' => 'nullable|image',
             'video_id' => 'nullable|max:100',
         ]);
@@ -305,7 +306,8 @@ class PortfolioController extends Controller
         // Update Data
         $portfolio->title = $request->title;
         $portfolio->slug = Str::slug($request->title, '-');
-        $portfolio->description = $dom->saveHTML();
+        $portfolio->description = $request->description;
+        // $portfolio->description = $dom->saveHTML();
         $portfolio->image_path = $fileNameToStore;
         $portfolio->video_id = $request->video_id;
         $portfolio->link = $request->link;
