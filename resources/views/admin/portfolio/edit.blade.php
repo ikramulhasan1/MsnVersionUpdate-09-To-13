@@ -23,7 +23,7 @@
                 <div class="card-header">
                     <h4 class="header-title">{{ __('dashboard.edit') }} {{ $title }}</h4>
                 </div>
-                <form class="needs-validation" novalidate action="{{ route($route.'.update', $row->id) }}" method="post" enctype="multipart/form-data">
+                <form class="" action="{{ route($route.'.update', $row->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
