@@ -17,7 +17,7 @@ class CreatePortfoliosTable extends Migration
             $table->increments('id');
             $table->string('title')->unique();
             $table->string('slug')->unique();
-            $table->text('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('image_path', 500)->nullable();
             $table->string('video_id')->nullable();
             $table->string('link')->nullable();

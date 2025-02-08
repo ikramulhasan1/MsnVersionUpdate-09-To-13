@@ -218,6 +218,7 @@ class PortfolioController extends Controller
     public function update(Request $request, Portfolio $portfolio)
     {
         // Field Validation
+        dd($request->all());
         $request->validate([
             'title' => 'required|max:191|unique:portfolios,title,' . $portfolio->id,
             'categories' => 'required',
