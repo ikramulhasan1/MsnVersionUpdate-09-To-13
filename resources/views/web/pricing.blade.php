@@ -104,9 +104,9 @@ $section_pricing = \App\Models\Section::section('pricing');
 <!--Pricing Section-->
 <section class="price-section" style="background-image: url({{ asset('web/images/background/pricetable-bg.jpg') }});">
     <div class="container">
-        <div class="sec-title centered description">
+        <div class="sec-title centered">
             <h2>{{ $section_pricing->title }}</h2>
-            <div class="text">{!! $section_pricing->description !!}</div>
+            <div class="text description">{!! $section_pricing->description !!}</div>
             <div class="separater"></div>
         </div>
         <div class="outer-container pricing-tabs">

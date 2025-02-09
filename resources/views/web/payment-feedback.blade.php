@@ -92,7 +92,7 @@
                     @endphp
                     @if(isset($section_payment))
                     <h1>{{ $section_payment->title }}</h1>
-                    <div class="text">{!! $section_payment->description !!}</div>
+                    <div class="text description">{!! $section_payment->description !!}</div>
                     @endif
                     {{-- Success Alert --}}
                     @if(session('success'))

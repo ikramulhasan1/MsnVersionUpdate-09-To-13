@@ -107,9 +107,9 @@ $section_services = \App\Models\Section::section('services');
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="sec-title centered description">
+                <div class="sec-title centered">
                     <h2>{{ $section_services->title }}</h2>
-                    <div class="text">{!! $section_services->description !!}</div>
+                    <div class="text description">{!! $section_services->description !!}</div>
                     <div class="separater"></div>
                 </div>
             </div>
@@ -150,9 +150,9 @@ $section_process = \App\Models\Section::section('process');
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="sec-title left description">
+                <div class="sec-title left">
                     <h2>{{ $section_process->title }}</h2>
-                    <div class="text">{!! $section_process->description !!}</div>
+                    <div class="text description">{!! $section_process->description !!}</div>
                     <div class="separater"></div>
                 </div>
             </div>
@@ -164,8 +164,8 @@ $section_process = \App\Models\Section::section('process');
                     <div class="title-box">
                         <h4><span class="numbe-post">{{ $key + 1 }}</span>{{ $process->title }}</h4>
                     </div>
-                    <div class="lower-content description">
-                        <div class="text">{!! $process->description !!}</div>
+                    <div class="lower-content">
+                        <div class="text description">{!! $process->description !!}</div>
                     </div>
                 </div>
             </div>

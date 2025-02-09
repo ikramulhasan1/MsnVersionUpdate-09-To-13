@@ -107,9 +107,9 @@ $section_faqs = \App\Models\Section::section('faqs');
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="sec-title left description">
+                <div class="sec-title left">
                     <h2>{{ $section_faqs->title }}</h2>
-                    <div class="text">{!! $section_faqs->description !!}</div>
+                    <div class="text description">{!! $section_faqs->description !!}</div>
                     <div class="separater"></div>
                 </div>
             </div>

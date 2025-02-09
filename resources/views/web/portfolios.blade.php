@@ -107,9 +107,9 @@ $section_portfolio = \App\Models\Section::section('portfolio');
     <!--Sortable Masonry-->
     <div class="sortable-masonry">
         <div class="container">
-            <div class="sec-title centered description">
+            <div class="sec-title centered">
                 <h2>{{ $section_portfolio->title }}</h2>
-                <div class="text">{!! $section_portfolio->description !!}</div>
+                <div class="text description">{!! $section_portfolio->description !!}</div>
                 <div class="separater"></div>
             </div>
             <!--Filter-->

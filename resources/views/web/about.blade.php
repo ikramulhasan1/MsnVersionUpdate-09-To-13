@@ -79,6 +79,7 @@ $header = \App\Models\PageSetup::page('about-us');
         font-size: 18px !important;
     }
 </style>
+
 <!--Page Title-->
 <section class="page-title">
     <div class="container">
@@ -108,8 +109,8 @@ $header = \App\Models\PageSetup::page('about-us');
         </div>
         <div class="row">
             <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 wow fadeInRight animated">
-                <div class="inner-box description">
-                    <div class="text">{!! $about->description !!} <br /></div>
+                <div class="inner-box ">
+                    <div class="text description">{!! $about->description !!} <br /></div>
                 </div>
             </div>
             <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
@@ -180,12 +181,12 @@ $section_whyus = \App\Models\Section::section('why-us');
 
             @if(count($chooses) > 0 && isset($section_whyus))
             <div class="col-lg-6 col-md-12 col-sm-12 content-cloumn">
-                <div class="inner-column description">
+                <div class="inner-column">
                     <div class="sec-title left description">
                         <h2>{{ $section_whyus->title }}</h2>
                         <div class="separater"></div>
                     </div>
-                    <p>{!! $section_whyus->description !!}</p><br />
+                    <p class="description" >{!! $section_whyus->description !!}</p><br />
                     <ul class="list-why-us">
                         @foreach($chooses as $choose)
                         <li>{{ $choose->title }}</li>
@@ -218,9 +219,9 @@ $section_team = \App\Models\Section::section('team');
 <!-- Team Section -->
 <section class="team-section style-two">
     <div class="container">
-        <div class="sec-title left description">
+        <div class="sec-title left">
             <h2>{{ $section_team->title }}</h2>
-            <div class="text">{!! $section_team->description !!}</div>
+            <div class="text description">{!! $section_team->description !!}</div>
             <div class="separater"></div>
         </div>
 
@@ -280,9 +281,9 @@ $section_process = \App\Models\Section::section('process');
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="sec-title left description">
+                <div class="sec-title left">
                     <h2>{{ $section_process->title }}</h2>
-                    <div class="text">{!! $section_process->description !!}</div>
+                    <div class="text description">{!! $section_process->description !!}</div>
                     <div class="separater"></div>
                 </div>
             </div>
@@ -294,8 +295,8 @@ $section_process = \App\Models\Section::section('process');
                     <div class="title-box">
                         <h4><span class="numbe-post">{{ $key + 1 }}</span>{{ $process->title }}</h4>
                     </div>
-                    <div class="lower-content description">
-                        <div class="text">{!! $process->description !!}</div>
+                    <div class="lower-content">
+                        <div class="text description">{!! $process->description !!}</div>
                     </div>
                 </div>
             </div>
@@ -314,9 +315,9 @@ $section_clients = \App\Models\Section::section('clients');
 <!--Clients Section-->
 <section class="clients-section style-two">
     <div class="container">
-        <div class="sec-title centered description">
+        <div class="sec-title centered">
             <h2>{{ $section_clients->title }}</h2>
-            <div class="text">{!! $section_clients->description !!}</div>
+            <div class="text description">{!! $section_clients->description !!}</div>
             <div class="separater"></div>
         </div>
         <div class="sponsors-outer">

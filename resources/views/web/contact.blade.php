@@ -139,9 +139,9 @@
                 @if(isset($setting) && isset($section_contact))
                 <!-- Info Column -->
                 <div class="info-column col-lg-4 col-md-12 col-sm-12">
-                    <div class="sec-title left description">
+                    <div class="sec-title left">
                         <h2>{{ $section_contact->title }}</h2>
-                        <div class="text">{!! $section_contact->description !!}</div>
+                        <div class="text description">{!! $section_contact->description !!}</div>
                         <div class="separater"></div>
                     </div>
                     <div class="inner-column">

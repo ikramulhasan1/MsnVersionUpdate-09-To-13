@@ -109,9 +109,9 @@ $header = \App\Models\PageSetup::page('home');
                 <!-- Slide Item -->
                 <div class="slide-item" style="background-image: url({{ asset('uploads/slider/'.$slider->image_path) }});">
                     <div class="container">
-                        <div class="content-box description">
+                        <div class="content-box">
                             <h1>{{ $slider->title }}</h1>
-                            <div class="text">{!! $slider->description !!}</div>
+                            <div class="text description">{!! $slider->description !!}</div>
                             <div class="link-box">
                                 @php
                                 $page_contact = \App\Models\PageSetup::page('contact-us');
@@ -147,8 +147,8 @@ $header = \App\Models\PageSetup::page('home');
         </div>
         <div class="row">
             <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 wow fadeInRight animated">
-                <div class="inner-box description">
-                    <div class="text">{!! $about->description !!} <br /></div>
+                <div class="inner-box ">
+                    <div class="text description">{!! $about->description !!} <br /></div>
                     <br />
                     @php
                     $page_about = \App\Models\PageSetup::page('about-us');
@@ -212,9 +212,9 @@ $section_services = \App\Models\Section::section('services');
 <!-- Services Section -->
 <section class="services-section">
     <div class="container">
-        <div class="sec-title centered description">
+        <div class="sec-title centered">
             <h2>{{ $section_services->title }}</h2>
-            <div class="text">{!! $section_services->description !!}</div>
+            <div class="text description">{!! $section_services->description !!}</div>
             <div class="separater"></div>
         </div>
         <div class="services-box row clearfix">
@@ -253,7 +253,7 @@ $section_portfolio = \App\Models\Section::section('portfolio');
         <div class="container">
             <div class="sec-title centered description">
                 <h2>{{ $section_portfolio->title }}</h2>
-                <div class="text">{!! $section_portfolio->description !!}</div>
+                <div class="text description">{!! $section_portfolio->description !!}</div>
                 <div class="separater"></div>
             </div>
             <!--Filter-->
@@ -322,9 +322,9 @@ $section_team = \App\Models\Section::section('team');
 <!-- Team Section -->
 <section class="team-section">
     <div class="container">
-        <div class="sec-title left description">
+        <div class="sec-title left">
             <h2>{{ $section_team->title }}</h2>
-            <div class="text">{!! $section_team->description !!}</div>
+            <div class="text description">{!! $section_team->description !!}</div>
             <div class="separater"></div>
         </div>
 
@@ -381,9 +381,9 @@ $section_testimonials = \App\Models\Section::section('testimonials');
 <!-- Testimonial Section Two-->
 <section class="testimonial-section">
     <div class="container">
-        <div class="sec-title centered description">
+        <div class="sec-title centered">
             <h2>{{ $section_testimonials->title }}</h2>
-            <div class="text">{!! $section_testimonials->description !!}</div>
+            <div class="text description">{!! $section_testimonials->description !!}</div>
             <div class="separater"></div>
         </div>
 
@@ -395,8 +395,8 @@ $section_testimonials = \App\Models\Section::section('testimonials');
                     <div class="image-box">
                         <div class="thumb"><img src="{{ asset('uploads/testimonial/'.$testimonial->image_path) }}" alt="{{ $testimonial->title }}"></div>
                     </div>
-                    <div class="info-box description">
-                        <div class="text">{!! $testimonial->description !!}</div>
+                    <div class="info-box">
+                        <div class="text description">{!! $testimonial->description !!}</div>
                         <h5 class="name">{{ $testimonial->title }}</h5>
                         <div class="company-name">{{ $testimonial->designation }}@if(isset($testimonial->organization)), {{ $testimonial->organization }}@endif</div>
                     </div>
@@ -417,9 +417,9 @@ $section_blog = \App\Models\Section::section('blog');
 <!-- News Section -->
 <section class="news-section">
     <div class="container">
-        <div class="sec-title left description">
+        <div class="sec-title left">
             <h2>{{ $section_blog->title }}</h2>
-            <div class="text">{!! $section_blog->description !!}</div>
+            <div class="text description">{!! $section_blog->description !!}</div>
             <div class="separater"></div>
         </div>
         <div class="row">
@@ -434,7 +434,7 @@ $section_blog = \App\Models\Section::section('blog');
                             <div class="overlay-box"><a href="{{ route('blog.single', $article->slug) }}" class="link-btn">{{ __('common.read_more') }}</a></div>
 
                         </div>
-                        <div class="caption-box description">
+                        <div class="caption-box">
                             <h3><a href="{{ route('blog.single', $article->slug) }}">{!! str_limit(strip_tags($article->title), 50, ' ...') !!}</a></h3>
                             <div class="text">{!! str_limit(strip_tags($article->description), 110, ' ...') !!}</div>
                             <ul class="post-meta">

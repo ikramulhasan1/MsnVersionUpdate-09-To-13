@@ -125,7 +125,7 @@
                                 <div class="inner">
                                     <h3><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></h3>
                                     <br />
-                                    <div>
+                                    <div class="description" >
                                         {!! $page->description !!}
                                     </div>
                                 </div>

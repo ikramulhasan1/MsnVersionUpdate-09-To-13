@@ -108,9 +108,9 @@ $header = \App\Models\PageSetup::page('get-quote');
             @if(isset($section_getquote))
             <!-- Form Column -->
             <div class="form-column col-lg-12 col-md-12 col-sm-12">
-                <div class="sec-title left description">
+                <div class="sec-title left">
                     <h2>{{ $section_getquote->title }}</h2>
-                    <div class="text">{!! $section_getquote->description !!}</div>
+                    <div class="text description">{!! $section_getquote->description !!}</div>
                     <div class="separater"></div>
                 </div>
                 <div class="inner-column">
@@ -258,9 +258,9 @@ $section_process = \App\Models\Section::section('process');
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="sec-title left description">
+                <div class="sec-title left">
                     <h2>{{ $section_process->title }}</h2>
-                    <div class="text">{!! $section_process->description !!}</div>
+                    <div class="text description">{!! $section_process->description !!}</div>
                     <div class="separater"></div>
                 </div>
             </div>
@@ -272,8 +272,8 @@ $section_process = \App\Models\Section::section('process');
                     <div class="title-box">
                         <h4><span class="numbe-post">{{ $key + 1 }}</span>{{ $process->title }}</h4>
                     </div>
-                    <div class="lower-content description">
-                        <div class="text">{!! $process->description !!}</div>
+                    <div class="lower-content">
+                        <div class="text description">{!! $process->description !!}</div>
                     </div>
                 </div>
             </div>
