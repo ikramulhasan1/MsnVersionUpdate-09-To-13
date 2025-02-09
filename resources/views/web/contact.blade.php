@@ -54,7 +54,7 @@
                 @if(isset($section_mail))
                 <!-- Form Column -->
                 <div class="form-column col-lg-8 col-md-12 col-sm-12">
-                     <div class="sec-title left">
+                     <div class="sec-title left description">
                         <h2>{{ $section_mail->title }}</h2>
                         <div class="text">{!! $section_mail->description !!}</div>
                         <div class="separater"></div>
@@ -139,7 +139,7 @@
                 @if(isset($setting) && isset($section_contact))
                 <!-- Info Column -->
                 <div class="info-column col-lg-4 col-md-12 col-sm-12">
-                    <div class="sec-title left">
+                    <div class="sec-title left description">
                         <h2>{{ $section_contact->title }}</h2>
                         <div class="text">{!! $section_contact->description !!}</div>
                         <div class="separater"></div>

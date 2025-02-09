@@ -31,17 +31,19 @@
 
 @section('content')
 <style>
-    .description>ul>li {
-        margin-left: 30px !important;
-        list-style: initial;
-        font-size: 16px !important;
+    table {
+        width: px;
     }
 
-    .description>ol>li {
-        /* list-style: decimal; */
-        margin-left: 30px !important;
-        all: revert;
-        font-size: 16px !important;
+    table,
+    table th,
+    table td {
+        border: solid;
+    }
+
+    table th,
+    table td {
+        border: solid;
     }
 
     table th>ol>li,
@@ -53,6 +55,26 @@
 
     }
 
+    .marker {
+        background-color: yellow;
+    }
+
+    /* </p><table border="1" cellpadding="1" cellspacing="1" style="width:500px">  */
+
+    .description>ul>li {
+        margin-left: 30px !important;
+        list-style: initial;
+        font-size: 16px !important;
+    }
+
+
+    .description>ol>li {
+        /* list-style: decimal; */
+        margin-left: 30px !important;
+        all: revert;
+        font-size: 16px !important;
+    }
+
     .description>p>a {
         color: blue;
         font-weight: bold;
@@ -61,21 +83,6 @@
 
     .description>p {
         font-size: 18px !important;
-    }
-
-    .marker {
-        background-color: yellow;
-    }
-
-    table,
-    table th,
-    table td {
-        border: solid;
-    }
-
-    table th,
-    table td {
-        padding: 5px;
     }
 </style>
 @if(isset($page))

@@ -45,11 +45,42 @@ $header = \App\Models\PageSetup::page('blog');
 
 @section('content')
 <style>
+    table {
+        width: px;
+    }
+
+    table,
+    table th,
+    table td {
+        border: solid;
+    }
+
+    table th,
+    table td {
+        border: solid;
+    }
+
+    table th>ol>li,
+    table td>ul>li,
+    table th>ul>li,
+    table td>ol>li {
+        list-style: initial !important;
+        margin-left: 20px;
+
+    }
+
+    .marker {
+        background-color: yellow;
+    }
+
+    /* </p><table border="1" cellpadding="1" cellspacing="1" style="width:500px">  */
+
     .description>ul>li {
         margin-left: 30px !important;
         list-style: initial;
         font-size: 16px !important;
     }
+
 
     .description>ol>li {
         /* list-style: decimal; */
@@ -66,21 +97,6 @@ $header = \App\Models\PageSetup::page('blog');
 
     .description>p {
         font-size: 18px !important;
-    }
-
-    .marker {
-        background-color: yellow;
-    }
-
-    table,
-    table th,
-    table td {
-        border: solid;
-    }
-
-    table th,
-    table td {
-        padding: 5px;
     }
 </style>
 <!--Page Title-->
@@ -121,7 +137,7 @@ $header = \App\Models\PageSetup::page('blog');
                                     <ul class="post-meta">
                                         <li><i class="far fa-calendar-check"></i>{{ date('d M, Y', strtotime($article->created_at)) }}</li>
                                     </ul>
-                                    <div>
+                                    <div class="description" >
                                         {!! $article->description !!}
                                     </div>
                                 </div>

@@ -25,17 +25,19 @@ $header = \App\Models\PageSetup::page('faqs');
 
 @section('content')
 <style>
-    .description>ul>li {
-        margin-left: 30px !important;
-        list-style: initial;
-        font-size: 16px !important;
+    table {
+        width: px;
     }
 
-    .description>ol>li {
-        /* list-style: decimal; */
-        margin-left: 30px !important;
-        all: revert;
-        font-size: 16px !important;
+    table,
+    table th,
+    table td {
+        border: solid;
+    }
+
+    table th,
+    table td {
+        border: solid;
     }
 
     table th>ol>li,
@@ -47,6 +49,26 @@ $header = \App\Models\PageSetup::page('faqs');
 
     }
 
+    .marker {
+        background-color: yellow;
+    }
+
+    /* </p><table border="1" cellpadding="1" cellspacing="1" style="width:500px">  */
+
+    .description>ul>li {
+        margin-left: 30px !important;
+        list-style: initial;
+        font-size: 16px !important;
+    }
+
+
+    .description>ol>li {
+        /* list-style: decimal; */
+        margin-left: 30px !important;
+        all: revert;
+        font-size: 16px !important;
+    }
+
     .description>p>a {
         color: blue;
         font-weight: bold;
@@ -55,21 +77,6 @@ $header = \App\Models\PageSetup::page('faqs');
 
     .description>p {
         font-size: 18px !important;
-    }
-
-    .marker {
-        background-color: yellow;
-    }
-
-    table,
-    table th,
-    table td {
-        border: solid;
-    }
-
-    table th,
-    table td {
-        padding: 5px;
     }
 </style>
 <!--Page Title-->
@@ -100,7 +107,7 @@ $section_faqs = \App\Models\Section::section('faqs');
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="sec-title left">
+                <div class="sec-title left description">
                     <h2>{{ $section_faqs->title }}</h2>
                     <div class="text">{!! $section_faqs->description !!}</div>
                     <div class="separater"></div>
@@ -130,7 +137,7 @@ $section_faqs = \App\Models\Section::section('faqs');
                             <div class="icon-outer"><span class="icon icon_plus fas fa-plus"></span> <span class="icon icon_minus far fa-minus"></span> </div> {{ $faq->title }}
                         </div>
                         <div class="acc-content @if($key== 0) current @endif">
-                            <div class="content">
+                            <div class="content description">
                                 <div class="text">{!! $faq->description !!}</div>
                             </div>
                         </div>
