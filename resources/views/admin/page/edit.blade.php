@@ -40,7 +40,7 @@
 
                     <div class="form-group">
                         <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
-                        <textarea class="form-control textMediaEditor" name="description" id="description" rows="8" required>{{ $row->description }}</textarea>
+                        <textarea class="form-control" name="description" id="editor" rows="8" required>{{ $row->description }}</textarea>
 
                         <div class="invalid-feedback">
                           {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
@@ -80,5 +80,40 @@
     
 </div> <!-- container -->
 <!-- End Content-->
-
+<script>
+    CKEDITOR.replace('editor', {
+        on: {
+            instanceReady: function(ev) {
+                this.dataProcessor.writer.setRules('strong', {
+                    indent: false,
+                    breakBeforeOpen: false,
+                    breakAfterOpen: false,
+                    breakBeforeClose: false,
+                    breakAfterClose: false
+                });
+            }
+        },
+        coreStyles_bold: {
+            element: 'b',
+            overrides: 'strong'
+        } // Converts <strong> to <b>
+    });
+    CKEDITOR.replace('editor1', {
+        on: {
+            instanceReady: function(ev) {
+                this.dataProcessor.writer.setRules('strong', {
+                    indent: false,
+                    breakBeforeOpen: false,
+                    breakAfterOpen: false,
+                    breakBeforeClose: false,
+                    breakAfterClose: false
+                });
+            }
+        },
+        coreStyles_bold: {
+            element: 'b',
+            overrides: 'strong'
+        } // Converts <strong> to <b>
+    });
+</script>
 @endsection

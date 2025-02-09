@@ -39,7 +39,7 @@
 
                         <div class="form-group">
                             <label for="short_desc">{{ __('dashboard.short_desc') }} <span>*</span></label>
-                            <textarea class="form-control summernote" name="short_desc" id="short_desc" rows="4" required>{{ old('short_desc') }}</textarea>
+                            <textarea class="form-control" name="short_desc" id="editor" rows="4" required>{{ old('short_desc') }}</textarea>
 
                             <div class="invalid-feedback">
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.short_desc') }}
@@ -48,7 +48,7 @@
 
                         <div class="form-group">
                             <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
-                            <textarea class="form-control textMediaEditor" name="description" id="description" rows="8" required>{{ old('description') }}</textarea>
+                            <textarea class="form-control" name="description" id="editor1" rows="8" required>{{ old('description') }}</textarea>
 
                             <div class="invalid-feedback">
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
@@ -81,19 +81,40 @@
 </div> <!-- container -->
 <!-- End Content-->
 
-<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
-    ClassicEditor
-        .create(document.querySelector('#editor'))
-        .catch(error => {
-            console.error(error);
-        });
-    ClassicEditor
-        .create(document.querySelector('#editor1'))
-        .catch(error => {
-            console.error(error);
-        });
+    CKEDITOR.replace('editor', {
+        on: {
+            instanceReady: function(ev) {
+                this.dataProcessor.writer.setRules('strong', {
+                    indent: false,
+                    breakBeforeOpen: false,
+                    breakAfterOpen: false,
+                    breakBeforeClose: false,
+                    breakAfterClose: false
+                });
+            }
+        },
+        coreStyles_bold: {
+            element: 'b',
+            overrides: 'strong'
+        } // Converts <strong> to <b>
+    });
+    CKEDITOR.replace('editor1', {
+        on: {
+            instanceReady: function(ev) {
+                this.dataProcessor.writer.setRules('strong', {
+                    indent: false,
+                    breakBeforeOpen: false,
+                    breakAfterOpen: false,
+                    breakBeforeClose: false,
+                    breakAfterClose: false
+                });
+            }
+        },
+        coreStyles_bold: {
+            element: 'b',
+            overrides: 'strong'
+        } // Converts <strong> to <b>
+    });
 </script>
-
-
 @endsection
