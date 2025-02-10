@@ -265,23 +265,29 @@
 
                                     <!-- route('page.single', $page->slug) -->
                                     @php
-                                    $all_pages = \App\Models\Page::all();
+                                    $all_pages = \App\Models\Page::where('type', 'casestudy')->get();
                                     @endphp
-                                    @if(isset($all_pages))
-                                    <li class="dropdown {{ Request::is('page*') ? 'current' : '' }}"><a href="">Case Study</a>
+
+                                    @if($all_pages->count())
+                                    <li class="dropdown {{ Request::is('page/*') ? 'current' : '' }}">
+                                        <a href="">{{ __('Case Study') }}</a>
                                         <ul>
                                             @foreach($all_pages as $page)
-                                            @if (isset($page->type) && $page->type == 'casestudy')
-                                            <li class="{{ Request::is('page/'.$page->slug) ? 'current' : '' }}"><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></li>
-                                            @endif
+                                            <li class="{{ Request::is('page/'.$page->slug) ? 'current' : '' }}">
+                                                <a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
+                                            </li>
                                             @endforeach
                                         </ul>
                                     </li>
                                     @endif
-                                    @if(isset($all_pages))
+
+                                    @php
+                                    $pages = \App\Models\Page::where('type', 'resources')->get();
+                                    @endphp
+                                    @if(isset($pages))
                                     <li class="dropdown {{ Request::is('page*') ? 'current' : '' }}"><a href="">Resources</a>
                                         <ul>
-                                            @foreach($all_pages as $page)
+                                            @foreach($pages as $page)
                                             @if (isset($page->type) && $page->type == 'resources')
                                             <li class="{{ Request::is('page/'.$page->slug) ? 'current' : '' }}"><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></li>
                                             @endif
