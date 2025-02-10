@@ -78,6 +78,10 @@ $header = \App\Models\PageSetup::page('portfolio');
     .description>p {
         font-size: 18px !important;
     }
+
+    .content-inner:hover {
+        color: #ffffff !important;
+    }
 </style>
 <!--Page Title-->
 <section class="page-title">
