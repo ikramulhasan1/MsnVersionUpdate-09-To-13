@@ -257,6 +257,32 @@
                                     <!-- <li class="{{ Request::is('pricing*') ? 'current' : '' }}"><a href="{{ route('pricing') }}">{{ $page_pricing->title }}</a></li> -->
                                     @endif
 
+
+
+
+
+
+
+                                    <!-- route('page.single', $page->slug) -->
+                                    @php
+                                    $all_pages = \App\Models\Page::page('casestudy');
+                                    @endphp
+                                    @if(isset($all_pages))
+                                    <li class="dropdown {{ Request::is('page') ? 'current' : '' }}"><a href="">Case Study</a>
+                                        <ul>
+                                            @foreach($all_pages as $page)
+                                            <li class="{{ Request::is('page/'.$page->slug) ? 'current' : '' }}"><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                    @endif
+
+
+
+
+
+
+
                                     @php
                                     $page_blog = \App\Models\PageSetup::page('blog');
                                     @endphp
