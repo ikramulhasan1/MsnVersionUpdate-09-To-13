@@ -278,6 +278,17 @@
                                         </ul>
                                     </li>
                                     @endif
+                                    @if(isset($all_pages))
+                                    <li class="dropdown {{ Request::is('page*') ? 'current' : '' }}"><a href="">Resources</a>
+                                        <ul>
+                                            @foreach($all_pages as $page)
+                                            @if (isset($page->type) && $page->type == 'resources')
+                                            <li class="{{ Request::is('page/'.$page->slug) ? 'current' : '' }}"><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></li>
+                                            @endif
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                    @endif
 
 
                                     @php
