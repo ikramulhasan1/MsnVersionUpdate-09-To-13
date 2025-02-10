@@ -18,7 +18,7 @@
     </div>
 
     <div class="row">
-        <div class="col-12 col-lg-8">
+        <div class="col-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
                     <h4 class="header-title">{{ __('dashboard.edit') }} {{ $title }}</h4>

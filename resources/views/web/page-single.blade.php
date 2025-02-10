@@ -84,6 +84,10 @@
     .description>p {
         font-size: 18px !important;
     }
+
+    .sidebar-page-container {
+        padding-top: 50px !important;
+    }
 </style>
 @if(isset($page))
 <!--Page Title-->
@@ -111,7 +115,7 @@
     <div class="container">
         <div class="row clearfix">
             <!--Content Side-->
-            <div class="content-side col-lg-8 col-md-12 col-sm-12">
+            <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="blog-detail">
                     <!-- News Block -->
                     <div class="news-block">
@@ -121,11 +125,11 @@
                                 <figure class="image"><img src="{{ asset('uploads/page/'.$page->image_path) }}" alt="{{ $page->title }}"></figure>
                             </div>
                             @endif
-                            <div class="caption-box">
+                            <div class="caption-box border-0">
                                 <div class="inner">
-                                    <h3><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></h3>
+                                    <h2 class="font-weight-bold "><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></h2>
                                     <br />
-                                    <div class="description" >
+                                    <div class="description">
                                         {!! $page->description !!}
                                     </div>
                                 </div>
