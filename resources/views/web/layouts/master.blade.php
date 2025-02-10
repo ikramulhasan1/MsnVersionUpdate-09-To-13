@@ -44,6 +44,10 @@
         {
             ! ! strip_tags($setting->custom_css) ! !
         }
+
+        .bread-crumb {
+            background: black !important;
+        }
     </style>
     @endif
 </head>
