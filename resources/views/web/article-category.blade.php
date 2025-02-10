@@ -61,7 +61,6 @@ $header = \App\Models\PageSetup::page('blog');
         font-size: 16px !important;
     }
 
-
     .description>ol>li {
         /* list-style: decimal; */
         margin-left: 30px !important;
@@ -104,7 +103,6 @@ $header = \App\Models\PageSetup::page('blog');
             <!--Content Side-->
             <div class="content-side col-lg-8 col-md-12 col-sm-12">
                 <div class="blog-classic">
-
                     @foreach($articles as $article)
                     <!-- News Block -->
                     <div class="news-block fadeIn animated">

@@ -173,6 +173,20 @@
                                 </button>
                             </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                                 <ul class="navigation clearfix">
                                     @php
@@ -184,10 +198,29 @@
 
                                     @php
                                     $page_about = \App\Models\PageSetup::page('about-us');
+                                    $page_faqs = \App\Models\PageSetup::page('faqs');
+                                    $page_contact = \App\Models\PageSetup::page('contact-us');
                                     @endphp
-                                    @if(isset($page_about))
-                                    <li class="{{ Request::is('about*') ? 'current' : '' }}"><a href="{{ route('about') }}">{{ $page_about->title }}</a></li>
+
+                                    @if(isset($page_about) || isset($page_faqs) || isset($page_contact))
+                                    <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}"><a href="">Company</a>
+                                        <ul>
+                                            @if(isset($page_about))
+                                            <li class="{{ Request::is('about*') ? 'current' : '' }}"><a href="{{ route('about') }}">{{ $page_about->title }}</a></li>
+                                            @endif
+
+                                            @if(isset($page_faqs))
+                                            <li class="{{ Request::is('faqs*') ? 'current' : '' }}"><a href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
+                                            @endif
+
+                                            @if(isset($page_contact))
+                                            <li class="{{ Request::path() == 'contact' ? 'current' : '' }}"><a href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
+                                            @endif
+
+                                        </ul>
+                                    </li>
                                     @endif
+
 
                                     @php
                                     $page_services = \App\Models\PageSetup::page('services');
@@ -229,19 +262,7 @@
                                     </li>
                                     @endif
 
-                                    @php
-                                    $page_faqs = \App\Models\PageSetup::page('faqs');
-                                    @endphp
-                                    @if(isset($page_faqs))
-                                    <li class="{{ Request::is('faqs*') ? 'current' : '' }}"><a href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
-                                    @endif
 
-                                    @php
-                                    $page_contact = \App\Models\PageSetup::page('contact-us');
-                                    @endphp
-                                    @if(isset($page_contact))
-                                    <li class="{{ Request::path() == 'contact' ? 'current' : '' }}"><a href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
-                                    @endif
                                 </ul>
                             </div>
                         </nav>
@@ -293,13 +314,29 @@
                                     <li class="{{ Request::path() == '/' ? 'current' : '' }}"><a href="{{ route('home') }}">{{ $page_home->title }}</a></li>
                                     @endif
 
+
                                     @php
                                     $page_about = \App\Models\PageSetup::page('about-us');
-                                    @endphp
-                                    @if(isset($page_about))
-                                    <li class="{{ Request::is('about*') ? 'current' : '' }}"><a href="{{ route('about') }}">{{ $page_about->title }}</a></li>
-                                    @endif
+                                    $page_faqs = \App\Models\PageSetup::page('faqs');
+                                    $page_contact = \App\Models\PageSetup::page('contact-us');
 
+                                    @endphp
+
+                                    @if(isset($page_about) || isset($page_faqs) ||isset($page_contact) )
+                                    <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}"><a href="">Company</a>
+                                        <ul>
+                                            @if(isset($page_about))
+                                            <li class="{{ Request::is('about*') ? 'current' : '' }}"><a href="{{ route('about') }}">{{ $page_about->title }}</a></li>
+                                            @endif
+                                            @if(isset($page_faqs))
+                                            <li class="{{ Request::is('faqs*') ? 'current' : '' }}"><a href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
+                                            @endif
+                                            @if(isset($page_contact))
+                                            <li class="{{ Request::path() == 'contact' ? 'current' : '' }}"><a href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
+                                            @endif
+                                        </ul>
+                                    </li>
+                                    @endif
                                     @php
                                     $page_services = \App\Models\PageSetup::page('services');
                                     @endphp
@@ -340,19 +377,6 @@
                                     </li>
                                     @endif
 
-                                    @php
-                                    $page_faqs = \App\Models\PageSetup::page('faqs');
-                                    @endphp
-                                    @if(isset($page_faqs))
-                                    <li class="{{ Request::is('faqs*') ? 'current' : '' }}"><a href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
-                                    @endif
-
-                                    @php
-                                    $page_contact = \App\Models\PageSetup::page('contact-us');
-                                    @endphp
-                                    @if(isset($page_contact))
-                                    <li class="{{ Request::path() == 'contact' ? 'current' : '' }}"><a href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
-                                    @endif
 
                                     @php
                                     $page_quote = \App\Models\PageSetup::page('get-quote');
