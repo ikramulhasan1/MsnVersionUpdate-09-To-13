@@ -79,7 +79,11 @@ $header = \App\Models\PageSetup::page('portfolio');
         font-size: 18px !important;
     }
 
-    .overlay-inner:hover {
+    .overlay-inner .content-inner {
+        color: #ffffff !important;
+    }
+
+    .overlay-inner:hover .content-inner:hover {
         color: #ffffff !important;
     }
 </style>
