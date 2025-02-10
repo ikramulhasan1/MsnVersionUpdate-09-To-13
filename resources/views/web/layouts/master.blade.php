@@ -265,11 +265,15 @@
 
                                     <!-- route('page.single', $page->slug) -->
                                     @php
+                                    // Fetch only pages with 'casestudy' type
                                     $all_pages = \App\Models\Page::where('type', 'casestudy')->get();
+
+                                    // Check if the current page is a 'casestudy'
+                                    $isCurrentCasestudy = $all_pages->contains('slug', request()->segment(2));
                                     @endphp
 
                                     @if($all_pages->count())
-                                    <li class="dropdown {{ Request::is('page/*') ? 'current' : '' }}">
+                                    <li class="dropdown {{ $isCurrentCasestudy ? 'current' : '' }}">
                                         <a href="">{{ __('Case Study') }}</a>
                                         <ul>
                                             @foreach($all_pages as $page)
