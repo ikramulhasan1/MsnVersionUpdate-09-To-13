@@ -481,7 +481,9 @@
                                         <div class="widget-content">
                                             <ul class="list">
                                                 @foreach($pages as $key => $page)
+                                                @if (isset($page->type) && $page->type == 'footer')
                                                 <li><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></li>
+                                                @endif
                                                 @endforeach
                                             </ul>
                                         </div>
