@@ -88,13 +88,13 @@ $header = \App\Models\PageSetup::page('portfolio');
     }
 
     .description>ul>li>ul>li {
-        margin-left: 15px !important;
+        margin-left: 10px !important;
         list-style: initial;
         font-size: 16px !important;
     }
 
     .description>ol>li>ol>li {
-        margin-left: 15px !important;
+        margin-left: 10px !important;
         all: revert;
         font-size: 16px !important;
     }
