@@ -75,13 +75,25 @@ $header = \App\Models\PageSetup::page('portfolio');
 
     /* </p><table border="1" cellpadding="1" cellspacing="1" style="width:500px">  */
 
-    .description>ul>li .description>ul>li>ul>li .description>ul>li>ol>li {
+    .description>ul>li {
         margin-left: 30px !important;
         list-style: initial;
         font-size: 16px !important;
     }
 
-    .description>ol>li .description>ol>li>ul>li .description>ol>li>ol>li {
+    .description>ol>li {
+        margin-left: 30px !important;
+        all: revert;
+        font-size: 16px !important;
+    }
+
+    .description>ul>li>ul>li {
+        margin-left: 30px !important;
+        list-style: initial;
+        font-size: 16px !important;
+    }
+
+    .description>ol>li>ol>li {
         margin-left: 30px !important;
         all: revert;
         font-size: 16px !important;
