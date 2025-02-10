@@ -49,9 +49,9 @@
                                         @if( $row->type == 'casestudy' )
                                         <span class="badge badge-success badge-pill">{{ __('Case Study') }}</span>
                                         @elseif( $row->type == 'resources' )
-                                        <span class="badge badge-success badge-pill">{{ __('Resources') }}</span>
+                                        <span class="badge badge-primary badge-pill">{{ __('Resources') }}</span>
                                         @else
-                                        <span class="badge badge-success badge-pill">{{ __('footer') }}</span>
+                                        <span class="badge badge-warning badge-pill">{{ __('footer') }}</span>
                                         @endif
                                     </td>
                                     <td>
