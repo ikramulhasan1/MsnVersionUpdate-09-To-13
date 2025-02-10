@@ -259,10 +259,6 @@
 
 
 
-
-
-
-
                                     <!-- route('page.single', $page->slug) -->
                                     @php
                                     // Fetch only pages with 'casestudy' type
@@ -421,6 +417,49 @@
                                     @endphp
                                     @if(isset($page_pricing))
                                     <!-- <li class="{{ Request::is('pricing*') ? 'current' : '' }}"><a href="{{ route('pricing') }}">{{ $page_pricing->title }}</a></li> -->
+                                    @endif
+
+                                    <!-- route('page.single', $page->slug) -->
+                                    @php
+                                    // Fetch only pages with 'casestudy' type
+                                    $all_pages = \App\Models\Page::where('type', 'casestudy')->get();
+
+                                    // Check if the current page is a 'casestudy'
+                                    $isCurrentCasestudy = $all_pages->contains('slug', request()->segment(2));
+                                    @endphp
+
+                                    @if($all_pages->count())
+                                    <li class="dropdown {{ $isCurrentCasestudy ? 'current' : '' }}">
+                                        <a href="">{{ __('Case Study') }}</a>
+                                        <ul>
+                                            @foreach($all_pages as $page)
+                                            <li class="{{ Request::is('page/'.$page->slug) ? 'current' : '' }}">
+                                                <a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                    @endif
+
+                                    @php
+                                    // Fetch only 'resources' type pages
+                                    $re_page = \App\Models\Page::where('type', 'resources')->get();
+
+                                    // Check if the current page belongs to 'resources'
+                                    $isCurrentResource = $re_page->contains('slug', request()->segment(2));
+                                    @endphp
+
+                                    @if($re_page->count())
+                                    <li class="dropdown {{ $isCurrentResource ? 'current' : '' }}">
+                                        <a href="">{{ __('Resources') }}</a>
+                                        <ul>
+                                            @foreach($re_page as $page)
+                                            <li class="{{ Request::is('page/'.$page->slug) ? 'current' : '' }}">
+                                                <a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
                                     @endif
 
                                     @php
