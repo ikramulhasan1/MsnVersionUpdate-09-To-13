@@ -265,7 +265,7 @@
 
                                     <!-- route('page.single', $page->slug) -->
                                     @php
-                                    $all_pages = \App\Models\Page::page('casestudy');
+                                    $all_pages = \App\Models\Page::all();
                                     @endphp
                                     @if(isset($all_pages))
                                     <li class="dropdown {{ Request::is('page') ? 'current' : '' }}"><a href="">Case Study</a>
