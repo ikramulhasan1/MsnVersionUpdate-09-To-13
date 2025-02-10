@@ -39,9 +39,9 @@ class PageController extends Controller
         $data['view'] = $this->view;
         $data['path'] = $this->path;
 
-        $data['rows'] = Page::orderBy('id', 'asc')->get();
+        $data['rows'] = Page::orderBy('id', 'desc')->get();
 
-        return view($this->view.'.index', $data);
+        return view($this->view . '.index', $data);
     }
 
     /**
@@ -56,7 +56,7 @@ class PageController extends Controller
         $data['route'] = $this->route;
         $data['view'] = $this->view;
 
-        return view($this->view.'.create', $data);
+        return view($this->view . '.create', $data);
     }
 
     /**
@@ -76,47 +76,48 @@ class PageController extends Controller
 
 
         // image upload, fit and store inside public folder 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             //Upload New Image
             $filenameWithExt = $request->file('image')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME); 
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('image')->getClientOriginalExtension();
-            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
 
             //Crete Folder Location
-            $path = public_path('uploads/'.$this->path.'/');
+            $path = public_path('uploads/' . $this->path . '/');
             if (! File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
             //Resize And Crop as Fit image here (800 width, 500 height)
-            $thumbnailpath = $path.$fileNameToStore;
-            $img = Image::make($request->file('image')->getRealPath())->fit(800, 500, function ($constraint) { $constraint->upsize(); })->save($thumbnailpath);
-        }
-        else{
+            $thumbnailpath = $path . $fileNameToStore;
+            $img = Image::make($request->file('image')->getRealPath())->fit(800, 500, function ($constraint) {
+                $constraint->upsize();
+            })->save($thumbnailpath);
+        } else {
             $fileNameToStore = 'noimage.jpg'; // if no image selected this will be the default image
         }
 
 
         // Get content with media file
-        $content=$request->input('description');
-        
+        $content = $request->input('description');
+
         $dom = new \DomDocument();
         libxml_use_internal_errors(true);
         $dom->encoding = 'utf-8';
-        $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);    
+        $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         $images = $dom->getElementsByTagName('img');
-       // foreach <img> in the submited content
-        foreach($images as $img){
+        // foreach <img> in the submited content
+        foreach ($images as $img) {
             $src = $img->getAttribute('src');
-            
+
             // if the img source is 'data-url'
-            if(preg_match('/data:image/', $src)){                
+            if (preg_match('/data:image/', $src)) {
                 // get the mimetype
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-                $mimetype = $groups['mime'];                
+                $mimetype = $groups['mime'];
                 // Generating a random filename
-                $filename = uniqid().'_'.time();
+                $filename = uniqid() . '_' . time();
 
                 //Crete Folder Location
                 $path = public_path('uploads/media/');
@@ -124,17 +125,17 @@ class PageController extends Controller
                     File::makeDirectory($path, 0777, true, true);
                 }
 
-                $filepath = "/uploads/media/$filename.$mimetype";    
+                $filepath = "/uploads/media/$filename.$mimetype";
                 // @see http://image.intervention.io/api/
                 $image = Image::make($src)
-                  // resize if required
-                  //->resize(500, null) 
-                  ->resize(800, null, function ($constraint) {
+                    // resize if required
+                    //->resize(500, null) 
+                    ->resize(800, null, function ($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     })
-                  ->encode($mimetype, 100)  // encode file to the specified mimetype
-                  ->save(public_path($filepath));                
+                    ->encode($mimetype, 100)  // encode file to the specified mimetype
+                    ->save(public_path($filepath));
                 $new_src = asset($filepath);
                 $img->removeAttribute('src');
                 $img->setAttribute('src', $new_src);
@@ -148,12 +149,13 @@ class PageController extends Controller
         $page->slug = Str::slug($request->title, '-');
         $page->description = $dom->saveHTML();
         $page->image_path = $fileNameToStore;
+        $page->type = $request->type;
         $page->save();
 
 
         Toastr::success(__('dashboard.created_successfully'), __('dashboard.success'));
 
-        return redirect()->route($this->route.'.index');
+        return redirect()->route($this->route . '.index');
     }
 
     /**
@@ -172,7 +174,7 @@ class PageController extends Controller
 
         $data['row'] = $page;
 
-        return view($this->view.'.show', $data);
+        return view($this->view . '.show', $data);
     }
 
     /**
@@ -191,7 +193,7 @@ class PageController extends Controller
 
         $data['row'] = $page;
 
-        return view($this->view.'.edit', $data);
+        return view($this->view . '.edit', $data);
     }
 
     /**
@@ -205,61 +207,62 @@ class PageController extends Controller
     {
         // Field Validation
         $request->validate([
-            'title' => 'required|max:191|unique:pages,title,'.$page->id,
+            'title' => 'required|max:191|unique:pages,title,' . $page->id,
             'description' => 'required',
             'image' => 'nullable|image',
         ]);
 
 
         // image upload, fit and store inside public folder 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
 
-            $file_path = public_path('uploads/'.$this->path.'/'.$page->image_path);
-            if(File::isFile($file_path)){
+            $file_path = public_path('uploads/' . $this->path . '/' . $page->image_path);
+            if (File::isFile($file_path)) {
                 File::delete($file_path);
             }
 
             //Upload New Image
             $filenameWithExt = $request->file('image')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME); 
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('image')->getClientOriginalExtension();
-            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
 
             //Crete Folder Location
-            $path = public_path('uploads/'.$this->path.'/');
+            $path = public_path('uploads/' . $this->path . '/');
             if (! File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
             //Resize And Crop as Fit image here (800 width, 500 height)
-            $thumbnailpath = $path.$fileNameToStore;
-            $img = Image::make($request->file('image')->getRealPath())->fit(800, 500, function ($constraint) { $constraint->upsize(); })->save($thumbnailpath);
-        }
-        else{
+            $thumbnailpath = $path . $fileNameToStore;
+            $img = Image::make($request->file('image')->getRealPath())->fit(800, 500, function ($constraint) {
+                $constraint->upsize();
+            })->save($thumbnailpath);
+        } else {
 
-            $fileNameToStore = $page->image_path; 
+            $fileNameToStore = $page->image_path;
         }
 
 
         // Get content with media file
-        $content=$request->input('description');
-        
+        $content = $request->input('description');
+
         $dom = new \DomDocument();
         libxml_use_internal_errors(true);
         $dom->encoding = 'utf-8';
-        $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);    
+        $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         $images = $dom->getElementsByTagName('img');
-       // foreach <img> in the submited content
-        foreach($images as $img){
+        // foreach <img> in the submited content
+        foreach ($images as $img) {
             $src = $img->getAttribute('src');
-            
+
             // if the img source is 'data-url'
-            if(preg_match('/data:image/', $src)){                
+            if (preg_match('/data:image/', $src)) {
                 // get the mimetype
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-                $mimetype = $groups['mime'];                
+                $mimetype = $groups['mime'];
                 // Generating a random filename
-                $filename = uniqid().'_'.time();
+                $filename = uniqid() . '_' . time();
 
                 //Crete Folder Location
                 $path = public_path('uploads/media/');
@@ -267,17 +270,17 @@ class PageController extends Controller
                     File::makeDirectory($path, 0777, true, true);
                 }
 
-                $filepath = "/uploads/media/$filename.$mimetype";    
+                $filepath = "/uploads/media/$filename.$mimetype";
                 // @see http://image.intervention.io/api/
                 $image = Image::make($src)
-                  // resize if required
-                  //->resize(500, null) 
-                  ->resize(800, null, function ($constraint) {
+                    // resize if required
+                    //->resize(500, null) 
+                    ->resize(800, null, function ($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     })
-                  ->encode($mimetype, 100)  // encode file to the specified mimetype
-                  ->save(public_path($filepath));                
+                    ->encode($mimetype, 100)  // encode file to the specified mimetype
+                    ->save(public_path($filepath));
                 $new_src = asset($filepath);
                 $img->removeAttribute('src');
                 $img->setAttribute('src', $new_src);
@@ -290,6 +293,7 @@ class PageController extends Controller
         $page->slug = Str::slug($request->title, '-');
         $page->description = $dom->saveHTML();
         $page->image_path = $fileNameToStore;
+        $page->type = $request->type;
         $page->status = $request->status;
         $page->save();
 
@@ -308,8 +312,8 @@ class PageController extends Controller
     public function destroy(Page $page)
     {
         // Delete Data
-        $image_path = public_path('uploads/'.$this->path.'/'.$page->image_path);
-        if(File::isFile($image_path)){
+        $image_path = public_path('uploads/' . $this->path . '/' . $page->image_path);
+        if (File::isFile($image_path)) {
             File::delete($image_path);
         }
 
