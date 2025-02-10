@@ -268,7 +268,7 @@
                                     $all_pages = \App\Models\Page::all();
                                     @endphp
                                     @if(isset($all_pages))
-                                    <li class="dropdown {{ Request::is('page') ? 'current' : '' }}"><a href="">Case Study</a>
+                                    <li class="dropdown {{ Request::is('page*') ? 'current' : '' }}"><a href="">Case Study</a>
                                         <ul>
                                             @foreach($all_pages as $page)
                                             @if (isset($page->type) && $page->type == 'casestudy')
