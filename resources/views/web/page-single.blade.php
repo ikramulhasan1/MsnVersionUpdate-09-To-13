@@ -125,7 +125,7 @@
                                 <figure class="image"><img src="{{ asset('uploads/page/'.$page->image_path) }}" alt="{{ $page->title }}"></figure>
                             </div>
                             @endif
-                            <div class="caption-box border-0 p-0 my-5">
+                            <div class="caption-box border-0 p-0 mt-5">
                                 <div class="inner">
                                     <h2 class="font-weight-bold "><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></h2>
                                     <br />
