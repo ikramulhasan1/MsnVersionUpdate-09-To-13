@@ -287,17 +287,17 @@
 
                                     @php
                                     // Fetch only 'resources' type pages
-                                    $pages = \App\Models\Page::where('type', 'resources')->get();
+                                    $re_page = \App\Models\Page::where('type', 'resources')->get();
 
                                     // Check if the current page belongs to 'resources'
-                                    $isCurrentResource = $pages->contains('slug', request()->segment(2));
+                                    $isCurrentResource = $re_page->contains('slug', request()->segment(2));
                                     @endphp
 
-                                    @if($pages->count())
+                                    @if($re_page->count())
                                     <li class="dropdown {{ $isCurrentResource ? 'current' : '' }}">
                                         <a href="">{{ __('Resources') }}</a>
                                         <ul>
-                                            @foreach($pages as $page)
+                                            @foreach($re_page as $page)
                                             <li class="{{ Request::is('page/'.$page->slug) ? 'current' : '' }}">
                                                 <a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
                                             </li>
