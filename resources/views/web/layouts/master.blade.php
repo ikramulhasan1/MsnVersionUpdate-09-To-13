@@ -203,7 +203,7 @@
                                     @endphp
 
                                     @if(isset($page_about) || isset($page_faqs) || isset($page_contact))
-                                    <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}"><a href="">Company</a>
+                                    <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}"><a href="">Companies</a>
                                         <ul>
                                             @if(isset($page_about))
                                             <li class="{{ Request::is('about*') ? 'current' : '' }}"><a href="{{ route('about') }}">{{ $page_about->title }}</a></li>
@@ -323,7 +323,7 @@
                                     @endphp
 
                                     @if(isset($page_about) || isset($page_faqs) ||isset($page_contact) )
-                                    <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}"><a href="">Company</a>
+                                    <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}"><a href="">Companies</a>
                                         <ul>
                                             @if(isset($page_about))
                                             <li class="{{ Request::is('about*') ? 'current' : '' }}"><a href="{{ route('about') }}">{{ $page_about->title }}</a></li>
