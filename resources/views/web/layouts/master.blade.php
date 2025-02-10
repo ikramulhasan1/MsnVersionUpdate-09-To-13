@@ -45,7 +45,7 @@
             ! ! strip_tags($setting->custom_css) ! !
         }
 
-        .bread-crumb {
+        .page-title .bread-crumb {
             background: black !important;
         }
     </style>
