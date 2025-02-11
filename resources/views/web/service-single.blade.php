@@ -116,14 +116,14 @@ $header = \App\Models\PageSetup::page('services');
 
     .description>ul>li>ul {
         margin-left: 15px !important;
-        margin-top: 15px !important;
+        margin-bottom: 15px !important;
         list-style: initial;
         font-size: 16px !important;
     }
 
     .description>ol>li>ol {
         margin-left: 15px !important;
-        margin-top: 15px !important;
+        margin-bottom: 15px !important;
 
         all: revert;
         font-size: 16px !important;
@@ -131,7 +131,7 @@ $header = \App\Models\PageSetup::page('services');
 
     .description>ol>li>ul {
         margin-left: 15px !important;
-        margin-top: 15px !important;
+        margin-bottom: 15px !important;
 
         list-style: initial;
         font-size: 16px !important;
@@ -139,7 +139,7 @@ $header = \App\Models\PageSetup::page('services');
 
     .description>ul>li>ol {
         margin-left: 15px !important;
-        margin-top: 15px !important;
+        margin-bottom: 15px !important;
         all: revert;
         font-size: 16px !important;
     }
