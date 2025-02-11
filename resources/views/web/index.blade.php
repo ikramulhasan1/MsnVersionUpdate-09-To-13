@@ -229,7 +229,7 @@ $section_services = \App\Models\Section::section('services');
                         </div>
                         <div class="lower-content">
                             <h3><a href="{{ route('service.single', $service->slug) }}">{{ $service->title }}</a></h3>
-                            <div class="text">{!! strip_tags($service->short_desc) !!}</div>
+                            <div class="text text-left ">{!! strip_tags(Str::words($service->short_desc, 20)) !!}</div>
                         </div>
                     </div>
                 </div>
