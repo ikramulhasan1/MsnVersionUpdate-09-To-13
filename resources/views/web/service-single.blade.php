@@ -158,7 +158,7 @@ $header = \App\Models\PageSetup::page('services');
 <section class="page-title">
     <div class="container">
         <div class="inner-container clearfix">
-            <div class="title-box mt-5">
+            <div class="title-box">
                 <h1>{{ $service->title }}</h1>
             </div>
             <div class="bread-crumb">
@@ -199,7 +199,7 @@ $header = \App\Models\PageSetup::page('services');
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="single-item-">
-                                <figure class="image"><img src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
+                                <figure class="image mt-5"><img src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
                             </div>
                         </div>
                         <h2>{{ $service->title }}</h2>
