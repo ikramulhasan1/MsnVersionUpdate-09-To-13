@@ -202,7 +202,7 @@ $header = \App\Models\PageSetup::page('services');
                                 <figure class="image"><img src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
                             </div>
                         </div>
-                        <h2 class=" mt-5">{{ $service->title }}</h2>
+                        <h2 class=" mb-5">{{ $service->title }}</h2>
 
                         <div class="text description">
                             <!-- {!! $service->description !!} -->
