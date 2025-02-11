@@ -89,6 +89,31 @@ $header = \App\Models\PageSetup::page('services');
         font-size: 16px !important;
     }
 
+
+    .description>ul>li>ul>li {
+        margin-left: 10px !important;
+        list-style: initial;
+        font-size: 16px !important;
+    }
+
+    .description>ol>li>ol>li {
+        margin-left: 10px !important;
+        all: revert;
+        font-size: 16px !important;
+    }
+
+    .description>ol>li>ul>li {
+        margin-left: 10px !important;
+        list-style: initial;
+        font-size: 16px !important;
+    }
+
+    .description>ul>li>ol>li {
+        margin-left: 10px !important;
+        all: revert;
+        font-size: 16px !important;
+    }
+
     .description>p>a {
         color: blue;
         font-weight: bold;
