@@ -92,30 +92,42 @@ $header = \App\Models\PageSetup::page('services');
 
     .description>ul>li>ul>li {
         margin-left: 15px !important;
-        margin-top: 15px !important;
         list-style: initial;
         font-size: 16px !important;
     }
 
     .description>ol>li>ol>li {
         margin-left: 15px !important;
-        margin-top: 15px !important;
         all: revert;
         font-size: 16px !important;
     }
 
     .description>ol>li>ul>li {
         margin-left: 15px !important;
-        margin-top: 15px !important;
         list-style: initial;
         font-size: 16px !important;
     }
 
     .description>ul>li>ol>li {
         margin-left: 15px !important;
-        margin-top: 15px !important;
         all: revert;
         font-size: 16px !important;
+    }
+
+    .description>ul>li>ul {
+        margin-top: 15px !important;
+    }
+
+    .description>ol>li>ol {
+        margin-top: 15px !important;
+    }
+
+    .description>ol>li>ul {
+        margin-top: 15px !important;
+    }
+
+    .description>ul>li>ol {
+        margin-top: 15px !important;
     }
 
     .description>p>a {
