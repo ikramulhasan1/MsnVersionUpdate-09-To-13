@@ -69,6 +69,61 @@ $header = \App\Models\PageSetup::page('faqs');
         font-size: 16px !important;
     }
 
+
+    .description>ul>li>ul>li {
+        margin-left: 15px !important;
+        list-style: initial;
+        font-size: 16px !important;
+    }
+
+    .description>ol>li>ol>li {
+        margin-left: 15px !important;
+        all: revert;
+        font-size: 16px !important;
+    }
+
+    .description>ol>li>ul>li {
+        margin-left: 15px !important;
+        list-style: initial;
+        font-size: 16px !important;
+    }
+
+    .description>ul>li>ol>li {
+        margin-left: 15px !important;
+        all: revert;
+        font-size: 16px !important;
+    }
+
+    .description>ul>li>ul {
+        margin-left: 0px !important;
+        margin-bottom: 15px !important;
+        list-style: initial;
+        font-size: 16px !important;
+    }
+
+    .description>ol>li>ol {
+        margin-left: 0px !important;
+        margin-bottom: 15px !important;
+
+        all: revert;
+        font-size: 16px !important;
+    }
+
+    .description>ol>li>ul {
+        margin-left: 0px !important;
+        margin-bottom: 15px !important;
+
+        list-style: initial;
+        font-size: 16px !important;
+    }
+
+    .description>ul>li>ol {
+        margin-left: 0px !important;
+        margin-bottom: 15px !important;
+        all: revert;
+        font-size: 16px !important;
+    }
+
     .description>p>a {
         color: blue;
         font-weight: bold;
@@ -138,7 +193,7 @@ $section_faqs = \App\Models\Section::section('faqs');
                         </div>
                         <div class="acc-content @if($key== 0) current @endif">
                             <div class="content description">
-                                <div class="text">{!! $faq->description !!}</div>
+                                <div class="text description">{!! $faq->description !!}</div>
                             </div>
                         </div>
                     </li>
