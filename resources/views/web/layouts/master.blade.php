@@ -50,6 +50,9 @@
         }
     </style>
     @endif
+    <!-- Elfsight All-in-One Chat | Untitled All-in-One Chat -->
+    <script src="https://static.elfsight.com/platform/platform.js" async></script>
+    <div class="elfsight-app-3b254f9c-3fcb-44ae-9da7-752b34294520" data-elfsight-app-lazy></div>
 </head>
 
 <body>
