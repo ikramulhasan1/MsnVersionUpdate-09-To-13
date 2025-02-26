@@ -26,13 +26,13 @@ class GetQuoteController extends Controller
     {
         // Services                                
         $data['services'] = Service::where('status', '1')
-                            ->orderBy('id', 'asc')
-                            ->get();
+            ->orderBy('id', 'asc')
+            ->get();
 
         // Processes
         $data['processes'] = WorkProcess::where('status', '1')
-                            ->orderBy('id', 'asc')
-                            ->get();
+            ->orderBy('id', 'asc')
+            ->get();
 
 
         return view('web.get-quote', $data);
@@ -58,12 +58,12 @@ class GetQuoteController extends Controller
 
 
         // file upload, fit and store inside public folder 
-        if($request->hasFile('file_path')){
+        if ($request->hasFile('file_path')) {
             //Upload New Image
             $filenameWithExt = $request->file('file_path')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME); 
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('file_path')->getClientOriginalExtension();
-            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
 
             //Crete Folder Location
             $path = public_path('uploads/quote/');
@@ -73,8 +73,7 @@ class GetQuoteController extends Controller
 
             // Move File inside public/uploads/ folder
             $file = $request->file('file_path')->move($path, $fileNameToStore);
-        }
-        else{
+        } else {
             $fileNameToStore = NULL;
         }
 
@@ -97,17 +96,17 @@ class GetQuoteController extends Controller
         $quote->save();
 
         // Polymorphic Services Store
-        if(is_array($request->services) == 1){
-            foreach($request->services as $service_id){
+        if (is_array($request->services) == 1) {
+            foreach ($request->services as $service_id) {
 
-               $quote->services()->attach([$service_id]);
+                $quote->services()->attach([$service_id]);
             }
         }
 
         $template = EmailTemplate::where('slug', 'quote-placed')->first();
         $setting = Setting::where('status', '1')->first();
 
-        if(isset($template) && isset($setting)){
+        if (isset($template) && isset($setting)) {
 
             // Passing data to email template
             $data['row'] = $quote;
@@ -123,10 +122,9 @@ class GetQuoteController extends Controller
 
             // Send Mail
             Mail::to($data['email'])->send(new NotifyCustomer($data));
-
         }
 
-        if(isset($template) && isset($setting)){
+        if (isset($template) && isset($setting)) {
 
             // Passing data to email template
             $data['row'] = $quote;
@@ -136,13 +134,12 @@ class GetQuoteController extends Controller
             // Mail Information
             $data['subject'] = __('email.new_quote_request');
             $data['email'] = $setting->contact_mail;
-            $data['from'] = $quote->email;
+            $data['from'] = 'support@msnsofttech.com';
             $data['sender'] = $quote->name;
             $data['message'] = $template->description;
 
             // Send Mail
             Mail::to($data['email'])->send(new NotifyAdmin($data));
-
         }
 
         Session::flash('success', __('email.quote_submitted'));
