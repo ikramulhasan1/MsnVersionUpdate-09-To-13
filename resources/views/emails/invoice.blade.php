@@ -401,9 +401,9 @@
                             <td colspan="2">
                                 <center>
                                     @if(is_file('uploads/invoice/'.$data['invoice']->attach))
-                                    <a  class="paypal-button" href="{{ asset('uploads/invoice/'.$data['invoice']->attach) }}" class="attach-btn" target="_blank" download>{{ __('email.attach_btn') }}</a>
+                                    <a href="{{ asset('uploads/invoice/'.$data['invoice']->attach) }}" class="paypal-button" target="_blank" download>{{ __('email.attach_btn') }}</a>
                                     @endif
-                                    <a href="{{ route('make.payment', $data['invoice']->id) }}" class="payment-btn">{{ __('email.pay_btn') }}</a>
+                                    <a href="{{ route('make.payment', $data['invoice']->id) }}" class="paypal-button">{{ __('email.pay_btn') }}</a>
                                 </center>
                                 <b>- {{ __('email.thanks') }}</b>
                             </td>
