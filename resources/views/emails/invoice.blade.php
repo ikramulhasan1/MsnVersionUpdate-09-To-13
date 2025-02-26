@@ -220,21 +220,31 @@
 
     <style>
         .paypal-button {
-            display: inline-block;
-            background-color: #0070ba;
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, #0070ba, #003087);
             color: white;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
             padding: 12px 24px;
-            border-radius: 5px;
+            border-radius: 50px;
             text-decoration: none;
             border: none;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 112, 186, 0.3);
         }
 
         .paypal-button:hover {
-            background-color: #005ea6;
+            background: linear-gradient(135deg, #005ea6, #002d75);
+            box-shadow: 0 6px 15px rgba(0, 112, 186, 0.5);
+            transform: scale(1.05);
+        }
+
+        .paypal-button img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
         }
     </style>
     <!-- Invoice CSS : End -->
@@ -401,9 +411,9 @@
                             <td colspan="2">
                                 <center>
                                     @if(is_file('uploads/invoice/'.$data['invoice']->attach))
-                                    <a href="{{ asset('uploads/invoice/'.$data['invoice']->attach) }}" class="paypal-button" target="_blank" download>{{ __('email.attach_btn') }}</a>
+                                    <a href="{{ asset('uploads/invoice/'.$data['invoice']->attach) }}" class="paypal-button" target="_blank" download><img src="https://www.paypalobjects.com/webstatic/icon/pp258.png" alt="PayPal">{{ __('email.attach_btn') }}</a>
                                     @endif
-                                    <a href="{{ route('make.payment', $data['invoice']->id) }}" class="paypal-button">{{ __('email.pay_btn') }}</a>
+                                    <a href="{{ route('make.payment', $data['invoice']->id) }}" class="paypal-button"><img src="https://www.paypalobjects.com/webstatic/icon/pp258.png" alt="PayPal">{{ __('email.pay_btn') }}</a>
                                 </center>
                                 <b>- {{ __('email.thanks') }}</b>
                             </td>
