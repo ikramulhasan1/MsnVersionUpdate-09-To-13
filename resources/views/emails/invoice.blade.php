@@ -217,6 +217,26 @@
             text-decoration: none;
         }
     </style>
+
+    <style>
+        .paypal-button {
+            display: inline-block;
+            background-color: #0070ba;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .paypal-button:hover {
+            background-color: #005ea6;
+        }
+    </style>
     <!-- Invoice CSS : End -->
 </head>
 
@@ -381,9 +401,9 @@
                             <td colspan="2">
                                 <center>
                                     @if(is_file('uploads/invoice/'.$data['invoice']->attach))
-                                    <a class="btn btn-primary" href="{{ asset('uploads/invoice/'.$data['invoice']->attach) }}" class="attach-btn" target="_blank" download>{{ __('email.attach_btn') }}</a>
+                                    <a  class="paypal-button" href="{{ asset('uploads/invoice/'.$data['invoice']->attach) }}" class="attach-btn" target="_blank" download>{{ __('email.attach_btn') }}</a>
                                     @endif
-                                    <a class="btn btn-primary" href="{{ route('make.payment', $data['invoice']->id) }}" class="payment-btn">{{ __('email.pay_btn') }}</a>
+                                    <a href="{{ route('make.payment', $data['invoice']->id) }}" class="payment-btn">{{ __('email.pay_btn') }}</a>
                                 </center>
                                 <b>- {{ __('email.thanks') }}</b>
                             </td>
