@@ -222,29 +222,32 @@
         .paypal-button {
             display: inline-flex;
             align-items: center;
-            background: linear-gradient(135deg, #0070ba, #003087);
+            background: #0070ba;
+            /* Solid Blue (PayPal Brand Color) */
             color: white;
             font-size: 18px;
             font-weight: bold;
-            padding: 12px 24px;
+            padding: 12px 26px;
             border-radius: 50px;
             text-decoration: none;
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 112, 186, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 112, 186, 0.3);
+            text-transform: uppercase;
         }
 
         .paypal-button:hover {
-            background: linear-gradient(135deg, #005ea6, #002d75);
-            box-shadow: 0 6px 15px rgba(0, 112, 186, 0.5);
+            background: #005ea6;
+            /* Slightly Darker Blue */
+            box-shadow: 0 6px 16px rgba(0, 112, 186, 0.5);
             transform: scale(1.05);
         }
 
         .paypal-button img {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
+            width: 26px;
+            height: 26px;
+            margin-right: 12px;
         }
     </style>
     <!-- Invoice CSS : End -->
