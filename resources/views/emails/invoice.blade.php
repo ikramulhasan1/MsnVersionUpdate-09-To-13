@@ -224,7 +224,7 @@
             align-items: center;
             background: #0070ba;
             /* Solid Blue (PayPal Brand Color) */
-            color: white;
+            color: #ffffff !important;
             font-size: 18px;
             font-weight: bold;
             padding: 12px 26px;
