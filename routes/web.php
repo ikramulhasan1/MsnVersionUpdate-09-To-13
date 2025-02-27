@@ -11,7 +11,7 @@
 |
 */
 
-Route::namespace('Web')->group(function () {
+Route::middleware(['XSS'])->namespace('Web')->group(function () {
 
     // Home Route
     Route::get('/', 'HomeController@index')->name('home');
