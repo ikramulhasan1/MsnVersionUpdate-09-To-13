@@ -50,9 +50,65 @@
         }
     </style>
     @endif
-    <!-- Elfsight All-in-One Chat | Untitled All-in-One Chat -->
-    <script src="https://static.elfsight.com/platform/platform.js" async></script>
-    <div class="elfsight-app-3b254f9c-3fcb-44ae-9da7-752b34294520" data-elfsight-app-lazy></div>
+  
+    <style>
+        /* Floating WhatsApp Button */
+        .whatsapp-button {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            background-color: #25d366;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+            animation: bounce 3s infinite;
+        }
+      
+        .whatsapp-button img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            transition: transform 0.3s ease-in-out;
+        }
+      
+        /* Hover Effects */
+        .whatsapp-button:hover {
+            background-color: #1ebe5d;
+            transform: scale(1.1);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+        }
+      
+        .whatsapp-button:hover img {
+            transform: rotate(10deg);
+        }
+      
+        /* Bounce Animation */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-25px); }
+        }
+      
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .whatsapp-button {
+                width: 45px;
+                height: 45px;
+                bottom: 10px;
+                right: 10px;
+            }
+      
+            .whatsapp-button img {
+                width: 30px;
+                height: 30px;
+            }
+        }
+      </style>
 </head>
 
 <body>
@@ -745,7 +801,19 @@
         logged_out_greeting="{{ $livechat->facebook_greeting_out }}">
     </div>
     @endif
-
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let waButton = document.createElement("div");
+            waButton.innerHTML = `
+            
+                <a href="https://wa.link/lnuvjw" target="_blank" class="whatsapp-button">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                </a>
+            `;
+            document.body.appendChild(waButton);
+        });
+    </script>
+    
 </body>
 
 </html>

@@ -159,10 +159,10 @@ $header = \App\Models\PageSetup::page('services');
 
 
     .circle-container {
-            width: 220px;
-            height: 64px;
+            width: 180px;
+            height: 54px;
             background: linear-gradient(135deg, #4CAF50, #2E8B57); /* Green Gradient */
-            border-radius: 10px; /* Makes it round */
+            border-radius: 12px; /* Makes it round */
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -180,8 +180,8 @@ $header = \App\Models\PageSetup::page('services');
             
             background-color: white;
             border: none;
-            width: 55px; /* Icon size */
-            height: 55px;
+            width: 40px; /* Icon size */
+            height: 40px;
             border-radius: 50%; /* Makes buttons round */
             display: flex;
             justify-content: center;
@@ -199,8 +199,8 @@ $header = \App\Models\PageSetup::page('services');
 
         /* Icon Images */
         .circle-button img {
-            width: 30px; /* Adjust icon size */
-            height: 30px;
+            width: 25px; /* Adjust icon size */
+            height: 25px;
         }
 
 </style>
@@ -268,17 +268,17 @@ $header = \App\Models\PageSetup::page('services');
                 @if(isset($page_quote))
                 <div class="circle-container">
                     <!-- Get A Quote Button -->
-                    <a href="{{ route('get-quote') }}" class="circle-button">
+                    <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
                         <img src="https://cdn-icons-png.flaticon.com/128/3416/3416067.png" alt="Get A Quote">
                     </a>
             
                     <!-- WhatsApp Button -->
-                    <a href="" class="circle-button">
+                    <a href="https://wa.link/vkb4au" target="_blank" class="circle-button">
                         <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
                     </a>
             
                     <!-- Email Button -->
-                    <a href="" class="circle-button">
+                    <a href="mailto:{{$setting->email_one}}?subject=Inquiry&body=Hello, I need your services." class="circle-button">
                         <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
                     </a>
                 </div>
@@ -328,15 +328,16 @@ $header = \App\Models\PageSetup::page('services');
                 @if(isset($page_quote))
                 <div class="circle-container">
                     <!-- Get A Quote Button -->
-                    <a href="{{ route('get-quote') }}" class="circle-button">
+                    <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
                         <img src="https://cdn-icons-png.flaticon.com/128/3416/3416067.png" alt="Get A Quote">
                     </a>
                     <!-- WhatsApp Button -->
-                    <a href="" class="circle-button">
+                    <a href="https://wa.link/vkb4au" target="_blank" class="circle-button">
                         <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
                     </a>
+                    
                     <!-- Email Button -->
-                    <a href="" class="circle-button">
+                    <a href="mailto:{{$setting->email_one}}?subject=Inquiry&body={{ $item->title}}" class="circle-button">
                         <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
                     </a>
                 </div>
@@ -369,17 +370,16 @@ $header = \App\Models\PageSetup::page('services');
                 @if(isset($page_quote))
                 <div class="circle-container">
                     <!-- Get A Quote Button -->
-                    <a href="{{ route('get-quote') }}" class="circle-button">
+                    <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
                         <img src="https://cdn-icons-png.flaticon.com/128/3416/3416067.png" alt="Get A Quote">
                     </a>
-            
                     <!-- WhatsApp Button -->
-                    <a href="" class="circle-button">
+                    <a href="https://wa.link/vkb4au" target="_blank" class="circle-button">
                         <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
                     </a>
-            
+                    
                     <!-- Email Button -->
-                    <a href="" class="circle-button">
+                    <a href="mailto:{{$setting->email_one}}?subject=Inquiry&body={{ $item->title}}" class="circle-button">
                         <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
                     </a>
                 </div>
