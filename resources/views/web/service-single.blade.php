@@ -153,6 +153,56 @@ $header = \App\Models\PageSetup::page('services');
     .description>p {
         font-size: 18px !important;
     }
+
+
+
+
+
+    .circle-container {
+            width: 220px;
+            height: 64px;
+            background: linear-gradient(135deg, #4CAF50, #2E8B57); /* Green Gradient */
+            border-radius: 10px; /* Makes it round */
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 15px; /* Space between buttons */
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+            /* position: fixed; */
+            bottom: 20px;
+            right: 20px;
+            padding: 15px;
+        }
+
+        /* Icon Buttons */
+        .circle-button {
+            
+            background-color: white;
+            border: none;
+            width: 55px; /* Icon size */
+            height: 55px;
+            border-radius: 50%; /* Makes buttons round */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Hover Effect */
+        .circle-button:hover {
+            background-color: #2E8B57;
+            transform: scale(1.1); /* Slight zoom */
+        }
+
+        /* Icon Images */
+        .circle-button img {
+            width: 30px; /* Adjust icon size */
+            height: 30px;
+        }
+
 </style>
 <!--Page Title-->
 <section class="page-title">
@@ -174,8 +224,8 @@ $header = \App\Models\PageSetup::page('services');
 
 @if(isset($service))
 <!--Sidebar Page Container-->
-<div class="sidebar-page-container">
-    <div class="container">
+<div style="background-color: #f7fff9" class="sidebar-page-container">
+    <div class="mx-4">
         <div class="row clearfix">
             <!--Sidebar Side-->
             <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
@@ -199,7 +249,7 @@ $header = \App\Models\PageSetup::page('services');
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="single-item-">
-                                <figure class="image"><img src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
+                                <figure class="image"><img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
                             </div>
                         </div>
                         <h2 class=" mb-5">{{ $service->title }}</h2>
@@ -216,12 +266,149 @@ $header = \App\Models\PageSetup::page('services');
                 $page_contact = \App\Models\PageSetup::page('contact-us');
                 @endphp
                 @if(isset($page_quote))
-                <a href="{{ route('get-quote') }}" class="theme-btn btn-style-four mt-3">{{ __('navbar.get_quote') }}</a>
+                <div class="circle-container">
+                    <!-- Get A Quote Button -->
+                    <a href="{{ route('get-quote') }}" class="circle-button">
+                        <img src="https://cdn-icons-png.flaticon.com/128/3416/3416067.png" alt="Get A Quote">
+                    </a>
+            
+                    <!-- WhatsApp Button -->
+                    <a href="" class="circle-button">
+                        <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
+                    </a>
+            
+                    <!-- Email Button -->
+                    <a href="" class="circle-button">
+                        <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
+                    </a>
+                </div>
                 @elseif(isset($page_contact))
                 <a href="{{ route('contact') }}" class="theme-btn btn-style-four mt-3">{{ __('common.get_start') }}</a>
                 @endif
             </div>
         </div>
+
+        @if ($service->subservices)
+        @foreach ($service->subservices as $item)
+        @if ($item->id % 2 == 1)
+            
+        <div class="row clearfix">
+            <!--Sidebar Side-->
+            <div class="sidebar-side col-lg-5 col-md-12 col-sm-12">
+                <aside class="sidebar services-sidebar">
+
+                    <!--Service Category Widget-->
+                    <div class="image-box">
+                        <div class="single-item-">
+                            <figure class="image"><img style="border-radius: 10px;" src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" /></figure>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+
+            <!--Content Side-->
+            <div class="content-side col-lg-7 col-md-12 col-sm-12">
+                <div class="service-detail">
+                    <div class="inner-box">
+                        
+                        <h2 class=" mb-5">{{ $item->title }}</h2>
+
+                        <div class="text description">
+                            <!-- {!! $item->description !!} -->
+                            {!! $item->description !!}
+                        </div>
+                    </div>
+                </div>
+
+                @php
+                $page_quote = \App\Models\PageSetup::page('get-quote');
+                $page_contact = \App\Models\PageSetup::page('contact-us');
+                @endphp
+                @if(isset($page_quote))
+                <div class="circle-container">
+                    <!-- Get A Quote Button -->
+                    <a href="{{ route('get-quote') }}" class="circle-button">
+                        <img src="https://cdn-icons-png.flaticon.com/128/3416/3416067.png" alt="Get A Quote">
+                    </a>
+                    <!-- WhatsApp Button -->
+                    <a href="" class="circle-button">
+                        <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
+                    </a>
+                    <!-- Email Button -->
+                    <a href="" class="circle-button">
+                        <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
+                    </a>
+                </div>
+                @elseif(isset($page_contact))
+                <a href="{{ route('contact') }}" class="theme-btn btn-style-four mt-3">{{ __('common.get_start') }}</a>
+                @endif
+                
+            </div>
+        </div>
+        @else
+        <div class="row clearfix">
+            <!--Content Side-->
+            <div class="content-side col-lg-7 col-md-12 col-sm-12">
+                <div class="service-detail">
+                    <div class="inner-box">
+                       
+                        <h2 class=" mb-5">{{ $item->title }}</h2>
+
+                        <div class="text description">
+                            <!-- {!! $item->description !!} -->
+                            {!! $item->description !!}
+                        </div>
+                    </div>
+                </div>
+
+                @php
+                $page_quote = \App\Models\PageSetup::page('get-quote');
+                $page_contact = \App\Models\PageSetup::page('contact-us');
+                @endphp
+                @if(isset($page_quote))
+                <div class="circle-container">
+                    <!-- Get A Quote Button -->
+                    <a href="{{ route('get-quote') }}" class="circle-button">
+                        <img src="https://cdn-icons-png.flaticon.com/128/3416/3416067.png" alt="Get A Quote">
+                    </a>
+            
+                    <!-- WhatsApp Button -->
+                    <a href="" class="circle-button">
+                        <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
+                    </a>
+            
+                    <!-- Email Button -->
+                    <a href="" class="circle-button">
+                        <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
+                    </a>
+                </div>
+                @elseif(isset($page_contact))
+                <a href="{{ route('contact') }}" class="theme-btn btn-style-four mt-3">{{ __('common.get_start') }}</a>
+                @endif
+
+            </div>
+
+               <!--Sidebar Side-->
+            <div class="sidebar-side col-lg-5 col-md-12 col-sm-12">
+                <aside class="sidebar services-sidebar">
+
+                    <!--Service Category Widget-->
+                    <div class="image-box">
+                        <div class="single-item-">
+                            <figure class="image"><img style="border-radius: 10px;" src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" /></figure>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+        @endif
+        @endforeach
+        @endif
+
+    
+
     </div>
 </div>
 @endif

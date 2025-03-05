@@ -136,6 +136,7 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
 
     // Page Setup Routes
     Route::resource('page-setup', 'PageSetupController');
+    Route::resource('subservices', 'SubserviceController');
     
     // Section Routes
     Route::resource('section', 'SectionController');

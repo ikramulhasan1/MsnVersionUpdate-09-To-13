@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Subservice;
 use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model
@@ -15,7 +16,10 @@ class Service extends Model
         'title', 'slug', 'short_desc', 'description', 'image_path', 'file_path', 'status',
     ];
 
-
+    public function subservices()
+    {
+        return $this->hasMany(Subservice::class);
+    }
     // Polymorphic relations
     public function quotes()
     {
