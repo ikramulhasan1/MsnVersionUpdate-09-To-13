@@ -5,7 +5,7 @@ $header = \App\Models\PageSetup::page('services');
 @endphp
 @if(isset($header))
 
-@section('title', $service->title)
+@section('title', content: $service->title)
 
 @section('top_meta_tags')
 @if(isset($header->meta_description))
@@ -22,6 +22,13 @@ $header = \App\Models\PageSetup::page('services');
 @endsection
 
 @endif
+
+@foreach ($service->subservices as $item)
+    @section('title', content: $item->title)
+    <meta name="description" content="{!! str_limit(strip_tags($item->meta_description), 160, ' ...') !!}">
+@endforeach
+
+
 
 @section('social_meta_tags')
 @if(isset($setting))
