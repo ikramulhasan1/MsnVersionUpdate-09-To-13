@@ -234,8 +234,8 @@ $header = \App\Models\PageSetup::page('services');
 @if(isset($service))
 <!--Sidebar Page Container-->
 <div style="background-color: #f7fff9" class="sidebar-page-container">
-    <div class="mx-4">
-        <div class="row clearfix mb-4">
+    <div class="mx-5">
+        <div class="row clearfix mb-5">
             <!--Sidebar Side-->
             <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
                 <aside class="sidebar services-sidebar">
@@ -301,7 +301,7 @@ $header = \App\Models\PageSetup::page('services');
         @foreach ($service->subservices as $item)
         @if ($item->id % 2 == 1)
             
-        <div class="row clearfix mb-4">
+        <div class="row clearfix mb-5">
             <!--Sidebar Side-->
             <div class="sidebar-side col-lg-5 col-md-12 col-sm-12">
                 <aside class="sidebar services-sidebar">
@@ -357,7 +357,7 @@ $header = \App\Models\PageSetup::page('services');
             </div>
         </div>
         @else
-        <div class="row clearfix mb-4">
+        <div class="row clearfix mb-5">
             <!--Content Side-->
             <div class="content-side col-lg-7 col-md-12 col-sm-12">
                 <div class="service-detail">
