@@ -298,8 +298,8 @@ $header = \App\Models\PageSetup::page('services');
         </div>
 
         @if ($service->subservices)
-        @foreach ($service->subservices as $item)
-        @if ($item->id % 2 == 1)
+        @foreach ($service->subservices as $key => $item)
+        @if ($key % 2 == 1)
             
         <div class="row clearfix mb-5">
             <!--Sidebar Side-->
