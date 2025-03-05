@@ -45,6 +45,10 @@ $header = \App\Models\PageSetup::page('services');
 
 @section('content')
 <style>
+*{
+    color: black;
+}
+
     table {
         width: px;
     }
@@ -154,6 +158,11 @@ $header = \App\Models\PageSetup::page('services');
         font-size: 18px !important;
     }
 
+    .description>h3 {
+        margin-top: 30px !important;
+        margin-bottom: 10px !important;
+    }
+
 
 
 
@@ -226,7 +235,7 @@ $header = \App\Models\PageSetup::page('services');
 <!--Sidebar Page Container-->
 <div style="background-color: #f7fff9" class="sidebar-page-container">
     <div class="mx-4">
-        <div class="row clearfix">
+        <div class="row clearfix mb-4">
             <!--Sidebar Side-->
             <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
                 <aside class="sidebar services-sidebar">
@@ -252,7 +261,7 @@ $header = \App\Models\PageSetup::page('services');
                                 <figure class="image"><img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
                             </div>
                         </div>
-                        <h2 class=" mb-5">{{ $service->title }}</h2>
+                        <h2 class=" mb-3">{{ $service->title }}</h2>
 
                         <div class="text description">
                             <!-- {!! $service->description !!} -->
@@ -292,7 +301,7 @@ $header = \App\Models\PageSetup::page('services');
         @foreach ($service->subservices as $item)
         @if ($item->id % 2 == 1)
             
-        <div class="row clearfix">
+        <div class="row clearfix mb-4">
             <!--Sidebar Side-->
             <div class="sidebar-side col-lg-5 col-md-12 col-sm-12">
                 <aside class="sidebar services-sidebar">
@@ -312,7 +321,7 @@ $header = \App\Models\PageSetup::page('services');
                 <div class="service-detail">
                     <div class="inner-box">
                         
-                        <h2 class=" mb-5">{{ $item->title }}</h2>
+                        <h2 class=" mb-3">{{ $item->title }}</h2>
 
                         <div class="text description">
                             <!-- {!! $item->description !!} -->
@@ -348,13 +357,13 @@ $header = \App\Models\PageSetup::page('services');
             </div>
         </div>
         @else
-        <div class="row clearfix">
+        <div class="row clearfix mb-4">
             <!--Content Side-->
             <div class="content-side col-lg-7 col-md-12 col-sm-12">
                 <div class="service-detail">
                     <div class="inner-box">
                        
-                        <h2 class=" mb-5">{{ $item->title }}</h2>
+                        <h2 class=" mb-3">{{ $item->title }}</h2>
 
                         <div class="text description">
                             <!-- {!! $item->description !!} -->
