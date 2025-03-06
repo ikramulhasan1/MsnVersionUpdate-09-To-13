@@ -418,7 +418,7 @@ $section_blog = \App\Models\Section::section('blog');
 @endphp
 @if(count($articles) > 0 && isset($section_blog))
 <!-- News Section -->
-<section class="news-section">
+<section class="">
     <div class="container">
         <div class="sec-title left">
             <h2>{{ $section_blog->title }}</h2>
