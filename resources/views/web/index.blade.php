@@ -95,10 +95,13 @@ $header = \App\Models\PageSetup::page('home');
         text-decoration: underline;
     }
 
-    .description>p {
-        font-size: 18px !important;
+    .description>p, .text>p {
+        font-size: 16px !important;
     }
+
+
 </style>
+
 @if(count($sliders) > 0)
 <!-- Bnner Section -->
 <section class="banner-section">
@@ -488,7 +491,7 @@ $section_process = \App\Models\Section::section('process');
 @endphp
 @if(count($processes) > 0 && isset($section_process))
 <!--Feautred Section -->
-<section class="feautred-section style-two" style="background-image: url({{ asset('web/images/background/process-bg.png') }});">
+<section class="feautred-section style-two" >
     <div class="container">
         <div class="row">
             <div class="col-12">
