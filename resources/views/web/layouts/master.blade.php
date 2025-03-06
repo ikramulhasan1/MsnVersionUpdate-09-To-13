@@ -286,19 +286,6 @@
                             </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
                             <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                                 <ul class="navigation clearfix">
                                     @php
@@ -447,7 +434,7 @@
             <!--End Header Lower-->
 
             <!--Sticky Header-->
-            <div class="sticky-header">
+            <div style="height: 60px" class="sticky-header">
                 <div class="container clearfix">
                     @if(isset($setting))
                     <!--Logo-->
@@ -490,18 +477,18 @@
                                     {{ Request::is('about*') ? 'current' : '' }}
                                     {{ Request::is('faqs*') ? 'current' : '' }}
                                     {{ Request::is('contact*') ? 'current' : '' }}">
-                                    <a href="">Company<a>
-                                                <ul>
-                                                    @if(isset($page_about))
-                                                    <li class="{{ Request::is('about*') ? 'current' : '' }}"><a href="{{ route('about') }}">{{ $page_about->title }}</a></li>
-                                                    @endif
-                                                    @if(isset($page_faqs))
-                                                    <li class="{{ Request::is('faqs*') ? 'current' : '' }}"><a href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
-                                                    @endif
-                                                    @if(isset($page_contact))
-                                                    <li class="{{ Request::path() == 'contact' ? 'current' : '' }}"><a href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
-                                                    @endif
-                                                </ul>
+                                    <a style="margin-bottom: -40px" href="">Company<a>
+                                        <ul >
+                                            @if(isset($page_about))
+                                            <li class="{{ Request::is('about*') ? 'current' : '' }}"><a href="{{ route('about') }}">{{ $page_about->title }}</a></li>
+                                            @endif
+                                            @if(isset($page_faqs))
+                                            <li class="{{ Request::is('faqs*') ? 'current' : '' }}"><a href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
+                                            @endif
+                                            @if(isset($page_contact))
+                                            <li class="{{ Request::path() == 'contact' ? 'current' : '' }}"><a href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
+                                            @endif
+                                        </ul>
                                     </li>
                                     @endif
                                     @php
