@@ -213,7 +213,7 @@ $section_services = \App\Models\Section::section('services');
 @endphp
 @if(count($services) > 0 && isset($section_services))
 <!-- Services Section -->
-<section class="services-section">
+<section class="">
     <div class="container">
         <div class="sec-title centered">
             <h2>{{ $section_services->title }}</h2>
@@ -418,6 +418,7 @@ $section_blog = \App\Models\Section::section('blog');
 @endphp
 @if(count($articles) > 0 && isset($section_blog))
 <!-- News Section -->
+{{-- <section class="news-section"> --}}
 <section class="">
     <div class="container">
         <div class="sec-title left">
