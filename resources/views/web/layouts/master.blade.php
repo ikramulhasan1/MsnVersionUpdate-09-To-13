@@ -83,7 +83,7 @@
 
             
         *{
-            font-family: 'Poppins' !important;
+            font-family: 'Poppins';
         }
     </style>
     <!-- Custom Style -->
