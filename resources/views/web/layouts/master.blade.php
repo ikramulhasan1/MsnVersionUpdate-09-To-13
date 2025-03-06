@@ -638,7 +638,7 @@
                                     @csrf
                                     <div class="form-group">
                                         <input type="email" name="email" value="" placeholder="{{ __('contact.email_address') }}" required>
-                                        <button type="submit" class="theme-btn"><i class="fab fa-telegram-plane"></i></button>
+                                        <button type="submit" class="theme-btn "><i class="fab fa-telegram-plane text-white fa-2x"></i></button>
                                     </div>
                                 </form>
                             </div>
@@ -732,7 +732,7 @@
         <div class="container">
             <div class="inner-container clearfix">
                 @if(isset($setting))
-                <div class="copyright-text">&copy; {!! strip_tags($setting->footer_text, '<p><a><b><i><u><strong>') !!}</div>
+                <div class="text-white copyright-text">&copy; {!! strip_tags($setting->footer_text, '<p><a><b><i><u><strong>') !!}</div>
                 @endif
                 <div class="social-links">
                     <ul class="social-icon-two">

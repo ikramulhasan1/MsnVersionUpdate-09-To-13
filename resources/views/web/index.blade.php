@@ -141,7 +141,7 @@ $header = \App\Models\PageSetup::page('home');
 
 @if(isset($about) || count($counters) > 0)
 <!-- About Section -->
-<section class="our-mission-section">
+<section style="background-color: #F7FFF9" class="our-mission-section">
     <div class="container">
         @if(isset($about))
         <div class="sec-title left">
@@ -250,7 +250,7 @@ $section_portfolio = \App\Models\Section::section('portfolio');
 @endphp
 @if(count($portfolios) > 0 && isset($section_portfolio))
 <!--Gallery Section-->
-<section class="gallery-section">
+<section style="background-color: #F7FFF9" class="gallery-section">
     <!--Sortable Masonry-->
     <div class="sortable-masonry">
         <div class="container">
@@ -382,7 +382,7 @@ $section_testimonials = \App\Models\Section::section('testimonials');
 @endphp
 @if(count($testimonials) > 0 && isset($section_testimonials))
 <!-- Testimonial Section Two-->
-<section class="testimonial-section">
+<section style="background-color: #F7FFF9" class="testimonial-section">
     <div class="container">
         <div class="sec-title centered">
             <h2>{{ $section_testimonials->title }}</h2>
@@ -492,7 +492,7 @@ $section_process = \App\Models\Section::section('process');
 @endphp
 @if(count($processes) > 0 && isset($section_process))
 <!--Feautred Section -->
-<section class="feautred-section style-two" >
+<section style="background-color: #F7FFF9" class="feautred-section style-two" >
     <div class="container">
         <div class="row">
             <div class="col-12">

@@ -285,7 +285,7 @@ $header = \App\Models\PageSetup::page('services');
                 <div class="circle-container">
                     <!-- Get A Quote Button -->
                     <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
-                        <img src="https://cdn-icons-png.flaticon.com/128/3416/3416067.png" alt="Get A Quote">
+                        <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
                     </a>
             
                     <!-- WhatsApp Button -->
@@ -345,7 +345,7 @@ $header = \App\Models\PageSetup::page('services');
                 <div class="circle-container">
                     <!-- Get A Quote Button -->
                     <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
-                        <img src="https://cdn-icons-png.flaticon.com/128/3416/3416067.png" alt="Get A Quote">
+                        <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
                     </a>
                     <!-- WhatsApp Button -->
                     <a href="https://wa.link/vkb4au" target="_blank" class="circle-button">
@@ -387,7 +387,7 @@ $header = \App\Models\PageSetup::page('services');
                 <div class="circle-container">
                     <!-- Get A Quote Button -->
                     <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
-                        <img src="https://cdn-icons-png.flaticon.com/128/3416/3416067.png" alt="Get A Quote">
+                        <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
                     </a>
                     <!-- WhatsApp Button -->
                     <a href="https://wa.link/vkb4au" target="_blank" class="circle-button">
