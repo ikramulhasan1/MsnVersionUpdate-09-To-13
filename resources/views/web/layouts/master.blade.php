@@ -477,16 +477,16 @@
                                     {{ Request::is('about*') ? 'current' : '' }}
                                     {{ Request::is('faqs*') ? 'current' : '' }}
                                     {{ Request::is('contact*') ? 'current' : '' }}">
-                                    <a style="margin-bottom: -40px" href="">Company<a>
+                                    <a href="">Company<a>
                                         <ul >
                                             @if(isset($page_about))
-                                            <li class="{{ Request::is('about*') ? 'current' : '' }}"><a href="{{ route('about') }}">{{ $page_about->title }}</a></li>
+                                            <li class="{{ Request::is('about*') ? 'current' : '' }}"> <a style="" href="{{ route('about') }}">{{ $page_about->title }}</a></li>
                                             @endif
                                             @if(isset($page_faqs))
                                             <li class="{{ Request::is('faqs*') ? 'current' : '' }}"><a href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
                                             @endif
                                             @if(isset($page_contact))
-                                            <li class="{{ Request::path() == 'contact' ? 'current' : '' }}"><a href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
+                                            <li class="{{ Request::is('contact') ? 'current' : '' }}"><a href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
                                             @endif
                                         </ul>
                                     </li>
@@ -849,7 +849,13 @@
             document.body.appendChild(waButton);
         });
     </script>
-    
+    <script>
+        document.querySelectorAll('a').forEach(link => {
+            if (!link.hasAttribute('href') && link.innerHTML.trim() === '') {
+                link.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 
 </html>
