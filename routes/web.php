@@ -13,7 +13,7 @@ use App\Http\Controllers\Admin\RedirectUrlController;
 |
 */
 
-Route::middleware(['XSS'])->namespace('Web')->group(function () {
+Route::middleware(['XSS','redirect'])->namespace('Web')->group(function () {
 
     // Home Route
     Route::get('/', 'HomeController@index')->name('home');
