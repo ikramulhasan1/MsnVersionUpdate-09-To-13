@@ -225,7 +225,7 @@ $header = \App\Models\PageSetup::page('services');
     <div class="container">
         <div class="inner-container clearfix">
             <div class="title-box">
-                <h1>{{ $service->title }}</h1>
+                <h1 style="font-size: 36px">{{ $service->title }}</h1>
             </div>
             <div class="bread-crumb">
                 <ul>
