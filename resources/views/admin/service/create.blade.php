@@ -38,7 +38,7 @@
                         </div>
                         <div class="form-group">
                             <label for="slug">{{ __('Slug') }} <span>* [Write a unique slug]</span></label>
-                            <input type="url" class="form-control" name="slug" id="slug" value="{{ old('slug') }}" required>
+                            <input type="text" class="form-control" name="slug" id="slug" value="{{ old('slug') }}" required>
 
                         </div>
 
