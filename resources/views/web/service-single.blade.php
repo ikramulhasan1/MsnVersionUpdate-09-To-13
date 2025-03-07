@@ -432,29 +432,36 @@ $header = \App\Models\PageSetup::page('services');
 </div>
 @endif
 <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let descriptionContent = document.querySelector('.text.description').innerHTML;
-            let ddddCount = 0;
-            let processedContent = "";
-            let index = 0;
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the raw HTML content
+        let descriptionContent = document.querySelector('.text.description').innerHTML;
 
-            // Loop through the content to find all occurrences of "dddd"
-            while (ddddCount < 4 && index !== -1) {
-                index = descriptionContent.indexOf("dddd", index);
-                if (index !== -1) {
-                    ddddCount++;
-                    processedContent += descriptionContent.substring(0, index);
-                    descriptionContent = descriptionContent.substring(index);
-                    index = 4; // Skip over the current "dddd"
-                }
-            }
+        // Find all occurrences of "dddd"
+        let count = 0;
+        let index = -1;
+        let searchPosition = 0;
+        
+        // Loop to find the 4th occurrence of "dddd"
+        while (count < 4) {
+            index = descriptionContent.indexOf("dddd", searchPosition);
+            if (index === -1) break; // If "dddd" is not found anymore, exit loop
+            count++;
+            searchPosition = index + 4; // Move past the found "dddd"
+        }
 
-            // Append everything before the fourth "dddd" and hide the rest
-            document.getElementById("processedContent").innerHTML = processedContent;
-            if (ddddCount >= 4) {
-                let hiddenContent = descriptionContent.substring(4); // Hide everything after the fourth "dddd"
-                document.getElementById("processedContent").innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
-            }
-        });
+        // If we found 4 occurrences of "dddd"
+        if (count === 4) {
+            // Show everything before the 4th "dddd"
+            let visibleContent = descriptionContent.substring(0, index);
+            document.getElementById("processedContent").innerHTML = visibleContent;
+
+            // Hide everything after the 4th "dddd"
+            let hiddenContent = descriptionContent.substring(index);
+            document.getElementById("processedContent").innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
+        } else {
+            // If "dddd" is found less than 4 times, display the entire content
+            document.getElementById("processedContent").innerHTML = descriptionContent;
+        }
+    });
 </script>
 @endsection
