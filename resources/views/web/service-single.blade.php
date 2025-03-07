@@ -432,23 +432,25 @@ $header = \App\Models\PageSetup::page('services');
 </div>
 @endif
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Grab the description content from the div
-        let descriptionContent = document.querySelector('.text.description').innerHTML;
+     document.addEventListener("DOMContentLoaded", function() {
+            // Get the raw HTML content
+            let descriptionContent = document.querySelector('.text.description').innerHTML;
 
-        // Find the index of "DDDD"
-        let index = descriptionContent.indexOf("DDDD");
+            // Find where "DDDD" appears
+            let index = descriptionContent.indexOf("DDDD");
 
-        if (index !== -1) {
-            // Show content before "DDDD"
-            document.getElementById("processedContent").textContent = descriptionContent.substring(0, index);
+            if (index !== -1) {
+                // Show everything before "DDDD"
+                let visibleContent = descriptionContent.substring(0, index);
+                document.getElementById("processedContent").innerHTML = visibleContent;
 
-            // Hide content after "DDDD"
-            let hiddenContent = descriptionContent.substring(index + 4).trim();
-            document.getElementById("processedContent").innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
-        } else {
-            document.getElementById("processedContent").textContent = descriptionContent;
-        }
-    });
+                // Hide everything after "DDDD"
+                let hiddenContent = descriptionContent.substring(index + 4); // Skip "DDDD"
+                document.getElementById("processedContent").innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
+            } else {
+                // If "DDDD" is not found, show the entire content
+                document.getElementById("processedContent").innerHTML = descriptionContent;
+            }
+        });
 </script>
 @endsection
