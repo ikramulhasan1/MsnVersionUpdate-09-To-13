@@ -270,12 +270,11 @@ $header = \App\Models\PageSetup::page('services');
                         </div>
                         {{-- <h2 class=" mb-3">{{ $service->title }}</h2> --}}
 
-                        <div class="text description">
+                        <div id="processedContent" class="text description">
                         
                             {!! $service->description !!}
 
-                            <h2>Processed Content:</h2>
-                        <p id="processedContent"></p>
+                          
                         </div>
                     </div>
                 </div>
