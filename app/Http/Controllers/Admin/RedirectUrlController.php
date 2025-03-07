@@ -33,29 +33,35 @@ class RedirectUrlController extends Controller
 
     
     public function store(Request $request)
-    {
+    {    
         $request->validate([
             'submitted_url' => 'required|url|unique:redirect_urls,submitted_url',
-            'redirect_to' => 'required|url'
+            'redirect_to' => 'required|url',
         ]);
+
+        RedirectUrl::create([
+            'submitted_url' => $request->submitted_url,
+            'redirect_to' => $request->redirect_to
+        ]);
+
+        return redirect()->route('admin.redirects.index')->with('success', 'Redirect added successfully!');
     
-        RedirectUrl::create($request->all());
-    
-        return redirect()->route('admin.redirects.index')->with('success', 'Redirect rule created successfully!');
     }
 
     public function redirect(Request $request)
     {
-        $submittedUrl = $request->input('url'); // Get URL from request
+      
+        $submittedUrl = $request->input('url'); // Get the submitted URL
 
-        // Find if this URL exists in the database
+        // Check if the submitted URL exists in the database
         $redirect = RedirectUrl::where('submitted_url', $submittedUrl)->first();
 
+        // If a matching redirect is found, perform a 301 redirect
         if ($redirect) {
-            return redirect()->away($redirect->redirect_to); // Redirect to new URL
+            return redirect()->away($redirect->redirect_to, 301); // 301 Permanent Redirect
         }
 
-        return redirect()->route('redirects.index')->with('error', 'No redirect found for this URL.');
+        return redirect()->route('admin.redirects.index')->with('error', 'No redirect found for this URL.');
     }
 
     public function show($id)
@@ -65,18 +71,30 @@ class RedirectUrlController extends Controller
 
     public function edit($id)
     {
-        //
+        $row = RedirectUrl::findOrFail($id);
+        return view('admin.redirect.edit', compact('row'));
     }
 
     
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'submitted_url' => 'required|url|unique:redirect_urls,submitted_url,' . $id,
+            'redirect_to' => 'required|url',
+        ]);
+
+        $redirect = RedirectUrl::findOrFail($id);
+        $redirect->update($request->all());
+
+        return redirect()->route('admin.redirects.index')->with('success', 'Redirect updated successfully!');
     }
 
     
     public function destroy($id)
     {
-        //
+        $redirect = RedirectUrl::findOrFail($id);
+        $redirect->delete();
+
+        return redirect()->route('admin.redirects.index')->with('success', 'Redirect deleted successfully!');
     }
 }
