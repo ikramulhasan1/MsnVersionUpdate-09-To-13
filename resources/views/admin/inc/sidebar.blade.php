@@ -18,6 +18,12 @@
                 <span> {{ trans_choice('dashboard.quote', 2) }} </span>
             </a>
         </li>
+        <li>
+            <a href="{{ route('admin.redirects.index') }}">
+                <span class="icon"><i class="fas fa-quote-right"></i></span>
+                <span>Redirect</span>
+            </a>
+        </li>
 
         <li>
             <a href="{{ route('admin.invoice.index') }}">

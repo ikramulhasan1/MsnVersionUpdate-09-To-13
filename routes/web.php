@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\RedirectUrlController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -68,6 +70,10 @@ Auth::routes(['register' => false]);
 
 // Admin Routes
 Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->prefix('admin')->group(function () {
+   
+    // redirects
+    Route::resource('redirects', RedirectUrlController::class);
+    Route::get('/redirect', [RedirectUrlController::class, 'redirect'])->name('redirect.process');
 
     // Dashboard Route
     Route::get('/', 'DashboardController@index')->name('dashboard.index');

@@ -35,7 +35,7 @@
 
                     @if(is_file('uploads/'.$path.'/'.$row->image_path))
                     <p><span class="text-highlight">{{ __('dashboard.photo') }}:</span></p>
-                    <img src="{{ asset('uploads/'.$path.'/'.$row->image_path) }}" class="img-fluid" alt="Profile">
+                    <img src="{{ asset('uploads/'.$path.'/'.$row->image_path) }}" class="img-fluid" alt="{{$row->title}}">
                     @endif
 
                     <hr/>

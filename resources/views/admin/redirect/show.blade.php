@@ -27,14 +27,9 @@
 
                     <!-- Details View Start -->
                     <h4><span class="text-highlight">{{ __('dashboard.title') }}:</span> {{ $row->title }}</h4>
+                    <p><span class="text-highlight">{{ __('dashboard.category') }}:</span> {{ $row->category->title }}</p>
                     <hr/>
-
-                    @if(is_file('uploads/'.$path.'/'.$row->image_path))
-                    <p><span class="text-highlight">{{ __('dashboard.thumbnail') }}:</span></p>
-                    <img src="{{ asset('uploads/'.$path.'/'.$row->image_path) }}" class="img-fluid" alt="{{$row->title}}">
-                    @endif
-
-                    <hr/>
+                    
                     <p><span class="text-highlight">{{ __('dashboard.description') }}:</span> {!! $row->description !!}</p>
 
                     <hr/>

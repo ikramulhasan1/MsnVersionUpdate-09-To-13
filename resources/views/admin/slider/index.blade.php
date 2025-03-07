@@ -50,7 +50,7 @@
                                 <td>{{ $key + 1 }}</td>
                                 <td>
                                     @if(is_file('uploads/'.$path.'/'.$row->image_path))
-                                    <img src="{{ asset('uploads/'.$path.'/'.$row->image_path) }}" class="img-fluid" alt="Slider">
+                                    <img src="{{ asset('uploads/'.$path.'/'.$row->image_path) }}" class="img-fluid" alt="{{ $row->title }}">
                                     @endif
                                 </td>
                                 <td>{!! str_limit(strip_tags($row->title), 50, ' ...') !!}</td>
