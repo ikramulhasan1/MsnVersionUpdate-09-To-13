@@ -432,24 +432,28 @@ $header = \App\Models\PageSetup::page('services');
 </div>
 @endif
 <script>
-     document.addEventListener("DOMContentLoaded", function() {
-            // Get the raw HTML content
+        document.addEventListener("DOMContentLoaded", function() {
             let descriptionContent = document.querySelector('.text.description').innerHTML;
+            let ddddCount = 0;
+            let processedContent = "";
+            let index = 0;
 
-            // Find where "DDDD" appears
-            let index = descriptionContent.indexOf("DDDD");
+            // Loop through the content to find all occurrences of "dddd"
+            while (ddddCount < 4 && index !== -1) {
+                index = descriptionContent.indexOf("dddd", index);
+                if (index !== -1) {
+                    ddddCount++;
+                    processedContent += descriptionContent.substring(0, index);
+                    descriptionContent = descriptionContent.substring(index);
+                    index = 4; // Skip over the current "dddd"
+                }
+            }
 
-            if (index !== -1) {
-                // Show everything before "DDDD"
-                let visibleContent = descriptionContent.substring(0, index);
-                document.getElementById("processedContent").innerHTML = visibleContent;
-
-                // Hide everything after "DDDD"
-                let hiddenContent = descriptionContent.substring(index + 4); // Skip "DDDD"
+            // Append everything before the fourth "dddd" and hide the rest
+            document.getElementById("processedContent").innerHTML = processedContent;
+            if (ddddCount >= 4) {
+                let hiddenContent = descriptionContent.substring(4); // Hide everything after the fourth "dddd"
                 document.getElementById("processedContent").innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
-            } else {
-                // If "DDDD" is not found, show the entire content
-                document.getElementById("processedContent").innerHTML = descriptionContent;
             }
         });
 </script>
