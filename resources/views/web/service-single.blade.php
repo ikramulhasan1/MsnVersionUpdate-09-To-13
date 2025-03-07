@@ -218,7 +218,7 @@ $header = \App\Models\PageSetup::page('services');
             width: 25px; /* Adjust icon size */
             height: 25px;
         }
-
+        .hidden { display: none; }
 </style>
 <!--Page Title-->
 <section class="page-title">
@@ -271,7 +271,7 @@ $header = \App\Models\PageSetup::page('services');
                         {{-- <h2 class=" mb-3">{{ $service->title }}</h2> --}}
 
                         <div class="text description">
-                            <!-- {!! $service->description !!} -->
+                        
                             {!! $service->description !!}
                         </div>
                     </div>
@@ -334,6 +334,9 @@ $header = \App\Models\PageSetup::page('services');
                             <!-- {!! $item->description !!} -->
                             {!! $item->description !!}
                         </div>
+
+                        <h2>Processed Content:</h2>
+                        <p id="processedContent"></p>
                     </div>
                 </div>
 
@@ -428,5 +431,24 @@ $header = \App\Models\PageSetup::page('services');
     </div>
 </div>
 @endif
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Grab the description content from the div
+        let descriptionContent = document.querySelector('.text.description').innerHTML;
 
+        // Find the index of "DDDD"
+        let index = descriptionContent.indexOf("DDDD");
+
+        if (index !== -1) {
+            // Show content before "DDDD"
+            document.getElementById("processedContent").textContent = descriptionContent.substring(0, index);
+
+            // Hide content after "DDDD"
+            let hiddenContent = descriptionContent.substring(index + 4).trim();
+            document.getElementById("processedContent").innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
+        } else {
+            document.getElementById("processedContent").textContent = descriptionContent;
+        }
+    });
+</script>
 @endsection
