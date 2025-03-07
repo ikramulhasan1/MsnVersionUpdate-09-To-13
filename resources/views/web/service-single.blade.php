@@ -273,6 +273,9 @@ $header = \App\Models\PageSetup::page('services');
                         <div class="text description">
                         
                             {!! $service->description !!}
+                            
+                            <h2>Processed Content:</h2>
+                        <p id="processedContent"></p>
                         </div>
                     </div>
                 </div>
@@ -432,36 +435,35 @@ $header = \App\Models\PageSetup::page('services');
 </div>
 @endif
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Get the raw HTML content
-        let descriptionContent = document.querySelector('.text.description').innerHTML;
+   document.addEventListener("DOMContentLoaded", function() {
+            // Get the description content
+            let descriptionContent = document.querySelector('.text.description').innerHTML;
+            let ddddCount = 0;  // Counter for occurrences of "dddd"
+            let processedContent = "";  // Variable to store the content before 4th "dddd"
+            let index = 0;
 
-        // Find all occurrences of "dddd"
-        let count = 0;
-        let index = -1;
-        let searchPosition = 0;
-        
-        // Loop to find the 4th occurrence of "dddd"
-        while (count < 4) {
-            index = descriptionContent.indexOf("dddd", searchPosition);
-            if (index === -1) break; // If "dddd" is not found anymore, exit loop
-            count++;
-            searchPosition = index + 4; // Move past the found "dddd"
-        }
+            // Loop through the content and find all occurrences of "dddd"
+            while (ddddCount < 4) {
+                index = descriptionContent.indexOf("dddd", index);
+                
+                // If "dddd" is found, count it
+                if (index !== -1) {
+                    ddddCount++;
+                    processedContent += descriptionContent.substring(0, index);  // Add the content before "dddd"
+                    descriptionContent = descriptionContent.substring(index + 4);  // Remove the part before the found "dddd"
+                } else {
+                    break;  // Exit the loop if "dddd" is no longer found
+                }
+            }
 
-        // If we found 4 occurrences of "dddd"
-        if (count === 4) {
-            // Show everything before the 4th "dddd"
-            let visibleContent = descriptionContent.substring(0, index);
-            document.getElementById("processedContent").innerHTML = visibleContent;
+            // Display the processed content before the 4th "dddd"
+            document.getElementById("processedContent").innerHTML = processedContent;
 
-            // Hide everything after the 4th "dddd"
-            let hiddenContent = descriptionContent.substring(index);
-            document.getElementById("processedContent").innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
-        } else {
-            // If "dddd" is found less than 4 times, display the entire content
-            document.getElementById("processedContent").innerHTML = descriptionContent;
-        }
-    });
+            // If we have found at least 4 "dddd", hide everything after the 4th "dddd"
+            if (ddddCount >= 4) {
+                let hiddenContent = descriptionContent;  // All content after the 4th "dddd"
+                document.getElementById("processedContent").innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
+            }
+        });
 </script>
 @endsection
