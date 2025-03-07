@@ -141,7 +141,7 @@ class ServiceController extends Controller
         // Insert Data
         $service = new Service;
         $service->title = $request->title;
-        $service->slug = Str::slug($request->title, '-');
+        $service->slug = Str::slug($request->slug, '-');
         $service->short_desc = $request->short_desc;
         $service->description = $dom->saveHTML();
         $service->image_path = $fileNameToStore;

@@ -274,7 +274,6 @@ $header = \App\Models\PageSetup::page('services');
                         
                             {!! $service->description !!}
 
-                          
                         </div>
                     </div>
                 </div>
@@ -330,15 +329,10 @@ $header = \App\Models\PageSetup::page('services');
                 <div class="service-detail">
                     <div class="inner-box">
                         
-                        <h2 class=" mb-3">{{ $item->title }}</h2>
-
-                        <div class="text description">
-                            <!-- {!! $item->description !!} -->
+                        <h2 class="mb-3">{{ $item->title }}</h2>
+                        <div id="processedContent" class="text description">
                             {!! $item->description !!}
                         </div>
-
-                        <h2>Processed Content:</h2>
-                        <p id="processedContent"></p>
                     </div>
                 </div>
 
@@ -377,8 +371,8 @@ $header = \App\Models\PageSetup::page('services');
                        
                         <h2 class=" mb-3">{{ $item->title }}</h2>
 
-                        <div class="text description">
-                            <!-- {!! $item->description !!} -->
+                        <div id="processedContent" class="text description">
+                            
                             {!! $item->description !!}
                         </div>
                     </div>
