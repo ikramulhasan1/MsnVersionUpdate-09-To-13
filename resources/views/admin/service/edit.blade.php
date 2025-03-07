@@ -37,6 +37,10 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.title') }}
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="slug">{{ __('Slug') }} <span>* </span></label>
+                            <input type="text" class="form-control" name="slug" id="slug" value="{{ $row->slug }}" readonly required>
+                        </div>
 
                         <div class="form-group">
                             <label for="short_desc">{{ __('dashboard.short_desc') }} <span>*</span></label>
