@@ -273,7 +273,7 @@ $header = \App\Models\PageSetup::page('services');
                         <div class="text description">
                         
                             {!! $service->description !!}
-                            
+
                             <h2>Processed Content:</h2>
                         <p id="processedContent"></p>
                         </div>
@@ -435,34 +435,24 @@ $header = \App\Models\PageSetup::page('services');
 </div>
 @endif
 <script>
-   document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function() {
             // Get the description content
             let descriptionContent = document.querySelector('.text.description').innerHTML;
-            let ddddCount = 0;  // Counter for occurrences of "dddd"
-            let processedContent = "";  // Variable to store the content before 4th "dddd"
-            let index = 0;
 
-            // Loop through the content and find all occurrences of "dddd"
-            while (ddddCount < 4) {
-                index = descriptionContent.indexOf("dddd", index);
-                
-                // If "dddd" is found, count it
-                if (index !== -1) {
-                    ddddCount++;
-                    processedContent += descriptionContent.substring(0, index);  // Add the content before "dddd"
-                    descriptionContent = descriptionContent.substring(index + 4);  // Remove the part before the found "dddd"
-                } else {
-                    break;  // Exit the loop if "dddd" is no longer found
-                }
-            }
+            // Find the index of the first occurrence of the word "hidden"
+            let index = descriptionContent.toLowerCase().indexOf("hidden");
 
-            // Display the processed content before the 4th "dddd"
-            document.getElementById("processedContent").innerHTML = processedContent;
+            if (index !== -1) {
+                // Show content before the word "hidden"
+                let visibleContent = descriptionContent.substring(0, index);
+                document.getElementById("processedContent").innerHTML = visibleContent;
 
-            // If we have found at least 4 "dddd", hide everything after the 4th "dddd"
-            if (ddddCount >= 4) {
-                let hiddenContent = descriptionContent;  // All content after the 4th "dddd"
+                // Hide content after the word "hidden"
+                let hiddenContent = descriptionContent.substring(index);
                 document.getElementById("processedContent").innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
+            } else {
+                // If the word "hidden" is not found, show the entire content
+                document.getElementById("processedContent").innerHTML = descriptionContent;
             }
         });
 </script>
