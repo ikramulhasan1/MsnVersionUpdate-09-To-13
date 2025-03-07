@@ -71,8 +71,10 @@ Auth::routes(['register' => false]);
 // Admin Routes
 Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->prefix('admin')->group(function () {
    
-    // redirects
+   
+    // Resource route for Redirect URL management
     Route::resource('redirects', RedirectUrlController::class);
+    // Route to handle redirection logic
     Route::get('/redirect', [RedirectUrlController::class, 'redirect'])->name('redirect.process');
 
     // Dashboard Route
