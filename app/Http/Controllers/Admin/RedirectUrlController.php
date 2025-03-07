@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Log;
+use Toastr;
 use App\Models\RedirectUrl;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Str;
 // use App\Models\FaqCategory;
 // use App\Models\Faq;
-use Toastr;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 // use Image;
 // use File;
 
@@ -52,6 +53,8 @@ class RedirectUrlController extends Controller
     {
       
         $submittedUrl = $request->input('url'); // Get the submitted URL
+        // Debugging Log
+        Log::info('Redirecting URL: ' . $submittedUrl);
 
         // Check if the submitted URL exists in the database
         $redirect = RedirectUrl::where('submitted_url', $submittedUrl)->first();
@@ -60,6 +63,8 @@ class RedirectUrlController extends Controller
         if ($redirect) {
             return redirect()->away($redirect->redirect_to, 301); // 301 Permanent Redirect
         }
+
+        Log::error('No redirect found for: ' . $submittedUrl);
 
         return redirect()->route('admin.redirects.index')->with('error', 'No redirect found for this URL.');
     }
