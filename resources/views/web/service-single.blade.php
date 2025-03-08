@@ -336,7 +336,7 @@ $header = \App\Models\PageSetup::page('services');
                 <div class="service-detail">
                     <div class="inner-box">
                         
-                        <h1 style="font-size: 30px" class="mb-3">{{ $item->title }}</h1>
+                        <h2 class="mb-3">{{ $item->title }}</h2>
                         <div id="processedContent" class="text description">
                             {!! $cleanDescription !!}
                         </div>
@@ -377,7 +377,7 @@ $header = \App\Models\PageSetup::page('services');
                 <div class="service-detail">
                     <div class="inner-box">
                        
-                        <h1 style="font-size: 30px" class=" mb-3">{{ $item->title }}</h1>
+                        <h2 class=" mb-3">{{ $item->title }}</h2>
 
                         <div id="processedContent" class="text description">
                             
