@@ -428,25 +428,27 @@ $header = \App\Models\PageSetup::page('services');
 </div>
 @endif
 <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Get the description content
-            let descriptionContent = document.querySelector('.text.description').innerHTML;
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the description content
+    let descriptionContent = document.querySelector('.text.description').innerHTML;
 
-            // Find the index of the first occurrence of the word "hidden"
-            let index = descriptionContent.toLowerCase().indexOf("hidden");
+    // Find the index of the first occurrence of the word "hidden"
+    let index = descriptionContent.toLowerCase().indexOf("hidden");
 
-            if (index !== -1) {
-                // Show content before the word "hidden"
-                let visibleContent = descriptionContent.substring(0, index);
-                document.getElementsByClassName("processedContent").innerHTML = visibleContent;
+    const processedContent = document.getElementsByClassName("processedContent")[0]; // Correct way to select the first element
 
-                // Hide content after the word "hidden"
-                let hiddenContent = descriptionContent.substring(index);
-                document.getElementsByClassName("processedContent").innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
-            } else {
-                // If the word "hidden" is not found, show the entire content
-                document.getElementsByClassName("processedContent").innerHTML = descriptionContent;
-            }
-        });
+    if (index !== -1) {
+        // Show content before the word "hidden"
+        let visibleContent = descriptionContent.substring(0, index);
+        processedContent.innerHTML = visibleContent;
+
+        // Hide content after the word "hidden"
+        let hiddenContent = descriptionContent.substring(index);
+        processedContent.innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
+    } else {
+        // If the word "hidden" is not found, show the entire content
+        processedContent.innerHTML = descriptionContent;
+    }
+});
 </script>
 @endsection
