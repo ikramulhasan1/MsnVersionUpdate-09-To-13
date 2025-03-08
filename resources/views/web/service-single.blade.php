@@ -429,32 +429,32 @@ $header = \App\Models\PageSetup::page('services');
 @endif
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    // Get the description content
-    let descriptionContent = document.querySelector('.text.description').innerHTML;
+    // Select all description elements
+    const descriptionElements = document.querySelectorAll('.text.description');
 
-    // Find the index of the first occurrence of the word "hidden"
-    let index = descriptionContent.toLowerCase().indexOf("hidden");
+    let hideNextDescriptions = false; // Flag to track when to start hiding
 
-    if (index !== -1) {
-        // Show content before the word "hidden"
-        let visibleContent = descriptionContent.substring(0, index);
-        let hiddenContent = descriptionContent.substring(index);
+    descriptionElements.forEach(descriptionElement => {
+        if (hideNextDescriptions) {
+            descriptionElement.classList.add('hidden'); // Hide all content after the trigger
+        } else {
+            // Find the word "hidden" in the current description
+            let descriptionContent = descriptionElement.innerHTML;
+            let index = descriptionContent.toLowerCase().indexOf("hidden");
 
-        // Replace the original description with the visible content
-        document.querySelector('.text.description').innerHTML = visibleContent;
+            if (index !== -1) {
+                // Show content before the word "hidden"
+                let visibleContent = descriptionContent.substring(0, index);
+                let hiddenContent = descriptionContent.substring(index);
 
-        // Loop through all .processedContent elements that appear AFTER the .text.description
-        let processedContentElements = document.querySelectorAll('.processedContent');
+                // Update the description content
+                descriptionElement.innerHTML = visibleContent + "<span class='hidden'>" + hiddenContent + "</span>";
 
-        let hideContent = false;  // Track when to start hiding content
-        processedContentElements.forEach(element => {
-            if (hideContent) {
-                element.classList.add('hidden');
+                // Enable the flag to hide all following descriptions
+                hideNextDescriptions = true;
             }
-            // Enable hiding for subsequent elements
-            hideContent = true;
-        });
-    }
+        }
+    });
 });
 
 </script>
