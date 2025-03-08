@@ -330,7 +330,7 @@ $header = \App\Models\PageSetup::page('services');
                     <div class="inner-box">
                         
                         <h2 class="mb-3">{{ $item->title }}</h2>
-                        <div id="" class="processedContent text description">
+                        <div id="" class="processedContent{{ $key++ }} text description">
                             {!! $item->description !!}
                         </div>
                     </div>
@@ -432,23 +432,26 @@ document.addEventListener("DOMContentLoaded", function() {
     // Get the description content
     let descriptionContent = document.querySelector('.text.description').innerHTML;
 
-    // Find the index of the first occurrence of the word "hidden"
-    let index = descriptionContent.toLowerCase().indexOf("hidden");
+    // Regex for flexible "hidden" detection (case-insensitive)
+    let match = descriptionContent.match(/hidden/gi);
 
-    const processedContent = document.getElementsByClassName("processedContent")[0]; // Correct way to select the first element
+    const processedContentElements = document.getElementsByClassName("processedContent");
 
-    if (index !== -1) {
-        // Show content before the word "hidden"
-        let visibleContent = descriptionContent.substring(0, index);
-        processedContent.innerHTML = visibleContent;
+    Array.from(processedContentElements).forEach((processedContent) => {
+        if (match && match.length > 0) {
+            // Split content before and after the first occurrence
+            let index = descriptionContent.toLowerCase().indexOf("hidden");
 
-        // Hide content after the word "hidden"
-        let hiddenContent = descriptionContent.substring(index);
-        processedContent.innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
-    } else {
-        // If the word "hidden" is not found, show the entire content
-        processedContent.innerHTML = descriptionContent;
-    }
+            let visibleContent = descriptionContent.substring(0, index);
+            let hiddenContent = descriptionContent.substring(index);
+
+            processedContent.innerHTML = visibleContent +
+                "<span class='hidden'>" + hiddenContent + "</span>";
+        } else {
+            // If the word "hidden" is not found, show the entire content
+            processedContent.innerHTML = descriptionContent;
+        }
+    });
 });
 
 </script>
