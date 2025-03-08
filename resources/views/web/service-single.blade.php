@@ -270,7 +270,7 @@ $header = \App\Models\PageSetup::page('services');
                         </div>
                         <p style="font-size: 32px; color: black; font-weight: 500;" class="mb-4">{{ $service->title }}</p>
 
-                        <div id="" class="processedContent text description">
+                        <div id="processedContent" class="text description">
                         
                             {!! $service->description !!}
 
@@ -307,6 +307,16 @@ $header = \App\Models\PageSetup::page('services');
 
         @if ($service->subservices)
         @foreach ($service->subservices as $key => $item)
+        @php
+            // Check if the description contains "hidden"
+            if (stripos($item->description, 'hidden') !== false) {
+                // Extract text before "hidden"
+                $cleanDescription = Str::before($item->description, 'hidden');
+            } else {
+                // Use the full description if "hidden" is not found
+                $cleanDescription = $item->description;
+            }
+        @endphp
         @if ($key % 2 == 1)
             
         <div class="row clearfix mb-5">
@@ -330,9 +340,10 @@ $header = \App\Models\PageSetup::page('services');
                     <div class="inner-box">
                         
                         <h2 class="mb-3">{{ $item->title }}</h2>
-                        <div id="" class="processedContent{{ $key++ }} text description">
-                            {!! $item->description !!}
+                        <div id="processedContent" class="text description">
+                            {!! $cleanDescription !!}
                         </div>
+                    
                     </div>
                 </div>
 
@@ -371,9 +382,9 @@ $header = \App\Models\PageSetup::page('services');
                        
                         <h2 class=" mb-3">{{ $item->title }}</h2>
 
-                        <div id="" class="processedContent text description">
+                        <div id="processedContent" class="text description">
                             
-                            {!! $item->description !!}
+                            {!! $cleanDescription !!}
                         </div>
                     </div>
                 </div>
@@ -428,31 +439,25 @@ $header = \App\Models\PageSetup::page('services');
 </div>
 @endif
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Get the description content
-    let descriptionContent = document.querySelector('.text.description').innerHTML;
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get the description content
+            let descriptionContent = document.querySelector('.text.description').innerHTML;
 
-    // Regex for flexible "hidden" detection (case-insensitive)
-    let match = descriptionContent.match(/hidden/gi);
-
-    const processedContentElements = document.getElementsByClassName("processedContent");
-
-    Array.from(processedContentElements).forEach((processedContent) => {
-        if (match && match.length > 0) {
-            // Split content before and after the first occurrence
+            // Find the index of the first occurrence of the word "hidden"
             let index = descriptionContent.toLowerCase().indexOf("hidden");
 
-            let visibleContent = descriptionContent.substring(0, index);
-            let hiddenContent = descriptionContent.substring(index);
+            if (index !== -1) {
+                // Show content before the word "hidden"
+                let visibleContent = descriptionContent.substring(0, index);
+                document.getElementById("processedContent").innerHTML = visibleContent;
 
-            processedContent.innerHTML = visibleContent +
-                "<span class='hidden'>" + hiddenContent + "</span>";
-        } else {
-            // If the word "hidden" is not found, show the entire content
-            processedContent.innerHTML = descriptionContent;
-        }
-    });
-});
-
+                // Hide content after the word "hidden"
+                let hiddenContent = descriptionContent.substring(index);
+                document.getElementById("processedContent").innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
+            } else {
+                // If the word "hidden" is not found, show the entire content
+                document.getElementById("processedContent").innerHTML = descriptionContent;
+            }
+        });
 </script>
 @endsection
