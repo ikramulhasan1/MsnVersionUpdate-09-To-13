@@ -428,33 +428,27 @@ $header = \App\Models\PageSetup::page('services');
 </div>
 @endif
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    // Select all description elements
-    const descriptionElements = document.querySelectorAll('.text.description');
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the description content
+    let descriptionContent = document.querySelector('.text.description').innerHTML;
 
-    let hideNextDescriptions = false; // Flag to track when to start hiding
+    // Find the index of the first occurrence of the word "hidden"
+    let index = descriptionContent.toLowerCase().indexOf("hidden");
 
-    descriptionElements.forEach(descriptionElement => {
-        if (hideNextDescriptions) {
-            descriptionElement.classList.add('hidden'); // Hide all content after the trigger
-        } else {
-            // Find the word "hidden" in the current description
-            let descriptionContent = descriptionElement.innerHTML;
-            let index = descriptionContent.toLowerCase().indexOf("hidden");
+    const processedContent = document.getElementsByClassName("processedContent")[0]; // Correct way to select the first element
 
-            if (index !== -1) {
-                // Show content before the word "hidden"
-                let visibleContent = descriptionContent.substring(0, index);
-                let hiddenContent = descriptionContent.substring(index);
+    if (index !== -1) {
+        // Show content before the word "hidden"
+        let visibleContent = descriptionContent.substring(0, index);
+        processedContent.innerHTML = visibleContent;
 
-                // Update the description content
-                descriptionElement.innerHTML = visibleContent + "<span class='hidden'>" + hiddenContent + "</span>";
-
-                // Enable the flag to hide all following descriptions
-                hideNextDescriptions = true;
-            }
-        }
-    });
+        // Hide content after the word "hidden"
+        let hiddenContent = descriptionContent.substring(index);
+        processedContent.innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
+    } else {
+        // If the word "hidden" is not found, show the entire content
+        processedContent.innerHTML = descriptionContent;
+    }
 });
 
 </script>
