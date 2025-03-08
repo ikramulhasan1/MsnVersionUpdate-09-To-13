@@ -270,7 +270,7 @@ $header = \App\Models\PageSetup::page('services');
                         </div>
                         <p style="font-size: 32px; color: black; font-weight: 500;" class="mb-4">{{ $service->title }}</p>
 
-                        <div id="processedContent" class="text description">
+                        <div id="" class="tprocessedContent ext description">
                         
                             {!! $service->description !!}
 
@@ -330,7 +330,7 @@ $header = \App\Models\PageSetup::page('services');
                     <div class="inner-box">
                         
                         <h2 class="mb-3">{{ $item->title }}</h2>
-                        <div id="processedContent" class="text description">
+                        <div id="" class="processedContent text description">
                             {!! $item->description !!}
                         </div>
                     </div>
@@ -371,7 +371,7 @@ $header = \App\Models\PageSetup::page('services');
                        
                         <h2 class=" mb-3">{{ $item->title }}</h2>
 
-                        <div id="processedContent" class="text description">
+                        <div id="" class="processedContent text description">
                             
                             {!! $item->description !!}
                         </div>
@@ -438,14 +438,14 @@ $header = \App\Models\PageSetup::page('services');
             if (index !== -1) {
                 // Show content before the word "hidden"
                 let visibleContent = descriptionContent.substring(0, index);
-                document.getElementById("processedContent").innerHTML = visibleContent;
+                document.getElementsByClassName("processedContent").innerHTML = visibleContent;
 
                 // Hide content after the word "hidden"
                 let hiddenContent = descriptionContent.substring(index);
-                document.getElementById("processedContent").innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
+                document.getElementsByClassName("processedContent").innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
             } else {
                 // If the word "hidden" is not found, show the entire content
-                document.getElementById("processedContent").innerHTML = descriptionContent;
+                document.getElementsByClassName("processedContent").innerHTML = descriptionContent;
             }
         });
 </script>
