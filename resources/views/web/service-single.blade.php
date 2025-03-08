@@ -308,12 +308,9 @@ $header = \App\Models\PageSetup::page('services');
         @if ($service->subservices)
         @foreach ($service->subservices as $key => $item)
         @php
-            // Check if the description contains "hidden"
             if (stripos($item->description, 'hidden') !== false) {
-                // Extract text before "hidden"
                 $cleanDescription = Str::before($item->description, 'hidden');
             } else {
-                // Use the full description if "hidden" is not found
                 $cleanDescription = $item->description;
             }
         @endphp
@@ -339,7 +336,7 @@ $header = \App\Models\PageSetup::page('services');
                 <div class="service-detail">
                     <div class="inner-box">
                         
-                        <h2 class="mb-3">{{ $item->title }}</h2>
+                        <title class="mb-3">{{ $item->title }}</title>
                         <div id="processedContent" class="text description">
                             {!! $cleanDescription !!}
                         </div>
@@ -380,7 +377,7 @@ $header = \App\Models\PageSetup::page('services');
                 <div class="service-detail">
                     <div class="inner-box">
                        
-                        <h2 class=" mb-3">{{ $item->title }}</h2>
+                        <title class=" mb-3">{{ $item->title }}</title>
 
                         <div id="processedContent" class="text description">
                             
