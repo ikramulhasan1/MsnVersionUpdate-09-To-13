@@ -270,7 +270,7 @@ $header = \App\Models\PageSetup::page('services');
                         </div>
                         <p style="font-size: 32px; color: black; font-weight: 500;" class="mb-4">{{ $service->title }}</p>
 
-                        <div id="" class="tprocessedContent ext description">
+                        <div id="" class="processedContent text description">
                         
                             {!! $service->description !!}
 
