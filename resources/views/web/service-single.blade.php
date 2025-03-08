@@ -428,30 +428,32 @@ $header = \App\Models\PageSetup::page('services');
 </div>
 @endif
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // Get the description content
     let descriptionContent = document.querySelector('.text.description').innerHTML;
 
     // Find the index of the first occurrence of the word "hidden"
     let index = descriptionContent.toLowerCase().indexOf("hidden");
 
-    // Select all elements with the class "processedContent"
-    const processedContentElements = document.getElementsByClassName("processedContent");
+    if (index !== -1) {
+        // Show content before the word "hidden"
+        let visibleContent = descriptionContent.substring(0, index);
+        let hiddenContent = descriptionContent.substring(index);
 
-    // Loop through each "processedContent" element
-    for (let i = 0; i < processedContentElements.length; i++) {
-        if (index !== -1) {
-            // Show content before the word "hidden"
-            let visibleContent = descriptionContent.substring(0, index);
-            processedContentElements[i].innerHTML = visibleContent;
+        // Replace the original description with the visible content
+        document.querySelector('.text.description').innerHTML = visibleContent;
 
-            // Hide content after the word "hidden"
-            let hiddenContent = descriptionContent.substring(index);
-            processedContentElements[i].innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
-        } else {
-            // If the word "hidden" is not found, show the entire content
-            processedContentElements[i].innerHTML = descriptionContent;
-        }
+        // Loop through all .processedContent elements that appear AFTER the .text.description
+        let processedContentElements = document.querySelectorAll('.processedContent');
+
+        let hideContent = false;  // Track when to start hiding content
+        processedContentElements.forEach(element => {
+            if (hideContent) {
+                element.classList.add('hidden');
+            }
+            // Enable hiding for subsequent elements
+            hideContent = true;
+        });
     }
 });
 
