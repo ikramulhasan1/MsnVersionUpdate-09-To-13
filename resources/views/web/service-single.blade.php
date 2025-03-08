@@ -435,20 +435,25 @@ document.addEventListener("DOMContentLoaded", function() {
     // Find the index of the first occurrence of the word "hidden"
     let index = descriptionContent.toLowerCase().indexOf("hidden");
 
-    const processedContent = document.getElementsByClassName("processedContent")[0]; // Correct way to select the first element
+    // Select all elements with the class "processedContent"
+    const processedContentElements = document.getElementsByClassName("processedContent");
 
-    if (index !== -1) {
-        // Show content before the word "hidden"
-        let visibleContent = descriptionContent.substring(0, index);
-        processedContent.innerHTML = visibleContent;
+    // Loop through each "processedContent" element
+    for (let i = 0; i < processedContentElements.length; i++) {
+        if (index !== -1) {
+            // Show content before the word "hidden"
+            let visibleContent = descriptionContent.substring(0, index);
+            processedContentElements[i].innerHTML = visibleContent;
 
-        // Hide content after the word "hidden"
-        let hiddenContent = descriptionContent.substring(index);
-        processedContent.innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
-    } else {
-        // If the word "hidden" is not found, show the entire content
-        processedContent.innerHTML = descriptionContent;
+            // Hide content after the word "hidden"
+            let hiddenContent = descriptionContent.substring(index);
+            processedContentElements[i].innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
+        } else {
+            // If the word "hidden" is not found, show the entire content
+            processedContentElements[i].innerHTML = descriptionContent;
+        }
     }
 });
+
 </script>
 @endsection
