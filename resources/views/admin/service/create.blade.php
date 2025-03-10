@@ -69,7 +69,13 @@
                             </div>
                         </div>
                         <!-- Form End -->
-
+                        <div class="form-group">
+                            <label for="manu">Manu</label>
+                            <select class="wide" name="manu" id="manu" data-plugin="customselect">
+                                <option value="0" >Hidden</option>
+                                <option value="1" >Show</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="form-group">

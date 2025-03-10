@@ -36,6 +36,7 @@
                                 <th>{{ __('dashboard.no') }}</th>
                                 <th>{{ __('dashboard.thumbnail') }}</th>
                                 <th>{{ __('dashboard.title') }}</th>
+                                <th>Menu</th>
                                 <th>{{ __('dashboard.status') }}</th>
                                 <th>{{ __('dashboard.action') }}</th>
                             </tr>
@@ -50,6 +51,13 @@
                                     @endif
                                 </td>
                                 <td>{!! str_limit(strip_tags($row->title), 50, ' ...') !!}</td>
+                                <td>
+                                    @if( $row->manu == 1 )
+                                    <span class="badge badge-success badge-pill">Show</span>
+                                    @else
+                                    <span class="badge badge-danger badge-pill">Hidden</span>
+                                    @endif
+                                </td>
                                 <td>
                                     @if( $row->status == 1 )
                                     <span class="badge badge-success badge-pill">{{ __('dashboard.active') }}</span>

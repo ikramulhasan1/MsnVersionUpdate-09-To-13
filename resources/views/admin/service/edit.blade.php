@@ -70,12 +70,21 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="manu">Manu</label>
+                            <select class="wide" name="manu" id="manu" data-plugin="customselect">
+                                <option value="0" @if( $row->manu == 0 ) selected @endif>Hidden</option>
+                                <option value="1" @if( $row->manu == 1 ) selected @endif>Show</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             <label for="status">{{ __('dashboard.select_status') }}</label>
                             <select class="wide" name="status" id="status" data-plugin="customselect">
                                 <option value="1" @if( $row->status == 1 ) selected @endif>{{ __('dashboard.active') }}</option>
                                 <option value="0" @if( $row->status == 0 ) selected @endif>{{ __('dashboard.inactive') }}</option>
                             </select>
                         </div>
+                     
                         <!-- Form End -->
 
                     </div>

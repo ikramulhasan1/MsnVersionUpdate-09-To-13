@@ -21,6 +21,7 @@ class CreateServicesTable extends Migration
             $table->longText('description')->nullable();
             $table->string('image_path', 500)->nullable();
             $table->string('file_path', 500)->nullable();
+            $table->boolean('manu')->default('0');
             $table->boolean('status')->default('1');
             $table->timestamps();
         });

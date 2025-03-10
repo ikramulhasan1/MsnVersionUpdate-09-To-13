@@ -145,6 +145,7 @@ class ServiceController extends Controller
         $service->short_desc = $request->short_desc;
         $service->description = $dom->saveHTML();
         $service->image_path = $fileNameToStore;
+        $service->manu = $manu;
         $service->save();
 
 
@@ -153,12 +154,6 @@ class ServiceController extends Controller
         return redirect()->route($this->route.'.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Service $service)
     {
         //
@@ -289,6 +284,7 @@ class ServiceController extends Controller
         $service->short_desc = $request->short_desc;
         $service->description = $dom->saveHTML();
         $service->image_path = $fileNameToStore;
+        $service->manu = $request->manu;
         $service->status = $request->status;
         $service->save();
 
