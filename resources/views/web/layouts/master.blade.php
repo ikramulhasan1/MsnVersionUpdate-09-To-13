@@ -503,7 +503,10 @@
                                     <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}"><a href="{{ route('services') }}">{{ $page_services->title }}</a>
                                         <ul>
                                             @foreach($service_subnavs as $service_subnav)
-                                            <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}"><a href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->title }}</a></li>
+                                                @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
+                                                    <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}"><a href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->title }}</a></li>
+                                                @else
+                                                @endif
                                             @endforeach
                                         </ul>
                                     </li>
