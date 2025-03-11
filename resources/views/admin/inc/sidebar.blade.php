@@ -20,7 +20,8 @@
         </li>
         <li>
             <a href="{{ route('admin.redirects.index') }}">
-                <span class="icon"><i class="fas fa-quote-right"></i></span>
+                <span class="icon"><i class="fas fa-external-link-alt"></i>
+                </span>
                 <span>Redirect</span>
             </a>
         </li>
