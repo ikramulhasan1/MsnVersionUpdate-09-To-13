@@ -145,7 +145,7 @@ class ServiceController extends Controller
         $service->short_desc = $request->short_desc;
         $service->description = $dom->saveHTML();
         $service->image_path = $fileNameToStore;
-        $service->manu = $manu;
+        $service->manu = $request->manu;
         $service->save();
 
 
