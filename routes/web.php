@@ -18,8 +18,14 @@ Route::middleware(['XSS','redirect'])->namespace('Web')->group(function () {
     // Home Route
     Route::get('/', 'HomeController@index')->name('home');
 
-     // sitemap.xml
-     Route::get('/sitemap', 'SitemapController@index')->name('sitemap');
+    // sitemap.xml
+    Route::get('/sitemap', 'SitemapController@index')->name('sitemap');
+    Route::get('/sitemap/blog', 'SitemapController@blog')->name('sitemap.blog');
+    Route::get('/sitemap/service', 'SitemapController@service')->name('sitemap.service');
+    Route::get('/sitemap/portfolio', 'SitemapController@portfolio')->name('sitemap.portfolio');
+    Route::get('/sitemap/category', 'SitemapController@category')->name('sitemap.category');
+    Route::get('/sitemap/page', 'SitemapController@page')->name('sitemap.page');
+    Route::get('/sitemap/image', 'SitemapController@image')->name('sitemap.image');
 
 
     // Pages Route
