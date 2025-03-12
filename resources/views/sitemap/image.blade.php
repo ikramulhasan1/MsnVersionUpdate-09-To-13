@@ -34,7 +34,41 @@
         <url>
             <loc>{{ route('blog.single', $article->slug) }}</loc>
             <image:image>
-            <image:loc>{{ asset('uploads/article/'.$article->image_path) }}</image:loc>
+                <image:loc>{{ asset('uploads/article/'.$article->image_path) }}</image:loc>
+                <image:caption>{{ $article->title }}</image:caption>
+            </image:image>
+        </url> 
+    @endforeach
+
+    <!-- Sitemap generated dynamically for MSN Softtech portfolio image -->
+    @foreach ($portfolios as $portfolio)
+        <url>
+            <loc>{{ route('portfolio.single', $portfolio->slug) }}</loc>
+            <image:image>
+                <image:loc>{{ asset('uploads/portfolio/'.$portfolio->image_path) }}</image:loc>
+                <image:caption>{{ $portfolio->title }}</image:caption>
+            </image:image>
+        </url> 
+    @endforeach
+
+    <!-- Sitemap generated dynamically for MSN Softtech sliders image -->
+    @foreach ($sliders as $slider)
+        <url>
+            <loc>{{ route('home') }}</loc>
+            <image:image>
+                <image:loc>{{ asset('uploads/slider/'.$slider->image_path) }}</image:loc>
+                <image:caption>{{ $slider->title }}</image:caption>
+            </image:image>
+        </url> 
+    @endforeach
+
+    <!-- Sitemap generated dynamically for MSN Softtech clients image -->
+    @foreach ($clients as $client)
+        <url>
+            <loc>{{ route('home') }}</loc>
+            <image:image>
+                <image:loc>{{ asset('uploads/client/'.$client->image_path) }}</image:loc>
+                <image:caption>{{ $client->title }}</image:caption>
             </image:image>
         </url> 
     @endforeach
