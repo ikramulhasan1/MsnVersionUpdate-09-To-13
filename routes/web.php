@@ -18,6 +18,10 @@ Route::middleware(['XSS','redirect'])->namespace('Web')->group(function () {
     // Home Route
     Route::get('/', 'HomeController@index')->name('home');
 
+     // sitemap.xml
+     Route::get('/sitemap', 'SitemapController@index')->name('sitemap');
+
+
     // Pages Route
     Route::get('/page/{slug}', 'HomeController@page')->name('page.single');
 
