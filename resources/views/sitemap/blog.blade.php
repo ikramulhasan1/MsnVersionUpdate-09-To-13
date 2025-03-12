@@ -10,7 +10,7 @@
             <news:name>{{ env('APP_NAME') }}</news:name>
             <news:language>en</news:language>
             </news:publication>
-            <news:publication_date>{{ date("y-m-d", strtotime($article->created_at)) }}</news:publication_date>
+            <news:publication_date>{{ date("Y-m-d", strtotime($article->created_at)) }}</news:publication_date>
             <news:title>{{ $article->title }}</news:title>
         </news:news>
         </url>
