@@ -45,8 +45,8 @@ class SitemapController extends Controller
     public function image(){
         $data['articles'] = Article::where('status', '1')->orderBy('id', 'desc')->get();
        
-        $data['services'] = Service::where('status', '1')->orderBy('id', 'desc')->get();
-        $data['sub_services'] = Service::with('subservices')->where('status', '1')->orderBy('id', 'desc')->get();
+        // $data['services'] = Service::where('status', '1')->orderBy('id', 'desc')->get();
+        $data['services'] = Service::with('subservices')->where('status', '1')->orderBy('id', 'desc')->get();
         $data['portfolios'] = Portfolio::where('status', '1')->orderBy('id', 'desc')->get();
         $data['sliders'] = Slider::where('status', '1')->orderBy('id', 'desc')->get();
         $data['clients'] = Client::where('status', '1')->orderBy('id', 'desc')->get();
