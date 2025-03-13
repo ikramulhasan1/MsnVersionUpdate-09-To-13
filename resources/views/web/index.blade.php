@@ -207,12 +207,11 @@ $header = \App\Models\PageSetup::page('home');
 <!--End About Section -->
 @endif
 
-
+{{-- 
 @php
 $section_services = \App\Models\Section::section('services');
 @endphp
 @if(count($services) > 0 && isset($section_services))
-<!-- Services Section -->
 <section class="">
     <div class="container">
         <div class="sec-title centered">
@@ -223,6 +222,44 @@ $section_services = \App\Models\Section::section('services');
         <div class="services-box row clearfix">
             <div class="services-carousel owl-carousel owl-theme">
                 @foreach($services as $service)
+                <div class="service-block wow fadeInDown">
+                    <div class="inner-box">
+                        <div class="image-box">
+                            <figure><img src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
+                            <div class="overlay-box"><a href="{{ route('service.single', $service->slug) }}">{{ __('common.read_more') }}</a></div>
+                        </div>
+                        <div class="lower-content">
+                            <h3><a href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a></h3>
+                            <div class="text text-left ">{!! strip_tags(Str::words($service->short_desc, 20)) !!}</div> 
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</section>
+@endif --}}
+@php
+$section_services = \App\Models\Section::section('services');
+@endphp
+@if(count($services) > 0 && isset($section_services))
+<!-- Services Section -->
+<section style="background-color: #F7FFF9" class="services-section style-four">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="sec-title centered">
+                    <h2>{{ $section_services->title }}</h2>
+                    <div class="text description">{!! $section_services->description !!}</div>
+                    <div class="separater"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+
+            @foreach($services as $service)
+            <div class="col-lg-4 col-md-6 col-sm-12">
                 <!-- Service Block -->
                 <div class="service-block wow fadeInDown">
                     <div class="inner-box">
@@ -232,12 +269,13 @@ $section_services = \App\Models\Section::section('services');
                         </div>
                         <div class="lower-content">
                             <h3><a href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a></h3>
-                            {{-- <div class="text text-left ">{!! strip_tags(Str::words($service->short_desc, 20)) !!}</div> --}}
+                            {{-- <div class="text text-left">{!! strip_tags(Str::words($service->short_desc, 20)) !!}</div> --}}
                         </div>
                     </div>
                 </div>
-                @endforeach
             </div>
+            @endforeach
+
         </div>
     </div>
 </section>
