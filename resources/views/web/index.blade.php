@@ -468,7 +468,7 @@ $section_blog = \App\Models\Section::section('blog');
 {{-- <section class="news-section"> --}}
 <section class="">
     <div class="container">
-        <div class="sec-title left">
+        <div class="sec-title left text-left">
             <h2>{{ $section_blog->title }}</h2>
             <div class="text description">{!! $section_blog->description !!}</div>
             <div class="separater"></div>
@@ -485,7 +485,7 @@ $section_blog = \App\Models\Section::section('blog');
                             <div class="overlay-box"><a href="{{ route('blog.single', $article->slug) }}" class="link-btn">{{ __('common.read_more') }}</a></div>
 
                         </div>
-                        <div class="caption-box">
+                        <div class="caption-box text-left">
                             <h3><a href="{{ route('blog.single', $article->slug) }}">{!! str_limit(strip_tags($article->title), 50, ' ...') !!}</a></h3>
                             <div class="text">{!! str_limit(strip_tags($article->description), 110, ' ...') !!}</div>
                             <ul class="post-meta">
