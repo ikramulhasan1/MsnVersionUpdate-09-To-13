@@ -245,7 +245,7 @@ $section_services = \App\Models\Section::section('services');
 @endphp
 @if(count($services) > 0 && isset($section_services))
 <!-- Services Section -->
-<section style="background-color: #F7FFF9" class="services-section style-four">
+<section class="services-section style-four">
     <div class="container">
         <div class="row">
             <div class="col-12">
