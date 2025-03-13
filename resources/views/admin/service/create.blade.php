@@ -36,8 +36,8 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.title') }}
                             </div>
                         </div>
-                        <div class="d-flex">
-                            <div class="form-group">
+                        <div class="row">
+                            <div class="form-group col-6">
                                 <label for="short_title">{{ __('dashboard.short_title') }} <span>*</span></label>
                                 <input type="text" class="form-control" name="short_title" id="short_title" value="{{ old('short_title') }}" required>
     
@@ -45,7 +45,7 @@
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.short_title') }}
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group col-6">
                                 <label for="slug">{{ __('dashboard.slug') }} <span>* [Write a unique slug]</span></label>
                                 <input type="text" class="form-control" name="slug" id="slug" value="{{ old('slug') }}" required>
                                 <div class="invalid-feedback">
