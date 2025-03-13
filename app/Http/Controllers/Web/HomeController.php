@@ -46,7 +46,7 @@ class HomeController extends Controller
                             ->get();
 
         // Services                                
-        $data['services'] = Service::where('status', '1')
+        $data['services'] = Service::where('status', '1')->where('manu','1')
                             ->orderBy('id', 'asc')
                             ->get();
 
