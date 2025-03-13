@@ -36,20 +36,24 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.title') }}
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="short_title">{{ __('dashboard.short_title') }} <span>*</span></label>
-                            <input type="text" class="form-control" name="short_title" id="short_title" value="{{ old('short_title') }}" required>
-
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.short_title') }}
+                        <div class="d-flex">
+                            <div class="form-group">
+                                <label for="short_title">{{ __('dashboard.short_title') }} <span>*</span></label>
+                                <input type="text" class="form-control" name="short_title" id="short_title" value="{{ old('short_title') }}" required>
+    
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.short_title') }}
+                                </div>
                             </div>
+                            <div class="form-group">
+                                <label for="slug">{{ __('dashboard.slug') }} <span>* [Write a unique slug]</span></label>
+                                <input type="text" class="form-control" name="slug" id="slug" value="{{ old('slug') }}" required>
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.slug') }}
+                                </div>
+                            </div>
+    
                         </div>
-                        <div class="form-group">
-                            <label for="slug">{{ __('Slug') }} <span>* [Write a unique slug]</span></label>
-                            <input type="text" class="form-control" name="slug" id="slug" value="{{ old('slug') }}" required>
-
-                        </div>
-
                         <div class="form-group">
                             <label for="short_desc">{{ __('dashboard.short_desc') }} <span>*</span></label>
                             <textarea class="form-control" name="short_desc" id="editor" rows="4" required>{{ old('short_desc') }}</textarea>

@@ -38,8 +38,19 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="slug">{{ __('Slug') }} <span>* </span></label>
+                            <label for="short_title">{{ __('dashboard.short_title') }} <span>*</span></label>
+                            <input type="text" class="form-control" name="short_title" id="short_title" value="{{ $row->short_title }}" required>
+
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.short_title') }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="slug">{{ __('dashboard.slug') }} <span>* </span></label>
                             <input type="text" class="form-control" name="slug" id="slug" value="{{ $row->slug }}" readonly required>
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.slug') }}
+                            </div>
                         </div>
 
                         <div class="form-group">
