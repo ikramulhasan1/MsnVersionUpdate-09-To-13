@@ -200,7 +200,7 @@ class ServiceController extends Controller
         // Field Validation
         $request->validate([
             'title' => 'required|max:191|unique:services,title,'.$service->id,
-            'short_title' => 'required|max:30|unique:services,short_title,',
+            'short_title' => 'required|max:30|unique:services,short_title,'.$service->id,
             'short_desc' => 'required',
             'description' => 'required',
             'image' => 'nullable|image',
