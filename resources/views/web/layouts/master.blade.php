@@ -333,7 +333,7 @@
                                         <ul>
                                             @foreach($service_subnavs as $service_subnav)
                                                 @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                    <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}"><a href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->title }}</a></li>
+                                                    <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}"><a href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a></li>
                                                 @else
                                                 {{-- <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}"><a href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->title }}</a></li> --}}
                                                 @endif
@@ -504,7 +504,7 @@
                                         <ul>
                                             @foreach($service_subnavs as $service_subnav)
                                                 @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                    <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}"><a href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->title }}</a></li>
+                                                    <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}"><a href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a></li>
                                                 @else
                                                 @endif
                                             @endforeach
