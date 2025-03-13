@@ -109,6 +109,28 @@ $header = \App\Models\PageSetup::page('home');
         border: none !important; 
         color: white !important;
     }
+
+    .stats-card {
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        animation: pulseEffect 3s infinite alternate;
+}
+
+/* Continuous Animation */
+@keyframes pulseEffect {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgb(255, 255, 255);
+    }
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Soft red glow */
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgb(255, 255, 255);
+    }
+}
 </style>
 
 @if(count($sliders) > 0)
@@ -195,12 +217,15 @@ $header = \App\Models\PageSetup::page('home');
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 clearfix fun-fact-section">
                 <div class="fact-counter">
-                    <div class="row">
+                    <div class="row ">
                         @foreach($counters as $counter)
                         <!--Column-->
-                        <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp">
-                            <div class="count-box">
-                                <div class="count"><span class="count-text" data-speed="5000" data-stop="{{ $counter->value }}">0</span></div>
+                        <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp ">
+                            <div class="count-box border border-1 p-3 bg-white stats-card">
+                                <div style="color: #1EC000" class="count">
+                                    {{ $counter->value }}
+                                    {{-- <span class="count-text" data-speed="5000" data-stop="{{ $counter->value }}">0</span> --}}
+                                </div>
                                 <div class="separater"></div>
                                 <h4 class="counter-title">{{ $counter->title }}</h4>
                             </div>
