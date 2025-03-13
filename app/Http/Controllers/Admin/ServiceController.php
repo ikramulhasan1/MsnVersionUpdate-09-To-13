@@ -65,6 +65,7 @@ class ServiceController extends Controller
         // Field Validation
         $request->validate([
             'title' => 'required|max:191|unique:services,title',
+            'short_title' => 'required|max:30|unique:services,short_title',
             'short_desc' => 'required',
             'description' => 'required',
             'image' => 'required|image',
@@ -141,6 +142,7 @@ class ServiceController extends Controller
         // Insert Data
         $service = new Service;
         $service->title = $request->title;
+        $service->short_title = $request->short_title;
         $service->slug = Str::slug(strtolower($request->slug), '-');
         $service->short_desc = $request->short_desc;
         $service->description = $dom->saveHTML();
@@ -198,6 +200,7 @@ class ServiceController extends Controller
         // Field Validation
         $request->validate([
             'title' => 'required|max:191|unique:services,title,'.$service->id,
+            'short_title' => 'required|max:30|unique:services,short_title,',
             'short_desc' => 'required',
             'description' => 'required',
             'image' => 'nullable|image',
@@ -280,6 +283,7 @@ class ServiceController extends Controller
 
         // Update Data
         $service->title = $request->title;
+        $service->short_title = $request->short_title;
         $service->slug = Str::slug(strtolower($request->slug), '-');
         $service->short_desc = $request->short_desc;
         $service->description = $dom->saveHTML();

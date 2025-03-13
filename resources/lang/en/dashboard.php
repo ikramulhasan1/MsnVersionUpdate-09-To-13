@@ -84,6 +84,7 @@ return array (
   'no' => 'No',
   'sl' => 'SL',
   'title' => 'Title',
+  'short_title' => 'Short Title',
   'category' => 'Category',
   'short_desc' => 'Short Details',
   'description' => 'Description',
