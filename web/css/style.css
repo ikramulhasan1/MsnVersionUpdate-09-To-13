@@ -288,7 +288,7 @@ img {
 	bottom: -1px;
 	content: "";
 	border-radius: 50px;
-	border: 2px solid #EE2124;
+	border: 2px solid black;
 	transition: all 300ms ease;
 	opacity: 0;
 }
@@ -4285,7 +4285,7 @@ img {
 
 .help-box .inner .theme-btn:hover {
 	color: #ffffff;
-	border: 1px solid #EE2124;
+	border: 1px solid black;
 }
 
 /*Related Projects*/

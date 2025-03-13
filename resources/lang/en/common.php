@@ -1,6 +1,7 @@
 <?php
 
 return array (
+  'services' => 'Services',
   'read_more' => 'Read More',
   'view_more' => 'View More',
   'get_start' => 'Get Start',

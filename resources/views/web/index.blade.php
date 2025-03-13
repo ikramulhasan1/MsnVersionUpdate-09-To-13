@@ -99,7 +99,16 @@ $header = \App\Models\PageSetup::page('home');
         font-size: 16px !important;
     }
 
-
+    .btnred{
+        background-color: red !important; 
+        border: none !important; 
+        color: white !important;
+    }
+    .btnblack{
+        background-color: black !important; 
+        border: none !important; 
+        color: white !important;
+    }
 </style>
 
 @if(count($sliders) > 0)
@@ -120,11 +129,11 @@ $header = \App\Models\PageSetup::page('home');
                                 $page_contact = \App\Models\PageSetup::page('contact-us');
                                 @endphp
                                 @if(isset($page_contact))
-                                <a href="{{ route('contact') }}" class="theme-btn btn-style-one">{{ __('common.contact_us') }}</a>
+                                <a href="{{ route('contact') }}" class="btnblack  btn-style-one">{{ __('common.contact_us') }}</a>
                                 @endif
 
                                 @if(isset($slider->link))
-                                <a href="{{ $slider->link }}" target="_blank" class="theme-btn btn-style-two">{{ __('common.read_more') }}</a>
+                                <a href="{{ $slider->link }}" target="_blank" class="theme-btn btn-style-two btnred">{{ __('common.services') }}</a>
                                 @endif
                             </div>
                         </div>
