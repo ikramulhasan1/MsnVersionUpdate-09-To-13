@@ -158,6 +158,10 @@ $header = \App\Models\PageSetup::page('blog');
         text-decoration: none!important; 
         font-weight: 500!important; 
     }
+    .description>h3>b>a{
+        color: #1064AB!important;  /* Vibrant blue for visibility */
+        text-decoration: none!important; 
+    }
     .description>p>a {
         color: #1064AB!important;  /* Vibrant blue for visibility */
         text-decoration: none!important; 
