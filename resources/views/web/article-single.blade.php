@@ -45,6 +45,9 @@ $header = \App\Models\PageSetup::page('blog');
 
 @section('content')
 <style>
+    *{
+        border: none !important;
+    }
     table {
         width: px;
     }
