@@ -192,7 +192,7 @@ h4 {
     font-size: 1.25rem!important;    /* ~20px */
     font-weight: 500!important; 
 }
-a {
+.description>a {
     color: #1064AB!important;  /* Vibrant blue for visibility */
     text-decoration: none!important; 
     font-weight: 500!important; 
