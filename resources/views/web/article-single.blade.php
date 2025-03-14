@@ -166,11 +166,11 @@ $header = \App\Models\PageSetup::page('blog');
     }
     h1,h2,h3,h4{
         margin-top: 30px !important; 
-        margin-bottom: 20px !important; 
+        margin-bottom: 15px !important; 
     }
     h1,h2>b,h3>b,h4>b{
         margin-top: 30px !important; 
-        margin-bottom: 20px !important; 
+        margin-bottom: 15px !important; 
     }
  
     h1 {
@@ -192,10 +192,10 @@ h4 {
     font-size: 1.25rem!important;    /* ~20px */
     font-weight: 500!important; 
 }
-a>b {
-    color: #007BFF!important;  /* Vibrant blue for visibility */
+a {
+    color: #1064AB!important;  /* Vibrant blue for visibility */
     text-decoration: none!important; 
-    font-weight: 600!important; 
+    font-weight: 500!important; 
 }
 </style>
 <!--Page Title-->
