@@ -168,12 +168,12 @@ $header = \App\Models\PageSetup::page('blog');
         margin-top: 30px !important; 
         margin-bottom: 15px !important; 
     }
-    .description>h1,.description>h2>b,.description>h3>b,.description>h4>b{
+    .description>h1>b,.description>h2>b,.description>h3>b,.description>h4>b{
         margin-top: 30px !important; 
         margin-bottom: 15px !important; 
     }
  
-    .description>h1 {
+.description>h1 {
     font-size: 2rem!important;       /* ~32px */
     font-weight: 700!important; 
 }
