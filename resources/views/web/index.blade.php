@@ -367,7 +367,7 @@ $section_portfolio = \App\Models\Section::section('portfolio');
                                         </div>
                                         <h3><a href="{{ route('portfolio.single', $portfolio->slug) }}">{{ $portfolio->title }}</a></h3>
                                     </div>
-                                    <a href="{{ route('portfolio.single', $portfolio->slug) }}" class="link-btn">{{ __('common.read_more') }}</a>
+                                    {{-- <a href="{{ route('portfolio.single', $portfolio->slug) }}" class="link-btn">{{ __('common.read_more') }}</a> --}}
                                 </div>
                             </div>
                         </div>
