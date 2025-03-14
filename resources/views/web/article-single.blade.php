@@ -122,7 +122,7 @@ $header = \App\Models\PageSetup::page('blog');
     <div class="container">
         <div class="row clearfix">
             <!--Content Side-->
-            <div class="content-side col-lg-8 col-md-12 col-sm-12">
+            <div class="content-side col-lg-8 col-md-12 col-sm-12 border-0 " >
                 <div class="blog-detail">
                     <!-- News Block -->
                     <div class="news-block">
@@ -137,7 +137,7 @@ $header = \App\Models\PageSetup::page('blog');
                                     <ul class="post-meta">
                                         <li><i class="far fa-calendar-check"></i>{{ date('d M, Y', strtotime($article->created_at)) }}</li>
                                     </ul>
-                                    <div class="description" style="color: black" >
+                                    <div class="description" style="color: black !important " >
                                         {!! $article->description !!}
                                     </div>
                                 </div>
