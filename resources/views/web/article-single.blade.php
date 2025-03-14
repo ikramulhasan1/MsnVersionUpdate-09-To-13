@@ -146,7 +146,7 @@ $header = \App\Models\PageSetup::page('blog');
         font-size: 16px !important;
     }
     p>ul{
-        margin-top: -10px !important;   
+        margin-top: 0px !important;   
     }
 
     .description>ol>li {
