@@ -211,7 +211,7 @@ $header = \App\Models\PageSetup::page('blog');
 <!-- End Sidebar Container -->
 <script>
     document.querySelectorAll('.news-block').forEach(element => {
-    element.style.border = '5px solid #000';
+    element.style.border = '0px solid #000';
 });
 
 </script>
