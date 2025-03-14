@@ -153,7 +153,11 @@ $header = \App\Models\PageSetup::page('blog');
         all: revert;
         font-size: 16px !important;
     }
-
+    .description>h2>p>a>b{
+        color: #1064AB!important;  /* Vibrant blue for visibility */
+        text-decoration: none!important; 
+        font-weight: 500!important; 
+    }
     .description>p>a {
         color: #1064AB!important;  /* Vibrant blue for visibility */
         text-decoration: none!important; 
@@ -173,22 +177,22 @@ $header = \App\Models\PageSetup::page('blog');
         margin-bottom: 15px !important; 
     }
  
-.description>h1 {
+.description>h1, .description>h1>b {
     font-size: 2rem!important;       /* ~32px */
     font-weight: 700!important; 
 }
 
-.description>h2 {
+.description>h2, .description>h2>b {
     font-size: 1.75rem!important;    /* ~28px */
     font-weight: 600!important; 
 }
 
-.description>h3 {
+.description>h3, .description>h3>b {
     font-size: 1.5rem!important;     /* ~24px */
     font-weight: 600!important; 
 }
 
-.description>h4 {
+.description>h4, .description>h4>b {
     font-size: 1.25rem!important;    /* ~20px */
     font-weight: 500!important; 
 }
