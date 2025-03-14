@@ -98,19 +98,17 @@ $header = \App\Models\PageSetup::page('blog');
         text-decoration: underline;
     }
 
-    .description>p {
-        font-size: 18px !important;
-    }
+
     p{
-        font-size: 18px !important;
+        font-size: 20px !important;
     }
-    h2,h3,h4{
-        margin-top: 15px !important; 
-        margin-bottom: 15px !important; 
+    h1,h2,h3,h4{
+        margin-top: 20px !important; 
+        margin-bottom: 20px !important; 
     }
-    h2>b,h3>b,h4>b{
-        margin-top: 15px !important; 
-        margin-bottom: 15px !important; 
+    h1,h2>b,h3>b,h4>b{
+        margin-top: 20px !important; 
+        margin-bottom: 20px !important; 
     }
  
     h1 {
