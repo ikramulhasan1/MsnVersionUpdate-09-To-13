@@ -99,9 +99,7 @@ $header = \App\Models\PageSetup::page('blog');
         font-size: 18px !important;
     }
 
-    .news-block{ 
-        border: 0px!important;"
-    }
+ 
 </style>
 <!--Page Title-->
 <section class="page-title">
@@ -211,5 +209,10 @@ $header = \App\Models\PageSetup::page('blog');
     </div>
 </div>
 <!-- End Sidebar Container -->
+<script>
+    document.querySelectorAll('.news-block').forEach(element => {
+    element.style.border = '5px solid #000';
+});
 
+</script>
 @endsection
