@@ -210,10 +210,21 @@ $header = \App\Models\PageSetup::page('blog');
 </div>
 <!-- End Sidebar Container -->
 <script>
-    document.querySelectorAll('.news-block').forEach(element => {
-    element.style.border = '0px solid #000';
-    element.style.border =  'none';
-});
+     document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.news-block').forEach(element => {
+            element.style.border = 'none';
+        });
+    });
+ const observer = new MutationObserver(() => {
+        document.querySelectorAll('.news-block').forEach(element => {
+            element.style.border = 'none';
+        });
+    });
 
+    observer.observe(document.body, { childList: true, subtree: true });
+
+ document.querySelectorAll('.news-block').forEach(element => {
+        element.setAttribute('style', 'border: none !important;');
+    });
 </script>
 @endsection
