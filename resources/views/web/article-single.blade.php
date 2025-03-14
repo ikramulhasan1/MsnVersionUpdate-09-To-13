@@ -122,7 +122,7 @@ $header = \App\Models\PageSetup::page('blog');
     <div class="container">
         <div class="row clearfix">
             <!--Content Side-->
-            <div class="content-side col-lg-8 col-md-12 col-sm-12 border-0 " >
+            <div class="content-side col-lg-8 col-md-12 col-sm-12" style="border:none" >
                 <div class="blog-detail">
                     <!-- News Block -->
                     <div class="news-block">
