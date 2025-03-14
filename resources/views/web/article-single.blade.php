@@ -192,7 +192,11 @@ h4 {
     font-size: 1.25rem!important;    /* ~20px */
     font-weight: 500!important; 
 }
-
+a>b {
+    color: #007BFF!important;  /* Vibrant blue for visibility */
+    text-decoration: none!important; 
+    font-weight: 600!important; 
+}
 </style>
 <!--Page Title-->
 <section class="page-title">
