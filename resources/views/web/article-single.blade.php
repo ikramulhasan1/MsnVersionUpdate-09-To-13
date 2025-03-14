@@ -45,7 +45,7 @@ $header = \App\Models\PageSetup::page('blog');
 
 @section('content')
 <style>
-    *{
+    div{
         border: none !important;
     }
     table {
