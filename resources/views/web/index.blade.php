@@ -110,6 +110,8 @@ $header = \App\Models\PageSetup::page('home');
         color: white !important;
     }
 
+
+    /* counter */
     .stats-card {
         border-radius: 15px;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
