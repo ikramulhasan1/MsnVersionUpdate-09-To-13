@@ -6215,7 +6215,7 @@ img {
 	position: relative;
 	padding: 32px 20px 32px 30px;
 	background-color: #ffffff;
-	border: 0px solid #d7d7d7;
+	border: 1px solid #d7d7d7;
 	border-top: none;
 	text-align: center;
 	-webkit-transition: all 0.5s ease-in-out;
