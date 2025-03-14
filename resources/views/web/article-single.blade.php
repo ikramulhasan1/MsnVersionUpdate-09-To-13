@@ -101,7 +101,7 @@ $header = \App\Models\PageSetup::page('blog');
     .description>p {
         font-size: 18px !important;
     }
-    body>p{
+    p{
         font-size: 18px !important;
     }
  
