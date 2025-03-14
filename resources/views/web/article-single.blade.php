@@ -154,43 +154,45 @@ $header = \App\Models\PageSetup::page('blog');
         font-size: 16px !important;
     }
 
+    .description>p>a {
+        color: #1064AB!important;  /* Vibrant blue for visibility */
+        text-decoration: none!important; 
+        font-weight: 500!important; 
+    }
+
 
     p{
         font-size: 20px !important;
     }
-    h1,h2,h3,h4{
+    .description>h1,.description>h2,.description>h3,.description>h4{
         margin-top: 30px !important; 
         margin-bottom: 15px !important; 
     }
-    h1,h2>b,h3>b,h4>b{
+    .description>h1,.description>h2>b,.description>h3>b,.description>h4>b{
         margin-top: 30px !important; 
         margin-bottom: 15px !important; 
     }
  
-    h1 {
+    .description>h1 {
     font-size: 2rem!important;       /* ~32px */
     font-weight: 700!important; 
 }
 
-h2 {
+.description>h2 {
     font-size: 1.75rem!important;    /* ~28px */
     font-weight: 600!important; 
 }
 
-h3 {
+.description>h3 {
     font-size: 1.5rem!important;     /* ~24px */
     font-weight: 600!important; 
 }
 
-h4 {
+.description>h4 {
     font-size: 1.25rem!important;    /* ~20px */
     font-weight: 500!important; 
 }
-.description>a {
-    color: #1064AB!important;  /* Vibrant blue for visibility */
-    text-decoration: none!important; 
-    font-weight: 500!important; 
-}
+
 </style>
 <!--Page Title-->
 <section class="page-title">
