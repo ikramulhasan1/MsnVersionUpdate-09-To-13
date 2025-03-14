@@ -113,6 +113,35 @@ $header = \App\Models\PageSetup::page('blog');
         margin-bottom: 15px !important; 
     }
  
+    h1 {
+    font-size: 3rem;      /* ~48px - Main title */
+    font-weight: 700;     
+}
+
+h2 {
+    font-size: 2.5rem;    /* ~40px - Section title */
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 2rem;      /* ~32px - Subsection title */
+    font-weight: 600;
+}
+
+h4 {
+    font-size: 1.75rem;   /* ~28px - Content heading */
+    font-weight: 500;
+}
+
+h5 {
+    font-size: 1.5rem;    /* ~24px - Smaller heading */
+    font-weight: 500;
+}
+
+h6 {
+    font-size: 1.25rem;   /* ~20px - Minor heading */
+    font-weight: 400;
+}
 </style>
 <!--Page Title-->
 <section class="page-title">
