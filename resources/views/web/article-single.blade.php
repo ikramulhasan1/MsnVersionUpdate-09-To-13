@@ -131,13 +131,13 @@ $header = \App\Models\PageSetup::page('blog');
                                 <figure class="image"><img src="{{ asset('uploads/article/'.$article->image_path) }}" alt="{{ $article->title }}"></figure>
                                 <div class="overlay-box"><a href="{{ route('blog.single', $article->slug) }}"><i class="icon fas fa-image"></i></a></div>
                             </div>
-                            <div class="caption-box">
+                            <div style="padding-bottom: 0px; padding-left: 0px; padding-right: 0px;" class="caption-box">
                                 <div class="inner">
                                     <h3><a href="{{ route('blog.single', $article->slug) }}">{{ $article->title }}</a></h3>
                                     <ul class="post-meta">
                                         <li><i class="far fa-calendar-check"></i>{{ date('d M, Y', strtotime($article->created_at)) }}</li>
                                     </ul>
-                                    <div class="description" >
+                                    <div class="description" style="color: black" >
                                         {!! $article->description !!}
                                     </div>
                                 </div>
