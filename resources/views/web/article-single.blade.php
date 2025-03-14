@@ -154,12 +154,6 @@ $header = \App\Models\PageSetup::page('blog');
         font-size: 16px !important;
     }
 
-    .description>p>a {
-        color: blue;
-        font-weight: bold;
-        text-decoration: underline;
-    }
-
 
     p{
         font-size: 20px !important;
