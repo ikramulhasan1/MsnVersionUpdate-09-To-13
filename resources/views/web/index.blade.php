@@ -225,7 +225,7 @@ $header = \App\Models\PageSetup::page('home');
                         <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp ">
                             <div class="count-box border border-1 p-3 bg-white stats-card">
                                 <div style="color: #1EC000" class="count">
-                                    {{ $counter->value }} +
+                                    {{ $counter->value }}+
                                     {{-- <span class="count-text" data-speed="5000" data-stop="{{ $counter->value }}">0</span> --}}
                                 </div>
                                 <div class="separater"></div>
