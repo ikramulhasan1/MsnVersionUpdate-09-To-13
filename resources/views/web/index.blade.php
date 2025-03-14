@@ -501,7 +501,7 @@ $section_blog = \App\Models\Section::section('blog');
             <div class="separater"></div>
         </div>
         <div class="row">
-            <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
                 @foreach($articles as $key => $article)
                 @if($key == 0)
                 <!-- News Block -->
