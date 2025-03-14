@@ -125,7 +125,7 @@ $header = \App\Models\PageSetup::page('blog');
             <div class="content-side col-lg-8 col-md-12 col-sm-12" >
                 <div class="blog-detail">
                     <!-- News Block -->
-                    <div class="news-block" style="border: 0px solid #000000;">
+                    <div class="news-block" style="border:none !important">
                         <div class="inner-box">
                             <div class="image-box">
                                 <figure class="image"><img src="{{ asset('uploads/article/'.$article->image_path) }}" alt="{{ $article->title }}"></figure>
