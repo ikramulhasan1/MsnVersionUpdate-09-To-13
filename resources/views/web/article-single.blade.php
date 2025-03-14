@@ -105,12 +105,12 @@ $header = \App\Models\PageSetup::page('blog');
         font-size: 18px !important;
     }
     h2,h3,h4{
-        margin-top: 10px !important; 
-        margin-bottom: 10px !important; 
+        margin-top: 15px !important; 
+        margin-bottom: 15px !important; 
     }
     h2>b,h3>b,h4>b{
-        margin-top: 10px !important; 
-        margin-bottom: 10px !important; 
+        margin-top: 15px !important; 
+        margin-bottom: 15px !important; 
     }
  
 </style>
