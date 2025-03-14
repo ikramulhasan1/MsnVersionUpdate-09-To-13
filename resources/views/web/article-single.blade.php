@@ -108,6 +108,10 @@ $header = \App\Models\PageSetup::page('blog');
         margin-top: 10px !important; 
         margin-bottom: 10px !important; 
     }
+    h2>b,h3>b,h4>b{
+        margin-top: 10px !important; 
+        margin-bottom: 10px !important; 
+    }
  
 </style>
 <!--Page Title-->
