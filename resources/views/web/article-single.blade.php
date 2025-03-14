@@ -5,21 +5,26 @@ $header = \App\Models\PageSetup::page('blog');
 @endphp
 @if(isset($header))
 
-@section('title', $article->title)
+    @section('title', $article->title)
 
-@section('top_meta_tags')
-@if(isset($header->meta_description))
-<meta name="description" content="{!! str_limit(strip_tags($header->meta_description), 160, ' ...') !!}">
-@else
-<meta name="description" content="{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}">
-@endif
+    @section('top_meta_tags')
+    @if(isset($header->meta_description))
+    <meta name="description" content="{!! str_limit(strip_tags($header->meta_description), 160, ' ...') !!}">
+    @else
+    <meta name="description" content="{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}">
+    @endif
 
-@if(isset($header->meta_keywords))
-<meta name="keywords" content="{!! strip_tags($header->meta_keywords) !!}">
-@else
-<meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
-@endif
-@endsection
+    @if(isset($header->meta_keywords))
+    <meta name="keywords" content="{!! strip_tags($header->meta_keywords) !!}">
+    @else
+    <meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
+    @endif
+    @endsection
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 
 @endif
 
@@ -44,6 +49,63 @@ $header = \App\Models\PageSetup::page('blog');
 @endsection
 
 @section('content')
+<style>
+    /* fonts style */
+    .poppins-thin {
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.poppins-regular {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.poppins-medium {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.poppins-semibold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.poppins-bold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.poppins-regular-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.poppins-medium-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.poppins-semibold-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.poppins-bold-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+</style>
 <style>
     div{
         border: none !important;
@@ -103,43 +165,49 @@ $header = \App\Models\PageSetup::page('blog');
         font-size: 20px !important;
     }
     h1,h2,h3,h4{
-        margin-top: 20px !important; 
+        margin-top: 30px !important; 
         margin-bottom: 20px !important; 
     }
     h1,h2>b,h3>b,h4>b{
-        margin-top: 20px !important; 
+        margin-top: 30px !important; 
         margin-bottom: 20px !important; 
     }
  
     h1 {
-    font-size: 3rem;      /* ~48px - Main title */
-    font-weight: 700;     
+    font-size: 2.5rem!important;       /* ~48px - Main title */
+    font-weight: 700!important;      
 }
 
 h2 {
-    font-size: 2.5rem;    /* ~40px - Section title */
-    font-weight: 600;
+    font-size: 2rem!important;     /* ~40px - Section title */
+    font-weight: 600!important; 
 }
 
 h3 {
-    font-size: 2rem;      /* ~32px - Subsection title */
-    font-weight: 600;
+    font-size: 1.75rem!important;       /* ~32px - Subsection title */
+    font-weight: 600!important; 
 }
 
 h4 {
-    font-size: 1.75rem;   /* ~28px - Content heading */
-    font-weight: 500;
+    font-size: 1.5rem!important;    /* ~28px - Content heading */
+    font-weight: 500!important; 
 }
 
-h5 {
-    font-size: 1.5rem;    /* ~24px - Smaller heading */
-    font-weight: 500;
+h2>b {
+    font-size: 2.5rem!important;     /* ~40px - Section title */
+    font-weight: 600!important; 
 }
 
-h6 {
-    font-size: 1.25rem;   /* ~20px - Minor heading */
-    font-weight: 400;
+h3>b {
+    font-size: 2rem!important;       /* ~32px - Subsection title */
+    font-weight: 600!important; 
 }
+
+h4>b {
+    font-size: 1.75rem!important;    /* ~28px - Content heading */
+    font-weight: 500!important; 
+}
+
 </style>
 <!--Page Title-->
 <section class="page-title">
