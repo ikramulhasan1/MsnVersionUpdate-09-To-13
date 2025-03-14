@@ -212,6 +212,7 @@ $header = \App\Models\PageSetup::page('blog');
 <script>
     document.querySelectorAll('.news-block').forEach(element => {
     element.style.border = '0px solid #000';
+    element.style.border =  'none';
 });
 
 </script>
