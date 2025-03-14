@@ -100,7 +100,7 @@ $header = \App\Models\PageSetup::page('blog');
     }
 
     .news-block{ 
-        border: 0px solid #d7d7d7 !important;"
+        border: 0px!important;"
     }
 </style>
 <!--Page Title-->
