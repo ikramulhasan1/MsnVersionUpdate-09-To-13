@@ -98,6 +98,10 @@ $header = \App\Models\PageSetup::page('blog');
     .description>p {
         font-size: 18px !important;
     }
+
+    .news-block{ 
+        border: 0px solid #d7d7d7 !important;"
+    }
 </style>
 <!--Page Title-->
 <section class="page-title">
@@ -125,7 +129,7 @@ $header = \App\Models\PageSetup::page('blog');
             <div class="content-side col-lg-8 col-md-12 col-sm-12" >
                 <div class="blog-detail">
                     <!-- News Block -->
-                    <div class="news-block" style="border: 0px solid #d7d7d7 !important;">
+                    <div class="news-block">
                         <div class="inner-box">
                             <div class="image-box">
                                 <figure class="image"><img src="{{ asset('uploads/article/'.$article->image_path) }}" alt="{{ $article->title }}"></figure>
