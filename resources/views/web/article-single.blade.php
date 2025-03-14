@@ -174,37 +174,22 @@ $header = \App\Models\PageSetup::page('blog');
     }
  
     h1 {
-    font-size: 2.5rem!important;       /* ~48px - Main title */
-    font-weight: 700!important;      
+    font-size: 2rem!important;       /* ~32px */
+    font-weight: 700!important; 
 }
 
 h2 {
-    font-size: 2rem!important;     /* ~40px - Section title */
+    font-size: 1.75rem!important;    /* ~28px */
     font-weight: 600!important; 
 }
 
 h3 {
-    font-size: 1.75rem!important;       /* ~32px - Subsection title */
+    font-size: 1.5rem!important;     /* ~24px */
     font-weight: 600!important; 
 }
 
 h4 {
-    font-size: 1.5rem!important;    /* ~28px - Content heading */
-    font-weight: 500!important; 
-}
-
-h2>b {
-    font-size: 2.5rem!important;     /* ~40px - Section title */
-    font-weight: 600!important; 
-}
-
-h3>b {
-    font-size: 2rem!important;       /* ~32px - Subsection title */
-    font-weight: 600!important; 
-}
-
-h4>b {
-    font-size: 1.75rem!important;    /* ~28px - Content heading */
+    font-size: 1.25rem!important;    /* ~20px */
     font-weight: 500!important; 
 }
 
