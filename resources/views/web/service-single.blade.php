@@ -1,5 +1,5 @@
 @extends('web.layouts.master')
-
+@dd(asset('uploads/service/'.$service->image_path))
 @php
 $header = \App\Models\PageSetup::page('services');
 @endphp
@@ -8,10 +8,10 @@ $header = \App\Models\PageSetup::page('services');
 @section('title', content: $service->title)
 
 @section('top_meta_tags')
-@if(isset($header->meta_description))
-<meta name="description" content="{!! str_limit(strip_tags($header->meta_description), 160, ' ...') !!}">
+@if(isset($service->short_desc))
+<meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}">
 @else
-<meta name="description" content="{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}">
+<meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}">
 @endif
 
 @if(isset($header->meta_keywords))
@@ -22,13 +22,6 @@ $header = \App\Models\PageSetup::page('services');
 @endsection
 
 @endif
-
-@foreach ($service->subservices as $item)
-    @section('title', content: $item->title)
-    <meta name="description" content="{!! str_limit(strip_tags($item->meta_description), 160, ' ...') !!}">
-@endforeach
-
-
 
 @section('social_meta_tags')
 @if(isset($setting))
@@ -49,6 +42,36 @@ $header = \App\Models\PageSetup::page('services');
 <meta name="twitter:image" content="{{ asset('uploads/service/'.$service->image_path) }}" />
 @endif
 @endsection
+
+{{-- schema section --}}
+@section('schema_markup')
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "{{ $service->title }}",
+    "description": "{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}",
+    "provider": {
+        "@type": "Organization",
+        "name": "MSN Softtech",
+        "url": "{{ url('/') }}",
+        "logo": "{{ asset('/uploads/setting/'.$setting->logo_path) }}"
+    },
+    "areaServed": {
+        "@type": "Country",
+        "name": "United States"
+    },
+    "serviceType": "{{ $service->title }}",
+    "url": "{{ route('service.single', $service->slug) }}",
+    "image": "{{ asset('uploads/service/'.$service->image_path) }}",
+    "offers": {
+        "@type": "Offer",
+        "price": "Contact for Pricing",
+        "priceCurrency": "USD",
+        "url": "{{ route('service.single', $service->slug) }}"
+    }
+}
+</script>
 
 @section('content')
 <style>

@@ -31,6 +31,8 @@
     <link rel="canonical" href="{{ route('home') }}">
     @yield('social_meta_tags')
 
+    {{-- schema_markup --}}
+    @yield('schema_markup')
 
     <!-- Stylesheets -->
     <link href="{{ asset('web/css/bootstrap.css') }}" rel="stylesheet">
