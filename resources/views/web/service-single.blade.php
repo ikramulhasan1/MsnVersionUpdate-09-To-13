@@ -287,13 +287,7 @@ $header = \App\Models\PageSetup::page('services');
                     <div class="inner-box">
                         <div class="image-box">
                             <div class="single-item-">
-                                {{-- <figure class="image"><img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure> --}}
-                            
-                                <picture class="image">
-                                    <source type="image/webp" srcset="image.webp">
-                                        <img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" />
-                                </picture>
-
+                                <figure class="image"><img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
                             </div>
                         </div>
                         <p style="font-size: 32px; color: black; font-weight: 500;" class="mb-4">{{ $service->short_title }}</p>
@@ -352,12 +346,7 @@ $header = \App\Models\PageSetup::page('services');
                     <!--Service Category Widget-->
                     <div class="image-box">
                         <div class="single-item-">
-                            {{-- <figure class="image"><img style="border-radius: 10px;" src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" /></figure> --}}
-                        
-                            <picture class="image">
-                                <source type="image/webp" srcset="image.webp">
-                                <img style="border-radius: 10px;" src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" />
-                            </picture>
+                            <figure class="image"><img style="border-radius: 10px;" src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" /></figure>
                         </div>
                     </div>
 
@@ -452,18 +441,7 @@ $header = \App\Models\PageSetup::page('services');
                     <!--Service Category Widget-->
                     <div class="image-box">
                         <div class="single-item-">
-                            {{-- <figure class="image"><img style="border-radius: 10px;" src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" /></figure> --}}
-                        
-                            <picture class="image">
-                                @if(file_exists(public_path('uploads/service/'.pathinfo($item->image_path, PATHINFO_FILENAME).'.webp')))
-                                    <source type="image/webp" srcset="{{ asset('uploads/service/'.pathinfo($item->image_path, PATHINFO_FILENAME).'.webp') }}">
-                                @endif
-                                <img 
-                                    style="border-radius: 10px;" 
-                                    src="{{ asset('uploads/service/'.$item->image_path) }}" 
-                                    alt="{{ $item->title }}" 
-                                    loading="lazy" />
-                            </picture>
+                            <figure class="image"><img style="border-radius: 10px;" src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" /></figure>
                         </div>
                     </div>
 
