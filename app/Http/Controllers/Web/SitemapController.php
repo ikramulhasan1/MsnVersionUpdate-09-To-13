@@ -16,42 +16,20 @@ class SitemapController extends Controller
 {
     public function index(){
         $data['articles'] = Article::where('status', '1')->orderBy('id', 'desc')->get();
-        return response()->view('sitemap.index', $data)->header('Content-Type', 'text/xml');
-    }
-
-    public function blog(){
-        $data['articles'] = Article::where('status', '1')->orderBy('id', 'desc')->get();
-        return response()->view('sitemap.blog', $data)->header('Content-Type', 'text/xml');
-    }
-
-    public function service(){
-        $data['services'] = Service::where('status', '1')->orderBy('id', 'asc')->get();
-        return response()->view('sitemap.service', $data)->header('Content-Type', 'text/xml');
-    }
-
-    public function portfolio(){
+        // $data['services'] = Service::where('status', '1')->orderBy('id', 'asc')->get();
         $data['portfolios'] = Portfolio::where('status', '1')->orderBy('id', 'desc')->get();
-        return response()->view('sitemap.portfolio', $data)->header('Content-Type', 'text/xml');
-    }
-
-    public function category(){
         $data['ArticleCategory'] = ArticleCategory::where('status', '1')->orderBy('id', 'desc')->get();
-        return response()->view('sitemap.category', $data)->header('Content-Type', 'text/xml');
-    }
-    public function page(){
         $data['pages'] = Page::where('status', '1')->orderBy('id', 'desc')->get();
-        return response()->view('sitemap.page', $data)->header('Content-Type', 'text/xml');
-    }
-    
-    public function image(){
-        $data['articles'] = Article::where('status', '1')->orderBy('id', 'desc')->get();
+       
        
         // $data['services'] = Service::where('status', '1')->orderBy('id', 'desc')->get();
         $data['services'] = Service::with('subservices')->where('status', '1')->orderBy('id', 'desc')->get();
-        $data['portfolios'] = Portfolio::where('status', '1')->orderBy('id', 'desc')->get();
+        // $data['portfolios'] = Portfolio::where('status', '1')->orderBy('id', 'desc')->get();
         $data['sliders'] = Slider::where('status', '1')->orderBy('id', 'desc')->get();
         $data['clients'] = Client::where('status', '1')->orderBy('id', 'desc')->get();
-
-        return response()->view('sitemap.image', $data)->header('Content-Type', 'text/xml');
+       
+        return response()->view('sitemap.index', $data)->header('Content-Type', 'text/xml');
     }
+
+   
 }
