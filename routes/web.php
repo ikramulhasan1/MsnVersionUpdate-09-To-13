@@ -19,7 +19,7 @@ Route::middleware(['XSS','redirect'])->namespace('Web')->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
 
     // sitemap.xml
-    Route::get('/sitemap', 'SitemapController@index')->name('sitemap');
+    Route::get('/sitemap.xml', 'SitemapController@index')->name('sitemap');
     Route::get('/sitemap/blog', 'SitemapController@blog')->name('sitemap.blog');
     Route::get('/sitemap/service', 'SitemapController@service')->name('sitemap.service');
     Route::get('/sitemap/portfolio', 'SitemapController@portfolio')->name('sitemap.portfolio');
