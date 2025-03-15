@@ -455,8 +455,14 @@ $header = \App\Models\PageSetup::page('services');
                             {{-- <figure class="image"><img style="border-radius: 10px;" src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" /></figure> --}}
                         
                             <picture class="image">
-                                <source type="image/webp" srcset="image.webp">
-                                <img style="border-radius: 10px;" src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" />
+                                @if(file_exists(public_path('uploads/service/'.pathinfo($item->image_path, PATHINFO_FILENAME).'.webp')))
+                                    <source type="image/webp" srcset="{{ asset('uploads/service/'.pathinfo($item->image_path, PATHINFO_FILENAME).'.webp') }}">
+                                @endif
+                                <img 
+                                    style="border-radius: 10px;" 
+                                    src="{{ asset('uploads/service/'.$item->image_path) }}" 
+                                    alt="{{ $item->title }}" 
+                                    loading="lazy" />
                             </picture>
                         </div>
                     </div>
