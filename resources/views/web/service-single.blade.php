@@ -1,5 +1,4 @@
 @extends('web.layouts.master')
-@dd(asset('uploads/service/'.$service->image_path))
 @php
 $header = \App\Models\PageSetup::page('services');
 @endphp
