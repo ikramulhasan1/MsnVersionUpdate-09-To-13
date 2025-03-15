@@ -43,6 +43,57 @@ $header = \App\Models\PageSetup::page('home');
 @endif
 @endsection
 
+{{-- schema  --}}
+@section('schema_markup')
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "{{ $setting->title }}",
+    "url": "{{ route('home') }}",
+    "description": "{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}",
+    "publisher": {
+        "@type": "Organization",
+        "name": "MSN Softtech",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "{{ asset('/uploads/setting/'.$setting->logo_path) }}"
+        }
+    },
+    {{-- "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ route('search') }}?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+    }, --}}
+    "mainEntity": {
+        "@type": "LocalBusiness",
+        "name": "MSN Softtech",
+        "url": "{{ route('home') }}",
+        "logo": "{{ asset('/uploads/setting/'.$setting->logo_path) }}",
+        "description": "{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "{{ $setting->contact_address }}",
+            {{-- "addressLocality": "Your City",
+            "addressRegion": "Your State",
+            "postalCode": "Your ZIP Code", --}}
+            "addressCountry": "US"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "{{ $setting->phone_two }}",
+            "contactType": "customer service"
+        },
+        "areaServed": {
+            "@type": "Country",
+            "name": "United States"
+        }
+    }
+}
+</script>
+@endsection
+
+
 @section('content')
 <style>
     table {
