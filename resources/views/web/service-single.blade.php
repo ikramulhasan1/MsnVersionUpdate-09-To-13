@@ -69,12 +69,7 @@ $header = \App\Models\PageSetup::page('services');
             "priceCurrency": "{{ $service->priceCurrency ? $service->priceCurrency : 'USD' }}",
             "url": "{{ route('service.single', $service->slug) }}"
         },
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "{{ $service->average_rating }}",
-            "bestRating": 100,
-            "reviewCount": "{{ $service->review_count }}"
-        },
+       
         "review": {
             "@type": "Review",
             "reviewRating": {
