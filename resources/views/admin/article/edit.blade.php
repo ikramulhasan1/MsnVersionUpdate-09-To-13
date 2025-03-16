@@ -37,21 +37,31 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.title') }}
                             </div>
                         </div>
+                        
 
-                        <div class="form-group">
-                            <label for="category">{{ __('dashboard.category') }} <span>*</span></label>
-                            <select class="form-control" name="category" id="category" required>
-                                <option value="">{{ __('dashboard.select') }}</option>
-                                @foreach( $categories as $category )
-                                <option value="{{ $category->id }}" @if( $category->id == $row->category_id ) selected @endif>{{ $category->title }}</option>
-                                @endforeach
-                            </select>
-
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.category') }}
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="category">{{ __('dashboard.category') }} <span>*</span></label>
+                                <select class="form-control" name="category" id="category" required>
+                                    <option value="">{{ __('dashboard.select') }}</option>
+                                    @foreach( $categories as $category )
+                                    <option value="{{ $category->id }}" @if( $category->id == $row->category_id ) selected @endif>{{ $category->title }}</option>
+                                    @endforeach
+                                </select>
+    
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.category') }}
+                                </div>
+                            </div>
+                            <div class="form-group col">
+                                <label for="short_title">{{ __('dashboard.short_title') }} <span>*</span></label>
+                                <input type="text" class="form-control" name="short_title" id="short_title" value="{{ $row->short_title }}" required>
+    
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.short_title') }}
+                                </div>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
                             <textarea class="form-control" name="description" id="editor" rows="8" required>{{ $row->description }}</textarea>

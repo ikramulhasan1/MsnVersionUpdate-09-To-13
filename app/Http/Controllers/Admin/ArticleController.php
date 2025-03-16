@@ -164,6 +164,7 @@ class ArticleController extends Controller
     // Field Validation
     $request->validate([
         'title' => 'required|max:191|unique:articles,title',
+        'short_title' => 'required|max:50',
         'category' => 'required',
         'description' => 'required',
         'image' => 'required|image',
@@ -244,6 +245,7 @@ class ArticleController extends Controller
     // Insert Data
     $article = new Article;
     $article->title = $request->title;
+    $article->short_title = $request->short_title;
     $article->slug = Str::slug($request->title, '-');
     $article->category_id = $request->category;
     $article->description = $dom->saveHTML();
@@ -401,6 +403,7 @@ class ArticleController extends Controller
         // Field Validation
         $request->validate([
             'title' => 'required|max:191|unique:articles,title,'.$article->id,
+            'short_title' => 'required|max:50',
             'category' => 'required',
             'description' => 'required',
             'image' => 'nullable|image',
@@ -486,6 +489,7 @@ class ArticleController extends Controller
     
         // Update Data
         $article->title = $request->title;
+        $article->short_title = $request->short_title;
         $article->slug = Str::slug($request->title, '-');
         $article->category_id = $request->category;
         $article->description = $dom->saveHTML();
