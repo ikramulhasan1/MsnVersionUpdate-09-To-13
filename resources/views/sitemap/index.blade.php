@@ -1,55 +1,47 @@
 {!! '<'.'?xml version="1.0" encoding="UTF-8"?'.'>' !!}
 
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" 
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  {{-- <url>
+    <loc>{{ URL::to("/") }}</loc>
+    <lastmod>2025-05-05</lastmod>
+  </url> --}}
   <url>
     <loc>{{ URL::to('/') }}</loc>
     <lastmod>{{ now()->format('Y-m-d') }}</lastmod>
-    <xhtml:link rel="canonical" href="{{ URL::to('/') }}" />
   </url>
   <url>
     <loc>{{ URL::to('/') }}/about</loc>
     <lastmod>{{ now()->format('Y-m-d') }}</lastmod>
-    <xhtml:link rel="canonical" href="{{ URL::to('/') }}/about" />
   </url>
   <url>
     <loc>{{ URL::to('/') }}/faqs</loc>
     <lastmod>{{ now()->format('Y-m-d') }}</lastmod>
-    <xhtml:link rel="canonical" href="{{ URL::to('/') }}/faqs" />
   </url>
   <url>
     <loc>{{ URL::to('/') }}/contact</loc>
     <lastmod>{{ now()->format('Y-m-d') }}</lastmod>
-    <xhtml:link rel="canonical" href="{{ URL::to('/') }}/contact" />
   </url>
   <url>
     <loc>{{ URL::to('/') }}/portfolios</loc>
     <lastmod>{{ now()->format('Y-m-d') }}</lastmod>
-    <xhtml:link rel="canonical" href="{{ URL::to('/') }}/portfolios" />
   </url>
   <url>
     <loc>{{ URL::to('/') }}/blogs</loc>
     <lastmod>{{ now()->format('Y-m-d') }}</lastmod>
-    <xhtml:link rel="canonical" href="{{ URL::to('/') }}/blogs" />
   </url>
   <url>
     <loc>{{ URL::to('/') }}/services</loc>
     <lastmod>{{ now()->format('Y-m-d') }}</lastmod>
-    <xhtml:link rel="canonical" href="{{ URL::to('/') }}/services" />
   </url>
   <url>
     <loc>{{ URL::to('/') }}/get-quote</loc>
     <lastmod>{{ now()->format('Y-m-d') }}</lastmod>
-    <xhtml:link rel="canonical" href="{{ URL::to('/') }}/get-quote" />
   </url>
 
   @foreach ($articles as $article)
       <url>
         <loc>{{ route('blog.single',['slug'=>$article->slug]) }}</loc>
-        <xhtml:link rel="canonical" href="{{ route('blog.single',['slug'=>$article->slug]) }}" />
         <news:news>
             <news:publication>
                 <news:name>{{ env('APP_NAME') }}</news:name>
@@ -65,7 +57,6 @@
     <url>
         <loc>{{ htmlspecialchars(route('service.single', ['slug' => $service->slug])) }}</loc>
         <lastmod>{{ $service->updated_at->toDateString() }}</lastmod>
-        <xhtml:link rel="canonical" href="{{ htmlspecialchars(route('service.single', ['slug' => $service->slug])) }}" />
     </url>
   @endforeach
   
@@ -73,7 +64,6 @@
     <url>
         <loc>{{ htmlspecialchars(route('portfolio.single', ['slug' => $portfolio->slug])) }}</loc>
         <lastmod>{{ $portfolio->updated_at->toDateString() }}</lastmod>
-        <xhtml:link rel="canonical" href="{{ htmlspecialchars(route('portfolio.single', ['slug' => $portfolio->slug])) }}" />
     </url>
     @endforeach
 
@@ -81,8 +71,6 @@
     <url>
         <loc>{{ htmlspecialchars(route('blog.category', ['slug' => $category->slug])) }}</loc>
         <lastmod>{{ $category->updated_at->toDateString() }}</lastmod>
-        <xhtml:link rel="canonical" href="{{ htmlspecialchars(route('blog.category', ['slug' => $category->slug])) }}" />
-
     </url>
     @endforeach
 
@@ -90,7 +78,6 @@
     <url>
         <loc>{{ htmlspecialchars(route('page.single', ['slug' => $page->slug])) }}</loc>
         <lastmod>{{ $page->updated_at->toDateString() }}</lastmod>
-        <xhtml:link rel="canonical" href="{{ htmlspecialchars(route('page.single', ['slug' => $page->slug])) }}" />
     </url>
     @endforeach
 
