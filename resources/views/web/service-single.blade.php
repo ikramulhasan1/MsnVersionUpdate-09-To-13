@@ -69,19 +69,7 @@ $header = \App\Models\PageSetup::page('services');
             "priceCurrency": "{{ $service->priceCurrency ? $service->priceCurrency : 'USD' }}",
             "url": "{{ route('service.single', $service->slug) }}"
         },
-       
-        "review": {
-            "@type": "Review",
-            "reviewRating": {
-                "@type": "Rating",
-                "ratingValue": 5
-              },
-              "author": {
-                "@type": "Person",
-                "name": "John Doe"
-              }
-        },
-        
+      
         "itemReviewed": {
             "@type": "Service",
             "name": "{{ $service->title }}",
