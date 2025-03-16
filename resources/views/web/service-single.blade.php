@@ -8,9 +8,9 @@ $header = \App\Models\PageSetup::page('services');
 
 @section('top_meta_tags')
 @if(isset($service->short_desc))
-<meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}">
+<meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 300, ' ...') !!}">
 @else
-<meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}">
+<meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 300, ' ...') !!}">
 @endif
 
 @if(isset($header->meta_keywords))
@@ -49,7 +49,7 @@ $header = \App\Models\PageSetup::page('services');
         "@context": "https://schema.org",
         "@type": "Service",
         "name": "{{ $service->title }}",
-        "description": "{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}",
+        "description": "{{ strip_tags($service->short_desc) }}",
         "provider": {
             "@type": "Organization",
             "name": "MSN Softtech",
