@@ -649,7 +649,7 @@
         @endif
 
         <!-- Main Footer -->
-        <footer class="main-footer" style="background-image: url({{ asset('web/images/background/footer-bg.jpg') }});">
+        <footer class="main-footer">
             <div class="container">
                 <!--Widgets Section-->
                 <div class="widgets-section">
