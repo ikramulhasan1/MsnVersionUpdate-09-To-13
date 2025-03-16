@@ -72,20 +72,21 @@ $header = \App\Models\PageSetup::page('services');
         "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "{{ $service->average_rating }}",
+            "bestRating": 100,
             "reviewCount": "{{ $service->review_count }}"
         },
-        "review": [{
+        "review": {
             "@type": "Review",
-            "author": {
-                "@type": "Person",
-                "name": "Robert Smith"
-            },
             "reviewRating": {
                 "@type": "Rating",
-                "ratingValue": "5"
-            },
-            "reviewBody": "Excellent service! MSN Softtech delivered a secure and scalable web application that boosted our business."
-        }],
+                "ratingValue": 5
+              },
+              "author": {
+                "@type": "Person",
+                "name": "John Doe"
+              }
+        },
+        
         "itemReviewed": {
             "@type": "Service",
             "name": "{{ $service->title }}",
