@@ -68,7 +68,7 @@ $header = \App\Models\PageSetup::page('services');
             "price": "Contact for Pricing",
             "priceCurrency": "USD",
             "url": "{{ route('service.single', $service->slug) }}"
-        }
+        },
         "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.9",
