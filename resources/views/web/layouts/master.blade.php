@@ -29,6 +29,8 @@
 
     <!-- Social Meta Tags -->
     <link rel="canonical" href="{{ route('home') }}">
+    <link rel="canonical" href="{{ request()->url() }}">
+
     @yield('social_meta_tags')
 
     {{-- schema_markup --}}
