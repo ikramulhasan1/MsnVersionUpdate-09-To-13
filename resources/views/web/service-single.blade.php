@@ -312,7 +312,7 @@ $header = \App\Models\PageSetup::page('services');
                     </a>
             
                     <!-- WhatsApp Button -->
-                    <a href="https://wa.link/vkb4au" target="_blank" class="circle-button">
+                    <a rel="noopener noreferrer" href="https://wa.link/vkb4au" target="_blank" class="circle-button">
                         <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
                     </a>
             
@@ -377,7 +377,7 @@ $header = \App\Models\PageSetup::page('services');
                         <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
                     </a>
                     <!-- WhatsApp Button -->
-                    <a href="https://wa.link/vkb4au" target="_blank" class="circle-button">
+                    <a rel="noopener noreferrer" href="https://wa.link/vkb4au" target="_blank" class="circle-button">
                         <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
                     </a>
                     
@@ -419,7 +419,7 @@ $header = \App\Models\PageSetup::page('services');
                         <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
                     </a>
                     <!-- WhatsApp Button -->
-                    <a href="https://wa.link/vkb4au" target="_blank" class="circle-button">
+                    <a rel="noopener noreferrer" href="https://wa.link/vkb4au" target="_blank" class="circle-button">
                         <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
                     </a>
                     

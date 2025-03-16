@@ -28,7 +28,7 @@
 
 
     <!-- Social Meta Tags -->
-    <link rel="canonical noopener noreferrer" href="{{ route('home') }}">
+    <link rel="canonical" href="{{ route('home') }}">
     @yield('social_meta_tags')
 
     {{-- schema_markup --}}
@@ -210,7 +210,7 @@
                                 <li><a href="skype:{{ $social->skype }}?chat" target="_blank"><span class="icon fab fa-skype"></span></a></li>
                                 @endif
                                 @if(isset($social->whatsapp))
-                                <li><a href="https://wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><span class="icon fab fa-whatsapp"></span></a></li>
+                                <li><a rel="noopener noreferrer" href="https://wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><span class="icon fab fa-whatsapp"></span></a></li>
                                 @endif
                             </ul>
                         </div>
@@ -226,7 +226,7 @@
                         <div class="nav-inner">
                             @if(isset($setting))
                             <div class="pull-left logo-box">
-                                <div class="logo"><a rel="canonical noopener noreferrer" href="{{ route('home') }}"><img src="{{ asset('/uploads/setting/'.$setting->logo_path) }}" alt="Logo"></a></div>
+                                <div class="logo"><a rel="canonical" href="{{ route('home') }}"><img src="{{ asset('/uploads/setting/'.$setting->logo_path) }}" alt="Logo"></a></div>
                             </div>
                             @endif
 
@@ -294,7 +294,7 @@
                                     $page_home = \App\Models\PageSetup::page('home');
                                     @endphp
                                     @if(isset($page_home))
-                                    <li class="{{ Request::path() == '/' ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('home') }}">{{ $page_home->title }}</a></li>
+                                    <li class="{{ Request::path() == '/' ? 'current' : '' }}"><a rel="canonical" href="{{ route('home') }}">{{ $page_home->title }}</a></li>
                                     @endif
 
                                     @php
@@ -311,15 +311,15 @@
                                     "><a href="">Company</a>
                                         <ul>
                                             @if(isset($page_about))
-                                            <li class="{{ Request::is('about*') ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('about') }}">{{ $page_about->title }}</a></li>
+                                            <li class="{{ Request::is('about*') ? 'current' : '' }}"><a rel="canonical" href="{{ route('about') }}">{{ $page_about->title }}</a></li>
                                             @endif
 
                                             @if(isset($page_faqs))
-                                            <li class="{{ Request::is('faqs*') ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
+                                            <li class="{{ Request::is('faqs*') ? 'current' : '' }}"><a rel="canonical" href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
                                             @endif
 
                                             @if(isset($page_contact))
-                                            <li class="{{ Request::path() == 'contact' ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
+                                            <li class="{{ Request::path() == 'contact' ? 'current' : '' }}"><a rel="canonical" href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
                                             @endif
 
                                         </ul>
@@ -331,11 +331,11 @@
                                     $page_services = \App\Models\PageSetup::page('services');
                                     @endphp
                                     @if(isset($page_services))
-                                    <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('services') }}">{{ $page_services->title }}</a>
+                                    <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}"><a rel="canonical" href="{{ route('services') }}">{{ $page_services->title }}</a>
                                         <ul>
                                             @foreach($service_subnavs as $service_subnav)
                                                 @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                    <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a></li>
+                                                    <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}"><a rel="canonical" href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a></li>
                                                 @else
                                                 {{-- <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}"><a href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->title }}</a></li> --}}
                                                 @endif
@@ -349,14 +349,14 @@
                                     $page_portfolio = \App\Models\PageSetup::page('portfolio');
                                     @endphp
                                     @if(isset($page_portfolio))
-                                    <li class="{{ Request::is('portfolio*') ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('portfolios') }}">{{ $page_portfolio->title }}</a></li>
+                                    <li class="{{ Request::is('portfolio*') ? 'current' : '' }}"><a rel="canonical" href="{{ route('portfolios') }}">{{ $page_portfolio->title }}</a></li>
                                     @endif
 
                                     @php
                                     $page_pricing = \App\Models\PageSetup::page('pricing');
                                     @endphp
                                     @if(isset($page_pricing))
-                                    <!-- <li class="{{ Request::is('pricing*') ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('pricing') }}">{{ $page_pricing->title }}</a></li> -->
+                                    <!-- <li class="{{ Request::is('pricing*') ? 'current' : '' }}"><a rel="canonical" href="{{ route('pricing') }}">{{ $page_pricing->title }}</a></li> -->
                                     @endif
 
 
@@ -376,7 +376,7 @@
                                         <ul>
                                             @foreach($all_pages as $page)
                                             <li class="{{ Request::is('page/'.$page->slug) ? 'current' : '' }}">
-                                                <a rel="canonical noopener noreferrer" href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
+                                                <a rel="canonical" href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
                                             </li>
                                             @endforeach
                                         </ul>
@@ -397,7 +397,7 @@
                                         <ul>
                                             @foreach($re_page as $page)
                                             <li class="{{ Request::is('page/'.$page->slug) ? 'current' : '' }}">
-                                                <a rel="canonical noopener noreferrer" href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
+                                                <a rel="canonical" href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
                                             </li>
                                             @endforeach
                                         </ul>
@@ -410,10 +410,10 @@
                                     $page_blog = \App\Models\PageSetup::page('blog');
                                     @endphp
                                     @if(isset($page_blog))
-                                    <li class="dropdown {{ Request::is('blog*') ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('blogs') }}">{{ $page_blog->title }}</a>
+                                    <li class="dropdown {{ Request::is('blog*') ? 'current' : '' }}"><a rel="canonical" href="{{ route('blogs') }}">{{ $page_blog->title }}</a>
                                         <ul>
                                             @foreach($article_subnavs as $article_subnav)
-                                            <li class="{{ Request::is('blogs/'.$article_subnav->slug) ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('blog.category', $article_subnav->slug) }}">{{ $article_subnav->title }}</a></li>
+                                            <li class="{{ Request::is('blogs/'.$article_subnav->slug) ? 'current' : '' }}"><a rel="canonical" href="{{ route('blog.category', $article_subnav->slug) }}">{{ $article_subnav->title }}</a></li>
                                             @endforeach
                                         </ul>
                                     </li>
@@ -431,7 +431,7 @@
                             @endphp
                             @if(isset($page_quote))
                             <div class="advisor-box {{ Request::is('get-quote*') ? 'current' : '' }}">
-                                <a rel="canonical noopener noreferrer" href="{{ route('get-quote') }}" class="theme-btn advisor-btn">{{ $page_quote->title }}</a>
+                                <a rel="canonical" href="{{ route('get-quote') }}" class="theme-btn advisor-btn">{{ $page_quote->title }}</a>
                             </div>
                             @endif
                         </div>
@@ -446,7 +446,7 @@
                     @if(isset($setting))
                     <!--Logo-->
                     <div class="logo pull-left">
-                        <a rel="canonical noopener noreferrer" href="{{ route('home') }}" class="img-responsive"><img src="{{ asset('/uploads/setting/'.$setting->logo_path) }}" alt="Logo"></a>
+                        <a rel="canonical" href="{{ route('home') }}" class="img-responsive"><img src="{{ asset('/uploads/setting/'.$setting->logo_path) }}" alt="Logo"></a>
                     </div>
                     @endif
 
@@ -468,7 +468,7 @@
                                     $page_home = \App\Models\PageSetup::page('home');
                                     @endphp
                                     @if(isset($page_home))
-                                    <li class="{{ Request::path() == '/' ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('home') }}">{{ $page_home->title }}</a></li>
+                                    <li class="{{ Request::path() == '/' ? 'current' : '' }}"><a rel="canonical" href="{{ route('home') }}">{{ $page_home->title }}</a></li>
                                     @endif
 
 
@@ -487,13 +487,13 @@
                                     <a href="">Company<a>
                                         <ul >
                                             @if(isset($page_about))
-                                            <li class="{{ Request::is('about*') ? 'current' : '' }}"> <a rel="canonical noopener noreferrer" href="{{ route('about') }}">{{ $page_about->title }}</a></li>
+                                            <li class="{{ Request::is('about*') ? 'current' : '' }}"> <a rel="canonical" href="{{ route('about') }}">{{ $page_about->title }}</a></li>
                                             @endif
                                             @if(isset($page_faqs))
-                                            <li class="{{ Request::is('faqs*') ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
+                                            <li class="{{ Request::is('faqs*') ? 'current' : '' }}"><a rel="canonical" href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
                                             @endif
                                             @if(isset($page_contact))
-                                            <li class="{{ Request::is('contact') ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
+                                            <li class="{{ Request::is('contact') ? 'current' : '' }}"><a rel="canonical" href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
                                             @endif
                                         </ul>
                                     </li>
@@ -502,11 +502,11 @@
                                     $page_services = \App\Models\PageSetup::page('services');
                                     @endphp
                                     @if(isset($page_services))
-                                    <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('services') }}">{{ $page_services->title }}</a>
+                                    <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}"><a rel="canonical" href="{{ route('services') }}">{{ $page_services->title }}</a>
                                         <ul>
                                             @foreach($service_subnavs as $service_subnav)
                                                 @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                    <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a></li>
+                                                    <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}"><a rel="canonical" href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a></li>
                                                 @else
                                                 @endif
                                             @endforeach
@@ -518,14 +518,14 @@
                                     $page_portfolio = \App\Models\PageSetup::page('portfolio');
                                     @endphp
                                     @if(isset($page_portfolio))
-                                    <li class="{{ Request::is('portfolio*') ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('portfolios') }}">{{ $page_portfolio->title }}</a></li>
+                                    <li class="{{ Request::is('portfolio*') ? 'current' : '' }}"><a rel="canonical" href="{{ route('portfolios') }}">{{ $page_portfolio->title }}</a></li>
                                     @endif
 
                                     @php
                                     $page_pricing = \App\Models\PageSetup::page('pricing');
                                     @endphp
                                     @if(isset($page_pricing))
-                                    <!-- <li class="{{ Request::is('pricing*') ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('pricing') }}">{{ $page_pricing->title }}</a></li> -->
+                                    <!-- <li class="{{ Request::is('pricing*') ? 'current' : '' }}"><a rel="canonical" href="{{ route('pricing') }}">{{ $page_pricing->title }}</a></li> -->
                                     @endif
 
                                     <!-- route('page.single', $page->slug) -->
@@ -543,7 +543,7 @@
                                         <ul>
                                             @foreach($all_pages as $page)
                                             <li class="{{ Request::is('page/'.$page->slug) ? 'current' : '' }}">
-                                                <a rel="canonical noopener noreferrer" href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
+                                                <a rel="canonical" href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
                                             </li>
                                             @endforeach
                                         </ul>
@@ -564,7 +564,7 @@
                                         <ul>
                                             @foreach($re_page as $page)
                                             <li class="{{ Request::is('page/'.$page->slug) ? 'current' : '' }}">
-                                                <a rel="canonical noopener noreferrer" href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
+                                                <a rel="canonical" href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
                                             </li>
                                             @endforeach
                                         </ul>
@@ -575,10 +575,10 @@
                                     $page_blog = \App\Models\PageSetup::page('blog');
                                     @endphp
                                     @if(isset($page_blog))
-                                    <li class="dropdown {{ Request::is('blog*') ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('blogs') }}">{{ $page_blog->title }}</a>
+                                    <li class="dropdown {{ Request::is('blog*') ? 'current' : '' }}"><a rel="canonical" href="{{ route('blogs') }}">{{ $page_blog->title }}</a>
                                         <ul>
                                             @foreach($article_subnavs as $article_subnav)
-                                            <li class="{{ Request::is('blogs/'.$article_subnav->slug) ? 'current' : '' }}"><a rel="canonical noopener noreferrer" href="{{ route('blog.category', $article_subnav->slug) }}">{{ $article_subnav->title }}</a></li>
+                                            <li class="{{ Request::is('blogs/'.$article_subnav->slug) ? 'current' : '' }}"><a rel="canonical" href="{{ route('blog.category', $article_subnav->slug) }}">{{ $article_subnav->title }}</a></li>
                                             @endforeach
                                         </ul>
                                     </li>
@@ -590,7 +590,7 @@
                                     @endphp
                                     @if(isset($page_quote))
                                     <li class="advisor-box {{ Request::is('get-quote*') ? 'current' : '' }}">
-                                        <a rel="canonical noopener noreferrer" href="{{ route('get-quote') }}">{{ $page_quote->title }}</a>
+                                        <a rel="canonical" href="{{ route('get-quote') }}">{{ $page_quote->title }}</a>
                                     </li>
                                     @endif
                                 </ul>
@@ -659,7 +659,7 @@
                                 <div class="footer-column col-lg-6 col-md-12 col-sm-12">
                                     <div class="footer-widget about-widget">
                                         @if(isset($setting))
-                                        <div class="footer-logo"><a rel="canonical noopener noreferrer" href="{{ route('home') }}"><img src="{{ asset('/uploads/setting/'.$setting->logo_path) }}" alt="Logo"></a></div>
+                                        <div class="footer-logo"><a rel="canonical" href="{{ route('home') }}"><img src="{{ asset('/uploads/setting/'.$setting->logo_path) }}" alt="Logo"></a></div>
 
                                         <div class="widget-content">
                                             <ul class="info-box">
@@ -681,7 +681,7 @@
                                             <ul class="list">
                                                 @foreach($pages as $key => $page)
                                                 @if (isset($page->type) && $page->type == 'footer')
-                                                <li><a rel="canonical noopener noreferrer" href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></li>
+                                                <li><a rel="canonical" href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></li>
                                                 @endif
                                                 @endforeach
                                             </ul>
@@ -708,8 +708,8 @@
                                                     <ul class="post-date">
                                                         <li>{{ date('F d Y', strtotime($recent->created_at)) }}</li>
                                                     </ul>
-                                                    <div class="thumb"><a rel="canonical noopener noreferrer" href="{{ route('blog.single', $recent->slug) }}"><img src="{{ asset('uploads/article/'.$recent->image_path) }}" alt="{{ $recent->title }}"></a></div>
-                                                    <h4><a rel="canonical noopener noreferrer" href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 50, ' ...') !!}</a></h4>
+                                                    <div class="thumb"><a rel="canonical" href="{{ route('blog.single', $recent->slug) }}"><img src="{{ asset('uploads/article/'.$recent->image_path) }}" alt="{{ $recent->title }}"></a></div>
+                                                    <h4><a rel="canonical" href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 50, ' ...') !!}</a></h4>
                                             </div>
                                             @endif
                                             @endforeach
@@ -755,7 +755,7 @@
                         <li><a href="skype:{{ $social->skype }}?chat" target="_blank"><i class="fab fa-skype"></i></a></li>
                         @endif
                         @if(isset($social->whatsapp))
-                        <li><a href="https://wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
+                        <li><a rel="noopener noreferrer" href="https://wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
                         @endif
                     </ul>
                 </div>
@@ -852,7 +852,7 @@
             let waButton = document.createElement("div");
             waButton.innerHTML = `
             
-                <a href="https://wa.link/lnuvjw" target="_blank" class="whatsapp-button">
+                <a rel="noopener noreferrer" href="https://wa.link/lnuvjw" target="_blank" class="whatsapp-button">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
                 </a>
             `;
