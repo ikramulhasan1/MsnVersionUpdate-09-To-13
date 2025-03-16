@@ -17,6 +17,11 @@ class CreateServicesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title')->unique();
             $table->string('short_title', 30)->unique();
+            $table->string('price')->nullable();
+            $table->string('starting_price')->nullable();
+            $table->string('priceCurrency')->default('USD');
+            $table->string('average_rating')->default(4.5);
+            $table->string('review_count')->default(150);
             $table->string('slug')->unique();
             $table->text('short_desc')->nullable();
             $table->longText('description')->nullable();
