@@ -60,7 +60,7 @@ $header = \App\Models\PageSetup::page('services');
             "@type": "Country",
             "name": "United States"
         },
-        "serviceType": "{{ $service->title }}",
+        "serviceType": "{{ $service->short_title }}",
         "url": "{{ route('service.single', $service->slug) }}",
         "image": "{{ asset('uploads/service/'.$service->image_path) }}",
         "offers": {
@@ -69,6 +69,25 @@ $header = \App\Models\PageSetup::page('services');
             "priceCurrency": "USD",
             "url": "{{ route('service.single', $service->slug) }}"
         }
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "150"
+        },
+        "review": [
+            {
+                "@type": "Review",
+                "author": {
+                    "@type": "Person",
+                    "name": "Robert Smith"
+                },
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5"
+                },
+                "reviewBody": "Excellent service! MSN Softtech delivered a secure and scalable web application that boosted our business."
+            }
+        ]
     }
     </script>
 @endsection

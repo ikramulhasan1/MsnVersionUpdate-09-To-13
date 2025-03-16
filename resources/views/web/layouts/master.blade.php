@@ -19,7 +19,9 @@
     <meta name="google-site-verification" content="40_D4AP8vh4ObjZrTZwcJvieoEEvUaOw4pmPTVX0t74" />
     @yield('top_meta_tags')
     @endif
-
+    
+    {{-- schema_markup --}}
+    @yield('schema_markup')
 
     @if(empty($setting))
     <!-- App Title -->
@@ -32,8 +34,6 @@
 
     @yield('social_meta_tags')
 
-    {{-- schema_markup --}}
-    @yield('schema_markup')
 
     <!-- Stylesheets -->
     <link href="{{ asset('web/css/bootstrap.css') }}" rel="stylesheet">
