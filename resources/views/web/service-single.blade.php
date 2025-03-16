@@ -65,7 +65,7 @@ $header = \App\Models\PageSetup::page('services');
         "image": "{{ asset('uploads/service/'.$service->image_path) }}",
         "offers": {
             "@type": "Offer",
-            "price": "{{ $service->price ? $service->price : 'Starting at $X' }}",  // Dynamic price or starting price
+            "price": "{{ $service->price ? $service->price : 'Starting at $service->starting_price' }}",  // Dynamic price or starting price
             "priceCurrency": "{{ $service->priceCurrency ? $service->priceCurrency : 'USD' }}",  // Dynamic currency or default currency
             "url": "{{ route('service.single', $service->slug) }}"
         },
@@ -87,7 +87,12 @@ $header = \App\Models\PageSetup::page('services');
                 },
                 "reviewBody": "Excellent service! MSN Softtech delivered a secure and scalable web application that boosted our business."
             }
-        ]
+        ],
+        "itemReviewed": {
+            "@type": "Service",
+            "name": "{{ $service->title }}",
+            "url": "{{ route('service.single', $service->slug) }}"
+        }
     }
     </script>
 @endsection
