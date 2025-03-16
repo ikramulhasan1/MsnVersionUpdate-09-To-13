@@ -361,11 +361,22 @@ $header = \App\Models\PageSetup::page('services');
                 <aside class="sidebar services-sidebar">
 
                     <!--Service Category Widget-->
-                    <div class="image-box">
+                    {{-- <div class="image-box">
                         <div class="single-item-">
                             <figure class="image"><img style="border-radius: 10px;" src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" /></figure>
                         </div>
+                    </div> --}}
+                    <div class="image-box">
+                        <div class="single-item-">
+                            <figure class="image">
+                                <picture>
+                                    <source type="image/webp" srcset="{{ asset('uploads/service/'.$item->image_path.'.webp') }}">
+                                    <img style="border-radius: 10px;" src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" />
+                                </picture>
+                            </figure>
+                        </div>
                     </div>
+                    
 
                 </aside>
             </div>
@@ -456,11 +467,22 @@ $header = \App\Models\PageSetup::page('services');
                 <aside class="sidebar services-sidebar">
 
                     <!--Service Category Widget-->
-                    <div class="image-box">
+                    {{-- <div class="image-box">
                         <div class="single-item-">
                             <figure class="image"><img style="border-radius: 10px;" src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" /></figure>
                         </div>
+                    </div> --}}
+                    <div class="image-box">
+                        <div class="single-item-">
+                            <figure class="image">
+                                <picture>
+                                    <source type="image/webp" srcset="{{ asset('uploads/service/'.$item->image_path.'.webp') }}">
+                                    <img style="border-radius: 10px;" src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" />
+                                </picture>
+                            </figure>
+                        </div>
                     </div>
+                    
 
                 </aside>
             </div>
