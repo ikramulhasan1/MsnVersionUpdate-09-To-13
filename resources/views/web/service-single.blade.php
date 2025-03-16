@@ -34,7 +34,7 @@ $header = \App\Models\PageSetup::page('services');
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="{!! '@'.str_replace(' ', '', $setting->title) !!}" />
-<meta name="twitter:creator" content="@HiTechParks" />
+<meta name="twitter:creator" content="@MSNSOFTTECH" />
 <meta name="twitter:url" content="{{ route('service.single', $service->slug) }}" />
 <meta name="twitter:title" content="{{ $service->title }}" />
 <meta name="twitter:description" content="{!! str_limit(strip_tags($service->description), 160, ' ...') !!}" />
