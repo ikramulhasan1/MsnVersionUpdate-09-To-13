@@ -295,9 +295,17 @@ $header = \App\Models\PageSetup::page('services');
                 <div class="service-detail">
                     <div class="inner-box">
                         <div class="image-box">
-                            <div class="single-item-">
+                            {{-- <div class="single-item-">
                                 <figure class="image"><img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
+                            </div> --}}
+
+                            <div class="single-item-">
+                                <picture>
+                                    <source type="image/webp" srcset="{{ asset('uploads/service/'.$service->image_path.'.webp') }}">
+                                    <img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" />
+                                </picture>
                             </div>
+                            
                         </div>
                         <p style="font-size: 32px; color: black; font-weight: 500;" class="mb-4">{{ $service->short_title }}</p>
 
