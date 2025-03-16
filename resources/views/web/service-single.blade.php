@@ -45,51 +45,32 @@ $header = \App\Models\PageSetup::page('services');
 {{-- schema section --}}
 @section('schema_markup')
     <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "Service",
-            "name": "{{ $service->title }}",
-            "description": "{{ strip_tags($service->short_desc) }}",
-            "provider": {
-                "@type": "Organization",
-                "name": "MSN Softtech",
-                "url": "{{ url('/') }}",
-                "logo": "{{ asset('/uploads/setting/'.$setting->logo_path) }}"
-            },
-            "areaServed": {
-                "@type": "Country",
-                "name": "United States"
-            },
-            "serviceType": "{{ $service->short_title }}",
-            "url": "{{ route('service.single', $service->slug) }}",
-            "image": "{{ asset('uploads/service/'.$service->image_path) }}",
-            "offers": {
-                "@type": "Offer",
-                "price": "{{ $service->price }}",  // Dynamic price if available
-                "priceCurrency": "USD",
-                "url": "{{ route('service.single', $service->slug) }}"
-            },
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "{{ $service->average_rating }}",  // Dynamically pull the average rating
-                "reviewCount": "{{ $service->review_count }}"  // Dynamically pull the review count
-            },
-            "review": [
-                {
-                    "@type": "Review",
-                    "author": {
-                        "@type": "Person",
-                        "name": "Robert Smith"
-                    },
-                    "reviewRating": {
-                        "@type": "Rating",
-                        "ratingValue": "5"
-                    },
-                    "reviewBody": "Excellent service! MSN Softtech delivered a secure and scalable web application that boosted our business."
-                }
-            ]
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "{{ $service->title }}",
+        "description": "{{ strip_tags($service->short_desc) }}",
+        "provider": {
+            "@type": "Organization",
+            "name": "MSN Softtech",
+            "url": "{{ url('/') }}",
+            "logo": "{{ asset('/uploads/setting/'.$setting->logo_path) }}"
+        },
+        "areaServed": {
+            "@type": "Country",
+            "name": "United States"
+        },
+        "serviceType": "{{ $service->short_title }}",
+        "url": "{{ route('service.single', $service->slug) }}",
+        "image": "{{ asset('uploads/service/'.$service->image_path) }}",
+        "offers": {
+            "@type": "Offer",
+            "price": "Contact for Pricing",
+            "priceCurrency": "USD",
+            "url": "{{ route('service.single', $service->slug) }}"
         }
         
+    }
     </script>
 @endsection
 @section('content')
