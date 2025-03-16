@@ -734,28 +734,28 @@
                 <div class="social-links">
                     <ul class="social-icon-two">
                         @if(isset($social->facebook))
-                        <li><a rel="canonical" href="{{ $social->facebook }}" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="{{ $social->facebook }}" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
                         @endif
                         @if(isset($social->twitter))
-                        <li><a rel="canonical" href="{{ $social->twitter }}" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="{{ $social->twitter }}" target="_blank"><i class="fab fa-twitter"></i></a></li>
                         @endif
                         @if(isset($social->instagram))
-                        <li><a rel="canonical" href="{{ $social->instagram }}" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="{{ $social->instagram }}" target="_blank"><i class="fab fa-instagram"></i></a></li>
                         @endif
                         @if(isset($social->linkedin))
-                        <li><a rel="canonical" href="{{ $social->linkedin }}" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+                        <li><a href="{{ $social->linkedin }}" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
                         @endif
                         @if(isset($social->pinterest))
-                        <li><a rel="canonical" href="{{ $social->pinterest }}" target="_blank"><i class="fab fa-pinterest"></i></a></li>
+                        <li><a href="{{ $social->pinterest }}" target="_blank"><i class="fab fa-pinterest"></i></a></li>
                         @endif
                         @if(isset($social->youtube))
-                        <li><a rel="canonical" href="{{ $social->youtube }}" target="_blank"><i class="fab fa-youtube"></i></a></li>
+                        <li><a href="{{ $social->youtube }}" target="_blank"><i class="fab fa-youtube"></i></a></li>
                         @endif
                         @if(isset($social->skype))
-                        <li><a rel="canonical" href="skype:{{ $social->skype }}?chat" target="_blank"><i class="fab fa-skype"></i></a></li>
+                        <li><a href="skype:{{ $social->skype }}?chat" target="_blank"><i class="fab fa-skype"></i></a></li>
                         @endif
                         @if(isset($social->whatsapp))
-                        <li><a rel="canonical" href="https://wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
+                        <li><a href="https://wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
                         @endif
                     </ul>
                 </div>
@@ -852,7 +852,7 @@
             let waButton = document.createElement("div");
             waButton.innerHTML = `
             
-                <a rel="canonical" href="https://wa.link/lnuvjw" target="_blank" class="whatsapp-button">
+                <a href="https://wa.link/lnuvjw" target="_blank" class="whatsapp-button">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
                 </a>
             `;
