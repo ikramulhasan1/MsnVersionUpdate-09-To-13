@@ -8,9 +8,9 @@ $header = \App\Models\PageSetup::page('services');
 
 @section('top_meta_tags')
 @if(isset($service->short_desc))
-<meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 300, ' ...') !!}">
+<meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
 @else
-<meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 300, ' ...') !!}">
+<meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
 @endif
 
 @if(isset($header->meta_keywords))
