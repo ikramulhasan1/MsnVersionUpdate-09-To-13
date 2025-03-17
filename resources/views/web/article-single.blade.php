@@ -335,7 +335,7 @@ $header = \App\Models\PageSetup::page('blog');
                                             </a>
                                             
                                             <!-- Email Button -->
-                                            <a href="mailto:{{$setting->email_one}}?subject=Inquiry&body={{ $item->title}}" class="circle-button">
+                                            <a href="mailto:{{$setting->email_one}}?subject=Inquiry&body={{ $article->title}}" class="circle-button">
                                                 <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
                                             </a>
                                         </div>
