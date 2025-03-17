@@ -322,7 +322,7 @@ $header = \App\Models\PageSetup::page('blog');
                                     @if(isset($page_quote))
                                     
                                         <div class="service-title mb-3">
-                                            <h5 style="font-weight: 600" >Are you interested in <b style="color: #00893b">{{ $article->short_title }}</b> service? contact me</h5> <!-- Title text -->
+                                            <h5 style="font-weight: 600" >Are you interested in <b style="color: #00893b">{{ $article->short_title }}</b> service? <span style="color: red">contact me</span></h5> <!-- Title text -->
                                         </div>
                                         <div class="circle-container">
                                             <!-- Service Sell Title -->
