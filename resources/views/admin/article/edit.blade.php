@@ -1,7 +1,14 @@
 @extends('admin.layouts.master')
 @section('title', $title)
 @section('content')
-
+<style>
+    .tagify__input {
+        border: 2px solid #4CAF50;
+        border-radius: 8px;
+        padding: 10px;
+        width: 100%;
+    }
+</style>
 <!-- Start Content-->
 <div class="container-fluid">
 
@@ -35,6 +42,14 @@
 
                             <div class="invalid-feedback">
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.title') }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="keywords">{{ __('dashboard.meta_keywords') }} <span>*</span></label>
+                            <input type="text" class="form-control" name="keywords" id="keywords" value="{{ old('keywords', $row->keywords ?? '') }}" required>
+
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
                             </div>
                         </div>
                         
@@ -114,6 +129,17 @@
 </div> <!-- container -->
 <!-- End Content-->
 <script>
+const input = document.querySelector("#keywords");
+    new Tagify(input, {
+        whitelist: ["PHP Developer", "Laravel Expert", "Web Development", "Hire Full-Stack Developer"],
+        dropdown: {
+            enabled: 1, // Suggest tags starting with 1 character
+        }
+    });
+
+
+
+
     CKEDITOR.replace('editor', {
         on: {
             instanceReady: function(ev) {
