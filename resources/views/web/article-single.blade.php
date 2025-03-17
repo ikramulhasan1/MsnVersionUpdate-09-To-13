@@ -320,12 +320,12 @@ $header = \App\Models\PageSetup::page('blog');
 
                                     @if(isset($page_quote))
                                     
-
+                                    <div class="service-title">
+                                        <h4>Are you interested in {{ $article->short_title }} service? contact me</h4> <!-- Title text -->
+                                    </div>
                                         <div class="circle-container">
                                             <!-- Service Sell Title -->
-                                            <div class="service-title">
-                                                <h3>Service Sell</h3> <!-- Title text -->
-                                            </div>
+                                           
                                             <!-- Get A Quote Button -->
                                             <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
                                                 <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
