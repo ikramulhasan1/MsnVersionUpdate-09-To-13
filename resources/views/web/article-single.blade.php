@@ -202,7 +202,7 @@ $header = \App\Models\PageSetup::page('blog');
 
 
 
-.circle-container {
+        .circle-container {
             width: 180px;
             height: 54px;
             background: linear-gradient(135deg, #4CAF50, #2E8B57); /* Green Gradient */
@@ -249,9 +249,9 @@ $header = \App\Models\PageSetup::page('blog');
 
     .service-title {
         /* position: absolute; */
-        top: 10px; /* Position from the top */
+        /* top: 10px;  */
         text-align: left;
-        color: white;
+        color: #49AC50;
         font-size: 16px;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Added text shadow */
         width: 100%; /* Ensures the title spans the width of the container */
@@ -320,9 +320,9 @@ $header = \App\Models\PageSetup::page('blog');
 
                                     @if(isset($page_quote))
                                     
-                                    <div class="service-title">
-                                        <h4>Are you interested in {{ $article->short_title }} service? contact me</h4> <!-- Title text -->
-                                    </div>
+                                        <div class="service-title mb-3">
+                                            <h4>Are you interested in {{ $article->short_title }} service? contact me</h4> <!-- Title text -->
+                                        </div>
                                         <div class="circle-container">
                                             <!-- Service Sell Title -->
                                            
