@@ -250,6 +250,7 @@ $header = \App\Models\PageSetup::page('blog');
     .service-title {
         /* position: absolute; */
         /* top: 10px;  */
+        font-weight: 600;
         text-align: left;
         color: black;
         /* font-size: 16px; */
