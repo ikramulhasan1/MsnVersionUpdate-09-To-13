@@ -55,18 +55,12 @@
                         
                         <div class="form-group">
                             <label for="keywords">SEO Keywords</label>
-                            <select 
-                                name="keywords[]" 
-                                id="keywords" 
-                                class="form-control select2"
-                                multiple="multiple"
+                            <input 
+                                name="keywords" 
+                                id="keywords"
+                                placeholder="Enter keywords and press Enter"
+                                value="{{ old('keywords', $row->keywords ?? '') }}"
                             >
-                                @if(!empty($row->keywords))
-                                    @foreach(explode(',', $row->keywords) as $keyword)
-                                        <option value="{{ $keyword }}" selected>{{ $keyword }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
                         </div>
                         
                         <div class="row">
@@ -144,15 +138,20 @@
 </div> <!-- container -->
 <!-- End Content-->
 <script>
-const input = document.querySelector("#keywords");
-<script>
-    $('#keywords').select2({
-        tags: true,                   // Enable tagging functionality
-        tokenSeparators: [','],       // Press 'Enter' or ',' to create a new tag
-        placeholder: "Add keywords",  // Add a placeholder
-        allowClear: true              // Optionally enable clear button
+
+    const input = document.querySelector("#keywords");
+
+    const tagify = new Tagify(input, {
+        delimiters: ",",  // Press 'Enter' or ',' to create a new tag
+        maxTags: 15,      // Limit to 15 keywords (optional)
+        enforceWhitelist: false, // Allows custom entries
+        dropdown: false   // No suggestion dropdown
     });
-</script>
+
+    // Handle data submission
+    tagify.on('change', (e) => {
+        input.value = tagify.value.map(tag => tag.value).join(',');
+    });
 
 
 
