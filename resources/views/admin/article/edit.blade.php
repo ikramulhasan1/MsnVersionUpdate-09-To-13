@@ -53,7 +53,22 @@
                             </div>
                         </div>
                         
-
+                        <div class="form-group">
+                            <label for="keywords">SEO Keywords</label>
+                            <select 
+                                name="keywords[]" 
+                                id="keywords" 
+                                class="form-control select2"
+                                multiple="multiple"
+                            >
+                                @if(!empty($article->keywords))
+                                    @foreach(explode(',', $article->keywords) as $keyword)
+                                        <option value="{{ $keyword }}" selected>{{ $keyword }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        
                         <div class="row">
                             <div class="form-group col">
                                 <label for="category">{{ __('dashboard.category') }} <span>*</span></label>
@@ -130,12 +145,15 @@
 <!-- End Content-->
 <script>
 const input = document.querySelector("#keywords");
-    new Tagify(input, {
-        whitelist: ["PHP Developer", "Laravel Expert", "Web Development", "Hire Full-Stack Developer"],
-        dropdown: {
-            enabled: 1, // Suggest tags starting with 1 character
-        }
+<script>
+    $('#keywords').select2({
+        tags: true,                   // Enable tagging functionality
+        tokenSeparators: [','],       // Press 'Enter' or ',' to create a new tag
+        placeholder: "Add keywords",  // Add a placeholder
+        allowClear: true              // Optionally enable clear button
     });
+</script>
+
 
 
 
