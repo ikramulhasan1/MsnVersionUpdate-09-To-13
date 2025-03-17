@@ -13,7 +13,7 @@ class Service extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'short_title', 'slug', 'short_desc', 'description', 'image_path', 'file_path', 'manu', 'status',
+        'title', 'keywords', 'price', 'starting_price', 'priceCurrency', 'average_rating', 'review_count', 'short_title', 'slug', 'short_desc', 'description', 'image_path', 'file_path', 'manu', 'status',
     ];
 
     public function subservices()

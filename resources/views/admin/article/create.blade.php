@@ -44,7 +44,6 @@
                             </div>
                         </div>
                        
-                        
                         <div class="row">
                             <div class="form-group col">
                                 <label for="category">{{ __('dashboard.category') }} <span>*</span></label>

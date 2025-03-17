@@ -70,7 +70,14 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="keywords">{{ __('dashboard.meta_keywords') }} <span>*</span></label>
+                            <input type="text" class="form-control tagin" data-tagin-separator=" " name="keywords" value="{{ old('keywords') }}" required>
 
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="image">{{ __('dashboard.thumbnail') }} <span>*</span> <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
                             <input type="file" class="form-control" name="image" id="image" required>
@@ -104,6 +111,17 @@
 <!-- End Content-->
 
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+        const taginInputs = document.querySelectorAll(".tagin");
+        taginInputs.forEach(input => new Tagin(input, {
+            separator: ',',
+            duplicate: false,      // Prevent duplicate tags in the frontend
+            enter: true,           
+            maxTags: 100            
+        }));
+    });
+
+
     CKEDITOR.replace('editor', {
         on: {
             instanceReady: function(ev) {

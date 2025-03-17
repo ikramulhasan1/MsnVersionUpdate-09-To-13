@@ -162,10 +162,20 @@ class ServiceController extends Controller
         $request->validate([
             'title' => 'required|max:191|unique:services,title',
             'short_title' => 'required|max:30|unique:services,short_title',
+            'keywords' => 'required',
             'short_desc' => 'required',
             'description' => 'required',
             'image' => 'required|image',
         ]);
+
+         // Remove duplicate keywords but keep multi-word keywords intact
+        $keywords = array_unique(array_map('trim', explode(',', $request->keywords)));
+
+        // Check for existing keywords in other articles
+        $existingKeywords = Service::whereRaw("FIND_IN_SET(keywords, ?) > 0", [implode(',', $keywords)])->exists();
+        if ($existingKeywords) {
+            return back()->withErrors(['keywords' => 'Some keywords already exist. Please use unique tags.']);
+        }
 
         // Image upload, fit, and store inside public folder 
         if($request->hasFile('image')){
@@ -233,6 +243,7 @@ class ServiceController extends Controller
         // Insert Data
         $service = new Service;
         $service->title = $request->title;
+        $service->keywords = $request->keywords;
         $service->short_title = $request->short_title;
         $service->slug = Str::slug(strtolower($request->slug), '-');
         $service->short_desc = $request->short_desc;
@@ -280,13 +291,7 @@ class ServiceController extends Controller
         return view($this->view.'.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     // public function update(Request $request, Service $service)
     // {
     //     // Field Validation
@@ -397,10 +402,22 @@ class ServiceController extends Controller
     $request->validate([
         'title' => 'required|max:191|unique:services,title,'.$service->id,
         'short_title' => 'required|max:30|unique:services,short_title,'.$service->id,
+        'keywords' => 'required',
         'short_desc' => 'required',
         'description' => 'required',
         'image' => 'nullable|image',
     ]);
+
+    $keywords = array_unique(array_map('trim', explode(',', $request->keywords)));
+
+    // Check for existing keywords in other articles (excluding the current article)
+    $existingKeywords = Service::where('id', '!=', $service->id)
+                               ->whereRaw("FIND_IN_SET(keywords, ?) > 0", [implode(',', $keywords)])
+                               ->exists();
+
+    if ($existingKeywords) {
+        return back()->withErrors(['keywords' => 'Some keywords already exist. Please use unique tags.']);
+    }
 
     // Image upload, fit, and store inside public folder 
     if($request->hasFile('image')){
@@ -473,6 +490,7 @@ class ServiceController extends Controller
 
     // Update Data
     $service->title = $request->title;
+    $service->keywords = $request->keywords;
     $service->short_title = $request->short_title;
     $service->slug = Str::slug(strtolower($request->slug), '-');
     $service->short_desc = $request->short_desc;
