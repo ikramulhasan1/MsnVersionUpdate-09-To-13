@@ -68,6 +68,31 @@
                             </div>
                         </div>
 
+
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="service_id">{{ __('dashboard.select_service_id') }}</label>
+                                <select class="wide" name="service_id" id="service_id" data-plugin="customselect">
+                                    <option value="">{{ __('dashboard.none') }}</option>
+                                    @foreach($services as $service)
+                                        <option value="{{ $service->id }}">{{ $service->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group col">
+                                <label for="placeholder">{{ __('dashboard.placeholder') }} <span>*</span></label>
+                                <input type="text" class="form-control" name="placeholder" id="placeholder" value="{{ old('placeholder') }}" placeholder="e.g. plan, bundle, etc." required>
+
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.placeholder') }}
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
                         <div class="form-group">
                             <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
                             <textarea class="form-control" name="description" id="editor" rows="8" required>{{ old('description') }}</textarea>
@@ -85,24 +110,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="service_id">{{ __('dashboard.select_service_id') }}</label>
-                            <select class="wide" name="service_id" id="service_id" data-plugin="customselect">
-                                <option value="">{{ __('dashboard.none') }}</option>
-                                @foreach($services as $service)
-                                    <option value="{{ $service->id }}">{{ $service->title }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="placeholder">{{ __('dashboard.placeholder') }} <span>*</span></label>
-                            <input type="text" class="form-control" name="placeholder" id="placeholder" value="{{ old('placeholder') }}" placeholder="e.g. plan, bundle, etc." required>
-
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.placeholder') }}
-                            </div>
-                        </div>
+                        
                        
 
                         <div class="form-group">
