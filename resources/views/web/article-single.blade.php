@@ -247,6 +247,15 @@ $header = \App\Models\PageSetup::page('blog');
             height: 25px;
         }
 
+    .service-title {
+        position: absolute; /* Position it absolutely within the circle-container */
+        top: 10px; /* Position from the top */
+        text-align: center;
+        color: white;
+        font-size: 16px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Added text shadow */
+        width: 100%; /* Ensures the title spans the width of the container */
+    }
 </style>
 <!--Page Title-->
 <section class="page-title">
@@ -314,7 +323,7 @@ $header = \App\Models\PageSetup::page('blog');
                                         <h3>Service Sell</h3> <!-- Title text -->
                                     </div>
 
-                                        <div class="circle-container row">
+                                        <div class="circle-container">
                                             <!-- Service Sell Title -->
                                            
                                             <!-- Get A Quote Button -->
