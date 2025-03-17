@@ -107,6 +107,8 @@ return array (
   'price' => 'Price',
   'starting_price' => 'Starting Price',
   'review_count' => 'Review Count',
+  'priceCurrency' => 'Price Currency',
+  'average_rating' => 'Average Rating',
   'old_price' => 'Old Price',
   'duration' => 'Duration',
   'features' => 'Features',
