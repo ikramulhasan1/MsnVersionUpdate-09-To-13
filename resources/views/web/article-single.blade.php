@@ -201,59 +201,51 @@ $header = \App\Models\PageSetup::page('blog');
 }
 
 
-/* button style */
+
 .circle-container {
-    width: 180px;
-    height: 90px; /* Increased height to fit title and buttons */
-    background: linear-gradient(135deg, #4CAF50, #2E8B57); /* Green Gradient */
-    border-radius: 12px; /* Makes it round */
-    display: flex;
-    flex-direction: column; /* Changed to column for the title and buttons */
-    justify-content: center;
-    align-items: center;
-    gap: 15px; /* Space between title and buttons */
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
-    bottom: 20px;
-    right: 20px;
-    padding: 15px;
-}
+            width: 180px;
+            height: 54px;
+            background: linear-gradient(135deg, #4CAF50, #2E8B57); /* Green Gradient */
+            border-radius: 12px; /* Makes it round */
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 15px; /* Space between buttons */
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+            /* position: fixed; */
+            bottom: 20px;
+            right: 20px;
+            padding: 15px;
+        }
 
-.service-title {
-    text-align: center;
-    color: white;
-    font-size: 16px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Added text shadow */
-    margin-bottom: 10px; /* Space between title and buttons */
-}
+        /* Icon Buttons */
+        .circle-button {
+            
+            background-color: white;
+            border: none;
+            width: 40px; /* Icon size */
+            height: 40px;
+            border-radius: 50%; /* Makes buttons round */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
 
-.circle-button {
-    background-color: white;
-    border: none;
-    width: 40px; /* Icon size */
-    height: 40px;
-    border-radius: 50%; /* Makes buttons round */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease-in-out;
-}
+        /* Hover Effect */
+        .circle-button:hover {
+            background-color: #2E8B57;
+            transform: scale(1.1); /* Slight zoom */
+        }
 
-.circle-button:hover {
-    background-color: #2E8B57;
-    transform: scale(1.1); /* Slight zoom */
-}
-
-.circle-button img {
-    width: 25px; /* Adjust icon size */
-    height: 25px;
-}
-
-/* Add text shadow to the images inside the buttons */
-.circle-button img {
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Added text shadow to icons */
-}
+        /* Icon Images */
+        .circle-button img {
+            width: 25px; /* Adjust icon size */
+            height: 25px;
+        }
 
 </style>
 <!--Page Title-->
@@ -322,7 +314,7 @@ $header = \App\Models\PageSetup::page('blog');
                                         <h3>Service Sell</h3> <!-- Title text -->
                                     </div>
 
-                                        <div class="circle-container d-flex">
+                                        <div class="circle-container row">
                                             <!-- Service Sell Title -->
                                            
                                             <!-- Get A Quote Button -->
