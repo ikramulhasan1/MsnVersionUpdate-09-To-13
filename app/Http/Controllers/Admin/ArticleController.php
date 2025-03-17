@@ -406,7 +406,7 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|max:191|unique:articles,title,'.$article->id,
             'short_title' => 'required|max:50',
-            'keywords' => 'required|max:50|unique:articles,keywords'.$article->id,
+            'keywords' => 'required|max:50|unique:articles,keywords',
             'category' => 'required',
             'description' => 'required',
             'image' => 'nullable|image',
