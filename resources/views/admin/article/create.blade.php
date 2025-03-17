@@ -44,16 +44,7 @@
                             </div>
                         </div>
                        
-                        <div class="form-group">
-                            <label for="keywords">{{ __('dashboard.meta_keywords') }} <span>*</span></label>
-                            <input type="text" class="form-control tagin" data-tagin-separator=" " name="keywords" value="{{ old('keywords') }}" required>
-
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
-                            </div>
-                        </div>
-                       
-
+                        
                         <div class="row">
                             <div class="form-group col">
                                 <label for="category">{{ __('dashboard.category') }} <span>*</span></label>
@@ -86,7 +77,14 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="keywords">{{ __('dashboard.meta_keywords') }} <span>*</span></label>
+                            <input type="text" class="form-control tagin" data-tagin-separator=" " name="keywords" value="{{ old('keywords') }}" required>
 
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="image">{{ __('dashboard.thumbnail') }} <span>*</span> <span>{{ __('dashboard.image_size', ['height' => 280, 'width' => 500]) }}</span></label>
                             <input type="file" class="form-control" name="image" id="image" required>
