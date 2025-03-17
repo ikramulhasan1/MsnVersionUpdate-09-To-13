@@ -1,5 +1,5 @@
 @extends('web.layouts.master')
-
+@dd($article->keywords)
 @php
 $header = \App\Models\PageSetup::page('blog');
 @endphp
@@ -8,14 +8,14 @@ $header = \App\Models\PageSetup::page('blog');
     @section('title', $article->title)
 
     @section('top_meta_tags')
-    @if(isset($header->meta_description))
-    <meta name="description" content="{!! str_limit(strip_tags($header->meta_description), 160, ' ...') !!}">
+    @if(isset($article->description))
+    <meta name="description" content="{!! str_limit(strip_tags($article->description), 160, ' ...') !!}">
     @else
     <meta name="description" content="{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}">
     @endif
 
-    @if(isset($header->meta_keywords))
-    <meta name="keywords" content="{!! strip_tags($header->meta_keywords) !!}">
+    @if(isset($article->keywords))
+    <meta name="keywords" content="{!! strip_tags($article->keywords) !!}">
     @else
     <meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
     @endif
