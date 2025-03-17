@@ -250,7 +250,7 @@ $header = \App\Models\PageSetup::page('blog');
     .service-title {
         /* position: absolute; */
         top: 10px; /* Position from the top */
-        text-align: center;
+        text-align: left;
         color: white;
         font-size: 16px;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Added text shadow */
@@ -319,13 +319,13 @@ $header = \App\Models\PageSetup::page('blog');
                                     @endphp
 
                                     @if(isset($page_quote))
-                                    <div class="service-title">
-                                        <h3>Service Sell</h3> <!-- Title text -->
-                                    </div>
+                                    
 
                                         <div class="circle-container">
                                             <!-- Service Sell Title -->
-                                           
+                                            <div class="service-title">
+                                                <h3>Service Sell</h3> <!-- Title text -->
+                                            </div>
                                             <!-- Get A Quote Button -->
                                             <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
                                                 <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
