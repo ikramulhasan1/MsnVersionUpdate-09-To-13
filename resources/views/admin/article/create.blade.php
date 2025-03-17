@@ -84,6 +84,23 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="service_id">Select Service Package</label>
+                            <select name="service_id" id="service_id" class="form-control">
+                                <option value="">None</option>
+                                @foreach($services as $service)
+                                    <option value="{{ $service->id }}">{{ $service->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="placeholder">Enter Placeholder Word</label>
+                            <input type="text" name="placeholder" id="placeholder" class="form-control" placeholder="e.g. plan, bundle, etc.">
+                        </div>
+                        
+
                         <div class="form-group">
                             <label for="image">{{ __('dashboard.thumbnail') }} <span>*</span> <span>{{ __('dashboard.image_size', ['height' => 280, 'width' => 500]) }}</span></label>
                             <input type="file" class="form-control" name="image" id="image" required>

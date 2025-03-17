@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\ArticleCategory;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use App\Models\Article;
-use Toastr;
-use Image;
 use File;
+use Image;
+use Toastr;
+use App\Models\Article;
+use App\Models\Service;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\ArticleCategory;
+use App\Http\Controllers\Controller;
 
 class ArticleController extends Controller
 {
@@ -56,6 +57,7 @@ class ArticleController extends Controller
         $data['title'] = $this->title;
         $data['route'] = $this->route;
         $data['view'] = $this->view;
+        $data['services'] = Service::all();
 
         $data['categories'] = ArticleCategory::where('status', '1')->get();
 
@@ -166,6 +168,8 @@ class ArticleController extends Controller
         'title' => 'required|max:191|unique:articles,title',
         'short_title' => 'required|max:50',
         'keywords' => 'required',
+        'service_id' => 'nullable|exists:services,id',
+        'placeholder' => 'required|string',
         'category' => 'required',
         'description' => 'required',
         'image' => 'required|image',
@@ -261,6 +265,8 @@ class ArticleController extends Controller
     $article->keywords = implode(',', $keywords); // Save as comma-separated values
     $article->slug = Str::slug($request->title, '-');
     $article->category_id = $request->category;
+    $article->service_id = $request->service_id;
+    $article->placeholder = $request->placeholder;
     $article->description = $dom->saveHTML();
     $article->image_path = $fileNameToStore;
     $article->video_id = $request->video_id;

@@ -23,6 +23,11 @@ class CreateArticlesTable extends Migration
             $table->text('description')->nullable();
             $table->string('image_path', 500)->nullable();
             $table->string('video_id')->nullable();
+
+            $table->unsignedBigInteger('service_id')->nullable();
+            $table->string('placeholder')->nullable();
+            $table->foreign('service_id')->references('id')->on('services')->onDelete('set null');
+
             $table->boolean('status')->default('1');
             $table->foreign('category_id')
                   ->references('id')->on('article_categories')
