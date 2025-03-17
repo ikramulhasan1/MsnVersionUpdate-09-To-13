@@ -200,6 +200,61 @@ $header = \App\Models\PageSetup::page('blog');
     font-weight: 500!important; 
 }
 
+
+/* button style */
+.circle-container {
+    width: 180px;
+    height: 90px; /* Increased height to fit title and buttons */
+    background: linear-gradient(135deg, #4CAF50, #2E8B57); /* Green Gradient */
+    border-radius: 12px; /* Makes it round */
+    display: flex;
+    flex-direction: column; /* Changed to column for the title and buttons */
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* Space between title and buttons */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+    bottom: 20px;
+    right: 20px;
+    padding: 15px;
+}
+
+.service-title {
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Added text shadow */
+    margin-bottom: 10px; /* Space between title and buttons */
+}
+
+.circle-button {
+    background-color: white;
+    border: none;
+    width: 40px; /* Icon size */
+    height: 40px;
+    border-radius: 50%; /* Makes buttons round */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.circle-button:hover {
+    background-color: #2E8B57;
+    transform: scale(1.1); /* Slight zoom */
+}
+
+.circle-button img {
+    width: 25px; /* Adjust icon size */
+    height: 25px;
+}
+
+/* Add text shadow to the images inside the buttons */
+.circle-button img {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Added text shadow to icons */
+}
+
 </style>
 <!--Page Title-->
 <section class="page-title">
@@ -256,6 +311,38 @@ $header = \App\Models\PageSetup::page('blog');
                                     <div class="description" style="color: black !important " >
                                         {!! $article->description !!}
                                     </div>
+
+                                    @php 
+                                        $page_quote = \App\Models\PageSetup::page('get-quote');
+                                        $page_contact = \App\Models\PageSetup::page('contact-us');
+                                    @endphp
+
+                                    @if(isset($page_quote))
+                                        <div class="circle-container">
+                                            <!-- Service Sell Title -->
+                                            <div class="service-title">
+                                                <h3>Service Sell</h3> <!-- Title text -->
+                                            </div>
+
+                                            <!-- Get A Quote Button -->
+                                            <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
+                                                <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
+                                            </a>
+
+                                            <!-- WhatsApp Button -->
+                                            <a rel="noopener noreferrer" href="https://wa.link/vkb4au" target="_blank" class="circle-button">
+                                                <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
+                                            </a>
+                                            
+                                            <!-- Email Button -->
+                                            <a href="mailto:{{$setting->email_one}}?subject=Inquiry&body={{ $item->title}}" class="circle-button">
+                                                <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
+                                            </a>
+                                        </div>
+                                    @elseif(isset($page_contact))
+                                        <a href="{{ route('contact') }}" class="theme-btn btn-style-four mt-3">{{ __('common.get_start') }}</a>
+                                    @endif
+
                                 </div>
                             </div>
                         </div>
