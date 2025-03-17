@@ -179,7 +179,7 @@ $header = \App\Models\PageSetup::page('blog');
 
 
     p{
-        font-size: 20px !important;
+        font-size: 18px !important;
     }
     .description>h1,.description>h2,.description>h3,.description>h4{
         margin-top: 30px !important; 
