@@ -248,7 +248,7 @@ $header = \App\Models\PageSetup::page('blog');
         }
 
     .service-title {
-        position: absolute; /* Position it absolutely within the circle-container */
+        /* position: absolute; */
         top: 10px; /* Position from the top */
         text-align: center;
         color: white;
