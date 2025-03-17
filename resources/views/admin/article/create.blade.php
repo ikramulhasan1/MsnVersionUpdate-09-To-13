@@ -46,7 +46,7 @@
                        
                         <div class="form-group">
                             <label for="keywords">{{ __('dashboard.meta_keywords') }} <span>*</span></label>
-                            <input type="text" class="form-control" name="keywords" id="keywords" value="{{ old('keywords') }}" required>
+                            <input type="text" class="form-control tagin" data-tagin-separator=" " name="keywords" value="{{ old('keywords') }}" required>
 
                             <div class="invalid-feedback">
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
@@ -123,12 +123,15 @@
 <!-- End Content-->
 <script>
 
-    const input = document.querySelector("#keywords");
-    new Tagify(input, {
-        whitelist: ["PHP Developer", "Laravel Expert", "Web Development", "Hire Full-Stack Developer"],
-        dropdown: {
-            enabled: 1, // Suggest tags starting with 1 character
-        }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const taginInputs = document.querySelectorAll(".tagin");
+        taginInputs.forEach(input => new Tagin(input, {
+            separator: ' ',      // Space-separated tags
+            duplicate: false,    // Prevent duplicate tags
+            enter: true,         // Add tags by pressing Enter
+            maxTags: 10          // Maximum number of tags allowed
+        }));
     });
 
 

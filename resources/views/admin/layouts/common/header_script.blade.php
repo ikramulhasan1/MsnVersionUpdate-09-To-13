@@ -34,7 +34,7 @@
 
         <script src="https://cdn.ckeditor.com/4.20.0/standard/ckeditor.js"></script>
         
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
+        <link rel="stylesheet" href="https://unpkg.com/tagin@2.0.2/dist/tagin.min.css">
 
         <!-- page css -->
         @yield('page_css')

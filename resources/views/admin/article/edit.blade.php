@@ -52,17 +52,7 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
                             </div>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="keywords">SEO Keywords</label>
-                            <input 
-                                name="keywords" 
-                                id="keywords"
-                                placeholder="Enter keywords and press Enter"
-                                value="{{ old('keywords', $row->keywords ?? '') }}"
-                            >
-                        </div>
-                        
+                                              
                         <div class="row">
                             <div class="form-group col">
                                 <label for="category">{{ __('dashboard.category') }} <span>*</span></label>

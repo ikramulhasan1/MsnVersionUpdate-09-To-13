@@ -26,7 +26,7 @@
     <script src="{{ asset('dashboard/js/app.js') }}"></script>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://unpkg.com/tagin@2.0.2/dist/tagin.min.js"></script>
 
     <!-- page js -->
     @yield('page_js')
