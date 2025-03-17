@@ -131,10 +131,10 @@
 document.addEventListener("DOMContentLoaded", function () {
         const taginInputs = document.querySelectorAll(".tagin");
         taginInputs.forEach(input => new Tagin(input, {
-            // separator: ' ',
+            separator: ',',
             duplicate: false,      // Prevent duplicate tags in the frontend
             enter: true,           
-            maxTags: 10            
+            maxTags: 100            
         }));
     });
 
