@@ -165,6 +165,7 @@ class ArticleController extends Controller
     $request->validate([
         'title' => 'required|max:191|unique:articles,title',
         'short_title' => 'required|max:50',
+        'keywords' => 'required|max:50|unique:articles,keywords',
         'category' => 'required',
         'description' => 'required',
         'image' => 'required|image',
@@ -246,6 +247,7 @@ class ArticleController extends Controller
     $article = new Article;
     $article->title = $request->title;
     $article->short_title = $request->short_title;
+    $article->keywords = implode(',', json_decode($request->keywords, true));
     $article->slug = Str::slug($request->title, '-');
     $article->category_id = $request->category;
     $article->description = $dom->saveHTML();
@@ -404,6 +406,7 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|max:191|unique:articles,title,'.$article->id,
             'short_title' => 'required|max:50',
+            'keywords' => 'required|max:50|unique:articles,keywords'.$article->id,
             'category' => 'required',
             'description' => 'required',
             'image' => 'nullable|image',
@@ -490,6 +493,7 @@ class ArticleController extends Controller
         // Update Data
         $article->title = $request->title;
         $article->short_title = $request->short_title;
+        $article->keywords = $request->keywords;
         $article->slug = Str::slug($request->title, '-');
         $article->category_id = $request->category;
         $article->description = $dom->saveHTML();

@@ -33,6 +33,8 @@
         <link href="{{ asset('dashboard/css/app.css') }}" rel="stylesheet" type="text/css" />
 
         <script src="https://cdn.ckeditor.com/4.20.0/standard/ckeditor.js"></script>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
 
         <!-- page css -->
         @yield('page_css')

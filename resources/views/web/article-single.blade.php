@@ -40,7 +40,7 @@ $header = \App\Models\PageSetup::page('blog');
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="{!! '@'.str_replace(' ', '', $setting->title) !!}" />
-<meta name="twitter:creator" content="@HiTechParks" />
+<meta name="twitter:creator" content="@MSNSofttech" />
 <meta name="twitter:url" content="{{ route('blog.single', $article->slug) }}" />
 <meta name="twitter:title" content="{{ $article->title }}" />
 <meta name="twitter:description" content="{!! str_limit(strip_tags($article->description), 160, ' ...') !!}" />

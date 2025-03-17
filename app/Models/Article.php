@@ -12,7 +12,7 @@ class Article extends Model
      * @var array
      */
     protected $fillable = [
-        'category_id', 'title', 'slug', 'description', 'image_path', 'video_id', 'status',
+        'category_id', 'title', 'short_title', 'keywords', 'slug', 'description', 'image_path', 'video_id', 'status',
     ];
 
     public function category()

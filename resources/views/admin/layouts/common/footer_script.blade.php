@@ -25,5 +25,8 @@
 
     <script src="{{ asset('dashboard/js/app.js') }}"></script>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+
     <!-- page js -->
     @yield('page_js')
