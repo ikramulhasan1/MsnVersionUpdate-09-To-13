@@ -105,6 +105,8 @@ return array (
   'department' => 'Department',
   'organization' => 'Organization',
   'price' => 'Price',
+  'starting_price' => 'Starting Price',
+  'review_count' => 'Review Count',
   'old_price' => 'Old Price',
   'duration' => 'Duration',
   'features' => 'Features',

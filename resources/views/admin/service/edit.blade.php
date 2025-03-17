@@ -89,22 +89,49 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="manu">Manu</label>
-                            <select class="wide" name="manu" id="manu" data-plugin="customselect">
-                                <option value="0" @if( $row->manu == 0 ) selected @endif>Hidden</option>
-                                <option value="1" @if( $row->manu == 1 ) selected @endif>Show</option>
-                            </select>
+                        <div class="row">
+                            <div class="form-group col-4">
+                                <label for="price">{{ __('dashboard.price') }} <span>* </span></label>
+                                <input type="number" class="form-control" name="price" id="price" value="{{ $row->price }}" readonly required>
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.price') }}
+                                </div>
+                            </div>
+                            <div class="form-group col-4">
+                                <label for="starting_price">{{ __('dashboard.starting_price') }} <span>*</span></label>
+                                <input type="number" class="form-control" name="starting_price" id="starting_price" value="{{ $row->starting_price }}" required>
+    
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.starting_price') }}
+                                </div>
+                            </div>
+                            <div class="form-group col-4">
+                                <label for="review_count">{{ __('dashboard.review_count') }} <span>*</span></label>
+                                <input type="number" class="form-control" name="review_count" id="review_count" value="{{ $row->review_count }}" required>
+    
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.review_count') }}
+                                </div>
+                            </div>
                         </div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="manu">Manu</label>
+                                <select class="wide" name="manu" id="manu" data-plugin="customselect">
+                                    <option value="0" @if( $row->manu == 0 ) selected @endif>Hidden</option>
+                                    <option value="1" @if( $row->manu == 1 ) selected @endif>Show</option>
+                                </select>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="status">{{ __('dashboard.select_status') }}</label>
-                            <select class="wide" name="status" id="status" data-plugin="customselect">
-                                <option value="1" @if( $row->status == 1 ) selected @endif>{{ __('dashboard.active') }}</option>
-                                <option value="0" @if( $row->status == 0 ) selected @endif>{{ __('dashboard.inactive') }}</option>
-                            </select>
+                            <div class="form-group col">
+                                <label for="status">{{ __('dashboard.select_status') }}</label>
+                                <select class="wide" name="status" id="status" data-plugin="customselect">
+                                    <option value="1" @if( $row->status == 1 ) selected @endif>{{ __('dashboard.active') }}</option>
+                                    <option value="0" @if( $row->status == 0 ) selected @endif>{{ __('dashboard.inactive') }}</option>
+                                </select>
+                            </div>
+                        
                         </div>
-                     
                         <!-- Form End -->
 
                     </div>
