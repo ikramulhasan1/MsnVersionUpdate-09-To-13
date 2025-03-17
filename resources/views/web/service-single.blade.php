@@ -70,13 +70,6 @@ $header = \App\Models\PageSetup::page('services');
             "url": "{{ route('service.single', $service->slug) }}"
         },
 
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "5",
-            "bestRating": "5",
-            "worstRating": "1",
-            "ratingCount": "1"
-        }
     }
     </script>
 @endsection
