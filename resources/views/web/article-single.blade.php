@@ -318,9 +318,13 @@ $header = \App\Models\PageSetup::page('blog');
                                     @endphp
 
                                     @if(isset($page_quote))
-                                        <div class="circle-container">
+                                    <div class="service-title">
+                                        <h3>Service Sell</h3> <!-- Title text -->
+                                    </div>
+
+                                        <div class="circle-container d-flex">
                                             <!-- Service Sell Title -->
-                                            
+                                           
                                             <!-- Get A Quote Button -->
                                             <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
                                                 <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
