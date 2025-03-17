@@ -86,6 +86,47 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.thumbnail') }}
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="price">{{ __('dashboard.price') }} <span>* </span></label>
+                                <input type="number" class="form-control" name="price" id="price" value="100" required>
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.price') }}
+                                </div>
+                            </div>
+                            <div class="form-group col">
+                                <label for="starting_price">{{ __('dashboard.starting_price') }} <span>*</span></label>
+                                <input type="number" class="form-control" name="starting_price" id="starting_price" value="100" required>
+    
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.starting_price') }}
+                                </div>
+                            </div>
+                            <div class="form-group col">
+                                <label for="review_count">{{ __('dashboard.review_count') }} <span>*</span></label>
+                                <input type="number" class="form-control" name="review_count" id="review_count" value="150" required>
+    
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.review_count') }}
+                                </div>
+                            </div>
+                            <div class="form-group col">
+                                <label for="priceCurrency">{{ __('dashboard.priceCurrency') }} <span>*</span></label>
+                                <input type="text" class="form-control" name="priceCurrency" id="priceCurrency" value="USD" required>
+    
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.priceCurrency') }}
+                                </div>
+                            </div>
+                            <div class="form-group col">
+                                <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label>
+                                <input type="text" class="form-control" name="average_rating" id="average_rating" value="4.9" required>
+    
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.average_rating') }}
+                                </div>
+                            </div>
+                        </div>
                         <!-- Form End -->
                         <div class="form-group">
                             <label for="manu">Manu</label>
