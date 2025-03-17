@@ -1,5 +1,4 @@
 @extends('web.layouts.master')
-@dd(strip_tags($article->keywords))
 @php
 $header = \App\Models\PageSetup::page('blog');
 @endphp
