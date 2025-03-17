@@ -70,10 +70,10 @@ $header = \App\Models\PageSetup::page('services');
             "url": "{{ route('service.single', $service->slug) }}"
         },
       
-        "itemReviewed": {
-            "@type": "Service",
-            "name": "{{ $service->title }}",
-            "url": "{{ route('service.single', $service->slug) }}"
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.4",
+            "reviewCount": "89"
         }
     }
     </script>

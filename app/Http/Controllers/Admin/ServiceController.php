@@ -163,6 +163,11 @@ class ServiceController extends Controller
             'title' => 'required|max:191|unique:services,title',
             'short_title' => 'required|max:30|unique:services,short_title',
             'keywords' => 'required',
+            'price' => 'required',
+            'starting_price' => 'required',
+            'priceCurrency' => 'required',
+            'average_rating' => 'required',
+            'review_count' => 'required',
             'short_desc' => 'required',
             'description' => 'required',
             'image' => 'required|image',
@@ -244,6 +249,11 @@ class ServiceController extends Controller
         $service = new Service;
         $service->title = $request->title;
         $service->keywords = $request->keywords;
+        $service->price = $request->price;
+        $service->starting_price = $request->starting_price;
+        $service->priceCurrency = $request->priceCurrency;
+        $service->average_rating = $request->average_rating;
+        $service->review_count = $request->review_count;
         $service->short_title = $request->short_title;
         $service->slug = Str::slug(strtolower($request->slug), '-');
         $service->short_desc = $request->short_desc;
@@ -403,6 +413,11 @@ class ServiceController extends Controller
         'title' => 'required|max:191|unique:services,title,'.$service->id,
         'short_title' => 'required|max:30|unique:services,short_title,'.$service->id,
         'keywords' => 'required',
+        'price' => 'required',
+        'starting_price' => 'required',
+        'priceCurrency' => 'required',
+        'average_rating' => 'required',
+        'review_count' => 'required',
         'short_desc' => 'required',
         'description' => 'required',
         'image' => 'nullable|image',
@@ -491,6 +506,11 @@ class ServiceController extends Controller
     // Update Data
     $service->title = $request->title;
     $service->keywords = $request->keywords;
+    $service->price = $request->price;
+    $service->starting_price = $request->starting_price;
+    $service->priceCurrency = $request->priceCurrency;
+    $service->average_rating = $request->average_rating;
+    $service->review_count = $request->review_count;
     $service->short_title = $request->short_title;
     $service->slug = Str::slug(strtolower($request->slug), '-');
     $service->short_desc = $request->short_desc;
