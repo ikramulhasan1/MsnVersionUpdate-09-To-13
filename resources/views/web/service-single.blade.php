@@ -45,33 +45,33 @@ $header = \App\Models\PageSetup::page('services');
 {{-- schema section --}}
 @section('schema_markup')
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        "name": "{{ $service->title }}",
-        "description": "{{ strip_tags($service->short_desc) }}",
-        "provider": {
-            "@type": "Organization",
-            "name": "MSN Softtech",
-            "url": "{{ url('/') }}",
-            "logo": "{{ asset('/uploads/setting/'.$setting->logo_path) }}"
-        },
-        "areaServed": {
-            "@type": "Country",
-            "name": "United States"
-        },
-        "serviceType": "{{ $service->short_title }}",
-        "url": "{{ route('service.single', $service->slug) }}",
-        "image": "{{ asset('uploads/service/'.$service->image_path) }}",
-        "offers": {
-            "@type": "Offer",
-            "price": "{{ $service->price ? $service->price : $service->starting_price }}",
-            "priceCurrency": "{{ $service->priceCurrency ? $service->priceCurrency : 'USD' }}",
-            "url": "{{ route('service.single', $service->slug) }}"
-        },
-
-    }
+        {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": "{{ addslashes($service->title) }}",
+            "description": "{{ addslashes(strip_tags($service->short_desc)) }}",
+            "provider": {
+                "@type": "Organization",
+                "name": "MSN Softtech",
+                "url": "{{ url('/') }}",
+                "logo": "{{ asset('/uploads/setting/'.$setting->logo_path) }}"
+            },
+            "areaServed": {
+                "@type": "Country",
+                "name": "United States"
+            },
+            "serviceType": "{{ addslashes($service->short_title) }}",
+            "url": "{{ route('service.single', $service->slug) }}",
+            "image": "{{ asset('uploads/service/'.$service->image_path) }}",
+            "offers": {
+                "@type": "Offer",
+                "price": "{{ $service->price ?? $service->starting_price }}",
+                "priceCurrency": "{{ $service->priceCurrency ?? 'USD' }}",
+                "url": "{{ route('service.single', $service->slug) }}"
+            }
+        }
     </script>
+    
 @endsection
 
 
