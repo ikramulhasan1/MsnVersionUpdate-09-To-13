@@ -167,7 +167,7 @@ $header = \App\Models\PageSetup::page('blog');
         font-weight: 500!important; 
     }
     .description>p>b {
-        font-weight: 500!important; 
+        font-weight: 600!important; 
     }
     .description>ol>li>b>a {
         color: #1064AB!important;  /* Vibrant blue for visibility */
