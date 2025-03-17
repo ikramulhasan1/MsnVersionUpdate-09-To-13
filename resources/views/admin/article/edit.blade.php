@@ -61,8 +61,8 @@
                                 class="form-control select2"
                                 multiple="multiple"
                             >
-                                @if(!empty($article->keywords))
-                                    @foreach(explode(',', $article->keywords) as $keyword)
+                                @if(!empty($row->keywords))
+                                    @foreach(explode(',', $row->keywords) as $keyword)
                                         <option value="{{ $keyword }}" selected>{{ $keyword }}</option>
                                     @endforeach
                                 @endif
