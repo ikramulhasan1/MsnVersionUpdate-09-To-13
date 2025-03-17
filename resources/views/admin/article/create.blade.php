@@ -86,20 +86,24 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="service_id">Select Service Package</label>
-                            <select name="service_id" id="service_id" class="form-control">
-                                <option value="">None</option>
+                            <label for="service_id">{{ __('dashboard.select_service_id') }}</label>
+                            <select class="wide" name="service_id" id="service_id" data-plugin="customselect">
+                                <option value="">{{ __('dashboard.none') }}</option>
                                 @foreach($services as $service)
                                     <option value="{{ $service->id }}">{{ $service->title }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
-                            <label for="placeholder">Enter Placeholder Word</label>
-                            <input type="text" name="placeholder" id="placeholder" class="form-control" placeholder="e.g. plan, bundle, etc.">
+                            <label for="placeholder">{{ __('dashboard.placeholder') }} <span>*</span></label>
+                            <input type="text" class="form-control" name="placeholder" id="placeholder" value="{{ old('placeholder') }}" placeholder="e.g. plan, bundle, etc." required>
+
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.placeholder') }}
+                            </div>
                         </div>
-                        
+                       
 
                         <div class="form-group">
                             <label for="image">{{ __('dashboard.thumbnail') }} <span>*</span> <span>{{ __('dashboard.image_size', ['height' => 280, 'width' => 500]) }}</span></label>
