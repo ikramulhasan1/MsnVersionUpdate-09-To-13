@@ -46,8 +46,8 @@
                         </div>
                         <div class="form-group">
                             <label for="keywords">{{ __('dashboard.meta_keywords') }} <span>*</span></label>
-                            <input type="text" class="form-control" name="keywords" id="keywords" value="{{ old('keywords', $row->keywords ?? '') }}" required>
-
+                            <input type="text" class="form-control tagin" data-tagin-separator=" " name="keywords" value="{{ $row->keywords ?? '' }}" required>
+                            
                             <div class="invalid-feedback">
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
                             </div>
@@ -128,22 +128,15 @@
 </div> <!-- container -->
 <!-- End Content-->
 <script>
-
-    const input = document.querySelector("#keywords");
-
-    const tagify = new Tagify(input, {
-        delimiters: ",",  // Press 'Enter' or ',' to create a new tag
-        maxTags: 15,      // Limit to 15 keywords (optional)
-        enforceWhitelist: false, // Allows custom entries
-        dropdown: false   // No suggestion dropdown
+document.addEventListener("DOMContentLoaded", function () {
+        const taginInputs = document.querySelectorAll(".tagin");
+        taginInputs.forEach(input => new Tagin(input, {
+            separator: ' ',
+            duplicate: false,      // Prevent duplicate tags in the frontend
+            enter: true,           
+            maxTags: 10            
+        }));
     });
-
-    // Handle data submission
-    tagify.on('change', (e) => {
-        input.value = tagify.value.map(tag => tag.value).join(',');
-    });
-
-
 
 
 

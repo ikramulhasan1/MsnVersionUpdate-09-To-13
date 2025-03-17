@@ -165,12 +165,22 @@ class ArticleController extends Controller
     $request->validate([
         'title' => 'required|max:191|unique:articles,title',
         'short_title' => 'required|max:50',
-        'keywords' => 'required|max:50|unique:articles,keywords',
+        'keywords' => 'required',
         'category' => 'required',
         'description' => 'required',
         'image' => 'required|image',
         'video_id' => 'nullable|max:100',
     ]);
+
+    // Ensure keywords are unique
+    $keywords = array_unique(explode(' ', $request->keywords));
+
+    // Check for duplicate keywords across the database
+    $existingKeywords = Article::whereIn('keywords', $keywords)->exists();
+    if ($existingKeywords) {
+        return back()->withErrors(['keywords' => 'Some keywords already exist. Please use unique tags.']);
+    }
+
 
     // Image upload, fit and store inside public folder 
     if ($request->hasFile('image')) {
@@ -243,11 +253,12 @@ class ArticleController extends Controller
         } // <!--endif
     } // <!--foreach
 
+    
     // Insert Data
     $article = new Article;
     $article->title = $request->title;
     $article->short_title = $request->short_title;
-    $article->keywords = implode(',', json_decode($request->keywords, true));
+    $article->keywords = str_replace(' ', ',', $request->keywords); 
     $article->slug = Str::slug($request->title, '-');
     $article->category_id = $request->category;
     $article->description = $dom->saveHTML();
@@ -406,13 +417,26 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|max:191|unique:articles,title,'.$article->id,
             'short_title' => 'required|max:50',
-            'keywords' => 'required|max:50|unique:articles,keywords',
+            'keywords' => 'required',
             'category' => 'required',
             'description' => 'required',
             'image' => 'nullable|image',
             'video_id' => 'nullable|max:100',
         ]);
     
+
+          // Ensure keywords are unique
+            $keywords = array_unique(explode(' ', $request->keywords));
+
+            // Check for duplicate keywords across the database (excluding current article)
+            $existingKeywords = Article::where('id', '!=', $article->id)
+                                    ->whereIn('keywords', $keywords)
+                                    ->exists();
+            if ($existingKeywords) {
+                return back()->withErrors(['keywords' => 'Some keywords already exist. Please use unique tags.']);
+            }
+
+
         // Image upload, fit and store inside public folder 
         if ($request->hasFile('image')) {
     
@@ -493,7 +517,7 @@ class ArticleController extends Controller
         // Update Data
         $article->title = $request->title;
         $article->short_title = $request->short_title;
-        $article->keywords = is_array($request->keywords)? implode(',', $request->keywords): $request->keywords;
+        $article->keywords = str_replace(' ', ',', $request->keywords);
         $article->slug = Str::slug($request->title, '-');
         $article->category_id = $request->category;
         $article->description = $dom->saveHTML();

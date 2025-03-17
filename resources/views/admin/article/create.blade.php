@@ -122,15 +122,13 @@
 </div> <!-- container -->
 <!-- End Content-->
 <script>
-
-
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
         const taginInputs = document.querySelectorAll(".tagin");
         taginInputs.forEach(input => new Tagin(input, {
-            separator: ' ',      // Space-separated tags
-            duplicate: false,    // Prevent duplicate tags
-            enter: true,         // Add tags by pressing Enter
-            maxTags: 10          // Maximum number of tags allowed
+            separator: ' ',
+            duplicate: false,      // Prevent duplicate tags in the frontend
+            enter: true,           
+            maxTags: 10            
         }));
     });
 
