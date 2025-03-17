@@ -493,7 +493,7 @@ class ArticleController extends Controller
         // Update Data
         $article->title = $request->title;
         $article->short_title = $request->short_title;
-        $article->keywords = implode(',', json_decode($request->keywords, true));
+        $article->keywords = is_array($request->keywords)? implode(',', $request->keywords): $request->keywords;
         $article->slug = Str::slug($request->title, '-');
         $article->category_id = $request->category;
         $article->description = $dom->saveHTML();
