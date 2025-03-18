@@ -19,8 +19,11 @@
 
 
     <div class="row">
-        <div class="col-12">
+        <div class="col">
             <a href="{{ route($route.'.index') }}" class="btn btn-info">{{ __('dashboard.back') }}</a>
+        </div>
+        <div class="col">
+            <span>Keywords = <span class="text-red ">[serviceshow, hidden]</span></span>
         </div>
     </div>
 
@@ -82,7 +85,7 @@
 
                             <div class="form-group col">
                                 <label for="placeholder">{{ __('dashboard.placeholder') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="placeholder" id="placeholder" value="{{ old('placeholder') }}" placeholder="e.g. plan, bundle, etc." required>
+                                <input type="text" class="form-control" name="placeholder" id="placeholder" value="serviceshow" placeholder="e.g. plan, bundle, etc." required>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.placeholder') }}
