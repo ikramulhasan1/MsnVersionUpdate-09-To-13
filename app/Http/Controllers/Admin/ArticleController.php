@@ -171,6 +171,7 @@ class ArticleController extends Controller
         'service_id' => 'nullable|exists:services,id',
         'category' => 'required',
         'description' => 'required',
+        'meta_desc' => 'required',
         'image' => 'required|image',
         'video_id' => 'nullable|max:100',
     ]);
@@ -266,6 +267,9 @@ class ArticleController extends Controller
     $article->category_id = $request->category;
     $article->service_id = $request->service_id;
     $article->placeholder = $request->placeholder;
+    $article->meta_desc = $request->meta_desc;
+    $article->service_title = $request->service_title;
+    $article->service_desc = $request->service_desc;
     $article->description = $dom->saveHTML();
     $article->image_path = $fileNameToStore;
     $article->video_id = $request->video_id;
@@ -427,6 +431,7 @@ class ArticleController extends Controller
             'service_id' => 'nullable|exists:services,id',
             'category' => 'required',
             'description' => 'required',
+            'meta_desc' => 'required',
             'image' => 'nullable|image',
             'video_id' => 'nullable|max:100',
         ]);
@@ -531,6 +536,9 @@ class ArticleController extends Controller
         $article->description = $dom->saveHTML();
         $article->image_path = $fileNameToStore;
         $article->video_id = $request->video_id;
+        $article->meta_desc = $request->meta_desc;
+        $article->service_desc = $request->service_desc;
+        $article->service_title = $request->service_title;
         $article->status = $request->status;
         $article->save();
     
