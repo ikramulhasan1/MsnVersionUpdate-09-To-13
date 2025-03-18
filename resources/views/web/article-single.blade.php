@@ -459,9 +459,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // 
 document.addEventListener("DOMContentLoaded", function () {
-    const descriptionElement = document.querySelectorAll(".article-description");
+    const descriptionElement = document.getElementById("article-description");
     if (descriptionElement) {
-        descriptionElement.innerHTML = descriptionElement.innerHTML.replace(/<li>/gi, '<li>✅ ');
+        const listItems = descriptionElement.querySelectorAll("li");
+        listItems.forEach(function(li) {
+            li.innerHTML = "✅ " + li.innerHTML;
+        });
     }
 });
 
