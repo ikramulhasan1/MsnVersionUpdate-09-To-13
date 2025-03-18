@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    // Relationship with Service
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'service_id');
+    }
     protected $fillable = [
         'category_id', 'title', 'short_title', 'keywords', 'slug', 'service_id', 'placeholder', 'description', 'image_path', 'video_id', 'status',
     ];

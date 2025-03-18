@@ -308,6 +308,7 @@ class ArticleController extends Controller
         $data['path'] = $this->path;
 
         $data['row'] = $article;
+        $data['services'] = Service::all();
         $data['categories'] = ArticleCategory::where('status', '1')->get();
 
         return view($this->view.'.edit', $data);

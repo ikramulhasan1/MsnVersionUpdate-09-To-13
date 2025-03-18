@@ -16,6 +16,12 @@ class Service extends Model
         'title', 'keywords', 'price', 'starting_price', 'priceCurrency', 'average_rating', 'review_count', 'short_title', 'slug', 'short_desc', 'description', 'image_path', 'file_path', 'manu', 'status',
     ];
 
+    // Relationship with Article
+    public function articles()
+    {
+        return $this->hasMany(Article::class, 'service_id');
+    }
+
     public function subservices()
     {
         return $this->hasMany(Subservice::class);
