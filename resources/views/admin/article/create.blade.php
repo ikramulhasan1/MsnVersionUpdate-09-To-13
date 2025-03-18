@@ -85,7 +85,7 @@
 
                             <div class="form-group col">
                                 <label for="placeholder">{{ __('dashboard.placeholder') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="placeholder" id="placeholder" value="serviceshow" placeholder="e.g. plan, bundle, etc." required>
+                                <input type="text" class="form-control" name="placeholder" id="placeholder" value="serviceshow" placeholder="e.g. plan, bundle, etc.">
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.placeholder') }}
