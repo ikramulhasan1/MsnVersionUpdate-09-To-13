@@ -96,7 +96,7 @@ class ArticleController extends Controller
     
 if (!empty($data['article']->service) && !empty($data['article']->service_title) && !empty($data['article']->service_desc)) {
     // Replace the <li> elements with the ✅ emoji
-    $description = preg_replace('/<p(.*?)>/i', '<p$1 style="color: #ffffff !important; margin: 8px !important; font-size: 14px !important; ">', $data['article']->service_desc);
+    $description = preg_replace('/<p(.*?)>/i', '<p$1 style="color: #ffffff !important; margin: 8px !important; font-size: 16px !important; ">', $data['article']->service_desc);
     $description = preg_replace('/<li>(.*?)<\/li>/i', '<p style="margin:0px; text-align:left !important; color: #ffffff !important;">✅ $1</p>', $description);
     $description = str_replace(['<ul>', '</ul>', '<ol>', '</ol>'], '', $description);
 
@@ -121,7 +121,7 @@ if (!empty($data['article']->service) && !empty($data['article']->service_title)
 
         <div id='emoji' style='
             text-align:left !important; 
-            font-size: 14px !important; 
+            font-size: 16px !important; 
             line-height: 1.7;
             text-align: left;
             margin-bottom: 18px; 
