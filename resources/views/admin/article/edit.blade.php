@@ -95,16 +95,10 @@
                                         @endforeach
                                     </select>
                                 </div>
-
-                                <div class="form-group col">
-                                    <label for="placeholder">{{ __('dashboard.placeholder') }} <span>*</span></label>
-                                    <input type="text" class="form-control" name="placeholder" id="placeholder" value="{{ $row->placeholder }}" placeholder="e.g. plan, bundle, etc.">
-
-                                    <div class="invalid-feedback">
-                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.placeholder') }}
-                                    </div>
-                                </div>
-                                <div class="form-group col">
+                            
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-9">
                                     <label for="service_title">{{ __('dashboard.service_title') }} <span>*</span></label>
                                     <input type="text" class="form-control" name="service_title" id="service_title" value="{{ $row->service_title }}" placeholder="e.g. plan, bundle, etc.">
 
@@ -112,6 +106,15 @@
                                         {{ __('dashboard.please_provide') }} {{ __('dashboard.service_title') }}
                                     </div>
                                 </div>
+                                <div class="form-group col-3">
+                                    <label for="placeholder">{{ __('dashboard.placeholder') }} <span>*</span></label>
+                                    <input type="text" class="form-control" name="placeholder" id="placeholder" value="{{ $row->placeholder }}" placeholder="e.g. plan, bundle, etc.">
+
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.placeholder') }}
+                                    </div>
+                                </div>
+                                
                             </div>
                        
                             <div class="form-group">
