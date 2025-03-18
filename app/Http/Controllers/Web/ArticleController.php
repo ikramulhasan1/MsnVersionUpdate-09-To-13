@@ -124,7 +124,7 @@ class ArticleController extends Controller
             '>" . htmlspecialchars($data['article']->service->title) . "</h3>
 
             <p style='
-                font-size: 14px; 
+                font-size: 12px !important; 
                 line-height: 1.7;
                 text-align: left;
                 margin-bottom: 18px; 
@@ -133,7 +133,7 @@ class ArticleController extends Controller
 
             <a href='" . htmlspecialchars($data['article']->service->link) . "' style='
                 display: inline-block;
-                margin-top: 5px !important; 
+                margin-top: 0px !important; 
                 padding: 5px 20px !important;  
                 background: linear-gradient(135deg, #00893B, #00B75D); 
                 color: #ffffff; 
