@@ -140,11 +140,11 @@ class ArticleController extends Controller
                     border-radius: 30px;
                     text-decoration: none;
                     font-weight: bold;
-                    box-shadow: 0 6px 20px rgb(33, 119, 69);
+                    box-shadow: 0 6px 20px rgba(30, 92, 99, 0.4);
                     transition: transform 0.3s ease, box-shadow 0.3s ease;
                 ' 
-                    onmouseover='this.style.transform=\"scale(1.05)\"; this.style.boxShadow=\"0 8px 35px #308D57\";'
-                    onmouseout='this.style.transform=\"scale(1)\"; this.style.boxShadow=\"0 6px 20px rgb(28, 109, 62)\";'
+                    onmouseover='this.style.transform=\"scale(1.05)\"; this.style.boxShadow=\"0 8px 35px rgba(30, 92, 99, 0.6)\";'
+                    onmouseout='this.style.transform=\"scale(1)\"; this.style.boxShadow=\"0 6px 20px rgba(30, 92, 99, 0.4)\";'
                 >Discover Now</a>
 
             </div>";}
