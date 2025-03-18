@@ -8,8 +8,8 @@ $header = \App\Models\PageSetup::page('blog');
     @section('title', $article->title)
 
     @section('top_meta_tags')
-    @if(isset($article->description))
-    <meta name="description" content="{!! str_limit(strip_tags($article->description), 160, ' ...') !!}">
+    @if(isset($article->meta_desc))
+    <meta name="description" content="{!! str_limit(strip_tags($article->meta_desc), 160, ' ...') !!}">
     @else
     <meta name="description" content="{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}">
     @endif
@@ -33,7 +33,7 @@ $header = \App\Models\PageSetup::page('blog');
 <meta property="og:type" content="website">
 <meta property='og:site_name' content="{{ $setting->title }}" />
 <meta property='og:title' content="{{ $article->title }}" />
-<meta property='og:description' content="{!! str_limit(strip_tags($article->description), 160, ' ...') !!}" />
+<meta property='og:description' content="{!! str_limit(strip_tags($article->meta_desc), 160, ' ...') !!}" />
 <meta property='og:url' content="{{ route('blog.single', $article->slug) }}" />
 <meta property='og:image' content="{{ asset('uploads/article/'.$article->image_path) }}" />
 
@@ -43,7 +43,7 @@ $header = \App\Models\PageSetup::page('blog');
 <meta name="twitter:creator" content="@MSNSofttech" />
 <meta name="twitter:url" content="{{ route('blog.single', $article->slug) }}" />
 <meta name="twitter:title" content="{{ $article->title }}" />
-<meta name="twitter:description" content="{!! str_limit(strip_tags($article->description), 160, ' ...') !!}" />
+<meta name="twitter:description" content="{!! str_limit(strip_tags($article->meta_desc), 160, ' ...') !!}" />
 <meta name="twitter:image" content="{{ asset('uploads/article/'.$article->image_path) }}" />
 @endif
 @endsection

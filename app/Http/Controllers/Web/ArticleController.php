@@ -117,7 +117,7 @@ class ArticleController extends Controller
                 text-transform: uppercase;
                 color: #FFD700;  
                 letter-spacing: 1px;
-            '>" . htmlspecialchars($data['article']->service->title) . "</h3>
+            '>" . htmlspecialchars($data['article']->service_title) . "</h3>
 
             <p style='
                 font-size: 16px !important; 
@@ -125,7 +125,7 @@ class ArticleController extends Controller
                 text-align: left;
                 margin-bottom: 18px; 
                 color: #E0E0E0; 
-            '>" . nl2br(htmlspecialchars(strip_tags($data['article']->service->short_desc))) . "</p>
+            '>" . nl2br(htmlspecialchars(strip_tags($data['article']->service_desc))) . "</p>
 
             <a target=`_blank` href='" . url('service/' . htmlspecialchars($data['article']->service->slug)) . "'  style='
                 display: inline-block;
