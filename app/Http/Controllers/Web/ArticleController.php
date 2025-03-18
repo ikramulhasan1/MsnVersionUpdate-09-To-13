@@ -124,7 +124,7 @@ class ArticleController extends Controller
             '>" . htmlspecialchars($data['article']->service->title) . "</h3>
 
             <p style='
-                font-size: 14px !important; 
+                font-size: 18px !important; 
                 line-height: 1.7;
                 text-align: left;
                 margin-bottom: 18px; 
