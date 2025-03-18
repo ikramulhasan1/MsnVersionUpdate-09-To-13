@@ -23,7 +23,7 @@
             <a href="{{ route($route.'.index') }}" class="btn btn-info">{{ __('dashboard.back') }}</a>
         </div>
         <div class="col">
-            <span>Keywords = <span class="text-danger ">[serviceshow, hidden]</span></span>
+            <span class="font-weight-bolder text-left">Keywords = <span class="text-danger font-weight-bold">[serviceshow, hidden]</span></span>
         </div>
     </div>
 
