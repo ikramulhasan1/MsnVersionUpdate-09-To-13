@@ -119,7 +119,7 @@ class ArticleController extends Controller
                 letter-spacing: 1px;
             '>" . htmlspecialchars($data['article']->service_title) . "</h3>
 
-            <p class='emoji' style='
+            <p id='emoji' style='
                 font-size: 16px !important; 
                 line-height: 1.7;
                 text-align: left;
