@@ -325,11 +325,8 @@ $header = \App\Models\PageSetup::page('blog');
                                     </ul>
                                     <div class="description" style="color: black !important " >
                                         {{-- {!! $article->description !!} --}}
-                                        @section('content')
-                                            <div class="article-content">
                                                 {!! $article->content !!}
-                                            </div>
-                                        @endsection
+                                       
                                     </div>
 
                                     @php 
