@@ -121,7 +121,7 @@
                             </div>
                         </div>
 
-                        <div style="border: 2px solid #4CAF50">
+                        <div style="border: 2px solid #4CAF50; padding: 10px;">
                             <div class="form-group">
                                 <label for="meta_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
                                 <textarea class="form-control" name="meta_desc" id="editor2" rows="4" required>{{ $row->meta_desc }}</textarea>
