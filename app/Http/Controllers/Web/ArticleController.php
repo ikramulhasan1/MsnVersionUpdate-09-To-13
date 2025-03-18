@@ -112,7 +112,7 @@ class ArticleController extends Controller
                                     margin: 20px 0;
                                     text-align: center;">
                                     <h3 style="font-size: 24px; margin-bottom: 10px;">' . $data['article']->service->title . '</h3>
-                                    <p style="font-size: 16px; line-height: 1.6;">' . $data['article']->service->description . '</p>
+                                    <p style="font-size: 16px; line-height: 1.6;">' . $data['article']->service->short_desc . '</p>
                                     <a href="' . $data['article']->service->link . '" style="
                                         display: inline-block;
                                         margin-top: 10px;
