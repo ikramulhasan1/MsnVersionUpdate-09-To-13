@@ -124,7 +124,7 @@ if (!empty($data['article']->service) && !empty($data['article']->service_title)
         '>" . htmlspecialchars($data['article']->service_title) . "</h3>
 
         <p id='emoji' style='
-            text-align:left;
+            text-align:left !important; 
             font-size: 16px !important; 
             line-height: 1.7;
             text-align: left;
