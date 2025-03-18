@@ -143,7 +143,7 @@ class ArticleController extends Controller
         box-shadow: 0 6px 100px rgba(0, 137, 59, 0.6);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     '
-    onmouseover=\"this.style.transform='scale(1.08)'; this.style.boxShadow='0 10px 10px rgba(0, 183, 93, 0.8)';\"
+    onmouseover=\"this.style.transform='scale(1.08)'; this.style.boxShadow='0 6px 10px rgba(0, 137, 59, 0.5)';\"
     onmouseout=\"this.style.transform='scale(1)'; this.style.boxShadow='0 6px 10px rgba(0, 137, 59, 0.5)';\"
     >Discover Now</a>
 
