@@ -102,7 +102,7 @@ class ArticleController extends Controller
 if (!empty($data['article']->service) && !empty($data['article']->service_title) && !empty($data['article']->service_desc)) {
     // Replace the <li> elements with the ✅ emoji
     $description = $data['article']->service_desc;
-    $description = preg_replace('/<li>(.*?)<\/li>/i', '✅ $1', $description);
+    $description = preg_replace('/<li>(.*?)<\/li>/i', '<p>✅ $1</p>', $description);
 
     $packageHtml = "<div class='service-package' style='
     background: #1E2A38; 
