@@ -105,53 +105,53 @@ class ArticleController extends Controller
     
         if (!empty($data['article']->service)) {
             $packageHtml = "<div class='service-package' style='
-            background: rgba(0, 10, 51, 0.8);
-            backdrop-filter: blur(12px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            padding: 30px;
-            margin: 30px 0;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        '>
-            <h3 style='
-                font-size: 28px;
-                margin-bottom: 15px;
-                text-transform: uppercase;
-                color: #ffffff;
-                letter-spacing: 1.2px;
-                font-weight: 700;
-                background: linear-gradient(90deg, #4facfe, #00f2fe);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            '>" . htmlspecialchars($data['article']->service->title) . "</h3>
+    background: linear-gradient(135deg, #2E2B5F, #1A1A40);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+    padding: 40px;
+    margin: 30px 0;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+'>
+    <h3 style='
+        font-size: 30px;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        color: #ffffff;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+        background: linear-gradient(90deg, #12c2e9, #c471ed, #f64f59);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    '>" . htmlspecialchars($data['article']->service->title) . "</h3>
 
-            <p style='
-                font-size: 18px;
-                line-height: 1.8;
-                margin-bottom: 20px;
-                color: rgba(255, 255, 255, 0.9);
-                opacity: 0.9;
-            '>" . htmlspecialchars($data['article']->service->short_desc) . "</p>
+    <p style='
+        font-size: 18px;
+        line-height: 1.8;
+        margin-bottom: 25px;
+        color: rgba(255, 255, 255, 0.9);
+        opacity: 0.9;
+    '>" . htmlspecialchars($data['article']->service->short_desc) . "</p>
 
-            <a href='" . htmlspecialchars($data['article']->service->link) . "' style='
-                display: inline-block;
-                margin-top: 15px;
-                padding: 12px 35px;
-                background: linear-gradient(90deg, #FF512F, #DD2476);
-                color: #ffffff;
-                border-radius: 30px;
-                text-decoration: none;
-                font-weight: bold;
-                box-shadow: 0 5px 20px rgba(221, 36, 118, 0.6);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;'
-                onmouseover='this.style.transform=\"scale(1.08)\"; this.style.boxShadow=\"0 5px 30px rgba(221, 36, 118, 0.9)\";'
-                onmouseout='this.style.transform=\"scale(1)\"; this.style.boxShadow=\"0 5px 20px rgba(221, 36, 118, 0.6)\";'
-            >
-                Discover Now
-            </a>
-        </div>";}
+    <a href='" . htmlspecialchars($data['article']->service->link) . "' style='
+        display: inline-block;
+        margin-top: 15px;
+        padding: 12px 35px;
+        background: linear-gradient(90deg, #007CF0, #00DFD8);
+        color: #ffffff;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        box-shadow: 0 6px 25px rgba(0, 220, 255, 0.8);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;'
+        onmouseover='this.style.transform=\"scale(1.1)\"; this.style.boxShadow=\"0 8px 35px rgba(0, 220, 255, 1)\";'
+        onmouseout='this.style.transform=\"scale(1)\"; this.style.boxShadow=\"0 6px 25px rgba(0, 220, 255, 0.8)\";'
+    >
+        Discover Now
+    </a>
+</div>";}
     
         // Dynamic Placeholder Logic
         $placeholder = $data['article']->placeholder ?? 'serviceshow';
