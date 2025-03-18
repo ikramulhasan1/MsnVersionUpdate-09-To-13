@@ -130,7 +130,7 @@ if (!empty($data['article']->service) && !empty($data['article']->service_title)
             line-height: 1.7;
             text-align: left;
             margin-bottom: 18px; 
-            color:rgb(255, 255, 255) !important; 
+            color: #ffffff !important;
         '>" . $description . "</p>
 
         <a target='_blank' href='" . url('service/' . htmlspecialchars($data['article']->service->slug)) . "' style='
