@@ -323,7 +323,7 @@ $header = \App\Models\PageSetup::page('blog');
                                     <ul class="post-meta">
                                         <li><i class="far fa-calendar-check"></i>{{ date('d M, Y', strtotime($article->created_at)) }}</li>
                                     </ul>
-                                    <div class="description" id="article-description" style="color: black !important " >                                        
+                                    <div class="description article-description" id="article-description" style="color: black !important " >                                        
                                                 {!! $article->description !!}
                                     </div>
 
@@ -441,14 +441,14 @@ $header = \App\Models\PageSetup::page('blog');
 <!-- End Sidebar Container -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-        const descriptionElement = document.getElementById("article-description");
+        const descriptionElement = document.querySelectorAll(".article-description");
         if (descriptionElement) {
             descriptionElement.innerHTML = descriptionElement.innerHTML.replace(/serviceshow/g, '<span style="display:none;">serviceshow</span>');
         }
     });
 // 
 document.addEventListener("DOMContentLoaded", function () {
-    const descriptionElement = document.getElementById("article-description");
+    const descriptionElement = document.querySelectorAll(".article-description");
     if (descriptionElement) {
         descriptionElement.innerHTML = descriptionElement.innerHTML.replace(/(<br\s*\/?>\s*){2,}/gi, '<br>');
     }
@@ -458,7 +458,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // 
 document.addEventListener("DOMContentLoaded", function () {
-    const descriptionElement = document.getElementById("article-description");
+    const descriptionElement = document.querySelectorAll(".article-description");
     if (descriptionElement) {
         descriptionElement.innerHTML = descriptionElement.innerHTML.replace(/<li>/gi, '<li>✅ ');
     }
