@@ -74,7 +74,7 @@ class HomeController extends Controller
         // Articles                                
         $data['articles'] = Article::where('status', '1')
                             ->orderBy('id', 'desc')
-                            ->take(4)
+                            ->take(3)
                             ->get();
 
         // Processes
