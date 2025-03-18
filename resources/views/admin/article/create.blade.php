@@ -191,9 +191,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-
-
-
     CKEDITOR.replace('editor', {
         on: {
             instanceReady: function(ev) {
@@ -212,6 +209,23 @@ document.addEventListener("DOMContentLoaded", function () {
         } // Converts <strong> to <b>
     });
     CKEDITOR.replace('editor1', {
+        on: {
+            instanceReady: function(ev) {
+                this.dataProcessor.writer.setRules('strong', {
+                    indent: false,
+                    breakBeforeOpen: false,
+                    breakAfterOpen: false,
+                    breakBeforeClose: false,
+                    breakAfterClose: false
+                });
+            }
+        },
+        coreStyles_bold: {
+            element: 'b',
+            overrides: 'strong'
+        } // Converts <strong> to <b>
+    });
+    CKEDITOR.replace('editor2', {
         on: {
             instanceReady: function(ev) {
                 this.dataProcessor.writer.setRules('strong', {
