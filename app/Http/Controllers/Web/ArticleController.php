@@ -127,10 +127,10 @@ class ArticleController extends Controller
 
         // Dynamic Placeholder Logic
         $placeholder = $data['article']->placeholder ?? 'package';
-        $data['article']->content = preg_replace(
+        $data['article']->description = preg_replace(
             '/\b' . preg_quote($placeholder, '/') . '\b/i',
             $placeholder . " " . $packageHtml,
-            $data['article']->content
+            $data['article']->description
         );
 
         return view('web.article-single', $data);
