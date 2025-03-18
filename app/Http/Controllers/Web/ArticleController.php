@@ -134,7 +134,7 @@ class ArticleController extends Controller
     <a href='" . htmlspecialchars($data['article']->service->link) . "' style='
         display: inline-block;
         margin-top: 10px;
-        padding: 12px 40px; 
+        padding: 10px 30px; 
         background: linear-gradient(135deg, #00893B, #00B75D); /* Enhanced Gradient */
         color: #ffffff; 
         border-radius: 30px;
