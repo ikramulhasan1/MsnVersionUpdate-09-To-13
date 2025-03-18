@@ -106,7 +106,7 @@ if (!empty($data['article']->service) && !empty($data['article']->service_title)
 
     $packageHtml = "<div class='service-package' style='
     background: #1E2A38; 
-    color: white;
+    color:rgb(255, 255, 255) !important;
     border: 2px solid #59C94E !important; 
     border-radius: 30px !important; 
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.4) !important; 
