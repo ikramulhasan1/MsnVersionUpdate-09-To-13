@@ -19,8 +19,11 @@
 
 
     <div class="row">
-        <div class="col-12">
+        <div class="col">
             <a href="{{ route($route.'.index') }}" class="btn btn-info">{{ __('dashboard.back') }}</a>
+        </div>
+        <div class="col">
+            <span class="font-weight-bolder text-right" >Keywords = <span class="text-danger font-weight-bold text-right">[serviceshow, hidden]</span></span>
         </div>
     </div>
 
