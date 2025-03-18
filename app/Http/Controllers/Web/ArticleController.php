@@ -89,53 +89,81 @@ class ArticleController extends Controller
      */
     public function show($slug)
     {
-        // Article                                
-        $data['article'] = Article::with('service') // Added eager loading
+        // Article with Service Relationship (Eager Loading for Performance)                                
+        $data['article'] = Article::with('service')
                             ->where('slug', $slug)
                             ->where('status', '1')
                             ->firstOrFail();
-
-        // Article Category
+    
+        // Article Categories
         $data['article_categories'] = ArticleCategory::where('status', '1')
                             ->orderBy('id', 'asc')
                             ->get();
-
-        // Service Package HTML
+    
+        // Service Package HTML with Modern Design
         $packageHtml = '';
-        
+    
+        if (!empty($data['article']->service)) {
             $packageHtml = '<div class="service-package" style="
-                                    background-color:rgb(0, 10, 51);
-                                    color: #ffffff;
-                                    padding: 20px;
-                                    border-radius: 12px;
-                                    border: 3px solid #1D2854;
-                                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-                                    margin: 20px 0;
-                                    text-align: center;">
-                                    <h3 style="font-size: 24px; margin-bottom: 10px;">' . $data['article']->service->title . '</h3>
-                                    <p style="font-size: 16px; line-height: 1.6;">' . $data['article']->service->short_desc . '</p>
-                                    <a href="' . $data['article']->service->link . '" style="
-                                        display: inline-block;
-                                        margin-top: 10px;
-                                        padding: 10px 20px;
-                                        background:rgb(255, 7, 7);
-                                        color: #ffffff;
-                                        border-radius: 8px;
-                                        text-decoration: none;
-                                        font-weight: bold;">Visit</a>
-                                </div>';
-        
-
+                background: rgba(0, 10, 51, 0.8);
+                backdrop-filter: blur(12px);
+                border: 2px solid rgba(255, 255, 255, 0.2);
+                border-radius: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+                padding: 30px;
+                margin: 30px 0;
+                text-align: center;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            ">
+                <h3 style="
+                    font-size: 28px;
+                    margin-bottom: 15px;
+                    text-transform: uppercase;
+                    color: #ffffff;
+                    letter-spacing: 1.2px;
+                    font-weight: 700;
+                    background: linear-gradient(90deg, #4facfe, #00f2fe);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                ">' . htmlspecialchars($data['article']->service->title) . '</h3>
+    
+                <p style="
+                    font-size: 18px;
+                    line-height: 1.8;
+                    margin-bottom: 20px;
+                    color: rgba(255, 255, 255, 0.9);
+                    opacity: 0.9;
+                ">' . htmlspecialchars($data['article']->service->short_desc) . '</p>
+    
+                <a href="' . htmlspecialchars($data['article']->service->link) . '" style="
+                    display: inline-block;
+                    margin-top: 15px;
+                    padding: 12px 35px;
+                    background: linear-gradient(90deg, #FF512F, #DD2476);
+                    color: #ffffff;
+                    border-radius: 30px;
+                    text-decoration: none;
+                    font-weight: bold;
+                    box-shadow: 0 5px 20px rgba(221, 36, 118, 0.6);
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                "
+                onmouseover="this.style.transform=\'scale(1.08)\'; this.style.boxShadow=\'0 5px 30px rgba(221, 36, 118, 0.9)';"
+                onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'0 5px 20px rgba(221, 36, 118, 0.6)\';"
+                >Discover Now</a>
+            </div>';
+        }
+    
         // Dynamic Placeholder Logic
         $placeholder = $data['article']->placeholder ?? 'serviceshow';
+    
+        // Improved Regex for Better Placeholder Handling
         $data['article']->description = preg_replace(
-            '/\b' . preg_quote($placeholder, '/') . '\b/i',
+            '/(' . preg_quote($placeholder, '/') . ')(?!<\/span>)/i',
             $placeholder . " " . $packageHtml,
             $data['article']->description
         );
-
+    
+        // Return the view
         return view('web.article-single', $data);
     }
-
-    
-}
+}    
