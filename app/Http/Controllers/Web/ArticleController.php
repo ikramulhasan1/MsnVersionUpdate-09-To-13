@@ -105,52 +105,52 @@ class ArticleController extends Controller
     
         if (!empty($data['article']->service)) {
             $packageHtml = "<div class='service-package' style='
-    background: linear-gradient(135deg, #3b3b3b, #2c3e50);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 18px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    padding: 35px;
-    margin: 30px 0;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-'>
-    <h3 style='
-        font-size: 28px;
-        margin-bottom: 15px;
-        text-transform: uppercase;
-        color: #e0e0e0;
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        letter-spacing: 1.2px;
-        font-weight: 600;
-    '>" . htmlspecialchars($data['article']->service->title) . "</h3>
+            background: linear-gradient(135deg, #3b3b3b, #2c3e50);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            padding: 35px;
+            margin: 30px 0;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        '>
+            <h3 style='
+                font-size: 28px;
+                margin-bottom: 15px;
+                text-transform: uppercase;
+                color:rgb(255, 255, 255);
+                letter-spacing: 1.2px;
+                font-weight: 600;
+            '>" . htmlspecialchars($data['article']->service->title) . "</h3>
 
-    <p style='
-        font-size: 18px;
-        line-height: 1.8;
-        margin-bottom: 20px;
-        color: #D3D3D3;
-        opacity: 0.9;
-    '>" . htmlspecialchars($data['article']->service->short_desc) . "</p>
+            <p style='
+                font-size: 18px;
+                line-height: 1.8;
+                margin-bottom: 20px;
+                color:rgb(255, 255, 255);
+            '>" . htmlspecialchars($data['article']->service->short_desc) . "</p>
 
-    <a href='" . htmlspecialchars($data['article']->service->link) . "' style='
-        display: inline-block;
-        margin-top: 15px;
-        padding: 12px 35px;
-        background: linear-gradient(90deg, #D1B280, #B55C5C);
-        color: #ffffff;
-        border-radius: 30px;
-        text-decoration: none;
-        font-weight: bold;
-        box-shadow: 0 6px 25px rgba(209, 178, 128, 0.7);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;'
-        onmouseover='this.style.transform=\"scale(1.05)\"; this.style.boxShadow=\"0 8px 35px rgba(209, 178, 128, 1)\";'
-        onmouseout='this.style.transform=\"scale(1)\"; this.style.boxShadow=\"0 6px 25px rgba(209, 178, 128, 0.7)\";'
-    >
-        Discover Now
-    </a>
-</div>";
-}
-    
+            <a href='" . htmlspecialchars($data['article']->service->link) . "' style='
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 35px;
+            background: linear-gradient(90deg, #1E5C63, #F5D06C);
+            color: #ffffff;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 6px 20px rgba(30, 92, 99, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        ' 
+        onmouseover='this.style.transform=\"scale(1.05)\"; this.style.boxShadow=\"0 8px 35px rgba(30, 92, 99, 0.6)\";'
+        onmouseout='this.style.transform=\"scale(1)\"; this.style.boxShadow=\"0 6px 20px rgba(30, 92, 99, 0.4)\";'
+        >
+            Discover Now
+        </a>
+
+        </div>";
+        }
+            
         // Dynamic Placeholder Logic
         $placeholder = $data['article']->placeholder ?? 'serviceshow';
     
