@@ -105,46 +105,46 @@ class ArticleController extends Controller
     
         if (!empty($data['article']->service)) {
             $packageHtml = "<div class='service-package' style='
-    background: linear-gradient(135deg, #001F3F, #1A1A72);
-    border: 2px solid rgba(0, 255, 255, 0.5);
-    border-radius: 20px;
-    box-shadow: 0 12px 35px rgba(0, 255, 255, 0.3);
-    padding: 40px;
+    background: linear-gradient(135deg, #3b3b3b, #2c3e50);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    padding: 35px;
     margin: 30px 0;
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 '>
     <h3 style='
-        font-size: 32px;
+        font-size: 28px;
         margin-bottom: 15px;
         text-transform: uppercase;
-        color: #00FFFF;
-        text-shadow: 0 0 10px #00FFFF, 0 0 20px #00FFFF;
-        letter-spacing: 1.5px;
-        font-weight: 700;
+        color: #e0e0e0;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        letter-spacing: 1.2px;
+        font-weight: 600;
     '>" . htmlspecialchars($data['article']->service->title) . "</h3>
 
     <p style='
         font-size: 18px;
         line-height: 1.8;
-        margin-bottom: 25px;
-        color: #FFFFFF;
-        opacity: 0.95;
+        margin-bottom: 20px;
+        color: #D3D3D3;
+        opacity: 0.9;
     '>" . htmlspecialchars($data['article']->service->short_desc) . "</p>
 
     <a href='" . htmlspecialchars($data['article']->service->link) . "' style='
         display: inline-block;
         margin-top: 15px;
         padding: 12px 35px;
-        background: linear-gradient(90deg, #FF416C, #FF4B2B);
+        background: linear-gradient(90deg, #D1B280, #B55C5C);
         color: #ffffff;
         border-radius: 30px;
         text-decoration: none;
         font-weight: bold;
-        box-shadow: 0 6px 25px rgba(255, 65, 108, 0.8);
+        box-shadow: 0 6px 25px rgba(209, 178, 128, 0.7);
         transition: transform 0.3s ease, box-shadow 0.3s ease;'
-        onmouseover='this.style.transform=\"scale(1.1)\"; this.style.boxShadow=\"0 8px 35px rgba(255, 65, 108, 1)\";'
-        onmouseout='this.style.transform=\"scale(1)\"; this.style.boxShadow=\"0 6px 25px rgba(255, 65, 108, 0.8)\";'
+        onmouseover='this.style.transform=\"scale(1.05)\"; this.style.boxShadow=\"0 8px 35px rgba(209, 178, 128, 1)\";'
+        onmouseout='this.style.transform=\"scale(1)\"; this.style.boxShadow=\"0 6px 25px rgba(209, 178, 128, 0.7)\";'
     >
         Discover Now
     </a>
