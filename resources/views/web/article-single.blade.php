@@ -1,5 +1,5 @@
 @extends('web.layouts.master')
-@dd($article)
+
 @php
 $header = \App\Models\PageSetup::page('blog');
 @endphp
@@ -324,7 +324,12 @@ $header = \App\Models\PageSetup::page('blog');
                                         <li><i class="far fa-calendar-check"></i>{{ date('d M, Y', strtotime($article->created_at)) }}</li>
                                     </ul>
                                     <div class="description" style="color: black !important " >
-                                        {!! $article->description !!}
+                                        {{-- {!! $article->description !!} --}}
+                                        @section('content')
+                                            <div class="article-content">
+                                                {!! $data['article']->content !!}
+                                            </div>
+                                        @endsection
                                     </div>
 
                                     @php 
