@@ -102,7 +102,7 @@ class ArticleController extends Controller
 
         // Service Package HTML
         $packageHtml = '';
-        if ($data['article']->service_id) {
+        
             $packageHtml = '<div class="service-package" style="
                                     background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
                                     color: #fff;
@@ -123,7 +123,7 @@ class ArticleController extends Controller
                                         text-decoration: none;
                                         font-weight: bold;">Learn More</a>
                                 </div>';
-        }
+        
 
         // Dynamic Placeholder Logic
         $placeholder = $data['article']->placeholder ?? 'package';
