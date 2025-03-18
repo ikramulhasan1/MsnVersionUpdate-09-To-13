@@ -447,12 +447,13 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 // 
-document.addEventListener("DOMContentLoaded", function () {
-    const descriptionElement = document.querySelectorAll(".article-description");
-    if (descriptionElement) {
+document.addEventListener("DOMContentLoaded", function () { 
+    const descriptionElements = document.querySelectorAll(".article-description");
+    descriptionElements.forEach(function(descriptionElement) {
         descriptionElement.innerHTML = descriptionElement.innerHTML.replace(/(<br\s*\/?>\s*){2,}/gi, '<br>');
-    }
+    });
 });
+
 
 
 
