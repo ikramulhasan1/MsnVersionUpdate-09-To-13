@@ -73,6 +73,16 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
+                            <textarea class="form-control" name="description" id="editor" rows="8" required>{{ $row->description }}</textarea>
+
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
+                            </div>
+                        </div>
+
+                        {{--  --}}
                         <div class="row">
                             <div class="form-group col">
                                 <label for="service_id">{{ __('dashboard.select_service_id') }}</label>
@@ -92,17 +102,33 @@
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.placeholder') }}
                                 </div>
                             </div>
-                        </div>
+                            <div class="form-group col">
+                                <label for="service_title">{{ __('dashboard.service_title') }} <span>*</span></label>
+                                <input type="text" class="form-control" name="service_title" id="service_title" value="{{ $row->service_title }}" placeholder="e.g. plan, bundle, etc.">
 
-
-                        <div class="form-group">
-                            <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
-                            <textarea class="form-control" name="description" id="editor" rows="8" required>{{ $row->description }}</textarea>
-
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.service_title') }}
+                                </div>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="service_desc">{{ __('dashboard.service_desc') }} <span>*</span></label>
+                            <textarea class="form-control" name="service_desc" id="editor" rows="4" required>{{ $row->service_desc }}</textarea>
+
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.service_desc') }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="meta_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
+                            <textarea class="form-control" name="meta_desc" id="editor" rows="4" required>{{ $row->meta_desc }}</textarea>
+
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_description') }}
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label for="keywords">{{ __('dashboard.meta_keywords') }} <span>*</span></label>
                             <input type="text" class="form-control tagin" data-tagin-separator=" " name="keywords" value="{{ $row->keywords ?? '' }}" required>
@@ -111,6 +137,9 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
                             </div>
                         </div>
+
+                        
+
                         <div class="form-group">
                             <label for="image">{{ __('dashboard.thumbnail') }} <span>{{ __('dashboard.image_size', ['height' => 280, 'width' => 500]) }}</span></label>
                             <input type="file" class="form-control" name="image" id="image">
