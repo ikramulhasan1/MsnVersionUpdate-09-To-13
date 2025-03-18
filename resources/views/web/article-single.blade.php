@@ -327,7 +327,7 @@ $header = \App\Models\PageSetup::page('blog');
                                         {{-- {!! $article->description !!} --}}
                                         @section('content')
                                             <div class="article-content">
-                                                {!! $data['article']->content !!}
+                                                {!! $article->content !!}
                                             </div>
                                         @endsection
                                     </div>
