@@ -136,20 +136,22 @@ class ArticleController extends Controller
                 ">' . htmlspecialchars($data['article']->service->short_desc) . '</p>
     
                 <a href="' . htmlspecialchars($data['article']->service->link) . '" style="
-                    display: inline-block;
-                    margin-top: 15px;
-                    padding: 12px 35px;
-                    background: linear-gradient(90deg, #FF512F, #DD2476);
-                    color: #ffffff;
-                    border-radius: 30px;
-                    text-decoration: none;
-                    font-weight: bold;
-                    box-shadow: 0 5px 20px rgba(221, 36, 118, 0.6);
-                    transition: transform 0.3s ease, box-shadow 0.3s ease;
-                "
-                onmouseover="this.style.transform=\'scale(1.08)\'; this.style.boxShadow=\'0 5px 30px rgba(221, 36, 118, 0.9)';"
-                onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'0 5px 20px rgba(221, 36, 118, 0.6)\';"
-                >Discover Now</a>
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 35px;
+    background: linear-gradient(90deg, #FF512F, #DD2476);
+    color: #ffffff;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 5px 20px rgba(221, 36, 118, 0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;"
+    onmouseover=\"this.style.transform='scale(1.08)'; this.style.boxShadow='0 5px 30px rgba(221, 36, 118, 0.9)';\"
+    onmouseout=\"this.style.transform='scale(1)'; this.style.boxShadow='0 5px 20px rgba(221, 36, 118, 0.6)';\"
+>
+    Discover Now
+</a>
+
             </div>';
         }
     
