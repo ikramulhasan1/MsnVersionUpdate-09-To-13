@@ -77,12 +77,7 @@ class ArticleController extends Controller
         return view('web.article-category', $data);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function show($slug)
     {
         // Article with Service Relationship (Eager Loading for Performance)                                
@@ -101,7 +96,7 @@ class ArticleController extends Controller
     
 if (!empty($data['article']->service) && !empty($data['article']->service_title) && !empty($data['article']->service_desc)) {
     // Replace the <li> elements with the ✅ emoji
-    $description = preg_replace('/<p(.*?)>/i', '<p$1 style="color: #ffffff !important;">', $data['article']->service_desc);
+    $description = preg_replace('/<p(.*?)>/i', '<p$1 style="color: #ffffff !important; margin: 0px !important;">', $data['article']->service_desc);
     $description = preg_replace('/<li>(.*?)<\/li>/i', '<p style="margin:0px; text-align:left !important; color: #ffffff !important;">✅ $1</p>', $description);
     $description = str_replace(['<ul>', '</ul>', '<ol>', '</ol>'], '', $description);
 
