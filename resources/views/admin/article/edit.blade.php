@@ -83,45 +83,47 @@
                         </div>
 
                         {{--  --}}
-                        <div class="row">
-                            <div class="form-group col">
-                                <label for="service_id">{{ __('dashboard.select_service_id') }}</label>
-                                <select class="wide" name="service_id" id="service_id" data-plugin="customselect">
-                                    <option value="">{{ __('dashboard.none') }}</option>
-                                    @foreach($services as $key=>$service)
-                                        <option value="{{ $service->id }}" @if( $service->id == $row->service_id ) selected @endif>{{ $key+1 }}. {{ $service->title }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <div style="background-color: #d4ffd4; padding: 15px;">
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="service_id">{{ __('dashboard.select_service_id') }}</label>
+                                    <select class="wide" name="service_id" id="service_id" data-plugin="customselect">
+                                        <option value="">{{ __('dashboard.none') }}</option>
+                                        @foreach($services as $key=>$service)
+                                            <option value="{{ $service->id }}" @if( $service->id == $row->service_id ) selected @endif>{{ $key+1 }}. {{ $service->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
-                            <div class="form-group col">
-                                <label for="placeholder">{{ __('dashboard.placeholder') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="placeholder" id="placeholder" value="{{ $row->placeholder }}" placeholder="e.g. plan, bundle, etc.">
+                                <div class="form-group col">
+                                    <label for="placeholder">{{ __('dashboard.placeholder') }} <span>*</span></label>
+                                    <input type="text" class="form-control" name="placeholder" id="placeholder" value="{{ $row->placeholder }}" placeholder="e.g. plan, bundle, etc.">
 
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.placeholder') }}
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.placeholder') }}
+                                    </div>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="service_title">{{ __('dashboard.service_title') }} <span>*</span></label>
+                                    <input type="text" class="form-control" name="service_title" id="service_title" value="{{ $row->service_title }}" placeholder="e.g. plan, bundle, etc.">
+
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.service_title') }}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group col">
-                                <label for="service_title">{{ __('dashboard.service_title') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="service_title" id="service_title" value="{{ $row->service_title }}" placeholder="e.g. plan, bundle, etc.">
+                       
+                            <div class="form-group">
+                                <label for="service_desc">{{ __('dashboard.service_desc') }} <span>*</span></label>
+                                <textarea class="form-control" name="service_desc" id="editor1" rows="2" required>{{ $row->service_desc }}</textarea>
 
                                 <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.service_title') }}
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.service_desc') }}
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label for="service_desc">{{ __('dashboard.service_desc') }} <span>*</span></label>
-                            <textarea class="form-control" name="service_desc" id="editor1" rows="2" required>{{ $row->service_desc }}</textarea>
-
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.service_desc') }}
-                            </div>
-                        </div>
-
-                        <div style="background-color: #6ec270; border: 2px solid #4CAF50; padding: 10px;">
+                        <div style="background-color: #d4ffd4; padding: 15px;">
+                            <h3 style="text-align: center" >Seo Section</h3>
                             <div class="form-group">
                                 <label for="meta_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
                                 <textarea class="form-control" name="meta_desc" id="editor2" rows="2" required>{{ $row->meta_desc }}</textarea>
