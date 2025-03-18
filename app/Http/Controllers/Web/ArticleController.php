@@ -126,6 +126,7 @@ class ArticleController extends Controller
             <p style='
                 font-size: 18px;
                 line-height: 1.8;
+                text-align: left;
                 margin-bottom: 20px;
                 color:rgb(255, 255, 255);
             '>" . htmlspecialchars($data['article']->service->short_desc) . "</p>
@@ -142,11 +143,9 @@ class ArticleController extends Controller
             box-shadow: 0 6px 20px rgba(30, 92, 99, 0.4);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         ' 
-        onmouseover='this.style.transform=\"scale(1.05)\"; this.style.boxShadow=\"0 8px 35px rgba(30, 92, 99, 0.6)\";'
-        onmouseout='this.style.transform=\"scale(1)\"; this.style.boxShadow=\"0 6px 20px rgba(30, 92, 99, 0.4)\";'
-        >
-            Discover Now
-        </a>
+            onmouseover='this.style.transform=\"scale(1.05)\"; this.style.boxShadow=\"0 8px 35px rgba(30, 92, 99, 0.6)\";'
+            onmouseout='this.style.transform=\"scale(1)\"; this.style.boxShadow=\"0 6px 20px rgba(30, 92, 99, 0.4)\";'
+        >Discover Now</a>
 
         </div>";
         }
