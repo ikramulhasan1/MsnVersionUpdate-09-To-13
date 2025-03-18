@@ -261,15 +261,7 @@ $header = \App\Models\PageSetup::page('blog');
         color: black;
         width: 100%; /* Ensures the title spans the width of the container */
     }
-    #emoji ul {
-    list-style-type: none;  /* Removes the default bullets */
-    padding-left: 0;        /* Removes any left padding */
-}
-
-#emoji li::before {
-    content: "✅ "; /* Adds the emoji before each list item */
-    padding-right: 5px; /* Optional: Adds some space between the emoji and the text */
-}
+    
 
 </style>
 <!--Page Title-->
@@ -460,15 +452,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // 
-document.addEventListener("DOMContentLoaded", function () {
-    const descriptionElement = document.getElementById("emoji");
-    if (descriptionElement) {
-        const listItems = descriptionElement.querySelectorAll("li");
-        listItems.forEach(function(li) {
-            li.style.listStyleType = "none"; // Ensures no default bullets are shown
-        });
-    }
-});
 
 
 
