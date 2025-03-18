@@ -116,6 +116,7 @@ class ArticleController extends Controller
 '>
     <h3 style='
         font-size: 24px; 
+        font-weight: 700;
         margin-bottom: 12px; 
         text-transform: uppercase;
         color: rgb(255, 255, 255);
@@ -128,19 +129,18 @@ class ArticleController extends Controller
         line-height: 1.6;
         text-align: left;
         margin-bottom: 15px; 
-        color: rgb(255, 255, 255);
+        color: rgb(255, 255, 255)!important; 
     '>" . $data['article']->service->short_desc . "</p>
 
     <a href='" . htmlspecialchars($data['article']->service->link) . "' style='
         display: inline-block;
         margin-top: 10px;
         padding: 10px 30px; 
-        background-color: #00893B !important;  /* Added !important */
-        color: #ffffff;
+        background-color: #00893B !important; 
+        color: #ffffff !important; 
         border-radius: 30px;
         text-decoration: none;
         font-weight: bold;
-        box-shadow: 0 6px 20px rgba(0, 137, 59, 0.5);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     '
     onmouseover=\"this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 35px rgba(0, 137, 59, 0.7)';\"
