@@ -446,6 +446,13 @@ document.addEventListener("DOMContentLoaded", function() {
             descriptionElement.innerHTML = descriptionElement.innerHTML.replace(/serviceshow/g, '<span style="display:none;">serviceshow</span>');
         }
     });
+// 
+document.addEventListener("DOMContentLoaded", function () {
+    const descriptionElement = document.getElementById("article-description");
+    if (descriptionElement) {
+        descriptionElement.innerHTML = descriptionElement.innerHTML.replace(/<br\s*\/?>/gi, '');
+    }
+});
 
 
  document.querySelectorAll('.news-block').forEach(element => {
