@@ -76,14 +76,14 @@
                                 <select class="wide" name="service_id" id="service_id" data-plugin="customselect">
                                     <option value="">{{ __('dashboard.none') }}</option>
                                     @foreach($services as $key=>$service)
-                                        <option value="{{ $service->id }}">{{ $key+1 }}. {{ $service->title }}</option>
+                                        <option value="{{ $service->id }}" @if( $service->id == $row->service_id ) selected @endif>{{ $key+1 }}. {{ $service->title }}</option>
                                     @endforeach
                                 </select>
                             </div>
 
                             <div class="form-group col">
                                 <label for="placeholder">{{ __('dashboard.placeholder') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="placeholder" id="placeholder" value="{{ old('placeholder') }}" placeholder="e.g. plan, bundle, etc." required>
+                                <input type="text" class="form-control" name="placeholder" id="placeholder" value="{{ $row->placeholder }}" placeholder="e.g. plan, bundle, etc." required>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.placeholder') }}
