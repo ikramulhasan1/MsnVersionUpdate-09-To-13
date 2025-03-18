@@ -102,7 +102,7 @@ class ArticleController extends Controller
 
     // Service Package HTML
     $packageHtml = '';
-    if ($data['article']->service) {
+    if ($data['article']->service_id) {
         $packageHtml = '<div class="service-package" style="
                                 background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
                                 color: #fff;
