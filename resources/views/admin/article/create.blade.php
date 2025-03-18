@@ -71,31 +71,6 @@
                             </div>
                         </div>
 
-
-                        <div class="row">
-                            <div class="form-group col">
-                                <label for="service_id">{{ __('dashboard.select_service_id') }}</label>
-                                <select class="wide" name="service_id" id="service_id" data-plugin="customselect">
-                                    <option value="">{{ __('dashboard.none') }}</option>
-                                    @foreach($services as $service)
-                                        <option value="{{ $service->id }}">{{ $service->title }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group col">
-                                <label for="placeholder">{{ __('dashboard.placeholder') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="placeholder" id="placeholder" value="serviceshow" placeholder="e.g. plan, bundle, etc.">
-
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.placeholder') }}
-                                </div>
-                            </div>
-                        </div>
-
-
-
-
                         <div class="form-group">
                             <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
                             <textarea class="form-control" name="description" id="editor" rows="8" required>{{ old('description') }}</textarea>
@@ -104,17 +79,71 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="keywords">{{ __('dashboard.meta_keywords') }} <span>*</span></label>
-                            <input type="text" class="form-control tagin" data-tagin-separator=" " name="keywords" value="{{ old('keywords') }}" required>
+                        {{--  --}}
+                        <div style="background-color: #ffeeee; padding: 15px; margin-bottom: 10px;">
+                            <h4 style="text-align: center" >Service Package</h4>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="service_id">{{ __('dashboard.select_service_id') }}</label>
+                                    <select class="wide" name="service_id" id="service_id" data-plugin="customselect">
+                                        <option value="">{{ __('dashboard.none') }}</option>
+                                        @foreach($services as $key=>$service)
+                                            <option value="{{ $service->id }}">{{ $key+1 }}. {{ $service->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-9">
+                                    <label for="service_title">{{ __('dashboard.service_title') }} <span>*</span></label>
+                                    <input type="text" class="form-control" name="service_title" id="service_title" value="{{ old('service_title') }}" placeholder="e.g. plan, bundle, etc.">
 
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.service_title') }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label for="placeholder">{{ __('dashboard.placeholder') }} <span>*</span></label>
+                                    <input type="text" class="form-control" name="placeholder" id="placeholder" value="{{ old('placeholder') }}" placeholder="e.g. plan, bundle, etc.">
+
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.placeholder') }}
+                                    </div>
+                                </div>
+                                
+                            </div>
+                       
+                            <div class="form-group">
+                                <label for="service_desc">{{ __('dashboard.service_desc') }} <span>*</span></label>
+                                <textarea class="form-control" name="service_desc" id="editor1" rows="2" required>{{ old('service_desc') }}</textarea>
+
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.service_desc') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="background-color: #eeffee; padding: 15px;">
+                            <h4 style="text-align: center" >Seo Section</h4>
+                            <div class="form-group">
+                                <label for="meta_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
+                                <textarea class="form-control" name="meta_desc" id="editor2" rows="2" required>{{ old('meta_desc') }}</textarea>
+
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_description') }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="keywords">{{ __('dashboard.meta_keywords') }} <span>*</span></label>
+                                <input type="text" class="form-control tagin" data-tagin-separator=" " name="keywords" value="{{ old('keywords') }}" required>
+                                
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
+                                </div>
                             </div>
                         </div>
 
-                        
-                       
 
                         <div class="form-group">
                             <label for="image">{{ __('dashboard.thumbnail') }} <span>*</span> <span>{{ __('dashboard.image_size', ['height' => 280, 'width' => 500]) }}</span></label>
