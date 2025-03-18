@@ -105,49 +105,49 @@ class ArticleController extends Controller
     
         if (!empty($data['article']->service)) {
             $packageHtml = "<div class='service-package' style='
-    background: #1E2A38; 
-    border: 2px solid #59C94E !important; 
-    border-radius: 30px !important; 
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
-    padding: 20px; 
-    margin: 20px 0; 
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-'>
-    <h3 style='
-        font-size: 22px; 
-        font-weight: 700;
-        margin-bottom: 10px; 
-        text-transform: uppercase;
-        color: #FFD700;  
-        letter-spacing: 1px;
-    '>" . htmlspecialchars($data['article']->service->title) . "</h3>
+            background: #1E2A38; 
+            border: 2px solid #59C94E !important; 
+            border-radius: 30px !important; 
+            box-shadow: 0 5px 5px rgba(0, 0, 0, 0.4) !important; 
+            padding: 20px; 
+            margin: 20px 0; 
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        '>
+            <h3 style='
+                font-size: 22px; 
+                font-weight: 700;
+                margin-bottom: 10px; 
+                text-transform: uppercase;
+                color: #FFD700;  
+                letter-spacing: 1px;
+            '>" . htmlspecialchars($data['article']->service->title) . "</h3>
 
-    <p style='
-        font-size: 14px; 
-        line-height: 1.7;
-        text-align: left;
-        margin-bottom: 18px; 
-        color: #E0E0E0; 
-    '>" . nl2br(htmlspecialchars(strip_tags($data['article']->service->short_desc))) . "</p>
+            <p style='
+                font-size: 14px; 
+                line-height: 1.7;
+                text-align: left;
+                margin-bottom: 18px; 
+                color: #E0E0E0; 
+            '>" . nl2br(htmlspecialchars(strip_tags($data['article']->service->short_desc))) . "</p>
 
-    <a href='" . htmlspecialchars($data['article']->service->link) . "' style='
-        display: inline-block;
-        margin-top: 5px !important; 
-        padding: 5px 20px !important;  
-        background: linear-gradient(135deg, #00893B, #00B75D); 
-        color: #ffffff; 
-        border-radius: 30px;
-        text-decoration: none;
-        font-weight: bold;
-        box-shadow: 0 6px 50px rgba(0, 137, 59, 0.6);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    '
-    onmouseover=\"this.style.transform='scale(1.08)'; this.style.boxShadow='0 6px 10px rgba(0, 137, 59, 0.5)';\"
-    onmouseout=\"this.style.transform='scale(1)'; this.style.boxShadow='0 6px 10px rgba(0, 137, 59, 0.5)';\"
-    >Discover Now</a>
+            <a href='" . htmlspecialchars($data['article']->service->link) . "' style='
+                display: inline-block;
+                margin-top: 5px !important; 
+                padding: 5px 20px !important;  
+                background: linear-gradient(135deg, #00893B, #00B75D); 
+                color: #ffffff; 
+                border-radius: 30px;
+                text-decoration: none;
+                font-weight: bold;
+                box-shadow: 0 6px 50px rgba(0, 137, 59, 0.6);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            '
+            onmouseover=\"this.style.transform='scale(1.08)'; this.style.boxShadow='0 6px 10px rgba(0, 137, 59, 0.5)';\"
+            onmouseout=\"this.style.transform='scale(1)'; this.style.boxShadow='0 6px 10px rgba(0, 137, 59, 0.5)';\"
+            >Discover Now</a>
 
-</div>";
+        </div>";
 
         }
             
