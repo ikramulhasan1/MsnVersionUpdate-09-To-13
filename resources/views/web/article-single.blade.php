@@ -323,7 +323,7 @@ $header = \App\Models\PageSetup::page('blog');
                                     <ul class="post-meta">
                                         <li><i class="far fa-calendar-check"></i>{{ date('d M, Y', strtotime($article->created_at)) }}</li>
                                     </ul>
-                                    <div class="description" style="color: black !important " >
+                                    <div class="description" id="article-description" style="color: black !important " >
                                         {{-- {!! $article->description !!} --}}
                                         
                                                 {!! $article->description !!}
@@ -443,6 +443,14 @@ $header = \App\Models\PageSetup::page('blog');
 </div>
 <!-- End Sidebar Container -->
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+        const descriptionElement = document.getElementById("article-description");
+        if (descriptionElement) {
+            descriptionElement.innerHTML = descriptionElement.innerHTML.replace(/serviceshow/g, '<span style="display:none;">serviceshow</span>');
+        }
+    });
+
+
  document.querySelectorAll('.news-block').forEach(element => {
         element.setAttribute('style', 'border: none !important;');
     });
