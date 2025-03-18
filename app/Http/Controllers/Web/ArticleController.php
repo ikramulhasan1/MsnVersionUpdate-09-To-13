@@ -55,11 +55,7 @@ class ArticleController extends Controller
         return view('web.article-category', $data);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+      
     public function search(Request $request)
     {
         $data['search'] = $search = strip_tags($request->search);
@@ -131,7 +127,7 @@ class ArticleController extends Controller
                 color: #E0E0E0; 
             '>" . nl2br(htmlspecialchars(strip_tags($data['article']->service->short_desc))) . "</p>
 
-            <a href='" . htmlspecialchars($data['article']->service->link) . "' style='
+            <a href='" . htmlspecialchars($data['article']->service->slug) . "' style='
                 display: inline-block;
                 margin-top: 0px !important; 
                 padding: 5px 20px !important;  

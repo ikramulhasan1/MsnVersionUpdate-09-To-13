@@ -323,11 +323,8 @@ $header = \App\Models\PageSetup::page('blog');
                                     <ul class="post-meta">
                                         <li><i class="far fa-calendar-check"></i>{{ date('d M, Y', strtotime($article->created_at)) }}</li>
                                     </ul>
-                                    <div class="description" id="article-description" style="color: black !important " >
-                                        {{-- {!! $article->description !!} --}}
-                                        
+                                    <div class="description" id="article-description" style="color: black !important " >                                        
                                                 {!! $article->description !!}
-                                       
                                     </div>
 
                                     @php 
