@@ -454,6 +454,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+// 
+document.addEventListener("DOMContentLoaded", function () {
+    const descriptionElement = document.getElementById("article-description");
+    if (descriptionElement) {
+        descriptionElement.innerHTML = descriptionElement.innerHTML.replace(/<li>/gi, '<li>✅ ');
+    }
+});
+
 
  document.querySelectorAll('.news-block').forEach(element => {
         element.setAttribute('style', 'border: none !important;');
