@@ -119,7 +119,7 @@ class ArticleController extends Controller
         font-weight: 700;
         margin-bottom: 10px; 
         text-transform: uppercase;
-        color: #FFD700;  /* Gold for premium feel */
+        color: #FFD700;  
         letter-spacing: 1px;
     '>" . htmlspecialchars($data['article']->service->title) . "</h3>
 
@@ -133,14 +133,14 @@ class ArticleController extends Controller
 
     <a href='" . htmlspecialchars($data['article']->service->link) . "' style='
         display: inline-block;
-        margin-top: 10px;
-        padding: 10px 30px; 
-        background: linear-gradient(135deg, #00893B, #00B75D); /* Enhanced Gradient */
+        margin-top: 5px !important; 
+        padding: 5px 20px !important;  
+        background: linear-gradient(135deg, #00893B, #00B75D); 
         color: #ffffff; 
         border-radius: 30px;
         text-decoration: none;
         font-weight: bold;
-        box-shadow: 0 6px 100px rgba(0, 137, 59, 0.6);
+        box-shadow: 0 6px 50px rgba(0, 137, 59, 0.6);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     '
     onmouseover=\"this.style.transform='scale(1.08)'; this.style.boxShadow='0 6px 10px rgba(0, 137, 59, 0.5)';\"
