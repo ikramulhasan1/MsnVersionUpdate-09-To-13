@@ -193,27 +193,25 @@ $header = \App\Models\PageSetup::page('blog');
         margin-bottom: 15px !important; 
     }
  
-.description>h1, .description>h1>b {
-    font-size: 2rem!important;       /* ~32px */
-    font-weight: 700!important; 
-}
+    .description>h1, .description>h1>b {
+        font-size: 2rem!important;       /* ~32px */
+        font-weight: 700!important; 
+    }
 
-.description>h2, .description>h2>b {
-    font-size: 1.75rem!important;    /* ~28px */
-    font-weight: 600!important; 
-}
+    .description>h2, .description>h2>b {
+        font-size: 1.75rem!important;    /* ~28px */
+        font-weight: 600!important; 
+    }
 
-.description>h3, .description>h3>b {
-    font-size: 1.5rem!important;     /* ~24px */
-    font-weight: 600!important; 
-}
+    .description>h3, .description>h3>b {
+        font-size: 1.5rem!important;     /* ~24px */
+        font-weight: 600!important; 
+    }
 
-.description>h4, .description>h4>b {
-    font-size: 1.25rem!important;    /* ~20px */
-    font-weight: 500!important; 
-}
-
-
+    .description>h4, .description>h4>b {
+        font-size: 1.25rem!important;    
+        font-weight: 500!important; 
+    }
 
         .circle-container {
             width: 180px;
@@ -226,7 +224,6 @@ $header = \App\Models\PageSetup::page('blog');
             align-items: center;
             gap: 15px; /* Space between buttons */
             box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
-            /* position: fixed; */
             bottom: 20px;
             right: 20px;
             padding: 15px;
@@ -234,12 +231,11 @@ $header = \App\Models\PageSetup::page('blog');
 
         /* Icon Buttons */
         .circle-button {
-            
             background-color: white;
             border: none;
-            width: 40px; /* Icon size */
+            width: 40px; 
             height: 40px;
-            border-radius: 50%; /* Makes buttons round */
+            border-radius: 50%; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -261,13 +257,9 @@ $header = \App\Models\PageSetup::page('blog');
         }
 
     .service-title {
-        /* position: absolute; */
-        /* top: 10px;  */
         font-weight: 600 !important;
         text-align: left;
         color: black;
-        /* font-size: 16px; */
-        /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  */
         width: 100%; /* Ensures the title spans the width of the container */
     }
     #emoji ul {
