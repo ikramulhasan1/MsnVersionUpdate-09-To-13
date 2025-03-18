@@ -75,8 +75,8 @@
                                 <label for="service_id">{{ __('dashboard.select_service_id') }}</label>
                                 <select class="wide" name="service_id" id="service_id" data-plugin="customselect">
                                     <option value="">{{ __('dashboard.none') }}</option>
-                                    @foreach($services as $service)
-                                        <option value="{{ $service->id }}">{{ $service->title }}</option>
+                                    @foreach($services as $key=>$service)
+                                        <option value="{{ $service->id }}">{{ $key+1 }}. {{ $service->title }}</option>
                                     @endforeach
                                 </select>
                             </div>
