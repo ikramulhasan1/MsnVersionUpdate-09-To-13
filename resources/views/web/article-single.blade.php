@@ -461,7 +461,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const descriptionElements = document.querySelectorAll(".article-description");
     descriptionElements.forEach(function(descriptionElement) {
         // Replace consecutive <br> tags with a single <br>
-        descriptionElement.innerHTML = descriptionElement.innerHTML.replace(/(<br\s*\/?>\s*){2,}/gi, '<br>');
+        descriptionElement.innerHTML = descriptionElement.innerHTML.replace(/(<br\s*\/?>\s*){3,}/gi, '<br><br>');
     });
 });
 
