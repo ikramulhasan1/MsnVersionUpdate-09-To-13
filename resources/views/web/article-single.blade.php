@@ -326,7 +326,7 @@ $header = \App\Models\PageSetup::page('blog');
                                     <div class="description" style="color: black !important " >
                                         {{-- {!! $article->description !!} --}}
                                         
-                                                {!! $article->content !!}
+                                                {!! $article->description !!}
                                        
                                     </div>
 
