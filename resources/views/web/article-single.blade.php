@@ -1,5 +1,5 @@
 @extends('web.layouts.master')
-
+@dd($article->service_desc)
 @php
 $header = \App\Models\PageSetup::page('blog');
 @endphp
@@ -180,7 +180,6 @@ $header = \App\Models\PageSetup::page('blog');
         font-weight: 500!important; 
     }
 
-
     p{
         font-size: 18px !important;
     }
@@ -194,7 +193,7 @@ $header = \App\Models\PageSetup::page('blog');
     }
  
     .description>h1, .description>h1>b {
-        font-size: 2rem!important;       /* ~32px */
+        font-size: 2rem!important; 
         font-weight: 700!important; 
     }
 
