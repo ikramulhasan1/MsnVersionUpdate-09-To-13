@@ -83,7 +83,7 @@
                         </div>
 
                         {{--  --}}
-                        <div style="background-color: #ffd4d4; padding: 15px;">
+                        <div style="background-color: #ffeeee; padding: 15px; margin-bottom: 10px;">
                             <h4 style="text-align: center" >Service Package</h4>
                             <div class="row">
                                 <div class="form-group col">
@@ -123,7 +123,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="background-color: #d4ffd4; padding: 15px;">
+                        <div style="background-color: #eeffee; padding: 15px;">
                             <h4 style="text-align: center" >Seo Section</h4>
                             <div class="form-group">
                                 <label for="meta_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
