@@ -106,10 +106,10 @@ class ArticleController extends Controller
         if (!empty($data['article']->service)) {
             $packageHtml = "<div class='service-package' style='
     background: #1E2A38; 
-    border: 2px solid rgba(255, 255, 255, 0.15);
+    border: 5px solid #009B48;
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-    padding: 30px; 
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
+    padding: 20px; 
     margin: 20px 0; 
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
