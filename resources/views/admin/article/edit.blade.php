@@ -114,17 +114,17 @@
 
                         <div class="form-group">
                             <label for="service_desc">{{ __('dashboard.service_desc') }} <span>*</span></label>
-                            <textarea class="form-control" name="service_desc" id="editor1" rows="4" required>{{ $row->service_desc }}</textarea>
+                            <textarea class="form-control" name="service_desc" id="editor1" rows="2" required>{{ $row->service_desc }}</textarea>
 
                             <div class="invalid-feedback">
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.service_desc') }}
                             </div>
                         </div>
 
-                        <div style="border: 2px solid #4CAF50; padding: 10px;">
+                        <div style="background-color: #6ec270; border: 2px solid #4CAF50; padding: 10px;">
                             <div class="form-group">
                                 <label for="meta_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
-                                <textarea class="form-control" name="meta_desc" id="editor2" rows="4" required>{{ $row->meta_desc }}</textarea>
+                                <textarea class="form-control" name="meta_desc" id="editor2" rows="2" required>{{ $row->meta_desc }}</textarea>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_description') }}
