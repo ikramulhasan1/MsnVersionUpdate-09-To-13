@@ -96,16 +96,8 @@ class ArticleController extends Controller
     
 if (!empty($data['article']->service) && !empty($data['article']->service_title) && !empty($data['article']->service_desc)) {
     // Replace the <li> elements with the ✅ emoji
-    // $description = preg_replace('/<p(.*?)>/i', '<p$1 style="color: #ffffff !important; margin: 8px !important; font-size: 18px !important; ">', $data['article']->service_desc);
-    // $description = preg_replace('/<li>(.*?)<\/li>/i', '<p style="margin:0px; text-align:left !important; color: #ffffff !important;">✅ $1</p>', $description);
-   
-    $description = html_entity_decode($data['article']->service_desc);
-
-    // Replace <li> elements with ✅ emoji
-    $description = preg_replace('/<li>(.*?)<\/li>/i', 
-        '<p style="margin: 0px; text-align: left !important; color: #ffffff !important;">✅ $1</p>', 
-        $description
-    );
+    $description = htmlspecialchars_decode(preg_replace('/<p(.*?)>/i', '<p$1 style="color: #ffffff !important; margin: 8px !important; font-size: 18px !important; ">', $data['article']->service_desc));
+    $description = preg_replace('/<li>(.*?)<\/li>/i', '<p style="margin:0px; text-align:left !important; color: #ffffff !important;">✅ $1</p>', $description);
     $description = str_replace(['<ul>', '</ul>', '<ol>', '</ol>'], '', $description);
 
     $packageHtml = "<div class='service-package' style='
