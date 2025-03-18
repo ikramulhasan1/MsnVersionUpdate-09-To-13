@@ -108,7 +108,7 @@ class ArticleController extends Controller
                 background: #2c3e50; 
                 border: 2px solid rgba(255, 255, 255, 0.2);
                 border-radius: 18px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
                 padding: 25px; 
                 margin: 20px 0; 
                 text-align: center;
@@ -124,7 +124,7 @@ class ArticleController extends Controller
                 '>" . htmlspecialchars($data['article']->service->title) . "</h3>
 
                 <p style='
-                    font-size: 16px; 
+                    font-size: 15px; 
                     line-height: 1.6;
                     text-align: left;
                     margin-bottom: 15px; 
@@ -135,16 +135,16 @@ class ArticleController extends Controller
                     display: inline-block;
                     margin-top: 10px;
                     padding: 10px 30px; 
-                    background-color: #1E5C63; 
+                    background-color: #49AA51; 
                     color: #ffffff;
                     border-radius: 30px;
                     text-decoration: none;
                     font-weight: bold;
-                    box-shadow: 0 6px 20px rgba(30, 92, 99, 0.4);
+                    box-shadow: 0 6px 20px rgb(33, 119, 69);
                     transition: transform 0.3s ease, box-shadow 0.3s ease;
                 ' 
-                    onmouseover='this.style.transform=\"scale(1.05)\"; this.style.boxShadow=\"0 8px 35px rgba(30, 92, 99, 0.6)\";'
-                    onmouseout='this.style.transform=\"scale(1)\"; this.style.boxShadow=\"0 6px 20px rgba(30, 92, 99, 0.4)\";'
+                    onmouseover='this.style.transform=\"scale(1.05)\"; this.style.boxShadow=\"0 8px 35px #308D57\";'
+                    onmouseout='this.style.transform=\"scale(1)\"; this.style.boxShadow=\"0 6px 20px rgb(28, 109, 62)\";'
                 >Discover Now</a>
 
             </div>";}
