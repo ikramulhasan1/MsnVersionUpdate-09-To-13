@@ -140,7 +140,7 @@ class ArticleController extends Controller
         border-radius: 30px;
         text-decoration: none;
         font-weight: bold;
-        box-shadow: 0 6px 20px rgba(0, 137, 59, 0.6);
+        box-shadow: 0 6px 100px rgba(0, 137, 59, 0.6);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     '
     onmouseover=\"this.style.transform='scale(1.08)'; this.style.boxShadow='0 10px 30px rgba(0, 183, 93, 0.8)';\"
