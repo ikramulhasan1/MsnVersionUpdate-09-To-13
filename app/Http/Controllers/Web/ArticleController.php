@@ -145,7 +145,7 @@ class ArticleController extends Controller
             '
             onmouseover=\"this.style.transform='scale(1.08)'; this.style.boxShadow='0 6px 10px rgba(0, 137, 59, 0.5)';\"
             onmouseout=\"this.style.transform='scale(1)'; this.style.boxShadow='0 6px 10px rgba(0, 137, 59, 0.5)';\"
-            >Discover Now</a>
+            >Visit Now >></a>
 
         </div>";
 
