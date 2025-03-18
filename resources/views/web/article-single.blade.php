@@ -450,9 +450,10 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener("DOMContentLoaded", function () {
     const descriptionElement = document.getElementById("article-description");
     if (descriptionElement) {
-        descriptionElement.innerHTML = descriptionElement.innerHTML.replace(/<br\s*\/?>/gi, '');
+        descriptionElement.innerHTML = descriptionElement.innerHTML.replace(/(<br\s*\/?>\s*){2,}/gi, '');
     }
 });
+
 
 // 
 document.addEventListener("DOMContentLoaded", function () {
