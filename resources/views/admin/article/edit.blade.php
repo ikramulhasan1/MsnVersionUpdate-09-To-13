@@ -114,31 +114,32 @@
 
                         <div class="form-group">
                             <label for="service_desc">{{ __('dashboard.service_desc') }} <span>*</span></label>
-                            <textarea class="form-control" name="service_desc" id="editor" rows="4" required>{{ $row->service_desc }}</textarea>
+                            <textarea class="form-control" name="service_desc" id="editor1" rows="4" required>{{ $row->service_desc }}</textarea>
 
                             <div class="invalid-feedback">
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.service_desc') }}
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="meta_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
-                            <textarea class="form-control" name="meta_desc" id="editor" rows="4" required>{{ $row->meta_desc }}</textarea>
 
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_description') }}
+                        <div style="border: 2px solid #4CAF50">
+                            <div class="form-group">
+                                <label for="meta_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
+                                <textarea class="form-control" name="meta_desc" id="editor2" rows="4" required>{{ $row->meta_desc }}</textarea>
+
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_description') }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="keywords">{{ __('dashboard.meta_keywords') }} <span>*</span></label>
+                                <input type="text" class="form-control tagin" data-tagin-separator=" " name="keywords" value="{{ $row->keywords ?? '' }}" required>
+                                
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
+                                </div>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label for="keywords">{{ __('dashboard.meta_keywords') }} <span>*</span></label>
-                            <input type="text" class="form-control tagin" data-tagin-separator=" " name="keywords" value="{{ $row->keywords ?? '' }}" required>
-                            
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
-                            </div>
-                        </div>
-
-                        
 
                         <div class="form-group">
                             <label for="image">{{ __('dashboard.thumbnail') }} <span>{{ __('dashboard.image_size', ['height' => 280, 'width' => 500]) }}</span></label>
@@ -213,6 +214,23 @@ document.addEventListener("DOMContentLoaded", function () {
         } // Converts <strong> to <b>
     });
     CKEDITOR.replace('editor1', {
+        on: {
+            instanceReady: function(ev) {
+                this.dataProcessor.writer.setRules('strong', {
+                    indent: false,
+                    breakBeforeOpen: false,
+                    breakAfterOpen: false,
+                    breakBeforeClose: false,
+                    breakAfterClose: false
+                });
+            }
+        },
+        coreStyles_bold: {
+            element: 'b',
+            overrides: 'strong'
+        } // Converts <strong> to <b>
+    });
+    CKEDITOR.replace('editor2', {
         on: {
             instanceReady: function(ev) {
                 this.dataProcessor.writer.setRules('strong', {
