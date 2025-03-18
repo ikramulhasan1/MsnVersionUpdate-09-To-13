@@ -270,21 +270,14 @@ $header = \App\Models\PageSetup::page('blog');
         /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  */
         width: 100%; /* Ensures the title spans the width of the container */
     }
-
-#article-description ul {
-    list-style-type: none;  /* Removes the default bullet points */
+    #article-description ul {
+    list-style-type: none;  /* Removes the default bullets */
     padding-left: 0;        /* Removes any left padding */
 }
 
 #article-description li::before {
-    content: "✅ ";         /* Adds the emoji before each list item */
-    padding-right: 5px;     /* Adds space between the emoji and the text */
-    display: inline-block;  /* Ensures the emoji is in the same line as the text */
-}
-
-
-.article-description br {
-    margin-bottom: 5px;
+    content: "✅ "; /* Adds the emoji before each list item */
+    padding-right: 5px; /* Optional: Adds some space between the emoji and the text */
 }
 
 </style>
@@ -477,12 +470,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // 
 document.addEventListener("DOMContentLoaded", function () {
-    const listItems = document.querySelectorAll("#article-description li");
-    listItems.forEach(function(li) {
-        li.style.listStyleType = "none"; // Ensure no default bullet points
-        li.innerHTML = "✅ " + li.innerHTML;  // Add the emoji before the text
-    });
+    const descriptionElement = document.getElementById("article-description");
+    if (descriptionElement) {
+        const listItems = descriptionElement.querySelectorAll("li");
+        listItems.forEach(function(li) {
+            li.style.listStyleType = "none"; // Ensures no default bullets are shown
+        });
+    }
 });
+
 
 
  document.querySelectorAll('.news-block').forEach(element => {
