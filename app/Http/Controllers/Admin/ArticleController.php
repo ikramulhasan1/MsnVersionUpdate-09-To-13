@@ -424,6 +424,8 @@ class ArticleController extends Controller
             'title' => 'required|max:191|unique:articles,title,'.$article->id,
             'short_title' => 'required|max:50',
             'keywords' => 'required',
+            'service_id' => 'nullable|exists:services,id',
+            'placeholder' => 'required|string',
             'category' => 'required',
             'description' => 'required',
             'image' => 'nullable|image',
@@ -522,6 +524,8 @@ class ArticleController extends Controller
         // Update Data
         $article->title = $request->title;
         $article->short_title = $request->short_title;
+        $article->service_id = $request->service_id;
+        $article->placeholder = $request->placeholder;
         $article->keywords = implode(',', $keywords); // Save as comma-separated values
         $article->slug = Str::slug($request->title, '-');
         $article->category_id = $request->category;
