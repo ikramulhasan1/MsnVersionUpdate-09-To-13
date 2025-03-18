@@ -270,6 +270,16 @@ $header = \App\Models\PageSetup::page('blog');
         /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  */
         width: 100%; /* Ensures the title spans the width of the container */
     }
+    #article-description ul {
+    list-style-type: none;  /* Removes the default bullets */
+    padding-left: 0;        /* Removes any left padding */
+}
+
+#article-description li::before {
+    content: "✅ "; /* Adds the emoji before each list item */
+    padding-right: 5px; /* Optional: Adds some space between the emoji and the text */
+}
+
 </style>
 <!--Page Title-->
 <section class="page-title">
@@ -463,10 +473,11 @@ document.addEventListener("DOMContentLoaded", function () {
     if (descriptionElement) {
         const listItems = descriptionElement.querySelectorAll("li");
         listItems.forEach(function(li) {
-            li.innerHTML = "✅ " + li.innerHTML;
+            li.style.listStyleType = "none"; // Ensures no default bullets are shown
         });
     }
 });
+
 
 
  document.querySelectorAll('.news-block').forEach(element => {
