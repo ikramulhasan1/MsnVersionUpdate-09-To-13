@@ -121,29 +121,34 @@ class ArticleController extends Controller
                 color: rgb(255, 255, 255);
                 letter-spacing: 1px;
                 font-weight: 600;
-            '>" . htmlspecialchars($data['article']->service->title) . "</h3><p style='
+            '>" . htmlspecialchars($data['article']->service->title) . "</h3>
+        
+            <p style='
                 font-size: 14px; 
                 line-height: 1.6;
                 text-align: left;
                 margin-bottom: 15px; 
                 color: rgb(255, 255, 255);
-            '>" . htmlspecialchars($data['article']->service->short_desc) . "</p><a href='" . htmlspecialchars($data['article']->service->link) . "' style='
+            '>" . nl2br(htmlspecialchars($data['article']->service->short_desc)) . "</p>
+        
+            <a href='" . htmlspecialchars($data['article']->service->link) . "' style='
                 display: inline-block;
                 margin-top: 10px;
                 padding: 10px 30px; 
-                background-color: #00893B;  /* Updated Button Color */
+                background-color: #00893B; /* Corrected Button Color */
                 color: #ffffff;
                 border-radius: 30px;
                 text-decoration: none;
                 font-weight: bold;
                 box-shadow: 0 6px 20px rgba(0, 137, 59, 0.5);
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
-            ' 
-                onmouseover='this.style.transform=\"scale(1.05)\"; this.style.boxShadow=\"0 8px 35px rgba(0, 137, 59, 0.7)\";'
-                onmouseout='this.style.transform=\"scale(1)\"; this.style.boxShadow=\"0 6px 20px rgba(0, 137, 59, 0.5)\";'
+            '
+            onmouseover=\"this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 35px rgba(0, 137, 59, 0.7)';\"
+            onmouseout=\"this.style.transform='scale(1)'; this.style.boxShadow='0 6px 20px rgba(0, 137, 59, 0.5)';\"
             >Discover Now</a>
         
         </div>";
+        
         }
             
         // Dynamic Placeholder Logic
