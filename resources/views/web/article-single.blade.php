@@ -1,5 +1,5 @@
 @extends('web.layouts.master')
-
+@dd($article->service)
 @php
 $header = \App\Models\PageSetup::page('blog');
 @endphp
@@ -325,7 +325,7 @@ $header = \App\Models\PageSetup::page('blog');
                                     </ul>
                                     <div class="description" style="color: black !important " >
                                         {{-- {!! $article->description !!} --}}
-                                        @dd($article->content)
+                                        
                                                 {!! $article->content !!}
                                        
                                     </div>
