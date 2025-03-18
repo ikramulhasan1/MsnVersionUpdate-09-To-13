@@ -104,10 +104,11 @@ class ArticleController extends Controller
         $packageHtml = '';
         
             $packageHtml = '<div class="service-package" style="
-                                    background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
-                                    color: #fff;
+                                    background-color:rgb(0, 10, 51);
+                                    color: #ffffff;
                                     padding: 20px;
                                     border-radius: 12px;
+                                    border: 3px solid #1D2854;
                                     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
                                     margin: 20px 0;
                                     text-align: center;">
@@ -117,11 +118,11 @@ class ArticleController extends Controller
                                         display: inline-block;
                                         margin-top: 10px;
                                         padding: 10px 20px;
-                                        background: #FFC107;
-                                        color: #333;
+                                        background:rgb(255, 7, 7);
+                                        color: #ffffff;
                                         border-radius: 8px;
                                         text-decoration: none;
-                                        font-weight: bold;">Learn More</a>
+                                        font-weight: bold;">Visit</a>
                                 </div>';
         
 
