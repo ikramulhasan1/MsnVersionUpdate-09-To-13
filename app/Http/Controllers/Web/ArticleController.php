@@ -106,6 +106,7 @@ if (!empty($data['article']->service) && !empty($data['article']->service_title)
 
     $packageHtml = "<div class='service-package' style='
     background: #1E2A38; 
+    color: white;
     border: 2px solid #59C94E !important; 
     border-radius: 30px !important; 
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.4) !important; 
@@ -119,7 +120,7 @@ if (!empty($data['article']->service) && !empty($data['article']->service_title)
             font-weight: 700;
             margin-bottom: 10px; 
             text-transform: uppercase;
-            color: #FFD700;  
+            color: #FFD700 !important;  
             letter-spacing: 1px;
         '>" . htmlspecialchars($data['article']->service_title) . "</h3>
 
