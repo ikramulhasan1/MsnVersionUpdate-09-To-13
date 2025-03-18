@@ -129,7 +129,7 @@ class ArticleController extends Controller
         text-align: left;
         margin-bottom: 15px; 
         color: rgb(255, 255, 255);
-    '>" . nl2br(htmlspecialchars($data['article']->service->short_desc)) . "</p>
+    '>" . htmlspecialchars($data['article']->service->short_desc) . "</p>
 
     <a href='" . htmlspecialchars($data['article']->service->link) . "' style='
         display: inline-block;
