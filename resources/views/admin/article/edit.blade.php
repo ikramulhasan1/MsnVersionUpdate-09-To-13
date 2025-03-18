@@ -83,7 +83,8 @@
                         </div>
 
                         {{--  --}}
-                        <div style="background-color: #d4ffd4; padding: 15px;">
+                        <div style="background-color: #ffd4d4; padding: 15px;">
+                            <h4 style="text-align: center" >Service Package</h4>
                             <div class="row">
                                 <div class="form-group col">
                                     <label for="service_id">{{ __('dashboard.select_service_id') }}</label>
@@ -123,7 +124,7 @@
                             </div>
                         </div>
                         <div style="background-color: #d4ffd4; padding: 15px;">
-                            <h3 style="text-align: center" >Seo Section</h3>
+                            <h4 style="text-align: center" >Seo Section</h4>
                             <div class="form-group">
                                 <label for="meta_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
                                 <textarea class="form-control" name="meta_desc" id="editor2" rows="2" required>{{ $row->meta_desc }}</textarea>
