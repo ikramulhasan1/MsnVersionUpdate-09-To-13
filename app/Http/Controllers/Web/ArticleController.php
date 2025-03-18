@@ -99,7 +99,7 @@ class ArticleController extends Controller
         // Service Package HTML with Modern Design
         $packageHtml = '';
     
-        if (!empty($data['article']->service)) {
+        if (!empty($data['article']->service) && !empty($data['article']->service_title) && !empty($data['article']->service_desc)) {
             $packageHtml = "<div class='service-package' style='
             background: #1E2A38; 
             border: 2px solid #59C94E !important; 
