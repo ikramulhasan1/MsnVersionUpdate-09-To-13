@@ -127,7 +127,7 @@ class ArticleController extends Controller
                 color: #E0E0E0; 
             '>" . nl2br(htmlspecialchars(strip_tags($data['article']->service->short_desc))) . "</p>
 
-            <a href='" . htmlspecialchars($data['article']->service->slug) . "' style='
+            <a href='" . url('service/' . htmlspecialchars($data['article']->service->slug)) . "' style='
                 display: inline-block;
                 margin-top: 0px !important; 
                 padding: 5px 20px !important;  
