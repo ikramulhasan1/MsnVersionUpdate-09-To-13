@@ -103,6 +103,7 @@ if (!empty($data['article']->service) && !empty($data['article']->service_title)
     // Replace the <li> elements with the ✅ emoji
     $description = $data['article']->service_desc;
     $description = preg_replace('/<li>(.*?)<\/li>/i', '<p style="margin:0px; text-align:left !important; color: #ffffff !important;">✅ $1</p>', $description);
+    $description = str_replace(['<ul>', '</ul>', '<ol>', '</ol>'], '', $description);
 
     $packageHtml = "<div class='service-package' style='
     background: #1E2A38; 
@@ -123,14 +124,14 @@ if (!empty($data['article']->service) && !empty($data['article']->service_title)
             letter-spacing: 1px;
         '>" . htmlspecialchars($data['article']->service_title) . "</h3>
 
-        <p id='emoji' style='
+        <div id='emoji' style='
             text-align:left !important; 
             font-size: 16px !important; 
             line-height: 1.7;
             text-align: left;
             margin-bottom: 18px; 
             color: #ffffff !important;
-        '>" . $description . "</p>
+        '>" . $description . "</div>
 
         <a target='_blank' href='" . url('service/' . htmlspecialchars($data['article']->service->slug)) . "' style='
             display: inline-block;
