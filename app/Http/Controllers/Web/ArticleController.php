@@ -106,7 +106,7 @@ class ArticleController extends Controller
         if (!empty($data['article']->service)) {
             $packageHtml = "<div class='service-package' style='
     background: #1E2A38; 
-    border: 5px solid #009B48;
+    border: 5px solid #009B48 !important; 
     border-radius: 20px;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
     padding: 20px; 
@@ -124,7 +124,7 @@ class ArticleController extends Controller
     '>" . htmlspecialchars($data['article']->service->title) . "</h3>
 
     <p style='
-        font-size: 15px; 
+        font-size: 14px; 
         line-height: 1.7;
         text-align: left;
         margin-bottom: 18px; 
