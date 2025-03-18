@@ -270,12 +270,12 @@ $header = \App\Models\PageSetup::page('blog');
         /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  */
         width: 100%; /* Ensures the title spans the width of the container */
     }
-    #article-description ul {
+    .emoji ul {
     list-style-type: none;  /* Removes the default bullets */
     padding-left: 0;        /* Removes any left padding */
 }
 
-#article-description li::before {
+.emoji li::before {
     content: "✅ "; /* Adds the emoji before each list item */
     padding-right: 5px; /* Optional: Adds some space between the emoji and the text */
 }
@@ -470,7 +470,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // 
 document.addEventListener("DOMContentLoaded", function () {
-    const descriptionElement = document.getElementById("article-description");
+    const descriptionElement = document.querySelectorAll(".emoji");
     if (descriptionElement) {
         const listItems = descriptionElement.querySelectorAll("li");
         listItems.forEach(function(li) {
