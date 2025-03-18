@@ -280,6 +280,11 @@ $header = \App\Models\PageSetup::page('blog');
     padding-right: 5px; /* Optional: Adds some space between the emoji and the text */
 }
 
+
+.article-description br {
+    margin-bottom: 5px;
+}
+
 </style>
 <!--Page Title-->
 <section class="page-title">
@@ -460,7 +465,8 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener("DOMContentLoaded", function () { 
     const descriptionElements = document.querySelectorAll(".article-description");
     descriptionElements.forEach(function(descriptionElement) {
-        descriptionElement.innerHTML = descriptionElement.innerHTML.replace(/(<br\s*\/?>\s*){2,}/gi, '');
+        // Replace consecutive <br> tags with a single <br>
+        descriptionElement.innerHTML = descriptionElement.innerHTML.replace(/(<br\s*\/?>\s*){2,}/gi, '<br>');
     });
 });
 
