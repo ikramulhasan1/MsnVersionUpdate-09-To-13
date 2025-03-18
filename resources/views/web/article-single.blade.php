@@ -1,5 +1,5 @@
 @extends('web.layouts.master')
-@dd($article->service_id)
+
 @php
 $header = \App\Models\PageSetup::page('blog');
 @endphp
