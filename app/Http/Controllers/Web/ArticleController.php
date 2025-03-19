@@ -258,7 +258,7 @@ class ArticleController extends Controller
                     
     
                     <div>
-                        <a target='_blank' href='" . url('service/' . htmlspecialchars($article->slug)) . "' style='
+                        <a target='_blank' href='" . url('service/' . htmlspecialchars($article->service->slug)) . "' style='
                             display: inline-block;
                             padding: 8px 25px;
                             background: linear-gradient(135deg, #00893B, #00B75D);
