@@ -53,8 +53,8 @@
                                 <select class="form-control" name="category" id="category" required>
                                     <option value="">{{ __('dashboard.select') }}</option>
                                     @foreach( $categories as $category )
-                                    @dd($category->short_title)
-                                    <option value="{{ $category->id }}" @if(old('category')==$category->id) selected @endif style="color: black !important;" >{{ $category->short_title }}</option>
+                                    
+                                    <option value="{{ $category->id }}" @if(old('category')==$category->id) selected @endif style="color: black !important;" >{{ $category->title }}</option>
                                     @endforeach
                                 </select>
     
