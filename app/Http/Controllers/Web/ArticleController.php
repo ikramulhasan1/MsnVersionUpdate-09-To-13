@@ -96,7 +96,7 @@ class ArticleController extends Controller
        
         $page_quote = \App\Models\PageSetup::page('get-quote');
         $page_contact = \App\Models\PageSetup::page('contact-us');
-   
+        $setting = \App\Models\Setting::first();
         if (!empty($data['article']->service) && !empty($data['article']->service_title) && !empty($data['article']->service_desc)) {
             // Replace the <li> elements with the ✅ emoji
             $description = htmlspecialchars_decode(preg_replace('/<p(.*?)>/i', '<p$1 style="color: #ffffff !important; margin: 8px !important; font-size: 18px !important; ">', $data['article']->service_desc));
