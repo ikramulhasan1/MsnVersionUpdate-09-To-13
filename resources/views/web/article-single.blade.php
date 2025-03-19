@@ -313,9 +313,9 @@ $header = \App\Models\PageSetup::page('blog');
                             <div style="padding-bottom: 0px; padding-left: 0px; padding-right: 0px;" class="caption-box">
                                 <div class="inner">
                                     <h3><a href="{{ route('blog.single', $article->slug) }}">{{ $article->title }}</a></h3>
-                                    <ul class="post-meta">
+                                    {{-- <ul class="post-meta">
                                         <li><i class="far fa-calendar-check"></i>{{ date('d M, Y', strtotime($article->created_at)) }}</li>
-                                    </ul>
+                                    </ul> --}}
                                     <div class="description article-description" id="article-description" style="color: black !important " >                                        
                                                 {!! $article->description !!}
                                     </div>
