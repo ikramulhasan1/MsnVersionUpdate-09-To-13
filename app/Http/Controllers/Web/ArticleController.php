@@ -294,7 +294,7 @@ class ArticleController extends Controller
         }
     
         // Dynamic Placeholder Logic
-        $placeholder = $article->placeholder ?? 'serviceshow';
+        $placeholder = $article->placeholder || 'serviceshow';
     
         // Improved Regex for Better Placeholder Handling
         $article->description = preg_replace(
