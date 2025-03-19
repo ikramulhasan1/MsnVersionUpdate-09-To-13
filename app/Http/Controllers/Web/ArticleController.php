@@ -255,22 +255,7 @@ class ArticleController extends Controller
                     gap: 10px; 
                     flex-wrap: wrap;
                 '>
-                    <div class='circle-container' style='
-                        display: flex; 
-                        gap: 10px;
-                    '>
-                        <a href='" . route('get-quote') . "' target='_blank' class='circle-button'>
-                            <img src='https://cdn-icons-png.flaticon.com/128/18572/18572275.png' alt='Get A Quote'>
-                        </a>
-    
-                        <a rel='noopener noreferrer' href='https://wa.link/vkb4au' target='_blank' class='circle-button'>
-                            <img src='https://cdn-icons-png.flaticon.com/128/733/733585.png' alt='WhatsApp'>
-                        </a>
-    
-                        <a href='mailto:" . $setting->email_one . "?subject=Inquiry&body=" . $article->title . "' class='circle-button'>
-                            <img src='https://cdn-icons-png.flaticon.com/128/732/732200.png' alt='Email'>
-                        </a>
-                    </div>
+                    
     
                     <div>
                         <a target='_blank' href='" . url('service/' . htmlspecialchars($article->slug)) . "' style='
@@ -287,6 +272,22 @@ class ArticleController extends Controller
                         onmouseover=\"this.style.transform='scale(1.08)'; this.style.boxShadow='0 6px 10px rgba(0, 137, 59, 0.5)';\"
                         onmouseout=\"this.style.transform='scale(1)'; this.style.boxShadow='0 6px 10px rgba(0, 137, 59, 0.5)';\"
                         >Visit Now >></a>
+                    </div>
+                    <div class='circle-container' style='
+                        display: flex; 
+                        gap: 10px;
+                    '>
+                        <a href='" . route('get-quote') . "' target='_blank' class='circle-button'>
+                            <img src='https://cdn-icons-png.flaticon.com/128/18572/18572275.png' alt='Get A Quote'>
+                        </a>
+    
+                        <a rel='noopener noreferrer' href='https://wa.link/vkb4au' target='_blank' class='circle-button'>
+                            <img src='https://cdn-icons-png.flaticon.com/128/733/733585.png' alt='WhatsApp'>
+                        </a>
+    
+                        <a href='mailto:" . $setting->email_one . "?subject=Inquiry&body=" . $article->title . "' class='circle-button'>
+                            <img src='https://cdn-icons-png.flaticon.com/128/732/732200.png' alt='Email'>
+                        </a>
                     </div>
                 </div>
             </div>";
@@ -305,6 +306,4 @@ class ArticleController extends Controller
         // Return the view
         return view('web.article-single', $data);
     }
-
-
-    }        
+}        
