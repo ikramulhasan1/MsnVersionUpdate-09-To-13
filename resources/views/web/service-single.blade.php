@@ -290,16 +290,16 @@ $header = \App\Models\PageSetup::page('services');
                 <div class="service-detail">
                     <div class="inner-box">
                         <div class="image-box">
-                            {{-- <div class="single-item-">
-                                <figure class="image"><img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
-                            </div> --}}
-
                             <div class="single-item-">
+                                <figure class="image"><img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
+                            </div>
+
+                            {{-- <div class="single-item-">
                                 <picture>
                                     <source type="image/webp" srcset="{{ asset('uploads/service/'.$service->image_path.'.webp') }}">
                                     <img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" />
                                 </picture>
-                            </div>
+                            </div> --}}
                             
                         </div>
                         <p style="font-size: 32px; color: black; font-weight: 500;" class="mb-4">{{ $service->short_title }}</p>
@@ -356,12 +356,12 @@ $header = \App\Models\PageSetup::page('services');
                 <aside class="sidebar services-sidebar">
 
                     <!--Service Category Widget-->
-                    {{-- <div class="image-box">
+                    <div class="image-box">
                         <div class="single-item-">
                             <figure class="image"><img style="border-radius: 10px;" src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" /></figure>
                         </div>
-                    </div> --}}
-                    <div class="image-box">
+                    </div>
+                    {{-- <div class="image-box">
                         <div class="single-item-">
                             <figure class="image">
                                 <picture>
@@ -370,7 +370,7 @@ $header = \App\Models\PageSetup::page('services');
                                 </picture>
                             </figure>
                         </div>
-                    </div>
+                    </div> --}}
                     
 
                 </aside>
@@ -462,12 +462,12 @@ $header = \App\Models\PageSetup::page('services');
                 <aside class="sidebar services-sidebar">
 
                     <!--Service Category Widget-->
-                    {{-- <div class="image-box">
+                    <div class="image-box">
                         <div class="single-item-">
                             <figure class="image"><img style="border-radius: 10px;" src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" /></figure>
                         </div>
-                    </div> --}}
-                    <div class="image-box">
+                    </div>
+                    {{-- <div class="image-box">
                         <div class="single-item-">
                             <figure class="image">
                                 <picture>
@@ -476,7 +476,7 @@ $header = \App\Models\PageSetup::page('services');
                                 </picture>
                             </figure>
                         </div>
-                    </div>
+                    </div> --}}
                     
 
                 </aside>
