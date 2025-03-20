@@ -13,6 +13,18 @@ $header = \App\Models\PageSetup::page('services');
 <meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
 @endif
 
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "LocalBusiness",
+        "name": "{{ $service->title }}",
+        "image": "{{ asset('uploads/service/'.$service->image_path) }}",
+        "email": "{{ $setting->email_one }}@if(isset($setting->email_two)), @endif {{ $setting->email_two }}",
+        "url": "{{ route('service.single', $service->slug) }}"
+    }
+</script>
+
+
 @if(isset($header->meta_keywords))
 <meta name="keywords" content="{!! strip_tags($header->meta_keywords) !!}">
 @else
@@ -43,38 +55,6 @@ $header = \App\Models\PageSetup::page('services');
 @endsection
 
 {{-- schema section --}}
-@section('schema_markup')
-    <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "Service",
-            "name": "{{ addslashes($service->title) }}",
-            "description": "{{ addslashes(strip_tags($service->short_desc)) }}",
-            "provider": {
-                "@type": "Organization",
-                "name": "MSN Softtech",
-                "url": "{{ url('/') }}",
-                "logo": "{{ asset('/uploads/setting/'.$setting->logo_path) }}"
-            },
-            "areaServed": {
-                "@type": "Country",
-                "name": "United States"
-            },
-            "serviceType": "{{ addslashes($service->short_title) }}",
-            "url": "{{ route('service.single', $service->slug) }}",
-            "image": "{{ asset('uploads/service/'.$service->image_path) }}",
-            "offers": {
-                "@type": "Offer",
-                "price": "{{ $service->price ?? $service->starting_price }}",
-                "priceCurrency": "{{ $service->priceCurrency ?? 'USD' }}",
-                "url": "{{ route('service.single', $service->slug) }}"
-            }
-        }
-    </script>
-    
-@endsection
-
-
 
 @section('content')
 <style>
