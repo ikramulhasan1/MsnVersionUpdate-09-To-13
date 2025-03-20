@@ -292,11 +292,11 @@ $header = \App\Models\PageSetup::page('blog');
                     <!-- News Block -->
                     <div class="news-block">
                         <div class="inner-box">
-                            {{-- <div class="image-box">
+                            <div class="image-box">
                                 <figure class="image"><img src="{{ asset('uploads/article/'.$article->image_path) }}" alt="{{ $article->title }}"></figure>
                                 <div class="overlay-box"><a href="{{ route('blog.single', $article->slug) }}"><i class="icon fas fa-image"></i></a></div>
-                            </div> --}}
-                            <div class="image-box">
+                            </div>
+                            {{-- <div class="image-box">
                                 <figure class="image">
                                     <picture>
                                         <source type="image/webp" srcset="{{ asset('uploads/article/'.$article->image_path.'.webp') }}">
@@ -308,7 +308,7 @@ $header = \App\Models\PageSetup::page('blog');
                                         <i class="icon fas fa-image"></i>
                                     </a>
                                 </div>
-                            </div>
+                            </div> --}}
                             
                             <div style="padding-bottom: 0px; padding-left: 0px; padding-right: 0px;" class="caption-box">
                                 <div class="inner">
@@ -405,19 +405,19 @@ $header = \App\Models\PageSetup::page('blog');
                         <div class="widget-content">
                             @foreach($recents as $key => $recent)
                             <article class="post">
-                                {{-- <div class="post-thumb">
+                                <div class="post-thumb">
                                     <a href="{{ route('blog.single', $recent->slug) }}">
                                         <img src="{{ asset('uploads/article/'.$recent->image_path) }}" alt="{{ $recent->title }}">
                                     </a>
-                                </div> --}}
-                                <div class="post-thumb">
+                                </div>
+                                {{-- <div class="post-thumb">
                                     <a href="{{ route('blog.single', $recent->slug) }}">
                                         <picture>
                                             <source type="image/webp" srcset="{{ asset('uploads/article/'.$recent->image_path.'.webp') }}">
                                             <img src="{{ asset('uploads/article/'.$recent->image_path) }}" alt="{{ $recent->title }}">
                                         </picture>
                                     </a>
-                                </div>
+                                </div> --}}
                                 
                                 <h3><a href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 50, ' ...') !!}</a></h3>
                                 <div class="post-info">{{ date('F d Y', strtotime($recent->created_at)) }}</div>
