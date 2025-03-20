@@ -20,6 +20,8 @@ $header = \App\Models\PageSetup::page('services');
         "name": "{{ $service->title }}",
         "image": "{{ asset('uploads/service/'.$service->image_path) }}",
         "email": "{{ $setting->email_one }}@if(isset($setting->email_two)), @endif {{ $setting->email_two }}",
+        "telephone": "{{ $setting->phone_two }}@if(isset($setting->phone_one)), @endif {{ $setting->phone_one }}",
+        "priceRange": "{{ $service->price }}",
         "url": "{{ route('service.single', $service->slug) }}",
         "address": {
             "@type": "PostalAddress",
