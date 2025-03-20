@@ -28,7 +28,7 @@ $header = \App\Models\PageSetup::page('services');
             "streetAddress": "123 Main Street",
             "addressLocality": "Los Angeles",
             "addressRegion": "California",
-            "addressCountry": "USA",
+            "addressCountry": "US",
             "postalCode": "90001"
         }
     }
