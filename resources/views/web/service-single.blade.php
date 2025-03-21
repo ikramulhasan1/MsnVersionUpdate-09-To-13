@@ -294,7 +294,7 @@ $header = \App\Models\PageSetup::page('services');
                         <div id="processedContent" class="text description">
                         
                             {{-- {!! $service->description !!} --}}
-                            {!! str_replace('? <b>', '✅', $service->description) !!}
+                            {!! str_replace('?? <b>', '✅', $service->description) !!}
                             {{-- {!! preg_replace('/\?{1,2} <b>/', '✅', $service->description) !!} --}}
 
 
