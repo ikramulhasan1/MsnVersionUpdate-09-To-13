@@ -25,11 +25,7 @@ $header = \App\Models\PageSetup::page('services');
         "url": "{{ route('service.single', $service->slug) }}",
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": "123 Main Street",
-            "addressLocality": "Los Angeles",
-            "addressRegion": "California",
             "addressCountry": "US",
-            "postalCode": "90001"
         }
     }
 </script>
@@ -50,7 +46,7 @@ $header = \App\Models\PageSetup::page('services');
 <meta property="og:type" content="website">
 <meta property='og:site_name' content="{{ $setting->title }}" />
 <meta property='og:title' content="{{ $service->title }}" />
-<meta property='og:description' content="{!! str_limit(strip_tags($service->description), 160, ' ...') !!}" />
+<meta property='og:description' content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}" />
 <meta property='og:url' content="{{ route('service.single', $service->slug) }}" />
 <meta property='og:image' content="{{ asset('uploads/service/'.$service->image_path) }}" />
 
@@ -60,7 +56,7 @@ $header = \App\Models\PageSetup::page('services');
 <meta name="twitter:creator" content="@MSNSOFTTECH" />
 <meta name="twitter:url" content="{{ route('service.single', $service->slug) }}" />
 <meta name="twitter:title" content="{{ $service->title }}" />
-<meta name="twitter:description" content="{!! str_limit(strip_tags($service->description), 160, ' ...') !!}" />
+<meta name="twitter:description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}" />
 <meta name="twitter:image" content="{{ asset('uploads/service/'.$service->image_path) }}" />
 @endif
 @endsection
@@ -297,7 +293,9 @@ $header = \App\Models\PageSetup::page('services');
 
                         <div id="processedContent" class="text description">
                         
-                            {!! $service->description !!}
+                            {{-- {!! $service->description !!} --}}
+                            {!! str_replace('? <b>', '✅', $service->description) !!}
+
 
                         </div>
                     </div>
