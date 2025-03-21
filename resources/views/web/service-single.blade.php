@@ -25,7 +25,7 @@ $header = \App\Models\PageSetup::page('services');
         "url": "{{ route('service.single', $service->slug) }}",
         "address": {
             "@type": "PostalAddress",
-            "addressCountry": "US",
+            "addressCountry": "US"
         }
     }
 </script>
