@@ -157,6 +157,9 @@ $header = \App\Models\PageSetup::page('blog');
         list-style: initial;
         font-size: 16px !important;
     }
+    .description>ol>li>ul>li>p {
+        margin-bottom: 5px !important;
+    }
     .description>h2>p>a>b{
         color: #1064AB!important;  /* Vibrant blue for visibility */
         text-decoration: none!important; 
