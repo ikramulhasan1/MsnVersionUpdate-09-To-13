@@ -147,10 +147,13 @@ $header = \App\Models\PageSetup::page('blog');
     }
 
     .description>ol>li {
-        /* list-style: decimal; */
         margin-left: 30px !important;
         all: revert;
         font-size: 16px !important;
+    }
+    .description>ol>li>p {
+        margin-bottom: 15px !important;
+        margin-bottom: 10px !important;
     }
     .description>ol>li>ul>li {
         margin-left: 30px !important;
