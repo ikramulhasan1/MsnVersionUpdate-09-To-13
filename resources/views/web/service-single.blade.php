@@ -13,30 +13,14 @@ $header = \App\Models\PageSetup::page('services');
 <meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
 @endif
 
-{{-- <script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "LocalBusiness",
-        "name": "{{ $service->title }}",
-        "image": "{{ asset('uploads/service/'.$service->image_path) }}",
-        "email": "{{ $setting->email_one }}@if(isset($setting->email_two)), @endif {{ $setting->email_two }}",
-        "telephone": "{{ $setting->phone_two }}@if(isset($setting->phone_one)), @endif {{ $setting->phone_one }}",
-        "priceRange": "{{ $service->price }}",
-        "url": "{{ route('service.single', $service->slug) }}",
-        "address": {
-            "@type": "PostalAddress",
-            "addressCountry": "US"
-        }
-    }
-</script> --}}
 <script type="application/ld+json">
     {
       "@context": "http://schema.org",
       "@type": "Product",
-      "name": "Best Website Development Company for Custom Web Design and Development Solutions",
-      "image": "https://msnsofttech.com/uploads/service/Best%20Affordable%20Website%20Development%20Services_1742142471.webp",
-      "description": "At MSN Softtech, we provide top-notch web solutions tailored to your business needs. As the leading website development company in the USA, we create fast, secure, and SEO-optimized websites designed to boost your online presence.",
-      "url": "https://msnsofttech.com/get-quote",
+      "name": "{{ $service->title }}",
+      "image": "{{ asset('uploads/service/'.$service->image_path) }}",
+      "description": "{!! $service->description !!}",
+      "url": "{{ route('service.single', $service->slug) }}",
       "brand": {
         "@type": "Brand",
         "name": "MSN Softtech",
@@ -59,16 +43,16 @@ $header = \App\Models\PageSetup::page('services');
         "@type": "Review",
         "author": {
           "@type": "Person",
-          "name": "John Doe"
+          "name": "Joseph Garcia"
         },
-        "datePublished": "2025-03-29",
+        "datePublished": "{{ $service->created_at->format('Y-m-d') }}",
         "reviewRating": {
           "@type": "Rating",
           "ratingValue": "5",
           "bestRating": "5",
           "worstRating": "1"
         },
-        "reviewBody": "MSN Softtech delivered an exceptional custom web development solution that enhanced our online presence and improved performance."
+        "reviewBody": "MSN Softtech delivered an exceptional custom {{ $service->short_title }} solution that enhanced our online presence and improved performance."
       }
     }
     </script>
