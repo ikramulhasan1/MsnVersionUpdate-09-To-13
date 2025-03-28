@@ -19,6 +19,53 @@ $header = \App\Models\PageSetup::page('blog');
     @else
     <meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
     @endif
+
+
+    <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Product",
+          "name": "{{ $article->title }}",
+          "image": "{{ asset('uploads/article/'.$article->image_path) }}",
+          "description": "{{ strip_tags($article->description) }}",
+          "url": "{{ route('blog.single', $article->slug) }}",
+          "brand": {
+            "@type": "Brand",
+            "name": "MSN Softtech",
+            "logo": "https://cdn-icons-png.flaticon.com/128/732/732200.png"
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": "599",
+            "priceCurrency": "USD",
+            "priceValidUntil": "{{ now()->addYear()->format('Y-m-d') }}",
+            "availability": "https://schema.org/InStock"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "bestRating": "5",
+            "worstRating": "1",
+            "ratingCount": "205"
+          },
+          "review": {
+            "@type": "Review",
+            "author": {
+              "@type": "Person",
+              "name": "Charles Wilson"
+            },
+            "datePublished": "{{ $article->created_at->format('Y-m-d') }}",
+            "reviewRating": {
+              "@type": "Rating",
+              "ratingValue": "5",
+              "bestRating": "5",
+              "worstRating": "1"
+            },
+            "reviewBody": "MSN Softtech delivered an exceptional custom {{ $article->service_title }} solution that enhanced our online presence and improved performance."
+          }
+        }
+    </script>
+        
     @endsection
 
 
