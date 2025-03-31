@@ -211,8 +211,90 @@ $header = \App\Models\PageSetup::page('services');
         margin-bottom: 10px !important;
     }
 
+/*  */
+.description>ul>li {
+        margin-left: 30px !important;
+        list-style: initial;
+        font-size: 16px !important;
+    }
 
+    .description>ol>li {
+        margin-left: 30px !important;
+        all: revert;
+        font-size: 16px !important;
+    }
+    .description>ol>li>p {
+        margin-bottom: 15px !important;
+        margin-bottom: 10px !important;
+    }
+    .description>ol>li>ul>li {
+        margin-left: 30px !important;
+        list-style: initial;
+        font-size: 16px !important;
+    }
+    .description>ol>li>ul>li>p {
+        margin-bottom: 5px !important;
+    }
+    .description>h2>p>a>b{
+        color: #1064AB!important;  /* Vibrant blue for visibility */
+        text-decoration: none!important; 
+        font-weight: 500!important; 
+    }
+    .description>h3>b>a{
+        color: #1064AB!important;  /* Vibrant blue for visibility */
+        text-decoration: none!important; 
+    }
+    .description>p>a {
+        color: #1064AB!important;  /* Vibrant blue for visibility */
+        text-decoration: none!important; 
+        font-weight: 500!important; 
+    }
+    .description>p>b {
+        font-weight: 600!important; 
+    }
+    .description>ol>li>b>a {
+        color: #1064AB!important;  /* Vibrant blue for visibility */
+        text-decoration: none!important; 
+        font-weight: 500!important; 
+    }
+    .description>ol>li>a>b {
+        color: #1064AB!important;  /* Vibrant blue for visibility */
+        text-decoration: none!important; 
+        font-weight: 500!important; 
+    }
 
+    p{
+        font-size: 18px !important;
+    }
+    .description>h1,.description>h2,.description>h3,.description>h4{
+        margin-top: 30px !important; 
+        margin-bottom: 15px !important; 
+    }
+    .description>h1>b,.description>h2>b,.description>h3>b,.description>h4>b{
+        margin-top: 30px !important; 
+        margin-bottom: 15px !important; 
+    }
+ 
+    .description>h1, .description>h1>b {
+        font-size: 2rem!important; 
+        font-weight: 700!important; 
+    }
+
+    .description>h2, .description>h2>b {
+        font-size: 1.75rem!important;    /* ~28px */
+        font-weight: 600!important; 
+    }
+
+    .description>h3, .description>h3>b {
+        font-size: 1.5rem!important;     /* ~24px */
+        font-weight: 600!important; 
+    }
+
+    .description>h4, .description>h4>b {
+        font-size: 1.25rem!important;    
+        font-weight: 500!important; 
+    }
+/*  */
 
 
     .circle-container {
