@@ -220,6 +220,7 @@ $header = \App\Models\PageSetup::page('services');
     }
 
     .description>h3 {
+        font-size: 22px !important;
         margin-top: 30px !important;
         margin-bottom: 10px !important;
     }
