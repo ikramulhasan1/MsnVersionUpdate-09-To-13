@@ -37,7 +37,7 @@ $header = \App\Models\PageSetup::page('services');
         "ratingValue": "4.9",
         "bestRating": "5",
         "worstRating": "1",
-        "ratingCount": "215"
+        "ratingCount": "1683"
       },
       "review": {
         "@type": "Review",
