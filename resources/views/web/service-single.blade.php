@@ -207,13 +207,15 @@ $header = \App\Models\PageSetup::page('services');
         margin-bottom: 0px !important;
         margin-top: 10px !important;
     }
+    .description>h2>p{
+        font-size: 18px !important;
+        
+    }
 
     .description>h3 {
         margin-top: 30px !important;
         margin-bottom: 10px !important;
     }
-
-
 
 
 
