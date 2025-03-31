@@ -199,13 +199,18 @@ $header = \App\Models\PageSetup::page('services');
     .description>p>a {
         color: blue;
         font-weight: bold;
-        text-decoration: underline;
+        text-decoration: none !important;
+    }
+    .description>p>a>b {
+        color: blue;
+        font-weight: bold;
+        text-decoration: none !important;
     }
 
     .description>p {
         font-size: 18px !important;
         margin-bottom: 0px !important;
-        margin-top: 10px !important;
+        margin-top: 15px !important;
     }
     .description>h2>p{
         font-size: 18px !important;
