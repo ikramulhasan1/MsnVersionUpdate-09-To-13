@@ -211,7 +211,7 @@ $header = \App\Models\PageSetup::page('services');
         font-size: 18px !important;
     }
     .description>h2{
-        font-size: 28px !important;
+        font-size: 26px !important;
     }
 
     .description>h3 {
