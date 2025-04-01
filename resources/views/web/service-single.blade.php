@@ -18,7 +18,6 @@ $header = \App\Models\PageSetup::page('services');
       "@context": "http://schema.org",
       "@type": "Product",
       "name": "{{ $service->title }}",
-      "image": "{{ asset('uploads/service/' . $service->image_path) }}",
       "image": {
         "@type": "ImageObject",
         "url": "{{ asset('uploads/service/'.$service->image_path) }}",
