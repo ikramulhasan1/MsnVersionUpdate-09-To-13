@@ -18,8 +18,12 @@ $header = \App\Models\PageSetup::page('services');
       "@context": "http://schema.org",
       "@type": "Product",
       "name": "{{ $service->title }}",
-      "image": "{{ asset('uploads/service/' . $service->image_path) }}",
-      "description": "{{ Str::limit(strip_tags($service->description), 15000, '...') }}",
+      "image": {
+        "@type": "ImageObject",
+        "url": "{{ asset('uploads/article/'.$article->image_path) }}",
+        "width": "1200",
+        "height": "630"
+      },      "description": "{{ Str::limit(strip_tags($service->description), 15000, '...') }}",
       "url": "{{ route('service.single', $service->slug) }}",
       "brand": {
         "@type": "Brand",

@@ -26,7 +26,12 @@ $header = \App\Models\PageSetup::page('blog');
           "@context": "http://schema.org",
           "@type": "Product",
           "name": "{{ $article->title }}",
-          "image": "{{ asset('uploads/article/'.$article->image_path) }}",
+          "image": {
+            "@type": "ImageObject",
+            "url": "{{ asset('uploads/article/'.$article->image_path) }}",
+            "width": "1200",
+            "height": "630"
+          },
           "description": "{{ Str::limit(strip_tags($article->description), 15000, '...') }}",
           "url": "{{ route('blog.single', $article->slug) }}",
           "brand": {
