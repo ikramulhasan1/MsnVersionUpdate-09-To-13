@@ -37,7 +37,11 @@ $header = \App\Models\PageSetup::page('services');
           "applicableCountry": "US",
           "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
           "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
-          "returnShippingFeesAmount": "0.00",
+          "returnShippingFeesAmount": {
+            "@type": "MonetaryAmount",
+            "value": "0.00",
+            "currency": "USD"
+          },
           "merchantReturnDays": "30",
           "returnMethod": "https://schema.org/ReturnByMail",
           "returnFees": "FreeReturn"
