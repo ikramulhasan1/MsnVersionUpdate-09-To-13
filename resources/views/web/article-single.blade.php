@@ -39,6 +39,7 @@ $header = \App\Models\PageSetup::page('blog');
             "price": "999",
             "priceCurrency": "USD",
             "availability": "https://schema.org/InStock",
+            "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
             "hasMerchantReturnPolicy": {
               "@type": "MerchantReturnPolicy",
               "applicableCountry": "US",
@@ -46,7 +47,8 @@ $header = \App\Models\PageSetup::page('blog');
               "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
               "returnShippingFeesAmount": "0.00",
               "merchantReturnDays": "30",
-              "returnMethod": "https://schema.org/ReturnByMail"
+              "returnMethod": "https://schema.org/ReturnByMail",
+              "returnFees": "FreeReturn"
             },
             "shippingDetails": {
               "@type": "OfferShippingDetails",
