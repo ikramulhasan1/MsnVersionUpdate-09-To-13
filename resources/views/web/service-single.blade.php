@@ -19,7 +19,7 @@ $header = \App\Models\PageSetup::page('services');
       "@type": "Product",
       "name": "{{ $service->title }}",
       "image": "{{ asset('uploads/service/' . $service->image_path) }}",
-      "description": "{{ Str::limit(strip_tags($service->description), 1000, '...') }}",
+      "description": "{{ Str::limit(strip_tags($service->description), 15000, '...') }}",
       "url": "{{ route('service.single', $service->slug) }}",
       "brand": {
         "@type": "Brand",
