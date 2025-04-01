@@ -27,7 +27,7 @@ $header = \App\Models\PageSetup::page('blog');
           "@type": "Product",
           "name": "{{ $article->title }}",
           "image": "{{ asset('uploads/article/'.$article->image_path) }}",
-          "description": "{{ strip_tags($article->description) }}",
+          "description": "{{ Str::limit(strip_tags($service->description), 1000, '...') }}",
           "url": "{{ route('blog.single', $article->slug) }}",
           "brand": {
             "@type": "Brand",
