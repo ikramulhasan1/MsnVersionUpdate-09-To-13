@@ -51,7 +51,8 @@ $header = \App\Models\PageSetup::page('services');
             "@type": "ShippingDeliveryTime",
             "businessDays": {
               "@type": "OpeningHoursSpecification",
-              "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday"]
+              "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
+              "https://schema.org/Sunday"]
             },
             "handlingTime": {
               "@type": "QuantitativeValue",
