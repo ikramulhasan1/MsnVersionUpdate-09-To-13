@@ -32,7 +32,7 @@ $header = \App\Models\PageSetup::page('blog');
             "width": "1200",
             "height": "630"
           },
-          "description": "{{ Str::limit(strip_tags($article->description), 15000, '...') }}",
+          "description": "{{ Str::limit(strip_tags($article->description), 500, '...') }}",
           "url": "{{ route('blog.single', $article->slug) }}",
           "brand": {
             "@type": "Brand",
