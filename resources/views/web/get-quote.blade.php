@@ -212,7 +212,7 @@ $header = \App\Models\PageSetup::page('get-quote');
                                 <div class="form-group col-lg-12 col-md-12">
                                     <div class="row">
                                         @foreach($services as $service)
-                                        <div class="col-lg-6 col-md-6">
+                                        <div class="col-lg-4 col-md-6">
                                             @if (!empty($service->short_title))
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" name="services[]" class="custom-control-input" value="{{ $service->id }}" @if(old('services')==$service->id) checked @endif id="service-{{ $service->id }}">
