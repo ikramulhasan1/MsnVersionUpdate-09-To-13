@@ -213,10 +213,17 @@ $header = \App\Models\PageSetup::page('get-quote');
                                     <div class="row">
                                         @foreach($services as $service)
                                         <div class="col-lg-6 col-md-6">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" name="services[]" class="custom-control-input" value="{{ $service->id }}" @if(old('services')==$service->id) checked @endif id="service-{{ $service->id }}">
-                                                <label class="custom-control-label" for="service-{{ $service->id }}">{{ $service->title }}</label>
-                                            </div>
+                                            @if (!empty($service->short_title))
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" name="services[]" class="custom-control-input" value="{{ $service->id }}" @if(old('services')==$service->id) checked @endif id="service-{{ $service->id }}">
+                                                    <label class="custom-control-label" for="service-{{ $service->id }}">{{ $service->short_title }}</label>
+                                                </div>
+                                            @else
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" name="services[]" class="custom-control-input" value="{{ $service->id }}" @if(old('services')==$service->id) checked @endif id="service-{{ $service->id }}">
+                                                    <label class="custom-control-label" for="service-{{ $service->id }}">{{ $service->title }}</label>
+                                                </div>
+                                            @endif
                                         </div>
                                         @endforeach
                                     </div>
