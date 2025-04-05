@@ -25,7 +25,7 @@ $header = \App\Models\PageSetup::page('services');
         "height": "630"
       },
       
-      "description": "{{ Str::limit(strip_tags($service->description), 15000, '...') }}",
+      "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
       "url": "{{ route('service.single', $service->slug) }}",
       "brand": {
         "@type": "Brand",
