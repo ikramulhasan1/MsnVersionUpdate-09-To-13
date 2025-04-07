@@ -424,12 +424,12 @@ $header = \App\Models\PageSetup::page('services');
 
 
         <div class="">
-            <div class="row g-4">
+            <div class="row row-cols-md-3 g-4">
                 @if (!empty($service->subservices))
                 @foreach ($service->subservices as $key => $item)
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="card">
-                            <img  src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" class="img-fluid card-img-top">
+                    <div class="col">
+                        <div class="card h-100">
+                            <img  src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" class="card-img-top">
                             <div class="card-body">
                                 <h5 class="card-title"><a href="{{ route('service.related-single',$item->slug) }}">{{ $item->title }}</a></h5>
                                 <p class="card-text">{!! Str::words($item->description, 10, '...') !!}</p>
