@@ -110,7 +110,9 @@
     /* text-decoration: none; */
     font-weight: 500;
 }
-
+.mega-menu-link:hover{
+    color: red !important;
+}
 .mega-menu-content {
     display: none;
     position: absolute;
