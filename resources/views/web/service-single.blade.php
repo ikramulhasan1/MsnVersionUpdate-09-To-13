@@ -424,9 +424,10 @@ $header = \App\Models\PageSetup::page('services');
 
 
         <div class="">
-            <div class="row row-cols-1 row-cols-md-3 g-4">
                 @if (!empty($service->subservices))
                 @foreach ($service->subservices as $key => $item)
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+
                     <div class="col">
                         <div class="card h-100">
                             <img  src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" class="card-img-top">
@@ -436,9 +437,10 @@ $header = \App\Models\PageSetup::page('services');
                             </div>
                         </div>
                     </div>
+                </div>
                 @endforeach  
                 @endif  
-            </div>
+           
         </div>
         
     </div>
