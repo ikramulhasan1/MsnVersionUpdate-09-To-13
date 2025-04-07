@@ -423,22 +423,23 @@ $header = \App\Models\PageSetup::page('services');
         </div>
 
 
-        <div class="">
-            <div class="row row-cols-md-3 g-4">
-                @if (!empty($service->subservices))
-                @foreach ($service->subservices as $key => $item)
-                    <div class="col">
-                        <div class="card h-100">
-                            <img  src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" class="card-img-top">
-                            <div class="card-body">
-                                <h5 class="card-title"><a href="{{ route('service.related-single',$item->slug) }}">{{ $item->title }}</a></h5>
-                                <p class="card-text">{!! Str::words($item->description, 10, '...') !!}</p>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach  
-                @endif  
+      
+
+        <div class="card-group">
+            @if (!empty($service->subservices))
+            @foreach ($service->subservices as $key => $item)
+            <div class="card">
+              <img src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" class="card-img-top">
+              <div class="card-body">
+                <h5 class="card-title"><a href="{{ route('service.related-single',$item->slug) }}">{{ $item->title }}</a></h5>
+                <p class="card-text">{!! Str::words($item->description, 10, '...') !!}</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-body-secondary">Last updated 3 mins ago</small>
+              </div>
             </div>
+            @endforeach  
+            @endif  
         </div>
         
     </div>
