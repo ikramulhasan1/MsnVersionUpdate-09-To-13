@@ -88,6 +88,78 @@
         *{
             font-family: 'Poppins';
         }
+
+
+
+
+/* Base Mega Menu Styling */
+.mega-menu {
+    /* position: relative; */
+}
+
+.mega-menu-trigger {
+    /* position: relative; */
+    /* display: inline-block; */
+}
+
+.mega-menu-link {
+    padding-top: 15px;
+    display: inline-block;
+    color: #222222;
+    font-size: 16px;
+    /* text-decoration: none; */
+    font-weight: 500;
+}
+
+.mega-menu-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 600px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+/* Show the menu on hover of the link */
+.mega-menu-trigger:hover .mega-menu-content {
+    display: grid;
+}
+
+.mega-menu-column h4 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #111;
+}
+
+.mega-menu-column ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mega-menu-column ul li {
+    margin-bottom: 8px;
+}
+
+.mega-menu-column ul li a {
+    color: #555;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.mega-menu-column ul li a:hover {
+    color: #007BFF;
+}
+
+
+        
     </style>
     <!-- Custom Style -->
     @if(isset($setting->custom_css))
@@ -339,40 +411,44 @@
                                     @endif
 
 
-                                    @php
+                                @php
                                     $page_services = \App\Models\PageSetup::page('services');
-                                    @endphp
-                                    @if(isset($page_services))
-                                    <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}"><a href="{{ route('services') }}">{{ $page_services->title }}</a>
-                                        <ul>
-                                            @foreach($service_subnavs as $service_subnav)
-                                                @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                    <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}"><a href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a></li>
-                                                @else
-                                                {{-- <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}"><a href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->title }}</a></li> --}}
-                                                @endif
-                                                
-                                             @endforeach
-                                        </ul>
-                                    </li>
-                                    @endif
-                                    @php
-                                    $page_services = \App\Models\PageSetup::page('services');
-                                    @endphp
-                                    @if(isset($page_services))
-                                    <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}"><a href="{{ route('services') }}">{{ $page_services->title }}</a>
-                                        <ul>
-                                            @foreach($service_subnavs as $service_subnav)
-                                                @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                    <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}"><a href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a></li>
-                                                @else
-                                                {{-- <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}"><a href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->title }}</a></li> --}}
-                                                @endif
-                                                
-                                             @endforeach
-                                        </ul>
-                                    </li>
-                                    @endif
+                                    $related_services = \App\Models\PageSetup::page('related-service');
+                                @endphp
+                                
+                                @if(isset($page_services))
+                                <li class="dropdown mega-menu {{ Request::is('service*') ? 'current' : '' }}">
+                                    <div class="mega-menu-trigger">
+                                        <a href="{{ route('services') }}" class="mega-menu-link">{{ strtoupper($page_services->title) }}</a>
+                                        
+                                        <div class="mega-menu-content">
+                                            <div class="mega-menu-column">
+                                                <h4>Our Services</h4>
+                                                <ul>
+                                                    @foreach($service_subnavs as $service_subnav)
+                                                        @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
+                                                            <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}">
+                                                                <a href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                            <div class="mega-menu-column">
+                                                <h4>Related Services</h4>
+                                                <ul>
+                                                    @foreach($related_service_subnavs as $service_subnav)
+                                                        <li class="{{ Request::is('related-service/'.$service_subnav->slug) ? 'current' : '' }}">
+                                                            <a href="{{ route('service.related-single', $service_subnav->slug) }}">{{ $service_subnav->title }}</a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                @endif
+                                
 
                                     @php
                                     $page_portfolio = \App\Models\PageSetup::page('portfolio');

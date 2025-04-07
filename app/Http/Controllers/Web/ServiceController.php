@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\WorkProcess;
 use App\Models\Service;
+use App\Models\Subservice;
 
 class ServiceController extends Controller
 {
@@ -44,6 +45,20 @@ class ServiceController extends Controller
 
         // Service Lists                                
         $data['service_lists'] = Service::where('status', '1')
+                        ->orderBy('id', 'asc')
+                        ->get();
+
+        return view('web.service-single', $data);
+    }
+    public function related($slug)
+    {
+        // Service                                
+        $data['service'] = Subservice::where('slug', $slug)
+                        ->where('status', '1')
+                        ->firstOrFail();
+
+        // Service Lists                                
+        $data['service_lists'] = Subservice::where('status', '1')
                         ->orderBy('id', 'asc')
                         ->get();
 
