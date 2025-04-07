@@ -431,7 +431,7 @@ $header = \App\Models\PageSetup::page('services');
                         <div class="card h-100">
                             <img  src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" class="card-img-top">
                             <div class="card-body">
-                                <h5 class="card-title"><a href="{{ route('service.related-single'.$item->slug) }}">{{ $item->title }}</a></h5>
+                                <h5 class="card-title"><a href="{{ route('service.related-single',$item->slug) }}">{{ $item->title }}</a></h5>
                                 <p class="card-text">{!! Str::words($item->description, 10, '...') !!}</p>
                             </div>
                         </div>
