@@ -424,7 +424,7 @@ $header = \App\Models\PageSetup::page('services');
 
 
         <div class="">
-            <div class="row row-cols-md-3 g-4">
+            <div class="row g-4">
                 @if (!empty($service->subservices))
                 @foreach ($service->subservices as $key => $item)
                     <div class="col">
