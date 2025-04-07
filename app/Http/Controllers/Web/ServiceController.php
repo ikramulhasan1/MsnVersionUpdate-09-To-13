@@ -62,6 +62,6 @@ class ServiceController extends Controller
                         ->orderBy('id', 'asc')
                         ->get();
 
-        return view('web.service-single', $data);
+        return view('web.related-service-single', $data);
     }
 }
