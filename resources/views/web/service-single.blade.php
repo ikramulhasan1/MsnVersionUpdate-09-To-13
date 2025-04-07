@@ -581,6 +581,13 @@ $header = \App\Models\PageSetup::page('services');
 </div>
 @endif
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+      $('.your-class').slick({
+        setting-name: setting-value
+      });
+    });
+  </script>
 <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Get the description content
