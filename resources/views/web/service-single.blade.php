@@ -326,7 +326,7 @@ $header = \App\Models\PageSetup::page('services');
         }
         .hidden { display: none; }
 
-        .card-body>h5:hover{
+        .card-body>h5>a:hover{
             color: red;
         }
 </style>
