@@ -421,6 +421,7 @@
                                 @php
                                     $page_services = \App\Models\PageSetup::page('services');
                                     $related_services = \App\Models\PageSetup::page('related-service');
+                                    $technology_services = \App\Models\PageSetup::page('technology');
                                 @endphp
                                 
                                 @if(isset($page_services))
@@ -447,6 +448,16 @@
                                                     @foreach($related_service_subnavs as $service_subnav)
                                                         <li class="{{ Request::is('related-service/'.$service_subnav->slug) ? 'current' : '' }}">
                                                             <a class="mega-links" href="{{ route('service.related-single', $service_subnav->slug) }}">{{ $service_subnav->title }}</a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                            <div class="mega-menu-column">
+                                                <h4>Technology</h4>
+                                                <ul>
+                                                    @foreach($technology_services as $service_subnav)
+                                                        <li class="{{ Request::is('technology/'.$service_subnav->slug) ? 'current' : '' }}">
+                                                            <a class="mega-links" href="{{ route('service.technology', $service_subnav->slug) }}">{{ $service_subnav->title }}</a>
                                                         </li>
                                                     @endforeach
                                                 </ul>
