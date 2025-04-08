@@ -134,7 +134,14 @@ class SubserviceController extends Controller
 {
     // Field Validation
     $request->validate([
-        'title' => 'required|max:191|unique:subservices,title',
+        'title' => 'required|max:191|unique:services,title',
+        'short_title' => 'required|max:30|unique:services,short_title',
+        'keywords' => 'required',
+        'price' => 'required',
+        'starting_price' => 'required',
+        'priceCurrency' => 'required',
+        'average_rating' => 'required',
+        'review_count' => 'required',
         'short_desc' => 'required',
         'description' => 'required',
         'image' => 'required|image',
@@ -206,14 +213,21 @@ class SubserviceController extends Controller
     $service = new Subservice;
     $service->title = $request->title;
     $service->service_id = $request->service_id;
-    $service->slug = Str::slug($request->title, '-');
+    $service->keywords = $request->keywords;
+    $service->price = $request->price;
+    $service->starting_price = $request->starting_price;
+    $service->priceCurrency = $request->priceCurrency;
+    $service->average_rating = $request->average_rating;
+    $service->review_count = $request->review_count;
+    $service->short_title = $request->short_title;
+    $service->slug = Str::slug(strtolower($request->slug), '-');
     $service->short_desc = $request->short_desc;
     $service->description = $dom->saveHTML();
     $service->image_path = $fileNameToStore;
+    $service->manu = $request->manu;
     $service->save();
 
     Toastr::success(__('dashboard.created_successfully'), __('dashboard.success'));
-
     return redirect()->route('admin.subservices.index');
 }
 
@@ -344,6 +358,13 @@ class SubserviceController extends Controller
     // Field Validation
     $request->validate([
         'title' => 'required|max:191|unique:subservices,title,'.$subservice->id,
+        'short_title' => 'required|max:30|unique:services,short_title,'.$subservice->id,
+        'keywords' => 'required',
+        'price' => 'required',
+        'starting_price' => 'required',
+        'priceCurrency' => 'required',
+        'average_rating' => 'required',
+        'review_count' => 'required',
         'short_desc' => 'required',
         'description' => 'required',
         'image' => 'nullable|image',
@@ -416,11 +437,20 @@ class SubserviceController extends Controller
 
     // Update Data
     $subservice->title = $request->title;
-    $subservice->slug = Str::slug($request->title, '-');
+    $subservice->service_id = $request->service_id;
+    $subservice->keywords = $request->keywords;
+    $subservice->price = $request->price;
+    $subservice->starting_price = $request->starting_price;
+    $subservice->priceCurrency = $request->priceCurrency;
+    $subservice->average_rating = $request->average_rating;
+    $subservice->review_count = $request->review_count;
+    $subservice->short_title = $request->short_title;
+    $subservice->slug = Str::slug(strtolower($request->slug), '-');
     $subservice->short_desc = $request->short_desc;
     $subservice->description = $dom->saveHTML();
     $subservice->image_path = $fileNameToStore;
     $subservice->status = $request->status;
+    $subservice->manu = $request->manu;
     $subservice->save();
 
     Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
