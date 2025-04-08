@@ -117,22 +117,8 @@
     display: none;
     position: absolute;
     top: 100%;
-    left: 50%;
-    width: 600px;
-    padding: 20px;
-    background: #fff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    display: none;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-}
-.mega-menu-content2 {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    /* right: 0; */
+    /* right: 50%; */
+    left: -350%;
     width: 600px;
     padding: 20px;
     background: #fff;
