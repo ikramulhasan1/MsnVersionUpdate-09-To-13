@@ -117,7 +117,7 @@
     display: none;
     position: absolute;
     top: 100%;
-    left: -50;
+    left: 50%;
     width: 600px;
     padding: 20px;
     background: #fff;
