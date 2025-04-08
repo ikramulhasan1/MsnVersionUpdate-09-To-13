@@ -58,7 +58,7 @@ return array (
   'service' => 'Service|Services',
   'subservice' => 'Sub Service|Sub Services',
   'service_title' => 'Service Title',
-  'subservices' => 'Related Service',
+  'related-service' => 'Related Service',
   'service_desc' => 'Service Description',
   'pricing' => 'Pricing|Pricings',
   'team' => 'Our Team',
