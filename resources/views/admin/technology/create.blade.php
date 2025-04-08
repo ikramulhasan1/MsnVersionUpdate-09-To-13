@@ -162,6 +162,18 @@
 <!-- End Content-->
 
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+        const taginInputs = document.querySelectorAll(".tagin");
+        taginInputs.forEach(input => new Tagin(input, {
+            separator: ',',
+            duplicate: false,      // Prevent duplicate tags in the frontend
+            enter: true,           
+            maxTags: 100            
+        }));
+    });
+
+
+
     CKEDITOR.replace('editor', {
         on: {
             instanceReady: function(ev) {
