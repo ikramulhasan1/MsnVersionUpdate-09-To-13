@@ -1,6 +1,6 @@
 @extends('web.layouts.master')
 @php
-$header = \App\Models\PageSetup::page('related-service');
+$header = \App\Models\PageSetup::page('technology');
 @endphp
 @if(isset($header))
 
@@ -26,7 +26,7 @@ $header = \App\Models\PageSetup::page('related-service');
       },
       
       "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
-      "url": "{{ route('service.related-single', $service->slug) }}",
+      "url": "{{ route('service.technology', $service->slug) }}",
       "brand": {
         "@type": "Brand",
         "name": "MSN Softtech",
@@ -128,14 +128,14 @@ $header = \App\Models\PageSetup::page('related-service');
 <meta property='og:site_name' content="{{ $setting->title }}" />
 <meta property='og:title' content="{{ $service->title }}" />
 <meta property='og:description' content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}" />
-<meta property='og:url' content="{{ route('service.related-single', $service->slug) }}" />
+<meta property='og:url' content="{{ route('service.technology', $service->slug) }}" />
 <meta property='og:image' content="{{ asset('uploads/service/'.$service->image_path) }}" />
 
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="{!! '@'.str_replace(' ', '', $setting->title) !!}" />
 <meta name="twitter:creator" content="@MSNSOFTTECH" />
-<meta name="twitter:url" content="{{ route('service.related-single', $service->slug) }}" />
+<meta name="twitter:url" content="{{ route('service.technology', $service->slug) }}" />
 <meta name="twitter:title" content="{{ $service->title }}" />
 <meta name="twitter:description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}" />
 <meta name="twitter:image" content="{{ asset('uploads/service/'.$service->image_path) }}" />
@@ -357,7 +357,7 @@ $header = \App\Models\PageSetup::page('related-service');
                     <div class="sidebar-widget sidebar-blog-category">
                         <ul class="blog-cat">
                             @foreach($service_lists as $service_list)
-                            <li class="@if($service_list->id == $service->id) active @endif"><a href="{{ route('service.related-single', $service_list->slug) }}">{!! str_limit(strip_tags($service_list->title), 60, ' ...') !!}</a></li>
+                            <li class="@if($service_list->id == $service->id) active @endif"><a href="{{ route('service.technology', $service_list->slug) }}">{!! str_limit(strip_tags($service_list->title), 60, ' ...') !!}</a></li>
                             @endforeach
                         </ul>
                     </div>

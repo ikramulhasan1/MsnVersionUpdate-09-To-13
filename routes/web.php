@@ -44,6 +44,7 @@ Route::middleware(['XSS','redirect'])->namespace('Web')->group(function () {
     Route::get('/services', 'ServiceController@index')->name('services');
     Route::get('/service/{slug}', 'ServiceController@show')->name('service.single');
     Route::get('/related-service/{slug}', 'ServiceController@related')->name('service.related-single');
+    Route::get('/technology/{slug}', 'ServiceController@technology')->name('service.technology');
 
     // Portfolio Routes
     Route::get('/portfolios', 'PortfolioController@index')->name('portfolios');

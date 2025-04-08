@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\WorkProcess;
 use App\Models\Service;
 use App\Models\Subservice;
+use App\Models\Technology;
 
 class ServiceController extends Controller
 {
@@ -59,6 +60,20 @@ class ServiceController extends Controller
 
         // Service Lists                                
         $data['service_lists'] = Subservice::where('status', '1')
+                        ->orderBy('id', 'asc')
+                        ->get();
+
+        return view('web.related-service-single', $data);
+    }
+    public function technology($slug)
+    {
+        // Service                                
+        $data['service'] = Technology::where('slug', $slug)
+                        ->where('status', '1')
+                        ->firstOrFail();
+
+        // Service Lists                                
+        $data['service_lists'] = Technology::where('status', '1')
                         ->orderBy('id', 'asc')
                         ->get();
 
