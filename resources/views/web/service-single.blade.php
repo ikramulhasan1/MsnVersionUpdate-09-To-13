@@ -21,8 +21,8 @@ $header = \App\Models\PageSetup::page('services');
       "image": {
         "@type": "ImageObject",
         "url": "{{ asset('uploads/service/'.$service->image_path) }}",
-        "width": "1200",
-        "height": "630"
+        "width": "100",
+        "height": "100"
       },
       
       "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
@@ -428,7 +428,7 @@ $header = \App\Models\PageSetup::page('services');
 
 
         <div class="">
-            <h4 class="mb-3" style="font-weight: 700; text-align: center;">Related Services</h4>
+            <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
             <div class="row g-1">
                 @if (!empty($service->subservices))
                 @foreach ($service->subservices as $key => $item)
