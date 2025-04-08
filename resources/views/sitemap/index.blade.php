@@ -108,6 +108,18 @@
             @endif
         </url>
     @endforeach
+    @foreach ($technology as $item)
+        <url>
+            <loc>{{ route('service.technology', $item->slug) }}</loc>
+
+            @if (!empty($item->image_path))
+            <image:image>
+                <image:loc>{{ asset('uploads/service/'.$item->image_path) }}</image:loc>
+                <image:caption>{{ $item->title }}</image:caption>
+            </image:image>
+            @endif
+        </url>
+    @endforeach
 
     <!-- Sitemap generated dynamically for MSN Softtech article image -->
     @foreach ($articles as $article)
