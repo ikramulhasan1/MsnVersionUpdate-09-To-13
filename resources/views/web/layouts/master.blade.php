@@ -468,12 +468,9 @@
                                                 <h4>Technology Services</h4>
                                                 <ul>
                                                     @foreach($technologies as $service_subnav)
-                                                    
                                                         <li class="{{ Request::is('technology/'.$service_subnav->slug) ? 'current' : '' }}">
                                                             <div class="service-item">
-                                                                {{-- <img src="{{ asset('uploads/'.$this->path.'/logos/'.$service_subnav->logo_path) }}" alt="Logo"> --}}
-
-                                                                <img class="ml-0" width="50" src="{{ asset('uploads/service/logos'.$service_subnav->logo_path) }}" alt="{{ $service_subnav->title }}" srcset=""> <a class="mega-links" href="{{ route('service.technology', $service_subnav->slug) }}">{{ $service_subnav->title }}</a>
+                                                                <img class="ml-0" width="50" src="{{ asset('uploads/service'.$service->logo_path) }}" alt="{{ $service_subnav->title }}" srcset=""> <a class="mega-links" href="{{ route('service.technology', $service_subnav->slug) }}">{{ $service_subnav->title }}</a>
                                                             </div>
                                                         </li>
                                                     @endforeach
