@@ -1,6 +1,6 @@
 @extends('web.layouts.master')
 @php
-$header = \App\Models\PageSetup::page('services');
+$header = \App\Models\PageSetup::page('related-service');
 @endphp
 @if(isset($header))
 
@@ -21,12 +21,12 @@ $header = \App\Models\PageSetup::page('services');
       "image": {
         "@type": "ImageObject",
         "url": "{{ asset('uploads/service/'.$service->image_path) }}",
-        "width": "1200",
-        "height": "630"
+        "width": "100",
+        "height": "100"
       },
       
       "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
-      "url": "{{ route('service.single', $service->slug) }}",
+      "url": "{{ route('service.related-single', $service->slug) }}",
       "brand": {
         "@type": "Brand",
         "name": "MSN Softtech",
@@ -87,10 +87,10 @@ $header = \App\Models\PageSetup::page('services');
       },
       "aggregateRating": {
         "@type": "AggregateRating",
-        "ratingValue": "4.9",
+        "ratingValue": "{{ $service->average_rating }}",
         "bestRating": "5",
         "worstRating": "1",
-        "ratingCount": "1683"
+        "ratingCount": "{{ $service->review_count }}",
       },
       "review": {
         "@type": "Review",

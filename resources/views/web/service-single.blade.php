@@ -87,10 +87,10 @@ $header = \App\Models\PageSetup::page('services');
       },
       "aggregateRating": {
         "@type": "AggregateRating",
-        "ratingValue": "4.9",
+        "ratingValue": "{{ $service->average_rating }}",
         "bestRating": "5",
         "worstRating": "1",
-        "ratingCount": "1683"
+        "ratingCount": "{{ $service->review_count }}"
       },
       "review": {
         "@type": "Review",
