@@ -145,7 +145,10 @@
 }
 
 /* Show the menu on hover of the link */
-.mega-menu-trigger:hover .mega-menu-content .mega-menu-content2 {
+.mega-menu-trigger:hover .mega-menu-content {
+    display: grid;
+}
+.mega-menu-trigger:hover .mega-menu-content2 {
     display: grid;
 }
 .mega-links:hover{
