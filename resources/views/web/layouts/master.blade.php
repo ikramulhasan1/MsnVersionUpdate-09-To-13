@@ -119,7 +119,7 @@
     top: 100%;
     /* right: 50%; */
     left: -350%;
-    width: 600px;
+    width: 1000px;
     padding: 20px;
     background: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
