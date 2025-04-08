@@ -98,14 +98,14 @@
                         <div class="row">
                             <div class="form-group col">
                                 <label for="price">{{ __('dashboard.price') }} <span>* </span></label>
-                                <input type="number" class="form-control" name="price" id="price" value="100" required>
+                                <input type="number" class="form-control" name="price" id="price" value="499" required>
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.price') }}
                                 </div>
                             </div>
                             <div class="form-group col">
                                 <label for="starting_price">{{ __('dashboard.starting_price') }} <span>*</span></label>
-                                <input type="number" class="form-control" name="starting_price" id="starting_price" value="100" required>
+                                <input type="number" class="form-control" name="starting_price" id="starting_price" value="499" required>
     
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.starting_price') }}
