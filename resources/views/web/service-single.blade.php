@@ -428,7 +428,7 @@ $header = \App\Models\PageSetup::page('services');
 
 
         <div class="">
-            <h4 style="font-weight: 700; text-align: center;">Related Services</h4>
+            <h4 class="mb-3" style="font-weight: 700; text-align: center;">Related Services</h4>
             <div class="row g-1">
                 @if (!empty($service->subservices))
                 @foreach ($service->subservices as $key => $item)
@@ -436,7 +436,7 @@ $header = \App\Models\PageSetup::page('services');
                         <div class="card" style="width: 100% !important;">
                             <img src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" class="card-img-top">
                             <div class="card-body">
-                                <h5 class="card-title"><a class="cardlink" href="{{ route('service.related-single',$item->slug) }}">{{ $item->title }}</a></h5>
+                                <h6 style="font-weight: 700" class="card-title"><a class="cardlink" href="{{ route('service.related-single',$item->slug) }}">{{ $item->title }}</a></h6>
                             </div>
                         </div>
                     </div>

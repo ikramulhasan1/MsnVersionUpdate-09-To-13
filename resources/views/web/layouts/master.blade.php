@@ -127,6 +127,21 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
 }
+.mega-menu-content2 {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 30;
+    left: 30;
+    width: 600px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
 
 /* Show the menu on hover of the link */
 .mega-menu-trigger:hover .mega-menu-content {
@@ -609,7 +624,8 @@
                                         </ul>
                                     </li>
                                     @endif
-                                    @php
+                                
+                                @php
                                     $page_services = \App\Models\PageSetup::page('services');
                                     $related_services = \App\Models\PageSetup::page('related-service');
                                 @endphp
@@ -619,7 +635,7 @@
                                     <div class="mega-menu-trigger">
                                         <a href="{{ route('services') }}" class="mega-menu-link">{{ strtoupper($page_services->title) }}</a>
                                         
-                                        <div class="mega-menu-content">
+                                        <div class="mega-menu-content2">
                                             <div class="mega-menu-column">
                                                 <h4>Our Services</h4>
                                                 <ul>
