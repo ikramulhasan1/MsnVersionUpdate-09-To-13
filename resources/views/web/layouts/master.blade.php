@@ -456,10 +456,13 @@
                                                 <h4>Technology</h4>
                                                 <ul>
                                                     @foreach($technology_services as $service_subnav)
-                                                        <li class="{{ Request::is('technology/'.$service_subnav->slug) ? 'current' : '' }}">
-                                                            <a class="mega-links" href="{{ route('service.technology', $service_subnav->slug) }}">{{ $service_subnav->title }}</a>
-                                                        </li>
+                                                        @if(is_object($service_subnav) && property_exists($service_subnav, 'slug'))
+                                                            <li class="{{ Request::is('technology/'.$service_subnav->slug) ? 'current' : '' }}">
+                                                                {{ $service_subnav->name ?? 'Unnamed Service' }}
+                                                            </li>
+                                                        @endif
                                                     @endforeach
+
                                                 </ul>
                                             </div>
                                         </div>
