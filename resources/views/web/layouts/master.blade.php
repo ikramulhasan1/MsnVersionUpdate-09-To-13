@@ -119,7 +119,7 @@
     top: 100%;
     /* right: 50%; */
     left: -350%;
-    width: 1000px;
+    width: 900px;
     padding: 20px;
     background: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -423,7 +423,6 @@
                                     $related_services = \App\Models\PageSetup::page('related-service');
                                     $technology_services = \App\Models\PageSetup::page('technology');
                                 @endphp
-                                
                                 @if(isset($page_services))
                                 <li class="dropdown mega-menu {{ Request::is('service*') ? 'current' : '' }} {{ Request::is('related-service*') ? 'current' : '' }}">
                                     <div class="mega-menu-trigger">
@@ -448,6 +447,16 @@
                                                     @foreach($related_service_subnavs as $service_subnav)
                                                         <li class="{{ Request::is('related-service/'.$service_subnav->slug) ? 'current' : '' }}">
                                                             <a class="mega-links" href="{{ route('service.related-single', $service_subnav->slug) }}">{{ $service_subnav->title }}</a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                            <div class="mega-menu-column">
+                                                <h4>Technology Services</h4>
+                                                <ul>
+                                                    @foreach($technologies as $service_subnav)
+                                                        <li class="{{ Request::is('technology/'.$service_subnav->slug) ? 'current' : '' }}">
+                                                            <a class="mega-links" href="{{ route('service.technology', $service_subnav->slug) }}">{{ $service_subnav->title }}</a>
                                                         </li>
                                                     @endforeach
                                                 </ul>

@@ -14,6 +14,7 @@ use App\Models\Service;
 use App\Models\Social;
 use App\Models\Page;
 use App\Models\Subservice;
+use App\Models\Technology;
 use View;
 
 class AppServiceProvider extends ServiceProvider
@@ -49,12 +50,13 @@ class AppServiceProvider extends ServiceProvider
         $article_subnavs = ArticleCategory::where('status', '1')->get();
         $service_subnavs = Service::where('status', '1')->get();
         $related_service_subnavs = Subservice::where('status', '1')->get();
+        $technologies = Technology::where('status', '1')->get();
         $recents = Article::where('status', '1')
                             ->orderBy('id', 'desc')
                             ->take(3)
                             ->get();
 
-        View::share(['setting' => $setting, 'social' => $social, 'livechat' => $livechat, 'pages' => $pages, 'recents' => $recents, 'sections' => $sections, 'article_subnavs' => $article_subnavs, 'service_subnavs' => $service_subnavs, 'related_service_subnavs' => $related_service_subnavs]);
+        View::share(['setting' => $setting, 'social' => $social, 'livechat' => $livechat, 'pages' => $pages, 'recents' => $recents, 'sections' => $sections, 'article_subnavs' => $article_subnavs, 'service_subnavs' => $service_subnavs, 'related_service_subnavs' => $related_service_subnavs, 'technologies' => $technologies]);
 
     }
 }
