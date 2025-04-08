@@ -133,7 +133,7 @@
     position: absolute;
     top: 100%;
     /* right: 50%; */
-    right: -350%;
+    right: -450%;
     width: 900px;
     padding: 20px;
     background: #fff;
