@@ -79,18 +79,20 @@ class TechnologyController extends Controller
         $fileNameToStore = 'noimage.jpg'; // Default image
     }
 
-    // Upload Logo Image (optional)
+    // Upload Logo Image (optional) and save in the same location
     $logoFileNameToStore = null;
     if($request->hasFile('logo')) {
         $logoFile = $request->file('logo');
         $logoFilename = pathinfo($logoFile->getClientOriginalName(), PATHINFO_FILENAME); 
         $logoFileNameToStore = $logoFilename.'_'.time().'.webp';
 
-        $logoPath = public_path('uploads/'.$this->path.'/logos/');
+        // Use the same folder as the image for the logo
+        $logoPath = public_path('uploads/'.$this->path.'/');
         if (!File::exists($logoPath)) {
             File::makeDirectory($logoPath, 0777, true, true);
         }
 
+        // Resize and convert the logo to WebP
         Image::make($logoFile->getRealPath())
             ->resize(200, null, function ($constraint) {
                 $constraint->aspectRatio();
@@ -231,11 +233,11 @@ class TechnologyController extends Controller
     }
 
 
-       // LOGO Upload (New Optional)
-       if ($request->hasFile('logo')) {
+     // Logo Upload (New Optional)
+    if ($request->hasFile('logo')) {
         // Delete old logo if exists
         if (!empty($technology->logo_path)) {
-            $oldLogoPath = public_path('uploads/' . $this->path . '/logos/' . $technology->logo_path);
+            $oldLogoPath = public_path('uploads/' . $this->path . '/' . $technology->logo_path);
             if (File::isFile($oldLogoPath)) {
                 File::delete($oldLogoPath);
             }
@@ -245,7 +247,8 @@ class TechnologyController extends Controller
         $logoFilename = pathinfo($logoFile->getClientOriginalName(), PATHINFO_FILENAME);
         $logoFileNameToStore = $logoFilename . '_' . time() . '.webp';
 
-        $logoPath = public_path('uploads/' . $this->path . '/logos/');
+        // Use the same path as the main image for the logo
+        $logoPath = public_path('uploads/' . $this->path . '/');
         if (!File::exists($logoPath)) {
             File::makeDirectory($logoPath, 0777, true, true);
         }
