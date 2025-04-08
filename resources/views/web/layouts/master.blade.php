@@ -128,9 +128,24 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
 }
+.mega-menu-content2 {
+    display: none;
+    position: absolute;
+    top: 100%;
+    /* right: 50%; */
+    left: -350%;
+    width: 900px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
 
 /* Show the menu on hover of the link */
-.mega-menu-trigger:hover .mega-menu-content {
+.mega-menu-trigger:hover .mega-menu-content .mega-menu-content2 {
     display: grid;
 }
 .mega-links:hover{
@@ -647,7 +662,7 @@
                                     <div class="mega-menu-trigger">
                                         <a href="{{ route('services') }}" class="mega-menu-link">{{ strtoupper($page_services->title) }}</a>
                                         
-                                        <div class="mega-menu-content">
+                                        <div class="mega-menu-content2">
                                             <div class="mega-menu-column">
                                                 <h4>Our Services</h4>
                                                 <ul>
