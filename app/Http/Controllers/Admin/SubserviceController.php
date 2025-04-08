@@ -19,7 +19,7 @@ class SubserviceController extends Controller
         $this->title = trans_choice('dashboard.service', 1);
         $this->route = 'admin.service.related-single';
         $this->view = 'admin.subservices';
-        $this->path = 'subservices';
+        $this->path = 'service';
     }
     public function index()
     {
