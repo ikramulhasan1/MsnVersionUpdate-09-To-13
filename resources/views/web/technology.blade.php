@@ -26,7 +26,7 @@ $header = \App\Models\PageSetup::page('technology');
       },
       
       "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
-      "url": "{{ route('service.technology', $service->slug) }}",
+      "url": "{{ route('service.single', $service->slug) }}",
       "brand": {
         "@type": "Brand",
         "name": "MSN Softtech",
@@ -90,7 +90,7 @@ $header = \App\Models\PageSetup::page('technology');
         "ratingValue": "{{ $service->average_rating }}",
         "bestRating": "5",
         "worstRating": "1",
-        "ratingCount": "{{ $service->review_count }}",
+        "ratingCount": "{{ $service->review_count }}"
       },
       "review": {
         "@type": "Review",
