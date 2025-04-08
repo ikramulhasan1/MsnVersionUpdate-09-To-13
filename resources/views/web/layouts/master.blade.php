@@ -424,7 +424,7 @@
                                     $technology_services = \App\Models\PageSetup::page('technology');
                                 @endphp
                                 @if(isset($page_services))
-                                <li class="dropdown mega-menu {{ Request::is('service*') ? 'current' : '' }} {{ Request::is('related-service*') ? 'current' : '' }}">
+                                <li class="dropdown mega-menu {{ Request::is('service*') ? 'current' : '' }} {{ Request::is('related-service*') ? 'current' : '' }} {{ Request::is('technology*') ? 'current' : '' }}">
                                     <div class="mega-menu-trigger">
                                         <a href="{{ route('services') }}" class="mega-menu-link">{{ strtoupper($page_services->title) }}</a>
                                         
