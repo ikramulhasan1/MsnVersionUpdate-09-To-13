@@ -488,7 +488,7 @@
                                                     @foreach($technologies as $service_subnav)
                                                         <li class="{{ Request::is('technology/'.$service_subnav->slug) ? 'current' : '' }}">
                                                             <div class="service-item">
-                                                                <img class="ml-0" width="30" src="{{ asset('uploads/service/'.$service_subnav->logo_path) }}" alt="{{ $service_subnav->title }}" srcset=""> <a class="mega-links" href="{{ route('service.technology', $service_subnav->slug) }}">{{ $service_subnav->title }}</a>
+                                                                <img class="ml-0" width="30" src="{{ asset('uploads/service/'.$service_subnav->logo_path) }}" alt="{{ $service_subnav->title }}" srcset=""> <a class="mega-links" href="{{ route('service.technology', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
                                                             </div>
                                                         </li>
                                                     @endforeach
@@ -694,7 +694,7 @@
                                                     @foreach($technologies as $service_subnav)
                                                         <li class="{{ Request::is('technology/'.$service_subnav->slug) ? 'current' : '' }}">
                                                             <div class="service-item">
-                                                                <img class="ml-0" width="30" src="{{ asset('uploads/service/'.$service_subnav->logo_path) }}" alt="{{ $service_subnav->title }}" srcset=""> <a class="mega-links" href="{{ route('service.technology', $service_subnav->slug) }}">{{ $service_subnav->title }}</a>
+                                                                <img class="ml-0" width="30" src="{{ asset('uploads/service/'.$service_subnav->logo_path) }}" alt="{{ $service_subnav->title }}" srcset=""> <a class="mega-links" href="{{ route('service.technology', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
                                                             </div>
                                                         </li>
                                                     @endforeach
