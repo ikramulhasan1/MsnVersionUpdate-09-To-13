@@ -62,14 +62,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="short_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
-                            <textarea class="form-control" name="short_desc" id="editor" rows="4" required>{{ old('short_desc') }}</textarea>
-
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_description') }}
-                            </div>
-                        </div>
 
                         <div class="form-group">
                             <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
@@ -77,6 +69,15 @@
 
                             <div class="invalid-feedback">
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="short_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
+                            <textarea class="form-control" name="short_desc" id="editor" rows="4" required>{{ old('short_desc') }}</textarea>
+
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_description') }}
                             </div>
                         </div>
                         <div class="form-group">
