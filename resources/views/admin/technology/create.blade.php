@@ -7,7 +7,7 @@
 
     <!-- start page title -->
     <!-- Include page breadcrumb -->
-    @include('admin.inc.breadcrumb')
+    {{-- @include('admin.inc.breadcrumb') --}}
     <!-- end page title -->
 
 

@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', $title)
+{{-- @section('title', $title) --}}
 @section('content')
 
 <!-- Start Content-->
