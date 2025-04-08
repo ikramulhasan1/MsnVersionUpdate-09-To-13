@@ -132,7 +132,7 @@
     position: absolute;
     top: 100%;
     left: 30;
-    left: 30;
+    right: 30;
     width: 600px;
     padding: 20px;
     background: #fff;
