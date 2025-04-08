@@ -30,7 +30,15 @@
 
                         <!-- Form Start -->
                         <div class="card-body">
-
+                            <div class="form-group">
+                                <label for="status">{{ __('dashboard.select_status') }}</label>
+                                <select class="wide" name="service_id" id="status" data-plugin="customselect">
+                                    @foreach ($services as $service)
+                                    <option value="{{$service->id}}">{{$service->title }}</option>
+                                    @endforeach
+                                    
+                                </select>
+                            </div>
                             <!-- Form Start -->
                             <div class="form-group">
                                 <label for="title">{{ __('dashboard.title') }} <span>*</span></label>

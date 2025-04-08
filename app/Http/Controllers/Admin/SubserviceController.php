@@ -249,6 +249,7 @@ class SubserviceController extends Controller
     {
         $data['path'] = $this->path;
         $data['subservice'] = $subservice;
+        $data['services'] = Service::orderBy('id', 'asc')->get();
         return view('admin.subservices.edit',$data);
     }
 
