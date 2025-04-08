@@ -56,6 +56,7 @@ return array (
   'portfolio_list' => 'Portfolio List|Portfolio List',
   'portfolio_category' => 'Portfolio Category|Portfolio Categories',
   'service' => 'Service|Services',
+  'subservice' => 'Sub Service|Sub Services',
   'service_title' => 'Service Title',
   'service_desc' => 'Service Description',
   'pricing' => 'Pricing|Pricings',
