@@ -166,7 +166,20 @@
 }
 
 
-        
+.mega-menu-column .service-item {
+    display: flex;
+    align-items: center;
+}
+
+.mega-menu-column .service-item img {
+    margin-right: 10px; /* Space between image and title */
+}
+
+.mega-menu-column .mega-links {
+    font-size: 14px; /* Adjust size as necessary */
+    text-decoration: none;
+}
+
     </style>
     <!-- Custom Style -->
     @if(isset($setting->custom_css))
@@ -455,10 +468,10 @@
                                                 <h4>Technology Services</h4>
                                                 <ul>
                                                     @foreach($technologies as $service_subnav)
-                                                        <li class="d-flex justify-content-between {{ Request::is('technology/'.$service_subnav->slug) ? 'current' : '' }}">
-                                                          
-                                                            <img width="50" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="" srcset=""> <a class="mega-links" href="{{ route('service.technology', $service_subnav->slug) }}">{{ $service_subnav->title }}</a>
-                                                          
+                                                        <li class="{{ Request::is('technology/'.$service_subnav->slug) ? 'current' : '' }}">
+                                                            <div class="service-item">
+                                                                <img width="50" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="" srcset=""> <a class="mega-links" href="{{ route('service.technology', $service_subnav->slug) }}">{{ $service_subnav->title }}</a>
+                                                            </div>
                                                         </li>
                                                     @endforeach
                                                 </ul>
