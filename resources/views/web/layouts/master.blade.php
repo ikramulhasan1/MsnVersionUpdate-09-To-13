@@ -635,7 +635,7 @@
                                     <div class="mega-menu-trigger">
                                         <a href="{{ route('services') }}" class="mega-menu-link">{{ strtoupper($page_services->title) }}</a>
                                         
-                                        <div class="mega-menu-content2">
+                                        <div class="mega-menu-content">
                                             <div class="mega-menu-column">
                                                 <h4>Our Services</h4>
                                                 <ul>
