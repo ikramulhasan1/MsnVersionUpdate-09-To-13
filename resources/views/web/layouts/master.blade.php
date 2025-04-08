@@ -456,7 +456,7 @@
                                                 <ul>
                                                     @foreach($technologies as $service_subnav)
                                                         <li class="{{ Request::is('technology/'.$service_subnav->slug) ? 'current' : '' }}">
-                                                            <a class="mega-links" href="{{ route('service.technology', $service_subnav->slug) }}">{{ $service_subnav->title }}</a>
+                                                           <img src="" alt="" srcset=""> <a class="mega-links" href="{{ route('service.technology', $service_subnav->slug) }}">{{ $service_subnav->title }}</a>
                                                         </li>
                                                     @endforeach
                                                 </ul>
