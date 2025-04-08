@@ -131,8 +131,8 @@
     display: none;
     position: absolute;
     top: 100%;
-    /* left: 30; */
-    right: 0;
+    left: 0;
+    /* right: 0; */
     width: 600px;
     padding: 20px;
     background: #fff;
