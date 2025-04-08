@@ -468,6 +468,7 @@
                                                 <h4>Technology Services</h4>
                                                 <ul>
                                                     @foreach($technologies as $service_subnav)
+                                                    @dd($service_subnav->logo_path)
                                                         <li class="{{ Request::is('technology/'.$service_subnav->slug) ? 'current' : '' }}">
                                                             <div class="service-item">
                                                                 {{-- <img src="{{ asset('uploads/'.$this->path.'/logos/'.$service_subnav->logo_path) }}" alt="Logo"> --}}
