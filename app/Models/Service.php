@@ -26,6 +26,10 @@ class Service extends Model
     {
         return $this->hasMany(Subservice::class);
     }
+    public function technologies()
+    {
+        return $this->hasMany(Technology::class);
+    }
     // Polymorphic relations
     public function quotes()
     {
