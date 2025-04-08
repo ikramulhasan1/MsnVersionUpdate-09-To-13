@@ -51,6 +51,7 @@ class TechnologyController extends Controller
         'short_desc' => 'required',
         'description' => 'required',
         'image' => 'required|image',
+        'logo' => 'nullable|image',
     ]);
 
     // Image upload, fit, and convert to WebP
@@ -76,6 +77,27 @@ class TechnologyController extends Controller
             ->save($thumbnailpath);
     } else {
         $fileNameToStore = 'noimage.jpg'; // Default image
+    }
+
+    // Upload Logo Image (optional)
+    $logoFileNameToStore = null;
+    if($request->hasFile('logo')) {
+        $logoFile = $request->file('logo');
+        $logoFilename = pathinfo($logoFile->getClientOriginalName(), PATHINFO_FILENAME); 
+        $logoFileNameToStore = $logoFilename.'_'.time().'.webp';
+
+        $logoPath = public_path('uploads/'.$this->path.'/logos/');
+        if (!File::exists($logoPath)) {
+            File::makeDirectory($logoPath, 0777, true, true);
+        }
+
+        Image::make($logoFile->getRealPath())
+            ->resize(200, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })
+            ->encode('webp', 90)
+            ->save($logoPath.$logoFileNameToStore);
     }
 
     // Get content with media file
@@ -130,6 +152,7 @@ class TechnologyController extends Controller
     $service->short_desc = $request->short_desc;
     $service->description = $dom->saveHTML();
     $service->image_path = $fileNameToStore;
+    $service->logo_path = $logoFileNameToStore;
     $service->manu = $request->manu;
     $service->save();
 
@@ -175,6 +198,7 @@ class TechnologyController extends Controller
         'short_desc' => 'required',
         'description' => 'required',
         'image' => 'nullable|image',
+        'logo' => 'nullable|image', // New optional logo
     ]);
 
     // image upload, fit and store inside public folder 
@@ -206,6 +230,36 @@ class TechnologyController extends Controller
         $fileNameToStore = $technology->image_path; 
     }
 
+
+       // LOGO Upload (New Optional)
+       if ($request->hasFile('logo')) {
+        // Delete old logo if exists
+        if (!empty($technology->logo_path)) {
+            $oldLogoPath = public_path('uploads/' . $this->path . '/logos/' . $technology->logo_path);
+            if (File::isFile($oldLogoPath)) {
+                File::delete($oldLogoPath);
+            }
+        }
+
+        $logoFile = $request->file('logo');
+        $logoFilename = pathinfo($logoFile->getClientOriginalName(), PATHINFO_FILENAME);
+        $logoFileNameToStore = $logoFilename . '_' . time() . '.webp';
+
+        $logoPath = public_path('uploads/' . $this->path . '/logos/');
+        if (!File::exists($logoPath)) {
+            File::makeDirectory($logoPath, 0777, true, true);
+        }
+
+        Image::make($logoFile->getRealPath())
+            ->resize(200, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })
+            ->encode('webp', 90)
+            ->save($logoPath . $logoFileNameToStore);
+    } else {
+        $logoFileNameToStore = $technology->logo_path;
+    }
     // Get content with media file
     $content = $request->input('description');
 
@@ -256,6 +310,7 @@ class TechnologyController extends Controller
     $technology->short_desc = $request->short_desc;
     $technology->description = $dom->saveHTML();
     $technology->image_path = $fileNameToStore;
+    $technology->logo_path = $logoFileNameToStore;
     $technology->status = $request->status;
     $technology->manu = $request->manu;
     $technology->save();

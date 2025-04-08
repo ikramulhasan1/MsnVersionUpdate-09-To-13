@@ -91,12 +91,22 @@
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="image">{{ __('dashboard.thumbnail') }} <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
-                                <input type="file" class="form-control" name="image" id="image">
-    
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.thumbnail') }}
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="image">{{ __('dashboard.thumbnail') }} <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
+                                    <input type="file" class="form-control" name="image" id="image">
+        
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.thumbnail') }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="logo">{{ __('dashboard.logo') }} <span>{{ __('dashboard.image_size', ['height' => 100, 'width' => 100]) }}</span></label>
+                                    <input type="file" class="form-control" name="logo" id="logo">
+        
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.logo') }}
+                                    </div>
                                 </div>
                             </div>
     
