@@ -431,7 +431,7 @@ $header = \App\Models\PageSetup::page('services');
 
 
         <div class="">
-            <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
+            <h4 style="font-size: 18px" class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
             <div class="row g-1">
                 @if (!empty($service->subservices))
                 @foreach ($service->subservices as $key => $item)
