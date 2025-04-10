@@ -70,35 +70,35 @@
             <form id="modal-form">
                 <div hidden style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="user_id">User ID</label>
-                    <input type="text" id="user_id" name="user_id" required>
+                    <input style="box-shadow:black 10px" type="text" id="user_id" name="user_id" required>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="name">Name</label>
-                    <input type="text" id="name" name="name" required>
+                    <input style="box-shadow:black 10px" type="text" id="name" name="name" required>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="location">Location</label>
-                    <input type="text" id="location" name="location" required>
+                    <input style="box-shadow:black 10px" type="text" id="location" name="location" required>
                 </div>
                 <div hidden style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="latitude">Latitude</label>
-                    <input type="text" id="latitude" name="latitude" required>
+                    <input style="box-shadow:black 10px" type="text" id="latitude" name="latitude" required>
                 </div>
                 <div hidden style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="longitude">Longitude</label>
-                    <input type="text" id="longitude" name="longitude" required>
+                    <input style="box-shadow:black 10px" type="text" id="longitude" name="longitude" required>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="meeting_time">Meeting Time</label>
-                    <input type="datetime-local" id="meeting_time" name="meeting_time" required>
+                    <input style="box-shadow:black 10px" type="time" id="meeting_time" name="meeting_time" required>
                 </div>
                 <div hidden style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="distance_time">Distance Time</label>
-                    <input type="text" id="distance_time" name="distance_time" required>
+                    <input style="box-shadow:black 10px" type="text" id="distance_time" name="distance_time" required>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="date">Date</label>
-                    <input type="date" id="date" name="date" required>
+                    <input style="box-shadow:black 10px" type="date" id="date" name="date" required>
                 </div>
                 <button type="submit">Save</button>
             </form>
