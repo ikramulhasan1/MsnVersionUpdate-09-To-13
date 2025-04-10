@@ -159,6 +159,15 @@
         modal.style.display = 'none';
     });
 </script>
-
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY5p5e5PtJuJLl_nRpjefL0S094jdhEP8 "></script>
+<script> 
+    $(document).ready(function(){ 
+    var autocomplete; 
+    var to 'location'; 
+    autocomplete = new google.maps.places.Autocomplete ((document.getElementById(to)), { 
+    types: ['geocode'], 
+    }); 
+    }); 
+    </script>
 </body>
 </html>
