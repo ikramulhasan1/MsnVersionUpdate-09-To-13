@@ -32,6 +32,7 @@
             cursor: pointer;
             display: flex;
             align-items: center;
+            transition: background-color 0.3s ease;
         }
 
         #open-modal img {
@@ -61,7 +62,7 @@
             background: white;
             padding: 20px;
             border-radius: 8px;
-            width: 500px; /* Shorter and more rectangular */
+            width: 450px; /* Shorter and more rectangular */
             box-sizing: border-box;
             position: relative;
         }
@@ -211,6 +212,7 @@
         // Close the modal after submission
         modal.style.display = 'none';
     });
+
 </script>
 
 </body>
