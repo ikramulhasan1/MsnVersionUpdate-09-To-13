@@ -6,49 +6,6 @@
   <title>Google Meet Smart Form</title>
 
   <style>
-    /* General reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f7fafc;
-      padding-top: 80px; /* Space for fixed navbar */
-    }
-
-    /* Navbar */
-    .navbar {
-      background-color: #3182ce;
-      color: white;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 9999;
-      padding: 12px 20px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .navbar .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .navbar .nav-links a {
-      color: white;
-      margin-left: 16px;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .navbar .nav-links a:hover {
-      color: #edf2f7;
-    }
-
     /* Smart Google Meet Button */
     .google-meet-button {
       display: flex;
