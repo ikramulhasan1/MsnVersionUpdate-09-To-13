@@ -12,38 +12,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
         }
 
-        /* Open Modal Button Style */
-        #open-modal {
-            padding: 12px 25px;
-            background-color: #34b7f1;
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            transition: background-color 0.3s ease;
-        }
-
-        #open-modal img {
-            margin-right: 10px;
-        }
-
-        #open-modal:hover {
-            background-color: #0099cc;
-        }
-
-        /* Modal Overlay */
         .modal__overlay {
             background-color: rgba(0, 0, 0, 0.5);
             position: fixed;
@@ -57,12 +27,11 @@
             z-index: 1000;
         }
 
-        /* Rectangular Modal Box */
         .modal__container {
             background: white;
             padding: 20px;
             border-radius: 8px;
-            width: 450px; /* Shorter and more rectangular */
+            width: 400px;
             box-sizing: border-box;
             position: relative;
         }
@@ -108,31 +77,20 @@
 
         .modal__header h2 {
             margin: 0;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-        }
-
-        .modal__header img {
-            margin-right: 10px;
         }
 
     </style>
 </head>
 <body>
 
-<!-- Button to Trigger Modal with Google Meet Logo -->
-<button id="open-modal" class="button">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Google_Meet_logo_2020.svg" alt="Google Meet" width="24" height="24">
-    Open Modal
-</button>
+<!-- Button to Trigger Modal -->
+<button id="open-modal" class="button">Open Modal</button>
 
 <!-- Modal Structure -->
 <div id="modal-1" class="modal__overlay" style="display: none;">
     <div class="modal__container">
         <header class="modal__header">
             <button class="modal__close" aria-label="Close modal">&times;</button>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Google_Meet_logo_2020.svg" alt="Google Meet" width="24" height="24">
             <h2>Meeting Details</h2>
         </header>
         <div class="modal__content">
@@ -212,7 +170,6 @@
         // Close the modal after submission
         modal.style.display = 'none';
     });
-
 </script>
 
 </body>
