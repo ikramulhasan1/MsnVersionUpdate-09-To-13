@@ -134,7 +134,7 @@
 </div>
 
 <!-- Google Maps Places API -->
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY5p5e5PtJuJLl_nRpjefL0S094jdhEP8&libraries=places&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu6xAYnCNlOJ4R4k7eGd2GrkRhnCh6k7A&libraries=places&callback=initMap"></script>
 
 <!-- JavaScript -->
 <script>
