@@ -52,24 +52,6 @@
         button[type="submit"]:hover {
             background-color: #0056b3;
         }
-
-        /* Add focus style for input fields */
-        input[type="text"], input[type="date"], input[type="datetime-local"] {
-            width: 100%;
-            padding: 8px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            transition: border 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        /* Style when input field is focused */
-        input[type="text"]:focus, input[type="date"]:focus, input[type="datetime-local"]:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-            outline: none;
-        }
-
     </style>
 </head>
 <body>
@@ -86,35 +68,35 @@
         </header>
         <div class="modal__content">
             <form id="modal-form">
-                <div>
+                <div hidden style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="user_id">User ID</label>
                     <input type="text" id="user_id" name="user_id" required>
                 </div>
-                <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="name">Name</label>
                     <input type="text" id="name" name="name" required>
                 </div>
-                <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="location">Location</label>
                     <input type="text" id="location" name="location" required>
                 </div>
-                <div>
+                <div hidden style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="latitude">Latitude</label>
                     <input type="text" id="latitude" name="latitude" required>
                 </div>
-                <div>
+                <div hidden style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="longitude">Longitude</label>
                     <input type="text" id="longitude" name="longitude" required>
                 </div>
-                <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="meeting_time">Meeting Time</label>
                     <input type="datetime-local" id="meeting_time" name="meeting_time" required>
                 </div>
-                <div>
+                <div hidden style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="distance_time">Distance Time</label>
                     <input type="text" id="distance_time" name="distance_time" required>
                 </div>
-                <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="date">Date</label>
                     <input type="date" id="date" name="date" required>
                 </div>
