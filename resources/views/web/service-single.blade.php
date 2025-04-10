@@ -1,4 +1,6 @@
 @extends('web.layouts.master')
+<script src="https://cdn.tailwindcss.com"></script>
+
 @php
 $header = \App\Models\PageSetup::page('services');
 @endphp
@@ -420,7 +422,6 @@ $header = \App\Models\PageSetup::page('services');
                         </a>
                     </div>
                     <div class="">
-                        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
         <div class="flex justify-center items-center">
             <!-- Smart Google Meet Rectangle Button with Image -->
