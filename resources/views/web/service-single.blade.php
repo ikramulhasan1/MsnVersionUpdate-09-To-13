@@ -402,7 +402,7 @@ $header = \App\Models\PageSetup::page('services');
                 $page_contact = \App\Models\PageSetup::page('contact-us');
                 @endphp
                 @if(isset($page_quote) || isset($setting->email_one))
-                <div class="d-flex justify-content-between align-items-center mt-5 mb-5">
+                <div class="d-flex justify-content-between align-items-center">
                     <div class="circle-container">
                         <!-- Get A Quote Button -->
                         <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
