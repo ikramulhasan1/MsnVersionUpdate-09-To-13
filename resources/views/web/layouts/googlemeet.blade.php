@@ -8,7 +8,9 @@
   <!-- Semantic UI CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
 
-  <!-- Custom CSS for modal adjustments -->
+  <!-- Google Fonts (Optional) -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+
   <style>
     body {
       font-family: 'Roboto', sans-serif;
@@ -16,7 +18,6 @@
       background-color: #f4f7fa;
     }
 
-    /* Google Meet Button */
     .google-meet-button {
       display: flex;
       align-items: center;
@@ -30,6 +31,7 @@
       transition: transform 0.3s, background-color 0.3s;
       border: none;
       font-weight: 600;
+      margin-top: 30px;
     }
 
     .google-meet-button:hover {
@@ -43,37 +45,21 @@
       margin-right: 12px;
     }
 
-    /* Modal */
-    .modal-content {
-      background-color: #fff;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 400px;
-    }
-
-    .modal-content h2 {
-      font-size: 22px;
-      font-weight: 600;
-      color: #2d3748;
-      margin-bottom: 20px;
+    .ui.modal .header {
       text-align: center;
+      font-size: 24px;
     }
 
-    /* Custom Modal Styles */
+    .ui.modal .content {
+      padding: 30px;
+    }
+
     .ui.input input,
     .ui.button {
       width: 100%;
       padding: 12px;
       margin-bottom: 12px;
       font-size: 16px;
-    }
-
-    .ui.input input {
-      background-color: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
     }
 
     .ui.button {
@@ -88,34 +74,13 @@
     .ui.button:hover {
       background-color: #4299e1;
     }
-
-    .ui.button:focus {
-      outline: none;
-    }
-
-    /* Close Button */
-    .close-btn {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      font-size: 24px;
-      color: #e2e8f0;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-
-    .close-btn:hover {
-      color: #3182ce;
-    }
-
   </style>
 </head>
 <body>
 
   <!-- Google Meet Button -->
   <div class="ui center aligned container">
-    <button class="google-meet-button" onclick="toggleModal(true)">
+    <button class="google-meet-button" onclick="toggleModal()">
       <img src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" />
       <span>Book a Meeting</span>
     </button>
@@ -123,12 +88,8 @@
 
   <!-- Modal -->
   <div class="ui modal" id="googleMeetModal">
-    <div class="modal-content">
-      <!-- Close Button -->
-      <button onclick="toggleModal(false)" class="close-btn">&times;</button>
-
-      <h2>Schedule Your Meeting</h2>
-
+    <div class="header">Schedule Your Meeting</div>
+    <div class="content">
       <!-- Form -->
       <form class="ui form">
         <input type="text" hidden placeholder="User ID" />
@@ -166,17 +127,13 @@
     </div>
   </div>
 
-  <!-- Script -->
+  <!-- Semantic UI and jQuery CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
 
   <script>
-    function toggleModal(show) {
-      if (show) {
-        $('#googleMeetModal').modal('show');
-      } else {
-        $('#googleMeetModal').modal('hide');
-      }
+    function toggleModal() {
+      $('#googleMeetModal').modal('toggle');
     }
   </script>
 
