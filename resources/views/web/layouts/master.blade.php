@@ -285,7 +285,7 @@
 </head>
 
 <body>
-
+@include('web.layouts.googlemeet')
     <div class="page-wrapper">
         <!-- Preloader -->
         <div class="preloader"></div>
