@@ -52,6 +52,24 @@
         button[type="submit"]:hover {
             background-color: #0056b3;
         }
+
+        /* Add focus style for input fields */
+        input[type="text"], input[type="date"], input[type="datetime-local"] {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Style when input field is focused */
+        input[type="text"]:focus, input[type="date"]:focus, input[type="datetime-local"]:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            outline: none;
+        }
+
     </style>
 </head>
 <body>
