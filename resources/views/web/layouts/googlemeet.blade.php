@@ -71,7 +71,6 @@
     </style>
     @endsection
     
-    @section('content')
         <div class="flex justify-center items-center">
             <!-- Smart Google Meet Rectangle Button with Image -->
             <button onclick="toggleModal(true)" class="flex items-center px-8 py-3 bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-lg shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none transform hover:shadow-xl">
@@ -155,4 +154,4 @@
           modal.classList.toggle('flex', show);
         }
       </script>
-    @endsection
+
