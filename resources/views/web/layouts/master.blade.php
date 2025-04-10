@@ -197,8 +197,11 @@
     font-size: 14px; /* Adjust size as necessary */
     text-decoration: none;
 }
-
+nav {
+        z-index: 9999; /* Ensures navbar stays on top */
+      }
     </style>
+     
     <!-- Custom Style -->
     @if(isset($setting->custom_css))
     <style type="text/css">
@@ -400,7 +403,7 @@
                     <div class="nav-outer clearfix">
 
                         <!-- Main Menu -->
-                        <nav class="main-menu navbar-expand-md">
+                        <nav class="main-menu navbar-expand-md z-50">
                             <div class="navbar-header">
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                     <span class="icon-bar"></span>
@@ -609,7 +612,7 @@
                     <!--Right Col-->
                     <div class="right-col pull-right">
                         <!-- Main Menu -->
-                        <nav class="main-menu  navbar-expand-md">
+                        <nav class="main-menu  navbar-expand-md z-50">
                             <div class="navbar-header">
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation">
                                     <span class="icon-bar"></span>
