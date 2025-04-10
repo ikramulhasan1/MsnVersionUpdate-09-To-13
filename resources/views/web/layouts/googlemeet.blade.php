@@ -100,7 +100,7 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label for="location">Location</label>
-                    <input autocomplete="off" style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="location" name="location" required>
+                    <input  autocomplete="off" spellcheck="false" style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="location" name="location" required>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label for="latitude">Latitude</label>
@@ -145,16 +145,15 @@
 
     let autocompleteInitialized = false;
 
-    openModalButton.addEventListener('click', function() {
-        modal.style.display = 'flex';
+openModalButton.addEventListener('click', function() {
+    modal.style.display = 'flex';
 
-        // Initialize Google Places Autocomplete after modal is visible
-        if (!autocompleteInitialized) {
-            const input = document.getElementById('location');
-            if (input) {
+    if (!autocompleteInitialized) {
+        const input = document.getElementById('location');
+        if (input) {
+            setTimeout(() => {
                 const autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'] });
 
-                // Optional: Automatically fill in latitude and longitude
                 autocomplete.addListener('place_changed', function() {
                     const place = autocomplete.getPlace();
                     if (place.geometry) {
@@ -164,9 +163,11 @@
                 });
 
                 autocompleteInitialized = true;
-            }
+            }, 300); // Delay to allow DOM to fully render
         }
-    });
+    }
+});
+
 
     closeModalButton.addEventListener('click', function() {
         modal.style.display = 'none';
