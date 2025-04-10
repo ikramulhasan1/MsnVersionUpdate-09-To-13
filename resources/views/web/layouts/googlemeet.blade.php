@@ -102,7 +102,7 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <label for="location">Location</label>
-                    <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="location" name="location" required>
+                    <input autocomplete="off" style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="location" name="location" required>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <label for="latitude">Latitude</label>
