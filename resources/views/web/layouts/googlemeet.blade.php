@@ -1,4 +1,3 @@
-@section('top_meta_tags')
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .modal-dialog {
@@ -69,7 +68,7 @@
         margin-bottom: 12px;
       }
     </style>
-    @endsection
+ 
     
         <div class="flex justify-center items-center">
             <!-- Smart Google Meet Rectangle Button with Image -->
