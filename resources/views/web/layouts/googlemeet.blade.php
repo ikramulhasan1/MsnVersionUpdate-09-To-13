@@ -1,6 +1,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .modal-dialog {
+        /* .modal-dialog {
         max-width: 500px;
       }
   
@@ -66,7 +66,7 @@
   
       .form-group {
         margin-bottom: 12px;
-      }
+      } */
     </style>
  
     
@@ -146,11 +146,11 @@
       </style>
       
       <!-- Script -->
-      {{-- <script>
+      <script>
         function toggleModal(show) {
           const modal = document.getElementById('googleMeetModal');
           modal.classList.toggle('hidden', !show);
           modal.classList.toggle('flex', show);
         }
-      </script> --}}
+      </script>
 
