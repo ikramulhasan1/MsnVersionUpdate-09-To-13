@@ -10,10 +10,6 @@
 
     <!-- Include custom styles (optional) -->
     <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
         .modal__overlay {
             background-color: rgba(0, 0, 0, 0.5);
             position: fixed;
@@ -33,25 +29,15 @@
             border-radius: 8px;
             width: 400px;
             box-sizing: border-box;
-            position: relative;
         }
 
-        button.modal__close,
-        button.modal__delete {
+        button.modal__close {
             position: absolute;
             top: 10px;
             right: 10px;
             background: none;
             border: none;
             font-size: 20px;
-            cursor: pointer;
-        }
-
-        .modal__delete {
-            top: 40px;
-            right: 10px;
-            font-size: 16px;
-            color: red;
         }
 
         button[type="submit"] {
@@ -66,19 +52,6 @@
         button[type="submit"]:hover {
             background-color: #0056b3;
         }
-
-        input[type="text"], input[type="date"], input[type="datetime-local"] {
-            width: 100%;
-            padding: 8px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .modal__header h2 {
-            margin: 0;
-        }
-
     </style>
 </head>
 <body>
@@ -89,7 +62,7 @@
 <!-- Modal Structure -->
 <div id="modal-1" class="modal__overlay" style="display: none;">
     <div class="modal__container">
-        <header class="modal__header">
+        <header>
             <button class="modal__close" aria-label="Close modal">&times;</button>
             <h2>Meeting Details</h2>
         </header>
@@ -130,7 +103,6 @@
                 <button type="submit">Save</button>
             </form>
         </div>
-        <button class="modal__delete" aria-label="Delete modal">Delete</button>
     </div>
 </div>
 
@@ -140,24 +112,13 @@
     const openModalButton = document.getElementById('open-modal');
     const modal = document.getElementById('modal-1');
     const closeModalButton = document.querySelector('.modal__close');
-    const deleteModalButton = document.querySelector('.modal__delete');
 
-    // Focus on the first input field when the modal opens
     openModalButton.addEventListener('click', function() {
         modal.style.display = 'flex'; // Show the modal
-        document.getElementById('user_id').focus(); // Focus on the first input field
     });
 
-    // Close the modal when the close button is clicked
     closeModalButton.addEventListener('click', function() {
         modal.style.display = 'none'; // Hide the modal
-    });
-
-    // Delete the modal when the delete button is clicked
-    deleteModalButton.addEventListener('click', function() {
-        modal.style.display = 'none'; // Remove the modal
-        // Optionally, delete the modal DOM element itself (if you want to completely remove it)
-        modal.remove();
     });
 
     // Example of form submission handling
