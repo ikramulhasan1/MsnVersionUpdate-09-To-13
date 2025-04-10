@@ -420,7 +420,17 @@ $header = \App\Models\PageSetup::page('services');
                         </a>
                     </div>
                     <div class="">
-                        @include('web.layouts.googlemeet')
+                        <div class="flex justify-center items-center">
+                            <!-- Smart Google Meet Rectangle Button with Image -->
+                            <button onclick="toggleModal(true)" class="flex items-center px-8 py-3 bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-lg shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none transform hover:shadow-xl">
+                              
+                              <!-- Google Meet Logo (Image) -->
+                              <img src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" class="w-32 h-12 mr-3" />
+                              
+                              <!-- Button Text -->
+                              <span class="font-semibold text-lg">Book a Meeting</span>
+                            </button>
+                          </div>
                     </div>
                 </div>
                 @elseif(isset($page_contact))
