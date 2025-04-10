@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Meet Smart Form</title>
 
   <style>
     /* Smart Google Meet Button */
@@ -126,8 +120,6 @@
       background-color: #4299e1;
     }
   </style>
-</head>
-<body>
 
   <!-- Smart Google Meet Button -->
   <div class="flex justify-center items-center mt-24">
@@ -175,6 +167,3 @@
       modal.style.display = show ? 'flex' : 'none';
     }
   </script>
-
-</body>
-</html>
