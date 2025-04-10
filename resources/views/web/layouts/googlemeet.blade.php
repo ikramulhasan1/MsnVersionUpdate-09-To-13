@@ -69,8 +69,6 @@
             background-color: #c82333;
         }
     </style>
-    <!-- jQuery CDN -->
-
 </head>
 <body>
 
@@ -92,35 +90,35 @@
         </header>
         <div class="modal__content">
             <form id="modal-form">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label for="user_id">User ID</label>
                     <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="user_id" name="user_id" required>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label for="name">Name</label>
                     <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="name" name="name" required>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label for="location">Location</label>
                     <input autocomplete="off" style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="location" name="location" required>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label for="latitude">Latitude</label>
                     <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="latitude" name="latitude" required>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label for="longitude">Longitude</label>
                     <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="longitude" name="longitude" required>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label for="meeting_time">Meeting Time</label>
                     <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="time" id="meeting_time" name="meeting_time" required>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label for="distance_time">Distance Time</label>
                     <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="distance_time" name="distance_time" required>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label for="date">Date</label>
                     <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="date" id="date" name="date" required>
                 </div>
@@ -134,6 +132,9 @@
         </div>
     </div>
 </div>
+
+<!-- Google Maps Places API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY5p5e5PtJuJLl_nRpjefL0S094jdhEP8&libraries=places"></script>
 
 <!-- JavaScript -->
 <script>
@@ -151,7 +152,17 @@
         if (!autocompleteInitialized) {
             const input = document.getElementById('location');
             if (input) {
-                new google.maps.places.Autocomplete(input, { types: ['geocode'] });
+                const autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'] });
+
+                // Optional: Automatically fill in latitude and longitude
+                autocomplete.addListener('place_changed', function() {
+                    const place = autocomplete.getPlace();
+                    if (place.geometry) {
+                        document.getElementById('latitude').value = place.geometry.location.lat();
+                        document.getElementById('longitude').value = place.geometry.location.lng();
+                    }
+                });
+
                 autocompleteInitialized = true;
             }
         }
@@ -170,20 +181,6 @@
         const formData = new FormData(event.target);
         console.log('Form Data:', Object.fromEntries(formData.entries()));
         modal.style.display = 'none';
-    });
-</script>
-
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY5p5e5PtJuJLl_nRpjefL0S094jdhEP8&libraries=places"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-        var autocomplete;
-        var to = 'location';
-        autocomplete = new google.maps.places.Autocomplete(
-            document.getElementById(to),
-            { types: ['geocode'] }
-        );
     });
 </script>
 
