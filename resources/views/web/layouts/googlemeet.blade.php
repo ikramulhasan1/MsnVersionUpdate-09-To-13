@@ -29,6 +29,7 @@
             border-radius: 8px;
             width: 400px;
             box-sizing: border-box;
+            position: relative;
         }
 
         button.modal__close {
@@ -38,39 +39,47 @@
             background: none;
             border: none;
             font-size: 20px;
+            cursor: pointer;
         }
 
-        button[type="submit"] {
+        button[type="submit"],
+        button#cancel-button {
             padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
 
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+        }
+
         button[type="submit"]:hover {
             background-color: #0056b3;
+        }
+
+        button#cancel-button {
+            background-color: #dc3545;
+            color: white;
+            margin-left: 10px;
+        }
+
+        button#cancel-button:hover {
+            background-color: #c82333;
         }
     </style>
 </head>
 <body>
 
 <!-- Button to Trigger Modal -->
-{{-- <button id="open-modal" class="button">Open Modal</button> --}}
 <div style="display: flex; justify-content: space-between; align-items: center;">
     <!-- Google Meet Button -->
     <button id="open-modal" class="button" style="background-color: #48bb78; color: white; padding: 12px 24px; border-radius: 30px; cursor: pointer;">
-      <!-- Google Meet Logo (Image) -->
-      <img src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" style="width: 24px; height: auto; margin-right: 10px;" />
-      <!-- Button Text -->
-      <span style="font-weight: 600;">Start Google Meet</span>
+        <img src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" style="width: 100px; height: auto; margin-right: 10px;" />
+        <span style="font-weight: 600;">Start Google Meet</span>
     </button>
-  </div>
-  
-  
-
-
+</div>
 
 <!-- Modal Structure -->
 <div id="modal-1" class="modal__overlay" style="display: none;">
@@ -81,68 +90,72 @@
         </header>
         <div class="modal__content">
             <form id="modal-form">
-                <div hidden style="display: flex; justify-content: space-between; align-items: center; " >
+                <div style="display: flex; justify-content: space-between; align-items: center;">
                     <label for="user_id">User ID</label>
-                    <input style="box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important;" type="text" id="user_id" name="user_id" required>
-
+                    <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="user_id" name="user_id" required>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; " >
+                <div style="display: flex; justify-content: space-between; align-items: center;">
                     <label for="name">Name</label>
-                    <input style=" box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="text" id="name" name="name" required>
+                    <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="name" name="name" required>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; " >
+                <div style="display: flex; justify-content: space-between; align-items: center;">
                     <label for="location">Location</label>
-                    <input style=" box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="text" id="location" name="location" required>
+                    <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="location" name="location" required>
                 </div>
-                <div hidden style="display: flex; justify-content: space-between; align-items: center; " >
+                <div style="display: flex; justify-content: space-between; align-items: center;">
                     <label for="latitude">Latitude</label>
-                    <input style=" box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="text" id="latitude" name="latitude" required>
+                    <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="latitude" name="latitude" required>
                 </div>
-                <div hidden style="display: flex; justify-content: space-between; align-items: center; " >
+                <div style="display: flex; justify-content: space-between; align-items: center;">
                     <label for="longitude">Longitude</label>
-                    <input style=" box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="text" id="longitude" name="longitude" required>
+                    <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="longitude" name="longitude" required>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; " >
+                <div style="display: flex; justify-content: space-between; align-items: center;">
                     <label for="meeting_time">Meeting Time</label>
-                    <input style=" box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="time" id="meeting_time" name="meeting_time" required>
+                    <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="time" id="meeting_time" name="meeting_time" required>
                 </div>
-                <div hidden style="display: flex; justify-content: space-between; align-items: center; " >
+                <div style="display: flex; justify-content: space-between; align-items: center;">
                     <label for="distance_time">Distance Time</label>
-                    <input style=" box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="text" id="distance_time" name="distance_time" required>
+                    <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="distance_time" name="distance_time" required>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; " >
+                <div style="display: flex; justify-content: space-between; align-items: center;">
                     <label for="date">Date</label>
-                    <input style=" box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="date" id="date" name="date" required>
+                    <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="date" id="date" name="date" required>
                 </div>
-                <button type="submit">Save</button>
+
+                <!-- Save and Cancel buttons -->
+                <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
+                    <button type="submit">Save</button>
+                    <button type="button" id="cancel-button">Cancel</button>
+                </div>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Include JavaScript to initialize VanillaModal -->
+<!-- JavaScript -->
 <script>
-    // Initialize VanillaModal and the button to trigger it
     const openModalButton = document.getElementById('open-modal');
     const modal = document.getElementById('modal-1');
     const closeModalButton = document.querySelector('.modal__close');
+    const cancelModalButton = document.getElementById('cancel-button');
 
     openModalButton.addEventListener('click', function() {
-        modal.style.display = 'flex'; // Show the modal
+        modal.style.display = 'flex';
     });
 
     closeModalButton.addEventListener('click', function() {
-        modal.style.display = 'none'; // Hide the modal
+        modal.style.display = 'none';
     });
 
-    // Example of form submission handling
+    cancelModalButton.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
     document.getElementById('modal-form').addEventListener('submit', function(event) {
         event.preventDefault();
-        // You can handle the form submission here (e.g., send data via AJAX)
         const formData = new FormData(event.target);
         console.log('Form Data:', Object.fromEntries(formData.entries()));
-
-        // Close the modal after submission
         modal.style.display = 'none';
     });
 </script>
