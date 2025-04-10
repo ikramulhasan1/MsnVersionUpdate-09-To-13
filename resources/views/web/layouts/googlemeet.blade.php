@@ -134,7 +134,7 @@
 </div>
 
 <!-- Google Maps Places API -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY5p5e5PtJuJLl_nRpjefL0S094jdhEP8&libraries=places"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY5p5e5PtJuJLl_nRpjefL0S094jdhEP8&libraries=places&callback=initMap"></script>
 
 <!-- JavaScript -->
 <script>
@@ -145,29 +145,19 @@
 
     let autocompleteInitialized = false;
 
-openModalButton.addEventListener('click', function() {
-    modal.style.display = 'flex';
-
-    if (!autocompleteInitialized) {
-        const input = document.getElementById('location');
-        if (input) {
-            setTimeout(() => {
-                const autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'] });
-
-                autocomplete.addListener('place_changed', function() {
-                    const place = autocomplete.getPlace();
-                    if (place.geometry) {
-                        document.getElementById('latitude').value = place.geometry.location.lat();
-                        document.getElementById('longitude').value = place.geometry.location.lng();
-                    }
-                });
-
-                autocompleteInitialized = true;
-            }, 30000); // Delay to allow DOM to fully render
-        }
-    }
-});
-
+function initMap() {
+    const input = document.getElementById('location');
+    const autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'] });
+  
+    autocomplete.addListener('place_changed', function () {
+      const place = autocomplete.getPlace();
+      if (place.geometry) {
+        document.getElementById('latitude').value = place.geometry.location.lat();
+        document.getElementById('longitude').value = place.geometry.location.lng();
+      }
+    });
+  }
+  
 
     closeModalButton.addEventListener('click', function() {
         modal.style.display = 'none';
