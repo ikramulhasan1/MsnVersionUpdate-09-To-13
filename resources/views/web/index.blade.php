@@ -41,6 +41,7 @@ $header = \App\Models\PageSetup::page('home');
 <meta name="twitter:description" content="{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}" />
 <meta name="twitter:image" content="{{ asset('/uploads/setting/'.$setting->logo_path) }}" />
 @endif
+
 @endsection
 
 {{-- schema  --}}
@@ -526,14 +527,13 @@ $section_testimonials = \App\Models\Section::section('testimonials');
 <!--End Testimonial Section Two-->
 @endif
 
-
 @php
 $section_blog = \App\Models\Section::section('blog');
 @endphp
 @if(count($articles) > 0 && isset($section_blog))
 <!-- News Section -->
 {{-- <section class="news-section"> --}}
-<section class="">
+<section class="my-5">
     <div class="container">
         <div class="sec-title left text-left">
             <h2>{{ $section_blog->title }}</h2>
