@@ -1,4 +1,4 @@
-    <script src="https://cdn.tailwindcss.com"></script>
+    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
     <style>
         /* .modal-dialog {
         max-width: 500px;
