@@ -400,7 +400,7 @@
                     <div class="nav-outer clearfix">
 
                         <!-- Main Menu -->
-                        <nav class="main-menu navbar-expand-md z-50">
+                        <nav class="main-menu navbar-expand-md z-50 !relative">
                             <div class="navbar-header">
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                     <span class="icon-bar"></span>
@@ -609,7 +609,7 @@
                     <!--Right Col-->
                     <div class="right-col pull-right">
                         <!-- Main Menu -->
-                        <nav class="main-menu  navbar-expand-md z-50">
+                        <nav class="main-menu  navbar-expand-md z-50 !relative">
                             <div class="navbar-header">
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation">
                                     <span class="icon-bar"></span>
