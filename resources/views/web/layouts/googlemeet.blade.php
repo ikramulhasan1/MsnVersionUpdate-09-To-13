@@ -1,8 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Meet Smart Form</title>
 
   <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f7fafc;
+      padding-top: 60px;
+      text-align: center;
+    }
 
-    /* Smart Google Meet Button */
+    /* Google Meet Button */
     .google-meet-button {
       display: flex;
       align-items: center;
@@ -11,11 +29,11 @@
       color: white;
       padding: 12px 30px;
       border-radius: 30px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       cursor: pointer;
       transition: transform 0.3s, background-color 0.3s;
       border: none;
-      font-weight: bold;
+      font-weight: 600;
     }
 
     .google-meet-button:hover {
@@ -32,10 +50,11 @@
     /* Modal */
     #googleMeetModal {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 400px;
       background-color: rgba(0, 0, 0, 0.6);
       display: none;
       justify-content: center;
@@ -46,9 +65,8 @@
     .modal-content {
       background-color: #fff;
       width: 100%;
-      max-width: 480px;
-      padding: 30px;
-      border-radius: 20px;
+      padding: 25px;
+      border-radius: 15px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       animation: fadeIn 0.3s ease-out;
     }
@@ -65,10 +83,10 @@
     }
 
     .modal-content h2 {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 600;
       color: #2d3748;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       text-align: center;
     }
 
@@ -76,9 +94,9 @@
     .modal-content input,
     .modal-content button {
       width: 100%;
-      padding: 14px 16px;
-      margin-bottom: 15px;
-      border: 2px solid #ddd;
+      padding: 12px;
+      margin-bottom: 12px;
+      border: 1px solid #e2e8f0;
       border-radius: 8px;
       font-size: 16px;
       background-color: #f7fafc;
@@ -88,7 +106,7 @@
     .modal-content input:focus,
     .modal-content button:focus {
       border-color: #3182ce;
-      box-shadow: 0 0 8px rgba(72, 130, 195, 0.4);
+      box-shadow: 0 0 6px rgba(72, 130, 195, 0.4);
       outline: none;
     }
 
@@ -102,6 +120,7 @@
       border: none;
       font-weight: bold;
       cursor: pointer;
+      transition: background-color 0.3s;
     }
 
     .modal-content button:hover {
@@ -124,16 +143,26 @@
       color: #3182ce;
     }
 
-    /* Input focus styling */
+    /* Input Field Styling */
+    input {
+      background-color: #f9fafb;
+      padding: 10px 14px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #2d3748;
+    }
+
     input:focus {
-      outline: none;
       border-color: #3182ce;
       box-shadow: 0 0 6px rgba(72, 130, 195, 0.3);
     }
 
   </style>
+</head>
+<body>
 
-  <!-- Smart Google Meet Button -->
+  <!-- Google Meet Button -->
   <div class="flex justify-center items-center mt-24">
     <button onclick="toggleModal(true)" class="google-meet-button">
       <img src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" />
@@ -180,4 +209,5 @@
     }
   </script>
 
-
+</body>
+</html>
