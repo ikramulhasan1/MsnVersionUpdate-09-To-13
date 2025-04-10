@@ -1,141 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Meet Smart Form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Example</title>
 
-  <!-- Semantic UI CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <!-- Include Micromodal.js -->
+    <script src="https://cdn.jsdelivr.net/npm/micromodal@0.4.6/dist/micromodal.min.js"></script>
 
-  <!-- Google Fonts (Optional) -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Include custom styles (optional) -->
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+        }
 
-  <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      padding-top: 60px;
-      background-color: #f4f7fa;
-    }
+        .modal__overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .google-meet-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(90deg, #48bb78, #4299e1);
-      color: white;
-      padding: 12px 30px;
-      border-radius: 30px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      cursor: pointer;
-      transition: transform 0.3s, background-color 0.3s;
-      border: none;
-      font-weight: 600;
-      margin-top: 30px;
-    }
+        .modal__container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+            box-sizing: border-box;
+        }
 
-    .google-meet-button:hover {
-      transform: scale(1.05);
-      background-color: #3182ce;
-    }
+        button.modal__close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+        }
 
-    .google-meet-button img {
-      width: 40px;
-      height: auto;
-      margin-right: 12px;
-    }
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-    .ui.modal .header {
-      text-align: center;
-      font-size: 24px;
-    }
-
-    .ui.modal .content {
-      padding: 30px;
-    }
-
-    .ui.input input,
-    .ui.button {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 12px;
-      font-size: 16px;
-    }
-
-    .ui.button {
-      background-color: #3182ce;
-      color: white;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .ui.button:hover {
-      background-color: #4299e1;
-    }
-  </style>
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Google Meet Button -->
-  <div class="ui center aligned container">
-    <button class="google-meet-button" onclick="toggleModal()">
-      <img src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" />
-      <span>Book a Meeting</span>
-    </button>
-  </div>
+<!-- Button to Trigger Modal -->
+<button id="open-modal" class="button">Open Modal</button>
 
-  <!-- Modal -->
-  <div class="ui modal" id="googleMeetModal">
-    <div class="header">Schedule Your Meeting</div>
-    <div class="content">
-      <!-- Form -->
-      <form class="ui form">
-        <input type="text" hidden placeholder="User ID" />
-
-        <div class="field">
-          <label for="name">Your Name</label>
-          <div class="ui input">
-            <input type="text" placeholder="Your Name" id="name" />
-          </div>
+<!-- Modal Structure -->
+<div id="modal-1" class="modal micromodal-slide" aria-hidden="true">
+    <div class="modal__overlay" tabindex="-1">
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+            <header class="modal__header">
+                <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+                <h2 class="modal__title" id="modal-1-title">Meeting Details</h2>
+            </header>
+            <div class="modal__content">
+                <form id="modal-form">
+                    <div>
+                        <label for="user_id">User ID</label>
+                        <input type="text" id="user_id" name="user_id" required>
+                    </div>
+                    <div>
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div>
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" required>
+                    </div>
+                    <div>
+                        <label for="latitude">Latitude</label>
+                        <input type="text" id="latitude" name="latitude" required>
+                    </div>
+                    <div>
+                        <label for="longitude">Longitude</label>
+                        <input type="text" id="longitude" name="longitude" required>
+                    </div>
+                    <div>
+                        <label for="meeting_time">Meeting Time</label>
+                        <input type="datetime-local" id="meeting_time" name="meeting_time" required>
+                    </div>
+                    <div>
+                        <label for="distance_time">Distance Time</label>
+                        <input type="text" id="distance_time" name="distance_time" required>
+                    </div>
+                    <div>
+                        <label for="date">Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <button type="submit">Save</button>
+                </form>
+            </div>
         </div>
-
-        <div class="field">
-          <label for="location">Location</label>
-          <div class="ui input">
-            <input type="text" placeholder="Location" id="location" />
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="meeting_time">Meeting Time</label>
-          <div class="ui input">
-            <input id="meeting_time" type="time" placeholder="Meeting Time" />
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="date">Meeting Date</label>
-          <div class="ui input">
-            <input id="date" type="date" placeholder="Date" />
-          </div>
-        </div>
-
-        <button class="ui button primary" type="submit">Submit</button>
-      </form>
     </div>
-  </div>
+</div>
 
-  <!-- Semantic UI and jQuery CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+<!-- Include JavaScript to initialize Micromodal.js -->
+<script>
+    // Initialize Micromodal.js
+    MicroModal.init();
 
-  <script>
-    function toggleModal() {
-      $('#googleMeetModal').modal('toggle');
-    }
-  </script>
+    // Trigger to open modal when button is clicked
+    document.getElementById('open-modal').addEventListener('click', function() {
+        MicroModal.show('modal-1');  // Show the modal with ID "modal-1"
+    });
+
+    // Example of form submission handling
+    document.getElementById('modal-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        // You can handle the form submission here (e.g., send data via AJAX)
+        const formData = new FormData(event.target);
+        console.log('Form Data:', Object.fromEntries(formData.entries()));
+
+        // Close the modal after submission
+        MicroModal.close('modal-1');
+    });
+</script>
 
 </body>
 </html>
