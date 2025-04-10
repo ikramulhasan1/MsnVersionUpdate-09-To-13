@@ -162,7 +162,7 @@ class ServiceController extends Controller
         $request->validate([
             'title' => 'required|max:191|unique:services,title',
             'short_title' => 'required|max:30|unique:services,short_title',
-            'meta_title' => 'required|max:60',
+            'meta_title' => 'required|max:70',
             'keywords' => 'required',
             'price' => 'required',
             'starting_price' => 'required',
@@ -414,7 +414,7 @@ class ServiceController extends Controller
     $request->validate([
         'title' => 'required|max:191|unique:services,title,'.$service->id,
         'short_title' => 'required|max:30|unique:services,short_title,'.$service->id,
-        'meta_title' => 'required|max:60',
+        'meta_title' => 'required|max:70',
         'keywords' => 'required',
         'price' => 'required',
         'starting_price' => 'required',

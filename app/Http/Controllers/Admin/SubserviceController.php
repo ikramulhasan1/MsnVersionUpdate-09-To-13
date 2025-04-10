@@ -136,7 +136,7 @@ class SubserviceController extends Controller
     $request->validate([
         'title' => 'required|max:191|unique:services,title',
         'short_title' => 'required|max:30|unique:services,short_title',
-        'meta_title' => 'required|max:60',
+        'meta_title' => 'required|max:70',
         'keywords' => 'required',
         'price' => 'required',
         'starting_price' => 'required',
@@ -362,7 +362,7 @@ class SubserviceController extends Controller
     $request->validate([
         'title' => 'required|max:191|unique:subservices,title,'.$subservice->id,
         'short_title' => 'required|max:30|unique:services,short_title,'.$subservice->id,
-        'meta_title' => 'required|max:60',
+        'meta_title' => 'required|max:70',
         'keywords' => 'required',
         'price' => 'required',
         'starting_price' => 'required',

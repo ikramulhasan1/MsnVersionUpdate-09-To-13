@@ -167,6 +167,7 @@ class ArticleController extends Controller
     $request->validate([
         'title' => 'required|max:191|unique:articles,title',
         'short_title' => 'required|max:50',
+        'meta_title' => 'required|max:70',
         'keywords' => 'required',
         'service_id' => 'nullable|exists:services,id',
         'category' => 'required',
@@ -262,6 +263,7 @@ class ArticleController extends Controller
     $article = new Article;
     $article->title = $request->title;
     $article->short_title = $request->short_title;
+    $article->meta_title = $request->meta_title;
     $article->keywords = implode(',', $keywords); // Save as comma-separated values
     $article->slug = Str::slug($request->title, '-');
     $article->category_id = $request->category;
@@ -427,6 +429,7 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|max:191|unique:articles,title,'.$article->id,
             'short_title' => 'required|max:50',
+            'meta_title' => 'required|max:70',
             'keywords' => 'required',
             'service_id' => 'nullable|exists:services,id',
             'category' => 'required',
