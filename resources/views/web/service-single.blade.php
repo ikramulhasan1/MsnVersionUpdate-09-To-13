@@ -420,7 +420,7 @@ $header = \App\Models\PageSetup::page('services');
                         </a>
                     </div>
                     <div class="">
-                        <script src="https://cdn.tailwindcss.com"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
         <div class="flex justify-center items-center">
             <!-- Smart Google Meet Rectangle Button with Image -->
