@@ -402,26 +402,21 @@ $header = \App\Models\PageSetup::page('services');
                 $page_contact = \App\Models\PageSetup::page('contact-us');
                 @endphp
                 @if(isset($page_quote) || isset($setting->email_one))
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="circle-container">
-                        <!-- Get A Quote Button -->
-                        <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
-                            <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
-                        </a>
-                
-                        <!-- WhatsApp Button -->
-                        <a rel="noopener noreferrer" href="https://wa.link/vkb4au" target="_blank" class="circle-button">
-                            <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
-                        </a>
-                
-                        <!-- Email Button -->
-                        <a href="mailto:{{$setting->email_one}}?subject=Inquiry&body=Hello, I need your services." class="circle-button">
-                            <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
-                        </a>
-                    </div>
-                    <div class="">
-                        @include('web.layouts.googlemeet')
-                    </div>
+                <div class="circle-container">
+                    <!-- Get A Quote Button -->
+                    <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
+                        <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
+                    </a>
+            
+                    <!-- WhatsApp Button -->
+                    <a rel="noopener noreferrer" href="https://wa.link/vkb4au" target="_blank" class="circle-button">
+                        <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
+                    </a>
+            
+                    <!-- Email Button -->
+                    <a href="mailto:{{$setting->email_one}}?subject=Inquiry&body=Hello, I need your services." class="circle-button">
+                        <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
+                    </a>
                 </div>
                 @elseif(isset($page_contact))
                 <a href="{{ route('contact') }}" class="theme-btn btn-style-four mt-3">{{ __('common.get_start') }}</a>
@@ -431,7 +426,7 @@ $header = \App\Models\PageSetup::page('services');
 
 
         <div class="">
-            <h4 style="font-size: 18px" class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
+            <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
             <div class="row g-1">
                 @if (!empty($service->subservices))
                 @foreach ($service->subservices as $key => $item)
