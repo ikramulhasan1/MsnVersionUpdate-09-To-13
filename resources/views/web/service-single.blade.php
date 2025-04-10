@@ -420,7 +420,7 @@ $header = \App\Models\PageSetup::page('services');
                         </a>
                     </div>
                     <div class="">
-                       
+                        @include('web.layouts.googlemeet')
                     </div>
                 </div>
                 @elseif(isset($page_contact))
