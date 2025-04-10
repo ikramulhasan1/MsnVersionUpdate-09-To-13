@@ -70,36 +70,36 @@
             <form id="modal-form">
                 <div hidden style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="user_id">User ID</label>
-                    <input style="box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important;" type="text" id="user_id" name="user_id" required>
+                    <input style="box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important;" type="text" id="user_id" name="user_id" required>
 
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="name">Name</label>
-                    <input style=" box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="text" id="name" name="name" required>
+                    <input style=" box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="text" id="name" name="name" required>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="location">Location</label>
-                    <input style=" box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="text" id="location" name="location" required>
+                    <input style=" box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="text" id="location" name="location" required>
                 </div>
                 <div hidden style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="latitude">Latitude</label>
-                    <input style=" box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="text" id="latitude" name="latitude" required>
+                    <input style=" box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="text" id="latitude" name="latitude" required>
                 </div>
                 <div hidden style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="longitude">Longitude</label>
-                    <input style=" box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="text" id="longitude" name="longitude" required>
+                    <input style=" box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="text" id="longitude" name="longitude" required>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="meeting_time">Meeting Time</label>
-                    <input style=" box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="time" id="meeting_time" name="meeting_time" required>
+                    <input style=" box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="time" id="meeting_time" name="meeting_time" required>
                 </div>
                 <div hidden style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="distance_time">Distance Time</label>
-                    <input style=" box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="text" id="distance_time" name="distance_time" required>
+                    <input style=" box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="text" id="distance_time" name="distance_time" required>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; " >
                     <label for="date">Date</label>
-                    <input style=" box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="date" id="date" name="date" required>
+                    <input style=" box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 70% !important; " type="date" id="date" name="date" required>
                 </div>
                 <button type="submit">Save</button>
             </form>
