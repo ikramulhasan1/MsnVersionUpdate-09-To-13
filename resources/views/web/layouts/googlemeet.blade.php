@@ -1,4 +1,4 @@
-    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* .modal-dialog {
         max-width: 500px;
@@ -83,7 +83,7 @@
           </div> --}}
           
           <!-- Modal -->
-          <div id="googleMeetModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+          <div id="googleMeetModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
             <div class="bg-white w-full max-w-lg p-6 rounded-xl shadow-xl relative animate-fadeIn">
           
               <!-- Close Button -->
