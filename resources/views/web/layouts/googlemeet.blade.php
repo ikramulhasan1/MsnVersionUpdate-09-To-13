@@ -163,7 +163,7 @@ openModalButton.addEventListener('click', function() {
                 });
 
                 autocompleteInitialized = true;
-            }, 300); // Delay to allow DOM to fully render
+            }, 30000); // Delay to allow DOM to fully render
         }
     }
 });
