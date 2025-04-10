@@ -90,7 +90,7 @@
         </header>
         <div class="modal__content">
             <form id="modal-form">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div hidden style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label for="user_id">User ID</label>
                     <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="user_id" name="user_id" required>
                 </div>
@@ -102,11 +102,11 @@
                     <label for="location">Location</label>
                     <input  autocomplete="off" spellcheck="false" style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="location" name="location" required>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div hidden style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label for="latitude">Latitude</label>
                     <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="latitude" name="latitude" required>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div hidden style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label for="longitude">Longitude</label>
                     <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="longitude" name="longitude" required>
                 </div>
@@ -114,7 +114,7 @@
                     <label for="meeting_time">Meeting Time</label>
                     <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="time" id="meeting_time" name="meeting_time" required>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div hidden style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label for="distance_time">Distance Time</label>
                     <input style="box-shadow: 0 1px 4px rgba(0,0,0,0.2); width: 70%;" type="text" id="distance_time" name="distance_time" required>
                 </div>
