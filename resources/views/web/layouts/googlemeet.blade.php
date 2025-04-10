@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Google Meet</title>
-    @section('top_meta_tags')
+@section('top_meta_tags')
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .modal-dialog {
@@ -78,12 +71,7 @@
     </style>
     @endsection
     
-  
-  
-</head>
-<body>
     @section('content')
-    <section>
         <div class="flex justify-center items-center">
             <!-- Smart Google Meet Rectangle Button with Image -->
             <button onclick="toggleModal(true)" class="flex items-center px-8 py-3 bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-lg shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none transform hover:shadow-xl">
@@ -141,7 +129,6 @@
               </form>
             </div>
           </div>
-    </section>
     <!-- Modal Toggle Script -->
     <style>
         .animate-fadeIn {
@@ -169,6 +156,3 @@
         }
       </script>
     @endsection
-
-</body>
-</html>
