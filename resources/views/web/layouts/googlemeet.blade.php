@@ -1,93 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Meet Smart Form</title>
 
   <style>
-    /* General reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f7fafc;
-      padding-top: 80px; /* Space for fixed navbar */
-    }
 
-    /* Navbar */
-    .navbar {
-      background-color: #1a202c;
-      color: white;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 9999;
-      padding: 16px 20px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .navbar .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .navbar .nav-links a {
-      color: white;
-      margin-left: 20px;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: 500;
-      transition: color 0.3s ease-in-out;
-    }
-
-    .navbar .nav-links a:hover {
-      color: #edf2f7;
-    }
-
-    /* Google Meet Button */
+    /* Smart Google Meet Button */
     .google-meet-button {
       display: flex;
       align-items: center;
+      justify-content: center;
       background: linear-gradient(90deg, #48bb78, #4299e1);
       color: white;
-      padding: 16px 32px;
+      padding: 12px 30px;
       border-radius: 30px;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
       cursor: pointer;
-      font-weight: 600;
-      transition: transform 0.2s, box-shadow 0.3s, background-color 0.3s ease-in-out;
+      transition: transform 0.3s, background-color 0.3s;
       border: none;
-      font-size: 18px;
+      font-weight: bold;
     }
 
     .google-meet-button:hover {
       transform: scale(1.05);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-      background-color: #3b82f6;
+      background-color: #3182ce;
     }
 
     .google-meet-button img {
       width: 40px;
       height: auto;
-      margin-right: 16px;
+      margin-right: 12px;
     }
 
     /* Modal */
     #googleMeetModal {
       position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;
-      max-width: 500px;
-      height: auto;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background-color: rgba(0, 0, 0, 0.6);
       display: none;
       justify-content: center;
@@ -96,59 +44,64 @@
     }
 
     .modal-content {
-      background-color: white;
-      padding: 24px;
-      border-radius: 15px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-      max-width: 100%;
-      animation: fadeIn 0.25s ease-out;
-      transform: scale(0.95);
+      background-color: #fff;
+      width: 100%;
+      max-width: 480px;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.3s ease-out;
     }
 
     @keyframes fadeIn {
       from {
         opacity: 0;
-        transform: scale(0.95);
+        transform: translateY(-20px);
       }
       to {
         opacity: 1;
-        transform: scale(1);
+        transform: translateY(0);
       }
     }
 
     .modal-content h2 {
-      font-size: 22px;
-      color: #2d3748;
-      margin-bottom: 20px;
+      font-size: 24px;
       font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 25px;
       text-align: center;
     }
 
+    /* Form Input Fields */
     .modal-content input,
     .modal-content button {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 16px;
-      border: 1px solid #e2e8f0;
+      padding: 14px 16px;
+      margin-bottom: 15px;
+      border: 2px solid #ddd;
       border-radius: 8px;
       font-size: 16px;
-      transition: border-color 0.3s ease-in-out, box-shadow 0.3s;
+      background-color: #f7fafc;
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
 
     .modal-content input:focus,
     .modal-content button:focus {
-      outline: none;
       border-color: #3182ce;
-      box-shadow: 0 0 6px rgba(72, 130, 195, 0.5);
+      box-shadow: 0 0 8px rgba(72, 130, 195, 0.4);
+      outline: none;
+    }
+
+    .modal-content input {
+      background-color: #ffffff;
     }
 
     .modal-content button {
       background-color: #3182ce;
       color: white;
       border: none;
-      font-weight: 600;
+      font-weight: bold;
       cursor: pointer;
-      transition: background-color 0.3s;
     }
 
     .modal-content button:hover {
@@ -160,51 +113,25 @@
       position: absolute;
       top: 15px;
       right: 20px;
-      font-size: 28px;
+      font-size: 24px;
       color: #e2e8f0;
       background: none;
       border: none;
       cursor: pointer;
-      transition: color 0.3s ease-in-out;
     }
 
     .close-btn:hover {
       color: #3182ce;
     }
 
-    /* Label Styling */
-    label {
-      font-weight: 600;
-      margin-bottom: 8px;
-      display: inline-block;
-      font-size: 14px;
-      color: #4a5568;
+    /* Input focus styling */
+    input:focus {
+      outline: none;
+      border-color: #3182ce;
+      box-shadow: 0 0 6px rgba(72, 130, 195, 0.3);
     }
 
-    /* Input Styling */
-    input {
-      background-color: #f9fafb;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 12px;
-      font-size: 16px;
-      transition: border-color 0.3s ease-in-out;
-    }
   </style>
-</head>
-<body>
-
-  <!-- Navbar -->
-  <div class="navbar">
-    <div class="container">
-      <div class="text-xl font-semibold">My Website</div>
-      <div class="nav-links">
-        <a href="#home">Home</a>
-        <a href="#services">Services</a>
-        <a href="#contact">Contact</a>
-      </div>
-    </div>
-  </div>
 
   <!-- Smart Google Meet Button -->
   <div class="flex justify-center items-center mt-24">
@@ -220,23 +147,23 @@
       <!-- Close Button -->
       <button onclick="toggleModal(false)" class="close-btn">&times;</button>
 
-      <h2>Google Meet Smart Form</h2>
+      <h2>Schedule Your Meeting</h2>
 
       <!-- Form -->
       <form>
         <input type="text" hidden placeholder="User ID" />
 
-        <input type="text" placeholder="Name" />
+        <input type="text" placeholder="Your Name" />
 
         <input type="text" placeholder="Location" />
-
+        
         <div>
-          <label for="meeting_time">Meeting Time</label>
-          <input id="meeting_time" type="time" placeholder="Meeting Time" />
+          <label for="meeting_time" style="font-weight: 500; color: #2d3748;">Meeting Time</label>
+          <input id="meeting_time" type="time" placeholder="Time" />
         </div>
 
         <div>
-          <label for="date">Meeting Date</label>
+          <label for="date" style="font-weight: 500; color: #2d3748;">Meeting Date</label>
           <input id="date" type="date" placeholder="Date" />
         </div>
 
@@ -253,5 +180,4 @@
     }
   </script>
 
-</body>
-</html>
+
