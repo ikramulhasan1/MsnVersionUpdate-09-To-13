@@ -58,17 +58,16 @@
 
 <!-- Button to Trigger Modal -->
 {{-- <button id="open-modal" class="button">Open Modal</button> --}}
-<div style="display: flex justify-contents:center">
-    <!-- Smart Google Meet Rectangle Button with Image -->
-    <button id="open-modal" class="button">Open Modal</button>
-      
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <!-- Google Meet Button -->
+    <button id="open-modal" class="button" style="background-color: #48bb78; color: white; padding: 12px 24px; border-radius: 30px; cursor: pointer;">
       <!-- Google Meet Logo (Image) -->
-      <img src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" class="w-6 h-6 mr-3" />
-      
+      <img src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" style="width: 24px; height: auto; margin-right: 10px;" />
       <!-- Button Text -->
-      <span class="font-semibold text-lg">Start Google Meet</span>
+      <span style="font-weight: 600;">Start Google Meet</span>
     </button>
   </div>
+  
   
 
 
