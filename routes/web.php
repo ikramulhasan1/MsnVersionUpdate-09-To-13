@@ -78,7 +78,7 @@ Route::middleware(['XSS','redirect'])->namespace('Web')->group(function () {
 
 // Auth Routes
 //Auth::routes();
-Auth::routes(['register' => false]);
+Auth::routes(['register' => true]);
 
 // Admin Routes
 Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->prefix('admin')->group(function () {
