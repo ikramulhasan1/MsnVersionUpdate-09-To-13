@@ -1,6 +1,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* .modal-dialog {
+        .modal-dialog {
         max-width: 500px;
       }
   
@@ -66,11 +66,11 @@
   
       .form-group {
         margin-bottom: 12px;
-      } */
+      }
     </style>
  
     
-        {{-- <div class="flex justify-center items-center">
+        <div class="flex justify-center items-center">
             <!-- Smart Google Meet Rectangle Button with Image -->
             <button onclick="toggleModal(true)" class="flex items-center px-8 py-3 bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-lg shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none transform hover:shadow-xl">
               
@@ -80,7 +80,7 @@
               <!-- Button Text -->
               <span class="font-semibold text-lg">Book a Meeting</span>
             </button>
-          </div> --}}
+          </div>
           
           <!-- Modal -->
           <div id="googleMeetModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
