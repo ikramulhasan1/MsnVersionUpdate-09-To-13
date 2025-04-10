@@ -142,8 +142,19 @@
     const closeModalButton = document.querySelector('.modal__close');
     const cancelModalButton = document.getElementById('cancel-button');
 
+    let autocompleteInitialized = false;
+
     openModalButton.addEventListener('click', function() {
         modal.style.display = 'flex';
+
+        // Initialize Google Places Autocomplete after modal is visible
+        if (!autocompleteInitialized) {
+            const input = document.getElementById('location');
+            if (input) {
+                new google.maps.places.Autocomplete(input, { types: ['geocode'] });
+                autocompleteInitialized = true;
+            }
+        }
     });
 
     closeModalButton.addEventListener('click', function() {
@@ -161,6 +172,7 @@
         modal.style.display = 'none';
     });
 </script>
+
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY5p5e5PtJuJLl_nRpjefL0S094jdhEP8&libraries=places"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
