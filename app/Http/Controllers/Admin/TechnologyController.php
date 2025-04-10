@@ -42,6 +42,7 @@ class TechnologyController extends Controller
     $request->validate([
         'title' => 'required|max:191|unique:services,title',
         'short_title' => 'required|max:30|unique:services,short_title',
+        'meta_title' => 'required|max:60',
         'keywords' => 'required',
         'price' => 'required',
         'starting_price' => 'required',
@@ -150,6 +151,7 @@ class TechnologyController extends Controller
     $service->average_rating = $request->average_rating;
     $service->review_count = $request->review_count;
     $service->short_title = $request->short_title;
+    $service->meta_title = $request->meta_title;
     $service->slug = Str::slug(strtolower($request->slug), '-');
     $service->short_desc = $request->short_desc;
     $service->description = $dom->saveHTML();
@@ -191,6 +193,7 @@ class TechnologyController extends Controller
     $request->validate([
         'title' => 'required|max:191|unique:subservices,title,'.$technology->id,
         'short_title' => 'required|max:30|unique:services,short_title,'.$technology->id,
+        'meta_title' => 'required|max:60',
         'keywords' => 'required',
         'price' => 'required',
         'starting_price' => 'required',
@@ -309,6 +312,7 @@ class TechnologyController extends Controller
     $technology->average_rating = $request->average_rating;
     $technology->review_count = $request->review_count;
     $technology->short_title = $request->short_title;
+    $technology->meta_title = $request->meta_title;
     $technology->slug = Str::slug(strtolower($request->slug), '-');
     $technology->short_desc = $request->short_desc;
     $technology->description = $dom->saveHTML();

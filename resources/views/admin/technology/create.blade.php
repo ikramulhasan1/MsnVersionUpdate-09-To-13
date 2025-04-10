@@ -44,6 +44,7 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.title') }}
                             </div>
                         </div>
+                       
 
                         <div class="row">                        
                             <div class="form-group col-6">
@@ -72,6 +73,14 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="meta_title">{{ __('dashboard.meta_title') }} <span>*</span></label>
+                            <input type="text" class="form-control" name="meta_title" id="meta_title" value="{{ old('meta_title') }}" required>
+
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_title') }}
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="short_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
                             <textarea class="form-control" name="short_desc" id="editor" rows="4" required>{{ old('short_desc') }}</textarea>

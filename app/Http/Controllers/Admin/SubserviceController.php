@@ -136,6 +136,7 @@ class SubserviceController extends Controller
     $request->validate([
         'title' => 'required|max:191|unique:services,title',
         'short_title' => 'required|max:30|unique:services,short_title',
+        'meta_title' => 'required|max:60',
         'keywords' => 'required',
         'price' => 'required',
         'starting_price' => 'required',
@@ -220,6 +221,7 @@ class SubserviceController extends Controller
     $service->average_rating = $request->average_rating;
     $service->review_count = $request->review_count;
     $service->short_title = $request->short_title;
+    $service->meta_title = $request->meta_title;
     $service->slug = Str::slug(strtolower($request->slug), '-');
     $service->short_desc = $request->short_desc;
     $service->description = $dom->saveHTML();
@@ -360,6 +362,7 @@ class SubserviceController extends Controller
     $request->validate([
         'title' => 'required|max:191|unique:subservices,title,'.$subservice->id,
         'short_title' => 'required|max:30|unique:services,short_title,'.$subservice->id,
+        'meta_title' => 'required|max:60',
         'keywords' => 'required',
         'price' => 'required',
         'starting_price' => 'required',
@@ -446,6 +449,7 @@ class SubserviceController extends Controller
     $subservice->average_rating = $request->average_rating;
     $subservice->review_count = $request->review_count;
     $subservice->short_title = $request->short_title;
+    $subservice->meta_title = $request->meta_title;
     $subservice->slug = Str::slug(strtolower($request->slug), '-');
     $subservice->short_desc = $request->short_desc;
     $subservice->description = $dom->saveHTML();
