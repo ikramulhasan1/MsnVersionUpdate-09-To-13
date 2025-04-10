@@ -402,8 +402,8 @@ $header = \App\Models\PageSetup::page('services');
                 $page_contact = \App\Models\PageSetup::page('contact-us');
                 @endphp
                 @if(isset($page_quote) || isset($setting->email_one))
-                <div class="row">
-                    <div class="circle-container col">
+                <div class="d-flex justify-content-between align-items-center mt-5 mb-5">
+                    <div class="circle-container">
                         <!-- Get A Quote Button -->
                         <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
                             <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
@@ -419,7 +419,7 @@ $header = \App\Models\PageSetup::page('services');
                             <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
                         </a>
                     </div>
-                    <div class="col">
+                    <div class="">
                         @include('web.layouts.googlemeet')
                     </div>
                 </div>
