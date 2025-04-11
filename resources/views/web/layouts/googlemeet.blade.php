@@ -89,7 +89,7 @@
       transition: transform 0.3s, background-color 0.3s;
       border: none;
       font-weight: 600;
-      margin-top: 30px;
+      /* margin-top: 30px; */
     }
 
     .google-meet-button:hover {
