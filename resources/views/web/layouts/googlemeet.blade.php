@@ -98,7 +98,7 @@
     }
 
     .google-meet-button img {
-      width: 150px;
+      width: 110px;
       height: auto;
       margin-right: 12px;
     }
