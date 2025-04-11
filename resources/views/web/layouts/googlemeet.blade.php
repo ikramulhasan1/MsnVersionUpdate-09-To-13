@@ -97,10 +97,15 @@
       background-color: #3182ce;
     }
 
-    .google-meet-button img {
-      width: 150px;
+    .google-meet-button .google-meet-img {
+      width: 150px !important;
       height: auto;
-      margin-right: 12px;
+      margin-right: 12px !important;
+    }
+    .google-meet-button .zoom-img {
+      width: 150px !important;
+      height: auto;
+      margin-right: 12px !important;
     }
     .meeting-logo {
   width: 150px;
