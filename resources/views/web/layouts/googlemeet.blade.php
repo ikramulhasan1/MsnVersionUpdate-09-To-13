@@ -98,7 +98,7 @@
     }
 
     .google-meet-button img {
-      width: 110px;
+      width: 150px;
       height: auto;
       margin-right: 12px;
     }
@@ -112,7 +112,7 @@
     <!-- Google Meet Button -->
     <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer;">
         <img src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" style="margin-right: 10px;" />
-        <span style="font-weight: 600; font-size: 18px; ">Book a Meeting</span>
+        <span style="font-weight: 600; font-size: 18px; color: white; ">Book a Meeting</span>
     </button>
 </div>
 
