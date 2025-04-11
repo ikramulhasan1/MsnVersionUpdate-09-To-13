@@ -102,6 +102,21 @@
       height: auto;
       margin-right: 12px;
     }
+    .meeting-logo {
+  width: 150px;
+  height: auto;
+  margin-right: 10px;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  pointer-events: none;
+}
+
+.meeting-logo.active {
+  opacity: 1;
+  position: static;
+  pointer-events: auto;
+}
 
     </style>
 </head>
@@ -116,13 +131,14 @@
     </button> --}}
     <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer;">
         <!-- Google Meet Logo -->
-        <img id="google-meet-img" src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" style="margin-right: 10px;" />
-        
-        <!-- Zoom Logo -->
-        <img id="zoom-img" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg" alt="Zoom Logo" style="margin-right: 10px; display: none; width: 150px; height: auto;" />
+        <img id="google-meet-img" src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" class="meeting-logo" />
       
+        <!-- Zoom Logo -->
+        <img id="zoom-img" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg" alt="Zoom Logo" class="meeting-logo" />
+        
         <span style="font-weight: 600; font-size: 18px; color: white;">Book a Meeting</span>
       </button>
+      
       
 </div>
 
@@ -233,13 +249,16 @@ openModalButton.addEventListener('click', function() {
     const googleMeetImg = document.getElementById('google-meet-img');
 const zoomImg = document.getElementById('zoom-img');
 
+// Start with Google Meet active
+googleMeetImg.classList.add('active');
+
 setInterval(() => {
-    if (googleMeetImg.style.display === 'none') {
-        googleMeetImg.style.display = 'inline-block';
-        zoomImg.style.display = 'none';
+    if (googleMeetImg.classList.contains('active')) {
+        googleMeetImg.classList.remove('active');
+        zoomImg.classList.add('active');
     } else {
-        googleMeetImg.style.display = 'none';
-        zoomImg.style.display = 'inline-block';
+        googleMeetImg.classList.add('active');
+        zoomImg.classList.remove('active');
     }
 }, 2000);
 
