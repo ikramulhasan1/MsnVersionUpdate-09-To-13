@@ -97,21 +97,25 @@
       background-color: #3182ce;
     }
 
-    .google-meet-button .google-meet-img {
-      width: 150px !important;
+    .google-meet-button img {
+      width: 150px;
       height: auto;
-      margin-right: 12px !important;
+      margin-right: 12px;
     }
-    .google-meet-button .zoom-img {
-      width: 150px !important;
-      height: auto;
-      margin-right: 12px !important;
-    }
-    .meeting-logo {
-  width: 150px;
-  height: auto;
-  margin-right: 10px;
+    .logo-container {
+  position: relative;
+  width: 124px;  /* fixed width based on the largest image */
+  height: 40px;  /* fixed height */
+  display: inline-block;
+}
+
+.meeting-logo {
   position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   opacity: 0;
   transition: opacity 1s ease-in-out;
   pointer-events: none;
@@ -119,7 +123,6 @@
 
 .meeting-logo.active {
   opacity: 1;
-  position: static;
   pointer-events: auto;
 }
 
@@ -134,15 +137,22 @@
         <img src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" style="margin-right: 10px;" />
         <span style="font-weight: 600; font-size: 18px; color: white; ">Book a Meeting</span>
     </button> --}}
-    <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer;">
-        <!-- Google Meet Logo -->
-        <img id="google-meet-img" src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" class="meeting-logo" />
-      
-        <!-- Zoom Logo -->
-        <img id="zoom-img" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg" alt="Zoom Logo" class="meeting-logo" />
-        
-        <span style="font-weight: 600; font-size: 18px; color: white;">Book a Meeting</span>
-      </button>
+    <!-- Meeting Button -->
+<button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer; display: flex; align-items: center;">
+  
+    <!-- Image Container -->
+    <div class="logo-container">
+      <!-- Google Meet Logo -->
+      <img id="google-meet-img" src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" class="meeting-logo active" />
+  
+      <!-- Zoom Logo -->
+      <img id="zoom-img" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg" alt="Zoom Logo" class="meeting-logo" />
+    </div>
+  
+    <!-- Button text -->
+    <span style="font-weight: 600; font-size: 18px; color: white; margin-left: 12px;">Book a Meeting</span>
+  </button>
+  
       
       
 </div>
@@ -258,13 +268,8 @@ const zoomImg = document.getElementById('zoom-img');
 googleMeetImg.classList.add('active');
 
 setInterval(() => {
-    if (googleMeetImg.classList.contains('active')) {
-        googleMeetImg.classList.remove('active');
-        zoomImg.classList.add('active');
-    } else {
-        googleMeetImg.classList.add('active');
-        zoomImg.classList.remove('active');
-    }
+  googleMeetImg.classList.toggle('active');
+  zoomImg.classList.toggle('active');
 }, 2000);
 
 </script>
