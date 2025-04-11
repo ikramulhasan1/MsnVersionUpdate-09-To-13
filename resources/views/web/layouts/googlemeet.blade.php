@@ -98,9 +98,9 @@
     }
 
     .google-meet-button img {
-      width: 150px;
+      width: 140px;
       height: auto;
-      margin-right: 12px;
+      margin-right: 15px;
     }
     .logo-container {
   position: relative;
@@ -140,12 +140,9 @@
     <!-- Meeting Button -->
 <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer; display: flex; align-items: center;">
   
-    <!-- Image Container -->
     <div class="logo-container">
-      <!-- Google Meet Logo -->
       <img id="google-meet-img" src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" class="meeting-logo active" />
   
-      <!-- Zoom Logo -->
       <img id="zoom-img" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg" alt="Zoom Logo" class="meeting-logo" />
     </div>
   
@@ -262,15 +259,15 @@ openModalButton.addEventListener('click', function() {
 
 
     const googleMeetImg = document.getElementById('google-meet-img');
-const zoomImg = document.getElementById('zoom-img');
+    const zoomImg = document.getElementById('zoom-img');
 
-// Start with Google Meet active
-googleMeetImg.classList.add('active');
+    // Start with Google Meet active
+    googleMeetImg.classList.add('active');
 
-setInterval(() => {
-  googleMeetImg.classList.toggle('active');
-  zoomImg.classList.toggle('active');
-}, 2000);
+    setInterval(() => {
+    googleMeetImg.classList.toggle('active');
+    zoomImg.classList.toggle('active');
+    }, 4000);
 
 </script>
 
