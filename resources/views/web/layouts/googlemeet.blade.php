@@ -83,7 +83,7 @@
       background: linear-gradient(90deg, #48bb78, #4299e1);
       color: white;
       padding: 12px 30px;
-      border-radius: 5px;
+      border-radius: 10px !important;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       cursor: pointer;
       transition: transform 0.3s, background-color 0.3s;
@@ -110,7 +110,7 @@
 <!-- Button to Trigger Modal -->
 <div style="display: flex; justify-content: space-between; align-items: center;">
     <!-- Google Meet Button -->
-    <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; border-radius: 30px; cursor: pointer;">
+    <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer;">
         <img src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" style="margin-right: 10px;" />
         <span style="font-weight: 600;">Book a Meeting</span>
     </button>
