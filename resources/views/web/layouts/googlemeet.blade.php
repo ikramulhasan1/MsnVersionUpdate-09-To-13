@@ -68,6 +68,70 @@
         button#cancel-button:hover {
             background-color: #c82333;
         }
+
+
+
+
+
+
+
+
+        .google-meet-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(90deg, #48bb78, #4299e1);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+      border: none;
+      font-weight: 600;
+      margin-top: 30px;
+    }
+
+    .google-meet-button:hover {
+      transform: scale(1.05);
+      background-color: #3182ce;
+    }
+
+    .google-meet-button img {
+      width: 40px;
+      height: auto;
+      margin-right: 12px;
+    }
+
+    .ui.modal .header {
+      text-align: center;
+      font-size: 24px;
+    }
+
+    .ui.modal .content {
+      padding: 30px;
+    }
+
+    .ui.input input,
+    .ui.button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    .ui.button {
+      background-color: #3182ce;
+      color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .ui.button:hover {
+      background-color: #4299e1;
+    }
     </style>
 </head>
 <body>
@@ -75,7 +139,7 @@
 <!-- Button to Trigger Modal -->
 <div style="display: flex; justify-content: space-between; align-items: center;">
     <!-- Google Meet Button -->
-    <button id="open-modal" class="button" style="background-color: #48bb78; color: white; padding: 12px 24px; border-radius: 30px; cursor: pointer;">
+    <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; border-radius: 30px; cursor: pointer;">
         <img src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" style="width: 100px; height: auto; margin-right: 10px;" />
         <span style="font-weight: 600;">Start Google Meet</span>
     </button>
