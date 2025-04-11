@@ -110,10 +110,20 @@
 <!-- Button to Trigger Modal -->
 <div style="display: flex; justify-content: space-between; align-items: center;">
     <!-- Google Meet Button -->
-    <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer;">
+    {{-- <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer;">
         <img src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" style="margin-right: 10px;" />
         <span style="font-weight: 600; font-size: 18px; color: white; ">Book a Meeting</span>
-    </button>
+    </button> --}}
+    <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer;">
+        <!-- Google Meet Logo -->
+        <img id="google-meet-img" src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" style="margin-right: 10px;" />
+        
+        <!-- Zoom Logo -->
+        <img id="zoom-img" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg" alt="Zoom Logo" style="margin-right: 10px; display: none; width: 150px; height: auto;" />
+      
+        <span style="font-weight: 600; font-size: 18px; color: white;">Book a Meeting</span>
+      </button>
+      
 </div>
 
 <!-- Modal Structure -->
@@ -218,6 +228,21 @@ openModalButton.addEventListener('click', function() {
         console.log('Form Data:', Object.fromEntries(formData.entries()));
         modal.style.display = 'none';
     });
+
+
+    const googleMeetImg = document.getElementById('google-meet-img');
+const zoomImg = document.getElementById('zoom-img');
+
+setInterval(() => {
+    if (googleMeetImg.style.display === 'none') {
+        googleMeetImg.style.display = 'inline-block';
+        zoomImg.style.display = 'none';
+    } else {
+        googleMeetImg.style.display = 'none';
+        zoomImg.style.display = 'inline-block';
+    }
+}, 2000);
+
 </script>
 
 </body>
