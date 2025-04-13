@@ -97,7 +97,7 @@
 
             <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-2" required />
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6 d-flex justify-content-end ">
             <div id="calendar"></div>
           </div>
         </div>
