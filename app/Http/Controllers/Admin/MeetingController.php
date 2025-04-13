@@ -46,9 +46,8 @@ class MeetingController extends Controller
             ->exists();
 
         if ($exists) {
-            return response()->json([
-                'message' => 'Already have a meeting booked at this date and time.',
-            ], 409); // 409 Conflict
+            return response()->json(['message' => 'Already have a meeting booked at this date and time.'], 400);  // 400 Bad Request
+
         }
 
         // Save the meeting
