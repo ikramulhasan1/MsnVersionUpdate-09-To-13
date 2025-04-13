@@ -94,8 +94,6 @@
   const formMessage = document.getElementById("form-message");
   const locationInput = document.getElementById("location");
 
-  const ORS_API_KEY = "5b3ce3597851110001cf62488760849ae22d46d898d89d3149c0bf85"; // <-- Replace this
-
   const iti = window.intlTelInput(document.getElementById("phone"), {
     nationalMode: false,
     initialCountry: "auto",
@@ -149,33 +147,17 @@
     const officeLat = 40.712776;
     const officeLng = -74.005974;
 
-    const url = `https://api.openrouteservice.org/v2/directions/driving-car`;
-    const headers = {
-      "Authorization": ORS_API_KEY,
-      "Accept": "application/json",
-      "Content-Type": "application/json"
-    };
-    const body = JSON.stringify({
-      coordinates: [
-        [officeLng, officeLat],
-        [parseFloat(lng), parseFloat(lat)]
-      ]
-    });
+    const url = `https://router.hereapi.com/v8/routes?transportMode=car&origin=${officeLat},${officeLng}&destination=${lat},${lng}&return=summary&apikey=YOUR_HERE_API_KEY`;
 
     try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: headers,
-        body: body
-      });
-
+      const res = await fetch(url);
       const data = await res.json();
-      const summary = data.features[0].properties.summary;
+      const summary = data.routes[0].sections[0].summary;
 
       document.getElementById("distance_time").value = Math.round(summary.duration / 60) + " mins";
-      document.getElementById("distance_km").value = (summary.distance / 1000).toFixed(2);
+      document.getElementById("distance_km").value = (summary.length / 1000).toFixed(2);
     } catch (err) {
-      console.error("OpenRouteService error", err);
+      console.error("HERE API error", err);
     }
   }
 
@@ -188,7 +170,7 @@
 
     timeout = setTimeout(async () => {
       try {
-        const res = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(query)}&key=c2c6d0469901439db4a812a841807002`);
+        const res = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(query)}&key=YOUR_OPENCAGE_API_KEY`);
         const data = await res.json();
         if (data.results.length > 0) {
           const place = data.results[0];
