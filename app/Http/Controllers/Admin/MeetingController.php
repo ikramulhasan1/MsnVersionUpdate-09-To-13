@@ -58,7 +58,7 @@ class MeetingController extends Controller
             'message' => 'Meeting successfully booked!',
             'meeting' => $meeting
         ]);
-    }
+    } 
     
     public function show(Meeting $meeting)
     {

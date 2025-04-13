@@ -21,6 +21,7 @@ class Meeting extends Model
         'city',
         'ip',
         'distance_km',
-        'distance_time'
+        'distance_time' 
     ];
 }
+ 

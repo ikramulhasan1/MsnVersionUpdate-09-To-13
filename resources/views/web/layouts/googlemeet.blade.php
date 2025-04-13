@@ -281,6 +281,7 @@
     }, 5000);
   }
 
+  
   openModalButton.addEventListener('click', () => {
     modal.style.display = 'flex';
     detectUserIPLocation();
