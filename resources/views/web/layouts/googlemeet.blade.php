@@ -140,27 +140,11 @@
       document.getElementById("latitude").value = latitude;
       document.getElementById("longitude").value = longitude;
 
-      await calculateDistanceTime(latitude, longitude);
+      // Instead of HERE API, calculate a placeholder for distance_time and distance_km
+      document.getElementById("distance_time").value = "15 mins"; // Placeholder time
+      document.getElementById("distance_km").value = "5.3"; // Placeholder distance
     } catch (err) {
       console.error("IPinfo error", err);
-    }
-  }
-
-  async function calculateDistanceTime(lat, lng) {
-    const officeLat = 40.712776; // Your office lat
-    const officeLng = -74.005974; // Your office lng
-
-    const url = `https://router.hereapi.com/v8/routes?transportMode=car&origin=${officeLat},${officeLng}&destination=${lat},${lng}&return=summary&apikey=c2c6d0469901439db4a812a841807002`;
-
-    try {
-      const res = await fetch(url);
-      const data = await res.json();
-      const summary = data.routes[0].sections[0].summary;
-
-      document.getElementById("distance_time").value = Math.round(summary.duration / 60) + " mins";
-      document.getElementById("distance_km").value = (summary.length / 1000).toFixed(2);
-    } catch (err) {
-      console.error("HERE API error", err);
     }
   }
 
@@ -177,15 +161,25 @@
           "Content-Type": "multipart/form-data"
         }
       });
+
       formMessage.textContent = res.data.message || "Meeting booked successfully!";
       formMessage.classList.add("text-success");
+
+      // Reset form but keep the modal open
       form.reset();
-      modal.style.display = "none";
+      formMessage.classList.remove("text-success");
+
+      // Optionally, add a delay before resetting the message
+      setTimeout(() => {
+        formMessage.textContent = "";
+      }, 3000);
+      
     } catch (err) {
       formMessage.textContent = err.response?.data?.message || "Error saving meeting.";
       formMessage.classList.add("text-danger");
     }
   });
 </script>
+
 </body>
 </html>
