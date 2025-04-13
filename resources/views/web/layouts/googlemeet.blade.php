@@ -57,6 +57,10 @@
     .autocomplete-suggestion:hover {
       background-color: #f0f0f0;
     }
+    #city-display {
+      font-weight: bold;
+      margin-top: 4px;
+    }
   </style>
 </head>
 <body>
@@ -84,6 +88,9 @@
 
             <!-- Autocomplete Box -->
             <div id="autocomplete-box" class="autocomplete-box d-none"></div>
+
+            <!-- City Display -->
+            <div id="city-display" class="text-primary"></div>
 
             <!-- Hidden Fields -->
             <input type="hidden" id="latitude" name="latitude">
@@ -122,6 +129,8 @@
   const formMessage = document.getElementById("form-message");
   const locationInput = document.getElementById("location");
   const suggestionBox = document.getElementById("autocomplete-box");
+  const cityField = document.getElementById("city");
+  const cityDisplay = document.getElementById("city-display");
 
   const phoneInput = document.querySelector("#phone");
   const iti = window.intlTelInput(phoneInput, {
@@ -160,8 +169,9 @@
       const data = await res.json();
       const [lat, lon] = data.loc.split(",");
       document.getElementById("ip").value = data.ip;
-      document.getElementById("city").value = data.city;
-      document.getElementById("location").value = `${data.city}, ${data.region}`;
+      cityField.value = data.city;
+      cityDisplay.textContent = `City: ${data.city}`;
+      locationInput.value = `${data.city}, ${data.region}`;
       document.getElementById("latitude").value = lat;
       document.getElementById("longitude").value = lon;
       document.getElementById("distance_time").value = "15";
@@ -188,7 +198,8 @@
         locationInput.value = place.properties.formatted;
         document.getElementById("latitude").value = place.properties.lat;
         document.getElementById("longitude").value = place.properties.lon;
-        document.getElementById("city").value = place.properties.city || "";
+        cityField.value = place.properties.city || "";
+        cityDisplay.textContent = `City: ${place.properties.city || ""}`;
         suggestionBox.classList.add("d-none");
       };
       suggestionBox.appendChild(div);
@@ -214,6 +225,7 @@
       formMessage.textContent = res.data.message || "Meeting booked successfully!";
       formMessage.className = "text-success fw-bold";
       form.reset();
+      cityDisplay.textContent = "";
       setTimeout(() => formMessage.textContent = "", 3000);
     } catch (err) {
       formMessage.textContent = err.response?.data?.message || "Error saving meeting.";
