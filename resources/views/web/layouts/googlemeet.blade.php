@@ -197,38 +197,72 @@
     return Math.ceil((distanceKm / avgSpeed) * 60);
   }
 
-  document.getElementById('modal-form').addEventListener('submit', function (event) {
-    event.preventDefault();
+//   document.getElementById('modal-form').addEventListener('submit', function (event) {
+//     event.preventDefault();
 
-    // Get phone number with country code
-    const phoneNumber = iti.getNumber();
+//     // Get phone number with country code
+//     const phoneNumber = iti.getNumber();
 
-    const formData = new FormData(this);
-    formData.set("phone", phoneNumber); // Override phone field with the full phone number
+//     const formData = new FormData(this);
+//     formData.set("phone", phoneNumber); // Override phone field with the full phone number
 
-    fetch("{{ route('meetings.store') }}", {
-        method: "POST",
-        headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
-        body: formData,
-        
-    })
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
+//     fetch("{{ route('meetings.store') }}", {
+//         method: "POST",
+//         headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
+//         'Content-Type': 'application/json' 
+//         body: formData,
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//       console.log(data);
       
-        if (data.message === 'Already have a meeting booked at this date and time.') {
-            // Show error message but don't close modal
-            showMessage(data.message, 'error');
-        } else {
-            // Show success message and close the modal after 1.5 seconds
-            showMessage(data.message || 'Meeting saved successfully!', 'success');
-            this.reset();
-            setTimeout(() => modal.style.display = 'none', 1500);
-        }
-    })
-    .catch(($e) => {
-        showMessage($e, 'error');
-    });
+//         if (data.message === 'Already have a meeting booked at this date and time.') {
+//             // Show error message but don't close modal
+//             showMessage(data.message, 'error');
+//         } else {
+//             // Show success message and close the modal after 1.5 seconds
+//             showMessage(data.message || 'Meeting saved successfully!', 'success');
+//             this.reset();
+//             setTimeout(() => modal.style.display = 'none', 1500);
+//         }
+//     })
+//     .catch(($e) => {
+//         showMessage($e, 'error');
+//     });
+// });
+document.getElementById('modal-form').addEventListener('submit', function (event) {
+  event.preventDefault();
+
+  // Get phone number with country code
+  const phoneNumber = iti.getNumber();
+
+  const formData = new FormData(this);
+  formData.set("phone", phoneNumber); // Override phone field with the full phone number
+
+  fetch("{{ route('meetings.store') }}", {
+    method: "POST",
+    headers: {
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+      // DO NOT set 'Content-Type' manually here!
+    },
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log(data);
+
+    if (data.message === 'Already have a meeting booked at this date and time.') {
+      showMessage(data.message, 'error');
+    } else {
+      showMessage(data.message || 'Meeting saved successfully!', 'success');
+      this.reset();
+      setTimeout(() => modal.style.display = 'none', 1500);
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    showMessage('Something went wrong while submitting the form.', 'error');
+  });
 });
 
 
