@@ -57,6 +57,22 @@
     .autocomplete-suggestion:hover {
       background-color: #f0f0f0;
     }
+
+
+
+    fieldset {
+    border: 1px groove #ddd;
+}
+
+legend {
+    animation: marginMove 10s infinite alternate;
+}
+
+@keyframes marginMove {
+    100% {
+        margin-left: 100px;
+    }
+}
   </style>
   @include('web.layouts.googlehead')
 </head>
