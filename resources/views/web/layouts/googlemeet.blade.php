@@ -11,30 +11,51 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&display=swap" rel="stylesheet" />
-
-  <!-- JS Libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/vanillajs-modal@1.1.2/dist/vanilla.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  @include('web.layouts.googlehead')
+  <style>
+    .modal__overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .modal__container {
+      background: #fff;
+      padding: 20px;
+      width: 80%;
+      max-width: 800px;
+      border-radius: 10px;
+      position: relative;
+    }
+    .modal__close {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      font-size: 20px;
+      border: none;
+      background: transparent;
+    }
+  </style>
 </head>
 <body>
 
 <button id="open-modal" class="btn btn-primary">Book a Meeting</button>
 
 <!-- Modal -->
-<div id="modal-1" class="modal__overlay" style="display: none;">
+<div id="modal-1" class="modal__overlay">
   <div class="modal__container">
     <header class="mb-3">
       <button class="modal__close">×</button>
       <h2 style="text-align: center">Book a Meeting</h2>
     </header>
     <div class="modal__content">
-      <div id="form-message"></div>
+      <div id="form-message" class="mb-3 text-success fw-bold"></div>
       <form id="modal-form">
         <div class="row">
-          <div class="col-6">
+          <div class="col-md-6">
             <input type="text" id="name" name="name" class="form-control mb-2" placeholder="Name" required />
             <input type="tel" id="phone" name="phone" class="form-control mb-2" placeholder="Phone" required />
             <input type="email" id="email" name="email" class="form-control mb-2" placeholder="Email" required />
@@ -51,7 +72,7 @@
 
             <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-2" required />
           </div>
-          <div class="col-6">
+          <div class="col-md-6">
             <div id="calendar"></div>
           </div>
         </div>
@@ -62,98 +83,109 @@
   </div>
 </div>
 
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/vanillajs-modal@1.1.2/dist/vanilla.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 <script>
-// Phone Input
-const iti = window.intlTelInput(document.querySelector("#phone"), {
-  nationalMode: false,
-  initialCountry: "us",
-  utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-});
+  const modal = document.getElementById("modal-1");
+  const openModal = document.getElementById("open-modal");
+  const closeModal = document.querySelector(".modal__close");
+  const cancelButton = document.getElementById("cancel-button");
+  const formMessage = document.getElementById("form-message");
 
-// Flatpickr
-flatpickr("#calendar", {
-  inline: true,
-  minDate: "today",
-  onChange: function(selectedDates, dateStr) {
-    document.getElementById("selected_date").value = dateStr;
-  }
-});
-
-// Modal logic
-const modal = document.getElementById("modal-1");
-const openModal = document.getElementById("open-modal");
-const closeModal = document.querySelector(".modal__close");
-const cancelButton = document.getElementById("cancel-button");
-
-openModal.addEventListener("click", () => {
-  modal.style.display = "flex";
-  fetchIPInfo(); // 🔥 Trigger on open
-});
-
-closeModal.addEventListener("click", () => modal.style.display = "none");
-cancelButton.addEventListener("click", () => modal.style.display = "none");
-
-// Auto IP & Location with IPinfo
-async function fetchIPInfo() {
-  try {
-    const res = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
-    const data = await res.json();
-
-    const loc = data.loc.split(","); // "lat,lng"
-    const latitude = loc[0];
-    const longitude = loc[1];
-
-    document.getElementById("ip").value = data.ip;
-    document.getElementById("city").value = data.city;
-    document.getElementById("location").value = `${data.city}, ${data.region}`;
-    document.getElementById("latitude").value = latitude;
-    document.getElementById("longitude").value = longitude;
-
-    calculateDistanceTime(latitude, longitude);
-  } catch (err) {
-    console.error("IPinfo location fetch failed", err);
-  }
-}
-
-// HERE API Distance + Time
-async function calculateDistanceTime(lat, lng) {
-  const baseLat = 40.712776; // Office latitude (example: NY)
-  const baseLng = -74.005974;
-
-  const url = `https://router.hereapi.com/v8/routes?transportMode=car&origin=${baseLat},${baseLng}&destination=${lat},${lng}&return=summary&apikey=c2c6d0469901439db4a812a841807002`;
-
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    const summary = data.routes[0].sections[0].summary;
-
-    document.getElementById("distance_time").value = Math.round(summary.duration / 60) + " mins";
-    document.getElementById("distance_km").value = (summary.length / 1000).toFixed(2);
-  } catch (err) {
-    console.error("HERE API error", err);
-  }
-}
-
-// AJAX Form Submission
-const form = document.getElementById("modal-form");
-form.addEventListener("submit", async function (e) {
-  e.preventDefault();
-  const formData = new FormData(form);
-  formData.set("phone", iti.getNumber());
-
-  try {
-    const res = await axios.post("/meetings", formData, {
-      headers: {
-        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-        "Content-Type": "multipart/form-data"
+  const phoneInput = document.querySelector("#phone");
+  const iti = window.intlTelInput(phoneInput, {
+    nationalMode: false,
+    initialCountry: "auto",
+    geoIpLookup: async function (callback) {
+      try {
+        const response = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
+        const data = await response.json();
+        callback(data.country || "us");
+      } catch (e) {
+        callback("us");
       }
-    });
-    document.getElementById("form-message").textContent = res.data.message || "Meeting booked!";
-    form.reset();
-  } catch (err) {
-    document.getElementById("form-message").textContent = err.response?.data?.message || "An error occurred.";
+    },
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+  });
+
+  flatpickr("#calendar", {
+    inline: true,
+    minDate: "today",
+    onChange: function (selectedDates, dateStr) {
+      document.getElementById("selected_date").value = dateStr;
+    }
+  });
+
+  openModal.addEventListener("click", () => {
+    modal.style.display = "flex";
+    fetchIPInfo();
+  });
+
+  closeModal.addEventListener("click", () => modal.style.display = "none");
+  cancelButton.addEventListener("click", () => modal.style.display = "none");
+
+  async function fetchIPInfo() {
+    try {
+      const res = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
+      const data = await res.json();
+
+      const [latitude, longitude] = data.loc.split(",");
+      document.getElementById("ip").value = data.ip;
+      document.getElementById("city").value = data.city;
+      document.getElementById("location").value = `${data.city}, ${data.region}`;
+      document.getElementById("latitude").value = latitude;
+      document.getElementById("longitude").value = longitude;
+
+      await calculateDistanceTime(latitude, longitude);
+    } catch (err) {
+      console.error("IPinfo error", err);
+    }
   }
-});
+
+  async function calculateDistanceTime(lat, lng) {
+    const officeLat = 40.712776; // Your office lat
+    const officeLng = -74.005974; // Your office lng
+
+    const url = `https://router.hereapi.com/v8/routes?transportMode=car&origin=${officeLat},${officeLng}&destination=${lat},${lng}&return=summary&apikey=c2c6d0469901439db4a812a841807002`;
+
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      const summary = data.routes[0].sections[0].summary;
+
+      document.getElementById("distance_time").value = Math.round(summary.duration / 60) + " mins";
+      document.getElementById("distance_km").value = (summary.length / 1000).toFixed(2);
+    } catch (err) {
+      console.error("HERE API error", err);
+    }
+  }
+
+  document.getElementById("modal-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    formData.set("phone", iti.getNumber());
+
+    try {
+      const res = await axios.post("/meetings", formData, {
+        headers: {
+          "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+          "Content-Type": "multipart/form-data"
+        }
+      });
+      formMessage.textContent = res.data.message || "Meeting booked successfully!";
+      formMessage.classList.add("text-success");
+      form.reset();
+      modal.style.display = "none";
+    } catch (err) {
+      formMessage.textContent = err.response?.data?.message || "Error saving meeting.";
+      formMessage.classList.add("text-danger");
+    }
+  });
 </script>
 </body>
 </html>
