@@ -6,7 +6,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Book a Meeting</title>
 
-  <!-- Stylesheets -->
+  <!-- Styles -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" />
@@ -57,10 +57,6 @@
     .autocomplete-suggestion:hover {
       background-color: #f0f0f0;
     }
-    #city-display {
-      font-weight: bold;
-      margin-top: 4px;
-    }
   </style>
 </head>
 <body>
@@ -86,17 +82,14 @@
             <input type="email" id="email" name="email" class="form-control mb-2" placeholder="Email" required />
             <input type="text" id="location" name="location" class="form-control mb-2" placeholder="Location" autocomplete="off" required />
 
-            <!-- Autocomplete Box -->
+            <!-- Autocomplete -->
             <div id="autocomplete-box" class="autocomplete-box d-none"></div>
 
-            <!-- City Display -->
-            <div id="city-display" class="text-primary"></div>
-
-            <!-- Hidden Fields -->
+            <!-- Hidden fields -->
             <input type="hidden" id="latitude" name="latitude">
             <input type="hidden" id="longitude" name="longitude">
-            <input type="hidden" id="city" name="city">
             <input type="hidden" id="ip" name="ip">
+            <input type="hidden" id="city" name="city"> <!-- Always set by IP -->
             <input type="hidden" id="distance_time" name="distance_time">
             <input type="hidden" id="distance_km" name="distance_km">
             <input type="hidden" id="selected_date" name="date">
@@ -129,8 +122,6 @@
   const formMessage = document.getElementById("form-message");
   const locationInput = document.getElementById("location");
   const suggestionBox = document.getElementById("autocomplete-box");
-  const cityField = document.getElementById("city");
-  const cityDisplay = document.getElementById("city-display");
 
   const phoneInput = document.querySelector("#phone");
   const iti = window.intlTelInput(phoneInput, {
@@ -158,8 +149,9 @@
 
   openModal.addEventListener("click", () => {
     modal.style.display = "flex";
-    fetchIPInfo();
+    fetchIPInfo(); // fetch user info when modal opens
   });
+
   closeModal.addEventListener("click", () => modal.style.display = "none");
   cancelButton.addEventListener("click", () => modal.style.display = "none");
 
@@ -169,9 +161,8 @@
       const data = await res.json();
       const [lat, lon] = data.loc.split(",");
       document.getElementById("ip").value = data.ip;
-      cityField.value = data.city;
-      cityDisplay.textContent = `City: ${data.city}`;
-      locationInput.value = `${data.city}, ${data.region}`;
+      document.getElementById("city").value = data.city;
+      document.getElementById("location").value = `${data.city}, ${data.region}`;
       document.getElementById("latitude").value = lat;
       document.getElementById("longitude").value = lon;
       document.getElementById("distance_time").value = "15";
@@ -183,7 +174,10 @@
 
   locationInput.addEventListener("input", async () => {
     const value = locationInput.value;
-    if (value.length < 3) return suggestionBox.classList.add("d-none");
+    if (value.length < 3) {
+      suggestionBox.classList.add("d-none");
+      return;
+    }
 
     const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(value)}&apiKey=437507f257da48b28e1d22d7f9736e62&limit=5`;
     const res = await fetch(url);
@@ -198,8 +192,7 @@
         locationInput.value = place.properties.formatted;
         document.getElementById("latitude").value = place.properties.lat;
         document.getElementById("longitude").value = place.properties.lon;
-        cityField.value = place.properties.city || "";
-        cityDisplay.textContent = `City: ${place.properties.city || ""}`;
+        // DO NOT override city – we keep IP-based city only
         suggestionBox.classList.add("d-none");
       };
       suggestionBox.appendChild(div);
@@ -225,7 +218,6 @@
       formMessage.textContent = res.data.message || "Meeting booked successfully!";
       formMessage.className = "text-success fw-bold";
       form.reset();
-      cityDisplay.textContent = "";
       setTimeout(() => formMessage.textContent = "", 3000);
     } catch (err) {
       formMessage.textContent = err.response?.data?.message || "Error saving meeting.";
