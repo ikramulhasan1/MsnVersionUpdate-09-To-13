@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Book a Meeting</title>
 
   @include('web.layouts.googlehead')
-</head>
-<body>
+
+
 
 <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer; display: flex; align-items: center;">
   <div class="logo-container">
@@ -83,7 +79,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-{{-- <script>
+<script>
   const openModalButton = document.getElementById('open-modal');
   const modal = document.getElementById('modal-1');
   const closeModalButton = document.querySelector('.modal__close');
@@ -267,133 +263,6 @@ const googleMeetImg = document.getElementById('google-meet-img');
     setInterval(() => {
     googleMeetImg.classList.toggle('active');
     zoomImg.classList.toggle('active');
-    }, 4000); 
-</script> --}}
+    }, 4000);
+</script>
 
-<script>
-    const openModalButton = document.getElementById('open-modal');
-  const modal = document.getElementById('modal-1');
-  const closeModalButton = document.querySelector('.modal__close');
-  const cancelModalButton = document.getElementById('cancel-button');
-  const locationInput = document.getElementById('location');
-  const suggestionsBox = document.getElementById('location-suggestions');
-  const OPENCAGE_API_KEY = "c2c6d0469901439db4a812a841807002";
-  const messageBox = document.getElementById('form-message');
-  document.addEventListener("DOMContentLoaded", function () {
-      // Intl Tel Input
-      const phoneInputField = document.querySelector("#phone");
-      const iti = window.intlTelInput(phoneInputField, {
-          initialCountry: "auto",
-          geoIpLookup: function (callback) {
-              fetch("https://ipinfo.io/json?token=85d3b65b39e700") // Replace with your token
-                  .then(res => res.json())
-                  .then(data => callback(data.country))
-                  .catch(() => callback("us"));
-          },
-          utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@17/build/js/utils.js",
-      });
-  
-      // Flatpickr
-      flatpickr("#meeting_time", {
-          enableTime: true,
-          dateFormat: "Y-m-d H:i",
-          minDate: "today"
-      });
-  
-      // Modal Toggle
-      document.querySelectorAll(".open-modal").forEach(btn => {
-          btn.addEventListener("click", () => {
-              document.getElementById("meetingModal").classList.remove("hidden");
-          });
-      });
-  
-      document.querySelector(".close-modal").addEventListener("click", () => {
-          document.getElementById("meetingModal").classList.add("hidden");
-      });
-  
-      // Get User Location using HERE API
-      document.getElementById("getLocation").addEventListener("click", function () {
-          if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(async function (position) {
-                  const lat = position.coords.latitude;
-                  const lon = position.coords.longitude;
-  
-                  document.getElementById("latitude").value = lat;
-                  document.getElementById("longitude").value = lon;
-  
-                  const response = await fetch(`https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat},${lon}&lang=en-US&apikey=c2c6d0469901439db4a812a841807002`);
-                  const data = await response.json();
-                  const city = data.items[0]?.address?.city || '';
-                  const label = data.items[0]?.address?.label || '';
-  
-                  document.getElementById("city").value = city;
-                  document.getElementById("location").value = label;
-              });
-          } else {
-              alert("Geolocation is not supported by your browser.");
-          }
-      });
-  
-      // OpenCage Autocomplete (basic)
-      document.getElementById("location").addEventListener("input", async function () {
-          const query = this.value;
-          if (query.length < 3) return;
-  
-          const response = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${query}&key=c2c6d0469901439db4a812a841807002`);
-          const data = await response.json();
-          const suggestions = data.results.map(r => r.formatted);
-  
-          // Example: simple alert-based suggestion (you can improve UI with dropdown)
-          if (suggestions.length > 0) {
-              this.value = suggestions[0]; // or display multiple options to select
-          }
-      });
-  
-      // Toggle between Zoom and Google Meet
-      const platformSelect = document.getElementById("platform");
-      const zoomField = document.getElementById("zoom_link_field");
-      const gmeetField = document.getElementById("gmeet_link_field");
-  
-      platformSelect.addEventListener("change", function () {
-          if (this.value === "zoom") {
-              zoomField.classList.remove("hidden");
-              gmeetField.classList.add("hidden");
-          } else if (this.value === "gmeet") {
-              zoomField.classList.add("hidden");
-              gmeetField.classList.remove("hidden");
-          } else {
-              zoomField.classList.add("hidden");
-              gmeetField.classList.add("hidden");
-          }
-      });
-  
-      // AJAX Form Submit
-      document.getElementById("meetingForm").addEventListener("submit", async function (e) {
-          e.preventDefault();
-  
-          const form = this;
-          const formData = new FormData(form);
-          formData.set('phone', iti.getNumber());
-  
-          const response = await fetch("/book-meeting", {
-              method: "POST",
-              headers: {
-                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute("content")
-              },
-              body: formData
-          });
-  
-          const result = await response.json();
-          if (result.success) {
-              alert("Meeting booked successfully!");
-              form.reset();
-              document.getElementById("meetingModal").classList.add("hidden");
-          } else {
-              alert("Error: " + result.message);
-          }
-      });
-  });
-  </script>
-  
-</body>
-</html>
