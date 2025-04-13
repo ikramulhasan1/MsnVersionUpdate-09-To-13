@@ -198,7 +198,7 @@
     const formData = new FormData(this);
     formData.set("phone", phoneNumber); // Override phone field with the full phone number
 
-    fetch("{{ route('meetings.store') }}", {
+fetch("{{ route('meetings.store') }}", {
   method: "POST",
   headers: {
     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
