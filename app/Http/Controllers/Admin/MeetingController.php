@@ -1,10 +1,10 @@
 <?php
-
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Log;
 use App\Models\Meeting;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class MeetingController extends Controller
 {
@@ -46,8 +46,9 @@ class MeetingController extends Controller
             ->exists();
 
         if ($exists) {
-            return response()->json(['message' => 'Already have a meeting booked at this date and time.'], 400);  // 400 Bad Request
-
+            return response()->json([
+                'message' => 'Already have a meeting booked at this date and time.',
+            ], 409); // 409 Conflict
         }
 
         // Save the meeting
@@ -57,7 +58,7 @@ class MeetingController extends Controller
             'message' => 'Meeting successfully booked!',
             'meeting' => $meeting
         ]);
-    } 
+    }
     
     public function show(Meeting $meeting)
     {
