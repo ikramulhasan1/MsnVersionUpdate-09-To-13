@@ -6,12 +6,12 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Book a Meeting</title>
 
-  <!-- Styles -->
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
-    body { font-family: 'Manrope', sans-serif; }
     .modal__overlay {
       position: fixed;
       top: 0; left: 0;
@@ -25,9 +25,9 @@
     .modal__container {
       background: #fff;
       padding: 20px;
-      width: 90%;
-      max-width: 850px;
-      border-radius: 12px;
+      width: 80%;
+      max-width: 800px;
+      border-radius: 10px;
       position: relative;
     }
     .modal__close {
@@ -47,8 +47,10 @@
 <!-- Modal -->
 <div id="modal-1" class="modal__overlay">
   <div class="modal__container">
-    <button class="modal__close">×</button>
-    <h2 class="text-center mb-3">Book a Meeting</h2>
+    <header class="mb-3">
+      <button class="modal__close">×</button>
+      <h2 style="text-align: center">Book a Meeting</h2>
+    </header>
     <div class="modal__content">
       <div id="form-message" class="mb-3 text-success fw-bold"></div>
       <form id="modal-form">
@@ -57,7 +59,7 @@
             <input type="text" id="name" name="name" class="form-control mb-2" placeholder="Name" required />
             <input type="tel" id="phone" name="phone" class="form-control mb-2" placeholder="Phone" required />
             <input type="email" id="email" name="email" class="form-control mb-2" placeholder="Email" required />
-            <input type="text" id="location" name="location" class="form-control mb-2" placeholder="Location" required autocomplete="off" />
+            <input type="text" id="location" name="location" class="form-control mb-2" placeholder="Location" required />
 
             <!-- Hidden Fields -->
             <input type="hidden" id="latitude" name="latitude">
@@ -74,14 +76,15 @@
             <div id="calendar"></div>
           </div>
         </div>
-        <button type="submit" class="btn btn-success mt-3">Save</button>
-        <button type="button" id="cancel-button" class="btn btn-secondary mt-3">Cancel</button>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" id="cancel-button" class="btn btn-secondary">Cancel</button>
       </form>
     </div>
   </div>
 </div>
 
 <!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/vanillajs-modal@1.1.2/dist/vanilla.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -92,9 +95,9 @@
   const closeModal = document.querySelector(".modal__close");
   const cancelButton = document.getElementById("cancel-button");
   const formMessage = document.getElementById("form-message");
-  const locationInput = document.getElementById("location");
 
-  const iti = window.intlTelInput(document.getElementById("phone"), {
+  const phoneInput = document.querySelector("#phone");
+  const iti = window.intlTelInput(phoneInput, {
     nationalMode: false,
     initialCountry: "auto",
     geoIpLookup: async function (callback) {
@@ -137,53 +140,13 @@
       document.getElementById("latitude").value = latitude;
       document.getElementById("longitude").value = longitude;
 
-      await calculateDistanceTime(latitude, longitude);
+      // Instead of HERE API, calculate a placeholder for distance_time and distance_km
+      document.getElementById("distance_time").value = "15"; // Placeholder time
+      document.getElementById("distance_km").value = "5.3"; // Placeholder distance
     } catch (err) {
       console.error("IPinfo error", err);
     }
   }
-
-  async function calculateDistanceTime(lat, lng) {
-    const officeLat = 40.712776;
-    const officeLng = -74.005974;
-
-    const url = `https://router.hereapi.com/v8/routes?transportMode=car&origin=${officeLat},${officeLng}&destination=${lat},${lng}&return=summary&apikey=YOUR_HERE_API_KEY`;
-
-    try {
-      const res = await fetch(url);
-      const data = await res.json();
-      const summary = data.routes[0].sections[0].summary;
-
-      document.getElementById("distance_time").value = Math.round(summary.duration / 60) + " mins";
-      document.getElementById("distance_km").value = (summary.length / 1000).toFixed(2);
-    } catch (err) {
-      console.error("HERE API error", err);
-    }
-  }
-
-  // Location Autocomplete via OpenCage
-  let timeout;
-  locationInput.addEventListener("input", function () {
-    clearTimeout(timeout);
-    const query = this.value.trim();
-    if (query.length < 3) return;
-
-    timeout = setTimeout(async () => {
-      try {
-        const res = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(query)}&key=YOUR_OPENCAGE_API_KEY`);
-        const data = await res.json();
-        if (data.results.length > 0) {
-          const place = data.results[0];
-          document.getElementById("latitude").value = place.geometry.lat;
-          document.getElementById("longitude").value = place.geometry.lng;
-          document.getElementById("city").value = place.components.city || place.components.town || place.components.village || '';
-          await calculateDistanceTime(place.geometry.lat, place.geometry.lng);
-        }
-      } catch (e) {
-        console.error("OpenCage error", e);
-      }
-    }, 500);
-  });
 
   document.getElementById("modal-form").addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -198,15 +161,25 @@
           "Content-Type": "multipart/form-data"
         }
       });
+
       formMessage.textContent = res.data.message || "Meeting booked successfully!";
       formMessage.classList.add("text-success");
+
+      // Reset form but keep the modal open
       form.reset();
-      modal.style.display = "none";
+      formMessage.classList.remove("text-success");
+
+      // Optionally, add a delay before resetting the message
+      setTimeout(() => {
+        formMessage.textContent = "";
+      }, 3000);
+      
     } catch (err) {
       formMessage.textContent = err.response?.data?.message || "Error saving meeting.";
       formMessage.classList.add("text-danger");
     }
   });
 </script>
+
 </body>
 </html>
