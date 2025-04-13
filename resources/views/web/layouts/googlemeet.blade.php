@@ -113,7 +113,7 @@ legend {
             <input type="hidden" id="selected_date" name="date">
 
             <fieldset>
-              <legend class=" text-bold" style="font-weight: bold; font-size: 16px; color: #3CC065;">Meeting Time [h-m-am/pm]</legend>
+              <legend class=" text-bold" style="font-weight: bold; font-size: 16px; color: #3CC065;">Meeting Time [H-M-Am/Pm]</legend>
               <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-3" required />
             </fieldset>
                       </div>
