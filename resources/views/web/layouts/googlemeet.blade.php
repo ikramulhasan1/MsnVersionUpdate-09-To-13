@@ -295,17 +295,24 @@
 
   function detectUserIPLocation() {
     fetch('https://ipinfo.io/json?token=85d3b65b39e700')
-      .then(res => res.json())
-      .then(data => {
-        const [ipLat, ipLng] = data.loc.split(',');
-        document.getElementById('ip').value = data.ip;
-        document.getElementById('location').value = `${data.city}, ${data.region}, ${data.country}`;
-        document.getElementById('latitude').value = ipLat;
-        document.getElementById('longitude').value = ipLng;
-        document.getElementById('city').value = data.city;
-        locationInput.dataset.ipLat = ipLat;
-        locationInput.dataset.ipLng = ipLng;
-      });
+    .then(res => {
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+    const contentType = res.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      throw new Error("Response is not JSON");
+    }
+    return res.json();
+    })
+    .then(data => {
+      // your logic with data
+    })
+    .catch(err => {
+      console.error("Error fetching IP info:", err);
+      showMessage("Failed to detect location automatically", "error");
+    });
+
   }
 
   flatpickr("#calendar", {
