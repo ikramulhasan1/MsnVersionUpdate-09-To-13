@@ -2,18 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Book a Meeting</title>
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
-    body {
-      font-family: 'Manrope', sans-serif;
-    }
     .modal__overlay {
       position: fixed;
       top: 0; left: 0;
@@ -27,7 +25,7 @@
     .modal__container {
       background: #fff;
       padding: 20px;
-      width: 90%;
+      width: 80%;
       max-width: 800px;
       border-radius: 10px;
       position: relative;
@@ -40,37 +38,44 @@
       border: none;
       background: transparent;
     }
+    .autocomplete-box {
+      position: absolute;
+      background-color: white;
+      border: 1px solid #ccc;
+      max-height: 200px;
+      overflow-y: auto;
+      width: 100%;
+      z-index: 1000;
+    }
     .autocomplete-suggestion {
-      background-color: #fff;
-      border-bottom: 1px solid #ccc;
-      padding: 5px;
+      padding: 8px;
       cursor: pointer;
     }
     .autocomplete-suggestion:hover {
-      background-color: #eee;
+      background-color: #f0f0f0;
     }
   </style>
 </head>
 <body>
 
-<button id="open-modal" class="btn btn-primary mt-4 ms-4">Book a Meeting</button>
+<button id="open-modal" class="btn btn-primary">Book a Meeting</button>
 
 <!-- Modal -->
 <div id="modal-1" class="modal__overlay">
   <div class="modal__container">
     <header class="mb-3">
       <button class="modal__close">×</button>
-      <h2 class="text-center">Book a Meeting</h2>
+      <h2 style="text-align: center">Book a Meeting</h2>
     </header>
     <div class="modal__content">
-      <div id="form-message" class="mb-3 fw-bold"></div>
+      <div id="form-message" class="mb-3 text-success fw-bold"></div>
       <form id="modal-form">
         <div class="row">
           <div class="col-md-6">
-            <input type="text" id="name" name="name" class="form-control mb-2" placeholder="Name" required/>
-            <input type="tel" id="phone" name="phone" class="form-control mb-2" placeholder="Phone" required/>
-            <input type="email" id="email" name="email" class="form-control mb-2" placeholder="Email" required/>
-            <input type="text" id="location" name="location" class="form-control mb-2" placeholder="Location" autocomplete="off" required/>
+            <input type="text" id="name" name="name" class="form-control mb-2" placeholder="Name" required />
+            <input type="tel" id="phone" name="phone" class="form-control mb-2" placeholder="Phone" required />
+            <input type="email" id="email" name="email" class="form-control mb-2" placeholder="Email" required />
+            <input type="text" id="location" name="location" class="form-control mb-2" placeholder="Location" autocomplete="off" required />
 
             <!-- Hidden Fields -->
             <input type="hidden" id="latitude" name="latitude">
@@ -81,57 +86,42 @@
             <input type="hidden" id="distance_km" name="distance_km">
             <input type="hidden" id="selected_date" name="date">
 
-            <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-2" required/>
+            <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-2" required />
           </div>
           <div class="col-md-6">
             <div id="calendar"></div>
           </div>
         </div>
-        <button type="submit" class="btn btn-success mt-2">Save</button>
-        <button type="button" id="cancel-button" class="btn btn-secondary mt-2">Cancel</button>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" id="cancel-button" class="btn btn-secondary">Cancel</button>
       </form>
     </div>
   </div>
 </div>
 
 <!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/vanillajs-modal@1.1.2/dist/vanilla.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
   const modal = document.getElementById("modal-1");
-  const openBtn = document.getElementById("open-modal");
-  const closeBtn = document.querySelector(".modal__close");
-  const cancelBtn = document.getElementById("cancel-button");
+  const openModal = document.getElementById("open-modal");
+  const closeModal = document.querySelector(".modal__close");
+  const cancelButton = document.getElementById("cancel-button");
   const formMessage = document.getElementById("form-message");
 
-  const locationInput = document.getElementById("location");
-  const suggestionBox = document.createElement("div");
-  suggestionBox.classList.add("autocomplete-box", "border", "rounded");
-  suggestionBox.style.position = "absolute";
-  suggestionBox.style.zIndex = "10000";
-  suggestionBox.style.backgroundColor = "white";
-  locationInput.parentNode.appendChild(suggestionBox);
-
-  // Auto open modal and fetch IP
-  openBtn.onclick = () => {
-    modal.style.display = "flex";
-    fetchIPInfo();
-  };
-
-  closeBtn.onclick = () => modal.style.display = "none";
-  cancelBtn.onclick = () => modal.style.display = "none";
-
-  const iti = window.intlTelInput(document.querySelector("#phone"), {
+  const phoneInput = document.querySelector("#phone");
+  const iti = window.intlTelInput(phoneInput, {
     nationalMode: false,
     initialCountry: "auto",
     geoIpLookup: async function (callback) {
       try {
-        const res = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
-        const data = await res.json();
+        const response = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
+        const data = await response.json();
         callback(data.country || "us");
-      } catch {
+      } catch (e) {
         callback("us");
       }
     },
@@ -141,28 +131,44 @@
   flatpickr("#calendar", {
     inline: true,
     minDate: "today",
-    onChange: function (dates, dateStr) {
+    onChange: function (selectedDates, dateStr) {
       document.getElementById("selected_date").value = dateStr;
     }
   });
+
+  openModal.addEventListener("click", () => {
+    modal.style.display = "flex";
+    fetchIPInfo();
+  });
+
+  closeModal.addEventListener("click", () => modal.style.display = "none");
+  cancelButton.addEventListener("click", () => modal.style.display = "none");
 
   async function fetchIPInfo() {
     try {
       const res = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
       const data = await res.json();
-      const [lat, lon] = data.loc.split(",");
 
+      const [latitude, longitude] = data.loc.split(",");
       document.getElementById("ip").value = data.ip;
-      document.getElementById("latitude").value = lat;
-      document.getElementById("longitude").value = lon;
       document.getElementById("city").value = data.city;
       document.getElementById("location").value = `${data.city}, ${data.region}`;
-      document.getElementById("distance_time").value = "15";
-      document.getElementById("distance_km").value = "5.3";
+      document.getElementById("latitude").value = latitude;
+      document.getElementById("longitude").value = longitude;
+
+      // Placeholder distance_time and distance_km
+      document.getElementById("distance_time").value = "15"; // Placeholder time
+      document.getElementById("distance_km").value = "5.3"; // Placeholder distance
     } catch (err) {
       console.error("IPinfo error", err);
     }
   }
+
+  const locationInput = document.getElementById("location");
+  const suggestionBox = document.createElement("div");
+  suggestionBox.classList.add("autocomplete-box", "border", "rounded");
+  suggestionBox.style.position = "absolute";
+  locationInput.parentNode.appendChild(suggestionBox);
 
   locationInput.addEventListener("input", async () => {
     const value = locationInput.value;
@@ -171,7 +177,7 @@
       return;
     }
 
-    const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(value)}&apiKey=YOUR_GEOAPIFY_API_KEY&limit=5`;
+    const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(value)}&apiKey=PUT_YOUR_API_KEY_HERE&limit=5`;
     const res = await fetch(url);
     const data = await res.json();
     const suggestions = data.features || [];
@@ -198,12 +204,6 @@
     suggestionBox.style.display = "block";
   });
 
-  document.addEventListener("click", (e) => {
-    if (!suggestionBox.contains(e.target) && e.target !== locationInput) {
-      suggestionBox.style.display = "none";
-    }
-  });
-
   document.getElementById("modal-form").addEventListener("submit", async function (e) {
     e.preventDefault();
     const form = e.target;
@@ -219,18 +219,23 @@
       });
 
       formMessage.textContent = res.data.message || "Meeting booked successfully!";
-      formMessage.classList.remove("text-danger");
       formMessage.classList.add("text-success");
 
+      // Reset form but keep the modal open
       form.reset();
-      setTimeout(() => formMessage.textContent = "", 3000);
+      formMessage.classList.remove("text-success");
+
+      // Optionally, add a delay before resetting the message
+      setTimeout(() => {
+        formMessage.textContent = "";
+      }, 3000);
+      
     } catch (err) {
       formMessage.textContent = err.response?.data?.message || "Error saving meeting.";
-      formMessage.classList.remove("text-success");
       formMessage.classList.add("text-danger");
     }
   });
-
 </script>
+
 </body>
 </html>
