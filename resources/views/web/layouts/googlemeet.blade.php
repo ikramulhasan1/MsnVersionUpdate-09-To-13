@@ -128,7 +128,7 @@ locationInput.addEventListener("input", async () => {
   const query = locationInput.value;
   if (query.length < 3) return suggestionBox.style.display = "none";
 
-  const res = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${query}&key=YOUR_OPENCAGE_API_KEY`);
+  const res = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${query}&key=c2c6d0469901439db4a812a841807002`);
   const data = await res.json();
   suggestionBox.innerHTML = "";
   data.results.forEach(item => {
