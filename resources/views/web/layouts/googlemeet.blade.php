@@ -95,8 +95,11 @@
             <input type="hidden" id="distance_km" name="distance_km">
             <input type="hidden" id="selected_date" name="date">
 
-            <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-2" required />
-          </div>
+            <fieldset>
+              <legend>Meeting Time</legend>
+              <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-3" required />
+            </fieldset>
+                      </div>
           <div class="col-md-6 d-flex justify-content-end ">
             <div id="calendar"></div>
           </div>
