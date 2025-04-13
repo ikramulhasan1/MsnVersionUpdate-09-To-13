@@ -1,3 +1,6 @@
+@php
+  use Log;
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -202,7 +205,9 @@
     fetch("{{ route('admin.meetings.store') }}", {
         method: "POST",
         headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
-        body: formData
+        body: console.log(formData);
+        Log::info(formData);  
+
     })
     .then(res => res.json())
     .then(data => {
