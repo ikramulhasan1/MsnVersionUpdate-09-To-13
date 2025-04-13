@@ -177,7 +177,7 @@
       return;
     }
 
-    const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(value)}&apiKey=PUT_YOUR_API_KEY_HERE&limit=5`;
+    const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(value)}&apiKey=437507f257da48b28e1d22d7f9736e62&limit=5`;
     const res = await fetch(url);
     const data = await res.json();
     const suggestions = data.features || [];
