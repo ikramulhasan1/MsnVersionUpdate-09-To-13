@@ -17,8 +17,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-  @include('web.layouts.googlehead')
+@include('web.layouts.googlehead')
 </head>
 <body>
 
@@ -119,18 +118,24 @@ const cancelButton = document.getElementById("cancel-button");
 
 openModal.addEventListener("click", () => {
   modal.style.display = "flex";
-  getUserIP(); // 🔥 Get IP when modal opens
+  getUserIP(); // 🔥 Auto-location + distance on modal open
 });
-
 closeModal.addEventListener("click", () => modal.style.display = "none");
 cancelButton.addEventListener("click", () => modal.style.display = "none");
 
-// IP Fetch
+// Get user IP + location
 async function getUserIP() {
   try {
-    const res = await fetch('https://api.ipify.org?format=json?token=85d3b65b39e700');
+    const res = await fetch('https://ipapi.co/json/');
     const data = await res.json();
+
     document.getElementById("ip").value = data.ip;
+    document.getElementById("location").value = `${data.city}, ${data.region}, ${data.country_name}`;
+    document.getElementById("latitude").value = data.latitude;
+    document.getElementById("longitude").value = data.longitude;
+    document.getElementById("city").value = data.city;
+
+    calculateDistanceTime(); // 🔥 Auto calculate
   } catch (err) {
     console.error("IP fetch failed", err);
   }
@@ -141,9 +146,8 @@ async function calculateDistanceTime() {
   const lat = document.getElementById("latitude").value;
   const lng = document.getElementById("longitude").value;
 
-  // Office Location
-  const baseLat = 40.712776;  // Example: New York
-  const baseLng = -74.005974;
+  const baseLat = 40.712776;  // Replace with your office lat
+  const baseLng = -74.005974; // Replace with your office lng
 
   const url = `https://router.hereapi.com/v8/routes?transportMode=car&origin=${baseLat},${baseLng}&destination=${lat},${lng}&return=summary&apikey=c2c6d0469901439db4a812a841807002`;
 
