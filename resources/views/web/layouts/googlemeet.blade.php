@@ -10,23 +10,15 @@
 </head>
 <body>
 
-{{-- <button id="open-modal" style="padding: 12px 24px; background-color: #48bb78; color: white; border: none; border-radius: 8px;">Book a Meeting</button> --}}
-
 <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer; display: flex; align-items: center;">
   <div class="logo-container">
     <img id="google-meet-img" src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" class="meeting-logo active" />
 
     <img id="zoom-img" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg" alt="Zoom Logo" class="meeting-logo" />
   </div>
-  <!-- Button text -->
   <span style="font-weight: 600; font-size: 18px; color: white; margin-left: 12px;">Book a Meeting</span>
 </button>
 </div>
-
-
-
-
-
 
 <div id="modal-1" class="modal__overlay" style="display: none;">
   <div class="modal__container">
@@ -36,53 +28,27 @@
       <h6 style="text-align: center">Select a Date and Time for the Meeting at Your Convenience</h6>
     </header>
     <div class="modal__content">
-      <!-- ✅ Message Display -->
       <div id="form-message"></div>
 
       <form id="modal-form">
-        {{-- <div style="display: flex; justify-content: space-between; align-items: center;"> --}}
         <div class="row flex justify-content-between align-items-center ">
           <div class="col-6">
 
-            {{-- <div style="display:flex; justify-content: space-between; align-items: center;" class="">
-              <!-- Name Field -->
-              <label style="width: 40% !important; font-size: 18px; font-weight: 600;" for="name">Name</label>
-              <input style="width: 60% !important; font-size: 16px; padding-left: 5px;  " type="text" id="name" name="name" required>
-            </div><br> --}}
-            <!-- ✅ Modern Field: Name -->
             <div class="floating-label-group">
               <input type="text" id="name" name="name" required placeholder=" " />
               <label for="name">Name</label>
             </div>
-            
-            <!-- Phone Field -->
-            {{-- <div style="display:flex !important; justify-content: space-between !important; align-items: center !important;" class="">
-              <label style="width: 40% !important; font-size: 18px; font-weight: 600;" for="phone">Phone</label>
-              <input style="width: 237px !important; font-size: 16px; padding-left: 5px; " type="tel" id="phone" name="phone" required>
-            </div><br> --}}
-            <!-- ✅ Modern Field: Phone -->
+
             <div class="floating-label-group">
               <input style="width: 237px !important;" type="tel" id="phone" name="phone" required placeholder="+1 (555) 123-4567" />
               <label for="phone">Phone</label>
             </div>
 
-            <!-- Email Field -->
-            {{-- <div style="display:flex; justify-content: space-between; align-items: center;" class="">
-              <label style="width: 40% !important; font-size: 18px; font-weight: 600;" for="email">Email</label>
-              <input style="width: 60% !important; font-size: 16px; padding-left: 5px;  " type="email" id="email" name="email" required>
-            </div><br> --}}
-            <!-- ✅ Modern Field: Email -->
             <div class="floating-label-group">
               <input type="email" id="email" name="email" required placeholder=" " />
               <label for="email">Email</label>
             </div>
 
-            <!-- Location Field -->
-            {{-- <div style="display:flex; justify-content: space-between; align-items: center;" class="">
-              <label style="width: 40% !important; font-size: 18px; font-weight: 600;" for="location">Location</label>
-              <input style="width: 60% !important; font-size: 16px; padding-left: 5px;  " type="text" id="location" name="location" required autocomplete="off">
-            </div><br> --}}
-            <!-- ✅ Modern Field: Location -->
             <div class="floating-label-group">
               <input type="text" id="location" name="location" required placeholder=" " autocomplete="off" />
               <label for="location">Location</label>
@@ -97,12 +63,6 @@
             <input hidden type="text" id="ip" name="ip">
             <input hidden type="text" id="selected_date" name="date">
 
-            <!-- Meeting Time Field -->
-            {{-- <div style="display:flex; justify-content: space-between; align-items: center;" class="">
-              <label style="width: 40% !important; font-size: 18px; font-weight: 600;" for="meeting_time">Meeting Time</label>
-              <input style="width: 60% !important; font-size: 16px; padding-left: 5px;  " type="time" id="meeting_time" name="meeting_time" required>
-            </div><br> --}}
-            <!-- ✅ Modern Field: Meeting Time -->
             <div class="floating-label-group">
               <input type="time" id="meeting_time" name="meeting_time" required placeholder=" " />
               <label for="meeting_time">Meeting Time</label>
@@ -255,8 +215,8 @@
             setTimeout(() => modal.style.display = 'none', 1500);
         }
     })
-    .catch(() => {
-        showMessage('Please select a calendar date and other all fields.', 'error');
+    .catch(($e) => {
+        showMessage($e, 'error');
     });
 });
 
@@ -266,15 +226,11 @@
     else suggestionsBox.style.display = 'none';
   });
 
-
-
   document.addEventListener('DOMContentLoaded', function () {
   const countryListBox = document.getElementById('iti-0__country-listbox');
   if (countryListBox) {
     countryListBox.style.width = '300px';
   }
-
-
 
   const phoneInput = document.querySelector("#phone");
 
@@ -291,8 +247,6 @@ window.addEventListener("load", () => {
 });
 
 });
-
-  
 
 const googleMeetImg = document.getElementById('google-meet-img');
     const zoomImg = document.getElementById('zoom-img');
