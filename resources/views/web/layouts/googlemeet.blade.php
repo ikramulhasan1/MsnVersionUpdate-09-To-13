@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
   {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" /> --}}
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&display=swap" rel="stylesheet" />
- @include('web.layouts.googlehead')
  <style>
     body {
       font-family: 'Manrope', sans-serif;
@@ -78,10 +77,10 @@
       <form id="modal-form">
         <div class="row">
           <div class="col-md-6 position-relative">
-            <input type="text" id="name" name="name" class="form-control mb-2" placeholder="Name" required />
-            <input type="tel" id="phone" name="phone" class="form-control mb-2" placeholder="Phone" required />
-            <input type="email" id="email" name="email" class="form-control mb-2" placeholder="Email" required />
-            <input type="text" id="location" name="location" class="form-control mb-2" placeholder="Location" autocomplete="off" required />
+            <input type="text" id="name" name="name" class="form-control mb-3" placeholder="Name" required />
+            <input type="tel" id="phone" name="phone" class="form-control mb-3" placeholder="Phone" required />
+            <input type="email" id="email" name="email" class="form-control mb-3 mt-3" placeholder="Email" required />
+            <input type="text" id="location" name="location" class="form-control mb-3" placeholder="Location" autocomplete="off" required />
 
             <!-- Autocomplete -->
             <div id="autocomplete-box" class="autocomplete-box d-none"></div>
