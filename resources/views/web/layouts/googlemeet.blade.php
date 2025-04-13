@@ -238,6 +238,7 @@ document.getElementById('modal-form').addEventListener('submit', function (event
 
   const formData = new FormData(this);
   formData.set("phone", phoneNumber); // Override phone field with the full phone number
+  console.log("Submitting to: ", "{{ route('meetings.store') }}");
 
   fetch("{{ route('meetings.store') }}", {
     method: "POST",
@@ -249,7 +250,15 @@ document.getElementById('modal-form').addEventListener('submit', function (event
     body: console.log(formData)
     
   })
-  .then(res => res.json())
+  .then(async (res) => {
+    const contentType = res.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const text = await res.text();
+      console.error("❌ Server returned HTML instead of JSON:", text);
+      throw new Error("Expected JSON but got HTML");
+    }
+    return res.json();
+  })
   .then(data => {
     console.log(data);
 
@@ -262,12 +271,10 @@ document.getElementById('modal-form').addEventListener('submit', function (event
     }
   })
   .catch(err => {
-    console.error(err);
+    console.error("🚨 Submission error:", err);
     showMessage('Something went wrong while submitting the form.', 'error');
   });
 });
-
-
   document.addEventListener('DOMContentLoaded', function () {
   const countryListBox = document.getElementById('iti-0__country-listbox');
   if (countryListBox) {
