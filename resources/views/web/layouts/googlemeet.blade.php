@@ -30,7 +30,8 @@
     <div class="modal__content">
       <div id="form-message"></div>
 
-      <form id="modal-form">
+      <form id="modal-form" method="post" action="{{ route('meetings.store') }}" >
+        @csrf
         <div class="row flex justify-content-between align-items-center ">
           <div class="col-6">
 
