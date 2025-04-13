@@ -1,4 +1,4 @@
-<!DOCTYPE json>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -164,6 +164,11 @@
         locationInput.dataset.ipLng = ipLng;
       });
   }
+  locationInput.addEventListener('input', function () {
+    const query = this.value.trim();
+    if (query.length >= 3) fetchLocationSuggestions(query);
+    else suggestionsBox.style.display = 'none';
+  });
 
   flatpickr("#calendar", {
     inline: true,
@@ -222,11 +227,6 @@
     });
 });
 
-  locationInput.addEventListener('input', function () {
-    const query = this.value.trim();
-    if (query.length >= 3) fetchLocationSuggestions(query);
-    else suggestionsBox.style.display = 'none';
-  });
 
   document.addEventListener('DOMContentLoaded', function () {
   const countryListBox = document.getElementById('iti-0__country-listbox');
