@@ -85,10 +85,10 @@ legend {
 <!-- Modal -->
 <div id="modal-1" class="modal__overlay">
   <div class="modal__container">
-    <header class="mb-3">
+    <header class="mb-4">
       <button class="modal__close">×</button>
       <h2 class="text-center">Book a Meeting</h2>
-      <p class="text-muted">Select a Date and Time for the Meeting at Your Convenience</p>
+      <h6 class="text-center">Select a Date and Time for the Meeting at Your Convenience</h6>
     </header>
     <div class="modal__content">
       <div id="form-message" class="mb-3 fw-bold"></div>
@@ -113,7 +113,7 @@ legend {
             <input type="hidden" id="selected_date" name="date">
 
             <fieldset>
-              <legend style="font-size: 16px">Meeting Time [h-m-am/pm]</legend>
+              <legend style="font-size: 16px; color: #3CC065;">Meeting Time [h-m-am/pm]</legend>
               <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-3" required />
             </fieldset>
                       </div>
