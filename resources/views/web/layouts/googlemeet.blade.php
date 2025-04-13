@@ -199,26 +199,33 @@
     formData.set("phone", phoneNumber); // Override phone field with the full phone number
 
     fetch("{{ route('meetings.store') }}", {
-        method: "POST",
-        headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
-        body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.message === 'Already have a meeting booked at this date and time.') {
-            // Show error message but don't close modal
-            showMessage(data.message, 'error');
-        } else {
-            // Show success message and close the modal after 1.5 seconds
-            showMessage(data.message || 'Meeting saved successfully!', 'success');
-            this.reset();
-            setTimeout(() => modal.style.display = 'none', 1500);
-        }
-    })
-    .catch(($e) => {
-        showMessage($e, 'error');
-    });
+  method: "POST",
+  headers: {
+    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+  },
+  body: formData
+})
+.then(async res => {
+  const text = await res.text(); // Get raw response
+  try {
+    const data = JSON.parse(text); // Try parse JSON
+    if (data.message === 'Already have a meeting booked at this date and time.') {
+      showMessage(data.message, 'error');
+    } else {
+      showMessage(data.message || 'Meeting saved successfully!', 'success');
+      document.getElementById('modal-form').reset();
+      setTimeout(() => modal.style.display = 'none', 1500);
+    }
+  } catch (e) {
+    console.error('Non-JSON response:', text); // Logs the actual HTML or error
+    showMessage('Something went wrong. Please try again.', 'error');
+  }
+})
+.catch(error => {
+  console.error('Fetch error:', error);
+  showMessage('Error occurred: ' + error.message, 'error');
 });
+
 
   locationInput.addEventListener('input', function () {
     const query = this.value.trim();
