@@ -1,6 +1,4 @@
-@php
-  use Log;
-@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
