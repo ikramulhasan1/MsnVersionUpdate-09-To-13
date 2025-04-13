@@ -6,7 +6,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Book a Meeting</title>
 
-@include('web.layouts.googlehead')
+  @include('web.layouts.googlehead')
 </head>
 <body>
 
@@ -22,6 +22,10 @@
   <span style="font-weight: 600; font-size: 18px; color: white; margin-left: 12px;">Book a Meeting</span>
 </button>
 </div>
+
+
+
+
 
 
 <div id="modal-1" class="modal__overlay" style="display: none;">
@@ -40,24 +44,44 @@
         <div class="row flex justify-content-between align-items-center ">
           <div class="col-6">
 
+            {{-- <div style="display:flex; justify-content: space-between; align-items: center;" class="">
+              <!-- Name Field -->
+              <label style="width: 40% !important; font-size: 18px; font-weight: 600;" for="name">Name</label>
+              <input style="width: 60% !important; font-size: 16px; padding-left: 5px;  " type="text" id="name" name="name" required>
+            </div><br> --}}
             <!-- ✅ Modern Field: Name -->
             <div class="floating-label-group">
               <input type="text" id="name" name="name" required placeholder=" " />
               <label for="name">Name</label>
             </div>
             
+            <!-- Phone Field -->
+            {{-- <div style="display:flex !important; justify-content: space-between !important; align-items: center !important;" class="">
+              <label style="width: 40% !important; font-size: 18px; font-weight: 600;" for="phone">Phone</label>
+              <input style="width: 237px !important; font-size: 16px; padding-left: 5px; " type="tel" id="phone" name="phone" required>
+            </div><br> --}}
             <!-- ✅ Modern Field: Phone -->
             <div class="floating-label-group">
               <input style="width: 237px !important;" type="tel" id="phone" name="phone" required placeholder="+1 (555) 123-4567" />
               <label for="phone">Phone</label>
             </div>
 
+            <!-- Email Field -->
+            {{-- <div style="display:flex; justify-content: space-between; align-items: center;" class="">
+              <label style="width: 40% !important; font-size: 18px; font-weight: 600;" for="email">Email</label>
+              <input style="width: 60% !important; font-size: 16px; padding-left: 5px;  " type="email" id="email" name="email" required>
+            </div><br> --}}
             <!-- ✅ Modern Field: Email -->
             <div class="floating-label-group">
               <input type="email" id="email" name="email" required placeholder=" " />
               <label for="email">Email</label>
             </div>
 
+            <!-- Location Field -->
+            {{-- <div style="display:flex; justify-content: space-between; align-items: center;" class="">
+              <label style="width: 40% !important; font-size: 18px; font-weight: 600;" for="location">Location</label>
+              <input style="width: 60% !important; font-size: 16px; padding-left: 5px;  " type="text" id="location" name="location" required autocomplete="off">
+            </div><br> --}}
             <!-- ✅ Modern Field: Location -->
             <div class="floating-label-group">
               <input type="text" id="location" name="location" required placeholder=" " autocomplete="off" />
@@ -73,6 +97,11 @@
             <input hidden type="text" id="ip" name="ip">
             <input hidden type="text" id="selected_date" name="date">
 
+            <!-- Meeting Time Field -->
+            {{-- <div style="display:flex; justify-content: space-between; align-items: center;" class="">
+              <label style="width: 40% !important; font-size: 18px; font-weight: 600;" for="meeting_time">Meeting Time</label>
+              <input style="width: 60% !important; font-size: 16px; padding-left: 5px;  " type="time" id="meeting_time" name="meeting_time" required>
+            </div><br> --}}
             <!-- ✅ Modern Field: Meeting Time -->
             <div class="floating-label-group">
               <input type="time" id="meeting_time" name="meeting_time" required placeholder=" " />
@@ -162,24 +191,17 @@
 
   function detectUserIPLocation() {
     fetch('https://ipinfo.io/json?token=85d3b65b39e700')
-    .then(res => {
-    if (!res.ok) {
-      throw new Error(`HTTP error! Status: ${res.status}`);
-    }
-    const contentType = res.headers.get("content-type");
-    if (!contentType || !contentType.includes("application/json")) {
-      throw new Error("Response is not JSON");
-    }
-    return res.json();
-    })
-    .then(data => {
-      // your logic with data
-    })
-    .catch(err => {
-      console.error("Error fetching IP info:", err);
-      showMessage("Failed to detect location automatically", "error");
-    });
-
+      .then(res => res.json())
+      .then(data => {
+        const [ipLat, ipLng] = data.loc.split(',');
+        document.getElementById('ip').value = data.ip;
+        document.getElementById('location').value = `${data.city}, ${data.region}, ${data.country}`;
+        document.getElementById('latitude').value = ipLat;
+        document.getElementById('longitude').value = ipLng;
+        document.getElementById('city').value = data.city;
+        locationInput.dataset.ipLat = ipLat;
+        locationInput.dataset.ipLng = ipLng;
+      });
   }
 
   flatpickr("#calendar", {
@@ -233,8 +255,8 @@
             setTimeout(() => modal.style.display = 'none', 1500);
         }
     })
-    .catch(($e) => {
-        showMessage($e, 'Please select a calendar date and other all fields.', 'error');
+    .catch(() => {
+        showMessage('Please select a calendar date and other all fields.', 'error');
     });
 });
 
@@ -244,11 +266,15 @@
     else suggestionsBox.style.display = 'none';
   });
 
+
+
   document.addEventListener('DOMContentLoaded', function () {
   const countryListBox = document.getElementById('iti-0__country-listbox');
   if (countryListBox) {
     countryListBox.style.width = '300px';
   }
+
+
 
   const phoneInput = document.querySelector("#phone");
 
@@ -266,6 +292,7 @@ window.addEventListener("load", () => {
 
 });
 
+  
 
 const googleMeetImg = document.getElementById('google-meet-img');
     const zoomImg = document.getElementById('zoom-img');
