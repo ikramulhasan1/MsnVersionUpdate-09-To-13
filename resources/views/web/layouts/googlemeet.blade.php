@@ -246,7 +246,7 @@ document.getElementById('modal-form').addEventListener('submit', function (event
       // DO NOT set 'Content-Type' manually here!
       'Content-Type': 'application/json',
     },
-    body: console.log(formData);
+    body: console.log(formData)
     
   })
   .then(res => res.json())
