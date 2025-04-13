@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\Web\MeetingController;
 use App\Http\Controllers\Admin\RedirectUrlController;
-use App\Http\Controllers\Admin\MeetingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\MeetingController;
 */
 
 Route::middleware(['XSS','redirect'])->namespace('Web')->group(function () {
+    Route::post('/meetings', [MeetingController::class, 'store'])->name('meetings.store');
 
     // Home Route
     Route::get('/', 'HomeController@index')->name('home');
@@ -85,7 +86,6 @@ Auth::routes(['register' => false]);
 
 // Admin Routes
 Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->prefix('admin')->group(function () {
-    Route::post('/meetings', [MeetingController::class, 'store'])->name('meetings.store');
 
 
     // Resource route for Redirect URL management

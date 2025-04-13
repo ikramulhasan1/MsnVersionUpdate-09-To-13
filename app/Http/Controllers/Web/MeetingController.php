@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Web;
 
 use Log;
 use App\Models\Meeting;
