@@ -156,10 +156,6 @@
 </div>
 
 
-
-
-
-
 <div id="modal-1" class="modal__overlay" style="display: none;">
   <div class="modal__container">
     <header class="mb-3">
@@ -363,8 +359,8 @@
             setTimeout(() => modal.style.display = 'none', 1500);
         }
     })
-    .catch(() => {
-        showMessage('Please select a calendar date and other all fields.', 'error');
+    .catch(($e) => {
+        showMessage($e, 'Please select a calendar date and other all fields.', 'error');
     });
 });
 
