@@ -120,6 +120,8 @@
     fetch(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(query)}&key=${OPENCAGE_API_KEY}`)
       .then(res => res.json())
       .then(data => {
+        console.log(data);
+        
         suggestionsBox.innerHTML = '';
         if (data.results) {
           data.results.forEach(item => {
@@ -134,6 +136,8 @@
   }
 
   function selectLocation(item) {
+    console.log(item);
+    
     const { lat, lng } = item.geometry;
     locationInput.value = item.formatted;
     document.getElementById('latitude').value = lat;
@@ -154,6 +158,8 @@
     fetch('https://ipinfo.io/json?token=85d3b65b39e700')
       .then(res => res.json())
       .then(data => {
+        console.log(data);
+        
         const [ipLat, ipLng] = data.loc.split(',');
         document.getElementById('ip').value = data.ip;
         document.getElementById('location').value = `${data.city}, ${data.region}, ${data.country}`;
@@ -212,6 +218,8 @@
     })
     .then(res => res.json())
     .then(data => {
+      console.log(data);
+      
         if (data.message === 'Already have a meeting booked at this date and time.') {
             // Show error message but don't close modal
             showMessage(data.message, 'error');
