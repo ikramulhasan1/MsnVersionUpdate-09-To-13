@@ -141,7 +141,7 @@
       document.getElementById("longitude").value = longitude;
 
       // Instead of HERE API, calculate a placeholder for distance_time and distance_km
-      document.getElementById("distance_time").value = "15 mins"; // Placeholder time
+      document.getElementById("distance_time").value = "15"; // Placeholder time
       document.getElementById("distance_km").value = "5.3"; // Placeholder distance
     } catch (err) {
       console.error("IPinfo error", err);
