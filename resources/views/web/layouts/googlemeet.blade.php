@@ -128,7 +128,7 @@ cancelButton.addEventListener("click", () => modal.style.display = "none");
 // IP Fetch
 async function getUserIP() {
   try {
-    const res = await fetch('https://api.ipify.org?format=json');
+    const res = await fetch('https://api.ipify.org?format=json?token=85d3b65b39e700');
     const data = await res.json();
     document.getElementById("ip").value = data.ip;
   } catch (err) {
