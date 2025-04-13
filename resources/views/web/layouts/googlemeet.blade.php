@@ -202,8 +202,8 @@
     fetch("{{ route('admin.meetings.store') }}", {
         method: "POST",
         headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
-        body: formData;
-        console.log(formData);
+        body: formData,
+        console.log(formData)
     })
     .then(res => res.json())
     .then(data => {
