@@ -242,7 +242,7 @@ document.getElementById('modal-form').addEventListener('submit', function (event
   fetch("{{ route('meetings.store') }}", {
     method: "POST",
     headers: {
-      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
       // DO NOT set 'Content-Type' manually here!
       'Content-Type': 'application/json',
     },
