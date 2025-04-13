@@ -244,8 +244,10 @@ document.getElementById('modal-form').addEventListener('submit', function (event
     headers: {
       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
       // DO NOT set 'Content-Type' manually here!
+      'Content-Type': 'application/json',
     },
-    body: formData
+    body: console.log(formData);
+    
   })
   .then(res => res.json())
   .then(data => {
