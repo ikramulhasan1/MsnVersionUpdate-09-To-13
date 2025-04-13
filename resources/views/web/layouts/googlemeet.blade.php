@@ -157,7 +157,7 @@ form.addEventListener("submit", async function(e) {
   formData.set('phone', iti.getNumber());
 
   try {
-    const res = await axios.post('/meetings.store', formData, {
+    const res = await axios.post('/meetings', formData, {
       headers: {
         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
         'Content-Type': 'multipart/form-data'
