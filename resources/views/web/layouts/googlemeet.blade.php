@@ -17,76 +17,46 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-@include('web.layouts.googlehead')
+  @include('web.layouts.googlehead')
 </head>
 <body>
 
-<!-- Trigger Button -->
-<button id="open-modal" class="google-meet-button">
-  <div class="logo-container">
-    <img id="google-meet-img" src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" class="meeting-logo active" />
-    <img id="zoom-img" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg" alt="Zoom Logo" class="meeting-logo" />
-  </div>
-  <span>Book a Meeting</span>
-</button>
+<button id="open-modal" class="btn btn-primary">Book a Meeting</button>
 
-<!-- Modal Structure -->
+<!-- Modal -->
 <div id="modal-1" class="modal__overlay" style="display: none;">
   <div class="modal__container">
     <header class="mb-3">
       <button class="modal__close">×</button>
       <h2 style="text-align: center">Book a Meeting</h2>
-      <h6 style="text-align: center">Select a Date and Time for the Meeting</h6>
     </header>
     <div class="modal__content">
       <div id="form-message"></div>
       <form id="modal-form">
         <div class="row">
           <div class="col-6">
-            <div class="floating-label-group">
-              <input type="text" id="name" name="name" required placeholder=" "/>
-              <label for="name">Name</label>
-            </div>
+            <input type="text" id="name" name="name" class="form-control mb-2" placeholder="Name" required />
+            <input type="tel" id="phone" name="phone" class="form-control mb-2" placeholder="Phone" required />
+            <input type="email" id="email" name="email" class="form-control mb-2" placeholder="Email" required />
+            <input type="text" id="location" name="location" class="form-control mb-2" placeholder="Location" required />
 
-            <div class="floating-label-group">
-              <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 123-4567"/>
-              <label for="phone">Phone</label>
-            </div>
+            <!-- Hidden Fields -->
+            <input type="hidden" id="latitude" name="latitude">
+            <input type="hidden" id="longitude" name="longitude">
+            <input type="hidden" id="city" name="city">
+            <input type="hidden" id="ip" name="ip">
+            <input type="hidden" id="distance_time" name="distance_time">
+            <input type="hidden" id="distance_km" name="distance_km">
+            <input type="hidden" id="selected_date" name="date">
 
-            <div class="floating-label-group">
-              <input type="email" id="email" name="email" required placeholder=" "/>
-              <label for="email">Email</label>
-            </div>
-
-            <div class="floating-label-group">
-              <input type="text" id="location" name="location" required placeholder=" " autocomplete="off"/>
-              <label for="location">Location</label>
-            </div>
-
-            <div id="location-suggestions" class="suggestions" style="display:none;"></div>
-
-            <input hidden type="text" id="latitude" name="latitude">
-            <input hidden type="text" id="longitude" name="longitude">
-            <input hidden type="text" id="distance_time" name="distance_time">
-            <input hidden type="text" id="distance_km" name="distance_km">
-            <input hidden type="text" id="city" name="city">
-            <input hidden type="text" id="ip" name="ip">
-            <input hidden type="text" id="selected_date" name="date">
-
-            <div class="floating-label-group">
-              <input type="time" id="meeting_time" name="meeting_time" required placeholder=" "/>
-              <label for="meeting_time">Meeting Time</label>
-            </div>
+            <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-2" required />
           </div>
-
-          <!-- Calendar -->
-          <div class="col-6 d-flex justify-content-end">
+          <div class="col-6">
             <div id="calendar"></div>
           </div>
         </div>
-
-        <button type="submit">Save</button>
-        <button type="button" id="cancel-button">Cancel</button>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" id="cancel-button" class="btn btn-secondary">Cancel</button>
       </form>
     </div>
   </div>
@@ -94,19 +64,18 @@
 
 <script>
 // Phone Input
-const phoneInput = document.querySelector("#phone");
-const iti = window.intlTelInput(phoneInput, {
+const iti = window.intlTelInput(document.querySelector("#phone"), {
   nationalMode: false,
   initialCountry: "us",
   utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
 });
 
-// Calendar
+// Flatpickr
 flatpickr("#calendar", {
   inline: true,
   minDate: "today",
   onChange: function(selectedDates, dateStr) {
-    document.getElementById('selected_date').value = dateStr;
+    document.getElementById("selected_date").value = dateStr;
   }
 });
 
@@ -118,36 +87,38 @@ const cancelButton = document.getElementById("cancel-button");
 
 openModal.addEventListener("click", () => {
   modal.style.display = "flex";
-  getUserIP(); // 🔥 Auto-location + distance on modal open
+  fetchIPInfo(); // 🔥 Trigger on open
 });
+
 closeModal.addEventListener("click", () => modal.style.display = "none");
 cancelButton.addEventListener("click", () => modal.style.display = "none");
 
-// Get user IP + location
-async function getUserIP() {
+// Auto IP & Location with IPinfo
+async function fetchIPInfo() {
   try {
-    const res = await fetch('https://ipinfo.io/json?token=85d3b65b39e700');
+    const res = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
     const data = await res.json();
 
-    document.getElementById("ip").value = data.ip;
-    document.getElementById("location").value = `${data.city}, ${data.region}, ${data.country_name}`;
-    document.getElementById("latitude").value = data.latitude;
-    document.getElementById("longitude").value = data.longitude;
-    document.getElementById("city").value = data.city;
+    const loc = data.loc.split(","); // "lat,lng"
+    const latitude = loc[0];
+    const longitude = loc[1];
 
-    calculateDistanceTime(); // 🔥 Auto calculate
+    document.getElementById("ip").value = data.ip;
+    document.getElementById("city").value = data.city;
+    document.getElementById("location").value = `${data.city}, ${data.region}`;
+    document.getElementById("latitude").value = latitude;
+    document.getElementById("longitude").value = longitude;
+
+    calculateDistanceTime(latitude, longitude);
   } catch (err) {
-    console.error("IP fetch failed", err);
+    console.error("IPinfo location fetch failed", err);
   }
 }
 
-// HERE API - Distance/Time
-async function calculateDistanceTime() {
-  const lat = document.getElementById("latitude").value;
-  const lng = document.getElementById("longitude").value;
-
-  const baseLat = 40.712776;  // Replace with your office lat
-  const baseLng = -74.005974; // Replace with your office lng
+// HERE API Distance + Time
+async function calculateDistanceTime(lat, lng) {
+  const baseLat = 40.712776; // Office latitude (example: NY)
+  const baseLng = -74.005974;
 
   const url = `https://router.hereapi.com/v8/routes?transportMode=car&origin=${baseLat},${baseLng}&destination=${lat},${lng}&return=summary&apikey=c2c6d0469901439db4a812a841807002`;
 
@@ -159,65 +130,28 @@ async function calculateDistanceTime() {
     document.getElementById("distance_time").value = Math.round(summary.duration / 60) + " mins";
     document.getElementById("distance_km").value = (summary.length / 1000).toFixed(2);
   } catch (err) {
-    console.error("Distance calculation failed", err);
+    console.error("HERE API error", err);
   }
 }
 
-// Location Autocomplete
-const locationInput = document.getElementById("location");
-const suggestionBox = document.getElementById("location-suggestions");
-
-locationInput.addEventListener("input", async () => {
-  const query = locationInput.value;
-  if (query.length < 3) return suggestionBox.style.display = "none";
-
-  const res = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${query}&key=c2c6d0469901439db4a812a841807002`);
-  const data = await res.json();
-  suggestionBox.innerHTML = "";
-
-  data.results.forEach(item => {
-    const div = document.createElement("div");
-    div.textContent = item.formatted;
-    div.style.cursor = "pointer";
-    div.addEventListener("click", () => {
-      locationInput.value = item.formatted;
-      document.getElementById("latitude").value = item.geometry.lat;
-      document.getElementById("longitude").value = item.geometry.lng;
-      document.getElementById("city").value = item.components.city || item.components.town || "";
-      suggestionBox.style.display = "none";
-      calculateDistanceTime(); // 🔥 Trigger HERE API
-    });
-    suggestionBox.appendChild(div);
-  });
-  suggestionBox.style.display = "block";
-});
-
-// Submit via AJAX
+// AJAX Form Submission
 const form = document.getElementById("modal-form");
-const messageBox = document.getElementById("form-message");
-
-form.addEventListener("submit", async function(e) {
+form.addEventListener("submit", async function (e) {
   e.preventDefault();
-  messageBox.style.display = "none";
-
   const formData = new FormData(form);
-  formData.set('phone', iti.getNumber());
+  formData.set("phone", iti.getNumber());
 
   try {
-    const res = await axios.post('/meetings', formData, {
+    const res = await axios.post("/meetings", formData, {
       headers: {
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-        'Content-Type': 'multipart/form-data'
+        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+        "Content-Type": "multipart/form-data"
       }
     });
-    messageBox.textContent = res.data.message || "Meeting booked successfully!";
-    messageBox.className = "success-message";
-    messageBox.style.display = "block";
+    document.getElementById("form-message").textContent = res.data.message || "Meeting booked!";
     form.reset();
   } catch (err) {
-    messageBox.textContent = err.response?.data?.message || "An error occurred.";
-    messageBox.className = "error-message";
-    messageBox.style.display = "block";
+    document.getElementById("form-message").textContent = err.response?.data?.message || "An error occurred.";
   }
 });
 </script>
