@@ -8,10 +8,8 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('meetings', function (Blueprint $table) {
             $table->id();
@@ -20,19 +18,20 @@ return new class extends Migration
             $table->string('location');
             $table->string('latitude');
             $table->string('longitude');
-            $table->integer('meeting_time');
-            $table->integer('distance_time');
+            $table->time('meeting_time');
             $table->date('date');
+            $table->string('city')->nullable();
+            $table->string('ip')->nullable();
+            $table->string('distance_km')->nullable();
+            $table->string('distance_time')->nullable();
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('meetings');
     }
