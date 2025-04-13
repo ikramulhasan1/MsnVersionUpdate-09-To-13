@@ -61,7 +61,7 @@
 
 
     fieldset {
-    border: 1px groove #ddd;
+    border: 0px groove #ddd;
 }
 
 legend {
@@ -112,7 +112,7 @@ legend {
             <input type="hidden" id="selected_date" name="date">
 
             <fieldset>
-              <legend>Meeting Time</legend>
+              <legend style="font-size: 16px">Meeting Time [h-m-am/pm]</legend>
               <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-3" required />
             </fieldset>
                       </div>
