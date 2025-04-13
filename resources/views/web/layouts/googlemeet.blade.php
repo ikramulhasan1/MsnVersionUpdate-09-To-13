@@ -11,7 +11,6 @@
   <script src="https://cdn.jsdelivr.net/npm/vanillajs-modal@1.1.2/dist/vanilla.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-  {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous"> --}}
 
   <style>
     /* Modal and Form Styling (same as before) */
@@ -177,44 +176,24 @@
         <div class="row flex justify-content-between align-items-center ">
           <div class="col-6">
 
-            {{-- <div style="display:flex; justify-content: space-between; align-items: center;" class="">
-              <!-- Name Field -->
-              <label style="width: 40% !important; font-size: 18px; font-weight: 600;" for="name">Name</label>
-              <input style="width: 60% !important; font-size: 16px; padding-left: 5px;  " type="text" id="name" name="name" required>
-            </div><br> --}}
             <!-- ✅ Modern Field: Name -->
             <div class="floating-label-group">
               <input type="text" id="name" name="name" required placeholder=" " />
               <label for="name">Name</label>
             </div>
             
-            <!-- Phone Field -->
-            {{-- <div style="display:flex !important; justify-content: space-between !important; align-items: center !important;" class="">
-              <label style="width: 40% !important; font-size: 18px; font-weight: 600;" for="phone">Phone</label>
-              <input style="width: 237px !important; font-size: 16px; padding-left: 5px; " type="tel" id="phone" name="phone" required>
-            </div><br> --}}
             <!-- ✅ Modern Field: Phone -->
             <div class="floating-label-group">
               <input style="width: 237px !important;" type="tel" id="phone" name="phone" required placeholder="+1 (555) 123-4567" />
               <label for="phone">Phone</label>
             </div>
 
-            <!-- Email Field -->
-            {{-- <div style="display:flex; justify-content: space-between; align-items: center;" class="">
-              <label style="width: 40% !important; font-size: 18px; font-weight: 600;" for="email">Email</label>
-              <input style="width: 60% !important; font-size: 16px; padding-left: 5px;  " type="email" id="email" name="email" required>
-            </div><br> --}}
             <!-- ✅ Modern Field: Email -->
             <div class="floating-label-group">
               <input type="email" id="email" name="email" required placeholder=" " />
               <label for="email">Email</label>
             </div>
 
-            <!-- Location Field -->
-            {{-- <div style="display:flex; justify-content: space-between; align-items: center;" class="">
-              <label style="width: 40% !important; font-size: 18px; font-weight: 600;" for="location">Location</label>
-              <input style="width: 60% !important; font-size: 16px; padding-left: 5px;  " type="text" id="location" name="location" required autocomplete="off">
-            </div><br> --}}
             <!-- ✅ Modern Field: Location -->
             <div class="floating-label-group">
               <input type="text" id="location" name="location" required placeholder=" " autocomplete="off" />
@@ -230,11 +209,6 @@
             <input hidden type="text" id="ip" name="ip">
             <input hidden type="text" id="selected_date" name="date">
 
-            <!-- Meeting Time Field -->
-            {{-- <div style="display:flex; justify-content: space-between; align-items: center;" class="">
-              <label style="width: 40% !important; font-size: 18px; font-weight: 600;" for="meeting_time">Meeting Time</label>
-              <input style="width: 60% !important; font-size: 16px; padding-left: 5px;  " type="time" id="meeting_time" name="meeting_time" required>
-            </div><br> --}}
             <!-- ✅ Modern Field: Meeting Time -->
             <div class="floating-label-group">
               <input type="time" id="meeting_time" name="meeting_time" required placeholder=" " />
