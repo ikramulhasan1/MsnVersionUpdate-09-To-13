@@ -128,30 +128,28 @@
 
     openModal.addEventListener("click", () => {
       modal.style.display = "flex";
-      fetchLocationData();
+      fetchIPInfo();
     });
 
     closeModal.addEventListener("click", () => modal.style.display = "none");
     cancelButton.addEventListener("click", () => modal.style.display = "none");
 
-    async function fetchLocationData() {
+    async function fetchIPInfo() {
       try {
-        const res = await fetch("https://api.opencagedata.com/geocode/v1/json?q=auto&key=c2c6d0469901439db4a812a841807002");
+        const res = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
         const data = await res.json();
 
-        if (data.results && data.results.length > 0) {
-          const location = data.results[0].formatted;
-          const [latitude, longitude] = data.results[0].geometry.latlng;
+        const [latitude, longitude] = data.loc.split(",");
+        document.getElementById("ip").value = data.ip;
+        document.getElementById("city").value = data.city;
+        document.getElementById("location").value = `${data.city}, ${data.region}`;
+        document.getElementById("latitude").value = latitude;
+        document.getElementById("longitude").value = longitude;
 
-          document.getElementById("location").value = location;
-          document.getElementById("latitude").value = latitude;
-          document.getElementById("longitude").value = longitude;
-
-          // Call the HERE API to calculate distance and time
-          await calculateDistanceTime(latitude, longitude);
-        }
+        // Calculate distance and time before submitting the form
+        await calculateDistanceTime(latitude, longitude);
       } catch (err) {
-        console.error("OpenCage API error", err);
+        console.error("IPinfo error", err);
       }
     }
 
