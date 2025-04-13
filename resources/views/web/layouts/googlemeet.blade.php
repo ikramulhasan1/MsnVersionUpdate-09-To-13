@@ -12,6 +12,9 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
+    body {
+      font-family: 'Manrope', sans-serif;
+    }
     .modal__overlay {
       position: fixed;
       top: 0; left: 0;
@@ -25,24 +28,40 @@
     .modal__container {
       background: #fff;
       padding: 20px;
-      width: 80%;
+      width: 90%;
       max-width: 800px;
-      border-radius: 10px;
+      border-radius: 12px;
       position: relative;
     }
     .modal__close {
       position: absolute;
       right: 15px;
       top: 10px;
-      font-size: 20px;
+      font-size: 24px;
       border: none;
       background: transparent;
+    }
+    #suggestions {
+      position: absolute;
+      z-index: 1000;
+      background: #fff;
+      border: 1px solid #ccc;
+      width: 100%;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    .autocomplete-suggestion {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    .autocomplete-suggestion:hover {
+      background-color: #f0f0f0;
     }
   </style>
 </head>
 <body>
 
-<button id="open-modal" class="btn btn-primary">Book a Meeting</button>
+<button id="open-modal" class="btn btn-primary mt-4 ms-4">Book a Meeting</button>
 
 <!-- Modal -->
 <div id="modal-1" class="modal__overlay">
@@ -55,11 +74,15 @@
       <div id="form-message" class="mb-3 text-success fw-bold"></div>
       <form id="modal-form">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-6 position-relative">
             <input type="text" id="name" name="name" class="form-control mb-2" placeholder="Name" required />
             <input type="tel" id="phone" name="phone" class="form-control mb-2" placeholder="Phone" required />
             <input type="email" id="email" name="email" class="form-control mb-2" placeholder="Email" required />
-            <input type="text" id="location" name="location" class="form-control mb-2" placeholder="Location" required />
+            
+            <div class="position-relative mb-2">
+              <input type="text" id="location" name="location" class="form-control" placeholder="Location" autocomplete="off" required />
+              <div id="suggestions"></div>
+            </div>
 
             <!-- Hidden Fields -->
             <input type="hidden" id="latitude" name="latitude">
@@ -76,15 +99,14 @@
             <div id="calendar"></div>
           </div>
         </div>
-        <button type="submit" class="btn btn-success">Save</button>
-        <button type="button" id="cancel-button" class="btn btn-secondary">Cancel</button>
+        <button type="submit" class="btn btn-success mt-2">Save</button>
+        <button type="button" id="cancel-button" class="btn btn-secondary mt-2">Cancel</button>
       </form>
     </div>
   </div>
 </div>
 
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/vanillajs-modal@1.1.2/dist/vanilla.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -140,13 +162,56 @@
       document.getElementById("latitude").value = latitude;
       document.getElementById("longitude").value = longitude;
 
-      // Instead of HERE API, calculate a placeholder for distance_time and distance_km
-      document.getElementById("distance_time").value = "15"; // Placeholder time
-      document.getElementById("distance_km").value = "5.3"; // Placeholder distance
+      document.getElementById("distance_time").value = "15"; // Placeholder
+      document.getElementById("distance_km").value = "5.3"; // Placeholder
     } catch (err) {
       console.error("IPinfo error", err);
     }
   }
+
+  // Nominatim Autocomplete
+  const locationInput = document.getElementById("location");
+  const suggestionsBox = document.getElementById("suggestions");
+
+  let debounceTimeout;
+  locationInput.addEventListener("input", function () {
+    clearTimeout(debounceTimeout);
+
+    debounceTimeout = setTimeout(async function () {
+      const query = locationInput.value.trim();
+      if (!query) {
+        suggestionsBox.innerHTML = "";
+        return;
+      }
+
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=5`;
+
+      try {
+        const res = await fetch(url, {
+          headers: { "User-Agent": "MSN-Softtech-Booking-Tool/1.0" }
+        });
+        const data = await res.json();
+
+        suggestionsBox.innerHTML = "";
+
+        data.forEach(place => {
+          const div = document.createElement("div");
+          div.classList.add("autocomplete-suggestion");
+          div.textContent = place.display_name;
+          div.addEventListener("click", () => {
+            locationInput.value = place.display_name;
+            document.getElementById("latitude").value = place.lat;
+            document.getElementById("longitude").value = place.lon;
+            document.getElementById("city").value = place.address?.city || place.address?.town || place.address?.village || "";
+            suggestionsBox.innerHTML = "";
+          });
+          suggestionsBox.appendChild(div);
+        });
+      } catch (err) {
+        console.error("Autocomplete error", err);
+      }
+    }, 400); // debounce
+  });
 
   document.getElementById("modal-form").addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -165,15 +230,13 @@
       formMessage.textContent = res.data.message || "Meeting booked successfully!";
       formMessage.classList.add("text-success");
 
-      // Reset form but keep the modal open
       form.reset();
       formMessage.classList.remove("text-success");
 
-      // Optionally, add a delay before resetting the message
       setTimeout(() => {
         formMessage.textContent = "";
       }, 3000);
-      
+
     } catch (err) {
       formMessage.textContent = err.response?.data?.message || "Error saving meeting.";
       formMessage.classList.add("text-danger");
