@@ -50,7 +50,8 @@ class MeetingController extends Controller
                 'message' => 'Already have a meeting booked at this date and time.',
             ], 409); // 409 Conflict
         }
-
+        $formattedTime = date('H:i:s', strtotime($validated['meeting_time']));
+        $validated['meeting_time'] = $formattedTime;
         // Save the meeting
         $meeting = Meeting::create($request->all());
 
