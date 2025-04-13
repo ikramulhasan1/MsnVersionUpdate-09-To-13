@@ -23,6 +23,7 @@ return array(
     'App\\Http\\Controllers\\Admin\\InvoiceController' => $baseDir . '/app/Http/Controllers/Admin/InvoiceController.php',
     'App\\Http\\Controllers\\Admin\\LanguageController' => $baseDir . '/app/Http/Controllers/Admin/LanguageController.php',
     'App\\Http\\Controllers\\Admin\\LiveChatController' => $baseDir . '/app/Http/Controllers/Admin/LiveChatController.php',
+    'App\\Http\\Controllers\\Admin\\MeetingController' => $baseDir . '/app/Http/Controllers/Admin/MeetingController.php',
     'App\\Http\\Controllers\\Admin\\MemberController' => $baseDir . '/app/Http/Controllers/Admin/MemberController.php',
     'App\\Http\\Controllers\\Admin\\PageController' => $baseDir . '/app/Http/Controllers/Admin/PageController.php',
     'App\\Http\\Controllers\\Admin\\PageSetupController' => $baseDir . '/app/Http/Controllers/Admin/PageSetupController.php',

@@ -575,6 +575,7 @@ class ComposerStaticInita6afbcfe5c2e971f3c85d52e2d5481fb
         'App\\Http\\Controllers\\Admin\\InvoiceController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/InvoiceController.php',
         'App\\Http\\Controllers\\Admin\\LanguageController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/LanguageController.php',
         'App\\Http\\Controllers\\Admin\\LiveChatController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/LiveChatController.php',
+        'App\\Http\\Controllers\\Admin\\MeetingController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/MeetingController.php',
         'App\\Http\\Controllers\\Admin\\MemberController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/MemberController.php',
         'App\\Http\\Controllers\\Admin\\PageController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/PageController.php',
         'App\\Http\\Controllers\\Admin\\PageSetupController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/PageSetupController.php',

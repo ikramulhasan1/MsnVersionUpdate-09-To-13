@@ -74,8 +74,6 @@
 
 
 
-
-
         .google-meet-button {
       display: flex;
       align-items: center;
@@ -135,26 +133,16 @@
 
 <!-- Button to Trigger Modal -->
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <!-- Google Meet Button -->
-    {{-- <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer;">
-        <img src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" style="margin-right: 10px;" />
-        <span style="font-weight: 600; font-size: 18px; color: white; ">Book a Meeting</span>
-    </button> --}}
-    <!-- Meeting Button -->
+
 <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer; display: flex; align-items: center;">
-  
     <div class="logo-container">
       <img id="google-meet-img" src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" class="meeting-logo active" />
   
       <img id="zoom-img" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg" alt="Zoom Logo" class="meeting-logo" />
     </div>
-  
     <!-- Button text -->
     <span style="font-weight: 600; font-size: 18px; color: white; margin-left: 12px;">Book a Meeting</span>
   </button>
-  
-      
-      
 </div>
 
 <!-- Modal Structure -->
