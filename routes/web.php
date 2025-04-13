@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\Admin\RedirectUrlController;
 
 /*
@@ -73,6 +74,9 @@ Route::middleware(['XSS','redirect'])->namespace('Web')->group(function () {
     Route::get('/cancel-payment/{id}', 'PayPalPaymentController@paymentCancel')->name('cancel.payment');
     Route::get('/payment-success/{id}', 'PayPalPaymentController@paymentSuccess')->name('success.payment');
     Route::get('/payment-feedback', 'PayPalPaymentController@paymentFeedback')->name('payment.feedback');
+
+    Route::post('/meetings', [MeetingController::class, 'store'])->name('meetings.store');
+
 });
 
 

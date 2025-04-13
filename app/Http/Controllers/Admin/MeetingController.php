@@ -1,84 +1,81 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Log;
+use App\Models\Meeting;
 use Illuminate\Http\Request;
 
 class MeetingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        // return view(view: 'welcome');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
-    }
+         // Validate the incoming data
+         $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'phone' => 'required|string|max:20',
+            'location' => 'required|string',
+            'latitude' => 'required|string',
+            'longitude' => 'required|string',
+            'meeting_time' => 'required',
+            'date' => 'required|date',
+            'city' => 'nullable|string',
+            'ip' => 'nullable|string',
+            'distance_km' => 'nullable|string',
+            'distance_time' => 'nullable|string',
+        ]);
+    
+        // Log the validated data
+        Log::info($validated);  
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+        // Check for duplicate meeting
+        $exists = Meeting::where('email', $request->email)
+            ->where('date', $request->date)
+            ->where('meeting_time', $request->meeting_time)
+            ->exists();
+
+        if ($exists) {
+            return response()->json([
+                'message' => 'Already have a meeting booked at this date and time.',
+            ], 409); // 409 Conflict
+        }
+
+        // Save the meeting
+        $meeting = Meeting::create($request->all());
+
+        return response()->json([
+            'message' => 'Meeting successfully booked!',
+            'meeting' => $meeting
+        ]);
+    }
+    
+    public function show(Meeting $meeting)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(Meeting $meeting)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, Meeting $meeting)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Meeting $meeting)
     {
         //
     }
