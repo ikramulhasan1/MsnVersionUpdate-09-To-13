@@ -271,13 +271,21 @@ const googleMeetImg = document.getElementById('google-meet-img');
 </script> --}}
 
 <script>
+    const openModalButton = document.getElementById('open-modal');
+  const modal = document.getElementById('modal-1');
+  const closeModalButton = document.querySelector('.modal__close');
+  const cancelModalButton = document.getElementById('cancel-button');
+  const locationInput = document.getElementById('location');
+  const suggestionsBox = document.getElementById('location-suggestions');
+  const OPENCAGE_API_KEY = "c2c6d0469901439db4a812a841807002";
+  const messageBox = document.getElementById('form-message');
   document.addEventListener("DOMContentLoaded", function () {
       // Intl Tel Input
       const phoneInputField = document.querySelector("#phone");
       const iti = window.intlTelInput(phoneInputField, {
           initialCountry: "auto",
           geoIpLookup: function (callback) {
-              fetch("https://ipinfo.io/json?token=YOUR_IPINFO_TOKEN") // Replace with your token
+              fetch("https://ipinfo.io/json?token=85d3b65b39e700") // Replace with your token
                   .then(res => res.json())
                   .then(data => callback(data.country))
                   .catch(() => callback("us"));
@@ -313,7 +321,7 @@ const googleMeetImg = document.getElementById('google-meet-img');
                   document.getElementById("latitude").value = lat;
                   document.getElementById("longitude").value = lon;
   
-                  const response = await fetch(`https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat},${lon}&lang=en-US&apikey=YOUR_HERE_API_KEY`);
+                  const response = await fetch(`https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat},${lon}&lang=en-US&apikey=c2c6d0469901439db4a812a841807002`);
                   const data = await response.json();
                   const city = data.items[0]?.address?.city || '';
                   const label = data.items[0]?.address?.label || '';
@@ -331,7 +339,7 @@ const googleMeetImg = document.getElementById('google-meet-img');
           const query = this.value;
           if (query.length < 3) return;
   
-          const response = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${query}&key=YOUR_OPENCAGE_API_KEY`);
+          const response = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${query}&key=c2c6d0469901439db4a812a841807002`);
           const data = await response.json();
           const suggestions = data.results.map(r => r.formatted);
   
