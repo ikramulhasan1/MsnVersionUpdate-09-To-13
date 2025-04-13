@@ -2,147 +2,157 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Book a Meeting</title>
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Flatpickr CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
-  <!-- Intl-Tel-Input CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" rel="stylesheet">
-@include('web.layouts.googlehead')
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- JS Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/vanillajs-modal@1.1.2/dist/vanilla.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
-<body style="font-family: sans-serif; background-color: #f8f9fa;">
+<body>
 
-<div class="container py-5">
-  <h2 class="mb-4">Book a Meeting</h2>
+<button id="open-modal" class="btn btn-primary">Book a Meeting</button>
 
-  <form id="meetingForm">
-    <div class="row g-3">
-      <div class="col-md-6">
-        <input type="text" name="name" class="form-control" placeholder="Name" required>
-        <input type="tel" id="phone" name="phone" class="form-control mt-2" placeholder="Phone" required>
-        <input type="email" name="email" class="form-control mt-2" placeholder="Email" required>
-        <input type="text" id="location" name="location" class="form-control mt-2" placeholder="Location" required>
-        <input type="time" name="meeting_time" class="form-control mt-2" required>
-      </div>
+<!-- Modal -->
+<div id="modal-1" class="modal__overlay" style="display: none;">
+  <div class="modal__container">
+    <header class="mb-3">
+      <button class="modal__close">×</button>
+      <h2 style="text-align: center">Book a Meeting</h2>
+    </header>
+    <div class="modal__content">
+      <div id="form-message"></div>
+      <form id="modal-form">
+        <div class="row">
+          <div class="col-6">
+            <input type="text" id="name" name="name" class="form-control mb-2" placeholder="Name" required />
+            <input type="tel" id="phone" name="phone" class="form-control mb-2" placeholder="Phone" required />
+            <input type="email" id="email" name="email" class="form-control mb-2" placeholder="Email" required />
+            <input type="text" id="location" name="location" class="form-control mb-2" placeholder="Location" required />
 
-      <div class="col-md-6">
-        <div id="calendar"></div>
-        <input type="hidden" id="date" name="date">
-        <button type="submit" class="btn btn-primary mt-3">Submit</button>
-        <div id="form-message" class="mt-3 text-success"></div>
-      </div>
+            <!-- Hidden Fields -->
+            <input type="hidden" id="latitude" name="latitude">
+            <input type="hidden" id="longitude" name="longitude">
+            <input type="hidden" id="city" name="city">
+            <input type="hidden" id="ip" name="ip">
+            <input type="hidden" id="distance_time" name="distance_time">
+            <input type="hidden" id="distance_km" name="distance_km">
+            <input type="hidden" id="selected_date" name="date">
+
+            <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-2" required />
+          </div>
+          <div class="col-6">
+            <div id="calendar"></div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" id="cancel-button" class="btn btn-secondary">Cancel</button>
+      </form>
     </div>
-
-    <!-- Hidden Fields -->
-    <input type="hidden" id="city" name="city">
-    <input type="hidden" id="ip" name="ip">
-    <input type="hidden" id="latitude" name="latitude">
-    <input type="hidden" id="longitude" name="longitude">
-    <input type="hidden" id="distance_time" name="distance_time">
-    <input type="hidden" id="distance_km" name="distance_km">
-  </form>
+  </div>
 </div>
 
-<!-- JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 <script>
-  // Initialize intl-tel-input
-  const phoneInput = document.querySelector("#phone");
-  const iti = window.intlTelInput(phoneInput, {
-    nationalMode: false,
-    initialCountry: "auto",
-    geoIpLookup: function(success, failure) {
-      fetch("https://ipinfo.io/json?token=85d3b65b39e700")
-        .then(resp => resp.json())
-        .then(resp => success(resp.country))
-        .catch(failure);
-    },
-    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-  });
+// Phone Input
+const iti = window.intlTelInput(document.querySelector("#phone"), {
+  nationalMode: false,
+  initialCountry: "us",
+  utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+});
 
-  // Initialize Flatpickr
-  flatpickr("#calendar", {
-    inline: true,
-    minDate: "today",
-    onChange: function(selectedDates, dateStr) {
-      document.getElementById("date").value = dateStr;
-    }
-  });
-
-  // Get user location using IPinfo
-  async function fetchLocationByIP() {
-    try {
-      const res = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
-      const data = await res.json();
-      const [lat, lng] = data.loc.split(",");
-
-      document.getElementById("ip").value = data.ip;
-      document.getElementById("city").value = data.city;
-      document.getElementById("location").value = `${data.city}, ${data.region}`;
-      document.getElementById("latitude").value = lat;
-      document.getElementById("longitude").value = lng;
-
-      // Call HERE API for distance and time
-      calculateDistanceTime(lat, lng);
-    } catch (error) {
-      console.error("IPinfo Error:", error);
-    }
+// Flatpickr
+flatpickr("#calendar", {
+  inline: true,
+  minDate: "today",
+  onChange: function(selectedDates, dateStr) {
+    document.getElementById("selected_date").value = dateStr;
   }
+});
 
-  // Calculate distance/time with HERE API
-  async function calculateDistanceTime(userLat, userLng) {
-    const officeLat = 40.712776;  // Replace with your office's latitude
-    const officeLng = -74.005974; // Replace with your office's longitude
+// Modal logic
+const modal = document.getElementById("modal-1");
+const openModal = document.getElementById("open-modal");
+const closeModal = document.querySelector(".modal__close");
+const cancelButton = document.getElementById("cancel-button");
 
-    const url = `https://router.hereapi.com/v8/routes?transportMode=car&origin=${officeLat},${officeLng}&destination=${userLat},${userLng}&return=summary&apikey=c2c6d0469901439db4a812a841807002`;
+openModal.addEventListener("click", () => {
+  modal.style.display = "flex";
+  fetchIPInfo(); // 🔥 Trigger on open
+});
 
-    try {
-      const res = await fetch(url);
-      const data = await res.json();
-      const summary = data.routes[0].sections[0].summary;
+closeModal.addEventListener("click", () => modal.style.display = "none");
+cancelButton.addEventListener("click", () => modal.style.display = "none");
 
-      document.getElementById("distance_time").value = Math.round(summary.duration / 60) + " mins";
-      document.getElementById("distance_km").value = (summary.length / 1000).toFixed(2);
-    } catch (error) {
-      console.error("HERE API Error:", error);
-    }
+// Auto IP & Location with IPinfo
+async function fetchIPInfo() {
+  try {
+    const res = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
+    const data = await res.json();
+
+    const loc = data.loc.split(","); // "lat,lng"
+    const latitude = loc[0];
+    const longitude = loc[1];
+
+    document.getElementById("ip").value = data.ip;
+    document.getElementById("city").value = data.city;
+    document.getElementById("location").value = `${data.city}, ${data.region}`;
+    document.getElementById("latitude").value = latitude;
+    document.getElementById("longitude").value = longitude;
+
+    calculateDistanceTime(latitude, longitude);
+  } catch (err) {
+    console.error("IPinfo location fetch failed", err);
   }
+}
 
-  // Call IP info fetch on load
-  window.onload = fetchLocationByIP;
+// HERE API Distance + Time
+async function calculateDistanceTime(lat, lng) {
+  const baseLat = 40.712776; // Office latitude (example: NY)
+  const baseLng = -74.005974;
 
-  // AJAX form submission
-  document.getElementById("meetingForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
+  const url = `https://router.hereapi.com/v8/routes?transportMode=car&origin=${baseLat},${baseLng}&destination=${lat},${lng}&return=summary&apikey=c2c6d0469901439db4a812a841807002`;
 
-    const form = e.target;
-    const formData = new FormData(form);
-    formData.set("phone", iti.getNumber());
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    const summary = data.routes[0].sections[0].summary;
 
-    try {
-      const response = await axios.post("/meetings", formData, {
-        headers: {
-          "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-          "Content-Type": "multipart/form-data"
-        }
-      });
+    document.getElementById("distance_time").value = Math.round(summary.duration / 60) + " mins";
+    document.getElementById("distance_km").value = (summary.length / 1000).toFixed(2);
+  } catch (err) {
+    console.error("HERE API error", err);
+  }
+}
 
-      document.getElementById("form-message").innerText = "Meeting successfully booked!";
-      form.reset();
-    } catch (error) {
-      document.getElementById("form-message").innerText = "Failed to submit. Please try again.";
-      console.error("Form submit error:", error);
-    }
-  });
+// AJAX Form Submission
+const form = document.getElementById("modal-form");
+form.addEventListener("submit", async function (e) {
+  e.preventDefault();
+  const formData = new FormData(form);
+  formData.set("phone", iti.getNumber());
+
+  try {
+    const res = await axios.post("/meetings", formData, {
+      headers: {
+        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+        "Content-Type": "multipart/form-data"
+      }
+    });
+    document.getElementById("form-message").textContent = res.data.message || "Meeting booked!";
+    form.reset();
+  } catch (err) {
+    document.getElementById("form-message").textContent = err.response?.data?.message || "An error occurred.";
+  }
+});
 </script>
-
 </body>
 </html>
