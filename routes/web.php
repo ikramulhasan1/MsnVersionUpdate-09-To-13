@@ -75,7 +75,6 @@ Route::middleware(['XSS','redirect'])->namespace('Web')->group(function () {
     Route::get('/payment-success/{id}', 'PayPalPaymentController@paymentSuccess')->name('success.payment');
     Route::get('/payment-feedback', 'PayPalPaymentController@paymentFeedback')->name('payment.feedback');
 
-    Route::post('/meetings', [MeetingController::class, 'store'])->name('meetings.store');
 
 });
 
@@ -87,7 +86,8 @@ Auth::routes(['register' => false]);
 // Admin Routes
 Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->prefix('admin')->group(function () {
    
-   
+    Route::post('/meetings', [MeetingController::class, 'store'])->name('meetings.store');
+
     // Resource route for Redirect URL management
     Route::resource('redirects', RedirectUrlController::class);
     // Route to handle redirection logic
