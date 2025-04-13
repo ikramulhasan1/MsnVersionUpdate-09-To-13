@@ -88,7 +88,7 @@ legend {
     <header class="mb-4">
       <button class="modal__close">×</button>
       <h2 class="text-center text-bold">Book a Meeting</h2>
-      <h6 class="text-center font-weight-bolder">Select a Date and Time for the Meeting at Your Convenience</h6>
+      <h6 class="text-center fw-bold">Select a Date and Time for the Meeting at Your Convenience</h6>
     </header>
     <div class="modal__content">
       <div id="form-message" class="mb-3 fw-bold"></div>
