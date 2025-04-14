@@ -140,6 +140,7 @@ legend {
                 padding: 0 8px;
                 color: #333;
                 font-weight: 500;
+                margin-bottom: -20px;
               }
             
               .custom-input {
