@@ -58,7 +58,7 @@
       background-color: #f0f0f0;
     }
     fieldset {
-      border: 0;
+      border: 0px groove #ddd;
     }
     legend {
       animation: marginMove 2s infinite alternate;
@@ -92,14 +92,15 @@
       width: 280px !important;
     }
   </style>
-  @include('web.layouts.googlehead')
 </head>
 <body>
 
-<!-- Trigger Button -->
 <div>
-  <button id="open-modal" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer;">
-    <img src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" height="24">
+  <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer; display: flex; align-items: center;">
+    <div class="logo-container">
+      <img id="google-meet-img" src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" />
+      <img id="zoom-img" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg" alt="Zoom Logo" />
+    </div>
     <span style="font-weight: 600; font-size: 18px; color: white; margin-left: 12px;">Book a Meeting</span>
   </button>
 </div>
@@ -109,11 +110,11 @@
   <div class="modal__container">
     <header class="mb-4">
       <button class="modal__close">×</button>
-      <h2 style="font-weight: bolder" class="text-center">Book a Meeting</h2>
-      <h6 style="font-weight: bold" class="text-center">Select a Date and Time for the Meeting at Your Convenience</h6>
+      <h2 class="text-center" style="font-weight: bolder">Book a Meeting</h2>
+      <h6 class="text-center" style="font-weight: bold">Select a Date and Time for the Meeting at Your Convenience</h6>
     </header>
     <div class="modal__content">
-      <div id="form-message" class="mb-3 fw-bold text-center"></div>
+      <div id="form-message" class="mb-3 fw-bold"></div>
       <form id="modal-form">
         <div class="row">
           <div class="col-md-6 position-relative">
@@ -122,6 +123,7 @@
             <input type="email" id="email" name="email" class="form-control mb-3 mt-3" placeholder="Email" required />
             <input type="text" id="location" name="location" class="form-control mb-2" placeholder="Location" autocomplete="off" required />
             <div id="autocomplete-box" class="autocomplete-box d-none"></div>
+
             <input type="hidden" id="latitude" name="latitude">
             <input type="hidden" id="longitude" name="longitude">
             <input type="hidden" id="ip" name="ip">
@@ -129,6 +131,7 @@
             <input type="hidden" id="distance_time" name="distance_time">
             <input type="hidden" id="distance_km" name="distance_km">
             <input type="hidden" id="selected_date" name="date">
+
             <fieldset class="custom-fieldset">
               <legend style="color: rgb(0, 128, 0)">Hours - Minutes - Am/Pm</legend>
               <input type="time" id="meeting_time" name="meeting_time" class="custom-input" required />
@@ -216,6 +219,7 @@
       suggestionBox.classList.add("d-none");
       return;
     }
+
     const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(value)}&apiKey=437507f257da48b28e1d22d7f9736e62&limit=5`;
     const res = await fetch(url);
     const data = await res.json();
@@ -233,6 +237,7 @@
       };
       suggestionBox.appendChild(div);
     });
+
     suggestionBox.classList.remove("d-none");
   });
 
@@ -254,10 +259,12 @@
       formMessage.className = "text-success fw-bold";
       form.reset();
 
+      // Auto close after 3 seconds
       setTimeout(() => {
+        modal.style.display = "none";
         formMessage.textContent = "";
-        modal.style.display = "none"; // Auto-close modal
       }, 3000);
+
     } catch (err) {
       formMessage.textContent = err.response?.data?.message || "Error saving meeting.";
       formMessage.className = "text-danger fw-bold";
