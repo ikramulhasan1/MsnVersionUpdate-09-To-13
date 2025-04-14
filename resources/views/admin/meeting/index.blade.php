@@ -12,16 +12,36 @@
         </div>
     </div>
 
+
+
+    <!-- start page title -->
+    <!-- Include page breadcrumb -->
+    @include('admin.inc.breadcrumb')
+    <!-- end page title --> 
+
+
     <div class="row">
         <div class="col-12">
+            <a href="{{ route($route.'.index') }}" class="btn btn-info">{{ __('dashboard.refresh') }}</a>
+        </div>
+    </div>
+
+
+
+
+    <div class="row">
+        <div class="col-12">
+
             <div class="card">
                 <div class="card-header">
-                    <h4 class="header-title">Meeting List</h4>
+                    <h4 class="header-title">{{ $title }} {{ __('dashboard.list') }}</h4>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-dark nowrap">
-                            <thead>
+
+                  <!-- Data Table Start -->
+                  <div class="table-responsive">
+                    <table id="basic-datatable" class="table table-striped table-hover table-dark nowrap full-width">
+                        <thead>
                                 <tr>
                                     <th>SL</th>
                                     <th>Name</th>
