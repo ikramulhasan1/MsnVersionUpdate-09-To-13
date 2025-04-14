@@ -2,14 +2,14 @@
 @section('title', $title)
 @section('content')
 
-<!-- ✅ jQuery -->
+<!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- ✅ Bootstrap Toggle -->
+<!-- Include Bootstrap Toggle -->
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
-<!-- ✅ Toastr -->
+<!-- Include Toastr -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
@@ -96,7 +96,7 @@
 </div>
 
 <script>
-$(function () {
+$(document).ready(function () {
     $('.status-toggle').change(function () {
         let status = $(this).prop('checked') ? 'approve' : 'pending';
         let id = $(this).data('id');
