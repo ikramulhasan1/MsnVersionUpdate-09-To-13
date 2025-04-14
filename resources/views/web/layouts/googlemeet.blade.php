@@ -93,7 +93,7 @@
   
     .custom-input {
       width: 100%;
-      border: none;
+      /* border: none; */
       /* outline: none; */
       font-size: 16px;
       padding: 5px 0;
