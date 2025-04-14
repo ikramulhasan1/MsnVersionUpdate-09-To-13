@@ -70,6 +70,8 @@
                                                 data-offstyle="danger"
                                                 {{ $row->status == 'approve' ? 'checked' : '' }}>
                                         </td> --}}
+                                        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
                                         <td>
                                             <label class="inline-flex items-center cursor-pointer">
                                                 <input type="checkbox" value="" class="sr-only peer status-toggle" 
