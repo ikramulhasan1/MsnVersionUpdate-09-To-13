@@ -5,13 +5,6 @@
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-12">
-            <a href="{{ url()->current() }}" class="btn btn-info">Refresh</a>
-        </div>
-    </div>
-
 
 
     <!-- start page title -->
@@ -25,8 +18,6 @@
             <a href="{{ route($route.'.index') }}" class="btn btn-info">{{ __('dashboard.refresh') }}</a>
         </div>
     </div>
-
-
 
 
     <div class="row">
