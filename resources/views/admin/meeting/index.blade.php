@@ -1,7 +1,11 @@
 @extends('admin.layouts.master')
 @section('title', $title)
 @section('content')
-
+@php
+    $currentDate = \Carbon\Carbon::now();
+    $rowDate = \Carbon\Carbon::parse($row->date);
+    $diffInDays = $currentDate->diffInDays($rowDate, false);
+@endphp
 <!-- Start Content-->
 <div class="container-fluid">
     
@@ -31,12 +35,7 @@
                     <table id="basic-datatable" class="table table-striped table-hover table-dark nowrap full-width">
                         <thead>
                             <tr>
-                                @php
-                                    $currentDate = \Carbon\Carbon::now();
-                                    $rowDate = \Carbon\Carbon::parse($row->date);
-                                    $diffInDays = $currentDate->diffInDays($rowDate, false);
-                                @endphp
-                                                                <th>{{ __('dashboard.sl') }}</th>
+                                <th>{{ __('dashboard.sl') }}</th>
                                 <th>{{ __('dashboard.name') }}</th>
                                 <th>{{ __('dashboard.email') }}</th>
                                 <th>{{ __('dashboard.phone') }}</th>
@@ -57,13 +56,8 @@
                                 <td>{{ $row->phone }}</td>
                                 <td>{{ $row->city }}</td>
                                 <td>{{ $row->meeting_time }}</td>
-
-                                <td style="color: 
-                                    {{ $diffInDays >= 0 && $diffInDays <= 7 ? 'green' : 
-                                    ($diffInDays < 0 && $diffInDays >= -7 ? 'red' : 'inherit') }}">
-                                    {{ $row->date }}
-                                </td>
-
+                                
+                                <td>{{ $row->date }}</td>
                                 <td>{{ $row->location }}</td>
                                 {{-- <td>{{ date('h:i:s A | d-M-y', strtotime($row->created_at)) }}</td> --}}
                                 <td>
