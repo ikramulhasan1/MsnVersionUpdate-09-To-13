@@ -98,7 +98,7 @@
       border-radius: 5px;
     }
     .iti__country-list{
-      width: 350px !important;
+      width: 280px !important;
     }
   </style>
   @include('web.layouts.googlehead')
