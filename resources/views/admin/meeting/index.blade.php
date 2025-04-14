@@ -126,7 +126,7 @@
                 const status = this.checked ? 'approve' : 'pending';
                 const userId = this.getAttribute('data-id');
 
-                fetch("{{ route($route.'.toggleStatus') }}", {
+                fetch("{{ route($route.'.store') }}", {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
