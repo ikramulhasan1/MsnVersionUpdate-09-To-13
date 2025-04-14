@@ -1,9 +1,7 @@
 @extends('admin.layouts.master')
 @section('title', 'Meeting List')
 @section('content')
-@php
-use Illuminate\Support\Facades\DB;
-@endphp
+
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -123,10 +121,14 @@ $(document).ready(function () {
 
 @if(request()->has('updateStatus'))
     @php
-        DB::table('meetings')->where('id', request('id'))->update(['status' => request('status')]);
+        \Illuminate\Support\Facades\DB::table('meetings')
+            ->where('id', request('id'))
+            ->update(['status' => request('status')]);
+
         echo json_encode(['success' => true]);
-        exit();
+        exit;
     @endphp
 @endif
+
 
 @endsection
