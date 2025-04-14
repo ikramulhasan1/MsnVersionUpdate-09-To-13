@@ -126,17 +126,43 @@ legend {
               <label for="meeting_time">Meeting Time:</label>
               <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-3" required />
             </fieldset> --}}
-            <fieldset style="border: 1px solid #ccc; padding: 10px; border-radius: 6px;">
-  <label for="meeting_time">Meeting Time:</label>
-  <input 
-    type="time" 
-    id="meeting_time" 
-    name="meeting_time" 
-    class="form-control mb-2" 
-    style="border: 1px solid #888; padding: 5px; border-radius: 4px;" 
-    required 
-  />
-</fieldset>
+            <style>
+              .custom-fieldset {
+                position: relative;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                padding: 10px 12px 6px 12px;
+                margin-bottom: 15px;
+              }
+            
+              .custom-fieldset legend {
+                font-size: 14px;
+                padding: 0 8px;
+                color: #333;
+                font-weight: 500;
+              }
+            
+              .custom-input {
+                width: 100%;
+                border: none;
+                outline: none;
+                font-size: 16px;
+                padding: 5px 0;
+                background-color: transparent;
+              }
+            </style>
+            
+            <fieldset class="custom-fieldset">
+              <legend>Meeting Time</legend>
+              <input 
+                type="time" 
+                id="meeting_time" 
+                name="meeting_time" 
+                class="custom-input" 
+                required 
+              />
+            </fieldset>
+            
 
           </div>
           <div class="col-md-6 d-flex justify-content-end ">
