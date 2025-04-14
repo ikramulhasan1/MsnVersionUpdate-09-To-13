@@ -32,10 +32,13 @@
                         <thead>
                             <tr>
                                 <th>{{ __('dashboard.sl') }}</th>
-                                <th>{{ __('dashboard.quote_no') }}</th>
                                 <th>{{ __('dashboard.name') }}</th>
                                 <th>{{ __('dashboard.email') }}</th>
-                                <th>{{ __('dashboard.quote_placed') }}</th>
+                                <th>{{ __('dashboard.phone') }}</th>
+                                <th>{{ __('dashboard.city') }}</th>
+                                <th>{{ __('dashboard.time') }}</th>
+                                <th>{{ __('dashboard.date') }}</th>
+                                <th>{{ __('dashboard.location') }}</th>
                                 <th>{{ __('dashboard.status') }}</th>
                                 <th>{{ __('dashboard.action') }}</th>
                             </tr>
@@ -44,10 +47,13 @@
                           @foreach( $rows as $key => $row )
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td><a href="{{ route($route.'.show', [$row->id]) }}">#{{ $row->id }}</a></td>
-                                <td>{{ $row->name }}</td>
+                                <td><a href="{{ route($route.'.show', [$row->id]) }}">#{{ $row->name }}</a></td>
                                 <td>{{ $row->email }}</td>
-                                <td>{{ date('h:i:s A | d-M-y', strtotime($row->created_at)) }}</td>
+                                <td>{{ $row->phone }}</td>
+                                <td>{{ $row->city }}</td>
+                                <td>{{ $row->date }}</td>
+                                <td>{{ $row->location }}</td>
+                                {{-- <td>{{ date('h:i:s A | d-M-y', strtotime($row->created_at)) }}</td> --}}
                                 <td>
                                     @if( $row->status == 1 )
                                     <span class="badge badge-primary badge-pill">{{ __('dashboard.pending') }}</span>

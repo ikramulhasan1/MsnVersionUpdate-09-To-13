@@ -33,6 +33,8 @@ return array (
   'attach' => 'Attach',
   'quote' => 'Quote|Quotes',
   'meetings' => 'Meetings',
+  'time' => 'Time',
+  'location' => 'Location',
   'create_invoice' => 'Create Invoice',
   'add' => 'Add',
   'edit' => 'Edit',
