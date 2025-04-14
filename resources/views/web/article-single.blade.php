@@ -458,15 +458,14 @@ $header = \App\Models\PageSetup::page('blog');
                                                     <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
                                                 </a>
                                             </div>
-                                            
+                                            <div style="z-index: 99 !important;">
+                                                @include('web.layouts.googlemeet')
+                                            </div>
                                         </div>
                                     @elseif(isset($page_contact))
                                         <a href="{{ route('contact') }}" class="theme-btn btn-style-four mt-3">{{ __('common.get_start') }}</a>
                                     @endif
 
-                                </div>
-                                <div class=" ">
-                                    @include('web.layouts.googlemeet')
                                 </div>
                             </div>
                         </div>
