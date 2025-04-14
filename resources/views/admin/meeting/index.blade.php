@@ -100,7 +100,7 @@ $(document).ready(function () {
         let id = $(this).data('id');
 
         $.ajax({
-            url: '{{ route("admin.meetings.updateStatus") }}',
+            url: '{{ route("admin.meetinggets.store") }}',
             type: 'POST',
             data: {
                 _token: '{{ csrf_token() }}',

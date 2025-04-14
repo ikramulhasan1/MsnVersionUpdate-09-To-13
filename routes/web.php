@@ -91,7 +91,6 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
 
     // Resource route for Redirect URL management
     Route::resource('meetinggets', MeetingGetController::class);
-    Route::post('/meetings/update-status', [MeetingGetController::class, 'updateStatus'])->name('meetings.updateStatus');
 
     Route::resource('redirects', RedirectUrlController::class);
     // Route to handle redirection logic

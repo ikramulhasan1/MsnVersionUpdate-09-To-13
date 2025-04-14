@@ -48,16 +48,13 @@ class MeetingGetController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
-    public function updateStatus(Request $request)
-    {
         $meeting = Meeting::findOrFail($request->id);
         $meeting->status = $request->status;
         $meeting->save();
     
         return response()->json(['success' => true, 'status' => $meeting->status]);
     }
+   
     
     /**
      * Display the specified resource.
