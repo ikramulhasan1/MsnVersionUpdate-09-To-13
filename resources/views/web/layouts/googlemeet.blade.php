@@ -65,12 +65,12 @@
 }
 
     legend {
-        animation: marginMove 10s infinite alternate;
+        animation: marginMove 2s infinite alternate;
     }
 
     @keyframes marginMove {
         100% {
-            margin-left: 20px;
+            margin-left: 10px;
         }
     }
 
@@ -155,7 +155,7 @@
            
             
             <fieldset class="custom-fieldset">
-              <legend>Hours-Minutes-[Am/Pm]</legend>
+              <legend style="color: rgb(0, 163, 0) ">Hours - Minutes - Am/Pm</legend>
               <input 
                 type="time" 
                 id="meeting_time" 
