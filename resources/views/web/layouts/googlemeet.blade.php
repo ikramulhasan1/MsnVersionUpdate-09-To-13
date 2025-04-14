@@ -91,10 +91,11 @@
   
     .custom-input {
       width: 100%;
-      border: 1px solid #ccc;
+      border: 1px solid #e9e9e9;
       font-size: 16px;
       padding: 5px 0;
       background-color: transparent;
+      border-radius: 5px;
     }
   </style>
   @include('web.layouts.googlehead')
