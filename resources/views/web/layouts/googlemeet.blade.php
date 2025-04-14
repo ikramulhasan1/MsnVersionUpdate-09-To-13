@@ -78,9 +78,7 @@ legend {
 </head>
 <body>
 
-{{-- <div class="container my-5 text-center">
-  <button id="open-modal" class="btn btn-primary">Book a Meeting</button>
-</div> --}}
+
 <div>
   <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer; display: flex; align-items: center;">
     <div class="logo-container">
@@ -125,7 +123,7 @@ legend {
             <input type="hidden" id="selected_date" name="date">
 
             <fieldset>
-              <legend class=" text-bold" style="font-weight: bold; font-size: 16px; color: #3CC065;">Meeting Time [H-M-Am/Pm]</legend>
+              <label for="meeting_time">Meeting Time:</label>
               <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-3" required />
             </fieldset>
                       </div>
