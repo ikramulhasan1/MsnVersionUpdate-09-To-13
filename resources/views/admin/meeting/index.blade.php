@@ -60,7 +60,7 @@
 
                                 <td style="color: 
                                     {{ $diffInDays >= 0 && $diffInDays <= 7 ? 'green' : 
-                                    ($diffInDays < 0 && $diffInDays >= -7 ? 'red' : 'inherit') }}">
+                                    ($diffInDays < 7 && $diffInDays >= 14 ? 'red' : 'inherit') }}">
                                     {{ $row->date }}
                                 </td>
 
