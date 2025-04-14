@@ -9,9 +9,9 @@
   <!-- Styles -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
-  {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" /> --}}
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&display=swap" rel="stylesheet" />
- <style>
+
+  <style>
     body {
       font-family: 'Manrope', sans-serif;
     }
@@ -57,30 +57,22 @@
     .autocomplete-suggestion:hover {
       background-color: #f0f0f0;
     }
-
-
-
     fieldset {
-    border: 0px groove #ddd;
-}
-
+      border: 0;
+    }
     legend {
-        animation: marginMove 2s infinite alternate;
+      animation: marginMove 2s infinite alternate;
     }
-
     @keyframes marginMove {
-        100% {
-            margin-left: 5px;
-        }
+      100% {
+        margin-left: 5px;
+      }
     }
-
-
     .custom-fieldset {
       position: relative;
       border-radius: 6px;
       margin-bottom: -80px;
     }
-  
     .custom-fieldset legend {
       font-size: 14px;
       padding: 0 8px;
@@ -88,7 +80,6 @@
       font-weight: 500;
       margin-bottom: -15px;
     }
-  
     .custom-input {
       width: 100%;
       border: 1px solid #cbcbcb;
@@ -97,27 +88,20 @@
       background-color: transparent;
       border-radius: 5px;
     }
-    .iti__country-list{
+    .iti__country-list {
       width: 280px !important;
     }
   </style>
-  @include('web.layouts.googlehead')
 </head>
 <body>
 
-
+<!-- Trigger Button -->
 <div>
-  <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer; display: flex; align-items: center;">
-    <div class="logo-container">
-      <img id="google-meet-img" src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" class="meeting-logo active" />
-
-      <img id="zoom-img" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg" alt="Zoom Logo" class="meeting-logo" />
-    </div>
-    <!-- Button text -->
+  <button id="open-modal" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer;">
+    <img src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" height="24">
     <span style="font-weight: 600; font-size: 18px; color: white; margin-left: 12px;">Book a Meeting</span>
   </button>
 </div>
-
 
 <!-- Modal -->
 <div id="modal-1" class="modal__overlay">
@@ -128,7 +112,7 @@
       <h6 style="font-weight: bold" class="text-center">Select a Date and Time for the Meeting at Your Convenience</h6>
     </header>
     <div class="modal__content">
-      <div id="form-message" class="mb-3 fw-bold"></div>
+      <div id="form-message" class="mb-3 fw-bold text-center"></div>
       <form id="modal-form">
         <div class="row">
           <div class="col-md-6 position-relative">
@@ -136,39 +120,20 @@
             <input type="tel" id="phone" name="phone" class="form-control mb-3" placeholder="Phone" required />
             <input type="email" id="email" name="email" class="form-control mb-3 mt-3" placeholder="Email" required />
             <input type="text" id="location" name="location" class="form-control mb-2" placeholder="Location" autocomplete="off" required />
-
-            <!-- Autocomplete -->
             <div id="autocomplete-box" class="autocomplete-box d-none"></div>
-
-            <!-- Hidden fields -->
             <input type="hidden" id="latitude" name="latitude">
             <input type="hidden" id="longitude" name="longitude">
             <input type="hidden" id="ip" name="ip">
-            <input type="hidden" id="city" name="city"> <!-- Always set by IP -->
+            <input type="hidden" id="city" name="city">
             <input type="hidden" id="distance_time" name="distance_time">
             <input type="hidden" id="distance_km" name="distance_km">
             <input type="hidden" id="selected_date" name="date">
-
-            {{-- <fieldset>
-              <label for="meeting_time">Meeting Time:</label>
-              <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-3" required />
-            </fieldset> --}}
-           
-            
             <fieldset class="custom-fieldset">
-              <legend style="color: rgb(0, 128, 0) ">Hours - Minutes - Am/Pm</legend>
-              <input 
-                type="time" 
-                id="meeting_time" 
-                name="meeting_time" 
-                class="custom-input" 
-                required 
-              />
+              <legend style="color: rgb(0, 128, 0)">Hours - Minutes - Am/Pm</legend>
+              <input type="time" id="meeting_time" name="meeting_time" class="custom-input" required />
             </fieldset>
-            
-
           </div>
-          <div class="col-md-6 d-flex justify-content-end ">
+          <div class="col-md-6 d-flex justify-content-end">
             <div id="calendar"></div>
           </div>
         </div>
@@ -219,10 +184,10 @@
     }
   });
 
-  // openModal.addEventListener("click", () => {
-  //   modal.style.display = "flex";
-  //   fetchIPInfo(); 
-  // });
+  openModal.addEventListener("click", () => {
+    modal.style.display = "flex";
+    fetchIPInfo();
+  });
 
   closeModal.addEventListener("click", () => modal.style.display = "none");
   cancelButton.addEventListener("click", () => modal.style.display = "none");
@@ -250,7 +215,6 @@
       suggestionBox.classList.add("d-none");
       return;
     }
-
     const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(value)}&apiKey=437507f257da48b28e1d22d7f9736e62&limit=5`;
     const res = await fetch(url);
     const data = await res.json();
@@ -264,12 +228,10 @@
         locationInput.value = place.properties.formatted;
         document.getElementById("latitude").value = place.properties.lat;
         document.getElementById("longitude").value = place.properties.lon;
-        // DO NOT override city – we keep IP-based city only
         suggestionBox.classList.add("d-none");
       };
       suggestionBox.appendChild(div);
     });
-
     suggestionBox.classList.remove("d-none");
   });
 
@@ -290,7 +252,11 @@
       formMessage.textContent = res.data.message || "Meeting booked successfully!";
       formMessage.className = "text-success fw-bold";
       form.reset();
-      setTimeout(() => formMessage.textContent = "", 3000);
+
+      setTimeout(() => {
+        formMessage.textContent = "";
+        modal.style.display = "none"; // Auto-close modal
+      }, 3000);
     } catch (err) {
       formMessage.textContent = err.response?.data?.message || "Error saving meeting.";
       formMessage.className = "text-danger fw-bold";
