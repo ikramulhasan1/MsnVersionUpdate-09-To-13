@@ -540,6 +540,8 @@ class ArticleController extends Controller
         $article->image_path = $fileNameToStore;
         $article->video_id = $request->video_id;
         $article->meta_desc = $request->meta_desc;
+        $article->meta_desc = $request->meta_desc;
+        $article->meta_title = $request->meta_title;
         $article->service_desc = $request->service_desc;
         $article->service_title = $request->service_title;
         $article->status = $request->status;
