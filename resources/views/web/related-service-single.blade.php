@@ -30,7 +30,7 @@ $header = \App\Models\PageSetup::page('related-service');
       "brand": {
         "@type": "Brand",
         "name": "MSN Softtech",
-        "logo": "https://cdn-icons-png.flaticon.com/128/732/732200.png"
+        "logo": "<img src="{{ asset('/uploads/setting/'.$setting->logo_path) }}" alt="Logo">"
       },
       "offers": {
         "@type": "Offer",

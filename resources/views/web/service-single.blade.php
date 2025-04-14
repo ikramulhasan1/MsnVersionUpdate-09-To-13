@@ -4,20 +4,20 @@ $header = \App\Models\PageSetup::page('services');
 @endphp
 @if(isset($header))
 
-@section('title', content: $service->title)
+@section('title', content: $service->meta_title)
 
 @section('top_meta_tags')
 @if(isset($service->short_desc))
-<meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
+<meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}">
 @else
-<meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
+<meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}">
 @endif
 
 <script type="application/ld+json">
     {
       "@context": "http://schema.org",
       "@type": "Product",
-      "name": "{{ $service->title }}",
+      "name": "{{ $service->meta_title }}",
       "image": {
         "@type": "ImageObject",
         "url": "{{ asset('uploads/service/'.$service->image_path) }}",
@@ -30,7 +30,7 @@ $header = \App\Models\PageSetup::page('services');
       "brand": {
         "@type": "Brand",
         "name": "MSN Softtech",
-        "logo": "https://cdn-icons-png.flaticon.com/128/732/732200.png"
+        "logo": "<img src="{{ asset('/uploads/setting/'.$setting->logo_path) }}" alt="Logo">"
       },
       "offers": {
         "@type": "Offer",
