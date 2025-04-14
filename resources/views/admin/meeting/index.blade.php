@@ -46,11 +46,11 @@
                         <tbody>
                           @foreach( $rows as $key => $row )
                             @php
-                                $currentDate = \Carbon\Carbon::now();
-                                $rowDate = \Carbon\Carbon::parse($row->date);
-                                $diffInDays = $currentDate->diffInDays($rowDate, false);
+                                // $currentDate = \Carbon\Carbon::now();
+                                // $diffInDays = $currentDate->diffInDays($rowDate, false);
                             
                                 $today = \Carbon\Carbon::today();
+                                $rowDate = \Carbon\Carbon::parse($row->date);
                                 $daysDiff = $today->diffInDays($rowDate, false);
                             @endphp
                          
@@ -62,9 +62,9 @@
                                 <td>{{ $row->city }}</td>
                                 <td>{{ $row->meeting_time }}</td>
 
-                                <td style="color: 
-                                    {{ $daysDiff >= 0 && $daysDiff <= 7 ? 'green' : 
-                                    ($daysDiff > 7 && $daysDiff <= 14 ? 'red' : 'inherit') }}">
+                                <td style="font-weight: bold; color: 
+                                    {{ $daysDiff >= 0 && $daysDiff <= 7 ? 'red' : 
+                                    ($daysDiff > 7 && $daysDiff <= 14 ? 'green' : 'inherit') }}">
                                     {{ $row->date }}
                                 </td>
 
