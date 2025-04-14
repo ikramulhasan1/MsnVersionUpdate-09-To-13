@@ -110,7 +110,7 @@
   <div class="modal__container">
     <header class="mb-4">
       <button class="modal__close">×</button>
-      <h2 class="text-center" style="font-weight: bolder">Book a Meeting</h2>
+      <h2 class="text-center" style="font-weight: bolder"><span><img width="20px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Calendar_icon_%282020%29.svg/2048px-Google_Calendar_icon_%282020%29.svg.png" alt="" srcset=""></span> Book a Meeting</h2>
       <h6 class="text-center" style="font-weight: bold">Select a Date and Time for the Meeting at Your Convenience</h6>
     </header>
     <div class="modal__content">
