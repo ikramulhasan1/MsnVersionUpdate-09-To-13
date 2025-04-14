@@ -64,23 +64,60 @@
     border: 0px groove #ddd;
 }
 
-legend {
-    animation: marginMove 15s infinite alternate;
-}
-
-@keyframes marginMove {
-    100% {
-        margin-left: 100px;
+    legend {
+        animation: marginMove 2s infinite alternate;
     }
-}
+
+    @keyframes marginMove {
+        100% {
+            margin-left: 5px;
+        }
+    }
+
+
+    .custom-fieldset {
+      position: relative;
+      border-radius: 6px;
+      margin-bottom: -80px;
+    }
+  
+    .custom-fieldset legend {
+      font-size: 14px;
+      padding: 0 8px;
+      color: #333;
+      font-weight: 500;
+      margin-bottom: -15px;
+    }
+  
+    .custom-input {
+      width: 100%;
+      border: 1px solid #cbcbcb;
+      font-size: 16px;
+      padding: 5px 0;
+      background-color: transparent;
+      border-radius: 5px;
+    }
+    .iti__country-list{
+      width: 280px !important;
+    }
   </style>
   @include('web.layouts.googlehead')
 </head>
 <body>
 
-<div class="container my-5 text-center">
-  <button id="open-modal" class="btn btn-primary">Book a Meeting</button>
+
+<div>
+  <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer; display: flex; align-items: center;">
+    <div class="logo-container">
+      <img id="google-meet-img" src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" class="meeting-logo active" />
+
+      <img id="zoom-img" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg" alt="Zoom Logo" class="meeting-logo" />
+    </div>
+    <!-- Button text -->
+    <span style="font-weight: 600; font-size: 18px; color: white; margin-left: 12px;">Book a Meeting</span>
+  </button>
 </div>
+
 
 <!-- Modal -->
 <div id="modal-1" class="modal__overlay">
@@ -98,7 +135,7 @@ legend {
             <input type="text" id="name" name="name" class="form-control mb-3" placeholder="Name" required />
             <input type="tel" id="phone" name="phone" class="form-control mb-3" placeholder="Phone" required />
             <input type="email" id="email" name="email" class="form-control mb-3 mt-3" placeholder="Email" required />
-            <input type="text" id="location" name="location" class="form-control mb-3" placeholder="Location" autocomplete="off" required />
+            <input type="text" id="location" name="location" class="form-control mb-2" placeholder="Location" autocomplete="off" required />
 
             <!-- Autocomplete -->
             <div id="autocomplete-box" class="autocomplete-box d-none"></div>
@@ -112,11 +149,25 @@ legend {
             <input type="hidden" id="distance_km" name="distance_km">
             <input type="hidden" id="selected_date" name="date">
 
-            <fieldset>
-              <legend class=" text-bold" style="font-weight: bold; font-size: 16px; color: #3CC065;">Meeting Time [H-M-Am/Pm]</legend>
+            {{-- <fieldset>
+              <label for="meeting_time">Meeting Time:</label>
               <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-3" required />
+            </fieldset> --}}
+           
+            
+            <fieldset class="custom-fieldset">
+              <legend style="color: rgb(0, 128, 0) ">Hours - Minutes - Am/Pm</legend>
+              <input 
+                type="time" 
+                id="meeting_time" 
+                name="meeting_time" 
+                class="custom-input" 
+                required 
+              />
             </fieldset>
-                      </div>
+            
+
+          </div>
           <div class="col-md-6 d-flex justify-content-end ">
             <div id="calendar"></div>
           </div>
