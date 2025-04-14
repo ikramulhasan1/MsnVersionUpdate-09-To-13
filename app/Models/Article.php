@@ -12,7 +12,7 @@ class Article extends Model
         return $this->belongsTo(Service::class, 'service_id');
     }
     protected $fillable = [
-        'category_id', 'title', 'short_title', 'keywords', 'slug', 'service_id', 'placeholder', 'description', 'image_path', 'video_id', 'status',
+        'category_id', 'title', 'short_title', 'keywords', 'slug', 'service_id', 'placeholder', 'description','meta_title', 'image_path', 'video_id', 'status',
     ];
 
     public function category()
