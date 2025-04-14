@@ -79,11 +79,13 @@
                                 </td> --}}
 
                                 <td>
-                                    <input type="checkbox"
+                                    {{-- <input type="checkbox"
                                            class="status-toggle"
                                            data-id="{{ $row->id }}"
                                            {{ $row->status == 'approve' ? 'checked' : '' }}
-                                    >
+                                    > --}}
+                                    <input type="checkbox" data-id="{{ $row->id }}" {{ $row->status == 'approve' ? 'checked' : '' }} data-toggle="toggle" data-on="approve" data-off="pending" data-onstyle="success" data-offstyle="danger">
+
                                 </td>
 
 
