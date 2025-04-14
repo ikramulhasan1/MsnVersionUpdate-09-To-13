@@ -458,7 +458,7 @@ $header = \App\Models\PageSetup::page('blog');
                                                     <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
                                                 </a>
                                             </div>
-                                            <div style="z-index: 99 !important;">
+                                            <div style="z-index: 1000 !important;">
                                                 @include('web.layouts.googlemeet')
                                             </div>
                                         </div>
