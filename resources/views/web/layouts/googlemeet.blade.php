@@ -70,7 +70,7 @@
 
     @keyframes marginMove {
         100% {
-            margin-left: 10px;
+            margin-left: 5px;
         }
     }
 
