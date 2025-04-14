@@ -91,6 +91,22 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
 
     // Resource route for Redirect URL management
     Route::resource('meetinggets', MeetingGetController::class);
+    Route::post('/meeting-update-status', function (Request $request) {
+        $request->validate([
+            'id' => 'required|integer',
+            'status' => 'required|in:approve,pending',
+        ]);
+    
+        DB::table('meetings') // change to your table
+            ->where('id', $request->id)
+            ->update(['status' => $request->status]);
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'Status updated to ' . ucfirst($request->status),
+        ]);
+    });
+
     Route::resource('redirects', RedirectUrlController::class);
     // Route to handle redirection logic
     Route::get('/redirect', [RedirectUrlController::class, 'redirect'])->name('redirect.process');

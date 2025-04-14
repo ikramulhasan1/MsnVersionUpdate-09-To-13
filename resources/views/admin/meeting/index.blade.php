@@ -1,8 +1,9 @@
 @extends('admin.layouts.master')
 @section('title', $title)
 @section('content')
-<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 <!-- Start Content-->
 <div class="container-fluid">
     
@@ -85,8 +86,14 @@
                                            data-id="{{ $row->id }}"
                                            {{ $row->status == 'approve' ? 'checked' : '' }}
                                     > --}}
-                                    <input type="checkbox" data-id="{{ $row->id }}" {{ $row->status == 'approve' ? 'checked' : '' }} data-toggle="toggle" data-on="approve" data-off="pending" data-onstyle="success" data-offstyle="danger">
-
+                                    <input type="checkbox" class="status-toggle" 
+                                    data-id="{{ $row->id }}"
+                                    data-toggle="toggle"
+                                    data-on="Approve"
+                                    data-off="Pending"
+                                    data-onstyle="success"
+                                    data-offstyle="danger"
+                                    {{ $row->status == 'approve' ? 'checked' : '' }}>
                                 </td>
 
 
@@ -121,36 +128,23 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggles = document.querySelectorAll('.status-toggle');
+    $(function () {
+        $('.status-toggle').change(function () {
+            let status = $(this).prop('checked') ? 'approve' : 'pending';
+            let id = $(this).data('id');
 
-        toggles.forEach(toggle => {
-            toggle.addEventListener('change', function () {
-                const status = this.checked ? 'approve' : 'pending';
-                const userId = this.getAttribute('data-id');
-
-                fetch("{{ route($route.'.store') }}", {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        id: userId,
-                        status: status
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if(data.success){
-                        alert(data.message);
-                    } else {
-                        alert("Something went wrong.");
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+            $.post("{{ url('/admin/meeting-update-status') }}", {
+                _token: '{{ csrf_token() }}',
+                id: id,
+                status: status
+            }, function(response) {
+                if (response.success) {
+                    toastr.success(response.message);
+                } else {
+                    toastr.error('Something went wrong!');
+                }
+            }).fail(function () {
+                toastr.error('Server error. Try again later.');
             });
         });
     });
