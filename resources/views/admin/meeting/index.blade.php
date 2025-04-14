@@ -1,95 +1,117 @@
 @extends('admin.layouts.master')
-@section('title', $title)
+@section('title', 'Meeting List')
 @section('content')
 
-<!-- Start Content-->
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <div class="container-fluid">
-    
-    <!-- start page title -->
-    <!-- Include page breadcrumb -->
-    @include('admin.inc.breadcrumb')
-    <!-- end page title --> 
-
-
-    <div class="row">
+    <div class="row mb-2">
         <div class="col-12">
-            <a href="{{ route($route.'.index') }}" class="btn btn-info">{{ __('dashboard.refresh') }}</a>
+            <a href="{{ url()->current() }}" class="btn btn-info">Refresh</a>
         </div>
     </div>
 
     <div class="row">
         <div class="col-12">
-
             <div class="card">
                 <div class="card-header">
-                    <h4 class="header-title">{{ $title }} {{ __('dashboard.list') }}</h4>
+                    <h4 class="header-title">Meeting List</h4>
                 </div>
                 <div class="card-body">
-
-                  <!-- Data Table Start -->
-                  <div class="table-responsive">
-                    <table id="basic-datatable" class="table table-striped table-hover table-dark nowrap full-width">
-                        <thead>
-                            <tr>
-                                <th>{{ __('dashboard.sl') }}</th>
-                                <th>{{ __('dashboard.name') }}</th>
-                                <th>{{ __('dashboard.email') }}</th>
-                                <th>{{ __('dashboard.phone') }}</th>
-                                <th>{{ __('dashboard.city') }}</th>
-                                <th>{{ __('dashboard.time') }}</th>
-                                <th>{{ __('dashboard.date') }}</th>
-                                <th>{{ __('dashboard.location') }}</th>
-                                <th>{{ __('dashboard.status') }}</th>
-                                <th>{{ __('dashboard.action') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          @foreach( $rows as $key => $row )
-                            <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td><a href="{{ route($route.'.show', [$row->id]) }}">#{{ $row->name }}</a></td>
-                                <td>{{ $row->email }}</td>
-                                <td>{{ $row->phone }}</td>
-                                <td>{{ $row->city }}</td>
-                                <td>{{ $row->meeting_time }}</td>
-                                <td>{{ $row->date }}</td>
-                                <td>{{ $row->location }}</td>
-                                {{-- <td>{{ date('h:i:s A | d-M-y', strtotime($row->created_at)) }}</td> --}}
-                                <td>
-                                    @if( $row->status == 'pending' )
-                                    <span class="badge badge-warning badge-pill">{{ __('dashboard.pending') }}</span>
-                                    @elseif( $row->status == 2 )
-                                    <span class="badge badge-info badge-pill">{{ __('dashboard.estimated') }}</span>
-                                    @elseif( $row->status == 'approve' )
-                                    <span class="badge badge-success badge-pill">{{ __('dashboard.approved') }}</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    <a href="{{ route($route.'.show', [$row->id]) }}" class="btn btn-success btn-sm">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-
-                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal-{{ $row->id }}">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                    <!-- Include Delete modal -->
-                                    @include('admin.inc.delete')
-                                </td>
-                            </tr>
-                          @endforeach
-                        </tbody>
-                    </table>
-                  </div>
-                  <!-- Data Table End -->
-
-                </div> <!-- end card body-->
-            </div> <!-- end card -->
-        </div><!-- end col-->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-dark nowrap">
+                            <thead>
+                                <tr>
+                                    <th>SL</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>City</th>
+                                    <th>Time</th>
+                                    <th>Date</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($rows as $key => $row)
+                                    @php
+                                        $today = \Carbon\Carbon::today();
+                                        $rowDate = \Carbon\Carbon::parse($row->date);
+                                        $daysDiff = $today->diffInDays($rowDate, false);
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ $row->name }}</td>
+                                        <td>{{ $row->email }}</td>
+                                        <td>{{ $row->phone }}</td>
+                                        <td>{{ $row->city }}</td>
+                                        <td>{{ $row->meeting_time }}</td>
+                                        <td style="font-weight: bold; color:
+                                            {{ $daysDiff >= 0 && $daysDiff <= 7 ? 'red' :
+                                               ($daysDiff > 7 && $daysDiff <= 14 ? 'green' : 'inherit') }};">
+                                            {{ $row->date }}
+                                        </td>
+                                        <td>{{ $row->location }}</td>
+                                        <td>
+                                            <input type="checkbox" class="status-toggle"
+                                                data-id="{{ $row->id }}"
+                                                data-toggle="toggle"
+                                                data-on="Approve"
+                                                data-off="Pending"
+                                                data-onstyle="success"
+                                                data-offstyle="danger"
+                                                {{ $row->status == 'approve' ? 'checked' : '' }}>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('admin.meetinggets.show', [$row->id]) }}" class="btn btn-success btn-sm">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal-{{ $row->id }}">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                            @include('admin.inc.delete')
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div> 
+            </div>
+        </div>
     </div>
-    <!-- end row-->
+</div>
 
-    
-</div> <!-- container -->
-<!-- End Content-->
+<script>
+$(document).ready(function () {
+    $('.status-toggle').change(function () {
+        let status = $(this).prop('checked') ? 'approve' : 'pending';
+        let id = $(this).data('id');
+
+        $.ajax({
+            url: '{{ route("admin.meetinggets.store") }}',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                id: id,
+                status: status
+            },
+            success: function (res) {
+                if (res.success) {
+                    toastr.success('Status updated to ' + res.status);
+                } else {
+                    toastr.error('Update failed');
+                }
+            },
+            error: function () {
+                toastr.error('AJAX request failed');
+            }
+        });
+    });
+});
+</script>
 
 @endsection
