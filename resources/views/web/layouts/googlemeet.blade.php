@@ -64,15 +64,41 @@
     border: 0px groove #ddd;
 }
 
-legend {
-    animation: marginMove 15s infinite alternate;
-}
-
-@keyframes marginMove {
-    100% {
-        margin-left: 100px;
+    legend {
+        animation: marginMove 10s infinite alternate;
     }
-}
+
+    @keyframes marginMove {
+        100% {
+            margin-left: 20px;
+        }
+    }
+
+
+    .custom-fieldset {
+      position: relative;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      /* padding: 10px 12px 6px 12px; */
+      margin-bottom: -80px;
+    }
+  
+    .custom-fieldset legend {
+      font-size: 14px;
+      padding: 0 8px;
+      color: #333;
+      font-weight: 500;
+      margin-bottom: -15px;
+    }
+  
+    .custom-input {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      padding: 5px 0;
+      background-color: transparent;
+    }
   </style>
   @include('web.layouts.googlehead')
 </head>
@@ -126,35 +152,10 @@ legend {
               <label for="meeting_time">Meeting Time:</label>
               <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-3" required />
             </fieldset> --}}
-            <style>
-              .custom-fieldset {
-                position: relative;
-                border: 1px solid #ccc;
-                border-radius: 6px;
-                /* padding: 10px 12px 6px 12px; */
-                margin-bottom: -80px;
-              }
-            
-              .custom-fieldset legend {
-                font-size: 14px;
-                padding: 0 8px;
-                color: #333;
-                font-weight: 500;
-                margin-bottom: -20px;
-              }
-            
-              .custom-input {
-                width: 100%;
-                border: none;
-                outline: none;
-                font-size: 16px;
-                padding: 5px 0;
-                background-color: transparent;
-              }
-            </style>
+           
             
             <fieldset class="custom-fieldset">
-              <legend>Meeting Time</legend>
+              <legend>Meeting Time[h-m-am/pm]</legend>
               <input 
                 type="time" 
                 id="meeting_time" 
