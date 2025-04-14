@@ -1,24 +1,22 @@
 @extends('admin.layouts.master')
-@section('title', $title)
+@section('title', 'Meeting List')
 @section('content')
 
-<!-- Include jQuery -->
+<!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Include Bootstrap Toggle -->
+<!-- Bootstrap Toggle -->
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
-<!-- Include Toastr -->
+<!-- Toastr -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <div class="container-fluid">
-    @include('admin.inc.breadcrumb')
-
     <div class="row mb-2">
         <div class="col-12">
-            <a href="{{ route($route.'.index') }}" class="btn btn-info">Refresh</a>
+            <a href="{{ url()->current() }}" class="btn btn-info">Refresh</a>
         </div>
     </div>
 
@@ -26,11 +24,11 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="header-title">{{ $title }} List</h4>
+                    <h4 class="header-title">Meeting List</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="basic-datatable" class="table table-striped table-dark nowrap">
+                        <table class="table table-striped table-dark nowrap">
                             <thead>
                                 <tr>
                                     <th>SL</th>
@@ -54,7 +52,7 @@
                                     @endphp
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td><a href="{{ route($route.'.show', [$row->id]) }}">{{ $row->name }}</a></td>
+                                        <td>{{ $row->name }}</td>
                                         <td>{{ $row->email }}</td>
                                         <td>{{ $row->phone }}</td>
                                         <td>{{ $row->city }}</td>
@@ -76,7 +74,7 @@
                                                 {{ $row->status == 'approve' ? 'checked' : '' }}>
                                         </td>
                                         <td>
-                                            <a href="{{ route($route.'.show', [$row->id]) }}" class="btn btn-success btn-sm">
+                                            <a href="{{ route('admin.meetinggets.show', [$row->id]) }}" class="btn btn-success btn-sm">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal-{{ $row->id }}">
@@ -96,33 +94,38 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-        $('.status-toggle').change(function () {
-            let status = $(this).prop('checked') ? 'approve' : 'pending';
-            let id = $(this).data('id');
-    
-            $.ajax({
-                url: "{{ route('admin.meeting.update-status') }}",
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    id: id,
-                    status: status
-                },
-                success: function(response) {
-                    if (response.success) {
-                        toastr.success(response.message);
-                    } else {
-                        toastr.error(response.message || 'Something went wrong!');
-                    }
-                },
-                error: function(xhr) {
-                    toastr.error('Server error. Please try again.');
-                }
-            });
+$(document).ready(function () {
+    $('.status-toggle').change(function () {
+        let status = $(this).prop('checked') ? 'approve' : 'pending';
+        let id = $(this).data('id');
+
+        $.ajax({
+            url: "{{ url()->current() }}", // same page
+            type: "POST",
+            data: {
+                _token: '{{ csrf_token() }}',
+                id: id,
+                status: status,
+                updateStatus: true
+            },
+            success: function (res) {
+                toastr.success('Status updated to ' + status);
+            },
+            error: function () {
+                toastr.error('Failed to update status');
+            }
         });
     });
-    </script>
+});
 </script>
+
+@if(request()->has('updateStatus'))
+    @php
+        use Illuminate\Support\Facades\DB;
+        DB::table('meetings')->where('id', request('id'))->update(['status' => request('status')]);
+        echo json_encode(['success' => true]);
+        exit();
+    @endphp
+@endif
 
 @endsection
