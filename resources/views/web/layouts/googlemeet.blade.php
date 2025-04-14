@@ -94,7 +94,7 @@
     .custom-input {
       width: 100%;
       border: none;
-      outline: none;
+      /* outline: none; */
       font-size: 16px;
       padding: 5px 0;
       background-color: transparent;
