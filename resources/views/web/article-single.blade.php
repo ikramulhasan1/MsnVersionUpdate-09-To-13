@@ -439,29 +439,31 @@ $header = \App\Models\PageSetup::page('blog');
                                         <div class="service-title mb-3">
                                             <h5 style="font-weight: 600" >Are you interested in <b style="color: #00893b">{{ $article->short_title }}</b> service? <span style="color: red"><a style="color: red" href="{{ route('get-quote') }}" target="_blank" rel="noopener noreferrer">Contact us</a></span></h5> <!-- Title text -->
                                         </div>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="circle-container">
-                                            <!-- Service Sell Title -->
-                                           
-                                            <!-- Get A Quote Button -->
-                                            <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
-                                                <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
-                                            </a>
-
-                                            <!-- WhatsApp Button -->
-                                            <a rel="noopener noreferrer" href="https://wa.link/vkb4au" target="_blank" class="circle-button">
-                                                <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
-                                            </a>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="circle-container">
+                                                <!-- Service Sell Title -->
                                             
-                                            <!-- Email Button -->
-                                            <a href="mailto:{{$setting->email_one}}?subject=Inquiry&body={{ $article->title}}" class="circle-button">
-                                                <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
-                                            </a>
+                                                <!-- Get A Quote Button -->
+                                                <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
+                                                    <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
+                                                </a>
+
+                                                <!-- WhatsApp Button -->
+                                                <a rel="noopener noreferrer" href="https://wa.link/vkb4au" target="_blank" class="circle-button">
+                                                    <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
+                                                </a>
+                                                
+                                                <!-- Email Button -->
+                                                <a href="mailto:{{$setting->email_one}}?subject=Inquiry&body={{ $article->title}}" class="circle-button">
+                                                    <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
+                                                </a>
+                                            </div>
+                                            <div class="">
+                                                <div class="">
+                                                    @include('web.layouts.googlemeet')
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="">
-                                            @include('web.layouts.googlemeet')
-                                        </div>
-                                    </div>
                                     @elseif(isset($page_contact))
                                         <a href="{{ route('contact') }}" class="theme-btn btn-style-four mt-3">{{ __('common.get_start') }}</a>
                                     @endif
