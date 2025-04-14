@@ -77,9 +77,7 @@
 
     .custom-fieldset {
       position: relative;
-      /* border: 1px solid #ccc; */
       border-radius: 6px;
-      /* padding: 10px 12px 6px 12px; */
       margin-bottom: -80px;
     }
   
@@ -93,7 +91,7 @@
   
     .custom-input {
       width: 100%;
-     
+      border: 1px solid #ccc;
       font-size: 16px;
       padding: 5px 0;
       background-color: transparent;
