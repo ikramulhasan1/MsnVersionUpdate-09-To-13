@@ -4,64 +4,6 @@
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-<style>
-/* Smart Toggle Styles */
-.smart-toggle {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 30px;
-}
-.smart-toggle input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-.slider {
-    position: absolute;
-    cursor: pointer;
-    background-color: #dc3545;
-    border-radius: 34px;
-    top: 0; left: 0;
-    right: 0; bottom: 0;
-    transition: .4s;
-}
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 24px;
-    width: 24px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    border-radius: 50%;
-    transition: .4s;
-}
-input:checked + .slider {
-    background-color: #28a745;
-}
-input:checked + .slider:before {
-    transform: translateX(30px);
-}
-.slider-text {
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    top: 3px;
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-    pointer-events: none;
-}
-.smart-toggle.loading .slider:before {
-    background: #f3f3f3 url('https://i.imgur.com/llF5iyg.gif') no-repeat center;
-    background-size: 18px;
-}
-</style>
-  <!-- start page title -->
     <!-- Include page breadcrumb -->
     @include('admin.inc.breadcrumb')
     <!-- end page title --> 
@@ -118,13 +60,28 @@ input:checked + .slider:before {
                                             {{ $row->date }}
                                         </td>
                                         <td>{{ $row->location }}</td>
+                                        {{-- <td>
+                                            <input type="checkbox" class="status-toggle"
+                                                data-id="{{ $row->id }}"
+                                                data-toggle="toggle"
+                                                data-on="Approve"
+                                                data-off="Pending"
+                                                data-onstyle="success"
+                                                data-offstyle="danger"
+                                                {{ $row->status == 'approve' ? 'checked' : '' }}>
+                                        </td> --}}
                                         <td>
-                                            <label class="smart-toggle {{ $row->status }}" data-id="{{ $row->id }}">
-                                                <input type="checkbox" {{ $row->status == 'approve' ? 'checked' : '' }}>
-                                                <span class="slider"></span>
-                                                <span class="slider-text">{{ $row->status == 'approve' ? 'Approved' : 'Pending' }}</span>
+                                            <label class="inline-flex items-center cursor-pointer">
+                                                <input type="checkbox" value="" class="sr-only peer" 
+                                                    data-id="{{ $row->id }}"
+                                                    {{ $row->status == 'approve' ? 'checked' : '' }}>
+                                                <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
+                                                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                                    {{ $row->status == 'approve' ? 'Approve' : 'Pending' }}
+                                                </span>
                                             </label>
                                         </td>
+                                        
                                         <td>
                                             <a href="{{ route('admin.meetinggets.show', [$row->id]) }}" class="btn btn-success btn-sm">
                                                 <i class="fas fa-eye"></i>
