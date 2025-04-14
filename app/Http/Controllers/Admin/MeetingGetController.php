@@ -50,7 +50,24 @@ class MeetingGetController extends Controller
     {
         //
     }
+    public function updateStatus(Request $request)
+    {
+        try {
+            $meeting = Meeting::findOrFail($request->id);
+            $meeting->status = $request->status;
+            $meeting->save();
 
+            return response()->json([
+                'success' => true,
+                'message' => 'Status updated successfully.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Update failed: ' . $e->getMessage()
+            ]);
+        }
+    }
     /**
      * Display the specified resource.
      *
