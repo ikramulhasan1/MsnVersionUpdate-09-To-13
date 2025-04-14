@@ -70,13 +70,23 @@
 
                                 <td>{{ $row->location }}</td>
                                 {{-- <td>{{ date('h:i:s A | d-M-y', strtotime($row->created_at)) }}</td> --}}
-                                <td>
+                                {{-- <td>
                                     @if( $row->status == 'pending' )
                                     <span class="badge badge-warning badge-pill">{{ __('dashboard.pending') }}</span>
                                     @elseif( $row->status == 'approve' )
                                     <span class="badge badge-success badge-pill">{{ __('dashboard.approved') }}</span>
                                     @endif
+                                </td> --}}
+
+                                <td>
+                                    <input type="checkbox"
+                                           class="status-toggle"
+                                           data-id="{{ $row->id }}"
+                                           {{ $row->status == 'approve' ? 'checked' : '' }}
+                                    >
                                 </td>
+
+
                                 <td>
                                     <a href="{{ route($route.'.show', [$row->id]) }}" class="btn btn-success btn-sm">
                                         <i class="fas fa-eye"></i>
@@ -104,5 +114,44 @@
     
 </div> <!-- container -->
 <!-- End Content-->
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggles = document.querySelectorAll('.status-toggle');
+
+        toggles.forEach(toggle => {
+            toggle.addEventListener('change', function () {
+                const status = this.checked ? 'approve' : 'pending';
+                const userId = this.getAttribute('data-id');
+
+                fetch("{{ route($route.'.toggleStatus') }}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: userId,
+                        status: status
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success){
+                        alert(data.message);
+                    } else {
+                        alert("Something went wrong.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    });
+</script>
+
 
 @endsection
