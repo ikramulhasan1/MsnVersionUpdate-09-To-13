@@ -110,9 +110,13 @@
   <div class="modal__container">
     <header class="mb-4">
       <button class="modal__close">×</button>
-      <h2 class="text-center row" style="font-weight: bolder">
-        <img style="width: 20px !important; " src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Calendar_icon_%282020%29.svg/2048px-Google_Calendar_icon_%282020%29.svg.png" alt="" srcset="">Book a Meeting
-        
+      <h2 class="text-center row d-flex justify-content-center align-items-center " style="font-weight: bolder">
+        <div class="col-2">
+          <img  src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Calendar_icon_%282020%29.svg/2048px-Google_Calendar_icon_%282020%29.svg.png" alt="" srcset="">
+        </div>
+        <div class="col-10">
+          Book a Meeting
+        </div>
       </h2>
       <h6 class="text-center" style="font-weight: bold">Select a Date and Time for the Meeting at Your Convenience</h6>
     </header>
