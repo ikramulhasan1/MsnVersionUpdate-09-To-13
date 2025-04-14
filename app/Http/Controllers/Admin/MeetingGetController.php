@@ -30,8 +30,7 @@ class MeetingGetController extends Controller
         $data['view'] = $this->view;
         $data['path'] = $this->path;
         
-        $data['rows'] = Meeting::orderBy('id', 'desc')->limit(500)->get();
-
+        $data['rows'] = Meeting::orderBy('meeting_date', 'desc')->limit(500)->get();
         return view($this->view.'.index', $data);
     }
 
