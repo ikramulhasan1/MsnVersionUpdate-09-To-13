@@ -4,13 +4,64 @@
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Bootstrap Toggle CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
-{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/> --}}
-{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script> --}}
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-    <!-- start page title -->
+<style>
+/* Smart Toggle Styles */
+.smart-toggle {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+}
+.smart-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    background-color: #dc3545;
+    border-radius: 34px;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    transition: .4s;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 24px;
+    width: 24px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: .4s;
+}
+input:checked + .slider {
+    background-color: #28a745;
+}
+input:checked + .slider:before {
+    transform: translateX(30px);
+}
+.slider-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 3px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    pointer-events: none;
+}
+.smart-toggle.loading .slider:before {
+    background: #f3f3f3 url('https://i.imgur.com/llF5iyg.gif') no-repeat center;
+    background-size: 18px;
+}
+</style>
+  <!-- start page title -->
     <!-- Include page breadcrumb -->
     @include('admin.inc.breadcrumb')
     <!-- end page title --> 
@@ -68,14 +119,11 @@
                                         </td>
                                         <td>{{ $row->location }}</td>
                                         <td>
-                                            <input type="checkbox" class="status-toggle"
-                                                data-id="{{ $row->id }}"
-                                                data-toggle="toggle"
-                                                data-on="Approve"
-                                                data-off="Pending"
-                                                data-onstyle="success"
-                                                data-offstyle="danger"
-                                                {{ $row->status == 'approve' ? 'checked' : '' }}>
+                                            <label class="smart-toggle {{ $row->status }}" data-id="{{ $row->id }}">
+                                                <input type="checkbox" {{ $row->status == 'approve' ? 'checked' : '' }}>
+                                                <span class="slider"></span>
+                                                <span class="slider-text">{{ $row->status == 'approve' ? 'Approved' : 'Pending' }}</span>
+                                            </label>
                                         </td>
                                         <td>
                                             <a href="{{ route('admin.meetinggets.show', [$row->id]) }}" class="btn btn-success btn-sm">
