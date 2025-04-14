@@ -59,7 +59,7 @@
                                         <td>{{ $row->meeting_time }}</td>
                                         <td style="font-weight: bold; color:
                                             {{ $daysDiff >= 0 && $daysDiff <= 7 ? 'red' :
-                                               ($daysDiff > 7 && $daysDiff <= 14 ? 'green' : 'inherit') }}">
+                                               ($daysDiff > 7 && $daysDiff <= 14 ? 'green' : 'inherit') }};">
                                             {{ $row->date }}
                                         </td>
                                         <td>{{ $row->location }}</td>
@@ -100,35 +100,26 @@ $(document).ready(function () {
         let id = $(this).data('id');
 
         $.ajax({
-            url: "{{ url()->current() }}", // same page
-            type: "POST",
+            url: '{{ route("admin.meetings.updateStatus") }}',
+            type: 'POST',
             data: {
                 _token: '{{ csrf_token() }}',
                 id: id,
-                status: status,
-                updateStatus: true
+                status: status
             },
             success: function (res) {
-                toastr.success('Status updated to ' + status);
+                if (res.success) {
+                    toastr.success('Status updated to ' + res.status);
+                } else {
+                    toastr.error('Update failed');
+                }
             },
             error: function () {
-                toastr.error('Failed to update status');
+                toastr.error('AJAX request failed');
             }
         });
     });
 });
 </script>
-
-@if(request()->has('updateStatus'))
-    @php
-        \Illuminate\Support\Facades\DB::table('meetings')
-            ->where('id', request('id'))
-            ->update(['status' => request('status')]);
-
-        echo json_encode(['success' => true]);
-        exit;
-    @endphp
-@endif
-
 
 @endsection
