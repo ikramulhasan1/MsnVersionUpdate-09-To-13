@@ -155,7 +155,7 @@
            
             
             <fieldset class="custom-fieldset">
-              <legend>Meeting Time[h-m-am/pm]</legend>
+              <legend>Hours-Minutes-[Am/Pm]</legend>
               <input 
                 type="time" 
                 id="meeting_time" 
