@@ -111,10 +111,10 @@
     <header class="mb-4">
       <button class="modal__close">×</button>
       <h2 class="text-center row d-flex justify-content-center align-items-center " style="font-weight: bolder">
-        <div class="col-2">
-          <img  src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Calendar_icon_%282020%29.svg/2048px-Google_Calendar_icon_%282020%29.svg.png" alt="" srcset="">
+        <div class="col-6">
+          <img style="width: 20px !important " src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Calendar_icon_%282020%29.svg/2048px-Google_Calendar_icon_%282020%29.svg.png" alt="" srcset="">
         </div>
-        <div class="col-10">
+        <div class="col-6">
           Book a Meeting
         </div>
       </h2>
