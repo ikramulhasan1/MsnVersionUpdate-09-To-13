@@ -4,6 +4,17 @@
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap Toggle CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
+<!-- Toastr CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+
+<!-- Bootstrap Toggle JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <!-- start page title -->
     <!-- Include page breadcrumb -->
@@ -63,31 +74,15 @@
                                         </td>
                                         <td>{{ $row->location }}</td>
                                         <td>
-                                            {{-- <input type="checkbox" class="status-toggle"
+                                            <input type="checkbox" class="status-toggle"
                                                 data-id="{{ $row->id }}"
                                                 data-toggle="toggle"
                                                 data-on="Approve"
                                                 data-off="Pending"
                                                 data-onstyle="success"
                                                 data-offstyle="danger"
-                                                {{ $row->status == 'approve' ? 'checked' : '' }}> --}}
-                                                <label class=" relative inline-flex items-center cursor-pointer">
-                                                    <input type="checkbox" class="sr-only peer status-toggle" data-id="{{ $row->id }}" data-toggle="toggle" data-on="Approve" data-off="Pending" data-onstyle="success" data-offstyle="danger"
-                                                    {{ $row->status == 'approve' ? 'checked' : '' }}>
-
-                                                    <div class="w-16 h-9 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-gradient-to-r peer-checked:from-green-400 peer-checked:to-green-600 transition-colors duration-300 ease-in-out shadow-inner"></div>
-                                                    <div class="absolute left-1 top-1 w-7 h-7 bg-white border border-gray-300 rounded-full transition-transform duration-300 ease-in-out transform peer-checked:translate-x-7 shadow-md"></div>
-                                                    <span class="ml-3 text-sm font-semibold text-gray-700 peer-checked:text-green-600">
-                                                      Approve
-                                                    </span>
-                                                </label>
-                                                  
-                                                
-                                                  
-                                                
-                                                  
-                                        
-                                            </td>
+                                                {{ $row->status == 'approve' ? 'checked' : '' }}>
+                                        </td>
                                         <td>
                                             <a href="{{ route('admin.meetinggets.show', [$row->id]) }}" class="btn btn-success btn-sm">
                                                 <i class="fas fa-eye"></i>
