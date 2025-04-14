@@ -1,11 +1,7 @@
 @extends('admin.layouts.master')
 @section('title', $title)
 @section('content')
-@php
-    $currentDate = \Carbon\Carbon::now();
-    $rowDate = \Carbon\Carbon::parse($row->date);
-    $diffInDays = $currentDate->diffInDays($rowDate, false);
-@endphp
+
 <!-- Start Content-->
 <div class="container-fluid">
     
@@ -56,13 +52,14 @@
                                 <td>{{ $row->phone }}</td>
                                 <td>{{ $row->city }}</td>
                                 <td>{{ $row->meeting_time }}</td>
-                                
                                 <td>{{ $row->date }}</td>
                                 <td>{{ $row->location }}</td>
                                 {{-- <td>{{ date('h:i:s A | d-M-y', strtotime($row->created_at)) }}</td> --}}
                                 <td>
                                     @if( $row->status == 'pending' )
                                     <span class="badge badge-warning badge-pill">{{ __('dashboard.pending') }}</span>
+                                    @elseif( $row->status == 2 )
+                                    <span class="badge badge-info badge-pill">{{ __('dashboard.estimated') }}</span>
                                     @elseif( $row->status == 'approve' )
                                     <span class="badge badge-success badge-pill">{{ __('dashboard.approved') }}</span>
                                     @endif
