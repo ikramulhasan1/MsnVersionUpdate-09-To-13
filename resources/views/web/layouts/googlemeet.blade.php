@@ -141,7 +141,7 @@
 
             <fieldset class="custom-fieldset">
               <legend style="color: rgb(0, 128, 0)">Hours - Minutes - Am/Pm</legend>
-              <input type="time" id="meeting_time" name="meeting_time" class="custom-input ml-2" required />
+              <input type="time" id="meeting_time" name="meeting_time" class="custom-input pl-2" required />
             </fieldset>
           </div>
           <div class="col-md-6 d-flex justify-content-end">
