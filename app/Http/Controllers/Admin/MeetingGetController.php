@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Meeting;
 use Illuminate\Http\Request;
-
+use Toastr;
 class MeetingGetController extends Controller
 {
     public function __construct()
@@ -95,8 +95,15 @@ class MeetingGetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Meeting $meeting)
     {
-        //
+       // Delete Data
+       $meeting->delete();
+
+       Toastr::success(__('dashboard.deleted_successfully'), __('dashboard.success'));
+
+       return redirect()->back();
     }
+    
+    
 }
