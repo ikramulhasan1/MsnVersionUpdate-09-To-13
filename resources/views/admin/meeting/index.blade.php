@@ -56,14 +56,10 @@
                                 <td>{{ $row->location }}</td>
                                 {{-- <td>{{ date('h:i:s A | d-M-y', strtotime($row->created_at)) }}</td> --}}
                                 <td>
-                                    @if( $row->status == 1 )
-                                    <span class="badge badge-primary badge-pill">{{ __('dashboard.pending') }}</span>
-                                    @elseif( $row->status == 2 )
-                                    <span class="badge badge-info badge-pill">{{ __('dashboard.estimated') }}</span>
-                                    @elseif( $row->status == 3 )
+                                    @if( $row->status == 'pending' )
+                                    <span class="badge badge-warning badge-pill">{{ __('dashboard.pending') }}</span>
+                                    @elseif( $row->status == 'approve' )
                                     <span class="badge badge-success badge-pill">{{ __('dashboard.approved') }}</span>
-                                    @elseif( $row->status == 0 )
-                                    <span class="badge badge-danger badge-pill">{{ __('dashboard.rejected') }}</span>
                                     @endif
                                 </td>
                                 <td>
