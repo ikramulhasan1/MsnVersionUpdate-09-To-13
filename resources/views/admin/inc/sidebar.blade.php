@@ -19,6 +19,12 @@
             </a>
         </li>
         <li>
+            <a href="{{ route('admin.meetinggets.index') }}">
+                <span class="icon"><i class="fas fa-quote-right"></i></span>
+                <span> {{ trans_choice('dashboard.meetings', 2) }} </span>
+            </a>
+        </li>
+        <li>
             <a href="{{ route('admin.redirects.index') }}">
                 <span class="icon"><i class="fas fa-external-link-alt"></i>
                 </span>

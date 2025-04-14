@@ -32,6 +32,7 @@ return array (
   'print' => 'Print',
   'attach' => 'Attach',
   'quote' => 'Quote|Quotes',
+  'meetings' => 'Meetings',
   'create_invoice' => 'Create Invoice',
   'add' => 'Add',
   'edit' => 'Edit',
