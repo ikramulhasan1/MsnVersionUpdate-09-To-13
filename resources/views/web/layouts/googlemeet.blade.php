@@ -91,7 +91,7 @@
   
     .custom-input {
       width: 100%;
-      border: 1px solid #e9e9e9;
+      border: 1px solid #cbcbcb;
       font-size: 16px;
       padding: 5px 0;
       background-color: transparent;
@@ -132,7 +132,7 @@
             <input type="text" id="name" name="name" class="form-control mb-3" placeholder="Name" required />
             <input type="tel" id="phone" name="phone" class="form-control mb-3" placeholder="Phone" required />
             <input type="email" id="email" name="email" class="form-control mb-3 mt-3" placeholder="Email" required />
-            <input type="text" id="location" name="location" class="form-control mb-3" placeholder="Location" autocomplete="off" required />
+            <input type="text" id="location" name="location" class="form-control mb-2" placeholder="Location" autocomplete="off" required />
 
             <!-- Autocomplete -->
             <div id="autocomplete-box" class="autocomplete-box d-none"></div>
@@ -153,7 +153,7 @@
            
             
             <fieldset class="custom-fieldset">
-              <legend style="color: rgb(0, 163, 0) ">Hours - Minutes - Am/Pm</legend>
+              <legend style="color: rgb(0, 128, 0) ">Hours - Minutes - Am/Pm</legend>
               <input 
                 type="time" 
                 id="meeting_time" 
