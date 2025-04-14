@@ -1,11 +1,7 @@
 @extends('admin.layouts.master')
 @section('title', $title)
 @section('content')
-@php
-    $currentDate = \Carbon\Carbon::now();
-    $rowDate = \Carbon\Carbon::parse($row->date);
-    $diffInDays = $currentDate->diffInDays($rowDate, false);
-@endphp
+
 <!-- Start Content-->
 <div class="container-fluid">
     
@@ -49,6 +45,11 @@
                         </thead>
                         <tbody>
                           @foreach( $rows as $key => $row )
+                            @php
+                                $currentDate = \Carbon\Carbon::now();
+                                $rowDate = \Carbon\Carbon::parse($row->date);
+                                $diffInDays = $currentDate->diffInDays($rowDate, false);
+                            @endphp
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td><a href="{{ route($route.'.show', [$row->id]) }}">#{{ $row->name }}</a></td>
