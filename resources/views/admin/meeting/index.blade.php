@@ -49,7 +49,11 @@
                                 $currentDate = \Carbon\Carbon::now();
                                 $rowDate = \Carbon\Carbon::parse($row->date);
                                 $diffInDays = $currentDate->diffInDays($rowDate, false);
+                            
+                                $today = \Carbon\Carbon::today();
+                                $daysDiff = $today->diffInDays($rowDate, false);
                             @endphp
+                         
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td><a href="{{ route($route.'.show', [$row->id]) }}">#{{ $row->name }}</a></td>
