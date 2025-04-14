@@ -97,6 +97,9 @@
       background-color: transparent;
       border-radius: 5px;
     }
+    .iti__country-list{
+      width: 150px !important;
+    }
   </style>
   @include('web.layouts.googlehead')
 </head>
