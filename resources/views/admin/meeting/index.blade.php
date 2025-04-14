@@ -51,7 +51,7 @@
                                 <td>{{ $row->email }}</td>
                                 <td>{{ $row->phone }}</td>
                                 <td>{{ $row->city }}</td>
-                                <td>{{ $row->time }}</td>
+                                <td>{{ $row->meeting_time }}</td>
                                 <td>{{ $row->date }}</td>
                                 <td>{{ $row->location }}</td>
                                 {{-- <td>{{ date('h:i:s A | d-M-y', strtotime($row->created_at)) }}</td> --}}
