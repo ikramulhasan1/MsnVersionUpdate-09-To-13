@@ -458,10 +458,8 @@ $header = \App\Models\PageSetup::page('blog');
                                                     <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
                                                 </a>
                                             </div>
-                                            <div class="">
-                                                <div class="z-1000 ">
-                                                    @include('web.layouts.googlemeet')
-                                                </div>
+                                            <div class="sticky ">
+                                                @include('web.layouts.googlemeet')
                                             </div>
                                         </div>
                                     @elseif(isset($page_contact))
