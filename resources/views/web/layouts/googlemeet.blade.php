@@ -126,18 +126,18 @@ legend {
               <label for="meeting_time">Meeting Time:</label>
               <input type="time" id="meeting_time" name="meeting_time" class="form-control mb-3" required />
             </fieldset> --}}
-            <fieldset style="border: 1px solid #ccc; padding: 5px; border-radius: 6px; display: inline-block;">
-              <input 
-                type="time" 
-                id="meeting_time" 
-                name="meeting_time" 
-                class="form-control mb-2" 
-                style="border: none; outline: none;" 
-                required 
-              />
-            </fieldset>
-            
-            
+            <fieldset style="border: 1px solid #ccc; padding: 10px; border-radius: 6px;">
+  <label for="meeting_time">Meeting Time:</label>
+  <input 
+    type="time" 
+    id="meeting_time" 
+    name="meeting_time" 
+    class="form-control mb-2" 
+    style="border: 1px solid #888; padding: 5px; border-radius: 4px;" 
+    required 
+  />
+</fieldset>
+
           </div>
           <div class="col-md-6 d-flex justify-content-end ">
             <div id="calendar"></div>
