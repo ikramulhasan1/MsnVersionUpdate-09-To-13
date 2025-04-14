@@ -92,6 +92,7 @@
       width: 280px !important;
     }
   </style>
+  @include('web.layouts.googlehead')
 </head>
 <body>
 
