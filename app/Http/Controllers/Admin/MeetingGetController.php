@@ -52,22 +52,22 @@ class MeetingGetController extends Controller
     }
     public function updateStatus(Request $request)
     {
+        $request->validate([
+            'id' => 'required|exists:meetings,id',
+            'status' => 'required|in:approve,pending',
+        ]);
+
         try {
             $meeting = Meeting::findOrFail($request->id);
             $meeting->status = $request->status;
             $meeting->save();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Status updated successfully.'
-            ]);
+            return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Update failed: ' . $e->getMessage()
-            ]);
+            return response()->json(['success' => false, 'message' => 'Failed to update status.']);
         }
     }
+
     /**
      * Display the specified resource.
      *

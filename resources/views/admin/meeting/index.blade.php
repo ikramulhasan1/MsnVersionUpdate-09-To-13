@@ -96,32 +96,33 @@
 </div>
 
 <script>
-$(document).ready(function () {
-    $('.status-toggle').change(function () {
-        let status = $(this).prop('checked') ? 'approve' : 'pending';
-        let id = $(this).data('id');
-
-        $.ajax({
-            url: "{{ route('admin.meeting.update-status') }}",
-            method: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                id: id,
-                status: status
-            },
-            success: function(response) {
-                if (response.success) {
-                    toastr.success(response.message);
-                } else {
-                    toastr.error(response.message || 'Something went wrong!');
+    $(document).ready(function () {
+        $('.status-toggle').change(function () {
+            let status = $(this).prop('checked') ? 'approve' : 'pending';
+            let id = $(this).data('id');
+    
+            $.ajax({
+                url: "{{ route('admin.meeting.update-status') }}",
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: id,
+                    status: status
+                },
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success(response.message);
+                    } else {
+                        toastr.error(response.message || 'Something went wrong!');
+                    }
+                },
+                error: function(xhr) {
+                    toastr.error('Server error. Please try again.');
                 }
-            },
-            error: function(xhr) {
-                toastr.error('Server error. Please try again.');
-            }
+            });
         });
     });
-});
+    </script>
 </script>
 
 @endsection
