@@ -59,8 +59,8 @@
                                 <td>{{ $row->meeting_time }}</td>
 
                                 <td style="color: 
-                                    {{ $diffInDays >= 0 && $diffInDays <= 7 ? 'green' : 
-                                    ($diffInDays < 7 && $diffInDays >= 14 ? 'red' : 'inherit') }}">
+                                    {{ $daysDiff >= 0 && $daysDiff <= 7 ? 'green' : 
+                                    ($daysDiff > 7 && $daysDiff <= 14 ? 'red' : 'inherit') }}">
                                     {{ $row->date }}
                                 </td>
 
