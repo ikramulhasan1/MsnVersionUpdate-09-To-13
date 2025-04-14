@@ -219,10 +219,10 @@
     }
   });
 
-  openModal.addEventListener("click", () => {
-    modal.style.display = "flex";
-    fetchIPInfo(); // fetch user info when modal opens
-  });
+  // openModal.addEventListener("click", () => {
+  //   modal.style.display = "flex";
+  //   fetchIPInfo(); 
+  // });
 
   closeModal.addEventListener("click", () => modal.style.display = "none");
   cancelButton.addEventListener("click", () => modal.style.display = "none");
