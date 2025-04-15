@@ -3,9 +3,9 @@
 @php
 $header = \App\Models\PageSetup::page('blog');
 @endphp
-@if(isset($header))
+@if(isset($article))
 
-    @section('title', $article->title)
+    @section('title', $article->meta_title)
 
     @section('top_meta_tags')
     @if(isset($article->meta_desc))
@@ -25,7 +25,7 @@ $header = \App\Models\PageSetup::page('blog');
         {
           "@context": "http://schema.org",
           "@type": "Product",
-          "name": "{{ $article->title }}",
+          "name": "{{ $article->meta_title }}",
           "image": {
             "@type": "ImageObject",
             "url": "{{ asset('uploads/article/'.$article->image_path) }}",
