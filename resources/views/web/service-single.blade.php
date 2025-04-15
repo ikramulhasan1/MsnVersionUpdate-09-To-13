@@ -435,8 +435,17 @@ $header = \App\Models\PageSetup::page('services');
 
         <div class="">
             <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
-            <div class="row g-1 lazy">
-                @if (!empty($service->subservices))
+            <div class="row g-1">
+    <div class="lazy">
+      <div><img data-lazy="https://via.placeholder.com/400x250?text=Image+1" alt="Image 1"></div>
+      <div><img data-lazy="https://via.placeholder.com/400x250?text=Image+2" alt="Image 2"></div>
+      <div><img data-lazy="https://via.placeholder.com/400x250?text=Image+3" alt="Image 3"></div>
+      <div><img data-lazy="https://via.placeholder.com/400x250?text=Image+4" alt="Image 4"></div>
+      <div><img data-lazy="https://via.placeholder.com/400x250?text=Image+5" alt="Image 5"></div>
+      <div><img data-lazy="https://via.placeholder.com/400x250?text=Image+6" alt="Image 6"></div>
+    </div>
+
+                {{-- @if (!empty($service->subservices))
                 @foreach ($service->subservices as $key => $item)
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12 col-xs-12 mb-3">
                         <div class="card" style="width: 100% !important;">
@@ -447,7 +456,7 @@ $header = \App\Models\PageSetup::page('services');
                         </div>
                     </div>
                 @endforeach  
-                @endif  
+                @endif   --}}
             </div>
         </div>
         
