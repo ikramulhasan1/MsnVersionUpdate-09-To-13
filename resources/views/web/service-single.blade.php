@@ -143,9 +143,6 @@ $header = \App\Models\PageSetup::page('services');
 
 
 
-<link rel="stylesheet" type="text/css" href="slick/slick.css"/>
-// Add the new slick-theme.css if you want the default styling
-<link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
 @endsection
 
 {{-- schema section --}}
@@ -438,13 +435,8 @@ $header = \App\Models\PageSetup::page('services');
 
         <div class="">
             <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
-            <div class="row g-1">
-<div class="your-class">
-  <div>your content</div>
-  <div>your content</div>
-  <div>your content</div>
-</div>
-                {{-- @if (!empty($service->subservices))
+            <div class="row g-1 lazy">
+                @if (!empty($service->subservices))
                 @foreach ($service->subservices as $key => $item)
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12 col-xs-12 mb-3">
                         <div class="card" style="width: 100% !important;">
@@ -455,7 +447,7 @@ $header = \App\Models\PageSetup::page('services');
                         </div>
                     </div>
                 @endforeach  
-                @endif   --}}
+                @endif  
             </div>
         </div>
         
@@ -486,17 +478,17 @@ $header = \App\Models\PageSetup::page('services');
 </script>
 <script>
     $(document).ready(function(){
-            $('.your-class').slick({
-            lazyLoad: 'ondemand',
-            slidesToShow: 3,
-            slidesToScroll: 1
-        });
+      $('.lazy').slick({
+        lazyLoad: 'ondemand',
+        infinite: true,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        arrows: true,
+        dots: false,
+        autoplay: false,
+        autoplaySpeed: 3000
+      });
     });
-
-
-</script>
-<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-<script type="text/javascript" src="slick/slick.min.js"></script>
-				
+  </script>
+			
 @endsection

@@ -47,6 +47,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('slick/slick.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('slick/slick-theme.css') }}"/>
     <style>
         .poppins-regular {
         font-family: "Poppins", sans-serif;
@@ -1056,6 +1059,11 @@
             }
         });
     </script>
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="{{ asset('slick/slick.min.js') }}"></script>
+				
 </body>
 
 </html>
