@@ -214,38 +214,21 @@ class ArticleController extends Controller
         $setting = \App\Models\Setting::first();
     
         if (!empty($article->service) && !empty($article->service_title) && !empty($article->service_desc)) {
-            // Decode HTML entities and style <p> tags
-            $description = htmlspecialchars_decode(
-                preg_replace(
-                    '/<p(.*?)>/i',
-                    '<p$1 style="color: #ffffff !important; margin: 8px !important; font-size: 18px !important;">',
-                    $article->service_desc
-                )
-            );
-    
-            // Replace <li> with ✅ styled <p>
-            $description = preg_replace(
-                '/<li>(.*?)<\/li>/i',
-                '<p style="margin:0px; text-align:left !important; color: #ffffff !important;">✅ $1</p>',
-                $description
-            );
-    
-            // Remove list tags
+            // Replace <li> elements with the ✅ emoji
+            $description = htmlspecialchars_decode(preg_replace('/<p(.*?)>/i', '<p$1 style="color: #ffffff !important; margin: 8px !important; font-size: 18px !important; ">', $article->service_desc));
+            $description = preg_replace('/<li>(.*?)<\/li>/i', '<p style="margin:0px; text-align:left !important; color: #ffffff !important;">✅ $1</p>', $description);
             $description = str_replace(['<ul>', '</ul>', '<ol>', '</ol>'], '', $description);
     
-            // Render the Google Meet partial view
-            $googleMeetHtml = view('web.layouts.googlemeet')->render();
-    
-            // Build the full service package HTML
+            // Improved Package HTML with Blade Variables Inside String
             $packageHtml = "<div class='service-package' style='
-                background: #1E2A38; 
-                border: 2px solid #59C94E !important; 
-                border-radius: 30px !important; 
-                box-shadow: 0 5px 5px rgba(0, 0, 0, 0.4) !important; 
-                padding: 20px; 
-                margin: 20px 0; 
-                text-align: center;
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: #1E2A38; 
+            border: 2px solid #59C94E !important; 
+            border-radius: 30px !important; 
+            box-shadow: 0 5px 5px rgba(0, 0, 0, 0.4) !important; 
+            padding: 20px; 
+            margin: 20px 0; 
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             '>
                 <h3 style='
                     font-size: 22px; 
@@ -260,6 +243,7 @@ class ArticleController extends Controller
                     text-align:left !important; 
                     font-size: 18px !important; 
                     line-height: 1.7;
+                    text-align: left;
                     margin-bottom: 18px; 
                     color: #ffffff !important;
                 '>" . $description . "</div>
@@ -271,8 +255,24 @@ class ArticleController extends Controller
                     gap: 10px; 
                     flex-wrap: wrap;
                 '>
-                    <div>" . $googleMeetHtml . "</div>
+                    
     
+                    <div>
+                        <a target='_blank' href='" . url('service/' . htmlspecialchars($article->service->slug)) . "' style='
+                            display: inline-block;
+                            padding: 8px 25px;
+                            background: linear-gradient(135deg, #00893B, #00B75D);
+                            color: #ffffff;
+                            border-radius: 30px;
+                            text-decoration: none;
+                            font-weight: bold;
+                            box-shadow: 0 6px 50px rgba(0, 137, 59, 0.6);
+                            transition: transform 0.3s ease, box-shadow 0.3s ease;
+                        '
+                        onmouseover=\"this.style.transform='scale(1.08)'; this.style.boxShadow='0 6px 10px rgba(0, 137, 59, 0.5)';\"
+                        onmouseout=\"this.style.transform='scale(1)'; this.style.boxShadow='0 6px 10px rgba(0, 137, 59, 0.5)';\"
+                        >Visit Now >></a>
+                    </div>
                     <div class='circle-container' style='
                         display: flex; 
                         gap: 10px;
@@ -296,7 +296,7 @@ class ArticleController extends Controller
         // Dynamic Placeholder Logic
         $placeholder = $article->placeholder ?? 'serviceshow';
     
-        // Replace placeholder with the generated package HTML
+        // Improved Regex for Better Placeholder Handling
         $article->description = preg_replace(
             '/(' . preg_quote($placeholder, '/') . ')(?!<\/span>)/i',
             $placeholder . " " . $packageHtml,
@@ -306,5 +306,4 @@ class ArticleController extends Controller
         // Return the view
         return view('web.article-single', $data);
     }
-    
 }        
