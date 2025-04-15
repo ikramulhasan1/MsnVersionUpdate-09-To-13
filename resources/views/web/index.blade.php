@@ -180,7 +180,7 @@ $header = \App\Models\PageSetup::page('home');
 <section class="banner-section">
     <div class="carousel-column">
         <div class="carousel-outer">
-            <div class="banner-carousel owl-carousel owl-theme fade">
+            <div class="banner-carousel owl-carousel owl-theme ">
                 @foreach($sliders as $slider)
                 <!-- Slide Item -->
                 <div class="slide-item" style="background-image: url({{ asset('uploads/slider/'.$slider->image_path) }});">
