@@ -430,8 +430,9 @@ $header = \App\Models\PageSetup::page('services');
             </div>
         </div>
 
-        @if (!empty($service->subservices))
+        
         <div class="">
+            @if (!empty($service->subservices))
             <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
             <div class="row g-1 owl-carousel owl-theme">
 
@@ -448,8 +449,9 @@ $header = \App\Models\PageSetup::page('services');
                 @endforeach  
                 
             </div>
+            @endif 
         </div>
-        @endif  
+         
     </div>
 </div>
 @endif
