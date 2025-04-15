@@ -483,24 +483,27 @@ $header = \App\Models\PageSetup::page('services');
  <!-- ✅ Owl Carousel JS -->
  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
  <script>
-    $(document).ready(function(){
+   $(document).ready(function(){
       $('.owl-carousel').owlCarousel({
         loop: true,
         margin: 10,
         nav: true,
         dots: true,
         lazyLoad: true,
-        autoplay: true,
+        autoplay: false,
         autoplayTimeout: 3000,
         responsive: {
           0: {
             items: 1
           },
-          600: {
+          400: {
             items: 2
           },
-          1000: {
+          800: {
             items: 3
+          },
+          1200: {
+            items: 4
           }
         }
       });
