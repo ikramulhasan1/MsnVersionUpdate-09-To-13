@@ -142,7 +142,8 @@ $header = \App\Models\PageSetup::page('services');
 @endif
 
 
-
+<link rel="stylesheet" type="text/css" href="{{ asset('slick/slick.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('slick/slick-theme.css') }}"/>
 @endsection
 
 {{-- schema section --}}
@@ -485,6 +486,10 @@ $header = \App\Models\PageSetup::page('services');
             }
         });
 </script>
+
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="{{ asset('slick/slick.min.js') }}"></script>
 <script>
     $(document).ready(function(){
       $('.lazy').slick({
