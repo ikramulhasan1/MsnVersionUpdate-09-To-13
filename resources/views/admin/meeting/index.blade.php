@@ -61,7 +61,7 @@
                                         </td>
                                         <td>{{ $row->location }}</td>
                                       
-                                        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+                                        {{-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> --}}
 
                                         <td>
                                             <label class="inline-flex items-center cursor-pointer">
