@@ -121,11 +121,11 @@
                     @php
                         $template_estimated = \App\Models\EmailTemplate::template('quote-estimated');
                     @endphp
-                    @if(isset($template_estimated))
+                    {{-- @if(isset($template_estimated))
                     <a href="{{ route($route.'.invoice', ['id' => $row->id, 'action' => 'estimated']) }}" class="btn btn-info btn-sm mb-1">
                         {{ __('dashboard.estimate') }}
                     </a>
-                    @endif
+                    @endif --}}
 
                     @php
                         $template_approved = \App\Models\EmailTemplate::template('quote-approved');
