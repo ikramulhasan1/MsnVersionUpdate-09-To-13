@@ -219,6 +219,7 @@ class ArticleController extends Controller
             $description = preg_replace('/<li>(.*?)<\/li>/i', '<p style="margin:0px; text-align:left !important; color: #ffffff !important;">✅ $1</p>', $description);
             $description = str_replace(['<ul>', '</ul>', '<ol>', '</ol>'], '', $description);
     
+            $googleMeetHtml = view('web.layouts.googlemeet')->render();
             // Improved Package HTML with Blade Variables Inside String
             $packageHtml = "<div class='service-package' style='
             background: #1E2A38; 
@@ -258,7 +259,7 @@ class ArticleController extends Controller
                     
     
                     <div>
-                        @include('web.layouts.googlemeet)
+                        " . $googleMeetHtml . "
                     </div>
                     <div class='circle-container' style='
                         display: flex; 
