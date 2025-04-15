@@ -93,74 +93,11 @@
                     </table>
                     </div>
 
-                    <hr/>
-                    <p><span class="text-highlight">{{ __('dashboard.services') }}: </span></p>
-                    {{-- @foreach($row->services as $service)
-                        <span class="badge badge-primary badge-pill">{{ $service->title }}</span>
-                    @endforeach --}}
-                    <hr/>
-
-                    @if(isset($row->message))
-                    <p><span class="text-highlight">{{ __('dashboard.note') }}: </span> {!! strip_tags($row->message, '<p><a><b><i><u><strong><br><ul><ol><li><del><ins><sup><sub><pre>') !!}</p>
-                    <hr/>
-                    @endif
+                 
                 </div>
             </div>
         </div><!-- end col-->
-        <div class="col-12 col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="header-title">{{ __('dashboard.sidebar') }}</h4>
-                </div>
-                <div class="card-body">
-                    <p><span class="text-highlight">{{ __('dashboard.total_amount') }}: </span>
-                        @if(isset($row->amount))
-                        {{ $row->amount }} {{ __('common.currency') }}
-                        @else
-                        <span class="badge badge-warning badge-pill">{{ __('dashboard.no_value') }}</span>
-                        @endif
-                    </p>
-
-                    <hr/>
-                    <p><span class="text-highlight">{{ __('dashboard.status') }}:</span> 
-                    @if( $row->status == 1 )
-                    <span class="badge badge-primary badge-pill">{{ __('dashboard.pending') }}</span>
-                    @elseif( $row->status == 2 )
-                    <span class="badge badge-info badge-pill">{{ __('dashboard.estimated') }}</span>
-                    @elseif( $row->status == 3 )
-                    <span class="badge badge-success badge-pill">{{ __('dashboard.approved') }}</span>
-                    @elseif( $row->status == 0 )
-                    <span class="badge badge-danger badge-pill">{{ __('dashboard.rejected') }}</span>
-                    @endif
-                    </p>
-
-                    <hr/>
-                    <p><span class="text-highlight">{{ __('dashboard.prefer_contact') }} </span> 
-                    @if( $row->prefer_contact == 1 )
-                    <span>{{ __('dashboard.phone') }}: <a href="tel:{{ $row->phone }}" target="_blank">{{ $row->phone }}</a></span>
-                    @elseif( $row->prefer_contact == 2 )
-                    <span>{{ __('dashboard.email') }}: <a href="mailto:{{ $row->email }}" target="_blank">{{ $row->email }}</a></span>
-                    @endif
-                    </p>
-
-                    <hr/>
-                    {{ __('dashboard.send_mail') }} : <br/>
-
-                    @php
-                        $template_estimated = \App\Models\EmailTemplate::template('quote-estimated');
-                    @endphp
-                    {{-- @if(isset($template_estimated))
-                    <a href="{{ route($route.'.invoice', ['id' => $row->id, 'action' => 'estimated']) }}" class="btn btn-info btn-sm mb-1">
-                        {{ __('dashboard.estimate') }}
-                    </a>
-                    @endif --}}
-
-                   
-
-                    
-                </div>
-            </div>
-        </div><!-- end col-->
+        
     </div>
     <!-- end row-->
 
