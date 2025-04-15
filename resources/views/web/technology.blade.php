@@ -30,7 +30,7 @@ $header = \App\Models\PageSetup::page('technology');
       "brand": {
         "@type": "Brand",
         "name": "MSN Softtech",
-        "logo": "<img src="{{ asset('/uploads/setting/'.$setting->logo_path) }}" alt="Logo">"
+        "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
       },
       "offers": {
         "@type": "Offer",
