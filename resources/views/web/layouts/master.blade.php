@@ -43,6 +43,8 @@
     <link href="{{ asset('web/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('web/css/responsive.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="{{ asset('slick/slick.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('slick/slick-theme.css') }}"/>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -968,6 +970,9 @@
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="{{ asset('slick/slick.min.js') }}"></script>
     <!-- ✅ Owl Carousel JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script src="{{ asset('web/js/jquery.js') }}"></script>

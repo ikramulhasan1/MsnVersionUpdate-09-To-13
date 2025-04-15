@@ -180,7 +180,7 @@ $header = \App\Models\PageSetup::page('home');
 <section class="banner-section">
     <div class="carousel-column">
         <div class="carousel-outer">
-            <div class="banner-carousel owl-carousel owl-theme">
+            <div class="banner-carousel owl-carousel owl-theme fade">
                 @foreach($sliders as $slider)
                 <!-- Slide Item -->
                 <div class="slide-item" style="background-image: url({{ asset('uploads/slider/'.$slider->image_path) }});">
@@ -659,4 +659,19 @@ $section_clients = \App\Models\Section::section('clients');
 <!--End Clients Section-->
 @endif
 
+@endsection
+@section('scriptjs')
+<script>
+    $(document).ready(function(){
+  
+    $('.fade').slick({
+        dots: true,
+        infinite: true,
+        speed: 500,
+        fade: true,
+        cssEase: 'linear'
+    });
+        
+});
+</script>
 @endsection
