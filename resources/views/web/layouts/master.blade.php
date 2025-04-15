@@ -959,6 +959,7 @@
     </footer>
     <!-- End Main Footer -->
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
     </div>
@@ -966,7 +967,6 @@
     <!--Scroll to top-->
     <div style="background-color: #1ebe5d" class="scroll-to-top scroll-to-target" data-target="html"><span class="fas fa-angle-double-up"></span></div>
     
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- ✅ Owl Carousel JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
