@@ -62,7 +62,7 @@
                                         <td>{{ $row->location }}</td>
                                       
                                         {{-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> --}}
-
+                                        @vite('resources/css/app.css')
                                         <td>
                                             <label class="inline-flex items-center cursor-pointer">
                                                 <input type="checkbox" value="{{ $row->status }}" class="sr-only peer status-toggle" 
