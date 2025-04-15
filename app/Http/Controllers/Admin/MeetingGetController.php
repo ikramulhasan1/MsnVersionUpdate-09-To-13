@@ -17,11 +17,7 @@ class MeetingGetController extends Controller
         $this->path = 'meeting';
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index()
     {
         //
