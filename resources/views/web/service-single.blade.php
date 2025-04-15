@@ -140,9 +140,9 @@ $header = \App\Models\PageSetup::page('services');
 <meta name="twitter:description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}" />
 <meta name="twitter:image" content="{{ asset('uploads/service/'.$service->image_path) }}" />
 @endif
-
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
 @endsection
 
 {{-- schema section --}}
