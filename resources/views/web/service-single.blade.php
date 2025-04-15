@@ -485,7 +485,7 @@ $header = \App\Models\PageSetup::page('services');
  <script>
    $(document).ready(function(){
       $('.owl-carousel').owlCarousel({
-        loop: true,
+        loop: false,
         margin: 10,
         nav: true,
         dots: true,
