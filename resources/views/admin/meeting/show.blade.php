@@ -67,9 +67,9 @@
 
                     <hr/>
                     <p><span class="text-highlight">{{ __('dashboard.services') }}: </span></p>
-                    @foreach($row->services as $service)
+                    {{-- @foreach($row->services as $service)
                         <span class="badge badge-primary badge-pill">{{ $service->title }}</span>
-                    @endforeach
+                    @endforeach --}}
                     <hr/>
 
                     @if(isset($row->message))
