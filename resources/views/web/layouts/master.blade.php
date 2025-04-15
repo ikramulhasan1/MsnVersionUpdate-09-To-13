@@ -48,7 +48,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
     
-  
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
     <style>
         .poppins-regular {
         font-family: "Poppins", sans-serif;
@@ -963,6 +964,7 @@
 
     <!--Scroll to top-->
     <div style="background-color: #1ebe5d" class="scroll-to-top scroll-to-target" data-target="html"><span class="fas fa-angle-double-up"></span></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="{{ asset('web/js/jquery.js') }}"></script>
     <script src="{{ asset('web/js/popper.min.js') }}"></script>
@@ -975,6 +977,8 @@
     <script src="{{ asset('web/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
     <script src="{{ asset('web/js/jquery-ui.js') }}"></script>
     <script src="{{ asset('web/js/mixitup.js') }}"></script>
+    <script src="jquery.min.js"></script>
+    <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
     @if($livechat->status == 1)
     <script src="{{ asset('web/js/floating-wpp.min.js') }}"></script>
     @endif
