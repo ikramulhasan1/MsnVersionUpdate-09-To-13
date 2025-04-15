@@ -430,12 +430,12 @@ $header = \App\Models\PageSetup::page('services');
             </div>
         </div>
 
-
+        @if (!empty($service->subservices))
         <div class="">
             <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
             <div class="row g-1 owl-carousel owl-theme">
 
-                @if (!empty($service->subservices))
+                
                 @foreach ($service->subservices as $key => $item)
                     
                         <div class="card" style="width: 100% !important;">
@@ -446,10 +446,10 @@ $header = \App\Models\PageSetup::page('services');
                         </div>
                     
                 @endforeach  
-                @endif  
+                
             </div>
         </div>
-        
+        @endif  
     </div>
 </div>
 @endif
