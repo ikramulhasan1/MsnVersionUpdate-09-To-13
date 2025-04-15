@@ -258,20 +258,7 @@ class ArticleController extends Controller
                     
     
                     <div>
-                        <a target='_blank' href='" . url('service/' . htmlspecialchars($article->service->slug)) . "' style='
-                            display: inline-block;
-                            padding: 8px 25px;
-                            background: linear-gradient(135deg, #00893B, #00B75D);
-                            color: #ffffff;
-                            border-radius: 30px;
-                            text-decoration: none;
-                            font-weight: bold;
-                            box-shadow: 0 6px 50px rgba(0, 137, 59, 0.6);
-                            transition: transform 0.3s ease, box-shadow 0.3s ease;
-                        '
-                        onmouseover=\"this.style.transform='scale(1.08)'; this.style.boxShadow='0 6px 10px rgba(0, 137, 59, 0.5)';\"
-                        onmouseout=\"this.style.transform='scale(1)'; this.style.boxShadow='0 6px 10px rgba(0, 137, 59, 0.5)';\"
-                        >Visit Now >></a>
+                        @include('web.layouts.googlemeet)
                     </div>
                     <div class='circle-container' style='
                         display: flex; 
