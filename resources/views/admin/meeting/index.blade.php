@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 @section('title', 'Meeting List')
 @section('content')
-
+{{-- @vite(entrypoints: 'resources/css/app.css') --}}
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Include page breadcrumb -->
@@ -62,7 +62,7 @@
                                         <td>{{ $row->location }}</td>
                                       
                                         {{-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> --}}
-                                        @vite('resources/css/app.css')
+                                        
                                         <td>
                                             <label class="inline-flex items-center cursor-pointer">
                                                 <input type="checkbox" value="{{ $row->status }}" class="sr-only peer status-toggle" 
