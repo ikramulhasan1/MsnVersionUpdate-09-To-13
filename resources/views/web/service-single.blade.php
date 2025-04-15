@@ -476,33 +476,35 @@ $header = \App\Models\PageSetup::page('services');
         });
 </script>
  <!-- ✅ jQuery -->
-
- <script>
-   $(document).ready(function(){
-      $('.owl-carousel').owlCarousel({
-        loop: false,
-        margin: 10,
-        nav: true,
-        dots: true,
-        lazyLoad: true,
-        autoplay: true,
-        autoplayTimeout: 3000,
-        responsive: {
-          0: {
-            items: 1
-          },
-          400: {
-            items: 2
-          },
-          800: {
-            items: 3
-          },
-          1200: {
-            items: 4
-          }
-        }
-      });
-    });
-    
-  </script>
+@section('scriptjs')
+<script>
+    $(document).ready(function(){
+       $('.owl-carousel').owlCarousel({
+         loop: false,
+         margin: 10,
+         nav: true,
+         dots: true,
+         lazyLoad: true,
+         autoplay: true,
+         autoplayTimeout: 3000,
+         responsive: {
+           0: {
+             items: 1
+           },
+           400: {
+             items: 2
+           },
+           800: {
+             items: 3
+           },
+           1200: {
+             items: 4
+           }
+         }
+       });
+     });
+     
+   </script>
+@endsection
+ 
 @endsection
