@@ -490,7 +490,7 @@ $header = \App\Models\PageSetup::page('services');
         nav: true,
         dots: true,
         lazyLoad: true,
-        autoplay: false,
+        autoplay: true,
         autoplayTimeout: 3000,
         responsive: {
           0: {
