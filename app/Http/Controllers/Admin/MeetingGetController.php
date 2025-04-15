@@ -61,9 +61,16 @@ class MeetingGetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Meeting $meeting)
     {
-        //
+        $data['title'] = $this->title;
+        $data['route'] = $this->route;
+        $data['view'] = $this->view;
+        $data['path'] = $this->path;
+
+        $data['row'] = $meeting;
+
+        return view($this->view.'.show', $data);
     }
 
     /**

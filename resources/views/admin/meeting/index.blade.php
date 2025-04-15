@@ -32,7 +32,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
-                                    <th>City</th>
+                                    {{-- <th>City</th> --}}
                                     <th>Time</th>
                                     <th>Date</th>
                                     <th>Location</th>
@@ -49,10 +49,10 @@
                                     @endphp
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>{{ $row->name }}</td>
+                                        <td><a href="{{ route($route.'.show', [$row->id]) }}">{{ $row->name }}</a></td>
                                         <td><a href="mailto:{{ $row->email }}" target="_blank" rel="noopener noreferrer">{{ $row->email }}</a></td>
                                         <td><a target="_blank" rel="noopener noreferrer" href="https://wa.me/{{ $row->phone }}">{{ $row->phone }}</a></td>
-                                        <td>{{ $row->city }}</td>
+                                        {{-- <td>{{ $row->city }}</td> --}}
                                         <td>{{ $row->meeting_time }}</td>
                                         <td style="font-weight: bold; color:
                                             {{ $daysDiff >= 0 && $daysDiff <= 7 ? 'red' :
