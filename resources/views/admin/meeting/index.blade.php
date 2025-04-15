@@ -51,7 +51,7 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $row->name }}</td>
                                         <td>{{ $row->email }}</td>
-                                        <td> <a href="https://wa.link/{{ $row->phone }}">{{ $row->phone }}</a></td>
+                                        <td> <a href="https://wa.me/{{ $row->phone }}">{{ $row->phone }}</a></td>
                                         <td>{{ $row->city }}</td>
                                         <td>{{ $row->meeting_time }}</td>
                                         <td style="font-weight: bold; color:
