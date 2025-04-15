@@ -36,30 +36,58 @@
                             <td>{{ __('dashboard.email') }}</td>
                             <td>: {{ $row->email }}</td>
                         </tr>
-                        @if(isset($row->phone))
+                       
                         <tr>
                             <td>{{ __('dashboard.phone') }}</td>
                             <td>: {{ $row->phone }}</td>
                         </tr>
-                        @endif
-                        @if(isset($row->company))
                         <tr>
-                            <td>{{ __('dashboard.company') }}</td>
-                            <td>: {{ $row->company }}</td>
+                            <td>{{ __('dashboard.date') }}</td>
+                            <td>: {{ $row->date }}</td>
                         </tr>
-                        @endif
                         <tr>
-                            <td>{{ __('dashboard.address') }}</td>
-                            <td>: {{ $row->address }}</td>
+                            <td>{{ __('dashboard.meeting_time') }}</td>
+                            <td>: {{ $row->meeting_time }}</td>
                         </tr>
+                        <tr>
+                            <td>{{ __('dashboard.location') }}</td>
+                            <td>: {{ $row->location }}</td>
+                        </tr>
+                        
+                        @if(isset($row->city))
                         <tr>
                             <td>{{ __('dashboard.city') }}</td>
                             <td>: {{ $row->city }}</td>
                         </tr>
-                        @if(is_file('uploads/quote/'.$row->file_path))
+                        @endif
+                        @if(isset($row->ip))
                         <tr>
-                            <td>{{ __('dashboard.quote_files') }}</td>
-                            <td>: <a href="{{ asset('uploads/quote/'.$row->file_path) }}" target="_blank" download><span class="btn btn-sm btn-primary">{{ __('dashboard.download') }}</span></a></td>
+                            <td>{{ __('dashboard.ip') }}</td>
+                            <td>: {{ $row->ip }}</td>
+                        </tr>
+                        @endif
+                        @if(isset($row->latitude))
+                        <tr>
+                            <td>{{ __('dashboard.latitude') }}</td>
+                            <td>: {{ $row->latitude }}</td>
+                        </tr>
+                        @endif
+                        @if(isset($row->longitude))
+                        <tr>
+                            <td>{{ __('dashboard.longitude') }}</td>
+                            <td>: {{ $row->longitude }}</td>
+                        </tr>
+                        @endif
+                        @if(isset($row->distance_time))
+                        <tr>
+                            <td>{{ __('dashboard.distance_time') }}</td>
+                            <td>: {{ $row->distance_time }}</td>
+                        </tr>
+                        @endif
+                        @if(isset($row->distance_km))
+                        <tr>
+                            <td>{{ __('dashboard.distance_km') }}</td>
+                            <td>: {{ $row->distance_km }}</td>
                         </tr>
                         @endif
                     </table>
