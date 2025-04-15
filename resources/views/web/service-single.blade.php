@@ -439,8 +439,11 @@ $header = \App\Models\PageSetup::page('services');
         <div class="">
             <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
             <div class="row g-1">
-                <img data-lazy="img/lazyfonz1.png"/>
-
+<div class="your-class">
+  <div>your content</div>
+  <div>your content</div>
+  <div>your content</div>
+</div>
                 {{-- @if (!empty($service->subservices))
                 @foreach ($service->subservices as $key => $item)
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12 col-xs-12 mb-3">
@@ -483,7 +486,7 @@ $header = \App\Models\PageSetup::page('services');
 </script>
 <script>
     $(document).ready(function(){
-            $('.lazy').slick({
+            $('.your-class').slick({
             lazyLoad: 'ondemand',
             slidesToShow: 3,
             slidesToScroll: 1
