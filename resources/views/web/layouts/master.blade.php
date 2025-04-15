@@ -43,12 +43,6 @@
     <link href="{{ asset('web/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('web/css/responsive.css') }}" rel="stylesheet">
 
-    <!-- Slick CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-
-    <!-- Optional: Slick Theme CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
-
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -974,10 +968,7 @@
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Slick JS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
-    
     <!-- ✅ Owl Carousel JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script src="{{ asset('web/js/jquery.js') }}"></script>
