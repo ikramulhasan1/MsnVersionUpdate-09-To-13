@@ -429,14 +429,12 @@ $header = \App\Models\PageSetup::page('services');
                 @endif
             </div>
         </div>
-
         
-        <div class="">
+        <div >
             @if ($service->subservices->count() > 0)
             <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
             <div class="row g-1 owl-carousel owl-theme">
 
-                
                 @foreach ($service->subservices as $key => $item)
                     
                         <div class="card" style="width: 100% !important;">
