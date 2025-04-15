@@ -68,7 +68,7 @@ class MeetingGetController extends Controller
         $data['view'] = $this->view;
         $data['path'] = $this->path;
 
-        $data['meeting'] = $meeting;
+        $data['row'] = $meeting;
 
         return view($this->view.'.show', $data);
     }
