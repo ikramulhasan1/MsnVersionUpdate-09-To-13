@@ -140,9 +140,9 @@ $header = \App\Models\PageSetup::page('services');
 <meta name="twitter:description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}" />
 <meta name="twitter:image" content="{{ asset('uploads/service/'.$service->image_path) }}" />
 @endif
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
-
+ <!-- ✅ Owl Carousel CSS -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
 @endsection
 
 {{-- schema section --}}
@@ -439,7 +439,7 @@ $header = \App\Models\PageSetup::page('services');
 
                 @if (!empty($service->subservices))
                 @foreach ($service->subservices as $key => $item)
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-12 col-xs-12 mb-3 lazy">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12 col-xs-12 mb-3 owl-carousel owl-theme">
                         <div class="card" style="width: 100% !important;">
                             <img src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" class="card-img-top">
                             <div class="card-body">
@@ -477,22 +477,33 @@ $header = \App\Models\PageSetup::page('services');
             }
         });
 </script>
-<!-- ✅ Latest jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <!-- ✅ jQuery -->
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- ✅ Slick JS -->
-<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-<script>
+ <!-- ✅ Owl Carousel JS -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+ <script>
     $(document).ready(function(){
-      $('.lazy').slick({
-        lazyLoad: 'ondemand',
-        slidesToShow: 3,
-        slidesToScroll: 1,
+      $('.owl-carousel').owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: true,
         dots: true,
+        lazyLoad: true,
         autoplay: true,
-        autoplaySpeed: 2000
+        autoplayTimeout: 3000,
+        responsive: {
+          0: {
+            items: 1
+          },
+          600: {
+            items: 2
+          },
+          1000: {
+            items: 3
+          }
+        }
       });
     });
   </script>
-			
 @endsection
