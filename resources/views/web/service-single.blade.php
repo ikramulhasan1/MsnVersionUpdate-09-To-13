@@ -435,18 +435,18 @@ $header = \App\Models\PageSetup::page('services');
 
         <div class="">
             <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
-            <div class="row g-1">
+            <div class="row g-1 owl-carousel owl-theme">
 
                 @if (!empty($service->subservices))
                 @foreach ($service->subservices as $key => $item)
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-12 col-xs-12 mb-3 owl-carousel owl-theme">
+                    
                         <div class="card" style="width: 100% !important;">
                             <img src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" class="card-img-top">
                             <div class="card-body">
                                 <h6 style="font-weight: 700" class="card-title"><a class="cardlink" href="{{ route('service.related-single',$item->slug) }}">{{ $item->title }}</a></h6>
                             </div>
                         </div>
-                    </div>
+                    
                 @endforeach  
                 @endif  
             </div>
