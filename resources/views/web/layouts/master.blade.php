@@ -966,7 +966,7 @@
     <div style="background-color: #1ebe5d" class="scroll-to-top scroll-to-target" data-target="html"><span class="fas fa-angle-double-up"></span></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script src="{{ asset('web/js/jquery.js') }}"></script>
+    {{-- <script src="{{ asset('web/js/jquery.js') }}"></script> --}}
     <script src="{{ asset('web/js/popper.min.js') }}"></script>
     <script src="{{ asset('web/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('web/js/jquery.fancybox.js') }}"></script>
