@@ -480,7 +480,9 @@ $header = \App\Models\PageSetup::page('services');
 <!-- ✅ Latest jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script><script>
+<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<script>
     $(document).ready(function(){
       $('.lazy').slick({
         lazyLoad: 'ondemand',
