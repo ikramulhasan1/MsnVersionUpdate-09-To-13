@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 @section('title', 'Meeting List')
 @section('content')
-{{-- @vite(entrypoints: 'resources/css/app.css') --}}
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Include page breadcrumb -->
