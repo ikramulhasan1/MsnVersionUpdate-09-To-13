@@ -127,47 +127,16 @@
                     </a>
                     @endif --}}
 
-                    @php
-                        $template_approved = \App\Models\EmailTemplate::template('quote-approved');
-                    @endphp
-                    @if(isset($template_approved))
-                    <button type="button" class="btn btn-success btn-sm mb-1" data-toggle="modal" data-target="#approveModal-{{ $row->id }}">
-                        {{ __('dashboard.approve') }}
-                    </button>
-                    <!-- Include Approve modal -->
-                    @include($view.'.approve')
-                    @endif
+                   
 
-                    @php
-                        $template_rejected = \App\Models\EmailTemplate::template('quote-rejected');
-                    @endphp
-                    @if(isset($template_rejected))
-                    <button type="button" class="btn btn-danger btn-sm mb-1" data-toggle="modal" data-target="#rejectModal-{{ $row->id }}">
-                        {{ __('dashboard.reject') }}
-                    </button>
-                    <!-- Include Reject modal -->
-                    @include($view.'.reject')
-                    @endif
+                    
                 </div>
             </div>
         </div><!-- end col-->
     </div>
     <!-- end row-->
 
-    @if($row->status != 0)
-    <div class="row">
-        <div class="col-12 col-lg-12">
-            @php
-                $template_invoice = \App\Models\EmailTemplate::template('invoice-send');
-            @endphp
-            @if(isset($template_invoice))
-            <a href="{{ route($route.'.invoice', ['id' => $row->id, 'action' => 'invoice']) }}" class="btn btn-primary btn-sm">
-                {{ __('dashboard.create_invoice') }}
-            </a>
-            @endif
-        </div>
-    </div>
-    @endif
+   
     <div class="row">
         <div class="col-12 col-lg-12">
             <div class="card">
