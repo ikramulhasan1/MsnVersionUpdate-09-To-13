@@ -126,7 +126,7 @@ $header = \App\Models\PageSetup::page('home');
               <div class="col-md-8 item-content">
                 <div class="">
                   <h1>{{ $slider->title }}</h1>
-                  <p class="mb-4">{!! $slider->description !!}</p>
+                  <p style="margin-bottom: 10px" >{!! $slider->description !!}</p>
 
                   @php
                   $page_contact = \App\Models\PageSetup::page('contact-us');
