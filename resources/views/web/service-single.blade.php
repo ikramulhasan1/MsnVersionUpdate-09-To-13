@@ -146,191 +146,7 @@ $header = \App\Models\PageSetup::page('services');
 {{-- schema section --}}
 
 @section('content')
-<style>
-*{
-    color: black;
-}
-
-    table {
-        width: px;
-    }
-
-    table,
-    table th,
-    table td {
-        border: solid;
-    }
-
-    table th,
-    table td {
-        border: solid;
-    }
-
-    table th>ol>li,
-    table td>ul>li,
-    table th>ul>li,
-    table td>ol>li {
-        list-style: initial !important;
-        margin-left: 20px;
-
-    }
-
-    .marker {
-        background-color: yellow;
-    }
-
-    /* </p><table border="1" cellpadding="1" cellspacing="1" style="width:500px">  */
-
-    .description>ul>li {
-        margin-left: 30px !important;
-        list-style: initial;
-        font-size: 16px !important;
-    }
-
-
-    .description>ol>li {
-        /* list-style: decimal; */
-        margin-left: 30px !important;
-        all: revert;
-        font-size: 16px !important;
-    }
-
-
-    .description>ul>li>ul>li {
-        margin-left: 15px !important;
-        list-style: initial;
-        font-size: 16px !important;
-    }
-
-    .description>ol>li>ol>li {
-        margin-left: 15px !important;
-        all: revert;
-        font-size: 16px !important;
-    }
-
-    .description>ol>li>ul>li {
-        margin-left: 15px !important;
-        list-style: initial;
-        font-size: 16px !important;
-    }
-
-    .description>ul>li>ol>li {
-        margin-left: 15px !important;
-        all: revert;
-        font-size: 16px !important;
-    }
-
-    .description>ul>li>ul {
-        margin-left: 0px !important;
-        margin-bottom: 15px !important;
-        list-style: initial;
-        font-size: 16px !important;
-    }
-
-    .description>ol>li>ol {
-        margin-left: 0px !important;
-        margin-bottom: 15px !important;
-
-        all: revert;
-        font-size: 16px !important;
-    }
-
-    .description>ol>li>ul {
-        margin-left: 0px !important;
-        margin-bottom: 15px !important;
-
-        list-style: initial;
-        font-size: 16px !important;
-    }
-
-    .description>ul>li>ol {
-        margin-left: 0px !important;
-        margin-bottom: 15px !important;
-        all: revert;
-        font-size: 16px !important;
-    }
-
-    .description>p>a {
-        color: blue;
-        font-weight: bold;
-        text-decoration: none !important;
-    }
-    .description>p>a>b {
-        color: blue;
-        font-weight: bold;
-        text-decoration: none !important;
-    }
-
-    .description>p {
-        font-size: 18px !important;
-        margin-bottom: 0px !important;
-        margin-top: 15px !important;
-    }
-    .description>h2>p{
-        font-size: 18px !important;
-    }
-    .description>h2{
-        font-size: 26px !important;
-    }
-
-    .description>h3 {
-        font-size: 22px !important;
-        margin-top: 30px !important;
-        margin-bottom: 10px !important;
-    }
-
-
-
-    .circle-container {
-            width: 180px;
-            height: 54px;
-            background: linear-gradient(135deg, #4CAF50, #2E8B57); /* Green Gradient */
-            border-radius: 12px; /* Makes it round */
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: 15px; /* Space between buttons */
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
-            /* position: fixed; */
-            bottom: 20px;
-            right: 20px;
-            padding: 15px;
-        }
-
-        /* Icon Buttons */
-        .circle-button {
-            
-            background-color: white;
-            border: none;
-            width: 40px; /* Icon size */
-            height: 40px;
-            border-radius: 50%; /* Makes buttons round */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease-in-out;
-        }
-
-        /* Hover Effect */
-        .circle-button:hover {
-            background-color: #2E8B57;
-            transform: scale(1.1); /* Slight zoom */
-        }
-
-        /* Icon Images */
-        .circle-button img {
-            width: 25px; /* Adjust icon size */
-            height: 25px;
-        }
-        .hidden { display: none; }
-
-        .cardlink:hover{
-            color: red !important;
-        }
-</style>
+<link rel="stylesheet" href="{{ asset('web/css/extra-service-single.css') }}">
 <!--Page Title-->
 <section class="page-title">
     <div class="container">
@@ -430,6 +246,101 @@ $header = \App\Models\PageSetup::page('services');
             </div>
         </div>
         
+
+
+        <section>
+            <div class="faq_container">
+                <div class="faq-section-title">
+                  <h2>Our Working Process</h2>
+                </div>
+            
+                <div class="faq-accordion">
+                  <!-- Step 1 -->
+                  <div class="faq-accordion-item">
+                    <div class="faq-accordion-header">
+                      <div class="faq-accordion-title">
+                        <span class="faq-step-badge">1</span>
+                        Discovery & Requirements
+                      </div>
+                      <span class="faq-arrow">▶</span>
+                    </div>
+                    <div class="faq-accordion-body">
+                      <p>We begin by understanding your goals, collecting requirements, and identifying your audience and challenges to ensure a successful outcome.</p>
+                    </div>
+                  </div>
+            
+                  <!-- Step 2 -->
+                  <div class="faq-accordion-item">
+                    <div class="faq-accordion-header">
+                      <div class="faq-accordion-title">
+                        <span class="faq-step-badge">2</span>
+                        Planning & Strategy
+                      </div>
+                      <span class="faq-arrow">▶</span>
+                    </div>
+                    <div class="faq-accordion-body">
+                      <p>We outline the strategy, set clear timelines, and choose the right tools to make sure your project stays on track and hits the mark.</p>
+                    </div>
+                  </div>
+            
+                  <!-- Step 3 -->
+                  <div class="faq-accordion-item">
+                    <div class="faq-accordion-header">
+                      <div class="faq-accordion-title">
+                        <span class="faq-step-badge">3</span>
+                        Design & Prototyping
+                      </div>
+                      <span class="faq-arrow">▶</span>
+                    </div>
+                    <div class="faq-accordion-body">
+                      <p>Our UI/UX designers create interactive wireframes and prototypes to visualize the layout, flow, and user experience before development starts.</p>
+                    </div>
+                  </div>
+            
+                  <!-- Step 4 -->
+                  <div class="faq-accordion-item">
+                    <div class="faq-accordion-header">
+                      <div class="faq-accordion-title">
+                        <span class="faq-step-badge">4</span>
+                        Development / Execution
+                      </div>
+                      <span class="faq-arrow">▶</span>
+                    </div>
+                    <div class="faq-accordion-body">
+                      <p>We turn designs into a fully functional product using clean, scalable code while keeping performance, SEO, and best practices in mind.</p>
+                    </div>
+                  </div>
+            
+                  <!-- Step 5 -->
+                  <div class="faq-accordion-item">
+                    <div class="faq-accordion-header">
+                      <div class="faq-accordion-title">
+                        <span class="faq-step-badge">5</span>
+                        Testing & Quality Review
+                      </div>
+                      <span class="faq-arrow">▶</span>
+                    </div>
+                    <div class="faq-accordion-body">
+                      <p>We perform thorough QA testing, including cross-browser, responsiveness, security, and functionality checks to ensure a flawless experience.</p>
+                    </div>
+                  </div>
+            
+                  <!-- Step 6 -->
+                  <div class="faq-accordion-item">
+                    <div class="faq-accordion-header">
+                      <div class="faq-accordion-title">
+                        <span class="faq-step-badge">6</span>
+                        Launch & Ongoing Support
+                      </div>
+                      <span class="faq-arrow">▶</span>
+                    </div>
+                    <div class="faq-accordion-body">
+                      <p>After launch, we continue supporting your project with updates, improvements, and any future enhancements to keep it optimized and secure.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </section>
         <div >
             @if ($service->subservices->count() > 0)
             <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
@@ -504,6 +415,28 @@ $header = \App\Models\PageSetup::page('services');
        });
      });
      
+
+
+    // faq
+    const headers = document.querySelectorAll('.faq-accordion-header');
+
+    headers.forEach(header => {
+      header.addEventListener('click', () => {
+        const body = header.nextElementSibling;
+        const isOpen = body.classList.contains('open');
+
+        // Close all
+        document.querySelectorAll('.faq-accordion-body').forEach(b => b.classList.remove('open'));
+        document.querySelectorAll('.faq-accordion-header').forEach(h => h.classList.remove('active'));
+
+        // Toggle this one
+        if (!isOpen) {
+          body.classList.add('open');
+          header.classList.add('active');
+        }
+      });
+    });
+  
    </script>
 @endsection
  
