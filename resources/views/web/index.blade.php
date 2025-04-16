@@ -132,18 +132,18 @@ $header = \App\Models\PageSetup::page('home');
                   $page_contact = \App\Models\PageSetup::page('contact-us');
                   @endphp
                   @if(isset($page_contact))
-                  <a style="margin-top: 10px" href="{{ route('contact') }}" class="btn">{{ __('common.contact_us') }}</a>
+                  <a style="margin-top: 10px; position: relative; bottom: 0px; " href="{{ route('contact') }}" class="btn">{{ __('common.contact_us') }}</a>
                   @endif
 
                   @if(isset($slider->link))
-                  <a style="margin-top: 10px" href="{{ $slider->link }}" target="_blank" class="btn">{{ __('common.services') }}</a>
+                  <a style="margin-top: 10px position: relative; bottom: 0px;" href="{{ $slider->link }}" target="_blank" class="btn">{{ __('common.services') }}</a>
                   @endif
     
                 </div>
               </div>
-              <div class="col-md-4 d-flex align-items-center justify-content-center short-item">
+              {{-- <div class="col-md-4 d-flex align-items-center justify-content-center short-item">
                 <button class="btn">Discover</button>
-              </div>
+              </div> --}}
             </div>
           </div>
         @endforeach
