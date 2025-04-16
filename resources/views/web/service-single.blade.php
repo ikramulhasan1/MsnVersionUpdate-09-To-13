@@ -251,7 +251,7 @@ $header = \App\Models\PageSetup::page('services');
         <section>
             <div class="faq_container">
                 <div class="faq-section-title">
-                  <h2>Our Working Process</h2>
+                  <h2>FAQ</h2>
                 </div>
             
                 <div class="faq-accordion">
