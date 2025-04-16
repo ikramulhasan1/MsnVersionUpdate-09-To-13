@@ -559,9 +559,9 @@ $section_process = \App\Models\Section::section('process');
                 </div>
             </div>
         </div>
-        <div class="featured-box row clearfix">
-            {{-- @foreach($processes as $key => $process) --}}
-            {{-- <div class="col-lg-3 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="{{ ($key + 1) * 200 }}ms">
+        {{-- <div class="featured-box row clearfix">
+            @foreach($processes as $key => $process)
+            <div class="col-lg-3 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="{{ ($key + 1) * 200 }}ms">
                 <div class="inner-box">
                     <div class="title-box">
                         <h4><span class="numbe-post">{{ $key + 1 }}</span>{{ $process->title }}</h4>
@@ -570,8 +570,20 @@ $section_process = \App\Models\Section::section('process');
                         <div class="text">{!! $process->description !!}</div>
                     </div>
                 </div>
-            </div> --}}
-            <div class="process-card">
+            </div>
+            @endforeach
+        </div> --}}
+       
+        
+    </div>
+</section>
+<section>
+    <div class="process-top-section">
+        <div class="container-section">
+    
+            <!-- First Row -->
+            <div class="row-section">
+              <div class="process-card">
                 <div class="number">1</div>
                 <h3>Requirement Analysis</h3>
                 <p>Understand business needs, finalize Power BI version, evaluate tools, and estimate project timeline.</p>
@@ -589,57 +601,30 @@ $section_process = \App\Models\Section::section('process');
                 <p>Import data, apply DAX calculations, and design dashboards with appealing layouts and visuals.</p>
                 <div class="arrow-down"></div>
               </div>
-            {{-- @endforeach --}}
-        </div>
-        {{-- <div class="process-top-section">
-            <div class="container-section">
-        
-                <!-- First Row -->
-                <div class="row-section">
-                  <div class="process-card">
-                    <div class="number">1</div>
-                    <h3>Requirement Analysis</h3>
-                    <p>Understand business needs, finalize Power BI version, evaluate tools, and estimate project timeline.</p>
-                    <div class="arrow-right"></div>
-                  </div>
-                  <div class="process-card">
-                    <div class="number">2</div>
-                    <h3>Power BI Development</h3>
-                    <p>Analyze data sources, create pipelines, connect Power BI to databases, and set up a robust environment.</p>
-                    <div class="arrow-right"></div>
-                  </div>
-                  <div class="process-card">
-                    <div class="number">3</div>
-                    <h3>Dashboard Development</h3>
-                    <p>Import data, apply DAX calculations, and design dashboards with appealing layouts and visuals.</p>
-                    <div class="arrow-down"></div>
-                  </div>
-                </div>
-            
-                <!-- Second Row -->
-                <div class="row-section">
-                  <div class="process-card">
-                    <div class="number">4</div>
-                    <h3>Testing</h3>
-                    <p>Gather client feedback, test KPIs & metrics, iterate dashboards to match expectations.</p>
-                    <div class="arrow-right"></div>
-                  </div>
-                  <div class="process-card">
-                    <div class="number">5</div>
-                    <h3>Deployment</h3>
-                    <p>Finalize .pbix files, prepare environment, and deploy solution live.</p>
-                    <div class="arrow-right"></div>
-                  </div>
-                  <div class="process-card">
-                    <div class="number">6</div>
-                    <h3>Training & Support</h3>
-                    <p>Provide training and continuous support to maximize adoption and improvement.</p>
-                  </div>
-                </div>
-            
             </div>
-        </div> --}}
         
+            <!-- Second Row -->
+            <div class="row-section">
+              <div class="process-card">
+                <div class="number">4</div>
+                <h3>Testing</h3>
+                <p>Gather client feedback, test KPIs & metrics, iterate dashboards to match expectations.</p>
+                <div class="arrow-right"></div>
+              </div>
+              <div class="process-card">
+                <div class="number">5</div>
+                <h3>Deployment</h3>
+                <p>Finalize .pbix files, prepare environment, and deploy solution live.</p>
+                <div class="arrow-right"></div>
+              </div>
+              <div class="process-card">
+                <div class="number">6</div>
+                <h3>Training & Support</h3>
+                <p>Provide training and continuous support to maximize adoption and improvement.</p>
+              </div>
+            </div>
+        
+        </div>
     </div>
 </section>
 <!--End Feautred Section -->
