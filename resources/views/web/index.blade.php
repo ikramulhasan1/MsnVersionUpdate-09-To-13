@@ -174,11 +174,88 @@ $header = \App\Models\PageSetup::page('home');
     }
 }
 </style>
+<style>
 
+    .carousel-wrap {
+      width: 100%;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .owl-carousel .item {
+      width: 100%;
+      height: 100vh;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      padding: 0 2%;
+    }
+
+    .item-content {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 10px;
+      color: white;
+      height: 500px;
+    }
+
+    .item h1 {
+      font-size: 48px;
+      margin-bottom: 15px;
+    }
+
+    .item p {
+      font-size: 20px;
+    }
+
+    .item .btn {
+      padding: 10px 30px;
+      font-size: 18px;
+      background: #ffffffcc;
+      border: none;
+      color: #000;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .item .btn:hover {
+      background: #ffffff;
+    }
+
+    .owl-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      z-index: 10;
+      padding: 0 20px;
+    }
+
+    .owl-nav button {
+      background: rgba(255, 255, 255, 0.85) !important;
+      border: none;
+      padding: 15px 25px !important;
+      font-size: 18px;
+      color: #000 !important;
+      border-radius: 50px;
+    }
+
+    .owl-dots {
+      display: none;
+    }
+    .short-item{
+        border: 2px solid #fff;
+        border-radius: 10px;
+    }
+  </style>
 @if(count($sliders) > 0)
 <!-- Bnner Section -->
 <section class="banner-section">
-    <div class="carousel-column">
+    {{-- <div class="carousel-column">
         <div class="carousel-outer">
             <div class="banner-carousel owl-carousel owl-theme ">
                 @foreach($sliders as $slider)
@@ -205,6 +282,62 @@ $header = \App\Models\PageSetup::page('home');
                 </div>
                 @endforeach
             </div>
+        </div>
+    </div> --}}
+    <div class="carousel-wrap">
+        <div class="owl-carousel owl-theme">
+    
+          <!-- Slide 1 -->
+          <div class="item" style="justify-content: space-around; background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=1600&q=80');">
+            <div class="row w-100">
+              <div class="col-md-8 item-content">
+                <div class="">
+                  <h1>Explore Nature</h1>
+                  <p>Discover the untouched beauty of the world</p>
+                  <button class="btn">Discover</button>
+    
+                </div>
+              </div>
+              <div class="col-md-4 d-flex align-items-center justify-content-center short-item">
+                <button class="btn">Discover</button>
+              </div>
+            </div>
+          </div>
+    
+          <!-- Slide 2 -->
+          <div class="item" style="justify-content: space-around; background-image: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80');">
+            <div class="row w-100">
+              <div class="col-md-8 item-content">
+                <div class="">
+                  <h1>Breathe Fresh Air</h1>
+                  <p>Feel the calmness of pristine air and open skies</p>
+                  <button class="btn">Discover</button>
+    
+                </div>
+              </div>
+              <div class="col-md-4 d-flex align-items-center justify-content-center short-item">
+                <button class="btn">Discover</button>
+              </div>
+            </div>
+          </div>
+    
+          <!-- Slide 3 -->
+          <div class="item" style="justify-content: space-around; background-image: url('https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=1600&q=80');">
+            <div class="row w-100">
+              <div class="col-md-8 item-content">
+                <div class="">
+                  <h1>Adventure Awaits</h1>
+                  <p>Mountains, rivers, and endless freedom await you</p>
+                  <button class="btn">Discover</button>
+    
+                </div>
+              </div>
+              <div class="col-md-4 d-flex align-items-center justify-content-center short-item">
+                <button class="btn">Discover</button>
+              </div>
+            </div>
+          </div>
+    
         </div>
     </div>
 </section>
@@ -658,5 +791,21 @@ $section_clients = \App\Models\Section::section('clients');
 </section>
 <!--End Clients Section-->
 @endif
-
+@section('scriptjs')
+<script>
+    $(document).ready(function(){
+      $('.owl-carousel').owlCarousel({
+        items: 1,
+        loop: true,
+        autoplay: true,
+        autoplayTimeout: 5000,
+        smartSpeed: 3000,
+        animateOut: 'fadeOut',
+        nav: true,
+        navText: [],
+        dots: false
+      });
+    });
+  </script>
+@endsection
 @endsection
