@@ -126,8 +126,18 @@ $header = \App\Models\PageSetup::page('home');
               <div class="col-md-8 item-content">
                 <div class="">
                   <h1>{{ $slider->title }}</h1>
-                  <p>{!! $slider->description !!}</p>
-                  <button class="btn">Discover</button>
+                  <p class="mb-4">{!! $slider->description !!}</p>
+
+                  @php
+                  $page_contact = \App\Models\PageSetup::page('contact-us');
+                  @endphp
+                  @if(isset($page_contact))
+                  <a href="{{ route('contact') }}" class="btn">{{ __('common.contact_us') }}</a>
+                  @endif
+
+                  @if(isset($slider->link))
+                  <a href="{{ $slider->link }}" target="_blank" class="btn">{{ __('common.services') }}</a>
+                  @endif
     
                 </div>
               </div>
