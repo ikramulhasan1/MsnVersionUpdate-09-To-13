@@ -84,174 +84,7 @@ $header = \App\Models\PageSetup::page('home');
 
 
 @section('content')
-<style>
-    table {
-        width: px;
-    }
-
-    table,
-    table th,
-    table td {
-        border: solid;
-    }
-
-    table th,
-    table td {
-        border: solid;
-    }
-
-    table th>ol>li,
-    table td>ul>li,
-    table th>ul>li,
-    table td>ol>li {
-        list-style: initial !important;
-        margin-left: 20px;
-
-    }
-
-    .marker {
-        background-color: yellow;
-    }
-
-    /* </p><table border="1" cellpadding="1" cellspacing="1" style="width:500px">  */
-
-    .description>ul>li {
-        margin-left: 30px !important;
-        list-style: initial;
-        font-size: 16px !important;
-    }
-
-
-    .description>ol>li {
-        /* list-style: decimal; */
-        margin-left: 30px !important;
-        all: revert;
-        font-size: 16px !important;
-    }
-
-    .description>p>a {
-        color: blue;
-        font-weight: bold;
-        text-decoration: underline;
-    }
-
-    .description>p, .text>p {
-        font-size: 16px !important;
-    }
-
-    .btnred{
-        background-color: red !important; 
-        border: none !important; 
-        color: white !important;
-    }
-    .btnblack{
-        background-color: black !important; 
-        border: none !important; 
-        color: white !important;
-    }
-
-
-    /* counter */
-    .stats-card {
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        animation: pulseEffect 3s infinite alternate;
-}
-
-/* Continuous Animation */
-@keyframes pulseEffect {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 4px 15px rgb(255, 255, 255);
-    }
-    50% {
-        transform: scale(1.02);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Soft red glow */
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 4px 15px rgb(255, 255, 255);
-    }
-}
-</style>
-<style>
-
-    .carousel-wrap {
-      width: 100%;
-      height: 100vh;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .owl-carousel .item {
-      width: 100%;
-      height: 100vh;
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: center;
-      padding: 0 2%;
-    }
-
-    .item-content {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 30px;
-      border-radius: 10px;
-      color: white;
-      height: 500px;
-    }
-
-    .item h1 {
-      font-size: 48px;
-      margin-bottom: 15px;
-    }
-
-    .item p {
-      font-size: 20px;
-    }
-
-    .item .btn {
-      padding: 10px 30px;
-      font-size: 18px;
-      background: #ffffffcc;
-      border: none;
-      color: #000;
-      border-radius: 5px;
-      transition: all 0.3s ease;
-    }
-
-    .item .btn:hover {
-      background: #ffffff;
-    }
-
-    .owl-nav {
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-      z-index: 10;
-      padding: 0 20px;
-    }
-
-    .owl-nav button {
-      background: rgba(255, 255, 255, 0.85) !important;
-      border: none;
-      padding: 15px 25px !important;
-      font-size: 18px;
-      color: #000 !important;
-      border-radius: 50px;
-    }
-
-    .owl-dots {
-      display: none;
-    }
-    .short-item{
-        border: 2px solid #fff;
-        border-radius: 10px;
-    }
-  </style>
+<link rel="stylesheet" href="{{ asset('web/css/extra-index.css') }}">
 @if(count($sliders) > 0)
 <!-- Bnner Section -->
 <section class="banner-section">
@@ -286,14 +119,14 @@ $header = \App\Models\PageSetup::page('home');
     </div> --}}
     <div class="carousel-wrap">
         <div class="owl-carousel owl-theme">
-    
+        @foreach($sliders as $slider)
           <!-- Slide 1 -->
-          <div class="item" style="justify-content: space-around; background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=1600&q=80');">
+          <div class="item" style="justify-content: space-around; background-image: url({{ asset('uploads/slider/'.$slider->image_path) }});">
             <div class="row w-100">
               <div class="col-md-8 item-content">
                 <div class="">
-                  <h1>Explore Nature</h1>
-                  <p>Discover the untouched beauty of the world</p>
+                  <h1>{{ $slider->title }}</h1>
+                  <p>{!! $slider->description !!}</p>
                   <button class="btn">Discover</button>
     
                 </div>
@@ -303,41 +136,7 @@ $header = \App\Models\PageSetup::page('home');
               </div>
             </div>
           </div>
-    
-          <!-- Slide 2 -->
-          <div class="item" style="justify-content: space-around; background-image: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80');">
-            <div class="row w-100">
-              <div class="col-md-8 item-content">
-                <div class="">
-                  <h1>Breathe Fresh Air</h1>
-                  <p>Feel the calmness of pristine air and open skies</p>
-                  <button class="btn">Discover</button>
-    
-                </div>
-              </div>
-              <div class="col-md-4 d-flex align-items-center justify-content-center short-item">
-                <button class="btn">Discover</button>
-              </div>
-            </div>
-          </div>
-    
-          <!-- Slide 3 -->
-          <div class="item" style="justify-content: space-around; background-image: url('https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=1600&q=80');">
-            <div class="row w-100">
-              <div class="col-md-8 item-content">
-                <div class="">
-                  <h1>Adventure Awaits</h1>
-                  <p>Mountains, rivers, and endless freedom await you</p>
-                  <button class="btn">Discover</button>
-    
-                </div>
-              </div>
-              <div class="col-md-4 d-flex align-items-center justify-content-center short-item">
-                <button class="btn">Discover</button>
-              </div>
-            </div>
-          </div>
-    
+        @endforeach
         </div>
     </div>
 </section>
