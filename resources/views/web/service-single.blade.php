@@ -247,7 +247,6 @@ $header = \App\Models\PageSetup::page('services');
         </div>
         
 
-
         <section>
             <div class="faq_container">
                 <div class="faq-section-title">
@@ -269,75 +268,7 @@ $header = \App\Models\PageSetup::page('services');
                     </div>
                   </div>
             
-                  <!-- Step 2 -->
-                  <div class="faq-accordion-item">
-                    <div class="faq-accordion-header">
-                      <div class="faq-accordion-title">
-                        <span class="faq-step-badge">2</span>
-                        Planning & Strategy
-                      </div>
-                      <span class="faq-arrow">▶</span>
-                    </div>
-                    <div class="faq-accordion-body">
-                      <p>We outline the strategy, set clear timelines, and choose the right tools to make sure your project stays on track and hits the mark.</p>
-                    </div>
-                  </div>
-            
-                  <!-- Step 3 -->
-                  <div class="faq-accordion-item">
-                    <div class="faq-accordion-header">
-                      <div class="faq-accordion-title">
-                        <span class="faq-step-badge">3</span>
-                        Design & Prototyping
-                      </div>
-                      <span class="faq-arrow">▶</span>
-                    </div>
-                    <div class="faq-accordion-body">
-                      <p>Our UI/UX designers create interactive wireframes and prototypes to visualize the layout, flow, and user experience before development starts.</p>
-                    </div>
-                  </div>
-            
-                  <!-- Step 4 -->
-                  <div class="faq-accordion-item">
-                    <div class="faq-accordion-header">
-                      <div class="faq-accordion-title">
-                        <span class="faq-step-badge">4</span>
-                        Development / Execution
-                      </div>
-                      <span class="faq-arrow">▶</span>
-                    </div>
-                    <div class="faq-accordion-body">
-                      <p>We turn designs into a fully functional product using clean, scalable code while keeping performance, SEO, and best practices in mind.</p>
-                    </div>
-                  </div>
-            
-                  <!-- Step 5 -->
-                  <div class="faq-accordion-item">
-                    <div class="faq-accordion-header">
-                      <div class="faq-accordion-title">
-                        <span class="faq-step-badge">5</span>
-                        Testing & Quality Review
-                      </div>
-                      <span class="faq-arrow">▶</span>
-                    </div>
-                    <div class="faq-accordion-body">
-                      <p>We perform thorough QA testing, including cross-browser, responsiveness, security, and functionality checks to ensure a flawless experience.</p>
-                    </div>
-                  </div>
-            
-                  <!-- Step 6 -->
-                  <div class="faq-accordion-item">
-                    <div class="faq-accordion-header">
-                      <div class="faq-accordion-title">
-                        <span class="faq-step-badge">6</span>
-                        Launch & Ongoing Support
-                      </div>
-                      <span class="faq-arrow">▶</span>
-                    </div>
-                    <div class="faq-accordion-body">
-                      <p>After launch, we continue supporting your project with updates, improvements, and any future enhancements to keep it optimized and secure.</p>
-                    </div>
-                  </div>
+                  
                 </div>
               </div>
         </section>
