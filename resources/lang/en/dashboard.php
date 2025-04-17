@@ -58,6 +58,7 @@ return array (
   'email_invalid' => 'You are entered same email address!',
   'dashboard' => 'Dashboard',
   'invoice' => 'Invoice',
+  'redirect' => 'Redirect',
   'blog' => 'Blog|Blogs',
   'blog_list' => 'Blog List|Blog List',
   'blog_category' => 'Blog Category|Blog Categories',
