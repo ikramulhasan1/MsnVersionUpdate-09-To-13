@@ -279,6 +279,10 @@ $header = \App\Models\PageSetup::page('services');
       width: 100%!important;
     }
   }
+
+  .faq_container{
+    margin-top: 0px!important;
+  }
 </style>
 <!--Page Title-->
 {{-- <section class="page-title"> --}}
@@ -370,7 +374,7 @@ $header = \App\Models\PageSetup::page('services');
             </div>
 
             <!--Content Side-->
-            <div class="content-side col-lg-8 col-md-12 col-sm-12">
+            <div class="content-side col-lg-8 col-md-12 col-sm-12 mb-3">
                 <div class="service-detail">
                     <div class="inner-box">
                         {{-- <div class="image-box">
