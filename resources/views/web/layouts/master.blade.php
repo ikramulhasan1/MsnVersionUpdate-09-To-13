@@ -346,7 +346,7 @@
             @endif
 
             <!--Header-Upper-->
-            <div class="header-upper">
+            {{-- <div class="header-upper">
                 <div class="container">
                     <div class="clearfix">
                         <div class="nav-inner">
@@ -394,7 +394,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <!--End Header Upper-->
 
             <!--Header Lower-->
