@@ -106,7 +106,7 @@
 </div>
 
 <!-- Modal -->
-<div hidden id="modal-1" class="modal__overlay">
+<div id="modal-1" class="modal__overlay">
   <div class="modal__container">
     <header class="mb-4">
       <button class="modal__close">×</button>
