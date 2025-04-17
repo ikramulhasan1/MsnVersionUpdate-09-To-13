@@ -300,7 +300,7 @@ $header = \App\Models\PageSetup::page('services');
             <div class="banner-left">
               <h1 style="color: white">{{ $service->title }}</h1>
               {{-- <p>Service Detail</p> --}}
-              <div class="banner-reviews mt-3">
+              <div class="banner-reviews mt-5">
                 <img style="border-radius: 5px;height: 300px; width:100%; " src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" />
                 {{-- <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
                 <div class="banner-review-logos">
