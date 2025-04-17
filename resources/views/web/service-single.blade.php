@@ -207,7 +207,7 @@ $header = \App\Models\PageSetup::page('services');
   display: flex !important;
   flex-direction: column !important;
   gap: 1rem !important;
-  background-size: 100px 100px !important;
+  background-size: 100px 100% !important;
   background-repeat: no-repeat !important;
   background-position: center;
 }
