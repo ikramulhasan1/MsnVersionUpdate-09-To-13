@@ -189,27 +189,14 @@ $header = \App\Models\PageSetup::page('services');
     color: #ddd!important;
   }
 
-  /* .banner-reviews {
-    background-image: url("{{ asset('uploads/service/' . $service->image_path) }}")!important; 
+  .banner-reviews {
     background: rgba(255,255,255,0.05)!important;
     padding: 1rem!important;
     border-radius: 10px!important;
     display: flex!important;
     flex-direction: column!important;
     gap: 1rem!important;
-  } */
-   .banner-reviews {
-  background: 
-    linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)),
-    url("{{ asset('uploads/service/' . $service->image_path) }}") !important;
-  padding: 1rem !important;
-  border-radius: 10px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 1rem !important;
-  background-size: cover;
-  background-position: center;
-}
+  }
 
   .banner-reviews-title {
     font-weight: 600!important;
@@ -314,8 +301,9 @@ $header = \App\Models\PageSetup::page('services');
               <h1 style="color: white">{{ $service->title }}</h1>
               {{-- <p>Service Detail</p> --}}
               <div class="banner-reviews">
+                <img style="width: 500px; height: 100px; " src="{{ asset('uploads/service/' . $service->image_path) }};" alt="{{ $service->title }}') ">
                 {{-- <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
-                <div class="banner-review-logos"> --}}
+                <div class="banner-review-logos">
                   <div class="banner-review-item">
                     <div style="color: white">Clutch</div>
                     <div class="banner-stars">★★★★★</div>
@@ -332,7 +320,7 @@ $header = \App\Models\PageSetup::page('services');
                     <div style="color: white">Google</div>
                     <div class="banner-stars">★★★★★</div>
                   </div>
-                </div>
+                </div> --}}
               </div>
             </div>
         
