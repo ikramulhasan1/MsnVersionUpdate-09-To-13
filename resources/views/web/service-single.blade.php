@@ -350,7 +350,7 @@ $header = \App\Models\PageSetup::page('services');
 
 @if(isset($service))
 <!--Sidebar Page Container-->
-<div style="background-color: #f7fff9" class="sidebar-page-container">
+<div style="background-color: #ffffff" class="sidebar-page-container">
     <div class="mx-5">
         <div class="row clearfix mb-5">
             <!--Sidebar Side-->
