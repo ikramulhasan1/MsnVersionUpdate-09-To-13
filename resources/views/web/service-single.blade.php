@@ -189,7 +189,7 @@ $header = \App\Models\PageSetup::page('services');
     color: #ddd!important;
   }
 
-  .banner-reviews {
+  /* .banner-reviews {
     background-image: url("{{ asset('uploads/service/' . $service->image_path) }}")!important; 
     background: rgba(255,255,255,0.05)!important;
     padding: 1rem!important;
@@ -197,7 +197,19 @@ $header = \App\Models\PageSetup::page('services');
     display: flex!important;
     flex-direction: column!important;
     gap: 1rem!important;
-  }
+  } */
+  .banner-reviews {
+  background: 
+    linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)),
+    url("{{ asset('uploads/service/' . $service->image_path) }}") !important;
+  padding: 1rem !important;
+  border-radius: 10px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+  background-size: cover;
+  background-position: center;
+}
 
   .banner-reviews-title {
     font-weight: 600!important;
