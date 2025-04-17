@@ -190,6 +190,7 @@ $header = \App\Models\PageSetup::page('services');
   }
 
   .banner-reviews {
+    background-image: url("{{ asset('uploads/service/' . $service->image_path) }}")!important; 
     background: rgba(255,255,255,0.05)!important;
     padding: 1rem!important;
     border-radius: 10px!important;
@@ -300,7 +301,7 @@ $header = \App\Models\PageSetup::page('services');
             <div class="banner-left">
               <h1 style="color: white">{{ $service->title }}</h1>
               {{-- <p>Service Detail</p> --}}
-              <div style="background-image: url({{ asset('uploads/service/' . $service->image_path) }});" alt="{{ $service->title }}') " class="banner-reviews">
+              <div class="banner-reviews">
                 <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
                 <div class="banner-review-logos">
                   <div class="banner-review-item">
