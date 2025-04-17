@@ -299,7 +299,7 @@ $header = \App\Models\PageSetup::page('services');
         <div class="banner">
             <div class="banner-left">
               <h1 style="color: white">{{ $service->title }}</h1>
-              <p>{{ __('navbar.service-detail') }}</p>
+              {{-- <p>Service Detail</p> --}}
               <div class="banner-reviews">
                 <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
                 <div class="banner-review-logos">
@@ -336,7 +336,12 @@ $header = \App\Models\PageSetup::page('services');
               </div>
             </div>
           </div>
-        
+          <div class="bread-crumb">
+            <ul>
+                <li>{{ __('navbar.service-detail') }}</li>
+                <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
+            </ul>
+        </div>
      </div>
 {{-- </section> --}}
 <!--End Page Title-->
