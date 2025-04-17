@@ -404,7 +404,7 @@
                     <div class="nav-outer clearfix">
 
                         <!-- Main Menu -->
-                        <nav class="main-menu navbar-expand-md">
+                        {{-- <nav class="main-menu navbar-expand-md">
                             <div class="navbar-header">
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                     <span class="icon-bar"></span>
@@ -582,7 +582,7 @@
 
                                 </ul>
                             </div>
-                        </nav>
+                        </nav> --}}
                         <!-- Main Menu End-->
 
                         <div class="outer-box clearfix">
