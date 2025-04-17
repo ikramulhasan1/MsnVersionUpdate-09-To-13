@@ -386,7 +386,7 @@ $header = \App\Models\PageSetup::page('services');
                             </div>
                             
                         </div> --}}
-                        <h2 style="font-size: 32px; color: black; font-weight: 500;" class="mb-4">{{ $service->short_title }}</h2>
+                        <h2 style="font-size: 32px; color: black; font-weight: 700;" class="mb-4">{{ $service->short_title }}</h2>
 
                         <div id="processedContent" class="text description">
                         
