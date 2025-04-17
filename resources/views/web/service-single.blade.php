@@ -327,7 +327,7 @@ $header = \App\Models\PageSetup::page('services');
             <div class="banner-right">
               <h2 style="color: #ffffff!important;">
                 Get <span class="banner-highlight">Project-based</span> and <br>
-                <span class="banner-highlight">Dedicated Teams</span> from India’s<br>
+                <span class="banner-highlight">Dedicated Teams</span> from Bangladesh’s<br>
                 <span class="banner-highlight">Highest-rated Company</span>.
               </h2>
               <button>Discuss Your Requirements →</button>
