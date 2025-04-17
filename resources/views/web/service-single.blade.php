@@ -149,11 +149,11 @@ $header = \App\Models\PageSetup::page('services');
 <link rel="stylesheet" href="{{ asset('web/css/extra-service-single.css') }}">
 <style>
       /* Banner */
-  /* * {
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  } */
+  }
 
   .banner-container {
     font-family: 'Inter', sans-serif !important;
