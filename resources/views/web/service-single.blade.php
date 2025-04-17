@@ -298,25 +298,25 @@ $header = \App\Models\PageSetup::page('services');
     <div class="banner-container">
         <div class="banner">
             <div class="banner-left">
-              <h1>Data Engineering<br>Services</h1>
+              <h1 style="color: white">Data Engineering<br>Services</h1>
               <p>Our data engineering services provide the foundation for data-driven decision-making, helping you gain a competitive edge and achieve your business goals.</p>
               <div class="banner-reviews">
                 <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
                 <div class="banner-review-logos">
                   <div class="banner-review-item">
-                    <div>Clutch</div>
+                    <div style="color: white">Clutch</div>
                     <div class="banner-stars">★★★★★</div>
                   </div>
                   <div class="banner-review-item">
-                    <div>GoodFirms</div>
+                    <div style="color: white">GoodFirms</div>
                     <div class="banner-stars">★★★★★</div>
                   </div>
                   <div class="banner-review-item">
-                    <div>G2</div>
+                    <div style="color: white">G2</div>
                     <div class="banner-stars">★★★★★</div>
                   </div>
                   <div class="banner-review-item">
-                    <div>Google</div>
+                    <div style="color: white">Google</div>
                     <div class="banner-stars">★★★★★</div>
                   </div>
                 </div>
@@ -330,8 +330,8 @@ $header = \App\Models\PageSetup::page('services');
                 <span class="banner-highlight">Highest-rated Company</span>.
               </h2>
               <button>Discuss Your Requirements →</button>
-              <div class="banner-right-box">
-                <strong>Ready to bring your project to life?</strong><br><br>
+              <div style="color: white" class="banner-right-box">
+                <strong style="color: white" >Ready to bring your project to life?</strong><br><br>
                 Share your vision, and we'll provide a free expert consultation within 24 hours, outlining a clear path to success tailored to your project and budget.
               </div>
             </div>
