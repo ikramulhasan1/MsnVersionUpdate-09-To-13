@@ -335,7 +335,7 @@ $header = \App\Models\PageSetup::page('services');
                 <strong style="color: white" >Have a Project in Mind? Let’s Build It Right.</strong><br><br>
                 Share your requirements, and our expert team will get back to you within 24 hours with a personalized consultation.<br>
                 You’ll get:
-                <ul>
+                <ul style="list-style-type: disc; padding-left: 20px; color: white;">
                     <li>A detailed project strategy</li>
                     <li>Clear timelines and cost estimates</li>
                     <li>Technology recommendations</li>
