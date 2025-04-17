@@ -347,7 +347,7 @@ $header = \App\Models\PageSetup::page('technology');
 <section class="technology-container">
     <div class="technology-left">
       <h1 class="text-color">{{ $service->short_title }}</h1>
-      <p class="text-color">{!! $service->short_desc !!}</p>
+      <p style="color: white !important" >{!! $service->short_desc !!}</p>
 
       {{-- <div class="technology-reviews-container">
         <div class="technology-reviews-label text-color">300+ Glowing 5-Star Reviews</div>
