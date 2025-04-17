@@ -603,7 +603,7 @@
                     @if(isset($setting))
                     <!--Logo-->
                     <div class="logo pull-left">
-                        <a href="{{ route('home') }}" class="img-responsive"><img src="{{ asset('/uploads/setting/'.$setting->logo_path) }}" alt="Logo"></a>
+                        <a href="{{ route('home') }}" class="img-responsive"><img class="w-50 mt-2" src="{{ asset('/uploads/setting/'.$setting->logo_path) }}" alt="Logo"></a>
                     </div>
                     @endif
 
