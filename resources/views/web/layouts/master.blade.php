@@ -398,13 +398,13 @@
             <!--End Header Upper-->
 
             <!--Header Lower-->
-            <div class="header-lower">
+            {{-- <div class="header-lower">
 
                 <div class="container">
                     <div class="nav-outer clearfix">
 
                         <!-- Main Menu -->
-                        {{-- <nav class="main-menu navbar-expand-md">
+                        <nav class="main-menu navbar-expand-md">
                             <div class="navbar-header">
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                     <span class="icon-bar"></span>
@@ -582,7 +582,7 @@
 
                                 </ul>
                             </div>
-                        </nav> --}}
+                        </nav>
                         <!-- Main Menu End-->
 
                         <div class="outer-box clearfix">
@@ -596,6 +596,199 @@
                             @endif
                         </div>
                     </div>
+                </div>
+            </div> --}}
+            <div class="header-lower">
+                <div class="container clearfix">
+                    @if(isset($setting))
+                    <!--Logo-->
+                    <div class="logo pull-left">
+                        <a href="{{ route('home') }}" class="img-responsive"><img src="{{ asset('/uploads/setting/'.$setting->logo_path) }}" alt="Logo"></a>
+                    </div>
+                    @endif
+
+                    <!--Right Col-->
+                    <div class="right-col pull-right">
+                        <!-- Main Menu -->
+                        <nav class="main-menu  navbar-expand-md">
+                            <div class="navbar-header">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+
+                            <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent1">
+                                <ul class="navigation clearfix">
+                                    @php
+                                    $page_home = \App\Models\PageSetup::page('home');
+                                    @endphp
+                                    @if(isset($page_home))
+                                    <li class="{{ Request::path() == '/' ? 'current' : '' }}"><a href="{{ route('home') }}">{{ $page_home->title }}</a></li>
+                                    @endif
+
+
+                                    @php
+                                    $page_about = \App\Models\PageSetup::page('about-us');
+                                    $page_faqs = \App\Models\PageSetup::page('faqs');
+                                    $page_contact = \App\Models\PageSetup::page('contact-us');
+
+                                    @endphp
+
+                                    @if(isset($page_about) || isset($page_faqs) ||isset($page_contact) )
+                                    <li class="dropdown 
+                                    {{ Request::is('about*') ? 'current' : '' }}
+                                    {{ Request::is('faqs*') ? 'current' : '' }}
+                                    {{ Request::is('contact*') ? 'current' : '' }}">
+                                    <a href="">Company<a>
+                                        <ul >
+                                            @if(isset($page_about))
+                                            <li class="{{ Request::is('about*') ? 'current' : '' }}"> <a href="{{ route('about') }}">{{ $page_about->title }}</a></li>
+                                            @endif
+                                            @if(isset($page_faqs))
+                                            <li class="{{ Request::is('faqs*') ? 'current' : '' }}"><a href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
+                                            @endif
+                                            @if(isset($page_contact))
+                                            <li class="{{ Request::is('contact') ? 'current' : '' }}"><a href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
+                                            @endif
+                                        </ul>
+                                    </li>
+                                    @endif
+                                
+                                @php
+                                    $page_services = \App\Models\PageSetup::page('services');
+                                    $related_services = \App\Models\PageSetup::page('related-service');
+                                @endphp
+                                
+                                @if(isset($page_services))
+                                <li class="dropdown mega-menu {{ Request::is('service*') ? 'current' : '' }} {{ Request::is('related-service*') ? 'current' : '' }}">
+                                    <div class="mega-menu-trigger">
+                                        <a href="{{ route('services') }}" class="mega-menu-link">{{ strtoupper($page_services->title) }}</a>
+                                        
+                                        <div class="mega-menu-content2">
+                                            <div class="mega-menu-column">
+                                                <h4>Our Services</h4>
+                                                <ul>
+                                                    @foreach($service_subnavs as $service_subnav)
+                                                        @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
+                                                            <li class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}">
+                                                                <a class="mega-links" href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                            <div class="mega-menu-column">
+                                                <h4>Related Services</h4>
+                                                <ul>
+                                                    @foreach($related_service_subnavs as $service_subnav)
+                                                        <li class="{{ Request::is('related-service/'.$service_subnav->slug) ? 'current' : '' }}">
+                                                            <a class="mega-links" href="{{ route('service.related-single', $service_subnav->slug) }}">{{ $service_subnav->title }}</a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                            <div class="mega-menu-column">
+                                                <h4>Technology Services</h4>
+                                                <ul>
+                                                    @foreach($technologies as $service_subnav)
+                                                        <li class="{{ Request::is('technology/'.$service_subnav->slug) ? 'current' : '' }}">
+                                                            <div class="service-item">
+                                                                <img class="ml-0" width="30" src="{{ asset('uploads/service/'.$service_subnav->logo_path) }}" alt="{{ $service_subnav->title }}" srcset=""> <a class="mega-links" href="{{ route('service.technology', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
+                                                            </div>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                @endif
+                                    @php
+                                    $page_portfolio = \App\Models\PageSetup::page('portfolio');
+                                    @endphp
+                                    @if(isset($page_portfolio))
+                                    <li class="{{ Request::is('portfolio*') ? 'current' : '' }}"><a href="{{ route('portfolios') }}">{{ $page_portfolio->title }}</a></li>
+                                    @endif
+
+                                    @php
+                                    $page_pricing = \App\Models\PageSetup::page('pricing');
+                                    @endphp
+                                    @if(isset($page_pricing))
+                                    <!-- <li class="{{ Request::is('pricing*') ? 'current' : '' }}"><a href="{{ route('pricing') }}">{{ $page_pricing->title }}</a></li> -->
+                                    @endif
+
+                                    <!-- route('page.single', $page->slug) -->
+                                    @php
+                                    // Fetch only pages with 'casestudy' type
+                                    $all_pages = \App\Models\Page::where('type', 'casestudy')->get();
+
+                                    // Check if the current page is a 'casestudy'
+                                    $isCurrentCasestudy = $all_pages->contains('slug', request()->segment(2));
+                                    @endphp
+
+                                    @if($all_pages->count())
+                                    <li class="dropdown {{ $isCurrentCasestudy ? 'current' : '' }}">
+                                        <a href="">{{ __('Case Study') }}</a>
+                                        <ul>
+                                            @foreach($all_pages as $page)
+                                            <li class="{{ Request::is('page/'.$page->slug) ? 'current' : '' }}">
+                                                <a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                    @endif
+
+                                    @php
+                                    // Fetch only 'resources' type pages
+                                    $re_page = \App\Models\Page::where('type', 'resources')->get();
+
+                                    // Check if the current page belongs to 'resources'
+                                    $isCurrentResource = $re_page->contains('slug', request()->segment(2));
+                                    @endphp
+
+                                    @if($re_page->count())
+                                    <li class="dropdown {{ $isCurrentResource ? 'current' : '' }}">
+                                        <a href="">{{ __('Resources') }}</a>
+                                        <ul>
+                                            @foreach($re_page as $page)
+                                            <li class="{{ Request::is('page/'.$page->slug) ? 'current' : '' }}">
+                                                <a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                    @endif
+
+                                    @php
+                                    $page_blog = \App\Models\PageSetup::page('blog');
+                                    @endphp
+                                    @if(isset($page_blog))
+                                    <li class="dropdown {{ Request::is('blog*') ? 'current' : '' }}"><a href="{{ route('blogs') }}">{{ $page_blog->title }}</a>
+                                        <ul>
+                                            @foreach($article_subnavs as $article_subnav)
+                                            <li class="{{ Request::is('blogs/'.$article_subnav->slug) ? 'current' : '' }}"><a href="{{ route('blog.category', $article_subnav->slug) }}">{{ $article_subnav->title }}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                    @endif
+
+
+                                    @php
+                                    $page_quote = \App\Models\PageSetup::page('get-quote');
+                                    @endphp
+                                    @if(isset($page_quote))
+                                    <li class="advisor-box {{ Request::is('get-quote*') ? 'current' : '' }}">
+                                        <a href="{{ route('get-quote') }}">{{ $page_quote->title }}</a>
+                                    </li>
+                                    @endif
+                                </ul>
+                            </div>
+                        </nav><!-- Main Menu End-->
+                    </div>
+
                 </div>
             </div>
             <!--End Header Lower-->
