@@ -297,7 +297,7 @@
         <!-- Main Header-->
         <header class="main-header header-style-one">
 
-            @if(isset($setting->contact_address) || isset($social))
+            @if(isset($setting->email_one) || isset($social))
             <!--Header Top-->
             <div class="header-top">
                 <div class="container">
@@ -305,7 +305,7 @@
                         <!--Top Left-->
                         <div class="top-left clearfix">
                             <ul class="links clearfix">
-                                @if(isset($setting->contact_address))
+                                @if(isset($setting->email_one))
                                 {{-- <li><span class="icon fa fa-map-marker-alt"></span>{{ $setting->contact_address }}</li> --}}
                                 @endif
                             </ul>
