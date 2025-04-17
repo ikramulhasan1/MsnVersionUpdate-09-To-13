@@ -140,13 +140,146 @@ $header = \App\Models\PageSetup::page('services');
 <meta name="twitter:description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}" />
 <meta name="twitter:image" content="{{ asset('uploads/service/'.$service->image_path) }}" />
 @endif
-<link rel="stylesheet" href="{{ asset('web/css/extra-service-single.css') }}">
-
+ 
 @endsection
 
 {{-- schema section --}}
 
 @section('content')
+<link rel="stylesheet" href="{{ asset('web/css/extra-service-single.css') }}">
+<style>
+      /* Banner */
+  /* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  } */
+
+  .banner-container {
+    font-family: 'Inter', sans-serif !important;
+    background: linear-gradient(135deg, #042b47, #091c2a)!important;
+    color: #fff!important;
+    padding: 2rem!important;
+  }
+
+  .banner {
+    display: flex!important;
+    flex-wrap: wrap!important;
+    justify-content: space-between!important;
+    align-items: flex-start!important;
+    gap: 2rem!important;
+    max-width: 1200px!important;
+    margin: 0 auto!important;
+  }
+
+  .banner-left {
+    flex: 1 1 55%!important;
+  }
+
+  .banner-left h1 {
+    font-size: 3rem!important;
+    font-weight: 800!important;
+    margin-bottom: 1rem!important;
+  }
+
+  .banner-left p {
+    font-size: 1.1rem!important;
+    line-height: 1.6!important;
+    margin-bottom: 1.5rem!important;
+    color: #ddd!important;
+  }
+
+  .banner-reviews {
+    background: rgba(255,255,255,0.05)!important;
+    padding: 1rem!important;
+    border-radius: 10px!important;
+    display: flex!important;
+    flex-direction: column!important;
+    gap: 1rem!important;
+  }
+
+  .banner-reviews-title {
+    font-weight: 600!important;
+    color: #ccc!important;
+  }
+
+  .banner-review-logos {
+    display: flex!important;
+    align-items: center!important;
+    gap: 2rem!important;
+    flex-wrap: wrap!important;
+  }
+
+  .banner-review-item {
+    text-align: center!important;
+  }
+
+  .banner-stars {
+    color: #f7b731!important;
+    font-size: 1.1rem!important;
+  }
+
+  .banner-right {
+    flex: 1 1 40%!important;
+    background: #092e45!important;
+    border: 2px solid #2df3a5!important;
+    border-radius: 12px!important;
+    padding: 2rem!important;
+    text-align: center!important;
+    position: relative!important;
+  }
+
+  .banner-right h2 {
+    font-size: 1.5rem!important;
+    font-weight: 700!important;
+    margin-bottom: 1rem!important;
+    line-height: 1.4!important;
+  }
+
+  .banner-right .banner-highlight {
+    color: #fff!important;
+    font-weight: 800!important;
+  }
+
+  .banner-right button {
+    margin: 1.5rem 0!important;
+    padding: 0.8rem 2rem!important;
+    background: #ff5a00!important;
+    color: white!important;
+    border: none!important;
+    border-radius: 6px!important;
+    font-size: 1rem!important;
+    font-weight: 600!important;
+    cursor: pointer!important;
+    transition: background 0.3s ease!important;
+  }
+
+  .banner-right button:hover {
+    background: #e14b00!important;
+  }
+
+  .banner-right-box {
+    background: #0c3a59!important;
+    padding: 1.5rem!important;
+    border-radius: 10px!important;
+    font-size: 1rem!important;
+    color: #c7d6e0!important;
+  }
+
+  @media (max-width: 768px) {
+    .banner {
+      flex-direction: column!important;
+    }
+
+    .banner-left h1 {
+      font-size: 2.2rem!important;
+    }
+
+    .banner-right {
+      width: 100%!important;
+    }
+  }
+</style>
 <!--Page Title-->
 {{-- <section class="page-title"> --}}
     {{-- <div class="container">
