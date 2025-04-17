@@ -543,7 +543,7 @@ $section_blog = \App\Models\Section::section('blog');
 @endif
 
 
-{{-- @php
+@php
 $section_process = \App\Models\Section::section('process');
 @endphp
 @if(count($processes) > 0 && isset($section_process))
@@ -576,55 +576,8 @@ $section_process = \App\Models\Section::section('process');
     </div>
 </section>
 <!--End Feautred Section -->
-@endif --}}
-<div class="process-top-section">
-    <div class="process-container-section">
+@endif
 
-        <!-- First Row -->
-        <div class="process-row-section">
-          <div class="process-card">
-            <div class="process-number">1</div>
-            <h3>Requirement Analysis</h3>
-            <p>Understand business needs, finalize Power BI version, evaluate tools, and estimate project timeline.</p>
-            <div class="process-arrow-right"></div>
-          </div>
-          <div class="process-card">
-            <div class="process-number">2</div>
-            <h3>Power BI Development</h3>
-            <p>Analyze data sources, create pipelines, connect Power BI to databases, and set up a robust environment.</p>
-            <div class="process-arrow-right"></div>
-          </div>
-          <div class="process-card">
-            <div class="process-number">3</div>
-            <h3>Dashboard Development</h3>
-            <p>Import data, apply DAX calculations, and design dashboards with appealing layouts and visuals.</p>
-            <div class="process-arrow-down"></div>
-          </div>
-        </div>
-    
-        <!-- Second Row -->
-        <div class="process-row-section">
-          <div class="process-card">
-            <div class="process-number">4</div>
-            <h3>Testing</h3>
-            <p>Gather client feedback, test KPIs & metrics, iterate dashboards to match expectations.</p>
-            <div class="process-arrow-right"></div>
-          </div>
-          <div class="process-card">
-            <div class="process-number">5</div>
-            <h3>Deployment</h3>
-            <p>Finalize .pbix files, prepare environment, and deploy solution live.</p>
-            <div class="process-arrow-right"></div>
-          </div>
-          <div class="process-card">
-            <div class="process-number">6</div>
-            <h3>Training & Support</h3>
-            <p>Provide training and continuous support to maximize adoption and improvement.</p>
-          </div>
-        </div>
-    
-      </div>
-  </div>
 
 @php
 $section_clients = \App\Models\Section::section('clients');
