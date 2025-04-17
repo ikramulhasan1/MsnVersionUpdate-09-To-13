@@ -80,7 +80,7 @@
     background-color: #05264E;
     border-radius: 24px;
     border: 1px solid #00FF87;
-    padding: 10px;
+    padding: 5px !important;
     width: 100%;
     max-width: 420px;
     box-shadow: 0 0 0 1px #00FF87;
