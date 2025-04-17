@@ -148,7 +148,7 @@ $header = \App\Models\PageSetup::page('services');
 @section('content')
 <link rel="stylesheet" href="{{ asset('web/css/extra-service-single.css') }}">
 <!--Page Title-->
-<section class="page-title">
+{{-- <section class="page-title"> --}}
     {{-- <div class="container">
         <div class="inner-container clearfix">
             <div class="title-box">
@@ -205,7 +205,7 @@ $header = \App\Models\PageSetup::page('services');
           </div>
         
      </div>
-</section>
+{{-- </section> --}}
 <!--End Page Title-->
 
 @if(isset($service))
