@@ -599,7 +599,7 @@
                 </div>
             </div> --}}
             <div class="header-lower">
-                <div class="container ">
+                <div class="container clearfix">
                     @if(isset($setting))
                     <!--Logo-->
                     <div class="logo pull-left">
