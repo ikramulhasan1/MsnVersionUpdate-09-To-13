@@ -375,15 +375,22 @@ $header = \App\Models\PageSetup::page('technology');
     <div class="technology-card">
       <img src="{{ asset('uploads/service/'.$service->logo_path) }}" alt="{{ $service->title }}">
       <h2 class="text-color">
-        Get <span class="text-color">Project-based</span> and <br>
-        <span class="text-color">Dedicated Teams</span> from India’s<br>
-        <span class="text-color">Highest-rated Company</span>.
+        
+        Hire <span class="text-color">Project-based</span> and <br>
+        <span class="text-color">Dedicated Teams</span> from a<br>
+        <span class="text-color">Top-rated IT Company</span>.
       </h2>
       <button id="open-modal" class="technology-cta-button text-color">Discuss Your Requirements →</button>
       <div class="technology-info-box text-color">
-        <p><strong class="text-color">Ready to bring your project to life?</strong></p>
-        <p class="text-color">Share your vision, and we'll provide a free expert consultation within 24 hours, outlining a clear path to success tailored to your project and budget.</p>
-      </div>
+        <p><strong class="text-color">Have a Project in Mind? Let’s Build It Right.</strong></p>
+        <p class="text-color">Share your requirements, and our expert team will get back to you within 24 hours with a personalized consultation. You’ll get:</p>
+        <ul>
+            <li style="color: white">✅ A detailed project strategy</li>
+            <li style="color: white">✅ Clear timelines and cost estimates</li>
+            <li style="color: white">✅ Technology recommendations</li>
+            <li style="color: white">✅ Scalable solutions tailored to your needs</li>
+        </ul>  
+    </div>
     </div>
   </section>
 @if(isset($service))

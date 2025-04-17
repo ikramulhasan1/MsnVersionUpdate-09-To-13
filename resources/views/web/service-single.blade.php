@@ -327,7 +327,7 @@ $header = \App\Models\PageSetup::page('services');
                 </div> --}}
               </div>
             </div>
-        
+           
             <div class="banner-right">
               <h2 style="color: #ffffff!important;">
                 Hire <span class="banner-highlight">Project-based</span> and <br>
