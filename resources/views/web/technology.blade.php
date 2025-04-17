@@ -346,7 +346,7 @@ $header = \App\Models\PageSetup::page('technology');
 <!--End Page Title-->
 <section class="technology-container">
     <div class="technology-left">
-      <h1 class="text-color">{{ $service->meta_title }}</h1>
+      <h1 class="text-color">{{ $service->short_title }}</h1>
       <p class="text-color">{!! $service->short_desc !!}</p>
 
       {{-- <div class="technology-reviews-container">
@@ -373,7 +373,7 @@ $header = \App\Models\PageSetup::page('technology');
     </div>
 
     <div class="technology-card">
-      <img src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}">
+      <img src="{{ asset('uploads/service/'.$service->logo_path) }}" alt="{{ $service->title }}">
       <h2 class="text-color">
         Get <span class="text-color">Project-based</span> and <br>
         <span class="text-color">Dedicated Teams</span> from India’s<br>
