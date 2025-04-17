@@ -306,7 +306,8 @@
                         <div class="top-left clearfix">
                             <ul class="links clearfix">
                                 @if(isset($setting->email_one))
-                                <li><span class="icon fa fa-map-marker-alt"></span>{{ $setting->email_one }}</li>
+                                {{-- <i class="fa-solid fa-envelope"></i> --}}
+                                <li><span class="icon fa-solid fa-envelope"></span>{{ $setting->email_one }}</li>
                                 @endif
                             </ul>
                         </div>
