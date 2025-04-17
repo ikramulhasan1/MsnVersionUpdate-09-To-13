@@ -325,6 +325,13 @@ $header = \App\Models\PageSetup::page('related-service');
             height: 25px;
         }
         .hidden { display: none; }
+        
+.faq_container {
+    max-width: 1000px;
+    margin: 60px 10px !important;
+    padding: 20px;
+  }
+
 </style>
 <!--Page Title-->
 <section class="page-title">
