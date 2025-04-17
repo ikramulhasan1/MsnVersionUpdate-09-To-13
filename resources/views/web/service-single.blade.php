@@ -140,13 +140,13 @@ $header = \App\Models\PageSetup::page('services');
 <meta name="twitter:description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}" />
 <meta name="twitter:image" content="{{ asset('uploads/service/'.$service->image_path) }}" />
 @endif
- 
+<link rel="stylesheet" href="{{ asset('web/css/extra-service-single.css') }}">
+
 @endsection
 
 {{-- schema section --}}
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('web/css/extra-service-single.css') }}">
 <!--Page Title-->
 {{-- <section class="page-title"> --}}
     {{-- <div class="container">
