@@ -14,7 +14,7 @@ class RedirectUrlController extends Controller
     public function __construct()
     {
         // Module Data
-        $this->title = trans_choice('dashboard.redirect', 2);
+        $this->title = trans_choice('dashboard.redirect', 1);
         $this->route = 'admin.redirects';
         $this->view = 'admin.redirect';
     }
