@@ -333,8 +333,7 @@ $header = \App\Models\PageSetup::page('services');
               <button>Discuss Your Requirements →</button>
               <div style="color: white; text-align: left;" class="banner-right-box">
                 <strong style="color: white" >Have a Project in Mind? Let’s Build It Right.</strong><br>
-                Share your requirements, and our expert team will get back to you within 24 hours with a personalized consultation.<br>
-                You’ll get:
+                Share your requirements, and our expert team will get back to you within 24 hours with a personalized consultation. You’ll get:<br>
                 <ul>
                     <li style="color: white">✅ A detailed project strategy</li>
                     <li style="color: white">✅ Clear timelines and cost estimates</li>
