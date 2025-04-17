@@ -308,6 +308,9 @@
                                 @if(isset($setting->email_one))
                                 <li><span class="mr-2 fa-solid fa-envelope"></span>{{ $setting->email_one }}</li>
                                 @endif
+                                @if(isset($setting->email_one))
+                                <li><span class="mr-2 fa-solid fa-envelope"></span>{{ $setting->email_one }}</li>
+                                @endif
                             </ul>
                         </div>
 

@@ -149,7 +149,7 @@ $header = \App\Models\PageSetup::page('services');
 <link rel="stylesheet" href="{{ asset('web/css/extra-service-single.css') }}">
 <!--Page Title-->
 <section class="page-title">
-    <div class="container">
+    {{-- <div class="container">
         <div class="inner-container clearfix">
             <div class="title-box">
                 <h1 style="font-size: 36px">{{ $service->title }}</h1>
@@ -161,7 +161,50 @@ $header = \App\Models\PageSetup::page('services');
                 </ul>
             </div>
         </div>
-    </div>
+    </div> --}}
+    <div class="banner-container">
+        <div class="banner">
+            <div class="banner-left">
+              <h1>Data Engineering<br>Services</h1>
+              <p>Our data engineering services provide the foundation for data-driven decision-making, helping you gain a competitive edge and achieve your business goals.</p>
+              <div class="banner-reviews">
+                <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
+                <div class="banner-review-logos">
+                  <div class="banner-review-item">
+                    <div>Clutch</div>
+                    <div class="banner-stars">★★★★★</div>
+                  </div>
+                  <div class="banner-review-item">
+                    <div>GoodFirms</div>
+                    <div class="banner-stars">★★★★★</div>
+                  </div>
+                  <div class="banner-review-item">
+                    <div>G2</div>
+                    <div class="banner-stars">★★★★★</div>
+                  </div>
+                  <div class="banner-review-item">
+                    <div>Google</div>
+                    <div class="banner-stars">★★★★★</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        
+            <div class="banner-right">
+              <h2>
+                Get <span class="banner-highlight">Project-based</span> and <br>
+                <span class="banner-highlight">Dedicated Teams</span> from India’s<br>
+                <span class="banner-highlight">Highest-rated Company</span>.
+              </h2>
+              <button>Discuss Your Requirements →</button>
+              <div class="banner-right-box">
+                <strong>Ready to bring your project to life?</strong><br><br>
+                Share your vision, and we'll provide a free expert consultation within 24 hours, outlining a clear path to success tailored to your project and budget.
+              </div>
+            </div>
+          </div>
+        
+     </div>
 </section>
 <!--End Page Title-->
 
