@@ -419,7 +419,7 @@ $header = \App\Models\PageSetup::page('services');
                             <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
                         </a>
                     </div>
-                    <div hidden class="">
+                    <div class="">
                         @include('web.layouts.googlemeet')
                     </div>
                 </div>
