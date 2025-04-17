@@ -298,8 +298,8 @@ $header = \App\Models\PageSetup::page('services');
     <div class="banner-container">
         <div class="banner">
             <div class="banner-left">
-              <h1 style="color: white">Data Engineering<br>Services</h1>
-              <p>Our data engineering services provide the foundation for data-driven decision-making, helping you gain a competitive edge and achieve your business goals.</p>
+              <h1 style="color: white">{{ $service->title }}</h1>
+              <p>{{ __('navbar.service-detail') }}</p>
               <div class="banner-reviews">
                 <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
                 <div class="banner-review-logos">
