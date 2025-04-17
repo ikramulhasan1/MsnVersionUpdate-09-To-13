@@ -306,7 +306,7 @@
                         <div class="top-left clearfix">
                             <ul class="links clearfix">
                                 @if(isset($setting->email_one))
-                                {{-- <li><span class="icon fa fa-map-marker-alt"></span>{{ $setting->contact_address }}</li> --}}
+                                <li><span class="icon fa fa-map-marker-alt"></span>{{ $setting->email_one }}</li>
                                 @endif
                             </ul>
                         </div>
