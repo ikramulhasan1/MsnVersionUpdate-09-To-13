@@ -381,15 +381,10 @@ $header = \App\Models\PageSetup::page('technology');
         <span class="text-color">Top-rated IT Company</span>.
       </h2>
       <button id="open-modal" class="technology-cta-button text-color">Discuss Your Requirements →</button>
-      <div class="technology-info-box text-color">
+      <div class="technology-info-box text-color text-left">
         <p><strong class="text-color">Have a Project in Mind? Let’s Build It Right.</strong></p>
-        <p class="text-color">Share your requirements, and our expert team will get back to you within 24 hours with a personalized consultation. You’ll get:</p>
-        <ul>
-            <li style="color: white">✅ A detailed project strategy</li>
-            <li style="color: white">✅ Clear timelines and cost estimates</li>
-            <li style="color: white">✅ Technology recommendations</li>
-            <li style="color: white">✅ Scalable solutions tailored to your needs</li>
-        </ul>  
+        <p class="text-color">Have a project in mind? Tell us your needs, and we’ll get back to you within 24 hours with a strategy, timeline, cost estimate, and the right tech solution</p>
+       
     </div>
     </div>
   </section>
