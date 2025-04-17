@@ -314,8 +314,8 @@ $header = \App\Models\PageSetup::page('services');
               <h1 style="color: white">{{ $service->title }}</h1>
               {{-- <p>Service Detail</p> --}}
               <div class="banner-reviews">
-                <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
-                <div class="banner-review-logos">
+                {{-- <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
+                <div class="banner-review-logos"> --}}
                   <div class="banner-review-item">
                     <div style="color: white">Clutch</div>
                     <div class="banner-stars">★★★★★</div>
