@@ -275,7 +275,7 @@
         }
         
       </style>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       {{-- google analytics --}}
       <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQTTGFBMBE"></script>
@@ -306,7 +306,7 @@
                         <div class="top-left clearfix">
                             <ul class="links clearfix">
                                 @if(isset($setting->email_one))
-                                <li><i class="icon fa-solid fa-envelope-open-text"></i>{{ $setting->email_one }}</li>
+                                <li><span class="icon fa-solid fa-envelope-open-text"></span>{{ $setting->email_one }}</li>
                                 @endif
                             </ul>
                         </div>
