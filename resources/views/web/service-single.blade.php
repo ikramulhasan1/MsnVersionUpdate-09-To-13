@@ -295,6 +295,7 @@ $header = \App\Models\PageSetup::page('services');
             </div>
         </div>
     </div> --}}
+    @include('web.layouts.googlemeet2')
     <div class="banner-container">
         <div class="banner">
             <div class="banner-left">
@@ -421,7 +422,7 @@ $header = \App\Models\PageSetup::page('services');
                     </div>
                     <div class="">
                         @include('web.layouts.googlemeet')
-                        @include('web.layouts.googlemeet2')
+                        
                     </div>
                 </div>
                 @elseif(isset($page_contact))

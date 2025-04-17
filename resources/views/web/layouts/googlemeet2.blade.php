@@ -106,7 +106,7 @@
 </div> --}}
 
 <!-- Modal -->
-<div id="modal-1" class="modal__overlay">
+<div id="modal-2" class="modal__overlay">
   <div class="modal__container">
     <header class="mb-4">
       <button class="modal__close">×</button>
@@ -163,7 +163,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-  const modal = document.getElementById("modal-1");
+  const modal = document.getElementById("modal-2");
   const openModal = document.getElementById("open-modal2");
   const closeModal = document.querySelector(".modal__close");
   const cancelButton = document.getElementById("cancel-button");
