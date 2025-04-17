@@ -326,8 +326,9 @@ $header = \App\Models\PageSetup::page('technology');
         }
         .hidden { display: none; }
 </style>
+<link rel="stylesheet" href="{{ asset('web/css/extra-technology.css') }}">    
 <!--Page Title-->
-<section class="page-title">
+{{-- <section class="page-title">
     <div class="container">
         <div class="inner-container clearfix">
             <div class="title-box">
@@ -341,9 +342,50 @@ $header = \App\Models\PageSetup::page('technology');
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 <!--End Page Title-->
+<section class="technology-container">
+    <div class="technology-left">
+      <h1>Hire Python Developers</h1>
+      <p>Hire our expert Python developers to build scalable web applications, data-driven solutions, and advanced machine learning models tailored to your business needs.</p>
 
+      <div class="technology-reviews-container">
+        <div class="technology-reviews-label">300+ Glowing 5-Star Reviews</div>
+        <div class="technology-reviews">
+          <div class="technology-review-item">
+            <img src="clutch-icon.png" alt="Clutch">
+            <div class="technology-stars">★★★★★</div>
+          </div>
+          <div class="technology-review-item">
+            <img src="goodfirms-icon.png" alt="GoodFirms">
+            <div class="technology-stars">★★★★★</div>
+          </div>
+          <div class="technology-review-item">
+            <img src="g2-icon.png" alt="G2">
+            <div class="technology-stars">★★★★★</div>
+          </div>
+          <div class="technology-review-item">
+            <img src="google-icon.png" alt="Google">
+            <div class="technology-stars">★★★★☆</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="technology-card">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png" alt="Python Icon">
+      <h2>
+        Get <span>Project-based</span> and <br>
+        <span>Dedicated Teams</span> from India’s<br>
+        <span>Highest-rated Company</span>.
+      </h2>
+      <button class="technology-cta-button">Discuss Your Requirements →</button>
+      <div class="technology-info-box">
+        <p><strong>Ready to bring your project to life?</strong></p>
+        <p>Share your vision, and we'll provide a free expert consultation within 24 hours, outlining a clear path to success tailored to your project and budget.</p>
+      </div>
+    </div>
+  </section>
 @if(isset($service))
 <!--Sidebar Page Container-->
 <div style="background-color: #f7fff9" class="sidebar-page-container">
