@@ -198,7 +198,7 @@ $header = \App\Models\PageSetup::page('services');
     flex-direction: column!important;
     gap: 1rem!important;
   } */
-  .banner-reviews {
+   .banner-reviews {
   background: 
     linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)),
     url("{{ asset('uploads/service/' . $service->image_path) }}") !important;
@@ -207,8 +207,7 @@ $header = \App\Models\PageSetup::page('services');
   display: flex !important;
   flex-direction: column !important;
   gap: 1rem !important;
-  background-size: 1000px 100% !important;
-  background-repeat: no-repeat !important;
+  background-size: cover;
   background-position: center;
 }
 
@@ -315,26 +314,26 @@ $header = \App\Models\PageSetup::page('services');
               <h1 style="color: white">{{ $service->title }}</h1>
               {{-- <p>Service Detail</p> --}}
               <div class="banner-reviews">
-                {{-- <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
-                    <div class="banner-review-logos">
-                    <div class="banner-review-item">
-                        <div style="color: white">Clutch</div>
-                        <div class="banner-stars">★★★★★</div>
-                    </div>
-                    <div class="banner-review-item">
-                        <div style="color: white">GoodFirms</div>
-                        <div class="banner-stars">★★★★★</div>
-                    </div>
-                    <div class="banner-review-item">
-                        <div style="color: white">G2</div>
-                        <div class="banner-stars">★★★★★</div>
-                    </div>
-                    <div class="banner-review-item">
-                        <div style="color: white">Google</div>
-                        <div class="banner-stars">★★★★★</div>
-                    </div>
-                    </div>
-                </div> --}}
+                <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
+                <div class="banner-review-logos">
+                  <div class="banner-review-item">
+                    <div style="color: white">Clutch</div>
+                    <div class="banner-stars">★★★★★</div>
+                  </div>
+                  <div class="banner-review-item">
+                    <div style="color: white">GoodFirms</div>
+                    <div class="banner-stars">★★★★★</div>
+                  </div>
+                  <div class="banner-review-item">
+                    <div style="color: white">G2</div>
+                    <div class="banner-stars">★★★★★</div>
+                  </div>
+                  <div class="banner-review-item">
+                    <div style="color: white">Google</div>
+                    <div class="banner-stars">★★★★★</div>
+                  </div>
+                </div>
+              </div>
             </div>
         
             <div class="banner-right">
