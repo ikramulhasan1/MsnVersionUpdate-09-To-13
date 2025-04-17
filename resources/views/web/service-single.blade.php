@@ -326,14 +326,21 @@ $header = \App\Models\PageSetup::page('services');
         
             <div class="banner-right">
               <h2 style="color: #ffffff!important;">
-                Get <span class="banner-highlight">Project-based</span> and <br>
-                <span class="banner-highlight">Dedicated Teams</span> from Bangladesh’s<br>
-                <span class="banner-highlight">Highest-rated Company</span>.
+                Hire <span class="banner-highlight">Project-based</span> and <br>
+                <span class="banner-highlight">Dedicated Teams</span> from a<br>
+                <span class="banner-highlight">Top-rated IT Company</span>.
               </h2>
               <button>Discuss Your Requirements →</button>
               <div style="color: white" class="banner-right-box">
-                <strong style="color: white" >Ready to bring your project to life?</strong><br><br>
-                Share your vision, and we'll provide a free expert consultation within 24 hours, outlining a clear path to success tailored to your project and budget.
+                <strong style="color: white" >Have a Project in Mind? Let’s Build It Right.</strong><br><br>
+                Share your requirements, and our expert team will get back to you within 24 hours with a personalized consultation.<br>
+                You’ll get:
+                <ul>
+                    <li>A detailed project strategy</li>
+                    <li>Clear timelines and cost estimates</li>
+                    <li>Technology recommendations</li>
+                    <li>Scalable solutions tailored to your needs</li>
+                </ul><br>
               </div>
             </div>
           </div>
