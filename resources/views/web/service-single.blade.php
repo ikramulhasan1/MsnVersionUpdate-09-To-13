@@ -336,14 +336,8 @@ $header = \App\Models\PageSetup::page('services');
               </div>
             </div>
           </div>
-          
+        
      </div>
-     <div class="bread-crumb">
-        <ul>
-            <li>{{ __('navbar.service-detail') }}</li>
-            <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
-        </ul>
-    </div>
 {{-- </section> --}}
 <!--End Page Title-->
 
