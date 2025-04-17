@@ -96,7 +96,7 @@
 <body>
 
 <div>
-  <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer; display: flex; align-items: center;">
+  <button id="open-modal" class="open-modal button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer; display: flex; align-items: center;">
     <div class="logo-container">
       <img id="google-meet-img" src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" />
       <img id="zoom-img" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg" alt="Zoom Logo" />
@@ -164,7 +164,7 @@
 
 <script>
   const modal = document.getElementById("modal-1");
-  const openModal = document.getElementById("open-modal");
+  const openModal = document.querySelector(".open-modal");
   const closeModal = document.querySelector(".modal__close");
   const cancelButton = document.getElementById("cancel-button");
   const formMessage = document.getElementById("form-message");

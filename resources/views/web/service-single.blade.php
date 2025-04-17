@@ -330,7 +330,7 @@ $header = \App\Models\PageSetup::page('services');
                 <span class="banner-highlight">Dedicated Teams</span> from a<br>
                 <span class="banner-highlight">Top-rated IT Company</span>.
               </h2>
-              <button id="open-modal">Discuss Your Requirements →</button>
+              <button class="open-modal">Discuss Your Requirements →</button>
               <div style="color: white; text-align: left;" class="banner-right-box">
                 <strong style="color: white" >Have a Project in Mind? Let’s Build It Right.</strong><br>
                 Share your requirements, and our expert team will get back to you within 24 hours with a personalized consultation. You’ll get:<br>
