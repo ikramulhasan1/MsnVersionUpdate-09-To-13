@@ -350,7 +350,7 @@ $header = \App\Models\PageSetup::page('technology');
       <p class="text-color">Hire our expert Python developers to build scalable web applications, data-driven solutions, and advanced machine learning models tailored to your business needs.</p>
 
       <div class="technology-reviews-container">
-        <div class="technology-reviews-label">300+ Glowing 5-Star Reviews</div>
+        <div class="technology-reviews-label text-color">300+ Glowing 5-Star Reviews</div>
         <div class="technology-reviews">
           <div class="technology-review-item">
             <img src="clutch-icon.png" alt="Clutch">
@@ -375,14 +375,14 @@ $header = \App\Models\PageSetup::page('technology');
     <div class="technology-card">
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png" alt="Python Icon">
       <h2 class="text-color">
-        Get <span>Project-based</span> and <br>
-        <span>Dedicated Teams</span> from India’s<br>
-        <span>Highest-rated Company</span>.
+        Get <span class="text-color">Project-based</span> and <br>
+        <span class="text-color">Dedicated Teams</span> from India’s<br>
+        <span class="text-color">Highest-rated Company</span>.
       </h2>
-      <button class="technology-cta-button">Discuss Your Requirements →</button>
+      <button class="technology-cta-button text-color">Discuss Your Requirements →</button>
       <div class="technology-info-box text-color">
-        <p><strong>Ready to bring your project to life?</strong></p>
-        <p>Share your vision, and we'll provide a free expert consultation within 24 hours, outlining a clear path to success tailored to your project and budget.</p>
+        <p><strong class="text-color">Ready to bring your project to life?</strong></p>
+        <p class="text-color">Share your vision, and we'll provide a free expert consultation within 24 hours, outlining a clear path to success tailored to your project and budget.</p>
       </div>
     </div>
   </section>
