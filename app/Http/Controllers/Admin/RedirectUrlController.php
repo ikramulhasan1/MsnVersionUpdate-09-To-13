@@ -5,23 +5,16 @@ namespace App\Http\Controllers\Admin;
 use Log;
 use Toastr;
 use App\Models\RedirectUrl;
-
-use Illuminate\Support\Str;
-// use App\Models\FaqCategory;
-// use App\Models\Faq;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-// use Image;
-// use File;
-
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class RedirectUrlController extends Controller
 {
     public function __construct()
     {
         // Module Data
-        $this->title = trans_choice('dashboard.redirect', 1);
+        $this->title = trans_choice('dashboard.redirect', 2);
         $this->route = 'admin.redirects';
         $this->view = 'admin.redirect';
     }
