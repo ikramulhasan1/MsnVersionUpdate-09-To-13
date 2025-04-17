@@ -780,7 +780,7 @@
                                     $page_quote = \App\Models\PageSetup::page('get-quote');
                                     @endphp
                                     @if(isset($page_quote))
-                                    <li class="advisor-box bg-danger {{ Request::is('get-quote*') ? 'current' : '' }}">
+                                    <li style="background-color: red" class="advisor-box px-2 {{ Request::is('get-quote*') ? 'current' : '' }}">
                                         <a class="text-white " href="{{ route('get-quote') }}">{{ $page_quote->title }}</a>
                                     </li>
                                     @endif
