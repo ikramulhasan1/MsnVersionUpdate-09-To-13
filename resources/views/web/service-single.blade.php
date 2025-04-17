@@ -373,20 +373,20 @@ $header = \App\Models\PageSetup::page('services');
             <div class="content-side col-lg-8 col-md-12 col-sm-12">
                 <div class="service-detail">
                     <div class="inner-box">
-                        <div class="image-box">
+                        {{-- <div class="image-box">
                             <div class="single-item-">
                                 <figure class="image"><img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
                             </div>
 
-                            {{-- <div class="single-item-">
+                            <div class="single-item-">
                                 <picture>
                                     <source type="image/webp" srcset="{{ asset('uploads/service/'.$service->image_path.'.webp') }}">
                                     <img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" />
                                 </picture>
-                            </div> --}}
+                            </div>
                             
-                        </div>
-                        <p style="font-size: 32px; color: black; font-weight: 500;" class="mb-4">{{ $service->short_title }}</p>
+                        </div> --}}
+                        <h2 style="font-size: 32px; color: black; font-weight: 500;" class="mb-4">{{ $service->short_title }}</h2>
 
                         <div id="processedContent" class="text description">
                         
