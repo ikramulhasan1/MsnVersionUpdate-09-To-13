@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // FAQs Section
-    let faqIndex = $index;
+    let faqIndex = $index++;
 
     function addFaq() {
         const wrapper = document.getElementById('faq-wrapper');
