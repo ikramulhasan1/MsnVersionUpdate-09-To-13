@@ -344,48 +344,24 @@ $header = \App\Models\PageSetup::page('technology');
     </div>
 </section> --}}
 <!--End Page Title-->
-<section class="technology-container">
-    <div class="technology-left">
-      <h1 class="text-color">{{ $service->short_title }}</h1>
-      <p style="color: white !important" >{!! $service->short_desc !!}</p>
-
-      {{-- <div class="technology-reviews-container">
-        <div class="technology-reviews-label text-color">300+ Glowing 5-Star Reviews</div>
-        <div class="technology-reviews">
-          <div class="technology-review-item">
-            <img src="clutch-icon.png" alt="Clutch">
-            <div class="technology-stars">★★★★★</div>
-          </div>
-          <div class="technology-review-item">
-            <img src="goodfirms-icon.png" alt="GoodFirms">
-            <div class="technology-stars">★★★★★</div>
-          </div>
-          <div class="technology-review-item">
-            <img src="g2-icon.png" alt="G2">
-            <div class="technology-stars">★★★★★</div>
-          </div>
-          <div class="technology-review-item">
-            <img src="google-icon.png" alt="Google">
-            <div class="technology-stars">★★★★☆</div>
-          </div>
-        </div>
-      </div> --}}
+<section style="padding:20px 60px !important;" class="banner-container">
+    <div class="banner-left">
+      <h1>Hire Python Developers</h1>
+      <p>Hire our expert Python developers to build scalable web applications, data-driven solutions, and advanced machine learning models tailored to your business needs.</p>
     </div>
 
-    <div class="technology-card">
-      <img src="{{ asset('uploads/service/'.$service->logo_path) }}" alt="{{ $service->title }}">
-      <h2 class="text-color">
-        
-        Hire <span class="text-color">Project-based</span> and <br>
-        <span class="text-color">Dedicated Teams</span> from a<br>
-        <span class="text-color">Top-rated IT Company</span>.
+    <div class="banner-card">
+      <img src="//upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png" alt="Python Icon" />
+      <h2>
+        Get <span>Project-based</span> and <br/>
+        <span>Dedicated Teams</span> from India’s<br/>
+        <span>Highest-rated Company</span>.
       </h2>
-      <button id="open-modal" class="technology-cta-button text-color">Discuss Your Requirements →</button>
-      <div class="technology-info-box text-color text-left">
-        <p><strong class="text-color">Have a Project in Mind? Let’s Build It Right.</strong></p>
-        <p class="text-color">Have a project in mind? Tell us your needs, and we’ll get back to you within 24 hours with a strategy, timeline, cost estimate, and the right tech solution</p>
-       
-    </div>
+      <button class="banner-cta-button">Discuss Your Requirements →</button>
+      <div class="banner-info-box">
+        <p><strong>Ready to bring your project to life?</strong></p>
+        <p>Got a project in mind? Share your vision, and get a free expert consultation within 24 hours—complete with a personalized roadmap tailored to your goals and budget.</p>
+      </div>
     </div>
   </section>
 @if(isset($service))

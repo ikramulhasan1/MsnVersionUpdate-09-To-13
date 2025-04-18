@@ -1,140 +1,108 @@
-
-.technology-container {
+.banner-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 30px 20px 30px;
-    gap: 40px;
-    max-height: 100vh;
+    padding: 4rem 1.5rem;
+    gap: 2rem;
+    max-height: 90vh;
+    overflow: hidden;
 
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #041C32;
+    background-color: #0B1C3A;
     color: white;
+    font-family: Arial, sans-serif;
+   
   }
 
-  @media (min-width: 1024px) {
-    .technology-container {
+  @media (min-width: 768px) {
+    .banner-container {
       flex-direction: row;
       justify-content: space-between;
       align-items: flex-start;
-      padding: 20px 30px 20px 30px;
-      max-height: 100vh;
+      padding: 4rem 5%;
+      gap: 2rem;
+    }
+
+    .banner-left, .banner-card {
+      flex: 1;
+      max-width: 50%;
+    }
+
+    .banner-left {
+      padding-right: 2rem;
+    }
+
+    .banner-card {
+      padding-left: 2rem;
     }
   }
 
-  .technology-left {
-    max-width: 60%;
+  .banner-left {
+    max-width: 600px;
   }
 
   h1 {
-    font-size: 3.2rem;
-    font-weight: 800;
-    margin-bottom: 20px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
   }
 
   p {
-    font-size: 1.1rem;
+    font-size: 1.125rem;
     line-height: 1.6;
-    margin-bottom: 20px;
+    margin-bottom: 1.5rem;
   }
 
-  .technology-reviews-container {
-    margin-top: 40px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 16px;
-    padding: 20px 30px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .technology-reviews-label {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: 500;
-  }
-
-  .technology-reviews {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 40px;
-  }
-
-  .technology-review-item {
-    text-align: center;
-  }
-
-  .technology-review-item img {
-    height: 30px;
-    margin-bottom: 8px;
-  }
-
-  .technology-stars {
-    color: #FFD700;
-    font-size: 1.4rem;
-  }
-
-  .technology-card {
+  .banner-card {
     background-color: #05264E;
-    border-radius: 24px;
     border: 1px solid #00FF87;
-    padding: 5px !important;
+    padding: 1.5rem;
+    border-radius: 1rem;
     width: 100%;
-    max-width: 420px;
-    box-shadow: 0 0 0 1px #00FF87;
-    position: relative;
+    max-width: 400px;
+    margin-top: 0;
   }
 
-  .technology-card img {
-    height: 60px;
+  .banner-card img {
+    height: 56px;
     display: block;
     margin: 0 auto 1rem auto;
   }
 
-  .technology-card h2 {
+  .banner-card h2 {
     text-align: center;
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: bold;
-    margin-bottom: 1.5rem;
-    line-height: 1.5;
+    margin-bottom: 1rem;
   }
 
-  .technology-card span {
+  .banner-card span {
     text-decoration: underline;
   }
 
-  .technology-cta-button {
+  .banner-cta-button {
     background-color: #F97316;
     color: white;
-    padding: 0.9rem 1.5rem;
-    border-radius: 8px;
-    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1.125rem;
     font-weight: bold;
     border: none;
+    width: 100%;
     cursor: pointer;
-    width: 150px !important;
     margin-bottom: 1.5rem;
-    transition: background-color 0.3s ease;
   }
 
-  .technology-cta-button:hover {
+  .banner-cta-button:hover {
     background-color: #ea580c;
   }
 
-  .technology-info-box {
-    background-color: #0D2642;
-    padding: 1.2rem;
-    border-radius: 10px;
-    font-size: 0.95rem;
+  .banner-info-box {
+    background-color: #1E3A8A;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
     text-align: center;
-    color: #fff;
   }
 
-  .technology-info-box p {
+  .banner-info-box p {
     margin-bottom: 0.5rem;
-  }
-  .text-color{
-    color: #ffffff !important;
   }
