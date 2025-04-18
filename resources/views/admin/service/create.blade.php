@@ -143,7 +143,7 @@
                         
                             <div id="faq-wrapper" class="form-group col faq-group mb-3">
                                 {{-- <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label> --}}
-                                <input type="text" class="form-control" name="faqs[0][question]" placeholder="Question" required>
+                                <input type="text" class="form-control mb-2" name="faqs[0][question]" placeholder="Question" required>
                                 <input type="text" class="form-control" name="faqs[0][answer]" placeholder="Answer" required>
     
                                 <div class="invalid-feedback">
@@ -175,7 +175,7 @@
     </div>
     <!-- end row-->
 
-    
+
 
 </div> <!-- container -->
 <!-- End Content-->
