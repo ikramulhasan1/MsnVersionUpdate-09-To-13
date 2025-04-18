@@ -422,7 +422,6 @@ class ServiceController extends Controller
 
     public function update(Request $request, Service $service)
 {
-    dd($request->all());
     // Field Validation
     $request->validate([
         'title' => 'required|max:191|unique:services,title,'.$service->id,
