@@ -143,14 +143,17 @@
                         <hr>
                         <h3>FAQs</h3>
                         <div class="row">
+                        @php
+                        $index = 0;
+                        @endphp
                             @foreach ($row->faqs as $key=>$faq)
                                 <div id="faq-wrapper" class="form-group col-9 faq-group mb-2">
                                     {{-- <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label> --}}
-                                    {{ $key+1 }}. <input type="text" class="form-control mb-1" name="faqs[0][title]" value="{{ $faq->title }}" placeholder="0. Question" required>
+                                    <input type="text" class="form-control mb-1" name="faqs[0][title]" value="{{ $faq->title }}" placeholder="0. Question" required>
                                     <input type="text" class="form-control mb-1" name="faqs[0][description]" value="{{ $faq->description }}" placeholder="0. Answer" required>
                                     <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
 
-                                    <select hidden name="faqs[{{ $key }}][category_id]">
+                                    <select hidden name="faqs[{{ $index }}][category_id]">
                                         @foreach ($faqCategories as $category)
                                             <option selected value="{{ 12 }}">{{ $category->name }}</option>
                                         @endforeach
