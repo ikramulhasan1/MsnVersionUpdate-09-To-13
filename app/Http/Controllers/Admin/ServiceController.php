@@ -10,6 +10,7 @@ use App\Models\Service;
 use App\Models\FaqCategory;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 
 class ServiceController extends Controller
@@ -334,8 +335,14 @@ class ServiceController extends Controller
         'short_desc' => 'required',
         'description' => 'required',
         'image' => 'nullable|image',
-        'faqs.*.title' => 'required|max:191|unique:services,title,'.$service->id,
-        'faqs.*.description' => 'required',
+        'faqs.*.title' => [
+                'required',
+                'max:191',
+                Rule::unique('faqs', 'title')->where(function ($query) use ($service) {
+                    return $query->where('type', 'service')
+                                ->where('service_id', $service->id);
+                }),
+    ],        'faqs.*.description' => 'required',
     ]);
 
     $keywords = array_unique(array_map('trim', explode(',', $request->keywords)));
