@@ -326,15 +326,13 @@ $header = \App\Models\PageSetup::page('technology');
         }
         .hidden { display: none; }
 
-
-
-
-        .banner-container {
+/* banner */
+    .banner-container {
     display: flex;
     flex-direction: column;
-    padding: 4rem 1.5rem;
+    /* padding: 4rem 1.5rem; */
     gap: 2rem;
-    max-height: 90vh;
+    max-height: 100vh;
     overflow: hidden;
 
     background-color: #0B1C3A;
@@ -348,7 +346,7 @@ $header = \App\Models\PageSetup::page('technology');
       flex-direction: row;
       justify-content: space-between;
       align-items: flex-start;
-      padding: 4rem 5%;
+      /* padding: 4rem 5%; */
       gap: 2rem;
     }
 
