@@ -334,8 +334,8 @@ class ServiceController extends Controller
         'short_desc' => 'required',
         'description' => 'required',
         'image' => 'nullable|image',
-        'faqs.*.title' => 'required|string'.$service->id,
-        'faqs.*.description' => 'required|string'.$service->id,
+        'faqs.*.title' => 'required|max:191|unique:services,title,'.$service->id,
+        'faqs.*.description' => 'required|max:191|unique:services,title,'.$service->id,
     ]);
 
     $keywords = array_unique(array_map('trim', explode(',', $request->keywords)));
