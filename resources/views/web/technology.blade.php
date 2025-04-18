@@ -325,6 +325,118 @@ $header = \App\Models\PageSetup::page('technology');
             height: 25px;
         }
         .hidden { display: none; }
+
+
+
+
+        .banner-container {
+    display: flex;
+    flex-direction: column;
+    padding: 4rem 1.5rem;
+    gap: 2rem;
+    max-height: 90vh;
+    overflow: hidden;
+
+    background-color: #0B1C3A;
+    color: white;
+    font-family: Arial, sans-serif;
+   
+  }
+
+  @media (min-width: 768px) {
+    .banner-container {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 4rem 5%;
+      gap: 2rem;
+    }
+
+    .banner-left, .banner-card {
+      flex: 1;
+      max-width: 50%;
+    }
+
+    .banner-left {
+      padding-right: 2rem;
+    }
+
+    .banner-card {
+      padding-left: 2rem;
+    }
+  }
+
+  .banner-left {
+    max-width: 600px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+
+  p {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .banner-card {
+    background-color: #05264E;
+    border: 1px solid #00FF87;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 0;
+  }
+
+  .banner-card img {
+    height: 56px;
+    display: block;
+    margin: 0 auto 1rem auto;
+  }
+
+  .banner-card h2 {
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .banner-card span {
+    text-decoration: underline;
+  }
+
+  .banner-cta-button {
+    background-color: #F97316;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: bold;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+  }
+
+  .banner-cta-button:hover {
+    background-color: #ea580c;
+  }
+
+  .banner-info-box {
+    background-color: #1E3A8A;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  .banner-info-box p {
+    margin-bottom: 0.5rem;
+  }
 </style>
 <link rel="stylesheet" href="{{ asset('web/css/extra-technology.css') }}">    
 <!--Page Title-->
