@@ -152,7 +152,7 @@
                                 <input type="hidden" class="form-control mb-1" name="faqs[{{ $key }}][type]" value="service" required>
                                 <select hidden name="faqs[{{ $key }}][category_id]">
                                     @foreach ($faqCategories as $category)
-                                        <option value="{{ $category->id }}" @if($category->id == $faq->category_id) selected @endif>{{ $category->name }}</option>
+                                        <option value="{{ 12 }}" @if($category->id == $faq->category_id) selected @endif>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -264,7 +264,7 @@ function addFaq() {
         <input type="hidden" class="form-control mb-1" name="faqs[${faqIndex}][type]" value="service" required>
         <select hidden name="faqs[${faqIndex}][category_id]">
             @foreach ($faqCategories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                <option value="{{ 12 }}">{{ $category->name }}</option>
             @endforeach
         </select>
     `;
