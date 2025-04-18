@@ -542,6 +542,7 @@ class ServiceController extends Controller
         Faq::create([
             'service_id' => $service->id,
             'category_id' => $request->category_id,
+            'type' => $request->type,
             'title' => $faq['title'],
             'description' => $faq['description'],
         ]);

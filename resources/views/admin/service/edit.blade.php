@@ -263,8 +263,8 @@ document.addEventListener("DOMContentLoaded", function () {
         group.classList.add('faq-group');
         group.classList.add('mb-2');
         group.innerHTML = `
-            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][question]" placeholder="${faqIndex}. Question" required>
-            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][answer]" placeholder="${faqIndex+2-2}. Answer" required>
+            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex}. Question" required>
+            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex+2-2}. Answer" required>
             <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
             <select hidden name="faqs[${faqIndex}][category_id]" required>
                 @foreach ($faqCategories as $category)
