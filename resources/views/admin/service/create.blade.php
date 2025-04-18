@@ -236,8 +236,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const group = document.createElement('div');
         group.classList.add('faq-group');
         group.innerHTML = `
-            <input type="text" name="faqs[${faqIndex}][question]" placeholder="Question" required><br>
-            <textarea name="faqs[${faqIndex}][answer]" placeholder="Answer" required></textarea>
+            <input type="text" class="form-control" name="faqs[${faqIndex}][question]" placeholder="Question" required>
+            <input type="text" class="form-control" name="faqs[${faqIndex}][answer]" placeholder="Answer" required>
         `;
         wrapper.appendChild(group);
         faqIndex++;
