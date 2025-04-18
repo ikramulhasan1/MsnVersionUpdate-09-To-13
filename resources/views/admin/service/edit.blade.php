@@ -144,24 +144,25 @@
                         <h3>FAQs</h3>
                         <div class="row">
                         @php
-                        $faqCategories = \App\Models\FaqCategory::where('status', 1)->get();
                         $index = 0;
                         @endphp
-                            <div id="faq-wrapper" class="form-group col-9 faq-group mb-2">
-                                {{-- <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label> --}}
-                                <input type="text" class="form-control mb-1" name="faqs[0][title]" placeholder="0. Question" required>
-                                <input type="text" class="form-control mb-1" name="faqs[0][description]" placeholder="0. Answer" required>
-                                <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
+                            @foreach ($row->faqs as $faq)
+                                <div id="faq-wrapper" class="form-group col-9 faq-group mb-2">
+                                    {{-- <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label> --}}
+                                    <input type="text" class="form-control mb-1" name="faqs[0][title]" value="{{ $faq->title }}" placeholder="0. Question" required>
+                                    <input type="text" class="form-control mb-1" name="faqs[0][description]" value="{{ $faq->description }}" placeholder="0. Answer" required>
+                                    <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
 
-                                <select hidden name="faqs[{{ $index }}][category_id]">
-                                    @foreach ($faqCategories as $category)
-                                        <option selected value="{{ 12 }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.faq') }}
+                                    <select hidden name="faqs[{{ $index }}][category_id]">
+                                        @foreach ($faqCategories as $category)
+                                            <option selected value="{{ 12 }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.faq') }}
+                                    </div>
                                 </div>
-                            </div>
+                            @endforeach
                             <div class="form-group col-3">
                                 <button class="btn btn-success" type="button" onclick="addFaq()">{{ __('dashboard.add_another_FAQ') }}</button>
                             </div>

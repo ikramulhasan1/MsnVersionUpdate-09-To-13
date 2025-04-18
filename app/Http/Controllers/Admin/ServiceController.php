@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Faq;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use App\Models\Service;
-use Toastr;
-use Image;
 use File;
+use Image;
+use Toastr;
+use App\Models\Faq;
+use App\Models\Service;
+use App\Models\FaqCategory;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ServiceController extends Controller
 {
@@ -309,116 +310,13 @@ class ServiceController extends Controller
         $data['route'] = $this->route;
         $data['view'] = $this->view;
         $data['path'] = $this->path;
-
+        $data['faqCategories'] = FaqCategory::where('status', 1)->get();
         $data['row'] = $service;
 
         return view($this->view.'.edit', $data);
     }
 
    
-    // public function update(Request $request, Service $service)
-    // {
-    //     // Field Validation
-    //     $request->validate([
-    //         'title' => 'required|max:191|unique:services,title,'.$service->id,
-    //         'short_title' => 'required|max:30|unique:services,short_title,'.$service->id,
-    //         'short_desc' => 'required',
-    //         'description' => 'required',
-    //         'image' => 'nullable|image',
-    //     ]);
-
-
-    //     // image upload, fit and store inside public folder 
-    //     if($request->hasFile('image')){
-
-    //         $file_path = public_path('uploads/'.$this->path.'/'.$service->image_path);
-    //         if(File::isFile($file_path)){
-    //             File::delete($file_path);
-    //         }
-
-    //         //Upload New Image
-    //         $filenameWithExt = $request->file('image')->getClientOriginalName();
-    //         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME); 
-    //         $extension = $request->file('image')->getClientOriginalExtension();
-    //         $fileNameToStore = $filename.'_'.time().'.'.$extension;
-
-    //         //Crete Folder Location
-    //         $path = public_path('uploads/'.$this->path.'/');
-    //         if (! File::exists($path)) {
-    //             File::makeDirectory($path, 0777, true, true);
-    //         }
-
-    //         //Resize And Crop as Fit image here (800 width, 500 height)
-    //         $thumbnailpath = $path.$fileNameToStore;
-    //         $img = Image::make($request->file('image')->getRealPath())->fit(800, 500, function ($constraint) { $constraint->upsize(); })->save($thumbnailpath);
-    //     }
-    //     else{
-
-    //         $fileNameToStore = $service->image_path; 
-    //     }
-
-
-    //     // Get content with media file
-    //     $content=$request->input('description');
-        
-    //     $dom = new \DomDocument();
-    //     libxml_use_internal_errors(true);
-    //     $dom->encoding = 'utf-8';
-    //     $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);    
-    //     $images = $dom->getElementsByTagName('img');
-    //    // foreach <img> in the submited content
-    //     foreach($images as $img){
-    //         $src = $img->getAttribute('src');
-            
-    //         // if the img source is 'data-url'
-    //         if(preg_match('/data:image/', $src)){                
-    //             // get the mimetype
-    //             preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-    //             $mimetype = $groups['mime'];                
-    //             // Generating a random filename
-    //             $filename = uniqid().'_'.time();
-
-    //             //Crete Folder Location
-    //             $path = public_path('uploads/media/');
-    //             if (! File::exists($path)) {
-    //                 File::makeDirectory($path, 0777, true, true);
-    //             }
-
-    //             $filepath = "/uploads/media/$filename.$mimetype";    
-    //             // @see http://image.intervention.io/api/
-    //             $image = Image::make($src)
-    //               // resize if required
-    //               //->resize(500, null) 
-    //               ->resize(800, null, function ($constraint) {
-    //                     $constraint->aspectRatio();
-    //                     $constraint->upsize();
-    //                 })
-    //               ->encode($mimetype, 100)  // encode file to the specified mimetype
-    //               ->save(public_path($filepath));                
-    //             $new_src = asset($filepath);
-    //             $img->removeAttribute('src');
-    //             $img->setAttribute('src', $new_src);
-    //         } // <!--endif
-    //     } // <!-
-
-
-    //     // Update Data
-    //     $service->title = $request->title;
-    //     $service->short_title = $request->short_title;
-    //     $service->slug = Str::slug(strtolower($request->slug), '-');
-    //     $service->short_desc = $request->short_desc;
-    //     $service->description = $dom->saveHTML();
-    //     $service->image_path = $fileNameToStore;
-    //     $service->manu = $request->manu;
-    //     $service->status = $request->status;
-    //     $service->save();
-
-
-    //     Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
-
-    //     return redirect()->back();
-    // }
-
 
     public function update(Request $request, Service $service)
 {
