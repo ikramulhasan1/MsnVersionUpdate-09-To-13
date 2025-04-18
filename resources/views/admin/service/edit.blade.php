@@ -140,6 +140,26 @@
                                 </div>
                             </div>
                         </div>
+                        <hr>
+                        <h3>FAQs</h3>
+                        <div class="row">
+                        
+                            <div id="faq-wrapper" class="form-group col-9 faq-group mb-2">
+                                {{-- <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label> --}}
+                                <input type="text" class="form-control mb-1" name="faqs[0][question]" placeholder="0. Question" required>
+                                <input type="text" class="form-control mb-1" name="faqs[0][answer]" placeholder="0. Answer" required>
+    
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.faq') }}
+                                </div>
+                            </div>
+                            <div class="form-group col-3">
+                                <button class="btn btn-success" type="button" onclick="addFaq()">{{ __('dashboard.add_another_FAQ') }}</button>
+                            </div>
+                            <br><br>
+                        </div>
+                        <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
+
                         <div class="row">
                             <div class="form-group col">
                                 <label for="manu">Manu</label>
@@ -220,5 +240,26 @@ document.addEventListener("DOMContentLoaded", function () {
             overrides: 'strong'
         } // Converts <strong> to <b>
     });
+
+
+    
+
+
+    // FAQs Section
+    let faqIndex = 1;
+
+    function addFaq() {
+        const wrapper = document.getElementById('faq-wrapper');
+        const group = document.createElement('div');
+        group.classList.add('form-group');
+        group.classList.add('faq-group');
+        group.classList.add('mb-2');
+        group.innerHTML = `
+            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][question]" placeholder="${faqIndex}. Question" required>
+            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][answer]" placeholder="${faqIndex+2-2}. Answer" required>
+        `;
+        wrapper.appendChild(group);
+        faqIndex++;
+    }
 </script>
 @endsection

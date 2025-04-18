@@ -434,6 +434,8 @@ class ServiceController extends Controller
         'short_desc' => 'required',
         'description' => 'required',
         'image' => 'nullable|image',
+        'faqs.*.question' => 'required|string',
+        'faqs.*.answer' => 'required|string',
     ]);
 
     $keywords = array_unique(array_map('trim', explode(',', $request->keywords)));
@@ -533,6 +535,14 @@ class ServiceController extends Controller
     $service->manu = $request->manu;
     $service->status = $request->status;
     $service->save();
+
+    foreach ($request->faqs as $faq) {
+        $service->faqs()->create([
+            'service_id' => $service->id,
+            'question' => $faq['question'],
+            'answer' => $faq['answer'],
+        ]);
+    }
 
     Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
 
