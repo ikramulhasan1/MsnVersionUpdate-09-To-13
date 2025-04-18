@@ -461,7 +461,7 @@ $header = \App\Models\PageSetup::page('technology');
     </div>
 
     <div class="banner-card">
-      <img src="//upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png" alt="Python Icon" />
+      <img src="{{ asset('uploads/service/'.$service->logo_path) }}" alt="{{ $service->title }}" />
       <h2 style="color: white">
         Get <span style="color: white">Project-based</span> and <br/>
         <span style="color: white">Dedicated Teams</span> from India’s<br/>
@@ -469,7 +469,7 @@ $header = \App\Models\PageSetup::page('technology');
       </h2>
       <button id="open-modal" class="banner-cta-button">Discuss Your Requirements →</button>
       <div class="banner-info-box">
-        <p style="color: white"><strong>Ready to bring your project to life?</strong></p>
+        <p style="color: white"><strong style="color: white">Ready to bring your project to life?</strong></p>
         <p style="color: white">Got a project in mind? Share your vision, and get a free expert consultation within 24 hours—complete with a personalized roadmap tailored to your goals and budget.</p>
       </div>
     </div>
