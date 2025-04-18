@@ -456,21 +456,21 @@ $header = \App\Models\PageSetup::page('technology');
 <!--End Page Title-->
 <section style="padding:20px 60px !important;" class="banner-container">
     <div class="banner-left">
-      <h1>Hire Python Developers</h1>
-      <p>Hire our expert Python developers to build scalable web applications, data-driven solutions, and advanced machine learning models tailored to your business needs.</p>
+      <h1 style="color: white" >{{ $service->short_title }}</h1>
+      <p style="color: white">Hire our expert Python developers to build scalable web applications, data-driven solutions, and advanced machine learning models tailored to your business needs.</p>
     </div>
 
     <div class="banner-card">
       <img src="//upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png" alt="Python Icon" />
-      <h2>
-        Get <span>Project-based</span> and <br/>
-        <span>Dedicated Teams</span> from India’s<br/>
-        <span>Highest-rated Company</span>.
+      <h2 style="color: white">
+        Get <span style="color: white">Project-based</span> and <br/>
+        <span style="color: white">Dedicated Teams</span> from India’s<br/>
+        <span style="color: white">Highest-rated Company</span>.
       </h2>
-      <button class="banner-cta-button">Discuss Your Requirements →</button>
+      <button id="open-modal" class="banner-cta-button">Discuss Your Requirements →</button>
       <div class="banner-info-box">
-        <p><strong>Ready to bring your project to life?</strong></p>
-        <p>Got a project in mind? Share your vision, and get a free expert consultation within 24 hours—complete with a personalized roadmap tailored to your goals and budget.</p>
+        <p style="color: white"><strong>Ready to bring your project to life?</strong></p>
+        <p style="color: white">Got a project in mind? Share your vision, and get a free expert consultation within 24 hours—complete with a personalized roadmap tailored to your goals and budget.</p>
       </div>
     </div>
   </section>
