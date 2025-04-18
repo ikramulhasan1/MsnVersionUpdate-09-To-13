@@ -153,9 +153,9 @@
                                 <input type="text" class="form-control mb-1" name="faqs[0][description]" placeholder="0. Answer" required>
                                 <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
 
-                                <select name="faqs[{{ $index }}][category_id]">
+                                <select hidden name="faqs[{{ $index }}][category_id]">
                                     @foreach ($faqCategories as $category)
-                                        <option value="{{ 12 }}">{{ $category->name }}</option>
+                                        <option selected value="{{ 12 }}">{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">
