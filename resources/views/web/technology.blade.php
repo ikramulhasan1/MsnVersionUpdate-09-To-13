@@ -499,7 +499,7 @@ $header = \App\Models\PageSetup::page('technology');
             <div class="content-side col-lg-8 col-md-12 col-sm-12">
                 <div class="service-detail">
                     <div class="inner-box">
-                        <div class="image-box">
+                        {{-- <div class="image-box"> --}}
                             {{-- <div class="single-item-">
                                 <figure class="image"><img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
                             </div> --}}
@@ -511,8 +511,8 @@ $header = \App\Models\PageSetup::page('technology');
                                 </picture>
                             </div> --}}
                             
-                        </div>
-                        <p style="font-size: 32px; color: black; font-weight: 500;" class="mb-4">{{ $service->title }}</p>
+                        {{-- </div> --}}
+                        <h1 class="mb-4">{{ $service->title }}</h1>
 
                         <div id="processedContent" class="text description">
                         
