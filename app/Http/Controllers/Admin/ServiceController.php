@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Faq;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Service;
@@ -268,7 +269,7 @@ class ServiceController extends Controller
 
 
         foreach ($request->faqs as $faq) {
-            $service->faqs()->create([
+            Faq::create([
                 'service_id' => $service->id,
                 'category_id' => $request->category_id,
                 'description' => $faq['description'],
