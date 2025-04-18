@@ -236,7 +236,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const wrapper = document.getElementById('faq-wrapper');
         const group = document.createElement('div');
         group.classList.add('form-group');
-        group.classList.add('col-8');
         group.classList.add('faq-group');
         group.classList.add('mb-3');
         group.innerHTML = `
