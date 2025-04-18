@@ -235,7 +235,10 @@ document.addEventListener("DOMContentLoaded", function () {
     function addFaq() {
         const wrapper = document.getElementById('faq-wrapper');
         const group = document.createElement('div');
-        group.classList.add('form-group col-8 faq-group mb-3');
+        group.classList.add('form-group');
+        group.classList.add('col-8');
+        group.classList.add('faq-group');
+        group.classList.add('mb-3');
         group.innerHTML = `
             <input type="text" class="form-control mb-2" name="faqs[${faqIndex}][question]" placeholder="Question" required>
             <input type="text" class="form-control mb-2" name="faqs[${faqIndex}][answer]" placeholder="Answer" required>
