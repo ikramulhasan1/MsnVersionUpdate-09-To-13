@@ -144,7 +144,7 @@
                             <div id="faq-wrapper" class="form-group col-9 faq-group mb-2">
                                 {{-- <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label> --}}
                                 <input type="text" class="form-control mb-1" name="faqs[0][question]" placeholder="0. Question" required>
-                                <input type="text" class="form-control mb-1" name="faqs[0][answer]" placeholder="Answer" required>
+                                <input type="text" class="form-control mb-1" name="faqs[0][answer]" placeholder="0. Answer" required>
     
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.faq') }}
@@ -155,6 +155,8 @@
                             </div>
                             <br><br>
                         </div>
+                        <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
+
                         <!-- Form End -->
                         <div class="form-group">
                             <label for="manu">Manu</label>

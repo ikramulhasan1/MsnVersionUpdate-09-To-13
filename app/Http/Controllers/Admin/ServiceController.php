@@ -172,6 +172,8 @@ class ServiceController extends Controller
             'short_desc' => 'required',
             'description' => 'required',
             'image' => 'required|image',
+            'faqs.*.question' => 'required|string',
+            'faqs.*.answer' => 'required|string',
         ]);
 
          // Remove duplicate keywords but keep multi-word keywords intact
@@ -264,6 +266,14 @@ class ServiceController extends Controller
         $service->manu = $request->manu;
         $service->save();
 
+
+        foreach ($request->faqs as $faq) {
+            $service->faqs()->create([
+                'service_id' => $service->id,
+                'question' => $faq['question'],
+                'answer' => $faq['answer'],
+            ]);
+        }
         Toastr::success(__('dashboard.created_successfully'), __('dashboard.success'));
 
         return redirect()->route($this->route.'.index');
