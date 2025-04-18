@@ -514,7 +514,7 @@ $header = \App\Models\PageSetup::page('technology');
                         {{-- </div> --}}
                         {{-- <p style="font-size: 32px; color: black; font-weight: 500;" class="mb-4">{{ $service->title }}</p> --}}
 
-                        <div id="processedContent" class="text description">
+                        <div id="processedContent" class="mt-0 text description">
                         
                             {!! $service->description !!}
                         
