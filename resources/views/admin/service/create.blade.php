@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
         group.classList.add('faq-group');
         group.classList.add('mb-2');
         group.innerHTML = `
-            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][question]" placeholder="Question" required>
+            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][question]" placeholder="${faqIndex}. Question" required>
             <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][answer]" placeholder="Answer" required>
         `;
         wrapper.appendChild(group);
