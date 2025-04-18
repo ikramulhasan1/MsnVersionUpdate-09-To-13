@@ -446,12 +446,12 @@ $header = \App\Models\PageSetup::page('services');
                     <div class="faq-accordion-header">
                       <div class="faq-accordion-title">
                         <span class="faq-step-badge">1</span>
-                        Discovery & Requirements
+                        {{ $service->faqs->title }}
                       </div>
                       <span class="faq-arrow">▶</span>
                     </div>
                     <div class="faq-accordion-body">
-                      <p>We begin by understanding your goals, collecting requirements, and identifying your audience and challenges to ensure a successful outcome.</p>
+                      <p> {{ $service->faqs->description }}</p>
                     </div>
                   </div>
             
