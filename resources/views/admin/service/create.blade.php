@@ -147,12 +147,12 @@
                                 <input type="text" class="form-control" name="faqs[0][answer]" placeholder="Answer" required>
     
                                 <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.average_rating') }}
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.faq') }}
                                 </div>
                             </div>
-                            <br>
-                            <button class="btn btn-success" type="button" onclick="addFaq()">{{ __('dashboard.add_another_FAQ') }}</button>
-                        
+                            <div class="form-group col">
+                                <button class="btn btn-success" type="button" onclick="addFaq()">{{ __('dashboard.add_another_FAQ') }}</button>
+                            </div>
                             <br><br>
                         </div>
                         <!-- Form End -->

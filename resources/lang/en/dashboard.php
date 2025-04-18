@@ -14,6 +14,7 @@ return array (
   'setup' => 'Setup',
   'save' => 'Save',
   'add_another_FAQ' => '+ Add Another FAQ',
+  'faq' => 'FAQ',
   'send' => 'Send',
   'update' => 'Update',
   'change' => 'Change',
