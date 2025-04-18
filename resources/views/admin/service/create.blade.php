@@ -240,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function () {
         group.classList.add('mb-2');
         group.innerHTML = `
             <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][question]" placeholder="${faqIndex}. Question" required>
-            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][answer]" placeholder="${faqIndex+2-1}. Answer" required>
+            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][answer]" placeholder="${faqIndex+2-2}. Answer" required>
         `;
         wrapper.appendChild(group);
         faqIndex++;
