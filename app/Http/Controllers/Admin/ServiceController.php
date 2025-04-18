@@ -10,7 +10,6 @@ use App\Models\Service;
 use App\Models\FaqCategory;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 
 class ServiceController extends Controller
@@ -319,169 +318,12 @@ class ServiceController extends Controller
 
    
 
-//     public function update(Request $request, Service $service)
-// {
-//     // Field Validation
-//     $request->validate([
-//         'title' => 'required|max:191|unique:services,title,'.$service->id,
-//         'short_title' => 'required|max:30|unique:services,short_title,'.$service->id,
-//         'meta_title' => 'required|max:70',
-//         'keywords' => 'required',
-//         'price' => 'required',
-//         'starting_price' => 'required',
-//         'priceCurrency' => 'required',
-//         'average_rating' => 'required',
-//         'review_count' => 'required',
-//         'short_desc' => 'required',
-//         'description' => 'required',
-//         'image' => 'nullable|image',
-//         'faqs.*.title' => [
-//                 'required',
-//                 'max:191',
-//                 Rule::unique('faqs', 'title')->where(function ($query) use ($service) {
-//                     return $query->where('type', 'service')
-//                                 ->where('service_id', $service->id);
-//                 }),
-//     ],        'faqs.*.description' => 'required',
-//     ]);
-
-//     $keywords = array_unique(array_map('trim', explode(',', $request->keywords)));
-
-//     // Check for existing keywords in other articles (excluding the current article)
-//     $existingKeywords = Service::where('id', '!=', $service->id)
-//                                ->whereRaw("FIND_IN_SET(keywords, ?) > 0", [implode(',', $keywords)])
-//                                ->exists();
-
-//     if ($existingKeywords) {
-//         return back()->withErrors(['keywords' => 'Some keywords already exist. Please use unique tags.']);
-//     }
-
-//     // Image upload, fit, and store inside public folder 
-//     if($request->hasFile('image')){
-
-//         $file_path = public_path('uploads/'.$this->path.'/'.$service->image_path);
-//         if(File::isFile($file_path)){
-//             File::delete($file_path);
-//         }
-
-//         // Upload New Image
-//         $filenameWithExt = $request->file('image')->getClientOriginalName();
-//         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME); 
-//         $fileNameToStore = $filename.'_'.time().'.webp'; // Save as WebP
-
-//         // Create Folder Location
-//         $path = public_path('uploads/'.$this->path.'/');
-//         if (!File::exists($path)) {
-//             File::makeDirectory($path, 0777, true, true);
-//         }
-
-//         // Resize, Convert to WebP, and Save
-//         $thumbnailpath = $path.$fileNameToStore;
-//         Image::make($request->file('image')->getRealPath())
-//             ->fit(800, 500, function ($constraint) {
-//                 $constraint->upsize();
-//             })
-//             ->encode('webp', 90)
-//             ->save($thumbnailpath);
-//     } else {
-//         $fileNameToStore = $service->image_path; 
-//     }
-
-//     // Get content with media file
-//     $content = $request->input('description');
-
-//     $dom = new \DomDocument();
-//     libxml_use_internal_errors(true);
-//     $dom->encoding = 'utf-8';
-//     $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);    
-//     $images = $dom->getElementsByTagName('img');
-
-//     foreach($images as $img){
-//         $src = $img->getAttribute('src');
-
-//         if(preg_match('/data:image/', $src)){                
-//             preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-//             $mimetype = 'webp';
-
-//             $filename = uniqid().'_'.time();
-
-//             $path = public_path('uploads/media/');
-//             if (!File::exists($path)) {
-//                 File::makeDirectory($path, 0777, true, true);
-//             }
-
-//             $filepath = "/uploads/media/$filename.$mimetype";    
-//             Image::make($src)
-//                 ->resize(800, null, function ($constraint) {
-//                     $constraint->aspectRatio();
-//                     $constraint->upsize();
-//                 })
-//                 ->encode('webp', 90)
-//                 ->save(public_path($filepath));
-
-//             $new_src = asset($filepath);
-//             $img->removeAttribute('src');
-//             $img->setAttribute('src', $new_src);
-//         }
-//     }
-
-//     // Update Data
-//     $service->title = $request->title;
-//     $service->keywords = $request->keywords;
-//     $service->price = $request->price;
-//     $service->starting_price = $request->starting_price;
-//     $service->priceCurrency = $request->priceCurrency;
-//     $service->average_rating = $request->average_rating;
-//     $service->review_count = $request->review_count;
-//     $service->short_title = $request->short_title;
-//     $service->meta_title = $request->meta_title;
-//     $service->slug = Str::slug(strtolower($request->slug), '-');
-//     $service->short_desc = $request->short_desc;
-//     $service->description = $dom->saveHTML();
-//     $service->image_path = $fileNameToStore;
-//     $service->manu = $request->manu;
-//     $service->status = $request->status;
-//     $service->save();
-    
-//     $attributes = [];
-  
-//     foreach ($request->faqs ?? [] as $index => $faq) {
-//         Faq::updateOrCreate([
-//             'category_id' => $faq['category_id'],
-//             'type' => $request->type,
-//             $attributes["faqs.$index.title"] = "FAQ #".($index + 1)." title",
-//             $attributes["faqs.$index.description"] = "FAQ #".($index + 1)." description",
-//             'service_id' => $service->id,
-//         ]);
-//     }
-
-//     Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
-
-//     return redirect()->back();
-// }
-public function update(Request $request, Service $service)
+    public function update(Request $request, Service $service)
 {
-    // Filter out empty FAQ items (missing title or description)
-    $faqs = collect($request->faqs)->filter(function ($faq) {
-        return isset($faq['title'], $faq['description']) && trim($faq['title']) && trim($faq['description']);
-    })->values()->all();
-    $request->merge(['faqs' => $faqs]);
-
-    // Validation with custom messages and attributes
-    $messages = [
-        'faqs.*.title.required' => 'Each FAQ must have a title.',
-        'faqs.*.description.required' => 'Each FAQ must have a description.',
-    ];
-
-    $attributes = [];
-    foreach ($request->faqs as $index => $faq) {
-        $attributes["faqs.$index.title"] = "FAQ #" . ($index + 1) . " title";
-        $attributes["faqs.$index.description"] = "FAQ #" . ($index + 1) . " description";
-    }
-
+    // Field Validation
     $request->validate([
-        'title' => 'required|max:191|unique:services,title,' . $service->id,
-        'short_title' => 'required|max:30|unique:services,short_title,' . $service->id,
+        'title' => 'required|max:191|unique:services,title,'.$service->id,
+        'short_title' => 'required|max:30|unique:services,short_title,'.$service->id,
         'meta_title' => 'required|max:70',
         'keywords' => 'required',
         'price' => 'required',
@@ -492,44 +334,41 @@ public function update(Request $request, Service $service)
         'short_desc' => 'required',
         'description' => 'required',
         'image' => 'nullable|image',
-        'faqs.*.title' => [
-            'required',
-            'max:191',
-            Rule::unique('faqs', 'title')->where(function ($query) use ($service) {
-                return $query->where('type', 'service')
-                             ->where('service_id', $service->id);
-            }),
-        ],
-        'faqs.*.description' => 'required',
-    ], $messages, $attributes);
+       
+    ]);
 
     $keywords = array_unique(array_map('trim', explode(',', $request->keywords)));
 
+    // Check for existing keywords in other articles (excluding the current article)
     $existingKeywords = Service::where('id', '!=', $service->id)
-        ->whereRaw("FIND_IN_SET(keywords, ?) > 0", [implode(',', $keywords)])
-        ->exists();
+                               ->whereRaw("FIND_IN_SET(keywords, ?) > 0", [implode(',', $keywords)])
+                               ->exists();
 
     if ($existingKeywords) {
         return back()->withErrors(['keywords' => 'Some keywords already exist. Please use unique tags.']);
     }
 
-    // Image upload and conversion
-    if ($request->hasFile('image')) {
-        $file_path = public_path('uploads/' . $this->path . '/' . $service->image_path);
-        if (File::isFile($file_path)) {
+    // Image upload, fit, and store inside public folder 
+    if($request->hasFile('image')){
+
+        $file_path = public_path('uploads/'.$this->path.'/'.$service->image_path);
+        if(File::isFile($file_path)){
             File::delete($file_path);
         }
 
+        // Upload New Image
         $filenameWithExt = $request->file('image')->getClientOriginalName();
-        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-        $fileNameToStore = $filename . '_' . time() . '.webp';
+        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME); 
+        $fileNameToStore = $filename.'_'.time().'.webp'; // Save as WebP
 
-        $path = public_path('uploads/' . $this->path . '/');
+        // Create Folder Location
+        $path = public_path('uploads/'.$this->path.'/');
         if (!File::exists($path)) {
             File::makeDirectory($path, 0777, true, true);
         }
 
-        $thumbnailpath = $path . $fileNameToStore;
+        // Resize, Convert to WebP, and Save
+        $thumbnailpath = $path.$fileNameToStore;
         Image::make($request->file('image')->getRealPath())
             ->fit(800, 500, function ($constraint) {
                 $constraint->upsize();
@@ -537,29 +376,33 @@ public function update(Request $request, Service $service)
             ->encode('webp', 90)
             ->save($thumbnailpath);
     } else {
-        $fileNameToStore = $service->image_path;
+        $fileNameToStore = $service->image_path; 
     }
 
-    // Handle rich text description with inline images
+    // Get content with media file
     $content = $request->input('description');
+
     $dom = new \DomDocument();
     libxml_use_internal_errors(true);
     $dom->encoding = 'utf-8';
-    $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+    $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);    
     $images = $dom->getElementsByTagName('img');
 
-    foreach ($images as $img) {
+    foreach($images as $img){
         $src = $img->getAttribute('src');
-        if (preg_match('/data:image/', $src)) {
+
+        if(preg_match('/data:image/', $src)){                
             preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
             $mimetype = 'webp';
-            $filename = uniqid() . '_' . time();
-            $mediaPath = public_path('uploads/media/');
-            if (!File::exists($mediaPath)) {
-                File::makeDirectory($mediaPath, 0777, true, true);
+
+            $filename = uniqid().'_'.time();
+
+            $path = public_path('uploads/media/');
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0777, true, true);
             }
 
-            $filepath = "/uploads/media/$filename.$mimetype";
+            $filepath = "/uploads/media/$filename.$mimetype";    
             Image::make($src)
                 ->resize(800, null, function ($constraint) {
                     $constraint->aspectRatio();
@@ -568,12 +411,13 @@ public function update(Request $request, Service $service)
                 ->encode('webp', 90)
                 ->save(public_path($filepath));
 
+            $new_src = asset($filepath);
             $img->removeAttribute('src');
-            $img->setAttribute('src', asset($filepath));
+            $img->setAttribute('src', $new_src);
         }
     }
 
-    // Update service data
+    // Update Data
     $service->title = $request->title;
     $service->keywords = $request->keywords;
     $service->price = $request->price;
@@ -591,30 +435,20 @@ public function update(Request $request, Service $service)
     $service->status = $request->status;
     $service->save();
 
-    // Update or create FAQs
     foreach ($request->faqs as $faq) {
-        Faq::updateOrCreate(
-            [
-                'id' => $faq['id'] ?? null, // Ensure `id` is sent from form
-            ],
-            [
-                'category_id' => $faq['category_id'],
-                'type' => $request->type,
-                'title' => $faq['title'],
-                'description' => $faq['description'],
-                'service_id' => $service->id,
-            ]
-        );
+        Faq::updateOrCreate([
+            'category_id' => $faq['category_id'],
+            'type' => $request->type,
+            'title' => $faq['title'],
+            'description' => $faq['description'],
+            'service_id' => $service->id,
+        ]);
     }
 
     Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
 
     return redirect()->back();
 }
-
-
-
-
 
     public function destroy(Service $service)
     {
