@@ -138,9 +138,9 @@
                             </div>
                         </div>
                         <hr>
+                        <h3>FAQs</h3>
                         <div class="row">
-                            <h3>FAQs</h3>
-
+                        
                             <div id="faq-wrapper" class="form-group col faq-group">
                                 {{-- <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label> --}}
                                 <input type="text" class="form-control" name="faqs[0][question]" placeholder="Question" required>
@@ -150,8 +150,7 @@
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.average_rating') }}
                                 </div>
                             </div>
-                           
-                        
+                            <br>
                             <button class="btn btn-success" type="button" onclick="addFaq()">{{ __('dashboard.add_another_FAQ') }}</button>
                         
                             <br><br>
