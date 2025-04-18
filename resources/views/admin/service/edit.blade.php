@@ -148,7 +148,9 @@
                                 {{-- <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label> --}}
                                 <input type="text" class="form-control mb-1" name="faqs[0][title]" placeholder="0. Question" required>
                                 <input type="text" class="form-control mb-1" name="faqs[0][description]" placeholder="0. Answer" required>
-    
+                                <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
+                                <input hidden type="text" class="form-control mb-1" name="category_id" value="12345" required>
+        
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.faq') }}
                                 </div>
@@ -158,9 +160,7 @@
                             </div>
                             <br><br>
                         </div>
-                        <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
-                        <input hidden type="text" class="form-control mb-1" name="category_id" value="12345" required>
-
+                      
                         <div class="row">
                             <div class="form-group col">
                                 <label for="manu">Manu</label>
@@ -258,6 +258,8 @@ document.addEventListener("DOMContentLoaded", function () {
         group.innerHTML = `
             <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][question]" placeholder="${faqIndex}. Question" required>
             <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][answer]" placeholder="${faqIndex+2-2}. Answer" required>
+            <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
+            <input hidden type="text" class="form-control mb-1" name="category_id" value="12345" required>
         `;
         wrapper.appendChild(group);
         faqIndex++;

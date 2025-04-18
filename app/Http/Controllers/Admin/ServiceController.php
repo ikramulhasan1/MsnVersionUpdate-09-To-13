@@ -270,6 +270,7 @@ class ServiceController extends Controller
         foreach ($request->faqs as $faq) {
             $service->faqs()->create([
                 'service_id' => $service->id,
+                'category_id' => $request->category_id,
                 'description' => $faq['description'],
                 'title' => $faq['title'],
             ]);
