@@ -13,6 +13,7 @@ return array (
   'placeholder' => 'Enter Placeholder Word',
   'setup' => 'Setup',
   'save' => 'Save',
+  'add_another_FAQ' => '+ Add Another FAQ',
   'send' => 'Send',
   'update' => 'Update',
   'change' => 'Change',
