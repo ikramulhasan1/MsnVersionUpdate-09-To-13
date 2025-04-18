@@ -141,7 +141,7 @@
                         <h3>FAQs</h3>
                         <div class="row">
                         
-                            <div id="faq-wrapper" class="form-group col faq-group">
+                            <div id="faq-wrapper" class="form-group col faq-group mb-3">
                                 {{-- <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label> --}}
                                 <input type="text" class="form-control" name="faqs[0][question]" placeholder="Question" required>
                                 <input type="text" class="form-control" name="faqs[0][answer]" placeholder="Answer" required>
@@ -236,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const group = document.createElement('div');
         group.classList.add('faq-group');
         group.innerHTML = `
-            <input type="text" class="form-control" name="faqs[${faqIndex}][question]" placeholder="Question" required>
+            <input type="text" class="form-control mb-2" name="faqs[${faqIndex}][question]" placeholder="Question" required>
             <input type="text" class="form-control" name="faqs[${faqIndex}][answer]" placeholder="Answer" required>
         `;
         wrapper.appendChild(group);
