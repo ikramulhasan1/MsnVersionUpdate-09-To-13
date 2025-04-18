@@ -500,9 +500,9 @@ $header = \App\Models\PageSetup::page('technology');
                 <div class="service-detail">
                     <div class="inner-box">
                         <div class="image-box">
-                            <div class="single-item-">
+                            {{-- <div class="single-item-">
                                 <figure class="image"><img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
-                            </div>
+                            </div> --}}
 
                             {{-- <div class="single-item-">
                                 <picture>
@@ -512,15 +512,12 @@ $header = \App\Models\PageSetup::page('technology');
                             </div> --}}
                             
                         </div>
-                        <p style="font-size: 32px; color: black; font-weight: 500;" class="mb-4">{{ $service->short_title }}</p>
+                        <p style="font-size: 32px; color: black; font-weight: 500;" class="mb-4">{{ $service->title }}</p>
 
                         <div id="processedContent" class="text description">
                         
                             {!! $service->description !!}
-                            {{-- {!! str_replace('? <b>', '✅', $service->description) !!} --}}
-                            {{-- {!! preg_replace('/\?{1,2} <b>/', '✅', $service->description) !!} --}}
-
-
+                        
                         </div>
                     </div>
                 </div>
