@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Faq;
 use App\Models\Subservice;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,7 +22,10 @@ class Service extends Model
     {
         return $this->hasMany(Article::class, 'service_id');
     }
-
+    public function faqs()
+    {
+        return $this->hasMany(Faq::class);
+    }
     public function subservices()
     {
         return $this->hasMany(Subservice::class);

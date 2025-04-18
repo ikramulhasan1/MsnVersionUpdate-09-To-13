@@ -137,6 +137,21 @@
                                 </div>
                             </div>
                         </div>
+                        <hr>
+                        <div class="row">
+                            
+                            <h3>FAQs</h3>
+                            <div id="faq-wrapper">
+                                <div class="faq-group">
+                                    <input type="text" name="faqs[0][question]" placeholder="Question" required><br>
+                                    <textarea name="faqs[0][answer]" placeholder="Answer" required></textarea>
+                                </div>
+                            </div>
+                        
+                            <button type="button" onclick="addFaq()">+ Add Another FAQ</button>
+                        
+                            <br><br>
+                        </div>
                         <!-- Form End -->
                         <div class="form-group">
                             <label for="manu">Manu</label>
@@ -207,5 +222,22 @@ document.addEventListener("DOMContentLoaded", function () {
             overrides: 'strong'
         } // Converts <strong> to <b>
     });
+
+
+
+    // FAQs Section
+    let faqIndex = 1;
+
+    function addFaq() {
+        const wrapper = document.getElementById('faq-wrapper');
+        const group = document.createElement('div');
+        group.classList.add('faq-group');
+        group.innerHTML = `
+            <input type="text" name="faqs[${faqIndex}][question]" placeholder="Question" required><br>
+            <textarea name="faqs[${faqIndex}][answer]" placeholder="Answer" required></textarea>
+        `;
+        wrapper.appendChild(group);
+        faqIndex++;
+    }
 </script>
 @endsection

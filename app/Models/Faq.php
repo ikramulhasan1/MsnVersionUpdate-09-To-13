@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Service;
 use Illuminate\Database\Eloquent\Model;
 
 class Faq extends Model
@@ -12,9 +13,12 @@ class Faq extends Model
      * @var array
      */
     protected $fillable = [
-        'category_id', 'title', 'slug', 'description', 'status',
+        'category_id', 'service_id', 'title', 'slug', 'description', 'type', 'status',
     ];
-
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
     public function category()
     {
     	return $this->belongsTo(FaqCategory::class, 'category_id');
