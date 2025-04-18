@@ -512,7 +512,7 @@ $header = \App\Models\PageSetup::page('technology');
                             </div> --}}
                             
                         {{-- </div> --}}
-                        <h1 class="mb-4">{{ $service->title }}</h1>
+                        {{-- <p style="font-size: 32px; color: black; font-weight: 500;" class="mb-4">{{ $service->title }}</p> --}}
 
                         <div id="processedContent" class="text description">
                         
