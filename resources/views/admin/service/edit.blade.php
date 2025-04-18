@@ -259,7 +259,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][question]" placeholder="${faqIndex}. Question" required>
             <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][answer]" placeholder="${faqIndex+2-2}. Answer" required>
             <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
-            <input hidden type="text" class="form-control mb-1" name="category_id" value="12345" required>
+            <input hidden type="text" class="form-control mb-1" name="category_id" value="12" required>
         `;
         wrapper.appendChild(group);
         faqIndex++;

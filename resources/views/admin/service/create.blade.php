@@ -156,7 +156,7 @@
                             <br><br>
                         </div>
                         <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
-                        <input hidden type="text" class="form-control mb-1" name="category_id" value="12345" required>
+                        <input hidden type="text" class="form-control mb-1" name="category_id" value="12" required>
 
                         <!-- Form End -->
                         <div class="form-group">
