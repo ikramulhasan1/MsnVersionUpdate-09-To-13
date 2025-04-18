@@ -143,15 +143,17 @@
                         <hr>
                         <h3>FAQs</h3>
                         <div class="row">
-                      
+                        @php
+                            $index = 0;
+                        @endphp
                             @foreach ($row->faqs as $key=>$faq)
                                 <div id="faq-wrapper" class="form-group col-9 faq-group mb-2">
                                     {{-- <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label> --}}
-                                    {{ $key+1 }}. <input type="text" class="form-control mb-1" name="faqs[0][title]" value="{{ $faq->title }}" placeholder="0. Question" required>
+                                    {{ $index+1 }}. <input type="text" class="form-control mb-1" name="faqs[0][title]" value="{{ $faq->title }}" placeholder="0. Question" required>
                                     <input type="text" class="form-control mb-1" name="faqs[0][description]" value="{{ $faq->description }}" placeholder="0. Answer" required>
                                     <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
 
-                                    <select hidden name="faqs[{{ $key }}][category_id]">
+                                    <select hidden name="faqs[{{ $index }}][category_id]">
                                         @foreach ($faqCategories as $category)
                                             <option selected value="{{ 12 }}">{{ $category->name }}</option>
                                         @endforeach
@@ -255,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // FAQs Section
     let faqIndex = 1;
-   
+
     function addFaq() {
         const wrapper = document.getElementById('faq-wrapper');
         const group = document.createElement('div');
@@ -263,16 +265,16 @@ document.addEventListener("DOMContentLoaded", function () {
         group.classList.add('faq-group');
         group.classList.add('mb-2');
         group.innerHTML = `
-            <input type="text" class="form-control mb-1" name="faqs[${ $key+1 }][title]" placeholder="${ $key+1 }. Question" required>
-            <input type="text" class="form-control mb-1" name="faqs[${ $key+1 }][description]" placeholder="${ $key+1 +2-2}. Answer" required>
+            <input type="text" class="form-control mb-1" name="faqs[${$index}][title]" placeholder="${$index}. Question" required>
+            <input type="text" class="form-control mb-1" name="faqs[${$index}][description]" placeholder="${$index+2-2}. Answer" required>
             <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
-            <select hidden name="faqs[${ $key+1 }][category_id]" required>
+            <select hidden name="faqs[${$index}][category_id]" required>
                 @foreach ($faqCategories as $category)
                     <option value="12">{{ $category->name }}</option>
                 @endforeach
             </select>`;
         wrapper.appendChild(group);
-         $key+1 ++;
+        $index++;
     }
 </script>
 @endsection
