@@ -439,21 +439,23 @@ $header = \App\Models\PageSetup::page('services');
                 <div class="faq-section-title">
                   <h3 style="font-weight: 700">FAQ</h3>
                 </div>
-            @dd($service->faqs)
+            
                 <div class="faq-accordion">
                   <!-- Step 1 -->
+                  @foreach ($service->faqs as $key=>$item)
                   <div class="faq-accordion-item">
                     <div class="faq-accordion-header">
                       <div class="faq-accordion-title">
-                        <span class="faq-step-badge">1</span>
-                        {{ $service->faqs->title }}
+                        <span class="faq-step-badge">{{ $key+1 }}</span>
+                        {{ $item->title }}
                       </div>
                       <span class="faq-arrow">▶</span>
                     </div>
                     <div class="faq-accordion-body">
-                      <p> {{ $service->faqs->description }}</p>
+                      <p>{{ $item->description }}</p>
                     </div>
                   </div>
+                  @endforeach
             
                   
                 </div>
