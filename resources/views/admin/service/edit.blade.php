@@ -145,7 +145,7 @@
                         <div class="row">
                         @php
                         $faqCategories = \App\Models\FaqCategory::where('status', 1)->get();
-                        $index = 1;
+                        $index = 0;
                         @endphp
                             <div id="faq-wrapper" class="form-group col-9 faq-group mb-2">
                                 {{-- <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label> --}}
