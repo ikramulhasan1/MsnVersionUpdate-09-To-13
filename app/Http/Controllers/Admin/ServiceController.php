@@ -172,8 +172,8 @@ class ServiceController extends Controller
             'short_desc' => 'required',
             'description' => 'required',
             'image' => 'required|image',
-            'faqs.*.question' => 'required|string',
-            'faqs.*.answer' => 'required|string',
+            'faqs.*.title' => 'required|string',
+            'faqs.*.description' => 'required|string',
         ]);
 
          // Remove duplicate keywords but keep multi-word keywords intact
@@ -270,8 +270,8 @@ class ServiceController extends Controller
         foreach ($request->faqs as $faq) {
             $service->faqs()->create([
                 'service_id' => $service->id,
-                'question' => $faq['question'],
-                'answer' => $faq['answer'],
+                'description' => $faq['description'],
+                'title' => $faq['title'],
             ]);
         }
         Toastr::success(__('dashboard.created_successfully'), __('dashboard.success'));
@@ -434,8 +434,8 @@ class ServiceController extends Controller
         'short_desc' => 'required',
         'description' => 'required',
         'image' => 'nullable|image',
-        'faqs.*.question' => 'required|string',
-        'faqs.*.answer' => 'required|string',
+        'faqs.*.title' => 'required|string',
+        'faqs.*.description' => 'required|string',
     ]);
 
     $keywords = array_unique(array_map('trim', explode(',', $request->keywords)));
@@ -539,8 +539,8 @@ class ServiceController extends Controller
     foreach ($request->faqs as $faq) {
         $service->faqs()->create([
             'service_id' => $service->id,
-            'question' => $faq['question'],
-            'answer' => $faq['answer'],
+            'title' => $faq['question'],
+            'description' => $faq['answer'],
         ]);
     }
 
