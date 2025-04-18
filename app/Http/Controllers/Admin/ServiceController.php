@@ -540,7 +540,7 @@ class ServiceController extends Controller
 
     foreach ($request->faqs as $faq) {
         Faq::create([
-            'category_id' => $request->category_id,
+            'category_id' => $faq['category_id'],
             'type' => $request->type,
             'title' => $faq['title'],
             'description' => $faq['description'],

@@ -145,6 +145,7 @@
                         <div class="row">
                         @php
                         $faqCategories = \App\Models\FaqCategory::where('status', 1)->get();
+                        $index = 1;
                         @endphp
                             <div id="faq-wrapper" class="form-group col-9 faq-group mb-2">
                                 {{-- <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label> --}}
@@ -152,9 +153,9 @@
                                 <input type="text" class="form-control mb-1" name="faqs[0][description]" placeholder="0. Answer" required>
                                 <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
 
-                                <select hidden name="faqs[0][category_id]" required>
+                                <select name="faqs[{{ $index }}][category_id]">
                                     @foreach ($faqCategories as $category)
-                                        <option value="12">{{ $category->name }}</option>
+                                        <option value="{{ 12 }}">{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">
@@ -254,7 +255,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // FAQs Section
-    let faqIndex = 1;
+    let faqIndex = 2;
 
     function addFaq() {
         const wrapper = document.getElementById('faq-wrapper');
