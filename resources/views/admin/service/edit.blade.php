@@ -144,23 +144,20 @@
                         <h3>FAQs</h3>
                         <div class="row">
                        
-                            @foreach ($row->faqs as $key=>$faq)
-                                <div id="faq-wrapper" class="form-group col-9 faq-group mb-2">
-                                    {{-- <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label> --}}
-                                    {{ $key+1 }}. <input type="text" class="form-control mb-1" name="faqs[0][title]" value="{{ $faq->title }}" placeholder="0. Question" required>
-                                    <input type="text" class="form-control mb-1" name="faqs[0][description]" value="{{ $faq->description }}" placeholder="0. Answer" required>
-                                    <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
-
-                                    <select hidden name="faqs[{{ $key }}][category_id]">
-                                        @foreach ($faqCategories as $category)
-                                            <option selected value="{{ 12 }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div class="invalid-feedback">
-                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.faq') }}
-                                    </div>
-                                </div>
-                            @endforeach
+                            @foreach ($row->faqs as $key => $faq)
+                            <div class="form-group col-9 faq-group mb-2">
+                                {{ $key+1 }}. 
+                                <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][title]" value="{{ $faq->title }}" placeholder="{{ $key+1 }}. Question" required>
+                                <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][description]" value="{{ $faq->description }}" placeholder="{{ $key+1 }}. Answer" required>
+                                <input type="hidden" class="form-control mb-1" name="faqs[{{ $key }}][type]" value="service" required>
+                                <select hidden name="faqs[{{ $key }}][category_id]">
+                                    @foreach ($faqCategories as $category)
+                                        <option value="{{ $category->id }}" @if($category->id == $faq->category_id) selected @endif>{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endforeach
+                        
                             <div class="form-group col-3">
                                 <button class="btn btn-success" type="button" onclick="addFaq()">{{ __('dashboard.add_another_FAQ') }}</button>
                             </div>
@@ -254,25 +251,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // FAQs Section
-    let faqIndex = 1;
+    let faqIndex = {{ count($row->faqs) }}; // start from next available index
 
-    function addFaq() {
-        const wrapper = document.getElementById('faq-wrapper');
-        const group = document.createElement('div');
-        group.classList.add('form-group');
-        group.classList.add('faq-group');
-        group.classList.add('mb-2');
-        group.innerHTML = `
-            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex}. Question" required>
-            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex+2-2}. Answer" required>
-            <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
-            <select hidden name="faqs[${faqIndex}][category_id]" required>
-                @foreach ($faqCategories as $category)
-                    <option value="12">{{ $category->name }}</option>
-                @endforeach
-            </select>`;
-        wrapper.appendChild(group);
-        faqIndex++;
-    }
+function addFaq() {
+    const wrapper = document.querySelector('.faq-group').parentNode;
+    const group = document.createElement('div');
+    group.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
+    group.innerHTML = `
+        ${faqIndex + 1}. 
+        <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question" required>
+        <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer" required>
+        <input type="hidden" class="form-control mb-1" name="faqs[${faqIndex}][type]" value="service" required>
+        <select hidden name="faqs[${faqIndex}][category_id]">
+            @foreach ($faqCategories as $category)
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+        </select>
+    `;
+    wrapper.appendChild(group);
+    faqIndex++;
+}
+
 </script>
 @endsection
