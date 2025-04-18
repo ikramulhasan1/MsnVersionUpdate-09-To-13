@@ -439,7 +439,7 @@ $header = \App\Models\PageSetup::page('services');
                 <div class="faq-section-title">
                   <h3 style="font-weight: 700">FAQ</h3>
                 </div>
-            
+            @dd($service->faqs)
                 <div class="faq-accordion">
                   <!-- Step 1 -->
                   <div class="faq-accordion-item">
