@@ -25,7 +25,7 @@
                 </div>
                 <form class="needs-validation" novalidate action="{{ route($route.'.update', $row->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    @method('PATCH')
+                    @method('PUT')
                     <div class="card-body">
 
                         <!-- Form Start -->
@@ -159,6 +159,7 @@
                             <br><br>
                         </div>
                         <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
+                        <input hidden type="text" class="form-control mb-1" name="category_id" value="12345" required>
 
                         <div class="row">
                             <div class="form-group col">
