@@ -25,7 +25,7 @@
                 </div>
                 <form class="needs-validation" novalidate action="{{ route($route.'.update', $row->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
+                    @method('PATCH')
                     <div class="card-body">
 
                         <!-- Form Start -->
