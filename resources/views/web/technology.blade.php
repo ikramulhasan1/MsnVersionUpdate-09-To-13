@@ -457,14 +457,14 @@ $header = \App\Models\PageSetup::page('technology');
 <section style="padding:20px 60px !important;" class="banner-container">
     <div class="banner-left">
       <h1 style="color: white" >{{ $service->short_title }}</h1>
-      <p style="color: white">Hire our expert Python developers to build scalable web applications, data-driven solutions, and advanced machine learning models tailored to your business needs.</p>
+      {{-- <p style="color: white">Hire our expert Python developers to build scalable web applications, data-driven solutions, and advanced machine learning models tailored to your business needs.</p> --}}
     </div>
 
     <div class="banner-card">
       <img src="{{ asset('uploads/service/'.$service->logo_path) }}" alt="{{ $service->title }}" />
       <h2 style="color: white">
         Get <span style="color: white">Project-based</span> and <br/>
-        <span style="color: white">Dedicated Teams</span> from India’s<br/>
+        <span style="color: white">Dedicated Teams</span> from a<br/>
         <span style="color: white">Highest-rated Company</span>.
       </h2>
       <button id="open-modal" class="banner-cta-button">Discuss Your Requirements →</button>
