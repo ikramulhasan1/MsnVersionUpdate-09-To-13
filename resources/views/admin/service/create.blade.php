@@ -230,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // FAQs Section
-    let faqIndex = 0;
+    let faqIndex = 1;
 
     function addFaq() {
         const wrapper = document.getElementById('faq-wrapper');
