@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // FAQs Section
-    let faqIndex = 1;
+    let faqIndex = $index;
 
     function addFaq() {
         const wrapper = document.getElementById('faq-wrapper');
@@ -265,16 +265,16 @@ document.addEventListener("DOMContentLoaded", function () {
         group.classList.add('faq-group');
         group.classList.add('mb-2');
         group.innerHTML = `
-            <input type="text" class="form-control mb-1" name="faqs[${$index}][title]" placeholder="${$index}. Question" required>
-            <input type="text" class="form-control mb-1" name="faqs[${$index}][description]" placeholder="${$index+2-2}. Answer" required>
+            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex}. Question" required>
+            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex+2-2}. Answer" required>
             <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
-            <select hidden name="faqs[${$index}][category_id]" required>
+            <select hidden name="faqs[${faqIndex}][category_id]" required>
                 @foreach ($faqCategories as $category)
                     <option value="12">{{ $category->name }}</option>
                 @endforeach
             </select>`;
         wrapper.appendChild(group);
-        $index++;
+        faqIndex++;
     }
 </script>
 @endsection
