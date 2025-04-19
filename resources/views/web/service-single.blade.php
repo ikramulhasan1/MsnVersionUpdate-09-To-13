@@ -433,7 +433,7 @@ $header = \App\Models\PageSetup::page('services');
             </div>
         </div>
         
-
+        @if ($service->faqs->count() > 0)
         <section>
             <div class="faq_container">
                 <div class="faq-section-title">
@@ -461,6 +461,7 @@ $header = \App\Models\PageSetup::page('services');
                 </div>
               </div>
         </section>
+        @endif
         <div >
             @if ($service->subservices->count() > 0)
             <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
