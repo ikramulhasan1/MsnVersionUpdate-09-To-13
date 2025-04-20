@@ -320,8 +320,8 @@ $header = \App\Models\PageSetup::page('services');
     }
 
     .process-step-number {
-      width: 42px;
-      height: 42px;
+      width: 35px;
+      height: 35px;
       background-color: #0d6efd;
       color: #fff;
       border-radius: 50%;
