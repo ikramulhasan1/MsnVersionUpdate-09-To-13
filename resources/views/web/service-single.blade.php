@@ -595,6 +595,16 @@ $header = \App\Models\PageSetup::page('services');
                   <p>Clickable prototypes to visualize layout, flow, and user journey before development begins.</p>
                 </div>
               </div>
+              <div class="col-md-4">
+                <div class="process-step-box">
+                  <div class="process-step-number">3</div>
+                  <div class="process-step-heading">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1037/1037847.png" class="process-step-icon" alt="">
+                    Wireframe & Prototype
+                  </div>
+                  <p>Clickable prototypes to visualize layout, flow, and user journey before development begins.</p>
+                </div>
+              </div>
             </div>
         
             <!-- Second Row -->
