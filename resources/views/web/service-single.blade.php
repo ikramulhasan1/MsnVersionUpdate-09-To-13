@@ -349,6 +349,9 @@ $header = \App\Models\PageSetup::page('services');
       margin-bottom: 10px;
     }
 
+    .process-step-heading img {
+      margin-left: 0px;
+    }
     .process-step-arrow {
       position: absolute;
       top: 50%;
