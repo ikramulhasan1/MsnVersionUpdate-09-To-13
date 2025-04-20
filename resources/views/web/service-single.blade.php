@@ -342,6 +342,7 @@ $header = \App\Models\PageSetup::page('services');
     }
 
     .process-step-heading {
+      justify-content:start!important;
       display: flex;
       align-items: center;
       font-weight: 600;
