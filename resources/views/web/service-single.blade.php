@@ -395,6 +395,7 @@ $header = \App\Models\PageSetup::page('services');
 
     .process-btn-orange:hover {
       background-color: #e55c00;
+      color: white
     }
 
     @media (max-width: 991px) {
