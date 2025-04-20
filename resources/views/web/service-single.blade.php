@@ -471,8 +471,8 @@ $header = \App\Models\PageSetup::page('services');
 @if(isset($service))
 <!--Sidebar Page Container-->
 <div style="background-color: #ffffff" class="sidebar-page-container">
-    <div class="mx-5">
-        <div class="row clearfix mb-5">
+    <div >
+        <div class="row clearfix mb-5 mx-5">
             <!--Sidebar Side-->
             <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
                 <aside class="sidebar services-sidebar">
@@ -550,7 +550,7 @@ $header = \App\Models\PageSetup::page('services');
         </div>
         
         {{-- process-section --}}
-        <section class="process-section my-5">
+        <section class="process-section my-5 mx-5">
           <div class="container">
             <div class="process-section-title">
               <h2>Our Approach to UI UX Design Services</h2>
@@ -638,7 +638,7 @@ $header = \App\Models\PageSetup::page('services');
 
 
         @if ($service->faqs->count() > 0)
-        <section>
+        <section class="mx-5">
             <div class="faq_container">
                 <div class="faq-section-title">
                   <h3 style="font-weight: 700">FAQ</h3>
@@ -666,7 +666,7 @@ $header = \App\Models\PageSetup::page('services');
               </div>
         </section>
         @endif
-        <div >
+        <div class="mx-5" >
             @if ($service->subservices->count() > 0)
             <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
             <div class="row ml-2 g-1 owl-carousel owl-theme">
