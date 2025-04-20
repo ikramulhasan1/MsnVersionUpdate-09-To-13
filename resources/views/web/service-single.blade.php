@@ -550,7 +550,7 @@ $header = \App\Models\PageSetup::page('services');
         </div>
         
         {{-- process-section --}}
-        <section class="process-section">
+        <section class="process-section my-5">
           <div class="container">
             <div class="process-section-title">
               <h2>Our Approach to UI UX Design Services</h2>
