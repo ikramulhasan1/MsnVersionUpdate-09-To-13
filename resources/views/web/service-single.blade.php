@@ -283,6 +283,122 @@ $header = \App\Models\PageSetup::page('services');
   .faq_container{
     margin-top: 0px!important;
   }
+
+
+
+
+  /* process */
+  .process-section {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9fafc;
+      padding: 50px 15px;
+    }
+
+    .process-section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .process-section-title h2 {
+      font-weight: 700;
+    }
+
+    .process-step-box {
+      background-color: #fff;
+      border: 1px solid #e1e1e1;
+      border-radius: 12px;
+      padding: 30px 20px;
+      height: 100%;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s ease;
+    }
+
+    .process-step-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .process-step-number {
+      width: 42px;
+      height: 42px;
+      background-color: #0d6efd;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 16px;
+      position: absolute;
+      top: -20px;
+      left: 20px;
+    }
+
+    .process-step-icon {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+    }
+
+    .process-step-heading {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .process-step-arrow {
+      position: absolute;
+      top: 50%;
+      right: -40px;
+      width: 40px;
+      height: 2px;
+      background: repeating-linear-gradient(
+        to right,
+        #999,
+        #999 4px,
+        transparent 4px,
+        transparent 8px
+      );
+      animation: moveArrow 1s linear infinite;
+    }
+
+    .process-step-arrow::after {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: -4px;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 6px solid #999;
+    }
+
+    @keyframes moveArrow {
+      0% { background-position: 0; }
+      100% { background-position: 8px; }
+    }
+
+    .process-btn-orange {
+      background-color: #ff6a00;
+      color: white;
+      padding: 12px 26px;
+      border-radius: 5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      border: none;
+    }
+
+    .process-btn-orange:hover {
+      background-color: #e55c00;
+    }
+
+    @media (max-width: 991px) {
+      .process-step-arrow {
+        display: none;
+      }
+    }
 </style>
 <!--Page Title-->
 {{-- <section class="page-title"> --}}
@@ -433,6 +549,94 @@ $header = \App\Models\PageSetup::page('services');
             </div>
         </div>
         
+        {{-- process-section --}}
+        <section class="process-section">
+          <div class="container">
+            <div class="process-section-title">
+              <h2>Our Approach to UI UX Design Services</h2>
+              <p class="text-muted">From research to testing, we ensure your design is intuitive, user-focused, and aligned with your goals.</p>
+            </div>
+        
+            <!-- First Row -->
+            <div class="row g-4 mb-4">
+              <div class="col-md-4">
+                <div class="process-step-box">
+                  <div class="process-step-number">1</div>
+                  <div class="process-step-heading">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2910/2910791.png" class="process-step-icon" alt="">
+                    Research & Strategy
+                  </div>
+                  <p>In-depth research of business goals, user personas, and competitor analysis to build a strong foundation.</p>
+                  <div class="process-step-arrow d-none d-md-block"></div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="process-step-box">
+                  <div class="process-step-number">2</div>
+                  <div class="process-step-heading">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="process-step-icon" alt="">
+                    Information Architecture
+                  </div>
+                  <p>We create clear and user-focused flows that guide users effectively with structured content.</p>
+                  <div class="process-step-arrow d-none d-md-block"></div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="process-step-box">
+                  <div class="process-step-number">3</div>
+                  <div class="process-step-heading">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1037/1037847.png" class="process-step-icon" alt="">
+                    Wireframe & Prototype
+                  </div>
+                  <p>Clickable prototypes to visualize layout, flow, and user journey before development begins.</p>
+                </div>
+              </div>
+            </div>
+        
+            <!-- Second Row -->
+            <div class="row g-4">
+              <div class="col-md-4">
+                <div class="process-step-box">
+                  <div class="process-step-number">4</div>
+                  <div class="process-step-heading">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077046.png" class="process-step-icon" alt="">
+                    Visual Design
+                  </div>
+                  <p>We blend branding and usability to craft interfaces that are both stunning and purposeful.</p>
+                  <div class="process-step-arrow d-none d-md-block"></div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="process-step-box">
+                  <div class="process-step-number">5</div>
+                  <div class="process-step-heading">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2721/2721295.png" class="process-step-icon" alt="">
+                    UI Development
+                  </div>
+                  <p>Fully responsive, scalable UI development with smooth interactivity using modern frameworks.</p>
+                  <div class="process-step-arrow d-none d-md-block"></div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="process-step-box">
+                  <div class="process-step-number">6</div>
+                  <div class="process-step-heading">
+                    <img src="https://cdn-icons-png.flaticon.com/512/4359/4359873.png" class="process-step-icon" alt="">
+                    Usability Testing
+                  </div>
+                  <p>Final usability testing to ensure clarity, performance, and optimized user experience.</p>
+                </div>
+              </div>
+            </div>
+        
+            <!-- CTA -->
+            <div class="text-center mt-5">
+              <a href="#" class="btn process-btn-orange">Get in Touch With Us →</a>
+            </div>
+          </div>
+        </section >
+
+
         @if ($service->faqs->count() > 0)
         <section>
             <div class="faq_container">
