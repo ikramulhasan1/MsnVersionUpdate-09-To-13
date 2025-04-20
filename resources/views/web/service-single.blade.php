@@ -634,7 +634,7 @@ $header = \App\Models\PageSetup::page('services');
         
             <!-- CTA -->
             <div class="text-center mt-5">
-              <a href="#" class="btn process-btn-orange">Get in Touch With Us →</a>
+              <a href="https://msnsofttech.com/get-quote" class="btn process-btn-orange">Get in Touch With Us →</a>
             </div>
           </div>
         </section >
