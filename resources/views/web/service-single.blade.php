@@ -636,7 +636,6 @@ $header = \App\Models\PageSetup::page('services');
           </div>
         </section >
 
-
         @if ($service->faqs->count() > 0)
         <section class="mx-5">
             <div class="faq_container">
