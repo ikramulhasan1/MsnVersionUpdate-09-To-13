@@ -557,7 +557,7 @@ $header = \App\Models\PageSetup::page('services');
         <section class="process-section my-5 px-5">
           <div class="container">
             <div class="process-section-title">
-              <h2>Our Approach to UI UX Design Services</h2>
+              <h2>Our Application Development Process</h2>
               <p class="text-muted">From research to testing, we ensure your design is intuitive, user-focused, and aligned with your goals.</p>
             </div>
         
