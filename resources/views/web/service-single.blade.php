@@ -562,7 +562,7 @@ $header = \App\Models\PageSetup::page('services');
             </div>
         
             <!-- First Row -->
-            <div class="row g-4 mb-4">
+            <div class="row g-4 mb-5">
               <div class="col-md-4">
                 <div class="process-step-box">
                   <div class="process-step-number">1</div>
@@ -583,16 +583,6 @@ $header = \App\Models\PageSetup::page('services');
                   </div>
                   <p>We create clear and user-focused flows that guide users effectively with structured content.</p>
                   <div class="process-step-arrow d-none d-md-block"></div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="process-step-box">
-                  <div class="process-step-number">3</div>
-                  <div class="process-step-heading">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1037/1037847.png" class="process-step-icon" alt="">
-                    Wireframe & Prototype
-                  </div>
-                  <p>Clickable prototypes to visualize layout, flow, and user journey before development begins.</p>
                 </div>
               </div>
               <div class="col-md-4">
