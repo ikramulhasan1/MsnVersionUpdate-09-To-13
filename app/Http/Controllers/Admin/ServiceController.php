@@ -58,6 +58,7 @@ class ServiceController extends Controller
         $data['title'] = $this->title;
         $data['route'] = $this->route;
         $data['view'] = $this->view;
+        $data['faqCategories'] = FaqCategory::where('status', 1)->get();
 
         return view($this->view.'.create', $data);
     }
@@ -371,7 +372,7 @@ class ServiceController extends Controller
             }
 
             Image::make($file->getRealPath())
-                ->resize(800, null, function ($constraint) {
+                ->resize(50, 50, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 })

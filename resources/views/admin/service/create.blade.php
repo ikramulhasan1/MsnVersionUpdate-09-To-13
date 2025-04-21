@@ -158,6 +158,22 @@
                         <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
                         <input hidden type="text" class="form-control mb-1" name="category_id" value="12" required>
 
+                        <hr>
+                        <h3>Work Process</h3>
+                        <div class="row process-row">
+                            <div class="form-group col-9 faq-group mb-2">
+                                
+                                <input type="text" class="form-control mb-1" name="workprocess[0][title]" placeholder="Title">
+                                <input type="text" class="form-control mb-1" name="workprocess[0][description]" placeholder="Description">
+                                <input type="file" class="form-control mb-1" name="workprocess[0][process_image]">
+                               
+                            </div>
+                            <div class="form-group col-3">
+                                <button class="btn btn-success" type="button" onclick="addProcess()">{{ __('dashboard.add_another_FAQ') }}</button>
+                            </div>
+                            <br><br>
+                        </div>
+                       
                         <!-- Form End -->
                         <div class="form-group">
                             <label for="manu">Manu</label>
@@ -231,29 +247,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-
     // FAQs Section
     let faqIndex = 1;
-
-    function addFaq() {
-        const wrapper = document.getElementById('faq-wrapper');
-        const group = document.createElement('div');
-        group.classList.add('form-group');
-        group.classList.add('faq-group');
-        group.classList.add('mb-2');
-        group.innerHTML = `
-            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex}. Question" required>
-            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex+2-2}. Answer" required>
-        `;
-        wrapper.appendChild(group);
-        faqIndex++;
-    }
-
-
-
-
-     // FAQs Section
-     let faqIndex = {{ count($row->faqs) }}; // start from next available index
 
 function addFaq() {
     const wrapper = document.querySelector('.faq-group').parentNode;
@@ -274,5 +269,26 @@ function addFaq() {
     faqIndex++;
 }
 
+
+
+let processIndex = 1;
+
+function addProcess() {
+    const processWrapper = document.querySelector('.process-row');
+
+    const processGroup = document.createElement('div');
+    processGroup.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
+    processGroup.innerHTML = `
+        <input type="text" class="form-control mb-1" name="workprocess[${processIndex}][title]" placeholder="${processIndex + 1}. Title">
+        <input type="text" class="form-control mb-1" name="workprocess[${processIndex}][description]" placeholder="${processIndex + 1}. Description">
+        <input type="file" class="form-control mb-1" name="workprocess[${processIndex}][process_image]">
+    `;
+
+    // Insert before the last column (button)
+    const processButtonContainer = processWrapper.querySelector('.col-3');
+    processWrapper.insertBefore(processGroup, processButtonContainer);
+
+    processIndex++;
+}
 </script>
 @endsection
