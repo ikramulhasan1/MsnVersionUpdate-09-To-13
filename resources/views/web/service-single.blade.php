@@ -656,7 +656,7 @@ $header = \App\Models\PageSetup::page('services');
                         <span class="faq-step-badge">{{ $key+1 }}</span>
                         {{ $item->title }}
                       </div>
-                      <span class="faq-arrow">▶</span>
+                      <span class="faq-arrow">🔄</span>
                     </div>
                     <div class="faq-accordion-body">
                       <p>{{ $item->description }}</p>
