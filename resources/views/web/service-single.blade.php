@@ -564,18 +564,14 @@ $header = \App\Models\PageSetup::page('services');
             <!-- First Row -->
             <div class="row g-4 mb-4">
               @foreach ($service->processworks as $process)
-              <div class="col-md-4 mb-4">
+              <div class="col-md-4">
                 <div class="process-step-box">
                   <div class="process-step-number">1</div>
                   <div class="process-step-heading">
-                    <img src="{{ asset('uploads/process/'.$process->image_path) }}" class="process-step-icon" alt="">
+                    <img src="{{ asset('uploads/service/'.$process->image_path) }}" class="process-step-icon" alt="">
                     {{ $process->title }}
                   </div>
-                  <p>{{ $process->description }}</p>
-                  <div class="process-step-arrow d-none d-md-block"></div>
-                </div>
-                  </div>
-                  <p>In-depth research of business goals, user personas, and competitor analysis to build a strong foundation.</p>
+                  <p> {{ $process->description }}</p>
                   <div class="process-step-arrow d-none d-md-block"></div>
                 </div>
               </div>
