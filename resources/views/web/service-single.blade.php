@@ -663,8 +663,6 @@ $header = \App\Models\PageSetup::page('services');
                     </div>
                   </div>
                   @endforeach
-            
-                  
                 </div>
               </div>
         </section>

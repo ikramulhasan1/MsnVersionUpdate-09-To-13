@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Faq;
 use App\Models\Subservice;
+use App\Models\Processwork;
 use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model
@@ -25,6 +26,10 @@ class Service extends Model
     public function faqs()
     {
         return $this->hasMany(Faq::class);
+    }
+    public function processworks()
+    {
+        return $this->hasMany(related: Processwork::class);
     }
     public function subservices()
     {

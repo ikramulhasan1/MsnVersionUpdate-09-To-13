@@ -143,11 +143,11 @@
                         <hr>
                        
                         <h3>FAQs</h3>
-                        <div class="row">
+                        <div class="row faq-row">
                        
                             @foreach ($row->faqs as $key => $faq)
                             <div class="form-group col-9 faq-group mb-2">
-                                {{ $key+1 }}. 
+                                {{-- {{ $key+1 }}.  --}}
                                 <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][title]" value="{{ $faq->title }}" placeholder="{{ $key+1 }}. Question" required>
                                 <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][description]" value="{{ $faq->description }}" placeholder="{{ $key+1 }}. Answer" required>
                                 <input type="hidden" class="form-control mb-1" name="type" value="{{ $faq->type }}" required>
@@ -157,10 +157,30 @@
                                     @endforeach
                                 </select>
                             </div>
-                        @endforeach
+                            @endforeach
                         
                             <div class="form-group col-3">
                                 <button class="btn btn-success" type="button" onclick="addFaq()">{{ __('dashboard.add_another_FAQ') }}</button>
+                            </div>
+                            <br><br>
+                        </div>
+                        <hr>
+                       
+                        <h3>Work Process</h3>
+                        <div class="row process-row">
+                       
+                            @foreach ($row->processworks as $key => $process)
+                            <div class="form-group col-9 faq-group mb-2">
+                                {{-- {{ $key+1 }}.  --}}
+                                <input type="text" class="form-control mb-1" name="workprocess[{{ $key }}][title]" value="{{ $process->title }}" placeholder="{{ $key+1 }}. Title">
+                                <input type="text" class="form-control mb-1" name="workprocess[{{ $key }}][description]" value="{{ $process->description }}" placeholder="{{ $key+1 }}. Description">
+                                <input type="file" class="form-control mb-1" name="workprocess[{{ $key }}][process_image]">
+                               
+                            </div>
+                            @endforeach
+                        
+                            <div class="form-group col-3">
+                                <button class="btn btn-success" type="button" onclick="addProcess()">{{ __('dashboard.add_another_FAQ') }}</button>
                             </div>
                             <br><br>
                         </div>
@@ -252,26 +272,81 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // FAQs Section
-    let faqIndex = {{ count($row->faqs) }}; // start from next available index
+//     let faqIndex = {{ count($row->faqs) }}; // start from next available index
+
+// function addFaq() {
+//     const wrapper = document.querySelector('.faq-group').parentNode;
+//     const group = document.createElement('div');
+//     group.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
+//     group.innerHTML = `
+//         ${faqIndex + 1}. 
+//         <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question" required>
+//         <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer" required>
+//         <input type="hidden" class="form-control mb-1" name="faqs[${faqIndex}][type]" value="service" required>
+//         <select hidden name="faqs[${faqIndex}][category_id]">
+//             @foreach ($faqCategories as $category)
+//                 <option value="{{ 12 }}">{{ $category->name }}</option>
+//             @endforeach
+//         </select>
+//     `;
+//     wrapper.appendChild(group);
+//     faqIndex++;
+// }
+  
+// Initial index count
+  let faqIndex = {{ count($row->faqs) }};
+
+// Render all category options as string
+const categoryOptions = `{!! collect($faqCategories)->map(fn($c) => "<option value='{$c->id}'>{$c->name}</option>")->implode('') !!}`;
 
 function addFaq() {
-    const wrapper = document.querySelector('.faq-group').parentNode;
+    const wrapper = document.querySelector('.faq-row');
+
     const group = document.createElement('div');
     group.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
     group.innerHTML = `
-        ${faqIndex + 1}. 
         <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question" required>
         <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer" required>
-        <input type="hidden" class="form-control mb-1" name="faqs[${faqIndex}][type]" value="service" required>
+        <input type="hidden" name="faqs[${faqIndex}][type]" value="service">
         <select hidden name="faqs[${faqIndex}][category_id]">
-            @foreach ($faqCategories as $category)
-                <option value="{{ 12 }}">{{ $category->name }}</option>
-            @endforeach
+            ${categoryOptions}
         </select>
     `;
-    wrapper.appendChild(group);
+
+    // Insert before the last column (button)
+    const buttonContainer = wrapper.querySelector('.col-3');
+    wrapper.insertBefore(group, buttonContainer);
+
     faqIndex++;
 }
+
+
+
+
+
+  let processIndex = {{ count($row->faqs) }};
+
+// Render all category options as string
+
+function addProcess() {
+    const processWrapper = document.querySelector('.process-row');
+
+    const processGroup = document.createElement('div');
+    processGroup.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
+    processGroup.innerHTML = `
+        <input type="text" class="form-control mb-1" name="workprocess[${processIndex}][title]" placeholder="${processIndex + 1}. Title">
+        <input type="text" class="form-control mb-1" name="workprocess[${processIndex}][description]" placeholder="${processIndex + 1}. Description">
+        <input type="file" class="form-control mb-1" name="workprocess[${processIndex}][process_image]">
+    `;
+
+    // Insert before the last column (button)
+    const processButtonContainer = processWrapper.querySelector('.col-3');
+    processWrapper.insertBefore(processGroup, processButtonContainer);
+
+    processIndex++;
+}
+
+
 
 </script>
 @endsection
