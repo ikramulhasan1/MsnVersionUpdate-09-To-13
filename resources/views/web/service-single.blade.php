@@ -311,7 +311,7 @@ $header = \App\Models\PageSetup::page('services');
       height: 100%;
       position: relative;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-      transition: all 0.3s ease;
+      transition: all 0.1s ease;
     }
 
     .process-step-box:hover {
