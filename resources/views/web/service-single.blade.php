@@ -403,6 +403,15 @@ $header = \App\Models\PageSetup::page('services');
         display: none;
       }
     }
+    .process-step-arrow.arrow-hidden {
+    display: none !important;
+}
+.arrow-down {
+    /* Customize this arrow to look like a vertical one */
+    transform: rotate(90deg); /* or use a different SVG for down */
+    /* Add margin or position tweaks as needed */
+}
+
 </style>
 <!--Page Title-->
 {{-- <section class="page-title"> --}}
@@ -563,78 +572,30 @@ $header = \App\Models\PageSetup::page('services');
         
             <!-- First Row -->
             <div class="row g-4 mb-4">
-              @foreach ($service->processworks as $key=>$process)
-              <div class="col-md-4 mb-4">
-                <div class="process-step-box">
-                  <div class="process-step-number">{{ $key+1 }}</div>
-                  <div class="process-step-heading">
-                    <img src="{{ asset('uploads/process/'.$process->image_path) }}" class="process-step-icon" alt="">
-                    {{ $process->title }}
+              @foreach ($service->processworks as $key => $process)
+                  <div class="col-md-4 mb-4">
+                      <div class="process-step-box">
+                          <div class="process-step-number">{{ $key + 1 }}</div>
+                          <div class="process-step-heading">
+                              <img src="{{ asset('uploads/process/' . $process->image_path) }}" class="process-step-icon" alt="">
+                              {{ $process->title }}
+                          </div>
+                          <p>{{ $process->description }}</p>
+                          
+                          {{-- Show arrow after every item except the last one --}}
+                          @php
+                              $totalSteps = count($service->processworks);
+                              $showArrow = ($key != $totalSteps - 1); // hide arrow for last step
+                          @endphp
+          
+                        <div class="process-step-arrow d-none d-md-block 
+                          {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
+                        </div>
+                      </div>
                   </div>
-                  <p> {{ $process->description }}</p>
-                  <div class="process-step-arrow d-none d-md-block"></div>
-                </div>
-              </div>
               @endforeach
-              {{-- <div class="col-md-4">
-                <div class="process-step-box">
-                  <div class="process-step-number">2</div>
-                  <div class="process-step-heading">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="process-step-icon" alt="">
-                    Information Architecture
-                  </div>
-                  <p>We create clear and user-focused flows that guide users effectively with structured content.</p>
-                  <div class="process-step-arrow d-none d-md-block"></div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="process-step-box">
-                  <div class="process-step-number">3</div>
-                  <div class="process-step-heading">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1037/1037847.png" class="process-step-icon" alt="">
-                    Wireframe & Prototype
-                  </div>
-                  <p>Clickable prototypes to visualize layout, flow, and user journey before development begins.</p>
-                </div>
-              </div> --}}
-            </div>
-        
-            <!-- Second Row -->
-            {{-- <div class="row g-4">
-              <div class="col-md-4">
-                <div class="process-step-box">
-                  <div class="process-step-number">4</div>
-                  <div class="process-step-heading">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077046.png" class="process-step-icon" alt="">
-                    Visual Design
-                  </div>
-                  <p>We blend branding and usability to craft interfaces that are both stunning and purposeful.</p>
-                  <div class="process-step-arrow d-none d-md-block"></div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="process-step-box">
-                  <div class="process-step-number">5</div>
-                  <div class="process-step-heading">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2721/2721295.png" class="process-step-icon" alt="">
-                    UI Development
-                  </div>
-                  <p>Fully responsive, scalable UI development with smooth interactivity using modern frameworks.</p>
-                  <div class="process-step-arrow d-none d-md-block"></div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="process-step-box">
-                  <div class="process-step-number">6</div>
-                  <div class="process-step-heading">
-                    <img src="https://cdn-icons-png.flaticon.com/512/4359/4359873.png" class="process-step-icon" alt="">
-                    Usability Testing
-                  </div>
-                  <p>Final usability testing to ensure clarity, performance, and optimized user experience.</p>
-                </div>
-              </div>
-            </div> --}}
-        
+          </div>
+          
             <!-- CTA -->
             <div class="text-center mt-5">
               <a href="https://msnsofttech.com/get-quote" class="btn process-btn-orange">Get in Touch With Us →</a>
