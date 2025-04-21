@@ -576,11 +576,11 @@ $header = \App\Models\PageSetup::page('services');
                   <div class="col-md-4 mb-4">
                       <div class="process-step-box">
                           <div class="process-step-number">{{ $key + 1 }}</div>
-                          <div class="process-step-heading">
+                          <div class="process-step-heading" style="font-size: 20px; color: #333333;">
                               <img src="{{ asset('uploads/process/' . $process->image_path) }}" class="process-step-icon" alt="">
                               {{ $process->title }}
                           </div>
-                          <p>{{ $process->description }}</p>
+                          <p style="font-size: 15px; color: #333333;">{{ $process->description }}</p>
                           
                           {{-- Show arrow after every item except the last one --}}
                           @php
