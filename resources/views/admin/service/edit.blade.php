@@ -307,19 +307,14 @@ function addFaq() {
     const wrapper = document.querySelector('.faq-row');
 
     const group = document.createElement('div');
-    group.classList.add('form-group', 'faq-group', 'col-9', 'mb-2 row');
+    group.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
     group.innerHTML = `
-        <div class="col-1">
-            ${faqIndex + 1}. 
-        </div>
-        <div class="col-11">
-            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question" required>
-            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer" required>
-            <input type="hidden" name="faqs[${faqIndex}][type]" value="service">
-            <select hidden name="faqs[${faqIndex}][category_id]">
-                ${categoryOptions}
-            </select>
-        </div>
+        <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question" required>
+        <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer" required>
+        <input type="hidden" name="faqs[${faqIndex}][type]" value="service">
+        <select hidden name="faqs[${faqIndex}][category_id]">
+            ${categoryOptions}
+        </select>
     `;
 
     // Insert before the last column (button)
