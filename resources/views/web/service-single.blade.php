@@ -563,18 +563,24 @@ $header = \App\Models\PageSetup::page('services');
         
             <!-- First Row -->
             <div class="row g-4 mb-4">
-              <div class="col-md-4">
+              @foreach ($service->processworks as $process)
+              <div class="col-md-4 mb-4">
                 <div class="process-step-box">
                   <div class="process-step-number">1</div>
                   <div class="process-step-heading">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2910/2910791.png" class="process-step-icon" alt="">
-                    Research & Strategy
+                    <img src="{{ asset('uploads/process/'.$process->image_path) }}" class="process-step-icon" alt="">
+                    {{ $process->title }}
+                  </div>
+                  <p>{{ $process->description }}</p>
+                  <div class="process-step-arrow d-none d-md-block"></div>
+                </div>
                   </div>
                   <p>In-depth research of business goals, user personas, and competitor analysis to build a strong foundation.</p>
                   <div class="process-step-arrow d-none d-md-block"></div>
                 </div>
               </div>
-              <div class="col-md-4">
+              @endforeach
+              {{-- <div class="col-md-4">
                 <div class="process-step-box">
                   <div class="process-step-number">2</div>
                   <div class="process-step-heading">
@@ -594,11 +600,11 @@ $header = \App\Models\PageSetup::page('services');
                   </div>
                   <p>Clickable prototypes to visualize layout, flow, and user journey before development begins.</p>
                 </div>
-              </div>
+              </div> --}}
             </div>
         
             <!-- Second Row -->
-            <div class="row g-4">
+            {{-- <div class="row g-4">
               <div class="col-md-4">
                 <div class="process-step-box">
                   <div class="process-step-number">4</div>
@@ -631,7 +637,7 @@ $header = \App\Models\PageSetup::page('services');
                   <p>Final usability testing to ensure clarity, performance, and optimized user experience.</p>
                 </div>
               </div>
-            </div>
+            </div> --}}
         
             <!-- CTA -->
             <div class="text-center mt-5">
