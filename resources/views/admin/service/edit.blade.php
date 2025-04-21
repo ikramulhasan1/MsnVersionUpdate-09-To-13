@@ -147,10 +147,10 @@
                        
                             @foreach ($row->faqs as $key => $faq)
                             <div class="form-group col-9 faq-group mb-2 row">
-                                <div class="col-2">
+                                <div class="col-1">
                                     {{ $key+1 }}. 
                                 </div>
-                                <div class="col-10">
+                                <div class="col-11">
                                     <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][title]" value="{{ $faq->title }}" placeholder="{{ $key+1 }}. Question" required>
                                     <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][description]" value="{{ $faq->description }}" placeholder="{{ $key+1 }}. Answer" required>
                                     <input type="hidden" class="form-control mb-1" name="type" value="{{ $faq->type }}" required>
@@ -307,14 +307,19 @@ function addFaq() {
     const wrapper = document.querySelector('.faq-row');
 
     const group = document.createElement('div');
-    group.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
+    group.classList.add('form-group', 'faq-group', 'col-9', 'mb-2 row');
     group.innerHTML = `
-        <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question" required>
-        <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer" required>
-        <input type="hidden" name="faqs[${faqIndex}][type]" value="service">
-        <select hidden name="faqs[${faqIndex}][category_id]">
-            ${categoryOptions}
-        </select>
+        <div class="col-1">
+            ${faqIndex + 1}. 
+        </div>
+        <div class="col-11">
+            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question" required>
+            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer" required>
+            <input type="hidden" name="faqs[${faqIndex}][type]" value="service">
+            <select hidden name="faqs[${faqIndex}][category_id]">
+                ${categoryOptions}
+            </select>
+        </div>
     `;
 
     // Insert before the last column (button)
