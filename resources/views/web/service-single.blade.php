@@ -306,7 +306,7 @@ $header = \App\Models\PageSetup::page('services');
     .process-step-box {
       background-color: #fff;
       border: 1px solid #e1e1e1;
-      border-radius: 12px;
+      border-radius: 2px;
       padding: 30px 20px;
       height: 100%;
       position: relative;
@@ -577,7 +577,7 @@ $header = \App\Models\PageSetup::page('services');
                       <div class="process-step-box">
                           <div class="process-step-number">{{ $key + 1 }}</div>
                           <div class="process-step-heading" style="font-size: 20px; color: #333333;">
-                              <img style="width: 50px" src="{{ asset('uploads/process/' . $process->image_path) }}" class="process-step-icon" alt="">
+                              <img style="width: 50px; height: 50px;" src="{{ asset('uploads/process/' . $process->image_path) }}" class="process-step-icon" alt="">
                               {{ $process->title }}
                           </div>
                           <p style="font-size: 15px; color: #333333;">{{ $process->description }}</p>
