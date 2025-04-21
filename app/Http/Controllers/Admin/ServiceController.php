@@ -379,10 +379,17 @@ class ServiceController extends Controller
                 ->encode('webp', 90)
                 ->save($path.$processImageName);
         }
+        // Check if record exists
+        $existing = Processwork::where('title', $process['title'])
+        ->where('service_id', $service->id)
+        ->first();
+
+        // Use existing image if no new image is uploaded
+        $finalImagePath = $processImageName ?? ($existing->image_path ?? null);
 
         Processwork::updateOrCreate(
             ['title' => $process['title'], 'service_id' => $service->id],
-            ['description' => $process['description'], 'image_path' => $processImageName ?? null,]
+            ['description' => $process['description'], 'image_path' => $finalImagePath ]
         );
     }
 }
