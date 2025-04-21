@@ -322,9 +322,7 @@ function addFaq() {
 
 
 
-
-
-  let processIndex = {{ count($row->faqs) }};
+  let processIndex = {{ count($row->processworks) }};
 
 // Render all category options as string
 
