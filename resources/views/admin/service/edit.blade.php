@@ -148,9 +148,9 @@
                             @foreach ($row->faqs as $key => $faq)
                             <div class="form-group col-9 faq-group mb-2">
                                 {{-- {{ $key+1 }}.  --}}
-                                <span>{{ $key+1 }}.</span><input type="text" class="form-control mb-1" name="faqs[{{ $key }}][title]" value="{{ $faq->title }}" placeholder="{{ $key+1 }}. Question" required>
-                                <span>{{ $key+1 }}.</span><input type="text" class="form-control mb-1" name="faqs[{{ $key }}][description]" value="{{ $faq->description }}" placeholder="{{ $key+1 }}. Answer" required>
-                                <span>{{ $key+1 }}.</span><input type="hidden" class="form-control mb-1" name="type" value="{{ $faq->type }}" required>
+                                <span style="margin-right: 5px" >{{ $key+1 }}.</span> <span> <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][title]" value="{{ $faq->title }}" placeholder="{{ $key+1 }}. Question" required>
+                                <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][description]" value="{{ $faq->description }}" placeholder="{{ $key+1 }}. Answer" required>
+                                <input type="hidden" class="form-control mb-1" name="type" value="{{ $faq->type }}" required></span>
                                 <select hidden name="faqs[{{ $key }}][category_id]">
                                     @foreach ($faqCategories as $category)
                                         <option value="{{ 12 }}" @if($category->id == $faq->category_id) selected @endif>{{ $category->name }}</option>
