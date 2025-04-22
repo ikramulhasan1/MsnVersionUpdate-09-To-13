@@ -200,7 +200,7 @@
                         <div class="row industry-row">
                        
                             @foreach ($row->industries as $key => $industry)
-                            <div class="form-group col-10 industry-group mb-2 row" id="industry-{{ $industry->id }}">
+                            <div class="form-group col-10 industry-group mb-2 row align-items-center" id="industry-{{ $industry->id }}">
                                 <div class="col-1">
                                     {{ $key+1 }}.
                                 </div> 
