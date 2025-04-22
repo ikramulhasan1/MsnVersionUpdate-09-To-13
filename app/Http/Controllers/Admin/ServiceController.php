@@ -403,13 +403,16 @@ class ServiceController extends Controller
     // 
     if ($request->has('industries')) {
         foreach ($request->industries as $industry) {
-            Industry::updateOrCreate([
-                'title' => $industry['title'],
-                'link' => $industry['link'],
-                'service_id' => $service->id,
-            ]);
+            Industry::updateOrCreate(
+                ['title' =>  trim($industry['title'])], // Only use title for the match
+                [
+                    'link' => trim($industry['link']) ?: null, // Even if empty, set it
+                    'service_id' => $service->id,
+                ]
+            );
         }
     }
+    
     Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
 
     return redirect()->back();
