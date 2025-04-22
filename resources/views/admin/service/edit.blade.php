@@ -186,7 +186,7 @@
                             @endforeach
                         
                             <div class="form-group col-3">
-                                <button class="btn btn-success" type="button" onclick="addProcess()">{{ __('dashboard.work_process') }}</button>
+                                <button class="btn btn-success" type="button" onclick="addProcess()">{{ __('dashboard.add_work_process') }}</button>
                             </div>
                             <br><br>
                         </div>
