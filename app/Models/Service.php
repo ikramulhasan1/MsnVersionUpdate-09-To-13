@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Faq;
+use App\Models\Whywe;
 use App\Models\Industry;
 use App\Models\Subservice;
 use App\Models\Processwork;
@@ -35,6 +36,10 @@ class Service extends Model
     public function industries()
     {
         return $this->hasMany( Industry::class);
+    }
+    public function whywes()
+    {
+        return $this->hasMany( Whywe::class);
     }
     public function subservices()
     {

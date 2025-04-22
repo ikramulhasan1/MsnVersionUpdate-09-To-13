@@ -18,6 +18,7 @@ return array (
   'work_process' => '+ Add Work Process',
   'add_work_process' => '+ Add Work Process',
   'industry' => '+ Add Industry',
+  'why_wes' => '+ Add Why We',
   'send' => 'Send',
   'update' => 'Update',
   'change' => 'Change',

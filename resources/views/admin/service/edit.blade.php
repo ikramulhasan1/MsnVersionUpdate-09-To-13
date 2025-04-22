@@ -217,6 +217,28 @@
                             <br><br>
                         </div>
                        
+                        <hr>
+                       
+                        <h3>Why We</h3>
+                        <div class="row whywes-row">
+                            @foreach ($row->whywes as $key => $we)
+                            <div class="form-group col-10 whywes-group mb-2 row">
+                                <div class="col-1">
+                                    {{ $key+1 }}.
+                                </div> 
+                                <div class="col-11">
+                                    <input type="text" class="form-control mb-1" name="whywes[{{ $key }}][title]" value="{{ $we->title }}" placeholder="{{ $key+1 }}. Title" required>                                
+                                    <input type="text" class="form-control mb-1" name="whywes[{{ $key }}][link]" value="{{ $we->link }}" placeholder="{{ $key+1 }}. Link">                                
+                                </div>
+                            </div>
+                            @endforeach
+                        
+                            <div class="form-group col-2">
+                                <button class="btn btn-success" type="button" onclick="addWhywes()">{{ __('dashboard.why_wes') }}</button>
+                            </div>
+                            <br><br>
+                        </div>
+                       
                         
                         <div class="row">
                             <div class="form-group col">
@@ -395,6 +417,25 @@ function addIndustry() {
     industryWrapper.insertBefore(industryGroup, industryButtonContainer);
 
     industryIndex++;
+}
+
+let whywesIndex = {{ count($row->whywes) }};
+
+function addWhywes() {
+    const whywesWrapper = document.querySelector('.whywes-row');
+
+    const whywesGroup = document.createElement('div');
+    whywesGroup.classList.add('form-group', 'whywes-group', 'col-10', 'mb-2');
+    whywesGroup.innerHTML = `
+        <input type="text" class="form-control mb-1" name="whywes[${whywesIndex}][title]" placeholder="${whywesIndex + 1}. Title">
+        <input type="text" class="form-control mb-1" name="whywes[${whywesIndex}][link]" value="#" placeholder="${whywesIndex + 1}. Link">
+    `;
+
+    // Insert before the last column (button)
+    const whywesButtonContainer = whywesWrapper.querySelector('.col-2');
+    whywesWrapper.insertBefore(whywesGroup, whywesButtonContainer);
+
+    whywesIndex++;
 }
 
 

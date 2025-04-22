@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Industry;
 use App\Models\Processwork;
+use App\Models\Whywe;
 
 class ServiceController extends Controller
 {
@@ -407,6 +408,19 @@ class ServiceController extends Controller
                 ['title' =>  trim($industry['title'])], // Only use title for the match
                 [
                     'link' => trim($industry['link']) ?: null, // Even if empty, set it
+                    'service_id' => $service->id,
+                ]
+            );
+        }
+    }
+    
+    // 
+    if ($request->has('whywes')) {
+        foreach ($request->whywes as $we) {
+            Whywe::updateOrCreate(
+                ['title' =>  trim($we['title'])], // Only use title for the match
+                [
+                    'link' => trim($we['link']) ?: null, // Even if empty, set it
                     'service_id' => $service->id,
                 ]
             );
