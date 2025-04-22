@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Faq;
+use App\Models\Industry;
 use App\Models\Subservice;
 use App\Models\Processwork;
 use Illuminate\Database\Eloquent\Model;
@@ -29,7 +30,11 @@ class Service extends Model
     }
     public function processworks()
     {
-        return $this->hasMany(related: Processwork::class);
+        return $this->hasMany( Processwork::class);
+    }
+    public function industries()
+    {
+        return $this->hasMany( Industry::class);
     }
     public function subservices()
     {

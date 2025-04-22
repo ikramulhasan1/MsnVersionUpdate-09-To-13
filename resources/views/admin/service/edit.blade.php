@@ -190,6 +190,23 @@
                             </div>
                             <br><br>
                         </div>
+                        <hr>
+                       
+                        <h3>Industries Serve</h3>
+                        <div class="row industry-row">
+                       
+                            @foreach ($row->industries as $key => $industry)
+                            <div class="form-group col-9 industry-group mb-2">
+                                {{ $key+1 }}. 
+                                <input type="text" class="form-control mb-1" name="industries[{{ $key }}][title]" value="{{ $industry->title }}" placeholder="{{ $key+1 }}. Title">                                
+                            </div>
+                            @endforeach
+                        
+                            <div class="form-group col-3">
+                                <button class="btn btn-success" type="button" onclick="addIndustry()">{{ __('dashboard.add_another_FAQ') }}</button>
+                            </div>
+                            <br><br>
+                        </div>
                        
                         
                         <div class="row">
@@ -348,6 +365,26 @@ function addProcess() {
     processWrapper.insertBefore(processGroup, processButtonContainer);
 
     processIndex++;
+}
+
+
+
+let industryIndex = {{ count($row->industries) }};
+
+function addIndustry() {
+    const industryWrapper = document.querySelector('.industry-row');
+
+    const industryGroup = document.createElement('div');
+    industryGroup.classList.add('form-group', 'industry-group', 'col-9', 'mb-2');
+    industryGroup.innerHTML = `
+        <input type="text" class="form-control mb-1" name="workprocess[${industryIndex}][title]" placeholder="${industryIndex + 1}. Title">
+    `;
+
+    // Insert before the last column (button)
+    const industryButtonContainer = industryWrapper.querySelector('.col-3');
+    industryWrapper.insertBefore(industryGroup, industryButtonContainer);
+
+    industryIndex++;
 }
 
 

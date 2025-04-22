@@ -11,6 +11,7 @@ use App\Models\FaqCategory;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Industry;
 use App\Models\Processwork;
 
 class ServiceController extends Controller
@@ -398,169 +399,20 @@ class ServiceController extends Controller
             );
         }
     }
+
+    // 
+    if ($request->has('industries')) {
+        foreach ($request->industries as $industry) {
+            Industry::updateOrCreate([
+                'title' => $industry['title'],
+                'service_id' => $service->id,
+            ]);
+        }
+    }
     Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
 
     return redirect()->back();
 }
-
-
-// public function update(Request $request, Service $service)
-// {
-//     // Validation
-//     $request->validate([
-//         'title' => 'required|max:191|unique:services,title,'.$service->id,
-//         'short_title' => 'required|max:30|unique:services,short_title,'.$service->id,
-//         'meta_title' => 'required|max:70',
-//         'keywords' => 'required',
-//         'price' => 'required',
-//         'starting_price' => 'required',
-//         'priceCurrency' => 'required',
-//         'average_rating' => 'required',
-//         'review_count' => 'required',
-//         'short_desc' => 'required',
-//         'description' => 'required',
-//         'image' => 'nullable|image',
-//     ]);
-
-//     // Keywords uniqueness check
-//     $keywords = array_unique(array_map('trim', explode(',', $request->keywords)));
-//     $existing = Service::where('id', '!=', $service->id)->get();
-//     foreach ($existing as $existingService) {
-//         $existingArray = array_map('trim', explode(',', $existingService->keywords));
-//         if (count(array_intersect($existingArray, $keywords)) > 0) {
-//             return back()->withErrors(['keywords' => 'Some keywords already exist. Please use unique tags.']);
-//         }
-//     }
-
-//     // Upload main service image
-//     if($request->hasFile('image')){
-//         $file_path = public_path('uploads/'.$this->path.'/'.$service->image_path);
-//         if(File::isFile($file_path)){
-//             File::delete($file_path);
-//         }
-
-//         $filename = pathinfo($request->file('image')->getClientOriginalName(), PATHINFO_FILENAME);
-//         $fileNameToStore = $filename.'_'.time().'.webp';
-
-//         $path = public_path('uploads/'.$this->path.'/');
-//         if (!File::exists($path)) {
-//             File::makeDirectory($path, 0777, true, true);
-//         }
-
-//         Image::make($request->file('image')->getRealPath())
-//             ->fit(800, 500, function ($constraint) {
-//                 $constraint->upsize();
-//             })
-//             ->encode('webp', 90)
-//             ->save($path.$fileNameToStore);
-//     } else {
-//         $fileNameToStore = $service->image_path;
-//     }
-
-//     // Process description HTML & base64 images
-//     $content = $request->input('description');
-//     $dom = new \DomDocument();
-//     libxml_use_internal_errors(true);
-//     $dom->encoding = 'utf-8';
-//     $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-//     libxml_clear_errors();
-//     $images = $dom->getElementsByTagName('img');
-
-//     foreach($images as $img){
-//         $src = $img->getAttribute('src');
-//         if(preg_match('/data:image/', $src)){
-//             preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-//             $filename = uniqid().'_'.time();
-//             $mimetype = 'webp';
-
-//             $path = public_path('uploads/media/');
-//             if (!File::exists($path)) {
-//                 File::makeDirectory($path, 0777, true, true);
-//             }
-
-//             $filepath = "/uploads/media/$filename.$mimetype";
-//             Image::make($src)
-//                 ->resize(800, null, function ($constraint) {
-//                     $constraint->aspectRatio();
-//                     $constraint->upsize();
-//                 })
-//                 ->encode('webp', 90)
-//                 ->save(public_path($filepath));
-
-//             $new_src = asset($filepath);
-//             $img->removeAttribute('src');
-//             $img->setAttribute('src', $new_src);
-//         }
-//     }
-
-//     // Save service
-//     $slugSource = $request->slug ?? $request->title;
-//     $service->update([
-//         'title' => $request->title,
-//         'short_title' => $request->short_title,
-//         'meta_title' => $request->meta_title,
-//         'keywords' => $request->keywords,
-//         'price' => $request->price,
-//         'starting_price' => $request->starting_price,
-//         'priceCurrency' => $request->priceCurrency,
-//         'average_rating' => $request->average_rating,
-//         'review_count' => $request->review_count,
-//         'slug' => Str::slug(strtolower($slugSource), '-'),
-//         'short_desc' => $request->short_desc,
-//         'description' => $dom->saveHTML(),
-//         'image_path' => $fileNameToStore,
-//         'manu' => $request->manu,
-//         'status' => $request->status,
-//     ]);
-
-//     // FAQs Update
-//     if ($request->has('faqs')) {
-//         foreach ($request->faqs as $faq) {
-//             Faq::updateOrCreate([
-//                 'category_id' => $faq['category_id'],
-//                 'type' => $request->type,
-//                 'title' => $faq['title'],
-//                 'description' => $faq['description'],
-//                 'service_id' => $service->id,
-//             ]);
-//         }
-//     }
-
-//     // Workprocess Update with image2 upload
-//     if ($request->has('workprocess')) {
-//         foreach ($request->workprocess as $index => $process) {
-//             $processImageName = null;
-
-//             // Check if file exists in input
-//             if ($request->hasFile("workprocess.$index.process_image")) {
-//                 $file = $request->file("workprocess.$index.process_image");
-//                 $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-//                 $processImageName = $filename.'_'.time().'.webp';
-
-//                 $path = public_path('uploads/process/');
-//                 if (!File::exists($path)) {
-//                     File::makeDirectory($path, 0777, true, true);
-//                 }
-
-//                 Image::make($file->getRealPath())
-//                     ->resize(800, null, function ($constraint) {
-//                         $constraint->aspectRatio();
-//                         $constraint->upsize();
-//                     })
-//                     ->encode('webp', 90)
-//                     ->save($path.$processImageName);
-//             }
-
-//             Processwork::updateOrCreate(
-//                 ['title' => $process['title'], 'service_id' => $service->id],
-//                 ['description' => $process['description'], 'image_path' => $processImageName ?? null,]
-//             );
-//         }
-//     }
-
-//     Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
-//     return redirect()->back();
-// }
 
     public function destroy(Service $service)
     {
