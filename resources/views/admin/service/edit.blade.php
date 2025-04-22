@@ -174,13 +174,17 @@
                         <div class="row process-row">
                        
                             @foreach ($row->processworks as $key => $process)
-                            <div class="form-group col-9 faq-group mb-2">
-                                {{ $key+1 }}. 
-                                <input type="text" class="form-control mb-1" name="workprocess[{{ $key }}][title]" value="{{ $process->title }}" placeholder="{{ $key+1 }}. Title">
-                                <input type="text" class="form-control mb-1" name="workprocess[{{ $key }}][description]" value="{{ $process->description }}" placeholder="{{ $key+1 }}. Description">
-                                <div class="d-flex">
-                                    <input type="file" class="form-control mb-1 mr-3 w-75" name="workprocess[{{ $key }}][process_image]">
-                                <img style="width: 40px; height: 40px;" src="{{ asset('uploads/process/' . $process->image_path) }}" class="process-step-icon" alt="">
+                            <div class="form-group col-9 faq-group mb-2 row">
+                                <div class="col-1">
+                                    {{ $key+1 }}. 
+                                </div>
+                                <div class="col-11">
+                                    <input type="text" class="form-control mb-1" name="workprocess[{{ $key }}][title]" value="{{ $process->title }}" placeholder="{{ $key+1 }}. Title">
+                                    <input type="text" class="form-control mb-1" name="workprocess[{{ $key }}][description]" value="{{ $process->description }}" placeholder="{{ $key+1 }}. Description">
+                                    <div class="d-flex">
+                                        <input type="file" class="form-control mb-1 mr-3 w-75" name="workprocess[{{ $key }}][process_image]">
+                                    <img style="width: 40px; height: 40px;" src="{{ asset('uploads/process/' . $process->image_path) }}" class="process-step-icon" alt="">
+                                    </div>
                                 </div>
                             </div>
                             @endforeach
@@ -196,9 +200,13 @@
                         <div class="row industry-row">
                        
                             @foreach ($row->industries as $key => $industry)
-                            <div class="form-group col-9 industry-group mb-2">
-                                {{ $key+1 }}. 
-                                <input type="text" class="form-control mb-1" name="industries[{{ $key }}][title]" value="{{ $industry->title }}" placeholder="{{ $key+1 }}. Title">                                
+                            <div class="form-group col-9 industry-group mb-2 row">
+                                <div class="col-1">
+                                    {{ $key+1 }}.
+                                </div> 
+                                <div class="col-11">
+                                    <input type="text" class="form-control mb-1" name="industries[{{ $key }}][title]" value="{{ $industry->title }}" placeholder="{{ $key+1 }}. Title">                                
+                                </div>
                             </div>
                             @endforeach
                         
