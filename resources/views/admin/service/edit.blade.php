@@ -387,7 +387,7 @@ function addIndustry() {
     industryGroup.classList.add('form-group', 'industry-group', 'col-10', 'mb-2');
     industryGroup.innerHTML = `
         <input type="text" class="form-control mb-1" name="industries[${industryIndex}][title]" placeholder="${industryIndex + 1}. Title">
-        <input type="text" class="form-control mb-1" name="industries[${industryIndex}][link]" value="#" placeholder="${industryIndex + 1}. Link">
+        <input type="text" class="form-control mb-1" name="industries[${industryIndex}][link]" value="" placeholder="${industryIndex + 1}. Link">
     `;
 
     // Insert before the last column (button)
