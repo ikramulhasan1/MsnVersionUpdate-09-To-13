@@ -146,7 +146,7 @@
                         <div class="row faq-row">
                        
                             @foreach ($row->faqs as $key => $faq)
-                            <div class="form-group col-9 faq-group mb-2 row">
+                            <div class="form-group col-10 faq-group mb-2 row">
                                 <div class="col-1">
                                     {{ $key+1 }}. 
                                 </div>
@@ -163,7 +163,7 @@
                             </div>
                             @endforeach
                         
-                            <div class="form-group col-3">
+                            <div class="form-group col-2">
                                 <button class="btn btn-success" type="button" onclick="addFaq()">{{ __('dashboard.add_another_FAQ') }}</button>
                             </div>
                             <br><br>
