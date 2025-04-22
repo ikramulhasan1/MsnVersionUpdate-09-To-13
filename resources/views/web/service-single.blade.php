@@ -512,7 +512,7 @@ $header = \App\Models\PageSetup::page('services');
                         <ul class="">
                           @foreach($service->whywes as $we)
                           <div class="d-flex align-items-center mb-2">
-                            <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; " src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
+                            <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; " src="{{ asset('uploads/whywe/checkmark.png') }}" alt="" srcset="">
                             <li style="font-size: 16px; color: {{ $we->link ? '#28a745' : '#333333' }};">
                               @if($we->link)
                                   <a target="_blank" style="font-size: 16px; color: #28a745;" href="{{ $we->link }}">{{ $we->title }}</a>
