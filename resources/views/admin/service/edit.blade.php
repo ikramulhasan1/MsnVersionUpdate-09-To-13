@@ -203,7 +203,7 @@
                             @endforeach
                         
                             <div class="form-group col-3">
-                                <button class="btn btn-success" type="button" onclick="addIndustry()">{{ __('dashboard.industries') }}</button>
+                                <button class="btn btn-success" type="button" onclick="addIndustry()">{{ __('dashboard.industry') }}</button>
                             </div>
                             <br><br>
                         </div>
