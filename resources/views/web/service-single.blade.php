@@ -494,7 +494,7 @@ $header = \App\Models\PageSetup::page('services');
                           @foreach($service->industries as $industry)
                           <div class="d-flex align-items-center mb-2">
                             <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; " src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
-                            <li style="font-size: 16px; color: {{ $industry->link ? '#28a745' : '#333333' }};">
+                            <li style="font-size: 16px; color: {{ $industry->link ? '#28a745 !important' : '#333333' }};">
                               @if($industry->link)
                                   <a href="{{ $industry->link }}">{{ $industry->title }}</a>
                               @else
