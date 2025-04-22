@@ -489,8 +489,8 @@ $header = \App\Models\PageSetup::page('services');
             <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
                 <aside class="sidebar services-sidebar">
 
-                    <div style="background-color: #F9FAFC" class="sidebar-widget sidebar-blog-category p-4">
-                        <h5 class="mb-4" style="font-weight: 700">Industries We Serve</h5>
+                    <div style="background-color: #F9FAFC" class="sidebar-widget sidebar-blog-category p-4 mb-4">
+                        <h5 class="mb-3 text-center" style="font-weight: 700">Industries We Serve</h5>
                         <ul class="">
                           @foreach($service->industries as $industry)
                           <div class="d-flex align-items-center mb-2">
@@ -500,6 +500,24 @@ $header = \App\Models\PageSetup::page('services');
                                   <a target="_blank" style="font-size: 16px; color: #28a745;" href="{{ $industry->link }}">{{ $industry->title }}</a>
                               @else
                                   {{ $industry->title }}
+                              @endif
+                            </li>                            
+                          </div>
+                          @endforeach
+                        </ul>
+                    </div>
+
+                    <div style="background-color: #F9FAFC" class="sidebar-widget sidebar-blog-category p-4 mb-4">
+                        <h5 class="mb-3 text-center" style="font-weight: 700">Why Choose MSN Softtech</h5>
+                        <ul class="">
+                          @foreach($service->whywes as $we)
+                          <div class="d-flex align-items-center mb-2">
+                            <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; " src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
+                            <li style="font-size: 16px; color: {{ $we->link ? '#28a745' : '#333333' }};">
+                              @if($we->link)
+                                  <a target="_blank" style="font-size: 16px; color: #28a745;" href="{{ $we->link }}">{{ $we->title }}</a>
+                              @else
+                                  {{ $we->title }}
                               @endif
                             </li>                            
                           </div>
