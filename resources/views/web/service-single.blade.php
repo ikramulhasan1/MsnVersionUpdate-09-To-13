@@ -492,11 +492,11 @@ $header = \App\Models\PageSetup::page('services');
 
                     <!--Service Category Widget-->
                     <div class="sidebar-widget sidebar-blog-category">
-                        <ul class="blog-cat">
+                        <ul class="">
                             @foreach($service_lists as $service_list)
-                            <div class="d-f">
-                              <img style="width: 15px; height: 15px;" src="{{ asset('uploads/industry/tick-inside-circle.png') }}" alt="" srcset="">
-                            <li class="@if($service_list->id == $service->id) active @endif"><a href="{{ route('service.single', $service_list->slug) }}">{!! str_limit(strip_tags($service_list->short_title), 60, ' ...') !!}</a></li>
+                            <div class="d-flex">
+                              <img style="width: 15px; height: 15px; margin: 0px; margin-right: 3px; " src="{{ asset('uploads/industry/tick-inside-circle.png') }}" alt="" srcset="">
+                              <li class="@if($service_list->id == $service->id) active @endif"><a href="{{ route('service.single', $service_list->slug) }}">{!! str_limit(strip_tags($service_list->short_title), 60, ' ...') !!}</a></li>
                             </div>
                             @endforeach
                         </ul>
