@@ -488,7 +488,7 @@ $header = \App\Models\PageSetup::page('services');
         <div class="row clearfix mb-5 mx-5">
             <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
                 <aside class="sidebar services-sidebar">
-
+                  @if ($service->industries->count() > 0)
                     <div style="background-color: #F9FAFC" class="sidebar-widget sidebar-blog-category p-4 mb-4">
                         <h5 class="mb-3 text-center" style="font-weight: 700">Industries We Serve</h5>
                         <ul class="">
@@ -506,7 +506,8 @@ $header = \App\Models\PageSetup::page('services');
                           @endforeach
                         </ul>
                     </div>
-
+                  @endif
+                  @if ($service->whywes->count() > 0)
                     <div style="background-color: #F9FAFC" class="sidebar-widget sidebar-blog-category p-4 mb-4">
                         <h5 class="mb-3 text-center" style="font-weight: 700">Why Choose MSN Softtech</h5>
                         <ul class="">
@@ -524,7 +525,7 @@ $header = \App\Models\PageSetup::page('services');
                           @endforeach
                         </ul>
                     </div>
-
+                  @endif
                 </aside>
             </div>
 
