@@ -355,44 +355,89 @@ class ServiceController extends Controller
     }
     
 
-   // Workprocess Update with image2 upload
-   if ($request->has('workprocess')) {
-    foreach ($request->workprocess as $index => $process) {
-        $processImageName = null;
+    // // Workprocess Update with image2 upload
+    // if ($request->has('workprocess')) {
+    //     foreach ($request->workprocess as $index => $process) {
+    //         $processImageName = null;
 
-        // Check if file exists in input
-        if ($request->hasFile("workprocess.$index.process_image")) {
-            $file = $request->file("workprocess.$index.process_image");
-            $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $processImageName = $filename.'_'.time().'.webp';
+    //         // Check if file exists in input
+    //         if ($request->hasFile("workprocess.$index.process_image")) {
+    //             $file = $request->file("workprocess.$index.process_image");
+    //             $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+    //             $processImageName = $filename.'_'.time().'.webp';
 
-            $path = public_path('uploads/process/');
-            if (!File::exists($path)) {
-                File::makeDirectory($path, 0777, true, true);
+    //             $path = public_path('uploads/process/');
+    //             if (!File::exists($path)) {
+    //                 File::makeDirectory($path, 0777, true, true);
+    //             }
+
+    //             Image::make($file->getRealPath())
+    //                 ->resize(100, 100, function ($constraint) {
+    //                     $constraint->aspectRatio();
+    //                     $constraint->upsize();
+    //                 })
+    //                 ->encode('webp', 90)
+    //                 ->save($path.$processImageName);
+    //         }
+    //         // Check if record exists
+    //         $existing = Processwork::where('title', $process['title'])
+    //         ->where('service_id', $service->id)
+    //         ->first();
+
+    //         // Use existing image if no new image is uploaded
+    //         $finalImagePath = $processImageName ?? ($existing->image_path ?? null);
+
+    //         Processwork::updateOrCreate(
+    //             ['title' => $process['title'], 'service_id' => $service->id],
+    //             ['description' => $process['description'], 'image_path' => $finalImagePath ]
+    //         );
+    //     }
+    // }
+
+    if ($request->has('workprocess')) {
+        foreach ($request->workprocess as $index => $process) {
+            $processImageName = null;
+    
+            // Check if record already exists
+            $existing = Processwork::where('title', $process['title'])
+                ->where('service_id', $service->id)
+                ->first();
+    
+            // Check if new image uploaded
+            if ($request->hasFile("workprocess.$index.process_image")) {
+                $file = $request->file("workprocess.$index.process_image");
+                $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $processImageName = $filename.'_'.time().'.webp';
+    
+                $path = public_path('uploads/process/');
+                if (!File::exists($path)) {
+                    File::makeDirectory($path, 0777, true, true);
+                }
+    
+                // Delete old image if exists
+                if ($existing && $existing->image_path && File::exists($path . $existing->image_path)) {
+                    File::delete($path . $existing->image_path);
+                }
+    
+                // Save new image
+                Image::make($file->getRealPath())
+                    ->resize(100, 100, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    })
+                    ->encode('webp', 90)
+                    ->save($path . $processImageName);
             }
-
-            Image::make($file->getRealPath())
-                ->resize(50, 50, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                })
-                ->encode('webp', 90)
-                ->save($path.$processImageName);
+    
+            // Use new image or retain existing
+            $finalImagePath = $processImageName ?? ($existing->image_path ?? null);
+    
+            Processwork::updateOrCreate(
+                ['title' => $process['title'], 'service_id' => $service->id],
+                ['description' => $process['description'], 'image_path' => $finalImagePath]
+            );
         }
-        // Check if record exists
-        $existing = Processwork::where('title', $process['title'])
-        ->where('service_id', $service->id)
-        ->first();
-
-        // Use existing image if no new image is uploaded
-        $finalImagePath = $processImageName ?? ($existing->image_path ?? null);
-
-        Processwork::updateOrCreate(
-            ['title' => $process['title'], 'service_id' => $service->id],
-            ['description' => $process['description'], 'image_path' => $finalImagePath ]
-        );
     }
-}
     Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
 
     return redirect()->back();
