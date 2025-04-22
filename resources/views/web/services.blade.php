@@ -103,7 +103,7 @@ $section_services = \App\Models\Section::section('services');
 @endphp
 @if(count($services) > 0 && isset($section_services))
 <!-- Services Section -->
-<section style="background-color: #F7FFF9" class="services-section style-four">
+<section style="background-color: #F9FAFC" class="services-section style-four">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -146,7 +146,7 @@ $section_process = \App\Models\Section::section('process');
 @endphp
 @if(count($processes) > 0 && isset($section_process))
 <!--Feautred Section -->
-<section style="background-color: #F7FFF9" class="feautred-section style-two">
+<section style="background-color: #F9FAFC" class="feautred-section style-two">
     <div class="container">
         <div class="row">
             <div class="col-12">
