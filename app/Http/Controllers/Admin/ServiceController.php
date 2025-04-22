@@ -354,46 +354,6 @@ class ServiceController extends Controller
         }
     }
     
-
-    // // Workprocess Update with image2 upload
-    // if ($request->has('workprocess')) {
-    //     foreach ($request->workprocess as $index => $process) {
-    //         $processImageName = null;
-
-    //         // Check if file exists in input
-    //         if ($request->hasFile("workprocess.$index.process_image")) {
-    //             $file = $request->file("workprocess.$index.process_image");
-    //             $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-    //             $processImageName = $filename.'_'.time().'.webp';
-
-    //             $path = public_path('uploads/process/');
-    //             if (!File::exists($path)) {
-    //                 File::makeDirectory($path, 0777, true, true);
-    //             }
-
-    //             Image::make($file->getRealPath())
-    //                 ->resize(100, 100, function ($constraint) {
-    //                     $constraint->aspectRatio();
-    //                     $constraint->upsize();
-    //                 })
-    //                 ->encode('webp', 90)
-    //                 ->save($path.$processImageName);
-    //         }
-    //         // Check if record exists
-    //         $existing = Processwork::where('title', $process['title'])
-    //         ->where('service_id', $service->id)
-    //         ->first();
-
-    //         // Use existing image if no new image is uploaded
-    //         $finalImagePath = $processImageName ?? ($existing->image_path ?? null);
-
-    //         Processwork::updateOrCreate(
-    //             ['title' => $process['title'], 'service_id' => $service->id],
-    //             ['description' => $process['description'], 'image_path' => $finalImagePath ]
-    //         );
-    //     }
-    // }
-
     if ($request->has('workprocess')) {
         foreach ($request->workprocess as $index => $process) {
             $processImageName = null;
