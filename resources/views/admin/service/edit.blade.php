@@ -174,7 +174,7 @@
                         <div class="row process-row">
                        
                             @foreach ($row->processworks as $key => $process)
-                            <div class="form-group col-9 faq-group mb-2 row">
+                            <div class="form-group col-10 faq-group mb-2 row">
                                 <div class="col-1">
                                     {{ $key+1 }}. 
                                 </div>
@@ -189,7 +189,7 @@
                             </div>
                             @endforeach
                         
-                            <div class="form-group col-3">
+                            <div class="form-group col-2">
                                 <button class="btn btn-success" type="button" onclick="addProcess()">{{ __('dashboard.add_work_process') }}</button>
                             </div>
                             <br><br>
@@ -200,7 +200,7 @@
                         <div class="row industry-row">
                        
                             @foreach ($row->industries as $key => $industry)
-                            <div class="form-group col-9 industry-group mb-2 row">
+                            <div class="form-group col-10 industry-group mb-2 row">
                                 <div class="col-1">
                                     {{ $key+1 }}.
                                 </div> 
@@ -210,7 +210,7 @@
                             </div>
                             @endforeach
                         
-                            <div class="form-group col-3">
+                            <div class="form-group col-2">
                                 <button class="btn btn-success" type="button" onclick="addIndustry()">{{ __('dashboard.industry') }}</button>
                             </div>
                             <br><br>
