@@ -405,6 +405,7 @@ class ServiceController extends Controller
         foreach ($request->industries as $industry) {
             Industry::updateOrCreate([
                 'title' => $industry['title'],
+                'link' => $industry['link'],
                 'service_id' => $service->id,
             ]);
         }

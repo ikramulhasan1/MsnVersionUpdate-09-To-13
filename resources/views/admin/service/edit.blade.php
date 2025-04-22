@@ -206,6 +206,7 @@
                                 </div> 
                                 <div class="col-11">
                                     <input type="text" class="form-control mb-1" name="industries[{{ $key }}][title]" value="{{ $industry->title }}" placeholder="{{ $key+1 }}. Title">                                
+                                    <input type="text" class="form-control mb-1" name="industries[{{ $key }}][link]" value="{{ $industry->link }}" placeholder="{{ $key+1 }}. Link">                                
                                 </div>
                             </div>
                             @endforeach
@@ -386,6 +387,7 @@ function addIndustry() {
     industryGroup.classList.add('form-group', 'industry-group', 'col-10', 'mb-2');
     industryGroup.innerHTML = `
         <input type="text" class="form-control mb-1" name="industries[${industryIndex}][title]" placeholder="${industryIndex + 1}. Title">
+        <input type="text" class="form-control mb-1" name="industries[${industryIndex}][link]" placeholder="${industryIndex + 1}. Link">
     `;
 
     // Insert before the last column (button)
