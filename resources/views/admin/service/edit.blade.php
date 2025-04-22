@@ -226,14 +226,14 @@
                                 <div class="col-1">
                                     {{ $key+1 }}.
                                 </div> 
-                                <div class="col-9">
+                                <div class="col-8">
                                     <input type="text" class="form-control mb-1" name="whywes[{{ $key }}][title]" value="{{ $we->title }}" placeholder="{{ $key+1 }}. Title" required>                                
                                     <input type="text" class="form-control mb-1" name="whywes[{{ $key }}][link]" value="{{ $we->link }}" placeholder="{{ $key+1 }}. Link">                                
                                 </div>
                                 <div class="col-1">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="removeWhyWe(this)">✕</button>
                                 </div>
-                                <div class="col-1">
+                                <div class="col-2">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="deleteWhyWe({{ $we->id }})">🗑️ Delete</button>
                                 </div>
                             </div>
