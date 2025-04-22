@@ -233,7 +233,7 @@
                                 <div class="col-1">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="removeWhyWe(this)">✕</button>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-1">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="deleteWhyWe({{ $we->id }})">🗑️ Delete</button>
                                 </div>
                             </div>
