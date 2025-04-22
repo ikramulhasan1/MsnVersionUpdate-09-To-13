@@ -490,7 +490,7 @@ $header = \App\Models\PageSetup::page('services');
                 <aside class="sidebar services-sidebar">
 
                     <div style="background-color: #F9FAFC" class="sidebar-widget sidebar-blog-category p-4">
-                      <h4 class="text-center mb-3" style="font-weight: 700" >Industries We Serve</h4>  
+                      <h5 class="text-center mb-3" style="font-weight: 700" >Industries We Serve</h5>  
                       <ul class="">
                             @foreach($service->industries as $industry)
                             <div class="d-flex align-items-center mb-2">
