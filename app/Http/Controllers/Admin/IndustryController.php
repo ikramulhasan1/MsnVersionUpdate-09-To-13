@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Industry;
 use Illuminate\Http\Request;
 
 class IndustryController extends Controller
@@ -80,6 +81,11 @@ class IndustryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $industry = Industry::find($id);
+        if ($industry) {
+            $industry->delete();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false], 404);
     }
 }

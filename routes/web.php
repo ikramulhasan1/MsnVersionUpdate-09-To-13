@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\IndustryController;
 use App\Http\Controllers\Admin\MeetingGetController;
 use App\Http\Controllers\Web\MeetingController;
 use App\Http\Controllers\Admin\RedirectUrlController;
@@ -94,6 +95,7 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
     Route::resource('meetinggets', MeetingGetController::class);
 
     Route::resource('whywes', WhyweController::class);
+    Route::resource('industries', IndustryController::class);
     Route::resource('redirects', RedirectUrlController::class);
     // Route to handle redirection logic
     Route::get('/redirect', [RedirectUrlController::class, 'redirect'])->name('redirect.process');

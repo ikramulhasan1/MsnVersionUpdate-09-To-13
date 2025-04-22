@@ -204,9 +204,15 @@
                                 <div class="col-1">
                                     {{ $key+1 }}.
                                 </div> 
-                                <div class="col-11">
+                                <div class="col-8">
                                     <input type="text" class="form-control mb-1" name="industries[{{ $key }}][title]" value="{{ $industry->title }}" placeholder="{{ $key+1 }}. Title" required>                                
                                     <input type="text" class="form-control mb-1" name="industries[{{ $key }}][link]" value="{{ $industry->link }}" placeholder="{{ $key+1 }}. Link">                                
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="removeIndustry(this)">✕</button>
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteIndustry({{ $industry->id }})">🗑️ Delete</button>
                                 </div>
                             </div>
                             @endforeach
@@ -400,6 +406,41 @@ function addIndustry() {
     industryIndex++;
 }
 
+
+function removeIndustry(button) {
+    const row = button.closest('.industry-group');
+    if (row) {
+        row.remove();
+    }
+}
+
+const csrfToken = '{{ csrf_token() }}';
+
+function deleteIndustry(id) {
+    if (!confirm('Are you sure you want to delete this item permanently?')) return;
+
+    fetch(`/admin/industries/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json'
+        }
+    }).then(response => response.json())
+      .then(data => {
+        if (data.success) {
+            document.getElementById(`industry-${id}`).remove();
+        } else {
+            alert('Failed to delete.');
+        }
+    }).catch(error => {
+        alert('Error occurred.');
+        console.error(error);
+    });
+}
+
+
+
+// 
 let whywesIndex = {{ count($row->whywes) }};
 
 function addWhywes() {
@@ -426,7 +467,7 @@ function removeWhyWe(button) {
     }
 }
 
-    const csrfToken = '{{ csrf_token() }}';
+// const csrfToken = '{{ csrf_token() }}';
 
 function deleteWhyWe(id) {
     if (!confirm('Are you sure you want to delete this item permanently?')) return;
