@@ -490,14 +490,13 @@ $header = \App\Models\PageSetup::page('services');
                 <aside class="sidebar services-sidebar">
 
                     <div style="background-color: #F9FAFC" class="sidebar-widget sidebar-blog-category p-4">
-                      <h5 class="text-center mb-3" style="font-weight: 700" >Industries We Serve</h5>  
-                      <ul class="">
-                            @foreach($service->industries as $industry)
-                            <div class="d-flex align-items-center mb-2">
-                              <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; " src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
-                              <li style="font-size: 16px; color: #333333;">{{ $industry->title }}</li>                            
-                            </div>
-                            @endforeach
+                        <ul class="">
+                          @foreach($service->industries as $industry)
+                          <div class="d-flex align-items-center mb-2">
+                            <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; " src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
+                            <li style="font-size: 16px; color: #333333;"><a href="{{ $industry->link }}">{{ $industry->title }}</a></li>                            
+                          </div>
+                          @endforeach
                         </ul>
                     </div>
 
