@@ -409,7 +409,7 @@ function addIndustry() {
     industryGroup.classList.add('form-group', 'industry-group', 'col-10', 'mb-2');
     industryGroup.innerHTML = `
         <input type="text" class="form-control mb-1" name="industries[${industryIndex}][title]" placeholder="${industryIndex + 1}. Title">
-        <input type="text" class="form-control mb-1" name="industries[${industryIndex}][link]" value="#" placeholder="${industryIndex + 1}. Link">
+        <input type="text" class="form-control mb-1" name="industries[${industryIndex}][link]" placeholder="${industryIndex + 1}. Link">
     `;
 
     // Insert before the last column (button)
@@ -428,7 +428,7 @@ function addWhywes() {
     whywesGroup.classList.add('form-group', 'whywes-group', 'col-10', 'mb-2');
     whywesGroup.innerHTML = `
         <input type="text" class="form-control mb-1" name="whywes[${whywesIndex}][title]" placeholder="${whywesIndex + 1}. Title">
-        <input type="text" class="form-control mb-1" name="whywes[${whywesIndex}][link]" value="#" placeholder="${whywesIndex + 1}. Link">
+        <input type="text" class="form-control mb-1" name="whywes[${whywesIndex}][link]" placeholder="${whywesIndex + 1}. Link">
     `;
 
     // Insert before the last column (button)
