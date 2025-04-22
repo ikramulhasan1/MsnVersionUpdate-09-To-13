@@ -222,7 +222,7 @@
                         <h3>Why We</h3>
                         <div class="row whywes-row">
                             @foreach ($row->whywes as $key => $we)
-                            <div class="form-group col-10 whywes-group mb-2 row">
+                            <div class="form-group col-10 whywes-group mb-2 row align-items-center" id="whywes-{{ $we->id }}">
                                 <div class="col-1">
                                     {{ $key+1 }}.
                                 </div> 
