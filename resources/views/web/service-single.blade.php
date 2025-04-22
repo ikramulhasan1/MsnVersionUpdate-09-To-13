@@ -491,7 +491,7 @@ $header = \App\Models\PageSetup::page('services');
 
                     <div style="background-color: #F9FAFC" class="sidebar-widget sidebar-blog-category p-4">
                         <ul class="">
-                            @foreach($industries as $industry)
+                            @foreach($industries->industries as $industry)
                             <div class="d-flex align-items-center mb-2">
                               <img style="width: 15px; height: 15px; margin: 0px; margin-right: 5px; " src="{{ asset('uploads/industry/tick-inside-circle.png') }}" alt="" srcset="">
                               <li class="">{{ $industry->title }}</li>
