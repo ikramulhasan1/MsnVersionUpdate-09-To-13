@@ -486,16 +486,14 @@ $header = \App\Models\PageSetup::page('services');
 <div style="background-color: #ffffff" class="sidebar-page-container">
     <div >
         <div class="row clearfix mb-5 mx-5">
-            <!--Sidebar Side-->
-            <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+            <div style="background-color: #F9FAFC" class="sidebar-side col-lg-4 col-md-12 col-sm-12">
                 <aside class="sidebar services-sidebar">
 
-                    <!--Service Category Widget-->
                     <div class="sidebar-widget sidebar-blog-category">
                         <ul class="">
                             @foreach($service_lists as $service_list)
                             <div class="d-flex align-items-center mb-2">
-                              <img style="width: 15px; height: 15px; margin: 0px; margin-right: 3px; " src="{{ asset('uploads/industry/tick-inside-circle.png') }}" alt="" srcset="">
+                              <img style="width: 15px; height: 15px; margin: 0px; margin-right: 5px; " src="{{ asset('uploads/industry/tick-inside-circle.png') }}" alt="" srcset="">
                               <li class="@if($service_list->id == $service->id) active @endif"><a href="{{ route('service.single', $service_list->slug) }}">{!! str_limit(strip_tags($service_list->short_title), 60, ' ...') !!}</a></li>
                             </div>
                             @endforeach
