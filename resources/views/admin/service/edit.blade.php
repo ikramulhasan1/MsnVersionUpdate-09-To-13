@@ -334,7 +334,7 @@ function addFaq() {
     const wrapper = document.querySelector('.faq-row');
 
     const group = document.createElement('div');
-    group.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
+    group.classList.add('form-group', 'faq-group', 'col-10', 'mb-2');
     group.innerHTML = `
         <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question" required>
         <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer" required>
@@ -345,7 +345,7 @@ function addFaq() {
     `;
 
     // Insert before the last column (button)
-    const buttonContainer = wrapper.querySelector('.col-3');
+    const buttonContainer = wrapper.querySelector('.col-2');
     wrapper.insertBefore(group, buttonContainer);
 
     faqIndex++;
@@ -361,7 +361,7 @@ function addProcess() {
     const processWrapper = document.querySelector('.process-row');
 
     const processGroup = document.createElement('div');
-    processGroup.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
+    processGroup.classList.add('form-group', 'faq-group', 'col-10', 'mb-2');
     processGroup.innerHTML = `
         <input type="text" class="form-control mb-1" name="workprocess[${processIndex}][title]" placeholder="${processIndex + 1}. Title">
         <input type="text" class="form-control mb-1" name="workprocess[${processIndex}][description]" placeholder="${processIndex + 1}. Description">
@@ -369,7 +369,7 @@ function addProcess() {
     `;
 
     // Insert before the last column (button)
-    const processButtonContainer = processWrapper.querySelector('.col-3');
+    const processButtonContainer = processWrapper.querySelector('.col-2');
     processWrapper.insertBefore(processGroup, processButtonContainer);
 
     processIndex++;
@@ -383,13 +383,13 @@ function addIndustry() {
     const industryWrapper = document.querySelector('.industry-row');
 
     const industryGroup = document.createElement('div');
-    industryGroup.classList.add('form-group', 'industry-group', 'col-9', 'mb-2');
+    industryGroup.classList.add('form-group', 'industry-group', 'col-10', 'mb-2');
     industryGroup.innerHTML = `
-        <input type="text" class="form-control mb-1" name="workprocess[${industryIndex}][title]" placeholder="${industryIndex + 1}. Title">
+        <input type="text" class="form-control mb-1" name="industries[${industryIndex}][title]" placeholder="${industryIndex + 1}. Title">
     `;
 
     // Insert before the last column (button)
-    const industryButtonContainer = industryWrapper.querySelector('.col-3');
+    const industryButtonContainer = industryWrapper.querySelector('.col-2');
     industryWrapper.insertBefore(industryGroup, industryButtonContainer);
 
     industryIndex++;
