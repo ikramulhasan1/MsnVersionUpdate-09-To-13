@@ -426,13 +426,15 @@ function removeWhyWe(button) {
     }
 }
 
+    const csrfToken = '{{ csrf_token() }}';
+
 function deleteWhyWe(id) {
     if (!confirm('Are you sure you want to delete this item permanently?')) return;
 
     fetch(`/admin/whywes/${id}`, {
         method: 'DELETE',
         headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'X-CSRF-TOKEN': csrfToken,
             'Accept': 'application/json'
         }
     }).then(response => response.json())
