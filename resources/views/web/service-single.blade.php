@@ -496,7 +496,7 @@ $header = \App\Models\PageSetup::page('services');
                             <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; " src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
                             <li style="font-size: 16px; color: {{ $industry->link ? '#28a745' : '#333333' }};">
                               @if($industry->link)
-                                  <a style="font-size: 16px; color: #28a745; font-weight: 700;" href="{{ $industry->link }}">{{ $industry->title }}</a>
+                                  <a style="font-size: 16px; color: #28a745;" href="{{ $industry->link }}">{{ $industry->title }}</a>
                               @else
                                   {{ $industry->title }}
                               @endif
