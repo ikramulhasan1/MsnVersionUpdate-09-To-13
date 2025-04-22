@@ -494,7 +494,7 @@ $header = \App\Models\PageSetup::page('services');
                             @foreach($industry->industries as $item)
                             <div class="d-flex align-items-center mb-2">
                               <img style="width: 15px; height: 15px; margin: 0px; margin-right: 5px; " src="{{ asset('uploads/item/tick-inside-circle.png') }}" alt="" srcset="">
-                              <li class="">{{ $industry->title }}</li>
+                              <li class="">{{ $item->title }}</li>
                             </div>
                             @endforeach
                         </ul>
