@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Whywe;
 use Illuminate\Http\Request;
 
 class WhyweController extends Controller
@@ -80,6 +81,13 @@ class WhyweController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $whywe = Whywe::find($id);
+        if ($whywe) {
+            $whywe->delete();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false], 404);
     }
+    
+    
 }
