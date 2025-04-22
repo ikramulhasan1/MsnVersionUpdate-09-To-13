@@ -178,8 +178,8 @@
                                 {{ $key+1 }}. 
                                 <input type="text" class="form-control mb-1" name="workprocess[{{ $key }}][title]" value="{{ $process->title }}" placeholder="{{ $key+1 }}. Title">
                                 <input type="text" class="form-control mb-1" name="workprocess[{{ $key }}][description]" value="{{ $process->description }}" placeholder="{{ $key+1 }}. Description">
-                                <input type="file" class="form-control mb-1" name="workprocess[{{ $key }}][process_image]">
-                               
+                                <input type="file" class="form-control mb-1 w-50" name="workprocess[{{ $key }}][process_image]">
+                                <img style="width: 50px; height: 50px;" src="{{ asset('uploads/process/' . $process->image_path) }}" class="process-step-icon" alt="">
                             </div>
                             @endforeach
                         
