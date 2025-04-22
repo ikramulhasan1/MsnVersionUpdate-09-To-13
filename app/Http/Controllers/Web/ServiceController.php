@@ -45,7 +45,7 @@ class ServiceController extends Controller
                         ->firstOrFail();
 
         // Service Lists                                
-        $data['service_lists'] = Service::where('status', '1')
+        $data['industries'] = Service::with('industries')->where('status', '1')
                         ->orderBy('id', 'asc')
                         ->get();
 
