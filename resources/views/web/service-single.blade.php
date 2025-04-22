@@ -486,10 +486,10 @@ $header = \App\Models\PageSetup::page('services');
 <div style="background-color: #ffffff" class="sidebar-page-container">
     <div >
         <div class="row clearfix mb-5 mx-5">
-            <div style="background-color: #F9FAFC" class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+            <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
                 <aside class="sidebar services-sidebar">
 
-                    <div class="sidebar-widget sidebar-blog-category">
+                    <div style="background-color: #F9FAFC" class="sidebar-widget sidebar-blog-category">
                         <ul class="">
                             @foreach($service_lists as $service_list)
                             <div class="d-flex align-items-center mb-2">
