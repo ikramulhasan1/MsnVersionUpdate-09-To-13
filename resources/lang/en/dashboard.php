@@ -16,7 +16,7 @@ return array (
   'add_another_FAQ' => '+ Add Another FAQ',
   'faq' => 'FAQ',
   'work_process' => '+ Add Work Process',
-  'industry' => '+ Add Industries',
+  'industry' => '+ Add Industry',
   'send' => 'Send',
   'update' => 'Update',
   'change' => 'Change',
