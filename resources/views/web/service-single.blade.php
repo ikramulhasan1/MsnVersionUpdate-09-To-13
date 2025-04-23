@@ -696,7 +696,7 @@ $header = \App\Models\PageSetup::page('services');
 
         <section class="partner-section">
           <div class="container">
-            <h2>Enterprises, SMEs & Tech Companies Worldwide Trust Us</h2>
+            <h2>Enterprises & Tech Companies Worldwide Trust Us</h2>
             <div class="row gap-2 justify-content-center text-center partner-logos align-items-center">
               <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 90px;">
                 <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/cinepolis.png" class="img-fluid my-1" alt="Cinepolis" />
