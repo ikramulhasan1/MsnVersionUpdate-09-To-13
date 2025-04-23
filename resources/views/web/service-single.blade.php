@@ -418,7 +418,7 @@ $header = \App\Models\PageSetup::page('services');
 
 .partner-section {
       padding: 60px 0;
-      background-color: #F9FAFC;
+      background-color: #F5F7F8;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
