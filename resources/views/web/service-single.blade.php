@@ -699,34 +699,34 @@ $header = \App\Models\PageSetup::page('services');
             <h2>Enterprises, SMEs & Tech Companies Worldwide Trust Us</h2>
             <div class="row gap-2 justify-content-center text-center partner-logos align-items-center">
               <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/cinepolis.png" class="img-fluid" alt="Cinepolis" />
+                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/cinepolis.png" class="img-fluid my-1" alt="Cinepolis" />
               </div>
               <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/outlook.svg" class="img-fluid" alt="Outlook" />
+                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/outlook.svg" class="img-fluid my-1" alt="Outlook" />
               </div>
               <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/thomson-returns.svg" class="img-fluid" alt="Reuters" />
+                <img src="https://www.capitalnumbers.com/images/company-profile/thomson-returns.svg" class="img-fluid my-1" alt="Reuters" />
               </div>
               <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/isha.svg" class="img-fluid" alt="Isha" />
+                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/isha.svg" class="img-fluid my-1" alt="Isha" />
               </div>
               <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/tipalti.svg" class="img-fluid" alt="Tipalti" />
+                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/tipalti.svg" class="img-fluid my-1" alt="Tipalti" />
               </div>
               <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/consumer-reports.svg" class="img-fluid" alt="Consumer Reports" />
+                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/consumer-reports.svg" class="img-fluid my-1" alt="Consumer Reports" />
               </div>
               <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/nana.svg" class="img-fluid" alt="Nana" />
+                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/nana.svg" class="img-fluid my-1" alt="Nana" />
               </div>
               <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/volvo.svg" class="img-fluid" alt="Volvo" />
+                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/volvo.svg" class="img-fluid my-1" alt="Volvo" />
               </div>
               <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/stoneacre.png" class="img-fluid" alt="Stoneacre" />
+                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/stoneacre.png" class="img-fluid my-1" alt="Stoneacre" />
               </div>
               <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/dpd.png" class="img-fluid" alt="DPD" />
+                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/dpd.png" class="img-fluid my-1" alt="DPD" />
               </div>
             </div>
           </div>
