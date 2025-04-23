@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\WorkProcess;
+use App\Models\Client;
 use App\Models\Service;
 use App\Models\Subservice;
 use App\Models\Technology;
+use App\Models\WorkProcess;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ServiceController extends Controller
 {
@@ -48,6 +49,9 @@ class ServiceController extends Controller
         $data['industry'] = Service::with('industries')->where('status', '1')
                         ->orderBy('id', 'asc')
                         ->get();
+         // Clients
+        $data['clients'] = Client::where('status', '1')->orderBy('id', 'desc')->take(10)->get();
+
 
         return view('web.service-single', $data);
     }

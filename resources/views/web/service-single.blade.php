@@ -428,7 +428,7 @@ $header = \App\Models\PageSetup::page('services');
       margin-bottom: 40px;
     }
 
-    .partner-logos img {
+    /* .partner-logos img {
       max-height: 60px;
       object-fit: contain;
       transition: transform 0.3s ease;
@@ -438,7 +438,7 @@ $header = \App\Models\PageSetup::page('services');
     .partner-logos img:hover {
       transform: scale(1.05);
       filter: none;
-    }
+    } */
 
     /* Custom 5-column layout for large screens */
     @media (min-width: 992px) {
@@ -693,45 +693,20 @@ $header = \App\Models\PageSetup::page('services');
               </div>
         </section>
         @endif
-
+        @if(count($clients) > 0)
         <section class="partner-section">
           <div class="container">
             <h2>Enterprises & Tech Companies Worldwide Trust Us</h2>
             <div class="row gap-2 justify-content-center text-center partner-logos align-items-center">
+              @foreach($clients as $client)
               <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 90px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/cinepolis.png" class="img-fluid my-1" alt="Cinepolis" />
+                <img src="{{ asset('uploads/client/'.$client->image_path) }}" alt="{{ $client->title }}" class="img-fluid my-1"/>
               </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 90px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/outlook.svg" class="img-fluid my-1" alt="Outlook" />
-              </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 90px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/thomson-returns.svg" class="img-fluid my-1" alt="Reuters" />
-              </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 90px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/isha.svg" class="img-fluid my-1" alt="Isha" />
-              </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 90px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/tipalti.svg" class="img-fluid my-1" alt="Tipalti" />
-              </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 90px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/consumer-reports.svg" class="img-fluid my-1" alt="Consumer Reports" />
-              </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 90px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/nana.svg" class="img-fluid my-1" alt="Nana" />
-              </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 90px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/volvo.svg" class="img-fluid my-1" alt="Volvo" />
-              </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 90px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/stoneacre.png" class="img-fluid my-1" alt="Stoneacre" />
-              </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 90px;">
-                <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/dpd.png" class="img-fluid my-1" alt="DPD" />
-              </div>
+              @endforeach
             </div>
           </div>
         </section>
-      
+        @endif
 
         <div class="mx-5 mt-5" >
             @if ($service->subservices->count() > 0)
