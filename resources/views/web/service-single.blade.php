@@ -698,34 +698,34 @@ $header = \App\Models\PageSetup::page('services');
           <div class="container">
             <h2>Enterprises, SMEs & Tech Companies Worldwide Trust Us</h2>
             <div class="row gap-2 justify-content-center text-center partner-logos align-items-center">
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-1 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
+              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
                 <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/cinepolis.png" class="img-fluid" alt="Cinepolis" />
               </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-1 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
+              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
                 <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/outlook.svg" class="img-fluid" alt="Outlook" />
               </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-1 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
+              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
                 <img src="https://www.capitalnumbers.com/images/company-profile/thomson-returns.svg" class="img-fluid" alt="Reuters" />
               </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-1 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
+              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
                 <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/isha.svg" class="img-fluid" alt="Isha" />
               </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-1 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
+              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
                 <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/tipalti.svg" class="img-fluid" alt="Tipalti" />
               </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-1 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
+              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
                 <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/consumer-reports.svg" class="img-fluid" alt="Consumer Reports" />
               </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-1 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
+              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
                 <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/nana.svg" class="img-fluid" alt="Nana" />
               </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-1 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
+              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
                 <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/volvo.svg" class="img-fluid" alt="Volvo" />
               </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-1 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
+              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
                 <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/stoneacre.png" class="img-fluid" alt="Stoneacre" />
               </div>
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-1 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
+              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 110px;">
                 <img src="https://www.capitalnumbers.com/images/company-profile/custom-dev/dpd.png" class="img-fluid" alt="DPD" />
               </div>
             </div>
