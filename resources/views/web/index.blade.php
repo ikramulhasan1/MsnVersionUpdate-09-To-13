@@ -123,7 +123,7 @@ $header = \App\Models\PageSetup::page('home');
         <div class="owl-carousel owl-theme">
           @foreach($sliders as $slider)
             <div class="item" style="position: relative;">
-              @if(!empty($slider->video_url))
+              @if(empty($slider->image_path))
                 {{-- VIDEO SLIDE --}}
                 <div class="video-slide" style="position: relative; padding-top: 56.25%; height: 0; overflow: hidden;">
                   <iframe 
