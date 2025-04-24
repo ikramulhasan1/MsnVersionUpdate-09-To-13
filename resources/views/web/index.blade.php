@@ -233,7 +233,7 @@ $header = \App\Models\PageSetup::page('home');
       
               {{-- Foreground Content --}}
               <div class="row w-100 position-relative" style="z-index: 2;">
-                <div class="col-md-8 item-content">
+                <div class="col-md-12 item-content">
                   <div>
                     <h1>{{ $slider->title }}</h1>
                     <p>{!! $slider->description !!}</p>
@@ -256,9 +256,9 @@ $header = \App\Models\PageSetup::page('home');
                   </div>
                 </div>
       
-                <div class="col-md-4 d-flex align-items-center justify-content-center short-item">
+                {{-- <div class="col-md-4 d-flex align-items-center justify-content-center short-item">
                   <button class="btn">Discover</button>
-                </div>
+                </div> --}}
               </div>
             </div>
           @endforeach
