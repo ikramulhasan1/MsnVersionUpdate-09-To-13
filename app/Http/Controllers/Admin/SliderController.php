@@ -138,7 +138,6 @@ class SliderController extends Controller
      */
     public function update(Request $request, Slider $slider)
     {
-        dd(strip_tags($request->description));
         // Field Validation
         $request->validate([
             'title' => 'required|max:191|unique:sliders,title,'.$slider->id,
