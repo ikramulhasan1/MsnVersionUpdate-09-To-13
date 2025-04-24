@@ -129,7 +129,7 @@ $header = \App\Models\PageSetup::page('home');
                 {{-- Video Slide --}}
                 <div class="video-slide" style="position: relative; padding-top: 56.25%; height: 0; overflow: hidden;">
                     <iframe 
-                        src="https://www.youtube.com/embed/{{ $slider->video_id }}?autoplay=1&mute=1&controls=1&rel=0" 
+                        src="https://www.youtube.com/embed/_0MDKIIuvY8?autoplay=1&mute=1&controls=1&rel=0" 
                         frameborder="0" 
                         allow="autoplay; encrypted-media" 
                         allowfullscreen 
