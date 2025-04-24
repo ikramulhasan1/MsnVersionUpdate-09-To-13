@@ -60,30 +60,6 @@ $header = \App\Models\PageSetup::page('home');
 }
 
 
-
-.youtube-bg-video iframe {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .youtube-bg-video {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-  }
-
-  .item {
-    position: relative;
-    min-height: 500px;
-    overflow: hidden;
-  }
 </style>
 {{-- schema  --}}
 @section('schema_markup')
