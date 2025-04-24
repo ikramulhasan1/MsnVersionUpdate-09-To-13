@@ -247,7 +247,7 @@ $header = \App\Models\PageSetup::page('home');
                         {{ __('common.contact_us') }}
                       </a>
                     @endif
-                    <button id="open-modal" class="btn googleMeetBtn" style="margin-top: 10px; position: relative; top: 150px;">Discuss Your Requirements →</button>
+                    <button id="open-modal" class=" googleMeetBtn" style="margin-top: 10px; position: relative; top: 150px;">Discuss Your Requirements →</button>
 
                     @if(isset($slider->link))
                       <a href="{{ $slider->link }}" class="btn" target="_blank" style="margin-top: 10px; position: relative; top: 150px;">

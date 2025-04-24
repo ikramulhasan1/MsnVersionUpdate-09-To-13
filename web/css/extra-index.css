@@ -169,15 +169,17 @@
 
     .googleMeetBtn{
       margin: 1.5rem 0!important;
-      padding: 0.8rem 2rem!important;
       background: #ff5a00!important;
       color: white!important;
       border: none!important;
       border-radius: 6px!important;
-      font-size: 1rem!important;
       font-weight: 600!important;
       cursor: pointer!important;
       transition: background 0.3s ease!important;
+
+      padding: 10px 30px;
+      font-size: 18px;
+      transition: all 0.3s ease;
     }
   
     .googleMeetBtn:hover {
