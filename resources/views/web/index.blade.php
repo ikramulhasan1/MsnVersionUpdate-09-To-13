@@ -123,26 +123,42 @@ $header = \App\Models\PageSetup::page('home');
         <div class="owl-carousel owl-theme">
           @foreach($sliders as $slider)
             <div class="item" style="position: relative;">
-              @if(!empty($slider->image_path))
-               {{-- IMAGE SLIDE --}}
-               <div class="image-slide" style="background-image: url({{ asset('uploads/slider/'.$slider->image_path) }}); background-size: cover; background-position: center; height: 500px;">
-               </div>
-               
-              @else
-                {{-- VIDEO SLIDE --}}
+              
+              {{-- Check if this slide has video --}}
+              @if($slider->video_url)
+                {{-- Video Slide --}}
                 <div class="video-slide" style="position: relative; padding-top: 56.25%; height: 0; overflow: hidden;">
-                    <iframe 
-                      src="{{ $slider->video_url }}?autoplay=1&mute=1&controls=1&rel=0&showinfo=0" 
-                      frameborder="0" 
-                      allow="autoplay; encrypted-media" 
-                      allowfullscreen 
-                      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-                    </iframe>
-                  </div>
+                  <iframe 
+                    src="{{ $slider->video_url }}?autoplay=1&mute=1&controls=1&rel=0" 
+                    frameborder="0" 
+                    allow="autoplay; encrypted-media" 
+                    allowfullscreen 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                  </iframe>
+                </div>
+              @else
+                {{-- Image Slide --}}
+                <div class="image-slide" style="
+                    background-image: url('{{ asset('uploads/slider/'.$slider->image_path) }}');
+                    background-size: cover;
+                    background-position: center;
+                    height: 500px;
+                    width: 100%;
+                  ">
+                </div>
               @endif
       
-              {{-- Content Overlay --}}
-              <div class="slide-overlay-content" style="position: absolute; top: 20%; left: 5%; z-index: 10; color: white;">
+              {{-- Common Slide Content --}}
+              <div class="slide-overlay-content" style="
+                  position: absolute;
+                  top: 20%;
+                  left: 5%;
+                  z-index: 10;
+                  color: white;
+                  background: rgba(0, 0, 0, 0.4);
+                  padding: 20px;
+                  border-radius: 10px;
+                ">
                 <h1>{{ $slider->title }}</h1>
                 <p>{!! $slider->description !!}</p>
       
@@ -155,6 +171,7 @@ $header = \App\Models\PageSetup::page('home');
                   <a href="{{ $slider->link }}" target="_blank" class="btn btn-outline-light mt-2">{{ __('common.services') }}</a>
                 @endif
               </div>
+              
             </div>
           @endforeach
         </div>
