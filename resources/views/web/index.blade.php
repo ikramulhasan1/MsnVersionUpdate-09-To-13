@@ -472,9 +472,8 @@ $section_testimonials = \App\Models\Section::section('testimonials');
 @php
 $section_blog = \App\Models\Section::section('blog');
 @endphp
-@if(count($articles) > 0 && isset($section_blog))
-<!-- News Section -->
-{{-- <section class="news-section"> --}}
+{{-- @if(count($articles) > 0 && isset($section_blog))
+
 <section class="">
     <div class="container">
         <div class="sec-title left text-left">
@@ -539,9 +538,8 @@ $section_blog = \App\Models\Section::section('blog');
         </div>
     </div>
 </section>
-<!--End News Section -->
 @endif
-
+ --}}
 
 @php
 $section_process = \App\Models\Section::section('process');

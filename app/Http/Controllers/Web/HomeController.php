@@ -47,7 +47,7 @@ class HomeController extends Controller
 
         // Services                                
         $data['services'] = Service::where('status', '1')->where('manu','1')
-                            ->orderBy('id', 'asc')
+                            ->orderBy('id', 'asc')->take(6)
                             ->get();
 
         // Portfolio Categories                                
