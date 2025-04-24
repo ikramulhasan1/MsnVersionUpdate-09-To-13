@@ -22,7 +22,7 @@
 
                     <div class="form-group">
                         <label for="description">{{ __('dashboard.description') }}</label>
-                        <textarea class="form-control summernote" name="description" id="description" rows="8">{!! $row->description !!}</textarea>
+                        <textarea class="form-control" name="description" id="editor" rows="8">{!! $row->description !!}</textarea>
                     </div>
 
                     <div class="form-group">
@@ -60,3 +60,24 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+
+    <script>
+         CKEDITOR.replace('editor', {
+        on: {
+            instanceReady: function(ev) {
+                this.dataProcessor.writer.setRules('strong', {
+                    indent: false,
+                    breakBeforeOpen: false,
+                    breakAfterOpen: false,
+                    breakBeforeClose: false,
+                    breakAfterClose: false
+                });
+            }
+        },
+        coreStyles_bold: {
+            element: 'b',
+            overrides: 'strong'
+        } // Converts <strong> to <b>
+    });
+    </script>

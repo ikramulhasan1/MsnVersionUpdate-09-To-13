@@ -151,25 +151,28 @@ $header = \App\Models\PageSetup::page('home');
               {{-- Common Slide Content --}}
               <div class="slide-overlay-content" style="
                   position: absolute;
-                  top: 20%;
-                  left: 5%;
+                  top: 0%;
+                  left: 0%;
+                  height: 600px;
                   z-index: 10;
                   color: white;
                   background: rgba(0, 0, 0, 0.4);
                   padding: 20px;
-                  border-radius: 10px;
+                  border-radius: 0px;
                 ">
-                <h1>{{ $slider->title }}</h1>
-                <p>{!! $slider->description !!}</p>
-      
-                @php $page_contact = \App\Models\PageSetup::page('contact-us'); @endphp
-                @if(isset($page_contact))
-                  <a href="{{ route('contact') }}" class="btn btn-light mt-3">{{ __('common.contact_us') }}</a>
-                @endif
-      
-                @if(isset($slider->link))
-                  <a href="{{ $slider->link }}" target="_blank" class="btn btn-outline-light mt-2">{{ __('common.services') }}</a>
-                @endif
+                <div class="banner-content">
+                    <h1>{{ $slider->title }}</h1>
+                    <p style="color: white !important" >{!! $slider->description !!}</p>
+        
+                    @php $page_contact = \App\Models\PageSetup::page('contact-us'); @endphp
+                    @if(isset($page_contact))
+                    <a href="{{ route('contact') }}" class="btn btn-light mt-3">{{ __('common.contact_us') }}</a>
+                    @endif
+        
+                    @if(isset($slider->link))
+                    <a href="{{ $slider->link }}" target="_blank" class="btn btn-outline-light mt-2">{{ __('common.services') }}</a>
+                    @endif
+                </div>
               </div>
               
             </div>
