@@ -220,7 +220,7 @@ $header = \App\Models\PageSetup::page('services');
   }
 
   .banner-right {
-    flex: 1 1 40%!important;
+    flex: 1 1 35%!important;
     background: #092e45!important;
     border: 2px solid #2df3a5!important;
     border-radius: 12px!important;
