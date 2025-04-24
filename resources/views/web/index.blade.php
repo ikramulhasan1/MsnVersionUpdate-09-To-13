@@ -57,6 +57,9 @@ $header = \App\Models\PageSetup::page('home');
 .item-content p {
   color: white !important;
 }
+.item-content h1 {
+    font-weight: 700
+}
 .video-embed iframe {
   pointer-events: none;
 }
