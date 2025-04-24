@@ -142,7 +142,7 @@ $header = \App\Models\PageSetup::page('home');
                     background-image: url('{{ asset('uploads/slider/'.$slider->image_path) }}');
                     background-size: cover;
                     background-position: center;
-                    height: 500px;
+                    height: 700px;
                     width: 100%;
                   ">
                 </div>
