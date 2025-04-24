@@ -214,14 +214,15 @@ $header = \App\Models\PageSetup::page('home');
               {{-- Background YouTube Video --}}
               @if($slider->media_type === 'video' && $slider->video_id)
                 <div class="video-embed" style="position: absolute; inset: 0; z-index: 0; overflow: hidden;">
-                  <iframe
-                    width="1920px" height="1080px"
-                    src="https://www.youtube.com/embed/{{ $slider->video_id }}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&playlist={{ $slider->video_id }}"
+                    <iframe
+                    width="100%" height="100%"
+                    src="https://www.youtube.com/embed/{{ $slider->video_id }}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&playlist={{ $slider->video_id }}&modestbranding=1&rel=0"
                     frameborder="0"
                     allow="autoplay; encrypted-media"
                     allowfullscreen
-                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; z-index: 0;">
                   </iframe>
+                  
                 </div>
               @endif
       
