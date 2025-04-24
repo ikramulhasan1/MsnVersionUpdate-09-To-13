@@ -123,21 +123,22 @@ $header = \App\Models\PageSetup::page('home');
         <div class="owl-carousel owl-theme">
           @foreach($sliders as $slider)
             <div class="item" style="position: relative;">
-              @if(empty($slider->image_path))
+              @if(!empty($slider->image_path))
+               {{-- IMAGE SLIDE --}}
+               <div class="image-slide" style="background-image: url({{ asset('uploads/slider/'.$slider->image_path) }}); background-size: cover; background-position: center; height: 500px;">
+               </div>
+               
+              @else
                 {{-- VIDEO SLIDE --}}
                 <div class="video-slide" style="position: relative; padding-top: 56.25%; height: 0; overflow: hidden;">
-                  <iframe 
-                    src="{{ $slider->video_url }}?autoplay=1&mute=1&controls=1&rel=0&showinfo=0" 
-                    frameborder="0" 
-                    allow="autoplay; encrypted-media" 
-                    allowfullscreen 
-                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-                  </iframe>
-                </div>
-              @else
-                {{-- IMAGE SLIDE --}}
-                <div class="image-slide" style="background-image: url({{ asset('uploads/slider/'.$slider->image_path) }}); background-size: cover; background-position: center; height: 500px;">
-                </div>
+                    <iframe 
+                      src="{{ $slider->video_url }}?autoplay=1&mute=1&controls=1&rel=0&showinfo=0" 
+                      frameborder="0" 
+                      allow="autoplay; encrypted-media" 
+                      allowfullscreen 
+                      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                    </iframe>
+                  </div>
               @endif
       
               {{-- Content Overlay --}}
