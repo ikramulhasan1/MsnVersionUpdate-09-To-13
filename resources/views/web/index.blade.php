@@ -215,7 +215,7 @@ $header = \App\Models\PageSetup::page('home');
               @if($slider->media_type === 'video' && $slider->video_id)
                 <div class="video-embed" style="position: absolute; inset: 0; z-index: 0; overflow: hidden;">
                   <iframe
-                    width="100%" height="100%"
+                    width="1920px" height="1080px"
                     src="https://www.youtube.com/embed/{{ $slider->video_id }}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&playlist={{ $slider->video_id }}"
                     frameborder="0"
                     allow="autoplay; encrypted-media"
