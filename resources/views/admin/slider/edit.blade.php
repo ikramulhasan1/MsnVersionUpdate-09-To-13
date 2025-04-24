@@ -22,7 +22,7 @@
 
                     <div class="form-group">
                         <label for="description">{{ __('dashboard.description') }}</label>
-                        <div class="form-control summernote" name="description" id="description" >{!! $row->description !!}</div>
+                        <textarea class="form-control summernote" name="description" id="description" rows="8">{!! $row->description !!}</textarea>
                     </div>
 
                     <div class="form-group">
