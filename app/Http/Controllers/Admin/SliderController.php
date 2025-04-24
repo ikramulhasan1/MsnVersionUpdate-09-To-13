@@ -101,8 +101,7 @@ class SliderController extends Controller
         // $slider->link = $request->link;
         // $slider->save();
     // Clean the description by stripping tags and checking content
-    $rawDescription = $request->description;
-    
+    $rawDescription = preg_replace('/<p>\s*<\/p>/', '', $request->description); // removes <p></p>
     $cleanText = trim(strip_tags($rawDescription));
 
     // Only save if the description has real content
@@ -198,9 +197,7 @@ class SliderController extends Controller
         // $slider->status = $request->status;
         // $slider->save();
  // Clean the description by stripping tags and checking content
-        $rawDescription = $request->description;
-        $rawDescription = preg_replace('/<p>\s*<\/p>/', '', $rawDescription); // removes <p></p>
-
+        $rawDescription = preg_replace('/<p>\s*<\/p>/', '', $request->description); // removes <p></p>
         $cleanText = trim(strip_tags($rawDescription));
 
         // Only save if the description has real content
