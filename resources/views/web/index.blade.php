@@ -122,19 +122,19 @@ $header = \App\Models\PageSetup::page('home');
     <div class="carousel-wrap">
         <div class="owl-carousel owl-theme">
           @foreach($sliders as $slider)
-            <div class="item" style="position: relative;">
+            <div class="item p-0" style="position: relative;">
               
               {{-- Check if this slide has video --}}
               @if($slider->video_url)
                 {{-- Video Slide --}}
                 <div class="video-slide" style="position: relative; padding-top: 56.25%; height: 0; overflow: hidden;">
-                  <iframe 
-                    src="{{ $slider->video_url }}?autoplay=1&mute=1&controls=1&rel=0" 
-                    frameborder="0" 
-                    allow="autoplay; encrypted-media" 
-                    allowfullscreen 
-                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-                  </iframe>
+                    <iframe 
+                        src="https://www.youtube.com/embed/{{ $slider->video_id }}?autoplay=1&mute=1&controls=1&rel=0" 
+                        frameborder="0" 
+                        allow="autoplay; encrypted-media" 
+                        allowfullscreen 
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                    </iframe>
                 </div>
               @else
                 {{-- Image Slide --}}
