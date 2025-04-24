@@ -242,18 +242,18 @@ $header = \App\Models\PageSetup::page('home');
                       $page_contact = \App\Models\PageSetup::page('contact-us');
                     @endphp
       
-                    @if(isset($page_contact))
+                    {{-- @if(isset($page_contact))
                       <a href="{{ route('contact') }}" class="btn" style="margin-top: 10px; position: relative; top: 150px;">
                         {{ __('common.contact_us') }}
                       </a>
-                    @endif
+                    @endif --}}
                     <button id="open-modal" class=" googleMeetBtn" style="position: relative; top: 150px;">Discuss Your Requirements →</button>
 
-                    @if(isset($slider->link))
+                    {{-- @if(isset($slider->link))
                       <a href="{{ $slider->link }}" class="btn" target="_blank" style="margin-top: 10px; position: relative; top: 150px;">
                         {{ __('common.services') }}
                       </a>
-                    @endif
+                    @endif --}}
                   </div>
                 </div>
       
