@@ -88,39 +88,9 @@ $header = \App\Models\PageSetup::page('home');
 @if(count($sliders) > 0)
 <!-- Bnner Section -->
 <section class="banner-section">
-    {{-- <div class="carousel-column">
-        <div class="carousel-outer">
-            <div class="banner-carousel owl-carousel owl-theme ">
-                @foreach($sliders as $slider)
-                <!-- Slide Item -->
-                <div class="slide-item" style="background-image: url({{ asset('uploads/slider/'.$slider->image_path) }});">
-                    <div class="container">
-                        <div class="content-box">
-                            <h1>{{ $slider->title }}</h1>
-                            <div class="text description">{!! $slider->description !!}</div>
-                            <div class="link-box">
-                                @php
-                                $page_contact = \App\Models\PageSetup::page('contact-us');
-                                @endphp
-                                @if(isset($page_contact))
-                                <a href="{{ route('contact') }}" class="btnblack  btn-style-one">{{ __('common.contact_us') }}</a>
-                                @endif
-
-                                @if(isset($slider->link))
-                                <a href="{{ $slider->link }}" target="_blank" class="theme-btn btn-style-two btnred">{{ __('common.services') }}</a>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </div> --}}
-    <div class="carousel-wrap">
+    {{-- <div class="carousel-wrap">
         <div class="owl-carousel owl-theme">
         @foreach($sliders as $slider)
-          <!-- Slide 1 -->
           <div class="item" style="justify-content: space-around; background-image: url({{ asset('uploads/slider/'.$slider->image_path) }});">
             <div class="row w-100">
               <div class="col-md-8 item-content">
@@ -141,14 +111,54 @@ $header = \App\Models\PageSetup::page('home');
     
                 </div>
               </div>
-              {{-- <div class="col-md-4 d-flex align-items-center justify-content-center short-item">
+               <div class="col-md-4 d-flex align-items-center justify-content-center short-item">
                 <button class="btn">Discover</button>
-              </div> --}}
+              </div> 
             </div>
           </div>
         @endforeach
         </div>
-    </div>
+    </div> --}}
+    <div class="carousel-wrap">
+        <div class="owl-carousel owl-theme">
+          @foreach($sliders as $slider)
+            <div class="item" style="position: relative;">
+              @if($slider->video_url)
+                {{-- VIDEO SLIDE --}}
+                <div class="video-slide" style="position: relative; padding-top: 56.25%; height: 0; overflow: hidden;">
+                  <iframe 
+                    src="{{ $slider->video_url }}?autoplay=1&mute=1&controls=1&rel=0&showinfo=0" 
+                    frameborder="0" 
+                    allow="autoplay; encrypted-media" 
+                    allowfullscreen 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                  </iframe>
+                </div>
+              @else
+                {{-- IMAGE SLIDE --}}
+                <div class="image-slide" style="background-image: url({{ asset('uploads/slider/'.$slider->image_path) }}); background-size: cover; background-position: center; height: 500px;">
+                </div>
+              @endif
+      
+              {{-- Content Overlay --}}
+              <div class="slide-overlay-content" style="position: absolute; top: 20%; left: 5%; z-index: 10; color: white;">
+                <h1>{{ $slider->title }}</h1>
+                <p>{!! $slider->description !!}</p>
+      
+                @php $page_contact = \App\Models\PageSetup::page('contact-us'); @endphp
+                @if(isset($page_contact))
+                  <a href="{{ route('contact') }}" class="btn btn-light mt-3">{{ __('common.contact_us') }}</a>
+                @endif
+      
+                @if(isset($slider->link))
+                  <a href="{{ $slider->link }}" target="_blank" class="btn btn-outline-light mt-2">{{ __('common.services') }}</a>
+                @endif
+              </div>
+            </div>
+          @endforeach
+        </div>
+      </div>
+      
 </section>
 <!-- End Bnner Section -->
 @endif
