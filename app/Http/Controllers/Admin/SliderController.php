@@ -93,14 +93,28 @@ class SliderController extends Controller
 
 
         // Insert Data
+        // $slider = new Slider;
+        // $slider->title = $request->title;
+        // $slider->slug = Str::slug($request->title, '-');
+        // $slider->description = $request->description;
+        // $slider->image_path = $fileNameToStore;
+        // $slider->link = $request->link;
+        // $slider->save();
+    // Clean the description by stripping tags and checking content
+    $rawDescription = $request->description;
+    
+    $cleanText = trim(strip_tags($rawDescription));
+
+    // Only save if the description has real content
+    if ($cleanText !== '') {
         $slider = new Slider;
         $slider->title = $request->title;
         $slider->slug = Str::slug($request->title, '-');
-        $slider->description = $request->description;
+        $slider->description = $rawDescription; // keep full HTML
         $slider->image_path = $fileNameToStore;
         $slider->link = $request->link;
         $slider->save();
-
+    } 
 
         Toastr::success(__('dashboard.created_successfully'), __('dashboard.success'));
 
@@ -176,13 +190,28 @@ class SliderController extends Controller
 
 
         // Update Data
-        $slider->title = $request->title;
-        $slider->slug = Str::slug($request->title, '-');
-        $slider->description = $request->description;
-        $slider->image_path = $fileNameToStore;
-        $slider->link = $request->link;
-        $slider->status = $request->status;
-        $slider->save();
+        // $slider->title = $request->title;
+        // $slider->slug = Str::slug($request->title, '-');
+        // $slider->description = $request->description;
+        // $slider->image_path = $fileNameToStore;
+        // $slider->link = $request->link;
+        // $slider->status = $request->status;
+        // $slider->save();
+ // Clean the description by stripping tags and checking content
+        $rawDescription = $request->description;
+        $rawDescription = preg_replace('/<p>\s*<\/p>/', '', $rawDescription); // removes <p></p>
+
+        $cleanText = trim(strip_tags($rawDescription));
+
+        // Only save if the description has real content
+        if ($cleanText !== '') {
+            $slider->title = $request->title;
+            $slider->slug = Str::slug($request->title, '-');
+            $slider->description = $rawDescription; // keep full HTML
+            $slider->image_path = $fileNameToStore;
+            $slider->link = $request->link;
+            $slider->save();
+        } 
 
 
         Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));

@@ -160,7 +160,7 @@ $header = \App\Models\PageSetup::page('home');
                   padding: 20px;
                   border-radius: 0px;
                 ">
-                <div class="banner-content">
+                
                     <h1>{{ $slider->title }}</h1>
                     <p style="color: white !important" >{!! $slider->description !!}</p>
         
@@ -172,7 +172,7 @@ $header = \App\Models\PageSetup::page('home');
                     @if(isset($slider->link))
                     <a href="{{ $slider->link }}" target="_blank" class="btn btn-outline-light mt-2">{{ __('common.services') }}</a>
                     @endif
-                </div>
+                
               </div>
               
             </div>

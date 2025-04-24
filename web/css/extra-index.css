@@ -95,7 +95,7 @@
       position: relative;
       overflow: hidden;
     }
-.banner-content>p{
+.slide-overlay-content>p{
 color: white !important;
 }
     .owl-carousel .item {
