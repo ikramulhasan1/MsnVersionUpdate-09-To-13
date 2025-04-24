@@ -198,25 +198,34 @@ $header = \App\Models\PageSetup::page('home');
       <div class="carousel-wrap">
         <div class="owl-carousel owl-theme">
           @foreach($sliders as $slider)
-            <div class="item" 
-                 style="justify-content: space-around; {{ $slider->media_type == 'image' ? 'background-image: url('.asset('uploads/slider/'.$slider->image_path).'); background-size: cover; background-position: center;' : '' }}" 
-                 @if($slider->media_type == 'video' && $slider->video_id) 
-                   data-video-id="{{ $slider->video_id }}" 
+            @php
+              $style = '';
+              if ($slider->media_type === 'image' && $slider->image_path) {
+                $style = "background-image: url('" . asset('uploads/slider/' . $slider->image_path) . "'); background-size: cover; background-position: center;";
+              }
+            @endphp
+      
+            <div class="item"
+                 style="justify-content: space-around; position: relative; min-height: 100vh; {{ $style }}"
+                 @if($slider->media_type === 'video' && $slider->video_id)
+                   data-video-id="{{ $slider->video_id }}"
                  @endif>
-                 
-              {{-- Overlay for video (optional) --}}
-              @if($slider->media_type == 'video' && $slider->video_id)
+      
+              {{-- Background YouTube Video --}}
+              @if($slider->media_type === 'video' && $slider->video_id)
                 <div class="video-embed" style="position: absolute; inset: 0; z-index: 0; overflow: hidden;">
-                  <iframe width="100%" height="100%" 
-                          src="https://www.youtube.com/embed/{{ $slider->video_id }}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&playlist={{ $slider->video_id }}" 
-                          frameborder="0" 
-                          allow="autoplay; encrypted-media" 
-                          allowfullscreen 
-                          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                  <iframe
+                    width="100%" height="100%"
+                    src="https://www.youtube.com/embed/{{ $slider->video_id }}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&playlist={{ $slider->video_id }}"
+                    frameborder="0"
+                    allow="autoplay; encrypted-media"
+                    allowfullscreen
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
                   </iframe>
                 </div>
               @endif
       
+              {{-- Foreground Content --}}
               <div class="row w-100 position-relative" style="z-index: 2;">
                 <div class="col-md-8 item-content">
                   <div>
@@ -228,11 +237,15 @@ $header = \App\Models\PageSetup::page('home');
                     @endphp
       
                     @if(isset($page_contact))
-                      <a style="margin-top: 10px; position: relative; top: 150px;" href="{{ route('contact') }}" class="btn">{{ __('common.contact_us') }}</a>
+                      <a href="{{ route('contact') }}" class="btn" style="margin-top: 10px; position: relative; top: 150px;">
+                        {{ __('common.contact_us') }}
+                      </a>
                     @endif
       
                     @if(isset($slider->link))
-                      <a style="margin-top: 10px; position: relative; top: 150px;" href="{{ $slider->link }}" target="_blank" class="btn">{{ __('common.services') }}</a>
+                      <a href="{{ $slider->link }}" class="btn" target="_blank" style="margin-top: 10px; position: relative; top: 150px;">
+                        {{ __('common.services') }}
+                      </a>
                     @endif
                   </div>
                 </div>
