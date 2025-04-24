@@ -163,6 +163,7 @@ $header = \App\Models\PageSetup::page('home');
                 
                     <h1>{{ $slider->title }}</h1>
                     {{-- <p style="color: white !important" >{!! $slider->description !!}</p> --}}
+                    <p style="color: white !important" >{!! preg_replace('/<p>\s*<\/p>/', '', $slider->description) !!}</p>
         
                     @php $page_contact = \App\Models\PageSetup::page('contact-us'); @endphp
                     @if(isset($page_contact))
