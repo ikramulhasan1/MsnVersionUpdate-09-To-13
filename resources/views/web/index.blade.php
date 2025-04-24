@@ -122,7 +122,7 @@ $header = \App\Models\PageSetup::page('home');
     <div class="carousel-wrap">
         <div class="owl-carousel owl-theme">
           @foreach($sliders as $slider)
-            <div class="item p-0" style="position: relative;">
+            <div class="item " style="position: relative;">
               
               {{-- Check if this slide has video --}}
               @if($slider->video_url)
