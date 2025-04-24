@@ -197,68 +197,53 @@ $header = \App\Models\PageSetup::page('home');
       
       <div class="carousel-wrap">
         <div class="owl-carousel owl-theme">
-          @foreach($sliders as $slider)
-            @php
-              $style = '';
-              if ($slider->media_type === 'image' && $slider->image_path) {
-                $style = "background-image: url('" . asset('uploads/slider/' . $slider->image_path) . "'); background-size: cover; background-position: center;";
-              }
-            @endphp
-      
-            <div class="item"
-                 style="justify-content: space-around; position: relative; min-height: 100vh; {{ $style }}"
-                 @if($slider->media_type === 'video' && $slider->video_id)
-                   data-video-id="{{ $slider->video_id }}"
-                 @endif>
-      
-              {{-- Background YouTube Video --}}
-              @if($slider->media_type === 'video' && $slider->video_id)
-                <div class="video-embed" style="position: absolute; inset: 0; z-index: 0; overflow: hidden;">
-                    <iframe
-                    width="100%" height="100%"
-                    src="https://www.youtube.com/embed/{{ $slider->video_id }}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&playlist={{ $slider->video_id }}&modestbranding=1&rel=0"
-                    frameborder="0"
-                    allow="autoplay; encrypted-media"
-                    allowfullscreen
-                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; z-index: 0;">
-                  </iframe>
-                  
-                </div>
-              @endif
-      
-              {{-- Foreground Content --}}
-              <div class="row w-100 position-relative" style="z-index: 2;">
-                <div class="col-md-8 item-content">
-                  <div>
-                    <h1>{{ $slider->title }}</h1>
-                    <p>{!! $slider->description !!}</p>
-      
-                    @php
-                      $page_contact = \App\Models\PageSetup::page('contact-us');
-                    @endphp
-      
-                    @if(isset($page_contact))
-                      <a href="{{ route('contact') }}" class="btn" style="margin-top: 10px; position: relative; top: 150px;">
-                        {{ __('common.contact_us') }}
-                      </a>
+            @foreach($sliders as $index => $slider)
+                @php
+                    $style = '';
+                    if ($slider->media_type === 'image' && $slider->image_path) {
+                        $style = "background-image: url('" . asset('uploads/slider/' . $slider->image_path) . "'); background-size: cover; background-position: center;";
+                    }
+                @endphp
+                <div class="item" style="justify-content: space-around; position: relative; min-height: 100vh; {{ $style }}">
+    
+                    {{-- Dynamic YouTube player via API --}}
+                    @if($slider->media_type === 'video' && $slider->video_id)
+                        <div class="youtube-bg-video" id="youtube-bg-{{ $index }}" data-video-id="{{ $slider->video_id }}"></div>
                     @endif
-      
-                    @if(isset($slider->link))
-                      <a href="{{ $slider->link }}" class="btn" target="_blank" style="margin-top: 10px; position: relative; top: 150px;">
-                        {{ __('common.services') }}
-                      </a>
-                    @endif
-                  </div>
+    
+                    {{-- Foreground Content --}}
+                    <div class="row w-100 position-relative" style="z-index: 2;">
+                        <div class="col-md-8 item-content">
+                            <div>
+                                <h1>{{ $slider->title }}</h1>
+                                <p>{!! $slider->description !!}</p>
+    
+                                @php
+                                    $page_contact = \App\Models\PageSetup::page('contact-us');
+                                @endphp
+    
+                                @if(isset($page_contact))
+                                    <a href="{{ route('contact') }}" class="btn" style="margin-top: 10px; position: relative; top: 150px;">
+                                        {{ __('common.contact_us') }}
+                                    </a>
+                                @endif
+    
+                                @if(isset($slider->link))
+                                    <a href="{{ $slider->link }}" class="btn" target="_blank" style="margin-top: 10px; position: relative; top: 150px;">
+                                        {{ __('common.services') }}
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+    
+                        <div class="col-md-4 d-flex align-items-center justify-content-center short-item">
+                            <button class="btn">Discover</button>
+                        </div>
+                    </div>
                 </div>
-      
-                <div class="col-md-4 d-flex align-items-center justify-content-center short-item">
-                  <button class="btn">Discover</button>
-                </div>
-              </div>
-            </div>
-          @endforeach
+            @endforeach
         </div>
-      </div>
+    </div>
       
 </section>
 <!-- End Bnner Section -->
@@ -726,37 +711,38 @@ $section_clients = \App\Models\Section::section('clients');
     });
   </script>
 
-
+<!-- Include YouTube Iframe API -->
 <script src="https://www.youtube.com/iframe_api"></script>
+
 <script>
-  let players = [];
+    let players = [];
 
-  function onYouTubeIframeAPIReady() {
-    document.querySelectorAll('.youtube-bg-video').forEach((el, index) => {
-      const videoId = el.dataset.videoId;
+    // YouTube Iframe API onReady function
+    function onYouTubeIframeAPIReady() {
+        document.querySelectorAll('.youtube-bg-video').forEach((el, index) => {
+            const videoId = el.dataset.videoId;
 
-      players[index] = new YT.Player(el.id, {
-        videoId: videoId,
-        playerVars: {
-          autoplay: 1,
-          controls: 0,
-          showinfo: 0,
-          modestbranding: 1,
-          rel: 0,
-          loop: 1,
-          mute: 1,
-          playlist: videoId
-        },
-        events: {
-          onReady: function (event) {
-            event.target.mute();
-            event.target.playVideo();
-          }
-        }
-      });
-    });
-  }
+            players[index] = new YT.Player(el.id, {
+                videoId: videoId,
+                playerVars: {
+                    autoplay: 1,
+                    controls: 0,
+                    showinfo: 0,
+                    modestbranding: 1,
+                    rel: 0,
+                    loop: 1,
+                    mute: 1,
+                    playlist: videoId
+                },
+                events: {
+                    onReady: function (event) {
+                        event.target.mute();
+                        event.target.playVideo();
+                    }
+                }
+            });
+        });
+    }
 </script>
-
 @endsection
 @endsection
