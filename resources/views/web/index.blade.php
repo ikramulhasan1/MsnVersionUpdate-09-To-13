@@ -46,7 +46,7 @@ $header = \App\Models\PageSetup::page('home');
     .carousel-wrap .item {
   position: relative;
   color: white;
-  min-height: 90vh;
+  min-height: 85vh;
   overflow: hidden;
 }
 
@@ -211,7 +211,7 @@ $header = \App\Models\PageSetup::page('home');
             @endphp
       
             <div class="item"
-                 style="justify-content: space-around; position: relative; min-height: 100vh; {{ $style }}"
+                 style="justify-content: space-around; position: relative; min-height: 90vh; {{ $style }}"
                  @if($slider->media_type === 'video' && $slider->video_id)
                    data-video-id="{{ $slider->video_id }}"
                  @endif>
