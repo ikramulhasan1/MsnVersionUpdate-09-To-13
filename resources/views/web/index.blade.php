@@ -726,37 +726,41 @@ $section_clients = \App\Models\Section::section('clients');
     });
   </script>
 
-
+<!-- Include YouTube Iframe API -->
 <script src="https://www.youtube.com/iframe_api"></script>
+
 <script>
-  let players = [];
+    let players = [];
 
-  function onYouTubeIframeAPIReady() {
-    document.querySelectorAll('.youtube-bg-video').forEach((el, index) => {
-      const videoId = el.dataset.videoId;
+    // YouTube Iframe API onReady function
+    function onYouTubeIframeAPIReady() {
+        document.querySelectorAll('.youtube-bg-video').forEach((el, index) => {
+            const videoId = el.dataset.videoId;
 
-      players[index] = new YT.Player(el.id, {
-        videoId: videoId,
-        playerVars: {
-          autoplay: 1,
-          controls: 0,
-          showinfo: 0,
-          modestbranding: 1,
-          rel: 0,
-          loop: 1,
-          mute: 1,
-          playlist: videoId
-        },
-        events: {
-          onReady: function (event) {
-            event.target.mute();
-            event.target.playVideo();
-          }
-        }
-      });
-    });
-  }
+            // Create the player for each video
+            players[index] = new YT.Player(el.id, {
+                videoId: videoId,
+                playerVars: {
+                    autoplay: 1,
+                    controls: 0,
+                    showinfo: 0,
+                    modestbranding: 1,
+                    rel: 0,
+                    loop: 1,
+                    mute: 1,
+                    playlist: videoId,
+                    iv_load_policy: 3,  // Hide annotations
+                    fs: 0,  // Disable fullscreen button
+                },
+                events: {
+                    onReady: function (event) {
+                        event.target.mute();
+                        event.target.playVideo();
+                    }
+                }
+            });
+        });
+    }
 </script>
-
 @endsection
 @endsection
