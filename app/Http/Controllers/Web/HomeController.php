@@ -84,7 +84,7 @@ class HomeController extends Controller
 
         // Clients
         $data['clients'] = Client::where('status', '1')
-                            ->orderBy('id', 'desc')
+                            ->orderBy('id', 'desc')->take(10)
                             ->get();
 
         return view('web.index', $data);
