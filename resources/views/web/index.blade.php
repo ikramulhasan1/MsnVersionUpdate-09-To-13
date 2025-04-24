@@ -64,6 +64,29 @@ $header = \App\Models\PageSetup::page('home');
   pointer-events: none;
 }
 
+
+/*  */
+    /* client */
+    .partner-section {
+      padding: 60px 0;
+      background-color: #F5F7F8;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .partner-section h2 {
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    /* Custom 5-column layout for large screens */
+    @media (min-width: 992px) {
+      .col-lg-2-4 {
+        flex: 0 0 auto;
+        width: 19%;
+      }
+    }
+    
 </style>
 {{-- schema  --}}
 @section('schema_markup')
