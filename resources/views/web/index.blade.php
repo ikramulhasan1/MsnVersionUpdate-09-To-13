@@ -42,7 +42,24 @@ $header = \App\Models\PageSetup::page('home');
 <meta name="twitter:image" content="{{ asset('/uploads/setting/'.$setting->logo_path) }}" />
 @endif
 @endsection
+<style>
+    .carousel-wrap .item {
+  position: relative;
+  color: white;
+  min-height: 100vh;
+  overflow: hidden;
+}
 
+.item-content {
+  position: relative;
+  z-index: 2;
+}
+
+.video-embed iframe {
+  pointer-events: none;
+}
+
+</style>
 {{-- schema  --}}
 @section('schema_markup')
 <script type="application/ld+json">
