@@ -247,7 +247,8 @@ $header = \App\Models\PageSetup::page('home');
                         {{ __('common.contact_us') }}
                       </a>
                     @endif
-      
+                    <button id="open-modal">Discuss Your Requirements →</button>
+
                     @if(isset($slider->link))
                       <a href="{{ $slider->link }}" class="btn" target="_blank" style="margin-top: 10px; position: relative; top: 150px;">
                         {{ __('common.services') }}
@@ -340,7 +341,7 @@ $header = \App\Models\PageSetup::page('home');
 </section>
 <!--End About Section -->
 @endif
-
+@include('web.layouts.googlemeet')
 {{-- 
 @php
 $section_services = \App\Models\Section::section('services');
