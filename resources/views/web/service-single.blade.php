@@ -224,7 +224,7 @@ $header = \App\Models\PageSetup::page('services');
     background: #092e45!important;
     border: 2px solid #2df3a5!important;
     border-radius: 12px!important;
-    padding: 2rem!important;
+    padding: 1rem!important;
     text-align: center!important;
     position: relative!important;
   }
@@ -503,12 +503,12 @@ $header = \App\Models\PageSetup::page('services');
               <div style="color: white; text-align: left;" class="banner-right-box">
                 <strong style="color: white" >Have a Project in Mind? Let’s Build It Right.</strong><br>
                 Share your requirements, and our expert team will get back to you within 24 hours with a personalized consultation. You’ll get:<br>
-                <ul>
+                {{-- <ul>
                     <li style="color: white">✅ A detailed project strategy</li>
                     <li style="color: white">✅ Clear timelines and cost estimates</li>
                     <li style="color: white">✅ Technology recommendations</li>
                     <li style="color: white">✅ Scalable solutions tailored to your needs</li>
-                </ul><br>
+                </ul><br> --}}
               </div>
             </div>
           </div>
@@ -636,28 +636,28 @@ $header = \App\Models\PageSetup::page('services');
             <!-- First Row -->
             <div class="row g-4 mb-4">
               @foreach ($service->processworks as $key => $process)
-                  <div class="col-md-4 mb-4">
-                      <div class="process-step-box">
-                          <div class="process-step-number">{{ $key + 1 }}</div>
-                          <div class="process-step-heading" style="font-size: 20px; color: #333333;">
-                              <img style="width: 50px; height: 50px;" src="{{ asset('uploads/process/' . $process->image_path) }}" class="process-step-icon" alt="">
-                              {{ $process->title }}
-                          </div>
-                          <p style="font-size: 16px; color: #333333;">{{ $process->description }}</p>
-                          
-                          {{-- Show arrow after every item except the last one --}}
-                          @php
-                              $totalSteps = count($service->processworks);
-                              $showArrow = ($key != $totalSteps - 1); // hide arrow for last step
-                          @endphp
-          
-                        <div class="process-step-arrow d-none d-md-block 
-                          {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
+                <div class="col-md-4 mb-4">
+                    <div class="process-step-box">
+                        <div class="process-step-number">{{ $key + 1 }}</div>
+                        <div class="process-step-heading" style="font-size: 20px; color: #333333;">
+                            <img style="width: 50px; height: 50px;" src="{{ asset('uploads/process/' . $process->image_path) }}" class="process-step-icon" alt="">
+                            {{ $process->title }}
                         </div>
+                        <p style="font-size: 16px; color: #333333;">{{ $process->description }}</p>
+                        
+                        {{-- Show arrow after every item except the last one --}}
+                        @php
+                            $totalSteps = count($service->processworks);
+                            $showArrow = ($key != $totalSteps - 1); // hide arrow for last step
+                        @endphp
+        
+                      <div class="process-step-arrow d-none d-md-block 
+                        {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
                       </div>
-                  </div>
+                    </div>
+                </div>
               @endforeach
-          </div>
+            </div>
           
             <!-- CTA -->
             <div class="text-center mt-5">
@@ -707,27 +707,27 @@ $header = \App\Models\PageSetup::page('services');
           </div>
         </section>
         @endif
+        @if ($service->subservices->count() > 0)
+          <div class="mx-5 mt-5" >
+              
+              <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
+              <div class="row ml-2 g-1 owl-carousel owl-theme">
 
-        <div class="mx-5 mt-5" >
-            @if ($service->subservices->count() > 0)
-            <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
-            <div class="row ml-2 g-1 owl-carousel owl-theme">
-
-                @foreach ($service->subservices as $key => $item)
-                    
-                        <div class="card" style="width: 100% !important;">
-                            <img src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" class="card-img-top">
-                            <div class="card-body">
-                                <h6 style="font-weight: 700" class="card-title"><a class="cardlink" href="{{ route('service.related-single',$item->slug) }}">{{ $item->title }}</a></h6>
-                            </div>
-                        </div>
-                    
-                @endforeach  
-                
-            </div>
-            @endif 
-        </div>
-         
+                  @foreach ($service->subservices as $key => $item)
+                      
+                          <div class="card" style="width: 100% !important;">
+                              <img src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" class="card-img-top">
+                              <div class="card-body">
+                                  <h6 style="font-weight: 700" class="card-title"><a class="cardlink" href="{{ route('service.related-single',$item->slug) }}">{{ $item->title }}</a></h6>
+                              </div>
+                          </div>
+                      
+                  @endforeach  
+                  
+              </div>
+              
+          </div>
+        @endif 
     </div>
 </div>
 @endif
