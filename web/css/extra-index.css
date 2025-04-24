@@ -107,13 +107,11 @@
     }
 
     .item-content {
-      background: rgba(0, 0, 0, 0.637);
+      background: rgba(0, 0, 0, 0.708);
       padding: 30px;
       border-radius: 10px;
       color: white;
       height: 500px;
-      width: 1000px !important;
-
     }
 
     .item h1 {
