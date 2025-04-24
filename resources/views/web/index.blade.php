@@ -54,7 +54,9 @@ $header = \App\Models\PageSetup::page('home');
   position: relative;
   z-index: 2;
 }
-
+.item-content p {
+  color: white !important;
+}
 .video-embed iframe {
   pointer-events: none;
 }
