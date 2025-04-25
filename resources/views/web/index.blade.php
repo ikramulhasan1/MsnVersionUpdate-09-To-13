@@ -237,7 +237,8 @@ $header = \App\Models\PageSetup::page('home');
     .compare-link {
       display: block;
       margin-top: 15px;
-      color: #333333;
+      text-decoration: none;
+      color: #2138b9c6;
       font-size: 13px;
       font-weight: 700;
       text-decoration: underline;
@@ -532,7 +533,7 @@ $header = \App\Models\PageSetup::page('home');
       </p>
   
       <!-- Engagement Model Cards -->
-      <div class="row mt-5 g-4">
+      <div id="compare" class="row mt-5 g-4">
         <!-- Managed Team -->
         <div class="col-md-4">
           <div class="card-box border-success-bottom2">
@@ -590,7 +591,7 @@ $header = \App\Models\PageSetup::page('home');
         </div>
   
         <button class="explore-btn">Explore Your Options →</button>
-        <a href="#" class="compare-link">Compare All Engagement Models</a>
+        <a href="#compare" class="compare-link">Compare All Engagement Models</a>
       </fieldset>
       </div>
     </div>
