@@ -650,7 +650,7 @@ $section_services = \App\Models\Section::section('services');
 @endphp
 @if(count($services) > 0 && isset($section_services))
 <!-- Services Section -->
-<section class="my-5">
+<section style="margin-bottom: 70px; margin-top: 70px;" >
     <div class="container">
         <div class="row">
             <div class="col-12">
