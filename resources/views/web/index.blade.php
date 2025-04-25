@@ -160,8 +160,7 @@ $header = \App\Models\PageSetup::page('home');
     }
 
     .fieldset-div{
-        padding-top: 50px;
-        padding-top: 30px;
+        padding-top: 70px;
     }
     fieldset {
         border: 1px solid #3CC065 !important;
@@ -245,7 +244,7 @@ $header = \App\Models\PageSetup::page('home');
     }
 
     .our-mission-section{
-        padding-bottom: 0px !important;
+        padding-bottom: 40px !important;
         padding-top: 50px !important;
     }
 </style>
