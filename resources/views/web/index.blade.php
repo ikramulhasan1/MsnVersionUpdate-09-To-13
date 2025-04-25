@@ -1250,18 +1250,18 @@ $section_process = \App\Models\Section::section('process');
   
       <div class="row g-4 mt-4">
         <!-- Blog Card 1 -->
+        @foreach($articles as $key => $article)
         <div class="col-md-4">
-          <div class="blog-card p-3">
-            <img src="https://www.capitalnumbers.com/images/new-skill-section/ai-development/AI-for-Business-Leaders-Driving-Innovation-and-Growth.png" class="img-fluid blog-img" alt="Blog 1">
+          <a href="{{ route('blog.single', $article->slug) }}" class="blog-card p-3">
+            <img src="{{ asset('uploads/article/'.$article->image_path) }}" class="img-fluid blog-img" alt="{{ $article->title }}">
             <div class="blog-content pt-3">
-              <h5 class="blog-title">AI for Business Leaders: Driving Innovation and Growth</h5>
+              <a href="{{ route('blog.single', $article->slug) }}" class="blog-title">AI for Business Leaders: Driving Innovation and Growth</a>
               <p class="blog-meta">By <span class="fw-bold">MSN Softtech</span>, in Digital Transformation</p>
             </div>
-          </div>
+          </a>
         </div>
-  
-        <!-- Blog Card 2 -->
-        <div class="col-md-4">
+        @endforeach
+        {{-- <div class="col-md-4">
           <div class="blog-card p-3">
             <img src="https://www.capitalnumbers.com/images/new-skill-section/api-development/AI-in-Financial-Software-Development.png" class="img-fluid blog-img" alt="Blog 2">
             <div class="blog-content pt-3">
@@ -1271,7 +1271,6 @@ $section_process = \App\Models\Section::section('process');
           </div>
         </div>
   
-        <!-- Blog Card 3 -->
         <div class="col-md-4">
           <div class="blog-card p-3">
             <img src="https://www.capitalnumbers.com/images/new-skill-section/api-development/energy-consumption-blog.png" class="img-fluid blog-img" alt="Blog 3">
@@ -1280,7 +1279,7 @@ $section_process = \App\Models\Section::section('process');
               <p class="blog-meta">By <span class="fw-bold">MSN Softtech</span>, in Digital Transformation</p>
             </div>
           </div>
-        </div>
+        </div> --}}
       </div>
   
       <div class="text-center mt-5">
