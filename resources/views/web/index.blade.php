@@ -188,8 +188,8 @@ $header = \App\Models\PageSetup::page('home');
 
     fieldset p {
       color: #ffffff;
-      margin-bottom: 20px;
-      padding-top: 20px;
+      margin-bottom: 30px;
+      padding-top: 5px;
       font-size: 20px;
       font-weight: 600;
     }
