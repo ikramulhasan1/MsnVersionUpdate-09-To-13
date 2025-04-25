@@ -159,6 +159,9 @@ $header = \App\Models\PageSetup::page('home');
       border-bottom: 7px solid #4492DC;
     }
 
+    .fieldset-div{
+        padding-top: 50px;
+    }
     fieldset {
         border: 1px solid #3CC065;
         border-radius: 10px;
@@ -555,7 +558,7 @@ $header = \App\Models\PageSetup::page('home');
         </div>
       </div>
   
-      <div class="">
+      <div class="fieldset-div">
         <!-- Options Section -->
       <fieldset>
         <legend>Need a Different Approach?</legend>
