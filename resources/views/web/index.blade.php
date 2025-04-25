@@ -133,7 +133,7 @@ $header = \App\Models\PageSetup::page('home');
     .card-box p {
       color: #333333;
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 500;
     }
 
     .card-box .btn {
@@ -244,7 +244,7 @@ $header = \App\Models\PageSetup::page('home');
     }
 
     .our-mission-section{
-        padding-bottom: 20px !important;
+        padding-bottom: 0px !important;
         padding-top: 50px !important;
     }
 </style>
