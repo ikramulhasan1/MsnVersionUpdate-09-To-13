@@ -661,7 +661,7 @@ $header = \App\Models\PageSetup::page('home');
     }
 
     .portfolio-overlay h5 {
-      color: #fff;
+      color: #ffffff;
       font-size: 22px;
       font-weight: 600;
     }
@@ -1309,9 +1309,11 @@ $section_portfolio = \App\Models\Section::section('portfolio');
                             {{ $category->slug }} 
                         @endforeach">
           <div class="portfolio-card">
-            <img src="{{ asset('uploads/portfolio/'.$portfolio->image_path) }}" alt="{{ $portfolio->title }}" class="img-fluid">
+            <a href="{{ route('portfolio.single', $portfolio->slug) }}">
+                <img src="{{ asset('uploads/portfolio/'.$portfolio->image_path) }}" alt="{{ $portfolio->title }}" class="img-fluid">
+            </a>
             <div class="portfolio-overlay">
-                <h5><a href="{{ route('portfolio.single', $portfolio->slug) }}">{{ $portfolio->title }}</a></h5>
+                <h5><a class="text-white" href="{{ route('portfolio.single', $portfolio->slug) }}">{{ $portfolio->title }}</a></h5>
             </div>
           </div>
         </div>
@@ -1324,7 +1326,7 @@ $section_portfolio = \App\Models\Section::section('portfolio');
 
       @if(isset($page_portfolio))
       <div class="text-center mt-5" data-aos="zoom-in" data-aos-delay="500">
-        <a href="{{ route('portfolios') }}" class="btn view-more-btn">{{ __('common.view_more') }}</a>
+        <a href="{{ route('portfolios') }}" class="text-white btn view-more-btn">{{ __('common.view_more') }}</a>
       </div>
       @endif
     </div>
