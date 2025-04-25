@@ -189,9 +189,9 @@ $header = \App\Models\PageSetup::page('home');
     fieldset p {
       color: #ffffff;
       margin-bottom: 30px;
-      padding-top: 5px;
+      padding-top: 0px;
       font-size: 20px;
-      font-weight: 600;
+      font-weight: 600 !important;
     }
 
     .radio-options {
