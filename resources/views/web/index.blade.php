@@ -126,12 +126,12 @@ $header = \App\Models\PageSetup::page('home');
 
     .card-box h5 {
       font-weight: 700;
-      color: #ffffff;
+      color: #333333;
       font-size: 31px;
     }
 
     .card-box p {
-      color: #ffffff;
+      color: #333333;
       font-size: 15px;
       font-weight: 500 !important;
     }
