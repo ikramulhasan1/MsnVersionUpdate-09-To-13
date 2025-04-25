@@ -41,6 +41,9 @@ $header = \App\Models\PageSetup::page('home');
 <meta name="twitter:description" content="{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}" />
 <meta name="twitter:image" content="{{ asset('/uploads/setting/'.$setting->logo_path) }}" />
 @endif
+
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
 @endsection
 <style>
     .carousel-wrap .item {
@@ -1706,5 +1709,36 @@ $section_process = \App\Models\Section::section('process');
         });
     }
 </script>
+
+
+{{-- portfolio-section --}}
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // AOS Animation
+    AOS.init();
+  
+    // Isotope Initialization
+    var grid = document.querySelector('.portfolio-grid');
+    var iso = new Isotope( grid, {
+      itemSelector: '.portfolio-item',
+      layoutMode: 'fitRows'
+    });
+  
+    // Filter buttons
+    var filterButtons = document.querySelectorAll('.portfolio-filter-btn');
+  
+    filterButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        var filterValue = button.getAttribute('data-filter');
+        iso.arrange({ filter: filterValue });
+  
+        // Active class switching
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+      });
+    });
+  </script>
+  
 @endsection
 @endsection
