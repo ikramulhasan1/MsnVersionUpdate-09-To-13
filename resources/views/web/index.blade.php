@@ -775,30 +775,30 @@ $header = \App\Models\PageSetup::page('home');
 
     /* Move Dots to Left */
     .owl-dots {
-      position: absolute;
-      bottom: 30px;
-      left: 30px;
-      z-index: 15;
-      text-align: left;
+      position: absolute !important;
+      bottom: 30px !important;
+      left: 30px !important;
+      z-index: 15 !important;
+      text-align: left !important;
     }
 
     .owl-dots .owl-dot {
-      display: inline-block;
-      margin: 0 5px;
+      display: inline-block !important;
+      margin: 0 5px !important;
     }
 
     .owl-dots .owl-dot span {
-      width: 12px;
-      height: 12px;
-      background: rgba(255, 255, 255, 0.5);
-      display: block;
-      border-radius: 50%;
-      transition: all 0.3s ease;
+      width: 12px !important;
+      height: 12px !important;
+      background: rgba(255, 255, 255, 0.5) !important;
+      display: block !important;
+      border-radius: 50% !important;
+      transition: all 0.3s ease !important;
     }
 
     .owl-dots .owl-dot.active span {
-      background: #00c3ff;
-      transform: scale(1.3);
+      background: #00c3ff !important;
+      transform: scale(1.3) !important;
     }
 
     /* Responsive */
@@ -1700,20 +1700,21 @@ $section_process = \App\Models\Section::section('process');
 
 {{-- case study --}}
 <script>
-   
     $(document).ready(function () {
       $("#case-owl-carousel").owlCarousel({
         loop: true,
         margin: 0,
-        nav: false,
+        nav: true,
+        navText: [],
         dots: true,
         autoplay: true,
-        autoplayTimeout: 4000,
+        autoplayTimeout: 5000,
         autoplayHoverPause: true,
         items: 1,
         smartSpeed: 1000,
       });
     });
+
   </script>
 
 
