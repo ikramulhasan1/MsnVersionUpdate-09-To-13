@@ -94,6 +94,8 @@ $header = \App\Models\PageSetup::page('home');
       background-color: #052C58;
       font-family: 'Segoe UI', sans-serif !important;
       color: #ffffff;
+      padding-bottom: 30px;
+      padding-top: 30px;
     }
 
     h1.title {
