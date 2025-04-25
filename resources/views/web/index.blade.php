@@ -892,7 +892,7 @@ $section_portfolio = \App\Models\Section::section('portfolio');
 @endphp
 @if(count($portfolios) > 0 && isset($section_portfolio))
 <!--Gallery Section-->
-<section style="background-color: #F9FAFC" class="gallery-section">
+<section style="background-color: #ffffff" class="gallery-section">
     <!--Sortable Masonry-->
     <div class="sortable-masonry">
         <div class="container">
