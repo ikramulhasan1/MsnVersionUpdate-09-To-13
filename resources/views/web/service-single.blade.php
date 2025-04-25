@@ -642,7 +642,7 @@ $header = \App\Models\PageSetup::page('services');
 <!--Sidebar Page Container-->
 <div style="background-color: #ffffff" class="sidebar-page-container">
     <div >
-        <div class="row clearfix mb-5 mx-5">
+        <div class="row clearfix mb-5 py-4 mx-5">
             <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
                 <aside class="sidebar services-sidebar">
                   @if ($service->industries->count() > 0)
@@ -854,7 +854,7 @@ $header = \App\Models\PageSetup::page('services');
 
 
         @if ($service->faqs->count() > 0)
-        <section class="mx-5">
+        <section class="mx-5 py-5">
             <div class="faq_container">
                 <div class="faq-section-title">
                   <h3 style="font-weight: 700">FAQ</h3>
