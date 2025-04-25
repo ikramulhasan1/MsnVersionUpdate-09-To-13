@@ -1302,23 +1302,23 @@ $section_portfolio = \App\Models\Section::section('portfolio');
         </div>
       </div>
   
-      <div class="row portfolio-grid" data-aos="fade-up" data-aos-delay="400">
+        <div class="row portfolio-grid" data-aos="fade-up" data-aos-delay="400">
         <!-- Portfolio Items -->
         @foreach($portfolios as $portfolio)
-        <div class="col-lg-4 col-md-6 portfolio-item @foreach($portfolio->categories as $category)
-                            {{ $category->slug }} 
-                        @endforeach">
             <a href="{{ route('portfolio.single', $portfolio->slug) }}">
-                <div class="portfolio-card">
-                    <img src="{{ asset('uploads/portfolio/'.$portfolio->image_path) }}" alt="{{ $portfolio->title }}" class="img-fluid">
-                    <div class="portfolio-overlay">
-                        <h5><a class="text-white" href="{{ route('portfolio.single', $portfolio->slug) }}">{{ $portfolio->title }}</a></h5>
+                <div class="col-lg-4 col-md-6 portfolio-item @foreach($portfolio->categories as $category)
+                                    {{ $category->slug }} 
+                                @endforeach">
+                    <div class="portfolio-card">
+                        <img src="{{ asset('uploads/portfolio/'.$portfolio->image_path) }}" alt="{{ $portfolio->title }}" class="img-fluid">
+                        <div class="portfolio-overlay">
+                            <h5><a class="text-white" href="{{ route('portfolio.single', $portfolio->slug) }}">{{ $portfolio->title }}</a></h5>
+                        </div>
                     </div>
                 </div>
             </a>
-        </div>
         @endforeach
-      </div>
+        </div>
   
       @php
       $page_portfolio = \App\Models\PageSetup::page('portfolio');
