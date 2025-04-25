@@ -165,7 +165,7 @@ $header = \App\Models\PageSetup::page('home');
     fieldset {
         border: 1px solid #3CC065 !important;
         border-radius: 10px;
-        padding: 20px 30px 30px;
+        padding: 20px 30px 30px !important;
         margin-top: 50px;
         text-align: center;
         position: relative;
@@ -525,7 +525,7 @@ $header = \App\Models\PageSetup::page('home');
         {{-- model --}}
         
  <section class="model-section">
-    <div class="container py-5">
+    <div id="compare" class="container py-5">
       <h1 class="title">Flexible Engagement Models<br>to Suit Your Needs</h1>
       <p class="subtitle mt-3">
         Find the Perfect Solution for Your Project, Whether You Need a<br>
@@ -533,7 +533,7 @@ $header = \App\Models\PageSetup::page('home');
       </p>
   
       <!-- Engagement Model Cards -->
-      <div id="compare" class="row mt-5 g-4">
+      <div class="row mt-5 g-4">
         <!-- Managed Team -->
         <div class="col-md-4">
           <div class="card-box border-success-bottom2">
