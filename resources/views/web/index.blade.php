@@ -1245,7 +1245,7 @@ $section_process = \App\Models\Section::section('process');
 
 <section class="latest-blogs py-5">
     <div class="container">
-      <h2 class="blog-section-title">Latest Blogs</h2>
+      <h2 class="blog-section-title">{{ $section_blog->title }}</h2>
       <p class="blog-section-subtitle">Explore Featured Insights</p>
   
       <div class="row g-4 mt-4">
@@ -1255,7 +1255,7 @@ $section_process = \App\Models\Section::section('process');
             <img src="https://www.capitalnumbers.com/images/new-skill-section/ai-development/AI-for-Business-Leaders-Driving-Innovation-and-Growth.png" class="img-fluid blog-img" alt="Blog 1">
             <div class="blog-content pt-3">
               <h5 class="blog-title">AI for Business Leaders: Driving Innovation and Growth</h5>
-              <p class="blog-meta">By <span class="fw-bold">Sanjay Singhania</span>, in Digital Transformation</p>
+              <p class="blog-meta">By <span class="fw-bold">MSN Softtech</span>, in Digital Transformation</p>
             </div>
           </div>
         </div>
@@ -1266,7 +1266,7 @@ $section_process = \App\Models\Section::section('process');
             <img src="https://www.capitalnumbers.com/images/new-skill-section/api-development/AI-in-Financial-Software-Development.png" class="img-fluid blog-img" alt="Blog 2">
             <div class="blog-content pt-3">
               <h5 class="blog-title">AI-Powered FinTech: The Future of Financial Software Development</h5>
-              <p class="blog-meta">By <span class="fw-bold">Sanjay Singhania</span>, in Digital Transformation</p>
+              <p class="blog-meta">By <span class="fw-bold">MSN Softtech</span>, in Digital Transformation</p>
             </div>
           </div>
         </div>
@@ -1277,7 +1277,7 @@ $section_process = \App\Models\Section::section('process');
             <img src="https://www.capitalnumbers.com/images/new-skill-section/api-development/energy-consumption-blog.png" class="img-fluid blog-img" alt="Blog 3">
             <div class="blog-content pt-3">
               <h5 class="blog-title">Energy Consumption Forecasting with Machine Learning: A Detailed Guide</h5>
-              <p class="blog-meta">By <span class="fw-bold">Prabal Jain</span>, in Digital Transformation</p>
+              <p class="blog-meta">By <span class="fw-bold">MSN Softtech</span>, in Digital Transformation</p>
             </div>
           </div>
         </div>
