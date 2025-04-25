@@ -1308,14 +1308,14 @@ $section_portfolio = \App\Models\Section::section('portfolio');
         <div class="col-lg-4 col-md-6 portfolio-item @foreach($portfolio->categories as $category)
                             {{ $category->slug }} 
                         @endforeach">
-          <div class="portfolio-card">
             <a href="{{ route('portfolio.single', $portfolio->slug) }}">
-                <img src="{{ asset('uploads/portfolio/'.$portfolio->image_path) }}" alt="{{ $portfolio->title }}" class="img-fluid">
+                <div class="portfolio-card">
+                    <img src="{{ asset('uploads/portfolio/'.$portfolio->image_path) }}" alt="{{ $portfolio->title }}" class="img-fluid">
+                    <div class="portfolio-overlay">
+                        <h5><a class="text-white" href="{{ route('portfolio.single', $portfolio->slug) }}">{{ $portfolio->title }}</a></h5>
+                    </div>
+                </div>
             </a>
-            <div class="portfolio-overlay">
-                <h5><a class="text-white" href="{{ route('portfolio.single', $portfolio->slug) }}">{{ $portfolio->title }}</a></h5>
-            </div>
-          </div>
         </div>
         @endforeach
       </div>
