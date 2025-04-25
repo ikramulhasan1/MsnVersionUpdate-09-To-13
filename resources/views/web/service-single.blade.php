@@ -454,7 +454,7 @@ $header = \App\Models\PageSetup::page('services');
     .model-section {
       background: linear-gradient(135deg, #01446e, #052a46);
       font-family: 'Poppins', sans-serif;
-      color: white;
+      color: white !important;
     }
     .section-title {
       text-align: center;
@@ -463,7 +463,7 @@ $header = \App\Models\PageSetup::page('services');
       margin-bottom: 40px;
     }
     .card-box {
-      background: #ffffff;
+      background: #ffffff !important;
       color: #000000;
       border-radius: 2px;
       padding: 30px 20px;
@@ -486,7 +486,7 @@ $header = \App\Models\PageSetup::page('services');
     }
     .btn-orange {
       background-color: #ff5f2e;
-      color: white;
+      color: white !important;
       border: none;
       font-weight: 600;
       padding: 10px 16px;
@@ -542,12 +542,12 @@ $header = \App\Models\PageSetup::page('services');
     }
     .helper-radio-group input[type="radio"]:checked + label {
       background-color: #28a745;
-      color: white;
+      color: white !important;
     }
     .share-btn {
       background-color: #ff5f2e;
       border: none;
-      color: white;
+      color: white !important;
       font-weight: 600;
       border-radius: 8px;
       padding: 12px 28px;
