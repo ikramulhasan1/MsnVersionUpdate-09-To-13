@@ -455,6 +455,8 @@ $header = \App\Models\PageSetup::page('services');
       background: linear-gradient(135deg, #01446e, #052a46);
       font-family: 'Poppins', sans-serif;
       color: white !important;
+      padding-top: 30px;
+      padding-bottom: 30px;
     }
     .model-section-title {
       text-align: center;
@@ -747,7 +749,7 @@ $header = \App\Models\PageSetup::page('services');
 
         @if ($service->processworks->count() > 0)
         {{-- process-section --}}
-        <section class="process-section my-5 px-5">
+        <section class="process-section py-5 px-5">
           <div class="container">
             <div class="process-section-title">
               <h2>Our Application Development Process</h2>
@@ -792,7 +794,7 @@ $header = \App\Models\PageSetup::page('services');
 <section class="model-section">
   <div class="container py-5">
     <div class="model-section-title">
-      Engagement Models for Our <br> UI UX Design Services
+      Engagement Models for Our <br> <span class="my-3">UI UX Design Services</span>
     </div>
 
     <div class="row g-4">
