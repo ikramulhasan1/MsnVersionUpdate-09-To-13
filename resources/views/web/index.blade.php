@@ -269,7 +269,7 @@ $header = \App\Models\PageSetup::page('home');
       font-family: 'Poppins', sans-serif;
     }
     .all-tech-cards{
-        margin:5px !important;
+        margin:3px !important;
     }
     .section-title {
       font-weight: 700;
@@ -286,15 +286,15 @@ $header = \App\Models\PageSetup::page('home');
       font-size: 1.1rem;
     }
     .tech-card {
-      background: #fff;
-      border: 1px solid #E0E0E0;
-      border-radius: 12px;
-      padding: 10px 20px;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      white-space: nowrap;
+      background: #fff !important;
+      border: 1px solid #E0E0E0 !important;
+      border-radius: 12px !important;
+      padding: 10px 20px !important;
+      transition: all 0.3s ease !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      white-space: nowrap !important;
       text-decoration: none !important;
 
     }
