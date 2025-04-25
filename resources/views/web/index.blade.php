@@ -260,9 +260,6 @@ $header = \App\Models\PageSetup::page('home');
     }
 
 
-
-
-
     /* tech section */
     .tech-section {
       background-color: #FAFAFA;
@@ -803,7 +800,7 @@ $section_services = \App\Models\Section::section('services');
           </a>
           <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/mobile-icon.svg" alt="Mobile">
-            <p class="tech-title">Mobile Mobile Mobile</p>
+            <p class="tech-title">Mobile</p>
           </a>
           <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/shopify-icon.svg" alt="Shopify">
