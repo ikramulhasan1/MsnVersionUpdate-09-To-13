@@ -697,10 +697,7 @@ $header = \App\Models\PageSetup::page('home');
       overflow: hidden;
     }
 
-    /* .owl-prev, .owl-next{
-        display: none !important;
-    }
-     */
+
     .owl-carousel .case-studies-item {
       width: 100%;
       height: 500px;
