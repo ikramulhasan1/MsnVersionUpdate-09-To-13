@@ -91,7 +91,7 @@ $header = \App\Models\PageSetup::page('home');
 
     /* model */
     .model-section {
-      background-color: #F5F7F8;
+      background-color: #052C58;
       font-family: 'Segoe UI', sans-serif !important;
       color: #333333;
     }
