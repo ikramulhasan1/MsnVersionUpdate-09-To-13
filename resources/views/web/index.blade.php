@@ -1718,7 +1718,6 @@ $section_process = \App\Models\Section::section('process');
   </script>
 
 
-
 <!-- Include YouTube Iframe API -->
 <script src="https://www.youtube.com/iframe_api"></script>
 
