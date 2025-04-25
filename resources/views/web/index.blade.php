@@ -163,7 +163,7 @@ $header = \App\Models\PageSetup::page('home');
         padding-top: 50px;
     }
     fieldset {
-        border: 1px solid #3CC065;
+        border: 1px solid #3CC065 !important;
         border-radius: 10px;
         padding: 20px 30px 30px;
         margin-top: 50px;
@@ -189,6 +189,7 @@ $header = \App\Models\PageSetup::page('home');
     fieldset p {
       color: #333333;
       margin-bottom: 20px;
+      padding-top: 20px;
       font-size: 20px;
       font-weight: 600;
     }
