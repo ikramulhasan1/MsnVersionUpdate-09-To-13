@@ -170,7 +170,7 @@ $header = \App\Models\PageSetup::page('home');
 
     fieldset legend {
         width: auto;
-        margin: 60 auto 0px;
+        margin: 0 auto 0px;
         font-size: 25px;
         font-weight: 700;
         color: #333333;
@@ -555,7 +555,8 @@ $header = \App\Models\PageSetup::page('home');
         </div>
       </div>
   
-      <!-- Options Section -->
+      <div class="">
+        <!-- Options Section -->
       <fieldset>
         <legend>Need a Different Approach?</legend>
         <p>Explore More Ways We Can Help.</p>
@@ -582,6 +583,7 @@ $header = \App\Models\PageSetup::page('home');
         <button class="explore-btn">Explore Your Options →</button>
         <a href="#" class="compare-link">Compare All Engagement Models</a>
       </fieldset>
+      </div>
     </div>
    </section>
     </div>
