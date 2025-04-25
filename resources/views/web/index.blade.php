@@ -424,7 +424,7 @@ $header = \App\Models\PageSetup::page('home');
     }
 
     .process-section-title {
-      text-align: center;
+      text-align: left;
       margin-bottom: 40px;
     }
 
@@ -542,6 +542,10 @@ $header = \App\Models\PageSetup::page('home');
     /* Add margin or position tweaks as needed */
 }
 
+.process-description{
+    font-size: 16px !important; color: #333333 !important;
+
+}
 
 </style>
 {{-- schema  --}}
@@ -1376,8 +1380,10 @@ $section_process = \App\Models\Section::section('process');
                         {{-- <img style="width: 50px; height: 50px;" src="{{ asset('uploads/process/' . $process->image_path) }}" class="process-step-icon" alt=""> --}}
                         {{ $process->title }}
                     </div>
-                    <p style="font-size: 16px !important; color: #333333 !important;">{!! $process->description !!}</p>
                     
+                    <div class="process-description">
+                        {!! $process->description !!}
+                    </div>
                     {{-- Show arrow after every item except the last one --}}
                     @php
                         $totalSteps = count($processes);
