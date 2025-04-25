@@ -77,6 +77,7 @@ $header = \App\Models\PageSetup::page('home');
       font-weight: 700;
       text-align: center;
       margin-bottom: 40px;
+      color: #333333;
     }
 
     /* Custom 5-column layout for large screens */
