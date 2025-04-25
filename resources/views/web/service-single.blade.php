@@ -895,7 +895,7 @@ $header = \App\Models\PageSetup::page('services');
           </div>
         </section>
         @endif
-        @if ($service->subservices->count() > 0)
+        {{-- @if ($service->subservices->count() > 0)
           <div class="mx-5 mt-5" >
               
               <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
@@ -915,7 +915,7 @@ $header = \App\Models\PageSetup::page('services');
               </div>
               
           </div>
-        @endif 
+        @endif  --}}
     </div>
 </div>
 @endif
