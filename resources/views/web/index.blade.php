@@ -1295,69 +1295,38 @@ $section_portfolio = \App\Models\Section::section('portfolio');
       <div class="portfolio-filters-wrapper" data-aos="fade-up" data-aos-delay="200">
         <div class="portfolio-filters">
           <button class="portfolio-filter-btn active" data-filter="*">All</button>
-          <button class="portfolio-filter-btn" data-filter=".ecommerce">ECommerce</button>
-          <button class="portfolio-filter-btn" data-filter=".agency">Agency</button>
-          <button class="portfolio-filter-btn" data-filter=".multivendor">Multi Vendor</button>
-          <button class="portfolio-filter-btn" data-filter=".clothing">Clothing</button>
-          <button class="portfolio-filter-btn" data-filter=".electronics">Electronics</button>
-          <button class="portfolio-filter-btn" data-filter=".digital">Digital Products</button>
-          <button class="portfolio-filter-btn" data-filter=".other">Other</button>
-          <button class="portfolio-filter-btn" data-filter=".new">New Category</button>
+          @foreach($portfolio_categories as $portfolio_category)
+            <button class="portfolio-filter-btn" data-filter=".{{ $portfolio_category->slug }}">{{ $portfolio_category->title }}</button>
+          @endforeach
+          
         </div>
       </div>
   
       <div class="row portfolio-grid" data-aos="fade-up" data-aos-delay="400">
         <!-- Portfolio Items -->
-        <div class="col-lg-4 col-md-6 portfolio-item ecommerce">
+        @foreach($portfolios as $portfolio)
+        <div class="col-lg-4 col-md-6 portfolio-item @foreach($portfolio->categories as $category)
+                            {{ $category->slug }} 
+                        @endforeach">
           <div class="portfolio-card">
-            <img src="https://msnsofttech.com/uploads/portfolio/Untitled%20design%20(3)_1739479140.png" alt="ECommerce" class="img-fluid">
+            <img src="{{ asset('uploads/portfolio/'.$portfolio->image_path) }}" alt="{{ $portfolio->title }}" class="img-fluid">
             <div class="portfolio-overlay">
-              <h5>ECommerce Project</h5>
+                <h5><a href="{{ route('portfolio.single', $portfolio->slug) }}">{{ $portfolio->title }}</a></h5>
             </div>
           </div>
         </div>
-  
-        <div class="col-lg-4 col-md-6 portfolio-item agency">
-          <div class="portfolio-card">
-            <img src="https://msnsofttech.com/uploads/portfolio/8de112c3-16d7-443a-b30c-6dfb9607fcd3_1739211369.png" alt="Agency" class="img-fluid">
-            <div class="portfolio-overlay">
-              <h5>Agency Project</h5>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-lg-4 col-md-6 portfolio-item clothing">
-          <div class="portfolio-card">
-            <img src="https://msnsofttech.com/uploads/portfolio/Untitled%20design%20(2)_1739228869.png" alt="Clothing" class="img-fluid">
-            <div class="portfolio-overlay">
-              <h5>Clothing Store</h5>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-lg-4 col-md-6 portfolio-item electronics">
-          <div class="portfolio-card">
-            <img src="https://msnsofttech.com/uploads/portfolio/601f9575-95c8-43d0-bac4-6f1831d95569_1739232277.png" alt="Electronics" class="img-fluid">
-            <div class="portfolio-overlay">
-              <h5>Electronics Shop</h5>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-lg-4 col-md-6 portfolio-item digital">
-          <div class="portfolio-card">
-            <img src="https://msnsofttech.com/uploads/portfolio/2ae5447e-e3dd-4815-af9a-088be21c3a2c_1739232450.png" alt="Digital Products" class="img-fluid">
-            <div class="portfolio-overlay">
-              <h5>Digital Marketplace</h5>
-            </div>
-          </div>
-        </div>
+        @endforeach
       </div>
   
+      @php
+      $page_portfolio = \App\Models\PageSetup::page('portfolio');
+      @endphp
+
+      @if(isset($page_portfolio))
       <div class="text-center mt-5" data-aos="zoom-in" data-aos-delay="500">
-        <a href="#" class="btn view-more-btn">View More</a>
+        <a href="{{ route('portfolios') }}" class="btn view-more-btn">{{ __('common.view_more') }}</a>
       </div>
-  
+      @endif
     </div>
   </section>
   
