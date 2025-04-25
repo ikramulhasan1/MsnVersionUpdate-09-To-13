@@ -287,7 +287,7 @@ $header = \App\Models\PageSetup::page('home');
       background: #fff;
       border: 1px solid #E0E0E0;
       border-radius: 12px;
-      padding: 10px 20px;
+      padding: 15px 30px;
       transition: all 0.3s ease;
       display: inline-flex;
       align-items: center;
