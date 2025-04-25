@@ -1379,7 +1379,7 @@ $section_process = \App\Models\Section::section('process');
                     
                     {{-- Show arrow after every item except the last one --}}
                     @php
-                        $totalSteps = count($process);
+                        $totalSteps = count($processes);
                         $showArrow = ($key != $totalSteps - 1); // hide arrow for last step
                     @endphp
 
