@@ -280,10 +280,11 @@ $header = \App\Models\PageSetup::page('services');
     }
   }
 
-  /* .faq_container{
-    margin-top: 0px!important;
+  .faq_container{
+    margin: auto !important;
+    margin-bottom: 50px !important;
+    margin-top: 50px !important;
   }
- */
 
   /* process */
   .process-section {
