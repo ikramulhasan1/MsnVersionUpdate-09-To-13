@@ -281,7 +281,7 @@ $header = \App\Models\PageSetup::page('home');
       color: #34A853;
       font-weight: 600;
       margin-bottom: 40px;
-      font-size: 1.1rem;
+      font-size: 1.5rem;
     }
     .tech-card {
       background: #fff;
