@@ -1261,29 +1261,11 @@ $section_process = \App\Models\Section::section('process');
           </div>
         </div>
         @endforeach
-        {{-- <div class="col-md-4">
-          <div class="blog-card p-3">
-            <img src="https://www.capitalnumbers.com/images/new-skill-section/api-development/AI-in-Financial-Software-Development.png" class="img-fluid blog-img" alt="Blog 2">
-            <div class="blog-content pt-3">
-              <h5 class="blog-title">AI-Powered FinTech: The Future of Financial Software Development</h5>
-              <p class="blog-meta">By <span class="fw-bold">MSN Softtech</span>, in Digital Transformation</p>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-md-4">
-          <div class="blog-card p-3">
-            <img src="https://www.capitalnumbers.com/images/new-skill-section/api-development/energy-consumption-blog.png" class="img-fluid blog-img" alt="Blog 3">
-            <div class="blog-content pt-3">
-              <h5 class="blog-title">Energy Consumption Forecasting with Machine Learning: A Detailed Guide</h5>
-              <p class="blog-meta">By <span class="fw-bold">MSN Softtech</span>, in Digital Transformation</p>
-            </div>
-          </div>
-        </div> --}}
+        
       </div>
   
       <div class="text-center mt-5">
-        <a href="#" class="btn blog-btn-orange">Read More Blog Posts →</a>
+        <a href="{{ route('blogs') }}" class="btn blog-btn-orange">Read More Blog Posts →</a>
       </div>
     </div>
   </section>
