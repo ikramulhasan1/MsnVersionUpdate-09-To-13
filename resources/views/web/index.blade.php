@@ -270,7 +270,7 @@ $header = \App\Models\PageSetup::page('home');
     }
 
     .section-title {
-      font-weight: 700;
+      font-weight: 900;
       font-size: 2.5rem;
       text-align: center;
       margin-bottom: 10px;
