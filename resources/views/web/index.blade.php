@@ -1703,7 +1703,7 @@ $section_process = \App\Models\Section::section('process');
       $("#case-owl-carousel").owlCarousel({
         loop: true,
         margin: 0,
-        nav: false,
+        nav: true,
         navText: [],
         dots: true,
         autoplay: true,
