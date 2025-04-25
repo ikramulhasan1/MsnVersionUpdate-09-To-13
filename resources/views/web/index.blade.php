@@ -1132,7 +1132,7 @@ $section_process = \App\Models\Section::section('process');
 @endphp
 @if(count($processes) > 0 && isset($section_process))
 <!--Feautred Section -->
-<section style="background-color: " class="feautred-section style-two" >
+<section  class="feautred-section pt-0 style-two" >
     <div class="container">
         <div class="row">
             <div class="col-12">
