@@ -93,7 +93,7 @@ $header = \App\Models\PageSetup::page('home');
     .model-section {
       background-color: #052C58;
       font-family: 'Segoe UI', sans-serif !important;
-      color: #333333;
+      color: #ffffff;
     }
 
     h1.title {
@@ -103,7 +103,7 @@ $header = \App\Models\PageSetup::page('home');
     }
 
     .subtitle {
-      color: #444444;
+      color: #ffffff;
       text-align: center;
       font-size: 25px;
       font-weight: 600;
@@ -126,12 +126,12 @@ $header = \App\Models\PageSetup::page('home');
 
     .card-box h5 {
       font-weight: 700;
-      color: #333333;
+      color: #ffffff;
       font-size: 31px;
     }
 
     .card-box p {
-      color: #333333;
+      color: #ffffff;
       font-size: 15px;
       font-weight: 500 !important;
     }
@@ -181,7 +181,7 @@ $header = \App\Models\PageSetup::page('home');
         top: -15px;
         left: 50%;
         transform: translateX(-50%);
-        background-color: #F5F7F8;
+        background-color: #052C58;
         padding: 0 15px;
         line-height: 1;
     }
