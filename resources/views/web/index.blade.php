@@ -174,18 +174,18 @@ $header = \App\Models\PageSetup::page('home');
     }
 
     fieldset legend {
-        width: auto;
-        margin: 0 auto 0px;
-        font-size: 25px;
-        font-weight: 700;
-        color: #ffffff;
-        position: absolute;
-        top: -15px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #052C58;
-        padding: 0 15px;
-        line-height: 1;
+        width: auto !important;
+        margin: 0 auto 0px !important;
+        font-size: 25px !important;
+        font-weight: 700 !important;
+        color: #ffffff !important;
+        position: absolute !important;
+        top: -15px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        background-color: #052C58 !important;
+        padding: 0 15px !important;
+        line-height: 1 !important;
     }
 
     fieldset p {
