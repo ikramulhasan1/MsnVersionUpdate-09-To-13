@@ -1252,10 +1252,10 @@ $section_process = \App\Models\Section::section('process');
         <!-- Blog Card 1 -->
         @foreach($articles as $key => $article)
         <div class="col-md-4">
-          <div href="{{ route('blog.single', $article->slug) }}" class="blog-card p-3">
+          <div class="blog-card p-3">
             <img src="{{ asset('uploads/article/'.$article->image_path) }}" class="img-fluid blog-img" alt="{{ $article->title }}">
             <div class="blog-content pt-3">
-              <div href="{{ route('blog.single', $article->slug) }}" class="blog-title">AI for Business Leaders: Driving Innovation and Growth</div>
+              <div class="blog-title"><a href="{{ route('blog.single', $article->slug) }}">{{ $article->title }}</a></div>
               <p class="blog-meta">By <span class="fw-bold">MSN Softtech</span>, in Digital Transformation</p>
             </div>
           </div>
