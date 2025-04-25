@@ -779,7 +779,7 @@ $section_services = \App\Models\Section::section('services');
         <h1 class="section-title">Design. Develop. Maintain. Scale.<br>Your Full-Stack Development Partner</h1>
         <p class="section-subtitle">500+ Team of Experts Skilled in 40+ Cutting-Edge Technologies</p>
       
-        <div class="d-flex flex-wrap justify-content-center gap-3">
+        <div class="d-flex flex-wrap justify-content-center m-1">
           <!-- Tech cards -->
           <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/fullstack-icon.png" alt="Full-stack">
