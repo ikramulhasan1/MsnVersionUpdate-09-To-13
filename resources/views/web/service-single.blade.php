@@ -754,7 +754,7 @@ $header = \App\Models\PageSetup::page('services');
           <div class="container">
             <div class="process-section-title">
               <h2>Our Application Development Process</h2>
-              <p class="text-muted">From research to testing, we ensure your design is intuitive, user-focused, and aligned with your goals.</p>
+              {{-- <p class="text-muted">From research to testing, we ensure your design is intuitive, user-focused, and aligned with your goals.</p> --}}
             </div>
         
             <!-- First Row -->
