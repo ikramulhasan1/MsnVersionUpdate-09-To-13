@@ -103,7 +103,7 @@ $header = \App\Models\PageSetup::page('home');
     }
 
     .subtitle {
-      color: #1EC000;
+      color: #444444;
       text-align: center;
       font-size: 25px;
       font-weight: 600;
