@@ -267,6 +267,8 @@ $header = \App\Models\PageSetup::page('home');
     .tech-section {
       background-color: #FAFAFA;
       font-family: 'Poppins', sans-serif;
+      padding-top: 20px;
+      padding-bottom: 30px;
     }
 
     .section-title {
