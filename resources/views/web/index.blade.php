@@ -1710,10 +1710,10 @@ $section_process = \App\Models\Section::section('process');
         navText: [],
         dots: true,
         autoplay: true,
-        autoplayTimeout: 5000,
+        autoplayTimeout: 9000,
         autoplayHoverPause: true,
         items: 1,
-        smartSpeed: 1000,
+        smartSpeed: 1500,
       });
     });
 
