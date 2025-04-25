@@ -161,6 +161,7 @@ $header = \App\Models\PageSetup::page('home');
 
     .fieldset-div{
         padding-top: 50px;
+        padding-top: 30px;
     }
     fieldset {
         border: 1px solid #3CC065 !important;
