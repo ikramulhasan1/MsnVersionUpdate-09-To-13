@@ -70,7 +70,7 @@ $header = \App\Models\PageSetup::page('home');
     .partner-section {
       padding: 60px 0;
       background-color: #F5F7F8;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     .partner-section h2 {
@@ -92,7 +92,7 @@ $header = \App\Models\PageSetup::page('home');
     /* model */
     .model-section {
       background-color: #F5F7F8;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', sans-serif !important;
       color: #333333;
     }
 
