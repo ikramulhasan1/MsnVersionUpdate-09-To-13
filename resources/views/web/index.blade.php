@@ -688,22 +688,22 @@ $section_portfolio = \App\Models\Section::section('portfolio');
 @endphp
 @if(count($portfolios) > 0 && isset($section_portfolio))
 <!--Gallery Section-->
-<section style="background-color: #F9FAFC" class="gallery-section">
+<section style="background-color: #052C58" class="gallery-section">
     <!--Sortable Masonry-->
     <div class="sortable-masonry">
         <div class="container">
             <div class="sec-title centered description">
-                <h2>{{ $section_portfolio->title }}</h2>
-                <div class="text description">{!! $section_portfolio->description !!}</div>
+                <h2 class="text-white" >{{ $section_portfolio->title }}</h2>
+                <div class="text description text-white">{!! $section_portfolio->description !!}</div>
                 <div class="separater"></div>
             </div>
             <!--Filter-->
             <div class="filters row clearfix">
 
                 <ul class="filter-tabs filter-btns clearfix">
-                    <li class="active filter" data-role="button" data-filter=".all">{{ __('common.all') }}</li>
+                    <li class="active filter text-white" data-role="button" data-filter=".all">{{ __('common.all') }}</li>
                     @foreach($portfolio_categories as $portfolio_category)
-                    <li class="filter" data-role="button" data-filter=".{{ $portfolio_category->slug }}">{{ $portfolio_category->title }}</li>
+                    <li class="filter text-white" data-role="button" data-filter=".{{ $portfolio_category->slug }}">{{ $portfolio_category->title }}</li>
                     @endforeach
                 </ul>
             </div>
@@ -724,12 +724,12 @@ $section_portfolio = \App\Models\Section::section('portfolio');
                             <div class="overlay-inner">
                                 <div class="content">
                                     <div class="content-inner">
-                                        <div class="tags">
+                                        <div class="tags text-white">
                                             @foreach($portfolio->categories as $category)
                                             > {{ $category->title }}
                                             @endforeach
                                         </div>
-                                        <h3><a href="{{ route('portfolio.single', $portfolio->slug) }}">{{ $portfolio->title }}</a></h3>
+                                        <h3 class="text-white"><a class="text-white" href="{{ route('portfolio.single', $portfolio->slug) }}">{{ $portfolio->title }}</a></h3>
                                     </div>
                                     {{-- <a href="{{ route('portfolio.single', $portfolio->slug) }}" class="link-btn">{{ __('common.read_more') }}</a> --}}
                                 </div>
