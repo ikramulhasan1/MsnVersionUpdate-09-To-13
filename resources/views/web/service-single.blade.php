@@ -282,8 +282,8 @@ $header = \App\Models\PageSetup::page('services');
 
   .faq_container{
     margin: auto !important;
-    margin-bottom: 50px !important;
-    margin-top: 50px !important;
+    margin-bottom: 30px !important;
+    margin-top: 30px !important;
   }
 
   /* process */
