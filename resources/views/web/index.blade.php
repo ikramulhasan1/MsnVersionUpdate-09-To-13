@@ -692,14 +692,16 @@ $header = \App\Models\PageSetup::page('home');
 
     .case-studies-carousel-wrap {
       width: 100%;
-      height: 550px;
+      height: 500px;
       position: relative;
       overflow: hidden;
     }
-
+    .owl-prev, .owl-next{
+        display: none !important;
+    }
     .owl-carousel .case-studies-item {
       width: 100%;
-      height: 550px;
+      height: 500px;
       background-size: cover;
       background-position: center;
       display: flex;
@@ -1703,7 +1705,7 @@ $section_process = \App\Models\Section::section('process');
       $("#case-owl-carousel").owlCarousel({
         loop: true,
         margin: 0,
-        nav: true,
+        nav: false,
         navText: [],
         dots: true,
         autoplay: true,
