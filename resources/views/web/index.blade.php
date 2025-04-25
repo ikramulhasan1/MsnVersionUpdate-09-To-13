@@ -256,7 +256,7 @@ $header = \App\Models\PageSetup::page('home');
 
     /* counter-column */
     .counter-column{
-        padding-top: 50px!important;
+        padding-top: 40px!important;
     }
 </style>
 {{-- schema  --}}
