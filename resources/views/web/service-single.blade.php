@@ -285,19 +285,13 @@ $header = \App\Models\PageSetup::page('services');
   }
 
 
-  /*  service-section */
-  .process-section{
-    padding-top: 50px !important;
-    padding-bottom: 50px !important;
-  }
-
-
-
   /* process */
   .process-section {
       font-family: 'Segoe UI', sans-serif;
       background-color: #f9fafc;
-      padding: 50px 15px;
+      padding: 80px 15px;
+      /* padding-top: 50px !important;
+      padding-bottom: 50px !important; */
     }
 
     .process-section-title {
