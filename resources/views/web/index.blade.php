@@ -170,7 +170,7 @@ $header = \App\Models\PageSetup::page('home');
 
     fieldset legend {
         width: auto;
-        margin: 0 auto 0px;
+        margin: 60 auto 0px;
         font-size: 25px;
         font-weight: 700;
         color: #333333;
@@ -447,7 +447,7 @@ $header = \App\Models\PageSetup::page('home');
 
 @if(isset($about) || count($counters) > 0)
 <!-- About Section -->
-<section style="background-color: #F9FAFC" class="our-mission-section">
+<section style="background-color: #F5F7F8" class="our-mission-section">
     <div class="container">
         {{-- @if(isset($about))
         <div class="sec-title left">
