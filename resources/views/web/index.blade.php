@@ -522,80 +522,7 @@ $header = \App\Models\PageSetup::page('home');
         </div>
         @endif
 
-        {{-- model --}}
-        
- <section class="model-section">
-    <div class="container py-5">
-      <h1 class="title">Flexible Engagement Models<br>to Suit Your Needs</h1>
-      <p id="compare" class="subtitle mt-3">
-        Find the Perfect Solution for Your Project, Whether You Need a<br>
-        Fully Managed Team, Staff Augmentation, or a Fixed-Price Approach.
-      </p>
-  
-      <!-- Engagement Model Cards -->
-      <div class="row mt-5 g-4">
-        <!-- Managed Team -->
-        <div class="col-md-4">
-          <div class="card-box border-success-bottom2">
-            <img src="https://img.icons8.com/ios/100/000000/developer.png" alt="Managed Team Icon">
-            <h5>Managed Team</h5>
-            <p>Your product, our dedicated team. From concept to completion, we handle it all.</p>
-            <button class="btn">Contact Us For Details →</button>
-          </div>
-        </div>
-  
-        <!-- Staff Augmentation -->
-        <div class="col-md-4">
-          <div class="card-box border-success-bottom">
-            <img src="https://img.icons8.com/ios/100/000000/teamwork.png" alt="Staff Augmentation Icon">
-            <h5>Staff Augmentation</h5>
-            <p>Need extra hands? Our experts seamlessly join your team, providing the skills you need, when you need them.</p>
-            <button class="btn">Contact Us For Details →</button>
-          </div>
-        </div>
-  
-        <!-- Fixed Cost -->
-        <div class="col-md-4">
-          <div class="card-box border-success-bottom2">
-            <img src="https://img.icons8.com/ios/100/000000/receipt-approved.png" alt="Fixed Cost Icon">
-            <h5>Fixed Cost</h5>
-            <p>Upfront price, guaranteed delivery. Your project completed on time and within budget.</p>
-            <button class="btn">Share Your Requirements →</button>
-          </div>
-        </div>
-      </div>
-  
-      <div class="fieldset-div">
-        <!-- Options Section -->
-      <fieldset>
-        <legend>Need a Different Approach?</legend>
-        <p>Explore More Ways We Can Help.</p>
-  
-        <div class="radio-options">
-          <div>
-            <input type="radio" id="option1" name="engagement-option">
-            <label for="option1">Scope My Requirements</label>
-          </div>
-          <div>
-            <input type="radio" id="option2" name="engagement-option" checked>
-            <label for="option2">I Have an RFI/RFP</label>
-          </div>
-          <div>
-            <input type="radio" id="option3" name="engagement-option">
-            <label for="option3">Existing Project Takeover</label>
-          </div>
-          <div>
-            <input type="radio" id="option4" name="engagement-option">
-            <label for="option4">Get Help With a Task</label>
-          </div>
-        </div>
-  
-        <button class="explore-btn">Explore Your Options →</button>
-        <a href="#compare" class="compare-link">Compare All Engagement Models</a>
-      </fieldset>
-      </div>
-    </div>
-   </section>
+
     </div>
 </section>
 <!--End About Section -->
@@ -634,6 +561,80 @@ $section_services = \App\Models\Section::section('services');
     </div>
 </section>
 @endif --}}
+        {{-- model --}}
+        
+        <section class="model-section">
+            <div class="container py-5">
+              <h1 class="title">Flexible Engagement Models<br>to Suit Your Needs</h1>
+              <p id="compare" class="subtitle mt-3">
+                Find the Perfect Solution for Your Project, Whether You Need a<br>
+                Fully Managed Team, Staff Augmentation, or a Fixed-Price Approach.
+              </p>
+          
+              <!-- Engagement Model Cards -->
+              <div class="row mt-5 g-4">
+                <!-- Managed Team -->
+                <div class="col-md-4">
+                  <div class="card-box border-success-bottom2">
+                    <img src="https://img.icons8.com/ios/100/000000/developer.png" alt="Managed Team Icon">
+                    <h5>Managed Team</h5>
+                    <p>Your product, our dedicated team. From concept to completion, we handle it all.</p>
+                    <button class="btn">Contact Us For Details →</button>
+                  </div>
+                </div>
+          
+                <!-- Staff Augmentation -->
+                <div class="col-md-4">
+                  <div class="card-box border-success-bottom">
+                    <img src="https://img.icons8.com/ios/100/000000/teamwork.png" alt="Staff Augmentation Icon">
+                    <h5>Staff Augmentation</h5>
+                    <p>Need extra hands? Our experts seamlessly join your team, providing the skills you need, when you need them.</p>
+                    <button class="btn">Contact Us For Details →</button>
+                  </div>
+                </div>
+          
+                <!-- Fixed Cost -->
+                <div class="col-md-4">
+                  <div class="card-box border-success-bottom2">
+                    <img src="https://img.icons8.com/ios/100/000000/receipt-approved.png" alt="Fixed Cost Icon">
+                    <h5>Fixed Cost</h5>
+                    <p>Upfront price, guaranteed delivery. Your project completed on time and within budget.</p>
+                    <button class="btn">Share Your Requirements →</button>
+                  </div>
+                </div>
+              </div>
+          
+              <div class="fieldset-div">
+                <!-- Options Section -->
+              <fieldset>
+                <legend>Need a Different Approach?</legend>
+                <p>Explore More Ways We Can Help.</p>
+          
+                <div class="radio-options">
+                  <div>
+                    <input type="radio" id="option1" name="engagement-option">
+                    <label for="option1">Scope My Requirements</label>
+                  </div>
+                  <div>
+                    <input type="radio" id="option2" name="engagement-option" checked>
+                    <label for="option2">I Have an RFI/RFP</label>
+                  </div>
+                  <div>
+                    <input type="radio" id="option3" name="engagement-option">
+                    <label for="option3">Existing Project Takeover</label>
+                  </div>
+                  <div>
+                    <input type="radio" id="option4" name="engagement-option">
+                    <label for="option4">Get Help With a Task</label>
+                  </div>
+                </div>
+          
+                <button class="explore-btn">Explore Your Options →</button>
+                <a href="#compare" class="compare-link">Compare All Engagement Models</a>
+              </fieldset>
+              </div>
+            </div>
+           </section>
 @php
 $section_services = \App\Models\Section::section('services');
 @endphp
