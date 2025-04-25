@@ -176,7 +176,7 @@ $header = \App\Models\PageSetup::page('home');
         margin: 0 auto 0px;
         font-size: 25px;
         font-weight: 700;
-        color: #333333;
+        color: #ffffff;
         position: absolute;
         top: -15px;
         left: 50%;
@@ -187,7 +187,7 @@ $header = \App\Models\PageSetup::page('home');
     }
 
     fieldset p {
-      color: #333333;
+      color: #ffffff;
       margin-bottom: 20px;
       padding-top: 20px;
       font-size: 20px;
@@ -237,11 +237,13 @@ $header = \App\Models\PageSetup::page('home');
     .compare-link {
       display: block;
       margin-top: 15px;
-      text-decoration: none;
-      color: #2138b9c6;
+      color: #ffffff;
       font-size: 13px;
       font-weight: 700;
       text-decoration: underline;
+    }
+    .compare-link:hover {
+       color: #00B54A;
     }
 
     .our-mission-section{
