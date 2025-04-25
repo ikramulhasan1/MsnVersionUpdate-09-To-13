@@ -1700,12 +1700,12 @@ $section_process = \App\Models\Section::section('process');
 
 {{-- case study --}}
 <script>
+   
     $(document).ready(function () {
       $("#case-owl-carousel").owlCarousel({
         loop: true,
         margin: 0,
-        nav: true,
-        navText: [],
+        nav: false,
         dots: true,
         autoplay: true,
         autoplayTimeout: 4000,
