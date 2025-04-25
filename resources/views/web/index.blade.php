@@ -525,9 +525,9 @@ $header = \App\Models\PageSetup::page('home');
         {{-- model --}}
         
  <section class="model-section">
-    <div id="compare" class="container py-5">
+    <div class="container py-5">
       <h1 class="title">Flexible Engagement Models<br>to Suit Your Needs</h1>
-      <p class="subtitle mt-3">
+      <p id="compare" class="subtitle mt-3">
         Find the Perfect Solution for Your Project, Whether You Need a<br>
         Fully Managed Team, Staff Augmentation, or a Fixed-Price Approach.
       </p>
