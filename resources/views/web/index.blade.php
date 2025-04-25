@@ -429,7 +429,7 @@ $header = \App\Models\PageSetup::page('home');
     }
 
     .process-section-title h2 {
-      font-weight: 700;
+      font-weight: 900;
       color: #333333;
     }
 
