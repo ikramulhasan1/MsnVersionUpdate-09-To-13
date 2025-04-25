@@ -826,7 +826,7 @@ $header = \App\Models\PageSetup::page('home');
       font-size: 17px;
       border-radius: 5px;
       transition: background 0.3s ease;
-      text-decoration: none;;
+      text-decoration: none;
     }
 
     .read-more-btn:hover {
@@ -1593,9 +1593,9 @@ $section_process = \App\Models\Section::section('process');
     <div id="case-owl-carousel" class="owl-carousel owl-theme">
 
       <!-- Slide 1 -->
-      <div class="case-studies-item" style="background-image: url('https://lh3.googleusercontent.com/gps-cs-s/AB5caB95DH59cAFVGDUe5f151HvKGIqKcZ14IrFx597h6yDqURXexrA2tNSxKzH_MiCpeAnpkAkEV1yr_7Ipa_0_Sr6PneRyZNSl4es05LdFYSUpumFrPX4fxO1exOIydYSochGUha57=w810-h468-n-k-no');">
+      <div class="case-studies-item" style="background-image: url('https://mlz8prml4nnc.i.optimole.com/cb:1kp5.54a9a/w:768/h:402/q:mauto/f:best/https://fullscale.io/wp-content/uploads/2024/10/web-application-development-feature-image.png');">
         <div class="case-studies-content">
-          <h1>Conversational AI-Based Mobile App Development for Infant Care</h1>
+          <h1>From Vision to Launch: Custom Web Development for a Growing Startup</h1>
           <div class="case-studies-tech-tags">
             <span>Node.js</span>
             <span>Ionic</span>
@@ -1607,7 +1607,7 @@ $section_process = \App\Models\Section::section('process');
       </div>
 
       <!-- Slide 2 -->
-      <div class="case-studies-item" style="background-image: url('https://lh3.googleusercontent.com/gps-cs-s/AB5caB91ed5WVNPNaOooZIQSd4ZCvSzO5bk4nr4ff3st2pGJMzbeD0cWcZCPz7ZpehJOucrstEguAj4G4hzEshceTQtEv_C37oBnicEvj9rDcRakgGsF8mXTrt2LIGvSRwxBGk1GrDYI=w810-h468-n-k-no');">
+      <div class="case-studies-item" style="background-image: url('https://media.licdn.com/dms/image/v2/D4E12AQEa4pDRMW7YxA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721072399995?e=2147483647&v=beta&t=6U7MgUOmoSmUucaC4WAmZ7rtczUwnxqoUH6bOV_Wbak');">
         <div class="case-studies-content">
           <h1>Revolutionizing Online Shopping Experience with AI</h1>
           <div class="case-studies-tech-tags">
@@ -1621,9 +1621,9 @@ $section_process = \App\Models\Section::section('process');
       </div>
 
       <!-- Slide 3 -->
-      <div class="case-studies-item" style="background-image: url('https://lh3.googleusercontent.com/gps-cs-s/AB5caB9fjB13iqoywBI6no0T1sefLZl206dNf5kPSVULazBWFxPuQGw-qiyeE7gShUOG4T1aXYNO869i6xTp7gb9sxPPgHkskl8OesYrCHJgKuAI-tS8J0sTDGNfgK5gXWtZ46dOwGI=w810-h468-n-k-no');">
+      <div class="case-studies-item" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3k_S7cijCa-dS15q4JMmBr3Xl-oQI4JfVDQ&s');">
         <div class="case-studies-content">
-          <h1>Smart Health Monitoring System for Elderly Care</h1>
+          <h1>Scalable & Secure: Building a Laravel-Powered Enterprise Platform</h1>
           <div class="case-studies-tech-tags">
             <span>Node.js</span>
             <span>Ionic</span>
