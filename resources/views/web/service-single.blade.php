@@ -794,7 +794,7 @@ $header = \App\Models\PageSetup::page('services');
 <section class="model-section">
   <div class="container py-5">
     <div class="model-section-title">
-      Engagement Models for Our <br> <span class="my-3">UI UX Design Services</span>
+      Engagement Models for Our <br class="my-3"> UI UX Design Services
     </div>
 
     <div class="row g-4">
