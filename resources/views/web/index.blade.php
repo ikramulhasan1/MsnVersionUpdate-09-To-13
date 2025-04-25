@@ -268,6 +268,9 @@ $header = \App\Models\PageSetup::page('home');
       background-color: #FAFAFA;
       font-family: 'Poppins', sans-serif;
     }
+    .all-tech-cards{
+        margin:5px !important;
+    }
     .section-title {
       font-weight: 700;
       font-size: 2.5rem;
@@ -779,7 +782,7 @@ $section_services = \App\Models\Section::section('services');
         <h1 class="section-title">Design. Develop. Maintain. Scale.<br>Your Full-Stack Development Partner</h1>
         <p class="section-subtitle">500+ Team of Experts Skilled in 40+ Cutting-Edge Technologies</p>
       
-        <div class="d-flex flex-wrap justify-content-center m-1">
+        <div class="d-flex flex-wrap justify-content-center all-tech-cards">
           <!-- Tech cards -->
           <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/fullstack-icon.png" alt="Full-stack">
