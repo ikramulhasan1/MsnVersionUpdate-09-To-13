@@ -98,7 +98,7 @@ $header = \App\Models\PageSetup::page('home');
 
     h1.title {
       font-size: 51px;
-      font-weight: 800;
+      font-weight: 700;
       text-align: center;
     }
 
