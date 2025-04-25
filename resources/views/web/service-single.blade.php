@@ -456,11 +456,12 @@ $header = \App\Models\PageSetup::page('services');
       font-family: 'Poppins', sans-serif;
       color: white !important;
     }
-    .section-title {
+    .model-section-title {
       text-align: center;
       font-weight: 700;
       font-size: 48px;
-      margin-bottom: 40px;
+      margin-bottom: 40px !important;
+      color: #ffffff;
     }
     .card-box {
       background: #ffffff !important;
@@ -516,9 +517,11 @@ $header = \App\Models\PageSetup::page('services');
     .helper-section h4 {
       font-weight: 700;
       margin-bottom: 10px;
+      color: #ffffff;
     }
     .helper-section p {
       font-size: 16px;
+      color: #ffffff;
     }
     .helper-radio-group {
       display: flex;
@@ -788,7 +791,7 @@ $header = \App\Models\PageSetup::page('services');
 
 <section class="model-section">
   <div class="container py-5">
-    <div class="section-title">
+    <div class="model-section-title">
       Engagement Models for Our <br> UI UX Design Services
     </div>
 
