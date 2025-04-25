@@ -1223,74 +1223,13 @@ $section_services = \App\Models\Section::section('services');
 @php
 $section_portfolio = \App\Models\Section::section('portfolio');
 @endphp
-@if(count($portfolios) > 0 && isset($section_portfolio))
-<!--Gallery Section-->
 
-{{-- 
-<section style="background-color: #ffffff" class="gallery-section">
-    <div class="sortable-masonry">
-        <div class="container">
-            <div class="sec-title centered description">
-                <h2>{{ $section_portfolio->title }}</h2>
-                <div class="text description">{!! $section_portfolio->description !!}</div>
-                <div class="separater"></div>
-            </div>
-            <div class="filters row clearfix">
-
-                <ul class="filter-tabs filter-btns clearfix">
-                    <li class="active filter" data-role="button" data-filter=".all">{{ __('common.all') }}</li>
-                    @foreach($portfolio_categories as $portfolio_category)
-                    <li class="filter" data-role="button" data-filter=".{{ $portfolio_category->slug }}">{{ $portfolio_category->title }}</li>
-                    @endforeach
-                </ul>
-            </div>
-
-            <div class="row clearfix items-container">
-
-                @foreach($portfolios as $portfolio)
-                <div class="default-portfolio-item mix masonry-item all 
-                        @foreach($portfolio->categories as $category)
-                            {{ $category->slug }} 
-                        @endforeach
-                     col-lg-4 col-md-6 col-sm-12">
-                    <div class="inner-box">
-                        <figure class="image-box"><img src="{{ asset('uploads/portfolio/'.$portfolio->image_path) }}" alt="{{ $portfolio->title }}"></figure>
-                        <div class="overlay-box">
-                            <div class="overlay-inner">
-                                <div class="content">
-                                    <div class="content-inner">
-                                        <div class="tags">
-                                            @foreach($portfolio->categories as $category)
-                                            > {{ $category->title }}
-                                            @endforeach
-                                        </div>
-                                        <h3><a href="{{ route('portfolio.single', $portfolio->slug) }}">{{ $portfolio->title }}</a></h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-
-            </div>
-
-            @php
-            $page_portfolio = \App\Models\PageSetup::page('portfolio');
-            @endphp
-            @if(isset($page_portfolio))
-            <div class="load-more-btn text-center">
-                <a href="{{ route('portfolios') }}" class="theme-btn btn-style-four">{{ __('common.view_more') }}</a>
-            </div>
-            @endif
-        </div>
-    </div>
-</section>
- --}}
+ @if(count($portfolios) > 0 && isset($section_portfolio))
  <section class="portfolio-section py-5">
     <div class="container text-center">
-      <h2 class="portfolio-section-title" data-aos="fade-up">Our Portfolios</h2>
-  
+      <h2 class="portfolio-section-title" data-aos="fade-up">{{ $section_portfolio->title }}</h2>
+      <div class="text description">{!! $section_portfolio->description !!}</div>
+
       <!-- FILTER BUTTONS SCROLLABLE WRAPPER -->
       <div class="portfolio-filters-wrapper" data-aos="fade-up" data-aos-delay="200">
         <div class="portfolio-filters">
