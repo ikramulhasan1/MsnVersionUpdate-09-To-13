@@ -285,6 +285,12 @@ $header = \App\Models\PageSetup::page('services');
   }
 
 
+  /*  service-section */
+  .service-section{
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
 
 
   /* process */
@@ -642,7 +648,7 @@ $header = \App\Models\PageSetup::page('services');
 <!--Sidebar Page Container-->
 <div style="background-color: #ffffff" class="sidebar-page-container">
     <div >
-        <div class="row clearfix mb-5 py-4 mx-5">
+        <div class="row service-section clearfix mb-5 mx-5">
             <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
                 <aside class="sidebar services-sidebar">
                   @if ($service->industries->count() > 0)
