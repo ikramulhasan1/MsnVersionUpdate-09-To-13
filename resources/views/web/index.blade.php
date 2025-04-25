@@ -191,7 +191,7 @@ $header = \App\Models\PageSetup::page('home');
       margin-bottom: 30px;
       padding-top: 0px;
       font-size: 20px;
-      font-weight: 600 !important;
+      font-weight: 500 !important;
     }
 
     .radio-options {
