@@ -448,6 +448,122 @@ $header = \App\Models\PageSetup::page('services');
       }
     }
     
+
+
+    /* model section */
+    .model-section {
+      background: linear-gradient(135deg, #01446e, #052a46);
+      font-family: 'Poppins', sans-serif;
+      color: white;
+    }
+    .section-title {
+      text-align: center;
+      font-weight: 700;
+      font-size: 48px;
+      margin-bottom: 40px;
+    }
+    .card-box {
+      background: #ffffff;
+      color: #000000;
+      border-radius: 2px;
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease-in-out;
+      position: relative;
+    }
+    .card-box img {
+      height: 50px;
+    }
+    .card-box h3 {
+      margin-top: 20px;
+      font-weight: 700;
+      font-size: 31px;
+    }
+    .card-box p {
+      font-size: 15px;
+      margin: 15px 0 25px;
+    }
+    .btn-orange {
+      background-color: #ff5f2e;
+      color: white;
+      border: none;
+      font-weight: 600;
+      padding: 10px 16px;
+    }
+    .btn-orange:hover {
+      background-color: #e95520;
+    }
+    .btn-link-custom {
+      color: #007bff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .btn-link-custom:hover {
+      text-decoration: underline;
+    }
+    .highlight-card {
+      border-bottom: 4px solid #28a745;
+    }
+    .highlight-card2 {
+      border-bottom: 4px solid #4492DC;
+    }
+    .helper-section {
+      text-align: center;
+      margin-top: 60px;
+    }
+    .helper-section h4 {
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .helper-section p {
+      font-size: 16px;
+    }
+    .helper-radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+    .helper-radio-group input[type="radio"] {
+      display: none;
+    }
+    .helper-radio-group label {
+      background-color: transparent;
+      border: 1px solid #28a745;
+      border-radius: 5px;
+      padding: 10px 20px;
+      color: #28a745;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+    .helper-radio-group input[type="radio"]:checked + label {
+      background-color: #28a745;
+      color: white;
+    }
+    .share-btn {
+      background-color: #ff5f2e;
+      border: none;
+      color: white;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 12px 28px;
+    }
+    .share-btn:hover {
+      background-color: #e95520;
+    }
+    .radio-wrap {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+    }
+    .radio-wrap input[type="radio"] {
+      accent-color: #28a745;
+      transform: scale(1.2);
+    }
 </style>
 <!--Page Title-->
 {{-- <section class="page-title"> --}}
@@ -624,6 +740,8 @@ $header = \App\Models\PageSetup::page('services');
                 @endif
             </div>
         </div>
+
+
         @if ($service->processworks->count() > 0)
         {{-- process-section --}}
         <section class="process-section my-5 px-5">
@@ -666,6 +784,69 @@ $header = \App\Models\PageSetup::page('services');
           </div>
         </section >
         @endif
+
+
+<section class="model-section">
+  <div class="container py-5">
+    <div class="section-title">
+      Engagement Models for Our <br> UI UX Design Services
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card-box h-100 highlight-card2">
+         
+          <img src="https://img.icons8.com/ios-filled/50/4a90e2/groups.png" alt="Managed Team">
+          <h3>Managed Team</h3>
+          <p>Your product, our dedicated team. From concept to completion, we handle it all.</p>
+          <a href="#" class="btn btn-orange w-100 mb-2">Contact Us For Details →</a><br>
+          <a href="#" class="btn-link-custom">Know More</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card-box h-100 highlight-card">
+          
+          <img src="https://img.icons8.com/ios-filled/50/4a90e2/developer.png" alt="Staff Augmentation">
+          <h3>Staff Augmentation</h3>
+          <p>Need extra hands? Our experts seamlessly join your team, providing the skills you need, when you need them.</p>
+          <a href="#" class="btn btn-orange w-100 mb-2">Contact Us For Details →</a><br>
+          <a href="#" class="btn-link-custom">Know More</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card-box h-100 highlight-card2">
+          
+          <img src="https://img.icons8.com/ios-filled/50/4a90e2/price-tag.png" alt="Fixed Cost">
+          <h3>Fixed Cost</h3>
+          <p>Upfront price, guaranteed delivery. Your project completed on time and within budget.</p>
+          <a href="#" class="btn btn-orange w-100 mb-2">Share Your Requirements →</a><br>
+          <a href="#" class="btn-link-custom">Know More</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="helper-section">
+      <h4>Still Not Sure? Let Us Help You</h4>
+      <p>Pick your business needs:</p>
+      <div class="helper-radio-group">
+        <input type="radio" name="businessNeed" id="scopeReq">
+        <label for="scopeReq">Scope My Requirements</label>
+
+        <input type="radio" name="businessNeed" id="rfi">
+        <label for="rfi">I Have an RFI/RFP</label>
+
+        <input type="radio" name="businessNeed" id="takeover">
+        <label for="takeover">Existing Project Takeover</label>
+
+        <input type="radio" name="businessNeed" id="taskHelp">
+        <label for="taskHelp">Get Help With a Task</label>
+      </div>
+      <button class="share-btn">Share Your Requirements →</button>
+    </div>
+  </div>
+</section>
+
+
         @if ($service->faqs->count() > 0)
         <section class="mx-5">
             <div class="faq_container">
