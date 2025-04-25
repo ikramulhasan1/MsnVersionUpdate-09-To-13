@@ -1360,7 +1360,7 @@ $section_process = \App\Models\Section::section('process');
 <section class="process-section px-5">
   <div class="container">
     <div class="process-section-title">
-      <h2 style="padding-bottom: 30px !important">{!! $section_process->description !!}</h2>
+      <h2 style="padding-bottom: 30px !important">{{ $section_process->title }}</h2>
       {{-- <p class="text-muted">From research to testing, we ensure your design is intuitive, user-focused, and aligned with your goals.</p> --}}
     </div>
 
@@ -1375,7 +1375,7 @@ $section_process = \App\Models\Section::section('process');
                         {{-- <img style="width: 50px; height: 50px;" src="{{ asset('uploads/process/' . $process->image_path) }}" class="process-step-icon" alt=""> --}}
                         {{ $process->title }}
                     </div>
-                    <p style="font-size: 16px; color: #333333;">{{ $process->description }}</p>
+                    <p style="font-size: 16px; color: #333333;">{!! $process->description !!}</p>
                     
                     {{-- Show arrow after every item except the last one --}}
                     @php
