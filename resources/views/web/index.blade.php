@@ -87,6 +87,157 @@ $header = \App\Models\PageSetup::page('home');
       }
     }
     
+
+
+    /* model */
+    .model-section {
+      background-color: #F5F7F8;
+      font-family: 'Segoe UI', sans-serif;
+      color: #333333;
+    }
+
+    h1.title {
+      font-size: 51px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .subtitle {
+      color: #4492DC;
+      text-align: center;
+      font-size: 25px;
+      font-weight: 600;
+    }
+
+    .card-box {
+      background: #fff;
+      border-radius: 0px;
+      padding: 30px 20px;
+      text-align: center;
+      height: 100%;
+      position: relative;
+    }
+
+    .card-box img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 15px;
+    }
+
+    .card-box h5 {
+      font-weight: 700;
+      color: #333333;
+      font-size: 31px;
+    }
+
+    .card-box p {
+      color: #333333;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .card-box .btn {
+      background-color: #ff6f2c;
+      color: white;
+      font-weight: 600;
+      border: none;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      margin-top: 15px;
+    }
+
+    .card-box .btn:hover {
+      background-color: #e55d1b;
+    }
+
+    .border-success-bottom {
+      border-bottom: 7px solid #3CC065;
+    }
+
+    .border-success-bottom2 {
+      border-bottom: 7px solid #4492DC;
+    }
+
+    fieldset {
+        border: 1px solid #3CC065;
+        border-radius: 10px;
+        padding: 20px 30px 30px;
+        margin-top: 50px;
+        text-align: center;
+        position: relative;
+    }
+
+    fieldset legend {
+        width: auto;
+        margin: 0 auto 0px;
+        font-size: 25px;
+        font-weight: 700;
+        color: #333333;
+        position: absolute;
+        top: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #F5F7F8;
+        padding: 0 15px;
+        line-height: 1;
+    }
+
+    fieldset p {
+      color: #333333;
+      margin-bottom: 20px;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .radio-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .radio-options label {
+      background-color: transparent;
+      color: #00c48c;
+      border: 1px solid #00c48c;
+      border-radius: 6px;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .radio-options input[type="radio"] {
+      display: none;
+    }
+
+    .radio-options input[type="radio"]:checked + label {
+      background-color: #00c48c;
+      color: #fff;
+    }
+
+    .explore-btn {
+      background-color: #ff6f2c;
+      color: #fff;
+      padding: 12px 25px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 17px;
+      border: none;
+      margin-top: 10px;
+    }
+
+    .compare-link {
+      display: block;
+      margin-top: 15px;
+      color: #333333;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: underline;
+    }
 </style>
 {{-- schema  --}}
 @section('schema_markup')
@@ -298,7 +449,7 @@ $header = \App\Models\PageSetup::page('home');
 <!-- About Section -->
 <section style="background-color: #F9FAFC" class="our-mission-section">
     <div class="container">
-        @if(isset($about))
+        {{-- @if(isset($about))
         <div class="sec-title left">
             <h2>{{ $about->title }}</h2>
             <div class="separater"></div>
@@ -335,7 +486,7 @@ $header = \App\Models\PageSetup::page('home');
                 @endif
             </div>
         </div>
-        @endif
+        @endif --}}
 
         @if(count($counters) > 0)
         <div class="row">
@@ -360,6 +511,79 @@ $header = \App\Models\PageSetup::page('home');
             </div>
         </div>
         @endif
+
+        {{-- model --}}
+        
+ <section class="model-section">
+    <div class="container py-5">
+      <h1 class="title">Flexible Engagement Models<br>to Suit Your Needs</h1>
+      <p class="subtitle mt-3">
+        Find the Perfect Solution for Your Project, Whether You Need a<br>
+        Fully Managed Team, Staff Augmentation, or a Fixed-Price Approach.
+      </p>
+  
+      <!-- Engagement Model Cards -->
+      <div class="row mt-5 g-4">
+        <!-- Managed Team -->
+        <div class="col-md-4">
+          <div class="card-box border-success-bottom2">
+            <img src="https://img.icons8.com/ios/100/000000/developer.png" alt="Managed Team Icon">
+            <h5>Managed Team</h5>
+            <p>Your product, our dedicated team. From concept to completion, we handle it all.</p>
+            <button class="btn">Contact Us For Details →</button>
+          </div>
+        </div>
+  
+        <!-- Staff Augmentation -->
+        <div class="col-md-4">
+          <div class="card-box border-success-bottom">
+            <img src="https://img.icons8.com/ios/100/000000/teamwork.png" alt="Staff Augmentation Icon">
+            <h5>Staff Augmentation</h5>
+            <p>Need extra hands? Our experts seamlessly join your team, providing the skills you need, when you need them.</p>
+            <button class="btn">Contact Us For Details →</button>
+          </div>
+        </div>
+  
+        <!-- Fixed Cost -->
+        <div class="col-md-4">
+          <div class="card-box border-success-bottom2">
+            <img src="https://img.icons8.com/ios/100/000000/receipt-approved.png" alt="Fixed Cost Icon">
+            <h5>Fixed Cost</h5>
+            <p>Upfront price, guaranteed delivery. Your project completed on time and within budget.</p>
+            <button class="btn">Share Your Requirements →</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Options Section -->
+      <fieldset>
+        <legend>Need a Different Approach?</legend>
+        <p>Explore More Ways We Can Help.</p>
+  
+        <div class="radio-options">
+          <div>
+            <input type="radio" id="option1" name="engagement-option">
+            <label for="option1">Scope My Requirements</label>
+          </div>
+          <div>
+            <input type="radio" id="option2" name="engagement-option" checked>
+            <label for="option2">I Have an RFI/RFP</label>
+          </div>
+          <div>
+            <input type="radio" id="option3" name="engagement-option">
+            <label for="option3">Existing Project Takeover</label>
+          </div>
+          <div>
+            <input type="radio" id="option4" name="engagement-option">
+            <label for="option4">Get Help With a Task</label>
+          </div>
+        </div>
+  
+        <button class="explore-btn">Explore Your Options →</button>
+        <a href="#" class="compare-link">Compare All Engagement Models</a>
+      </fieldset>
+    </div>
+   </section>
     </div>
 </section>
 <!--End About Section -->
