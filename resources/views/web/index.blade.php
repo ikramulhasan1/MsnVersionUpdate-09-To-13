@@ -548,6 +548,135 @@ $header = \App\Models\PageSetup::page('home');
 
 }
 
+/* portfolio-section */
+    .portfolio-section {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+      color: #1d1d1d;
+    }
+
+    .portfolio-section-title {
+      font-size: 48px;
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+    }
+
+    .portfolio-section-title::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(to right, #ff5a00, #ff9500);
+      margin: 12px auto 0;
+      border-radius: 3px;
+    }
+
+    /* FILTER BUTTONS - HORIZONTAL SCROLL */
+    .portfolio-filters-wrapper {
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    .portfolio-filters {
+      display: inline-flex;
+      gap: 12px;
+      padding: 10px 0;
+    }
+    .portfolio-filter-btn {
+      flex: 0 0 auto;
+      background: #fff;
+      border: 1px solid #dee2e6;
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-weight: 500;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .portfolio-filter-btn.active, 
+    .portfolio-filter-btn:hover {
+      background: #ff5a00;
+      color: #fff;
+      border-color: #ff5a00;
+    }
+
+    /* Hide ugly scrollbar (optional) */
+    .portfolio-filters-wrapper::-webkit-scrollbar {
+      height: 6px;
+    }
+    .portfolio-filters-wrapper::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 10px;
+    }
+    .portfolio-filters-wrapper::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .portfolio-grid {
+      margin-top: 30px;
+    }
+
+    .portfolio-card {
+      overflow: hidden;
+      position: relative;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      background: #fff;
+      margin-bottom: 30px;
+    }
+
+    .portfolio-card img {
+      width: 100%;
+      height: auto;
+      transition: transform 0.5s ease;
+    }
+
+    .portfolio-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .portfolio-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      transition: all 0.5s ease;
+    }
+
+    .portfolio-card:hover .portfolio-overlay {
+      opacity: 1;
+    }
+
+    .portfolio-overlay h5 {
+      color: #fff;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .view-more-btn {
+      background: #1d1d1d;
+      color: #fff;
+      padding: 14px 40px;
+      font-size: 18px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .view-more-btn:hover {
+      background: #ff5a00;
+    }
+
 </style>
 {{-- schema  --}}
 @section('schema_markup')
@@ -1093,8 +1222,9 @@ $section_portfolio = \App\Models\Section::section('portfolio');
 @endphp
 @if(count($portfolios) > 0 && isset($section_portfolio))
 <!--Gallery Section-->
+
+{{-- 
 <section style="background-color: #ffffff" class="gallery-section">
-    <!--Sortable Masonry-->
     <div class="sortable-masonry">
         <div class="container">
             <div class="sec-title centered description">
@@ -1102,7 +1232,6 @@ $section_portfolio = \App\Models\Section::section('portfolio');
                 <div class="text description">{!! $section_portfolio->description !!}</div>
                 <div class="separater"></div>
             </div>
-            <!--Filter-->
             <div class="filters row clearfix">
 
                 <ul class="filter-tabs filter-btns clearfix">
@@ -1116,7 +1245,6 @@ $section_portfolio = \App\Models\Section::section('portfolio');
             <div class="row clearfix items-container">
 
                 @foreach($portfolios as $portfolio)
-                <!--Default Portfolio Item-->
                 <div class="default-portfolio-item mix masonry-item all 
                         @foreach($portfolio->categories as $category)
                             {{ $category->slug }} 
@@ -1124,7 +1252,6 @@ $section_portfolio = \App\Models\Section::section('portfolio');
                      col-lg-4 col-md-6 col-sm-12">
                     <div class="inner-box">
                         <figure class="image-box"><img src="{{ asset('uploads/portfolio/'.$portfolio->image_path) }}" alt="{{ $portfolio->title }}"></figure>
-                        <!--Overlay Box-->
                         <div class="overlay-box">
                             <div class="overlay-inner">
                                 <div class="content">
@@ -1136,7 +1263,6 @@ $section_portfolio = \App\Models\Section::section('portfolio');
                                         </div>
                                         <h3><a href="{{ route('portfolio.single', $portfolio->slug) }}">{{ $portfolio->title }}</a></h3>
                                     </div>
-                                    {{-- <a href="{{ route('portfolio.single', $portfolio->slug) }}" class="link-btn">{{ __('common.read_more') }}</a> --}}
                                 </div>
                             </div>
                         </div>
@@ -1157,6 +1283,81 @@ $section_portfolio = \App\Models\Section::section('portfolio');
         </div>
     </div>
 </section>
+ --}}
+ <section class="portfolio-section py-5">
+    <div class="container text-center">
+      <h2 class="portfolio-section-title" data-aos="fade-up">Our Portfolios</h2>
+  
+      <!-- FILTER BUTTONS SCROLLABLE WRAPPER -->
+      <div class="portfolio-filters-wrapper" data-aos="fade-up" data-aos-delay="200">
+        <div class="portfolio-filters">
+          <button class="portfolio-filter-btn active" data-filter="*">All</button>
+          <button class="portfolio-filter-btn" data-filter=".ecommerce">ECommerce</button>
+          <button class="portfolio-filter-btn" data-filter=".agency">Agency</button>
+          <button class="portfolio-filter-btn" data-filter=".multivendor">Multi Vendor</button>
+          <button class="portfolio-filter-btn" data-filter=".clothing">Clothing</button>
+          <button class="portfolio-filter-btn" data-filter=".electronics">Electronics</button>
+          <button class="portfolio-filter-btn" data-filter=".digital">Digital Products</button>
+          <button class="portfolio-filter-btn" data-filter=".other">Other</button>
+          <button class="portfolio-filter-btn" data-filter=".new">New Category</button>
+        </div>
+      </div>
+  
+      <div class="row portfolio-grid" data-aos="fade-up" data-aos-delay="400">
+        <!-- Portfolio Items -->
+        <div class="col-lg-4 col-md-6 portfolio-item ecommerce">
+          <div class="portfolio-card">
+            <img src="https://msnsofttech.com/uploads/portfolio/Untitled%20design%20(3)_1739479140.png" alt="ECommerce" class="img-fluid">
+            <div class="portfolio-overlay">
+              <h5>ECommerce Project</h5>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-4 col-md-6 portfolio-item agency">
+          <div class="portfolio-card">
+            <img src="https://msnsofttech.com/uploads/portfolio/8de112c3-16d7-443a-b30c-6dfb9607fcd3_1739211369.png" alt="Agency" class="img-fluid">
+            <div class="portfolio-overlay">
+              <h5>Agency Project</h5>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-4 col-md-6 portfolio-item clothing">
+          <div class="portfolio-card">
+            <img src="https://msnsofttech.com/uploads/portfolio/Untitled%20design%20(2)_1739228869.png" alt="Clothing" class="img-fluid">
+            <div class="portfolio-overlay">
+              <h5>Clothing Store</h5>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-4 col-md-6 portfolio-item electronics">
+          <div class="portfolio-card">
+            <img src="https://msnsofttech.com/uploads/portfolio/601f9575-95c8-43d0-bac4-6f1831d95569_1739232277.png" alt="Electronics" class="img-fluid">
+            <div class="portfolio-overlay">
+              <h5>Electronics Shop</h5>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-4 col-md-6 portfolio-item digital">
+          <div class="portfolio-card">
+            <img src="https://msnsofttech.com/uploads/portfolio/2ae5447e-e3dd-4815-af9a-088be21c3a2c_1739232450.png" alt="Digital Products" class="img-fluid">
+            <div class="portfolio-overlay">
+              <h5>Digital Marketplace</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="text-center mt-5" data-aos="zoom-in" data-aos-delay="500">
+        <a href="#" class="btn view-more-btn">View More</a>
+      </div>
+  
+    </div>
+  </section>
+  
 <!--End Gallery Section-->
 @endif
 
