@@ -249,6 +249,7 @@ $header = \App\Models\PageSetup::page('home');
     .our-mission-section{
         padding-bottom: 40px !important;
         padding-top: 50px !important;
+        margin-bottom: 0px !important;
     }
 </style>
 {{-- schema  --}}
