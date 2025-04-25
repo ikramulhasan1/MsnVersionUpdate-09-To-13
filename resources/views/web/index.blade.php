@@ -1704,6 +1704,7 @@ $section_process = \App\Models\Section::section('process');
         loop: true,
         margin: 0,
         nav: false,
+        navText: [],
         dots: true,
         autoplay: true,
         autoplayTimeout: 4000,
