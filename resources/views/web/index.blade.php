@@ -1593,7 +1593,7 @@ $section_process = \App\Models\Section::section('process');
     <div id="case-owl-carousel" class="owl-carousel owl-theme">
 
       <!-- Slide 1 -->
-      <div class="case-studies-item" style="background-image: url('https://mlz8prml4nnc.i.optimole.com/cb:1kp5.54a9a/w:768/h:402/q:mauto/f:best/https://fullscale.io/wp-content/uploads/2024/10/web-application-development-feature-image.png');">
+      <div class="case-studies-item" style="background-image: url('https://www.websitesinaflash.com/wp-content/uploads/2022/06/Pro-Theme-Website-1200x799.jpg');">
         <div class="case-studies-content">
           <h1>From Vision to Launch: Custom Web Development for a Growing Startup</h1>
           <div class="case-studies-tech-tags">
@@ -1621,7 +1621,7 @@ $section_process = \App\Models\Section::section('process');
       </div>
 
       <!-- Slide 3 -->
-      <div class="case-studies-item" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3k_S7cijCa-dS15q4JMmBr3Xl-oQI4JfVDQ&s');">
+      <div class="case-studies-item" style="background-image: url('https://media.licdn.com/dms/image/v2/D5612AQG1CwDBj2sjsg/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1697532231304?e=2147483647&v=beta&t=uGstB5a4NDkGaNmXEhRizNmLKfU5Eab36YAiIeYI1eo');">
         <div class="case-studies-content">
           <h1>Scalable & Secure: Building a Laravel-Powered Enterprise Platform</h1>
           <div class="case-studies-tech-tags">
