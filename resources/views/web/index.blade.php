@@ -542,7 +542,7 @@ $header = \App\Models\PageSetup::page('home');
     /* Add margin or position tweaks as needed */
 }
 
-.process-description{
+.process-description p{
     font-size: 16px !important; color: #333333 !important;
 
 }
