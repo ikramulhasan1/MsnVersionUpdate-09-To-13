@@ -430,6 +430,7 @@ $header = \App\Models\PageSetup::page('home');
 
     .process-section-title h2 {
       font-weight: 700;
+      color: #333333;
     }
 
     .process-step-box {
@@ -1375,7 +1376,7 @@ $section_process = \App\Models\Section::section('process');
                         {{-- <img style="width: 50px; height: 50px;" src="{{ asset('uploads/process/' . $process->image_path) }}" class="process-step-icon" alt=""> --}}
                         {{ $process->title }}
                     </div>
-                    <p style="font-size: 16px; color: #333333;">{!! $process->description !!}</p>
+                    <p style="font-size: 16px !important; color: #333333 !important;">{!! $process->description !!}</p>
                     
                     {{-- Show arrow after every item except the last one --}}
                     @php
@@ -1383,9 +1384,9 @@ $section_process = \App\Models\Section::section('process');
                         $showArrow = ($key != $totalSteps - 1); // hide arrow for last step
                     @endphp
 
-                <div class="process-step-arrow d-none d-md-block 
-                    {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
-                </div>
+                    <div class="process-step-arrow d-none d-md-block 
+                        {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
+                    </div>
                 </div>
             </div>
             {{-- @endforeach --}}
