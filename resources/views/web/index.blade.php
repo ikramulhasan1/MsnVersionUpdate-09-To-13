@@ -346,6 +346,71 @@ $header = \App\Models\PageSetup::page('home');
       background-color: #000;
       color: #fff;
     }
+
+
+    /* blog */
+    .latest-blogs {
+  background-color: #f9f9f9;
+  font-family: 'Poppins', sans-serif;
+}
+
+.blog-section-title {
+  font-size: 44px;
+  font-weight: 700;
+  color: #1d1d1d;
+  margin-bottom: 10px;
+}
+
+.blog-section-subtitle {
+  color: #28a745;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+.blog-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.blog-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.blog-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1d1d1d;
+  margin-bottom: 8px;
+}
+
+.blog-meta {
+  color: #6c757d;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.blog-btn-orange {
+  background-color: #ff5a00;
+  color: #ffffff;
+  padding: 14px 36px;
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  text-transform: none;
+  transition: background-color 0.3s ease;
+}
+
+.blog-btn-orange:hover {
+  background-color: #e14e00;
+}
+
 </style>
 {{-- schema  --}}
 @section('schema_markup')
@@ -1177,6 +1242,53 @@ $section_process = \App\Models\Section::section('process');
         </div>
     </section>
 @endif
+
+<section class="latest-blogs py-5">
+    <div class="container">
+      <h2 class="blog-section-title">Latest Blogs</h2>
+      <p class="blog-section-subtitle">Explore Featured Insights</p>
+  
+      <div class="row g-4 mt-4">
+        <!-- Blog Card 1 -->
+        <div class="col-md-4">
+          <div class="blog-card p-3">
+            <img src="https://www.capitalnumbers.com/images/new-skill-section/ai-development/AI-for-Business-Leaders-Driving-Innovation-and-Growth.png" class="img-fluid blog-img" alt="Blog 1">
+            <div class="blog-content pt-3">
+              <h5 class="blog-title">AI for Business Leaders: Driving Innovation and Growth</h5>
+              <p class="blog-meta">By <span class="fw-bold">Sanjay Singhania</span>, in Digital Transformation</p>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Blog Card 2 -->
+        <div class="col-md-4">
+          <div class="blog-card p-3">
+            <img src="https://www.capitalnumbers.com/images/new-skill-section/api-development/AI-in-Financial-Software-Development.png" class="img-fluid blog-img" alt="Blog 2">
+            <div class="blog-content pt-3">
+              <h5 class="blog-title">AI-Powered FinTech: The Future of Financial Software Development</h5>
+              <p class="blog-meta">By <span class="fw-bold">Sanjay Singhania</span>, in Digital Transformation</p>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Blog Card 3 -->
+        <div class="col-md-4">
+          <div class="blog-card p-3">
+            <img src="https://www.capitalnumbers.com/images/new-skill-section/api-development/energy-consumption-blog.png" class="img-fluid blog-img" alt="Blog 3">
+            <div class="blog-content pt-3">
+              <h5 class="blog-title">Energy Consumption Forecasting with Machine Learning: A Detailed Guide</h5>
+              <p class="blog-meta">By <span class="fw-bold">Prabal Jain</span>, in Digital Transformation</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="text-center mt-5">
+        <a href="#" class="btn blog-btn-orange">Read More Blog Posts →</a>
+      </div>
+    </div>
+  </section>
+
 @section('scriptjs')
 <script>
     $(document).ready(function(){
