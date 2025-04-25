@@ -258,6 +258,93 @@ $header = \App\Models\PageSetup::page('home');
     .counter-column{
         padding-top: 40px!important;
     }
+
+
+
+
+
+    /* tech section */
+    .tech-section {
+      background-color: #FAFAFA;
+      font-family: 'Poppins', sans-serif;
+    }
+    .section-title {
+      font-weight: 700;
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 10px;
+      color: #212121;
+    }
+    .section-subtitle {
+      text-align: center;
+      color: #34A853;
+      font-weight: 600;
+      margin-bottom: 40px;
+      font-size: 1.1rem;
+    }
+    .tech-card {
+      background: #fff;
+      border: 1px solid #E0E0E0;
+      border-radius: 12px;
+      padding: 10px 20px;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+      text-decoration: none !important;
+
+    }
+    .tech-card:hover {
+      box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid #3CC065;
+    }
+    .tech-card img {
+      height: 35px;
+      width: 35px;
+      object-fit: contain;
+    }
+    .tech-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+      margin: 0;
+    }
+    .tech-buttons {
+      margin-top: 40px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .btn-custom-orange {
+      background-color: #FF5A00;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 30px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+    .btn-custom-orange:hover {
+      background-color: #e64a00;
+    }
+    .btn-custom-outline {
+      background-color: transparent;
+      border: 2px solid #000;
+      color: #000;
+      border-radius: 12px;
+      padding: 14px 30px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    .btn-custom-outline:hover {
+      background-color: #000;
+      color: #fff;
+    }
 </style>
 {{-- schema  --}}
 @section('schema_markup')
@@ -687,7 +774,117 @@ $section_services = \App\Models\Section::section('services');
 <!--End Services Section -->
 @endif
 
-
+<section class="tech-section">
+    <div class="container py-5">
+        <h1 class="section-title">Design. Develop. Maintain. Scale.<br>Your Full-Stack Development Partner</h1>
+        <p class="section-subtitle">500+ Team of Experts Skilled in 40+ Cutting-Edge Technologies</p>
+      
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+          <!-- Tech cards -->
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/fullstack-icon.png" alt="Full-stack">
+            <p class="tech-title">Full-stack</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/web-icon.svg" alt="Web">
+            <p class="tech-title">Web</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/cloud-icon.svg" alt="Cloud">
+            <p class="tech-title">Cloud</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/frontend-icon.svg" alt="Frontend">
+            <p class="tech-title">Frontend</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/mobile-icon.svg" alt="Mobile">
+            <p class="tech-title">Mobile Mobile Mobile</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/shopify-icon.svg" alt="Shopify">
+            <p class="tech-title">Shopify</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/react-icon.svg" alt="ReactJS">
+            <p class="tech-title">ReactJS</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/wordpress-icon.svg" alt="WordPress">
+            <p class="tech-title">WordPress</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/backend-icon.svg" alt="Backend">
+            <p class="tech-title">Backend</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/bi-icon.svg" alt="BI">
+            <p class="tech-title">BI</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/java-icon.svg" alt="Java">
+            <p class="tech-title">Java</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/dotnet-icon.svg" alt=".NET">
+            <p class="tech-title">.NET</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/python-icon.svg" alt="Python">
+            <p class="tech-title">Python</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/ui-ux-icon.svg" alt="UI/UX">
+            <p class="tech-title">UI/UX</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/ai-icon.svg" alt="AI/ML">
+            <p class="tech-title">AI/ML</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/open-ai-icon.svg" alt="Open AI">
+            <p class="tech-title">Open AI</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/data-engineering-icon.svg" alt="Data Engineering">
+            <p class="tech-title">Data Engineering</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/new_nav_icon/skill/aws.svg" alt="AWS">
+            <p class="tech-title">AWS</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/megento-icon.svg" alt="Magento">
+            <p class="tech-title">Magento</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/flutter-icon.svg" alt="Flutter">
+            <p class="tech-title">Flutter</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/php-icon.svg" alt="PHP">
+            <p class="tech-title">PHP</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/vr-icon.svg" alt="AR/VR">
+            <p class="tech-title">AR/VR</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/blockchain-icon.svg" alt="Blockchain">
+            <p class="tech-title">Blockchain</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="https://www.capitalnumbers.com/images/pool-icon-home/qa-icon.svg" alt="QA">
+            <p class="tech-title">QA</p>
+          </a>
+        </div>
+      
+        <div class="tech-buttons mt-5">
+          <a href="#" class="btn btn-custom-orange">Get A Quote →</a>
+          <a href="#" class="btn btn-custom-outline">See All Technologies →</a>
+        </div>
+      </div>
+</section>
 @php
 $section_portfolio = \App\Models\Section::section('portfolio');
 @endphp
