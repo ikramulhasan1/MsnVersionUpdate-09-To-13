@@ -833,7 +833,9 @@ $header = \App\Models\PageSetup::page('home');
       background: #ff7b29;
     }
 
-
+    .owl-prev, .owl-next{
+      display: none !important;
+    }
 </style>
 {{-- schema  --}}
 @section('schema_markup')
