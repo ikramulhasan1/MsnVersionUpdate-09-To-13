@@ -680,6 +680,159 @@ $header = \App\Models\PageSetup::page('home');
       background: #ff5a00;
     }
 
+
+
+ /* case study */
+ .case-studies-section {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #fff;
+    }
+
+    .case-studies-carousel-wrap {
+      width: 100%;
+      height: 550px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .owl-carousel .case-studies-item {
+      width: 100%;
+      height: 550px;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      padding: 0 5%;
+      color: #fff;
+      position: relative;
+    }
+
+    /* Black overlay */
+    .case-studies-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.646);
+      z-index: 1;
+    }
+
+    .case-studies-item .case-studies-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+    }
+
+    .case-studies-item .case-studies-content h1 {
+      font-size: 50px;
+      font-weight: 900;
+      line-height: 1.2;
+      margin: 0 0 20px;
+      color: #fff;
+    }
+
+    /* .case-studies-item .case-studies-content .btn {
+      display: inline-block;
+      background: #00c3ff;
+      color: #000;
+      padding: 10px 25px;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+    } */
+
+    .case-studies-tech-tags {
+      margin-bottom: 25px;
+    }
+
+    .case-studies-tech-tags span {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px 20px;
+      margin: 5px;
+      border: 1px solid #fff;
+      border-radius: 50px;
+      font-size: 16px;
+    }
+
+    /* Fixed Case Studies Badge */
+    .case-studies-badge {
+      position: absolute;
+      top: 30px;
+      left: 65px;
+      background: #fff;
+      color: #000;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 25px;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+      border: 2px solid #3CC065;
+      z-index: 20;
+    }
+
+    /* Move Dots to Left */
+    .owl-dots {
+      position: absolute;
+      bottom: 30px;
+      left: 30px;
+      z-index: 15;
+      text-align: left;
+    }
+
+    .owl-dots .owl-dot {
+      display: inline-block;
+      margin: 0 5px;
+    }
+
+    .owl-dots .owl-dot span {
+      width: 12px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.5);
+      display: block;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .owl-dots .owl-dot.active span {
+      background: #00c3ff;
+      transform: scale(1.3);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .case-studies-item .case-studies-content h1 {
+        font-size: 26px;
+      }
+
+      .case-studies-badge {
+        font-size: 14px;
+        padding: 8px 16px;
+      }
+
+      .case-studies-item .case-studies-content .btn {
+        padding: 8px 20px;
+        font-size: 14px;
+      }
+    }
+
+    .read-more-btn {
+      background: #ff5e00;
+      border: none;
+      color: #fff;
+      padding: 17px 30px;
+      font-size: 17px;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+      text-decoration: none;;
+    }
+
+    .read-more-btn:hover {
+      background: #ff7b29;
+    }
+
+
 </style>
 {{-- schema  --}}
 @section('schema_markup')
@@ -1373,108 +1526,12 @@ $section_testimonials = \App\Models\Section::section('testimonials');
 @php
 $section_blog = \App\Models\Section::section('blog');
 @endphp
-{{-- @if(count($articles) > 0 && isset($section_blog))
 
-<section class="">
-    <div class="container">
-        <div class="sec-title left text-left">
-            <h2>{{ $section_blog->title }}</h2>
-            <div class="text description">{!! $section_blog->description !!}</div>
-            <div class="separater"></div>
-        </div>
-        <div class="row">
-            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                @foreach($articles as $key => $article)
-                @if($key == 0)
-                <!-- News Block -->
-                <div class="news-block">
-                    <div class="inner-box">
-                        <div class="image-box">
-                            <figure class="image"><img src="{{ asset('uploads/article/'.$article->image_path) }}" alt="{{ $article->title }}"></figure>
-                            <div class="overlay-box"><a href="{{ route('blog.single', $article->slug) }}" class="link-btn">{{ __('common.read_more') }}</a></div>
-
-                        </div>
-                        <div class="caption-box text-left">
-                            <h3><a href="{{ route('blog.single', $article->slug) }}">{!! str_limit(strip_tags($article->title), 50, ' ...') !!}</a></h3>
-                            <div class="text">{!! str_limit(strip_tags($article->description), 110, ' ...') !!}</div>
-                            <ul class="post-meta">
-                                <li><i class="far fa-calendar-check"></i> {{ date('d M, Y', strtotime($article->created_at)) }}</li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-                @endif
-                @endforeach
-            </div>
-
-            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                <div class="news-block-two">
-                    @foreach($articles as $key => $article)
-                    @if($key > 0)
-                    <div class="inner-box">
-                        <div class="row clearfix">
-                            <!--Image Column-->
-                            <div class="image-box col-lg-6 col-md-6 col-sm-12">
-                                <div class="image">
-                                    <figure class="image"><img src="{{ asset('uploads/article/'.$article->image_path) }}" alt="{{ $article->title }}"></figure>
-                                    <div class="overlay-box"><a href="{{ route('blog.single', $article->slug) }}" class="link-btn">{{ __('common.read_more') }}</a></div>
-                                </div>
-                            </div>
-                            <!--Content Column-->
-                            <div class="caption-box col-lg-6 col-md-6 col-sm-12 description">
-                                <h3><a href="{{ route('blog.single', $article->slug) }}">{!! str_limit(strip_tags($article->title), 50, ' ...') !!}</a></h3>
-                                <div class="text">{!! str_limit(strip_tags($article->description), 110, ' ...') !!}</div>
-                                <ul class="post-meta">
-                                    <li><i class="far fa-calendar-check"></i> {{ date('d M, Y', strtotime($article->created_at)) }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-                    @endforeach
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-@endif
- --}}
 
 @php
 $section_process = \App\Models\Section::section('process');
 @endphp
-{{-- @if(count($processes) > 0 && isset($section_process))
-<section  class="feautred-section pt-0 style-two" >
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="sec-title left description">
-                    <h2>{{ $section_process->title }}</h2>
-                    <div class="text">{!! $section_process->description !!}</div>
-                    <div class="separater"></div>
-                </div>
-            </div>
-        </div>
-        <div class="featured-box row clearfix">
-            @foreach($processes as $key => $process)
-            <div class="col-lg-3 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="{{ ($key + 1) * 200 }}ms">
-                <div class="inner-box">
-                    <div class="title-box">
-                        <h4><span class="numbe-post">{{ $key + 1 }}</span>{{ $process->title }}</h4>
-                    </div>
-                    <div class="lower-content description">
-                        <div class="text">{!! $process->description !!}</div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-<!--End Feautred Section -->
-@endif --}}
+
 @if(count($processes) > 0 && isset($section_process))
 {{-- process-section --}}
 <section class="process-section px-5">
@@ -1523,6 +1580,62 @@ $section_process = \App\Models\Section::section('process');
 @endif
 
 
+{{-- case study --}}
+<section class="case-studies-section">
+    
+<div class="case-studies-carousel-wrap">
+    <!-- Fixed Badge -->
+    <div class="case-studies-badge">Case Studies</div>
+
+    <div id="case-owl-carousel" class="owl-carousel owl-theme">
+
+      <!-- Slide 1 -->
+      <div class="case-studies-item" style="background-image: url('https://lh3.googleusercontent.com/gps-cs-s/AB5caB95DH59cAFVGDUe5f151HvKGIqKcZ14IrFx597h6yDqURXexrA2tNSxKzH_MiCpeAnpkAkEV1yr_7Ipa_0_Sr6PneRyZNSl4es05LdFYSUpumFrPX4fxO1exOIydYSochGUha57=w810-h468-n-k-no');">
+        <div class="case-studies-content">
+          <h1>Conversational AI-Based Mobile App Development for Infant Care</h1>
+          <div class="case-studies-tech-tags">
+            <span>Node.js</span>
+            <span>Ionic</span>
+            <span>iOS</span>
+            <span>Android</span>
+          </div>
+          <a href="#" class="read-more-btn">View Case Study ➔</a>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="case-studies-item" style="background-image: url('https://lh3.googleusercontent.com/gps-cs-s/AB5caB91ed5WVNPNaOooZIQSd4ZCvSzO5bk4nr4ff3st2pGJMzbeD0cWcZCPz7ZpehJOucrstEguAj4G4hzEshceTQtEv_C37oBnicEvj9rDcRakgGsF8mXTrt2LIGvSRwxBGk1GrDYI=w810-h468-n-k-no');">
+        <div class="case-studies-content">
+          <h1>Revolutionizing Online Shopping Experience with AI</h1>
+          <div class="case-studies-tech-tags">
+            <span>Node.js</span>
+            <span>Ionic</span>
+            <span>iOS</span>
+            <span>Android</span>
+          </div>
+          <a href="#" class="read-more-btn">View Case Study ➔</a>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="case-studies-item" style="background-image: url('https://lh3.googleusercontent.com/gps-cs-s/AB5caB9fjB13iqoywBI6no0T1sefLZl206dNf5kPSVULazBWFxPuQGw-qiyeE7gShUOG4T1aXYNO869i6xTp7gb9sxPPgHkskl8OesYrCHJgKuAI-tS8J0sTDGNfgK5gXWtZ46dOwGI=w810-h468-n-k-no');">
+        <div class="case-studies-content">
+          <h1>Smart Health Monitoring System for Elderly Care</h1>
+          <div class="case-studies-tech-tags">
+            <span>Node.js</span>
+            <span>Ionic</span>
+            <span>iOS</span>
+            <span>Android</span>
+          </div>
+          <a href="#" class="read-more-btn">View Case Study ➔</a>
+        </div>
+      </div>
+
+    </div>
+</div>
+</section>
+
+
 
 @if(count($clients) > 0)
     <section class="partner-section">
@@ -1567,6 +1680,7 @@ $section_process = \App\Models\Section::section('process');
   </section>
 
 @section('scriptjs')
+{{-- banner --}}
 <script>
     $(document).ready(function(){
       $('.owl-carousel').owlCarousel({
@@ -1582,6 +1696,25 @@ $section_process = \App\Models\Section::section('process');
       });
     });
   </script>
+
+{{-- case study --}}
+<script>
+    $(document).ready(function () {
+      $("#case-owl-carousel").owlCarousel({
+        loop: true,
+        margin: 0,
+        nav: false,
+        dots: true,
+        autoplay: true,
+        autoplayTimeout: 4000,
+        autoplayHoverPause: true,
+        items: 1,
+        smartSpeed: 1000,
+      });
+    });
+  </script>
+
+
 
 <!-- Include YouTube Iframe API -->
 <script src="https://www.youtube.com/iframe_api"></script>
