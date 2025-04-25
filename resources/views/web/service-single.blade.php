@@ -287,8 +287,8 @@ $header = \App\Models\PageSetup::page('services');
 
   /*  service-section */
   .service-section{
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: 50px !important;
+    padding-bottom: 50px !important;
   }
 
 
