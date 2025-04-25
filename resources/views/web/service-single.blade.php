@@ -753,7 +753,7 @@ $header = \App\Models\PageSetup::page('services');
         <section class="process-section px-5">
           <div class="container">
             <div class="process-section-title">
-              <h2 style="margin-bottom: 20px !important">Our Application Development Process</h2>
+              <h2 style="padding-bottom: 30px !important">Our Application Development Process</h2>
               {{-- <p class="text-muted">From research to testing, we ensure your design is intuitive, user-focused, and aligned with your goals.</p> --}}
             </div>
         
