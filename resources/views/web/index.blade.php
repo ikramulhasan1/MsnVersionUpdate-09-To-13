@@ -242,6 +242,11 @@ $header = \App\Models\PageSetup::page('home');
       font-weight: 700;
       text-decoration: underline;
     }
+
+    .our-mission-section{
+        padding-bottom: 50px !important;
+        padding-top: 50px !important;
+    }
 </style>
 {{-- schema  --}}
 @section('schema_markup')
