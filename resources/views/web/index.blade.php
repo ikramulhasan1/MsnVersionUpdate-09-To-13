@@ -268,9 +268,7 @@ $header = \App\Models\PageSetup::page('home');
       background-color: #FAFAFA;
       font-family: 'Poppins', sans-serif;
     }
-    .all-tech-cards{
-        margin:3px !important;
-    }
+
     .section-title {
       font-weight: 700;
       font-size: 2.5rem;
@@ -286,17 +284,17 @@ $header = \App\Models\PageSetup::page('home');
       font-size: 1.1rem;
     }
     .tech-card {
-      background: #fff !important;
-      border: 1px solid #E0E0E0 !important;
-      border-radius: 12px !important;
-      padding: 10px 20px !important;
-      transition: all 0.3s ease !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 10px !important;
-      white-space: nowrap !important;
-      text-decoration: none !important;
-      margin: 10 !important;
+      background: #fff;
+      border: 1px solid #E0E0E0;
+      border-radius: 12px;
+      padding: 10px 20px;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+      text-decoration: none;
+      margin: 5 !important;
 
     }
     .tech-card:hover {
@@ -783,7 +781,7 @@ $section_services = \App\Models\Section::section('services');
         <h1 class="section-title">Design. Develop. Maintain. Scale.<br>Your Full-Stack Development Partner</h1>
         <p class="section-subtitle">500+ Team of Experts Skilled in 40+ Cutting-Edge Technologies</p>
       
-        <div class="d-flex flex-wrap justify-content-center all-tech-cards">
+        <div class="d-flex flex-wrap justify-content-center">
           <!-- Tech cards -->
           <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/fullstack-icon.png" alt="Full-stack">
