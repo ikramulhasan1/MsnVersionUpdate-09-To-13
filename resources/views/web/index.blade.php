@@ -253,6 +253,11 @@ $header = \App\Models\PageSetup::page('home');
         padding-top: 50px !important;
         margin-bottom: 0px !important;
     }
+
+    /* counter-column */
+    .counter-column{
+        padding-top: 50px!important;
+    }
 </style>
 {{-- schema  --}}
 @section('schema_markup')
