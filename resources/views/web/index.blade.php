@@ -98,12 +98,12 @@ $header = \App\Models\PageSetup::page('home');
 
     h1.title {
       font-size: 51px;
-      font-weight: 700;
+      font-weight: 900;
       text-align: center;
     }
 
     .subtitle {
-      color: #4492DC;
+      color: #1EC000;
       text-align: center;
       font-size: 25px;
       font-weight: 600;
