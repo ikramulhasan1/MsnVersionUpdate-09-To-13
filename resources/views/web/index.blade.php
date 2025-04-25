@@ -133,7 +133,7 @@ $header = \App\Models\PageSetup::page('home');
     .card-box p {
       color: #333333;
       font-size: 15px;
-      font-weight: 500;
+      font-weight: 500 !important;
     }
 
     .card-box .btn {
