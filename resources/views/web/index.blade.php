@@ -296,6 +296,7 @@ $header = \App\Models\PageSetup::page('home');
       gap: 10px !important;
       white-space: nowrap !important;
       text-decoration: none !important;
+      margin: 10 !important;
 
     }
     .tech-card:hover {
