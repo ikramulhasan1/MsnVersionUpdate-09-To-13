@@ -779,7 +779,7 @@ $section_services = \App\Models\Section::section('services');
 <section class="tech-section">
     <div class="container py-5">
         <h1 class="section-title">Design. Develop. Maintain. Scale.<br>Your Full-Stack Development Partner</h1>
-        <p class="section-subtitle">500+ Team of Experts Skilled in 40+ Cutting-Edge Technologies</p>
+        <p class="section-subtitle">50+ Team of Experts Skilled in 30+ Cutting-Edge Technologies</p>
       
         <div class="d-flex flex-wrap justify-content-center">
           <!-- Tech cards -->
