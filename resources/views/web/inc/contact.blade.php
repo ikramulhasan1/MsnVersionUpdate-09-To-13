@@ -255,8 +255,8 @@
   </div>
 
   <div style="background-image: url('https://t4.ftcdn.net/jpg/10/95/98/59/240_F_1095985933_J2wC9izxs9fZHvvgFxPC7sKutX8ntwhl.jpg');" class="calendar-section">
+    <h2>Select Date</h2>
     <div class="calendar-wrapper">
-      <h2>Select Date</h2>
       <div id="calendar"></div>
     </div>
   </div>
