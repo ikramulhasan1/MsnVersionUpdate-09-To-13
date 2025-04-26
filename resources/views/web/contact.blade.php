@@ -44,7 +44,7 @@
     <!--End Page Title-->
 
     <!-- Contact Section -->
-    <section class="contact-section">
+    {{-- <section class="contact-section">
         <div class="container">
             <div class="row">
 
@@ -158,6 +158,10 @@
                 @endif
             </div>
         </div>
+    </section> --}}
+
+    <section>
+        @include('web.inc.contact')
     </section>
     <!--End Contact Section -->
 
