@@ -218,7 +218,7 @@
         <input type="hidden" id="distance_time" name="distance_time">
         <input type="hidden" id="distance_km" name="distance_km">
 
-      <button type="submit" class="btn btn-primary mt-3">Book Meeting</button>
+      <button type="submit" class="btn btn-primary mt-3">Book a Meeting</button>
     </form>
   </div>
 
