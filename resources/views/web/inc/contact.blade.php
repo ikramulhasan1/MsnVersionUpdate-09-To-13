@@ -37,13 +37,13 @@
     }
 
     .form-section {
-      flex: 1 1 60%;
+      flex: 1 1 50%;
       padding: 50px;
-      background: #001A36;
+      background: #3CC065;
     }
 
     .calendar-section {
-      flex: 1 1 40%;
+      flex: 1 1 50%;
       /* background: #fff; */
       display: flex;
       align-items: center;
