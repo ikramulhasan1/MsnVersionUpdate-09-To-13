@@ -148,8 +148,7 @@
     /* Make Flatpickr Calendar bigger and better */
     .flatpickr-calendar {
       font-size: 1rem;
-      width: 480px !important;
-      /* max-width: 100% !important; */
+   
       border-radius: 5px;
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
@@ -177,8 +176,8 @@
       /* transition: all 0.2s; */
       /* justify-content: center; */
 
-      height: 40px;        /* Increase height */
-      line-height: 40px;   /* Center the number vertically */
+      height: 50px;        /* Increase height */
+      line-height: 50px;   /* Center the number vertically */
       width: 100px;         /* Increase width */
       font-size: 18px;     /* Bigger text */
       border-radius: 10px; /* Rounder corners (optional) */
