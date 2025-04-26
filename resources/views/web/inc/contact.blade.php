@@ -180,6 +180,7 @@
     .flatpickr-days {
       max-width: 700px !important;
       justify-content: center;
+      gap: 5px;
       /* width: 410px !important; */
     }
 
