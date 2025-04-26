@@ -43,9 +43,9 @@
     }
 
     .form-section h3 {
-      color: #ffffff;
+      color: #333333;
       font-size: 28px;
-      font-weight: 700
+      font-weight: 900;
     }
 
     .calendar-section {
