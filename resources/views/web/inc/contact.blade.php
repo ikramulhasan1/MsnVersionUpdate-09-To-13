@@ -39,7 +39,7 @@
     .form-section {
       flex: 1 1 50%;
       padding: 50px;
-      background: #001A36;
+      background: linear-gradient(135deg, #174849 0%, #0D2642 100%);
     }
 
     .calendar-section {
@@ -76,7 +76,7 @@
     .form-control {
       background: #fff;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: 2px;
       padding: 8px 12px;
       font-size: 16px;
       color: #333;
