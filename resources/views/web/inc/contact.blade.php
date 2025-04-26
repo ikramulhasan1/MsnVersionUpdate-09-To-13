@@ -153,26 +153,6 @@
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
-    .flatpickr-calendar.inline {
-    display: block;
-    position: relative;
-    top: 2px;
-    min-width: 370px;
-    height: 300;
-}
-.dayContainer {
-    /* padding: 0;
-    outline: 0;
-    text-align: left; */
-    width: 370px;
-    min-width: 370px;
-    max-width: 370px;
-  }
-
-  .flatpickr-days {
-    width: 370px;
-}
-
 
     .flatpickr-months {
       font-size: 1rem;
