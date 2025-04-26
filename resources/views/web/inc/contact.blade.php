@@ -113,6 +113,38 @@
       background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
     }
 
+
+
+
+    .flatpickr-days {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 700px !important;
+}
+
+.flatpickr-day {
+  height: 45px;
+  line-height: 45px;
+  width: 45px;
+  font-size: 1rem;
+  margin: 3px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.flatpickr-day:hover {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+
+
     /* Make Flatpickr Calendar bigger and better */
     .flatpickr-calendar {
       font-size: 1rem;
@@ -146,16 +178,16 @@
       justify-content: center
     }
     .flatpickr-days {
-      max-width: 700px !important;
-      justify-content: center;
+      /* max-width: 700px !important;
+      justify-content: center; */
       /* width: 410px !important; */
     }
 
-    .flatpickr-day:hover {
+    /* .flatpickr-day:hover {
       background: #2575fc;
       color: #fff;
       border-radius: 8px;
-    }
+    } */
 
     /* .flatpickr-day.today {
       background: #6a11cb;
