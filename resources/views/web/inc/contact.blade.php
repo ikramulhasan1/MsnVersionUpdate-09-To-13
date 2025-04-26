@@ -160,6 +160,20 @@
     min-width: 400px;
     height: 290;
 }
+.dayContainer {
+    /* padding: 0;
+    outline: 0;
+    text-align: left; */
+    width: 400px;
+    min-width: 400px;
+    max-width: 400px;
+  }
+
+  .flatpickr-days {
+    width: 400px;
+}
+
+
     .flatpickr-months {
       font-size: 1rem;
       background: #fff;
