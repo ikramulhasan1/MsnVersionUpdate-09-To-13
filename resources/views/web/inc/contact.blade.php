@@ -13,20 +13,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    body {
+    /* body {
       font-family: 'Poppins', sans-serif;
-      /* background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); */
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 30px;
-    }
+    } */
 
     .contact-container {
-      background: #fff;
-      border-radius: 5px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      background: #ffffff;
+      border-radius: 0px;
+      /* box-shadow: 0 10px 30px rgba(0,0,0,0.15); */
       overflow: hidden;
       width: 100%;
       max-width: 1200px;
