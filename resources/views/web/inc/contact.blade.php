@@ -148,8 +148,8 @@
     /* Make Flatpickr Calendar bigger and better */
     .flatpickr-calendar {
       font-size: 1rem;
-      width: 100% !important;
-      max-width: 100% !important;
+      /* width: 100% !important;
+      max-width: 100% !important; */
       border-radius: 5px;
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
