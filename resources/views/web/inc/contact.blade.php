@@ -114,37 +114,37 @@
     }
 
 
-
-
-    .flatpickr-days {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  max-width: 700px !important;
+    /* Fix OpenCage Places dropdown alignment */
+.places-container {
+    position: relative;
 }
 
-.flatpickr-day {
-  height: 45px;
-  line-height: 45px;
-  width: 45px;
-  font-size: 1rem;
-  margin: 3px;
-  border-radius: 10px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+.places-container .places-autocomplete {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 250px;
+    overflow-y: auto;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    width: 100%; /* Make it same width as input */
+}
+.places-container .places-suggestion {
+    padding: 10px;
+    cursor: pointer;
+}
+.places-container .places-suggestion:hover {
+    background: #f0f0f0;
 }
 
-.flatpickr-day:hover {
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-  color: #fff;
-  transform: scale(1.1);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
 
 
 
-
-
-
+    
     /* Make Flatpickr Calendar bigger and better */
     .flatpickr-calendar {
       font-size: 1rem;
@@ -178,16 +178,16 @@
       justify-content: center
     }
     .flatpickr-days {
-      /* max-width: 700px !important;
-      justify-content: center; */
+      max-width: 700px !important;
+      justify-content: center;
       /* width: 410px !important; */
     }
 
-    /* .flatpickr-day:hover {
+    .flatpickr-day:hover {
       background: #2575fc;
       color: #fff;
       border-radius: 8px;
-    } */
+    }
 
     /* .flatpickr-day.today {
       background: #6a11cb;
