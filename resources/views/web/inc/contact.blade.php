@@ -47,8 +47,15 @@
       font-size: 28px;
       font-weight: 900;
     }
-
-    .calendar-section {
+    .dayContainer {
+    padding: 15;
+    width: 400px;
+    min-width: 400;
+    max-width: 400px;
+    height: 220px;
+  }
+  
+  .calendar-section {
       flex: 1 1 50%;
       /* background: #fff; */
       display: flex;
