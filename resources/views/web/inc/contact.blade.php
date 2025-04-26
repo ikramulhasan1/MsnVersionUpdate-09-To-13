@@ -242,79 +242,119 @@
 </div>
 
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  // Initialize phone input
-  const phoneInput = document.querySelector("#phone");
-  const iti = window.intlTelInput(phoneInput, {
-    nationalMode: false,
-    initialCountry: "auto",
-    geoIpLookup: async function(callback) {
-      try {
-        const response = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
-        const data = await response.json();
-        callback(data.country || "us");
+const formMessage = document.getElementById("form-message");
+const locationInput = document.getElementById("location");
+const suggestionBox = document.getElementById("autocomplete-box");
+const phoneInput = document.querySelector("#phone");
 
-        // Autofill location field
-        if (data.city && data.region && data.country) {
-          document.getElementById("location").value = `${data.city}, ${data.region}, ${data.country}`;
-        } else if (data.city && data.country) {
-          document.getElementById("location").value = `${data.city}, ${data.country}`;
-        } else if (data.country) {
-          document.getElementById("location").value = data.country;
-        }
-      } catch (e) {
-        callback("us");
-      }
-    },
-    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-  });
-
-  // Initialize calendar
-  flatpickr("#calendar", {
-    inline: true,
-    minDate: "today",
-    onChange: function(selectedDates, dateStr) {
-      document.getElementById("selected_date").value = dateStr;
-    }
-  });
-
-  // Form submission
-  document.getElementById("booking-form").addEventListener("submit", async function(e) {
-    e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-
-    // Set the full international phone number
-    formData.set("phone", iti.getNumber());
-
+const iti = window.intlTelInput(phoneInput, {
+  nationalMode: false,
+  initialCountry: "auto",
+  geoIpLookup: async function (callback) {
     try {
-      const res = await fetch("/meetings", {
-        method: "POST",
-        headers: {
-          "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: formData
-      });
-
-      const data = await res.json();
-
-      document.getElementById("form-message").textContent = data.message || "Meeting booked successfully!";
-      document.getElementById("form-message").className = "text-success fw-bold";
-      form.reset();
-      
-      // Reset phone input state
-      iti.setCountry("auto");
-    } catch (err) {
-      document.getElementById("form-message").textContent = "Error saving meeting.";
-      document.getElementById("form-message").className = "text-danger fw-bold";
+      const response = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
+      const data = await response.json();
+      callback(data.country || "us");
+    } catch (e) {
+      callback("us");
     }
-  });
+  },
+  utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
 });
+
+flatpickr("#calendar", {
+  inline: true,
+  minDate: "today",
+  onChange: function (selectedDates, dateStr) {
+    document.getElementById("selected_date").value = dateStr;
+  }
+});
+
+// Auto Fetch IP Location Info when page loads
+document.addEventListener("DOMContentLoaded", function () {
+  fetchIPInfo();
+});
+
+async function fetchIPInfo() {
+  try {
+    const res = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
+    const data = await res.json();
+    const [lat, lon] = data.loc.split(",");
+    document.getElementById("ip").value = data.ip;
+    document.getElementById("city").value = data.city;
+    document.getElementById("location").value = `${data.city}, ${data.region}`;
+    document.getElementById("latitude").value = lat;
+    document.getElementById("longitude").value = lon;
+    document.getElementById("distance_time").value = "15";  // default
+    document.getElementById("distance_km").value = "5.3";   // default
+  } catch (err) {
+    console.error("IP info error:", err);
+  }
+}
+
+// Location Autocomplete
+locationInput.addEventListener("input", async () => {
+  const value = locationInput.value;
+  if (value.length < 3) {
+    suggestionBox.classList.add("d-none");
+    return;
+  }
+
+  const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(value)}&apiKey=437507f257da48b28e1d22d7f9736e62&limit=5`;
+  const res = await fetch(url);
+  const data = await res.json();
+
+  suggestionBox.innerHTML = "";
+  (data.features || []).forEach(place => {
+    const div = document.createElement("div");
+    div.className = "autocomplete-suggestion";
+    div.textContent = place.properties.formatted;
+    div.onclick = () => {
+      locationInput.value = place.properties.formatted;
+      document.getElementById("latitude").value = place.properties.lat;
+      document.getElementById("longitude").value = place.properties.lon;
+      suggestionBox.classList.add("d-none");
+    };
+    suggestionBox.appendChild(div);
+  });
+
+  suggestionBox.classList.remove("d-none");
+});
+
+// Submit Form
+document.getElementById("modal-form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  const form = e.target;
+  const formData = new FormData(form);
+  formData.set("phone", iti.getNumber());
+
+  try {
+    const res = await axios.post("/meetings", formData, {
+      headers: {
+        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+        "Content-Type": "multipart/form-data"
+      }
+    });
+
+    formMessage.textContent = res.data.message || "Meeting booked successfully!";
+    formMessage.className = "text-success fw-bold";
+    form.reset();
+
+    // Optionally clear message after 3 seconds
+    setTimeout(() => {
+      formMessage.textContent = "";
+    }, 3000);
+
+  } catch (err) {
+    formMessage.textContent = err.response?.data?.message || "Error saving meeting.";
+    formMessage.className = "text-danger fw-bold";
+  }
+});
+
 </script>
 
 </body>
