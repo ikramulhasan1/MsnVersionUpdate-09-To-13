@@ -39,7 +39,7 @@
     .form-section {
       flex: 1 1 50%;
       padding: 50px;
-      background: linear-gradient(135deg, #145a1c83 0%, #0D2642 100%);
+      background: linear-gradient(135deg, #145a1c 0%, #0D2642 100%);
     }
 
     .form-section h3 {
