@@ -32,8 +32,8 @@
       display: flex;
       flex-wrap: wrap;
       margin: auto;
-      margin-top: 80px;
-      margin-bottom: 80px;
+      margin-top: 50px;
+      margin-bottom: 50px;
     }
 
     .form-section {
@@ -43,8 +43,8 @@
     }
 
     .form-section h3 {
-      color: #333333;
-      font-size: 32px;
+      color: #000000;
+      font-size: 28px;
       font-weight: 900;
     }
 
@@ -60,11 +60,11 @@
 
     .calendar-wrapper {
       /* background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%); */
-      padding: 50px 80px;
+      padding: 50px 40px;
       border-radius: 5px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.178);
       width: 100%;
-      max-width: 770px;
+      max-width: 470px;
 
       position: relative;
       background: rgba(0, 0, 0, 0.564);
@@ -143,12 +143,6 @@
       font-size: 1.1rem;
       border-radius: 8px;
       transition: all 0.2s;
-      justify-content: center
-    }
-    .flatpickr-days {
-      max-width: 700px !important;
-      justify-content: center;
-      /* width: 410px !important; */
     }
 
     .flatpickr-day:hover {
