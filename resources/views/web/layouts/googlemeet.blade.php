@@ -138,11 +138,7 @@
             <input type="hidden" id="distance_time" name="distance_time">
             <input type="hidden" id="distance_km" name="distance_km">
             <input type="hidden" id="selected_date" name="date">
-
-            <fieldset class="custom-fieldset">
-              <legend style="color: rgb(0, 128, 0)">Hours - Minutes - Am/Pm</legend>
-              <input type="time" id="meeting_time" name="meeting_time" class="custom-input pl-2" required />
-            </fieldset>
+            <input type="time" id="meeting_time" name="meeting_time" class="custom-input pl-2" required />
           </div>
           <div class="col-md-6 d-flex justify-content-end">
             <div id="calendar"></div>
