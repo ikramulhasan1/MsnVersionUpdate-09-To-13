@@ -48,11 +48,11 @@
       font-weight: 900;
     }
     .dayContainer {
-    padding: 15;
-    width: 400px;
-    min-width: 400;
-    max-width: 400px;
-    height: 220px;
+    padding: 15!important;
+    width: 400px!important;
+    min-width: 400!important;
+    max-width: 400px!important;
+    height: 220px!important;
   }
   
   .calendar-section {
