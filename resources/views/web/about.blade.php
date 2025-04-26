@@ -20,7 +20,6 @@ $header = \App\Models\PageSetup::page('about-us');
 <meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
 @endif
 @endsection
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 @endif
 
@@ -267,153 +266,9 @@ $header = \App\Models\PageSetup::page('about-us');
     
 
 </style>
-<style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
-      color: #333;
-      margin: 0;
-    }
 
-    /* Hero Section */
-    .hero-section {
-      background: linear-gradient(135deg, rgba(106,17,203,0.9), rgba(37,117,252,0.9)), url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
-      height: 40vh;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-section h1 {
-      font-size: 60px;
-      font-weight: 700;
-      margin-bottom: 20px;
-    }
-
-    .hero-section p {
-      font-size: 22px;
-      max-width: 700px;
-      margin: 0 auto;
-      opacity: 0.9;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-
-    .section-title h2 {
-      font-size: 42px;
-      font-weight: 700;
-      color: #222;
-    }
-
-    /* About Section */
-    .about-page {
-      padding: 80px 0;
-    }
-
-    .glass-card {
-      background: rgba(255, 255, 255, 0.7);
-      border-radius: 8px;
-      backdrop-filter: blur(15px);
-      /* box-shadow: 0 0px 5px rgba(31, 38, 135, 0.1); */
-      padding: 40px;
-      /* transition: 0.4s; */
-    }
-
-    /* .glass-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 12px 40px rgba(31, 38, 135, 0.2);
-    } */
-
-    .glass-card h3 {
-      font-size: 28px;
-      font-weight: 600;
-      margin-bottom: 20px;
-      color: #2575fc;
-    }
-
-    .glass-card p {
-      font-size: 18px;
-      line-height: 1.7;
-      color: #555;
-    }
-
-    /* Features */
-    .feature-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .feature-list li {
-      font-size: 18px;
-      padding-left: 30px;
-      margin-bottom: 15px;
-      position: relative;
-      color: #333;
-    }
-
-    .feature-list li::before {
-      content: '✔';
-      position: absolute;
-      left: 0;
-      color: #2575fc;
-      font-size: 20px;
-    }
-
-    /* Footer */
-    footer {
-      background: #111;
-      padding: 30px 0;
-      text-align: center;
-      color: #aaa;
-      font-size: 15px;
-      margin-top: 50px;
-    }
-
-
-
-
-     /* About Section */
-     .about-page {
-      padding: 80px 0;
-      background-color: #fff;
-    }
-
-    .about-page .card {
-      background: #ffffff;
-      border: none;
-      border-radius: 8px;
-      box-shadow: 0 0px 5px rgba(0, 0, 0, 0.1);
-      /* transition: 0.3s; */
-    }
-
-    /* .about-page .card:hover {
-      transform: translateY(-10px);
-    } */
-
-    .about-page .icon {
-      width: 70px;
-      height: 70px;
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      color: white;
-      font-size: 30px;
-    }
-
-  </style>
 <!--Page Title-->
-<section class="page-title">
+{{-- <section class="page-title">
     <div class="container">
         <div class="inner-container clearfix">
             <div class="title-box">
@@ -427,108 +282,8 @@ $header = \App\Models\PageSetup::page('about-us');
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 <!--End Page Title-->
-
-
-
-
-
-<!-- Hero Section -->
-<section class="hero-section" data-aos="fade">
-    <div class="container">
-      <h1>About Us</h1>
-      <!-- <p>Building the Future of Technology and Business Innovation Together.</p> -->
-    </div>
-  </section>
-  
-  <!-- About Section -->
-  <section class="about-page">
-    <div class="container">
-      <div class="section-title" data-aos="fade-up">
-        <h2>Who We Are</h2>
-      </div>
-      <div class="row align-items-center">
-        <div class="col-lg-6 mb-4" data-aos="fade-right">
-          <div class="glass-card shadow-sm">
-            <h3>Our Journey</h3>
-            <p>MSN SoftTech is a global leader in <strong>software development, web design, mobile app development</strong> and <strong>SEO services</strong>. With over <strong>10 years</strong> of excellence, we deliver powerful IT solutions locally and internationally, helping businesses grow, innovate, and lead in their industries.</p>
-            <ul class="feature-list mt-4">
-              <li>Over <strong>3,500+</strong> satisfied clients worldwide</li>
-              <li>Custom software & digital marketing expertise</li>
-              <li>Cross-industry technology leadership</li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-lg-6" data-aos="fade-left">
-          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1350&q=80" alt="About Us Image" class="img-fluid rounded-4 shadow">
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <!-- Mission and Vision -->
-  <section class="about" style="background: #eef2f7;">
-    <div class="container">
-      <div class="row g-5">
-        <div class="col-md-6" data-aos="zoom-in">
-          <div class="glass-card shadow-sm text-center">
-            <h3>Our Mission</h3>
-            <p>To empower businesses with next-gen technology solutions that enhance operational efficiency, stimulate innovation, and drive exponential growth in the digital era.</p>
-          </div>
-        </div>
-        <div class="col-md-6" data-aos="zoom-in" data-aos-delay="150">
-          <div class="glass-card shadow-sm text-center">
-            <h3>Our Vision</h3>
-            <p>To be a global benchmark in delivering transformative IT services and creating a future where every business thrives through technology-driven success and sustainable growth.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- About Us Section -->
-  <section class="about">
-      <div class="container">
-        <div class="text-center mb-5" data-aos="fade-up">
-          <h2 class="fw-bold">We Are Provide</h2>
-          <p class="lead">10+ years of excellence in delivering top-notch IT services globally.</p>
-        </div>
-        <div class="row g-4">
-          <div class="col-lg-4" data-aos="fade-right">
-            <div class="card p-4 text-center">
-              <div class="icon mx-auto mb-3">
-                <i class="bi bi-laptop"></i>
-              </div>
-              <h5 class="fw-bold">Software Development</h5>
-              <p>Custom solutions to help you grow faster, smarter, and stronger in the digital world.</p>
-            </div>
-          </div>
-          <div class="col-lg-4" data-aos="fade-up">
-            <div class="card p-4 text-center">
-              <div class="icon mx-auto mb-3">
-                <i class="bi bi-phone"></i>
-              </div>
-              <h5 class="fw-bold">Mobile App Development</h5>
-              <p>Crafting seamless and powerful mobile experiences to captivate your audience globally.</p>
-            </div>
-          </div>
-          <div class="col-lg-4" data-aos="fade-left">
-            <div class="card p-4 text-center">
-              <div class="icon mx-auto mb-3">
-                <i class="bi bi-bar-chart-line"></i>
-              </div>
-              <h5 class="fw-bold">SEO & Marketing</h5>
-              <p>Driving visibility, engagement, and success through intelligent SEO and marketing strategies.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    
-
-
-
-
 
 @if(isset($about) || count($counters) > 0)
 <!-- About Section -->
@@ -539,7 +294,7 @@ $header = \App\Models\PageSetup::page('about-us');
             <h2>{{ $about->title }}</h2>
             <div class="separater"></div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 wow fadeInRight animated">
                 <div class="inner-box ">
                     <div class="text description">{!! $about->description !!} <br /></div>
@@ -563,7 +318,7 @@ $header = \App\Models\PageSetup::page('about-us');
                 </div>
                 @endif
             </div>
-        </div>
+        </div> --}}
         @endif
 
         @if(count($counters) > 0)
@@ -599,7 +354,7 @@ $section_whyus = \App\Models\Section::section('why-us');
 @endphp
 @if(isset($section_whyus) || isset($about->video_id))
 <!--Why Choose Us Section -->
-<section class="why-choose-us">
+{{-- <section class="why-choose-us">
     <div class="container-fluid">
         <div class="row clearfix">
             @if(!empty($about->video_id))
@@ -642,7 +397,7 @@ $section_whyus = \App\Models\Section::section('why-us');
             @endif
         </div>
     </div>
-</section>
+</section> --}}
 <!--End Why Choose Us Section -->
 @endif
 
@@ -836,6 +591,5 @@ $section_clients = \App\Models\Section::section('clients');
         </div>
     </section>
 @endif
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
 @endsection
