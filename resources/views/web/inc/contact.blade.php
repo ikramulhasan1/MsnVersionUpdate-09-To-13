@@ -12,33 +12,37 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    /* body {
+    body {
+      margin: 0;
+      padding: 0;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-      min-height: 100vh;
+      background: #f0f4f8;
+      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 30px;
-    } */
+    }
 
     .contact-container {
       background: #ffffff;
-      border-radius: 0px;
-      /* box-shadow: 0 10px 30px rgba(0,0,0,0.15); */
-      overflow: hidden;
-      width: 100%;
-      max-width: 1200px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
       display: flex;
-      flex-wrap: wrap;
-      margin: auto;
-      margin-top: 80px;
-      margin-bottom: 80px;
+      width: 90%;
+      max-width: 1200px;
+      min-height: 700px;
+      overflow: hidden;
+    }
+
+    .form-section, .calendar-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 50px;
     }
 
     .form-section {
-      flex: 1 1 50%;
-      padding: 50px;
       background-color: #F2F6FF;
     }
 
@@ -46,55 +50,24 @@
       color: #333333;
       font-size: 32px;
       font-weight: 900;
+      margin-bottom: 30px;
     }
 
-    .calendar-section {
-      flex: 1 1 50%;
-      /* background: #fff; */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0px;
-      border-left: 1px solid #eee;
-    }
-
-    .calendar-wrapper {
-      /* background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%); */
-      padding: 50px 80px;
-      border-radius: 5px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.178);
-      width: 100%;
-      max-width: 770px;
-
-      position: relative;
-      background: rgba(0, 0, 0, 0.564);
-     
-    }
-
-    .calendar-wrapper h2 {
-      color: #ffffff;
-      font-size: 28px;
-      text-align: center;
-      margin-bottom: 20px;
-      font-weight: 700;
-    }
-
-    /* Modern input fields */
     .form-control {
       background: #fff;
       border: 1px solid #ccc;
-      border-radius: 2px;
-      padding: 8px 12px;
+      border-radius: 5px;
+      padding: 10px 15px;
       font-size: 16px;
       color: #333;
       transition: all 0.3s ease;
       margin-bottom: 20px;
+      width: 100%;
     }
 
     .form-control:focus {
       border-color: #6a11cb;
       box-shadow: 0 0 0 4px rgba(106, 17, 203, 0.15);
-      background-color: #fff;
       outline: none;
     }
 
@@ -107,124 +80,79 @@
       font-weight: 600;
       transition: background 0.3s;
       width: 100%;
+      color: #fff;
+      cursor: pointer;
     }
 
     .btn-primary:hover {
       background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
     }
 
+    .calendar-section {
+      background: url('https://t4.ftcdn.net/jpg/10/95/98/59/240_F_1095985933_J2wC9izxs9fZHvvgFxPC7sKutX8ntwhl.jpg') no-repeat center center/cover;
+      position: relative;
+    }
 
-    /* Fix OpenCage Places dropdown alignment */
-.places-container {
-    position: relative;
-}
+    .calendar-wrapper {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+      width: 100%;
+      margin: auto;
+      text-align: center;
+    }
 
-.places-container .places-autocomplete {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-top: none;
-    max-height: 250px;
-    overflow-y: auto;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-    width: 100%; /* Make it same width as input */
-}
-.places-container .places-suggestion {
-    padding: 10px;
-    cursor: pointer;
-}
-.places-container .places-suggestion:hover {
-    background: #f0f0f0;
-}
+    .calendar-wrapper h2 {
+      color: #ffffff;
+      font-size: 28px;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
 
+    #calendar {
+      margin-top: 20px;
+    }
 
-
-
-    
-    /* Make Flatpickr Calendar bigger and better */
     .flatpickr-calendar {
       font-size: 1rem;
-   
-      border-radius: 5px;
+      border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
 
-    .flatpickr-months {
-      font-size: 1rem;
-      background: #fff;
-      padding: 8px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .flatpickr-weekdays {
-      background: #f0f0f0;
-      font-size: 0.9rem;
-      color: #555;
-    }
-
     .flatpickr-day {
-      /* height: 50px;
-      line-height: 50px; */
-      /* width: 50px; */
-      /* font-size: 1.1rem; */
-      /* border-radius: 8px; */
-      /* transition: all 0.2s; */
-      /* justify-content: center; */
-
-      height: 50px;        /* Increase height */
-      line-height: 50px;   /* Center the number vertically */
-      width: 100px;         /* Increase width */
-      font-size: 18px;     /* Bigger text */
-      border-radius: 10px; /* Rounder corners (optional) */
+      height: 50px;
+      line-height: 50px;
+      width: 50px;
+      font-size: 18px;
+      border-radius: 8px;
       transition: all 0.3s ease;
-    }
-    .flatpickr-days {
-      max-width: 700px !important;
-      justify-content: center;
-      gap: 5px;
-      /* width: 410px !important; */
     }
 
     .flatpickr-day:hover {
       background: #2575fc;
       color: #fff;
-      border-radius: 8px;
     }
 
-    /* .flatpickr-day.today {
-      background: #6a11cb;
-      color: white;
-      border-radius: 8px;
-    } */
+    #phone {
+      width: 100%;
+    }
+
+    #form-message {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
 
     @media (max-width: 768px) {
       .contact-container {
         flex-direction: column;
       }
-      .calendar-section {
-        border-left: none;
-        border-top: 1px solid #eee;
+
+      .calendar-wrapper {
+        margin: 30px 0;
       }
-    }
-
-    .flatpickr-rContainer {
-        width: 100%;
-    }
-
-    #phone{
-        width: 420px !important;
-        /* margin-bottom: 20px !important; */
-    }
-    #email{
-        margin-top: 20px !important;
-    }
-    .selected{
-        background-color: #3CC065 !important;
     }
   </style>
 </head>
@@ -233,28 +161,28 @@
 
 <div class="contact-container">
   <div class="form-section">
-    <h3 class="mb-4">Let's schedule your meeting</h3>
+    <h3>Let's schedule your meeting</h3>
     <div id="form-message" class="text-center mb-3 fw-bold"></div>
 
     <form id="booking-form">
-        <input type="text" id="name" name="name" class="form-control" placeholder="Your Name" required />
-        <input type="tel" id="phone" name="phone" class="form-control" placeholder="Phone Number" required />
-        <input type="email" id="email" name="email" class="form-control" placeholder="Email Address" required />
-        <input type="text" id="location" name="location" class="form-control" placeholder="Location" autocomplete="off" required />
-        <input type="time" id="meeting_time" name="meeting_time" class="form-control" required />
-        <input type="hidden" id="selected_date" name="date">
-        <input type="hidden" id="latitude" name="latitude">
-        <input type="hidden" id="longitude" name="longitude">
-        <input type="hidden" id="ip" name="ip">
-        <input type="hidden" id="city" name="city">
-        <input type="hidden" id="distance_time" name="distance_time">
-        <input type="hidden" id="distance_km" name="distance_km">
+      <input type="text" id="name" name="name" class="form-control" placeholder="Your Name" required />
+      <input type="tel" id="phone" name="phone" class="form-control" placeholder="Phone Number" required />
+      <input type="email" id="email" name="email" class="form-control" placeholder="Email Address" required />
+      <input type="text" id="location" name="location" class="form-control" placeholder="Location" autocomplete="off" required />
+      <input type="time" id="meeting_time" name="meeting_time" class="form-control" required />
+      <input type="hidden" id="selected_date" name="date">
+      <input type="hidden" id="latitude" name="latitude">
+      <input type="hidden" id="longitude" name="longitude">
+      <input type="hidden" id="ip" name="ip">
+      <input type="hidden" id="city" name="city">
+      <input type="hidden" id="distance_time" name="distance_time">
+      <input type="hidden" id="distance_km" name="distance_km">
 
       <button type="submit" class="btn btn-primary mt-3">Book Meeting</button>
     </form>
   </div>
 
-  <div style="background-image: url('https://t4.ftcdn.net/jpg/10/95/98/59/240_F_1095985933_J2wC9izxs9fZHvvgFxPC7sKutX8ntwhl.jpg');" class="calendar-section">
+  <div class="calendar-section">
     <div class="calendar-wrapper">
       <h2>Select Date</h2>
       <div id="calendar"></div>
@@ -323,12 +251,9 @@ document.addEventListener("DOMContentLoaded", function() {
       });
 
       const data = await res.json();
-
       document.getElementById("form-message").textContent = data.message || "Meeting booked successfully!";
       document.getElementById("form-message").className = "text-success fw-bold";
       form.reset();
-      
-      // Reset phone input state
       iti.setCountry("auto");
     } catch (err) {
       document.getElementById("form-message").textContent = "Error saving meeting.";
