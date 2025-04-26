@@ -31,9 +31,8 @@
       max-width: 1200px;
       display: flex;
       flex-wrap: wrap;
-      margin: auto;
-      margin-top: 70px;
-      margin-bottom: 70px;
+      margin: 70px 50px 70px 50px;
+
     }
 
     .form-section {
