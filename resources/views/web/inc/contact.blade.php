@@ -157,20 +157,20 @@
     display: block;
     position: relative;
     top: 2px;
-    min-width: 400px;
+    min-width: 380px;
     height: 300;
 }
 .dayContainer {
     /* padding: 0;
     outline: 0;
     text-align: left; */
-    width: 400px;
-    min-width: 400px;
-    max-width: 400px;
+    width: 380px;
+    min-width: 380px;
+    max-width: 380px;
   }
 
   .flatpickr-days {
-    width: 400px;
+    width: 380px;
 }
 
 
