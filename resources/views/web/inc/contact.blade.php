@@ -179,7 +179,7 @@
 
       height: 65px;        /* Increase height */
       line-height: 65px;   /* Center the number vertically */
-      width: 65px;         /* Increase width */
+      width: 75px;         /* Increase width */
       font-size: 18px;     /* Bigger text */
       border-radius: 10px; /* Rounder corners (optional) */
       transition: all 0.3s ease;
