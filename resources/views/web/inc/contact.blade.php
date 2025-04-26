@@ -169,13 +169,20 @@
     }
 
     .flatpickr-day {
-      height: 50px;
-      line-height: 50px;
-      width: 50px;
-      font-size: 1.1rem;
-      border-radius: 8px;
-      transition: all 0.2s;
-      justify-content: center
+      /* height: 50px;
+      line-height: 50px; */
+      /* width: 50px; */
+      /* font-size: 1.1rem; */
+      /* border-radius: 8px; */
+      /* transition: all 0.2s; */
+      /* justify-content: center; */
+
+      height: 65px;        /* Increase height */
+      line-height: 65px;   /* Center the number vertically */
+      width: 65px;         /* Increase width */
+      font-size: 18px;     /* Bigger text */
+      border-radius: 10px; /* Rounder corners (optional) */
+      transition: all 0.3s ease;
     }
     .flatpickr-days {
       max-width: 700px !important;
