@@ -39,7 +39,7 @@
     .form-section {
       flex: 1 1 50%;
       padding: 50px;
-      background: #3CC065;
+      background: #001A36;
     }
 
     .calendar-section {
@@ -165,7 +165,7 @@
     }
 
     #phone{
-        width: 620px !important;
+        width: 420px !important;
         /* margin-bottom: 20px !important; */
     }
     #email{
