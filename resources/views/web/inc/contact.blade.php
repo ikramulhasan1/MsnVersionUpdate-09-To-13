@@ -146,9 +146,9 @@
       justify-content: center
     }
     .flatpickr-days {
-      max-width: 100% !important;
+      max-width: 700px !important;
       justify-content: center;
-      width: 100% !important;
+      width: 450px !important;
     }
 
     .flatpickr-day:hover {
