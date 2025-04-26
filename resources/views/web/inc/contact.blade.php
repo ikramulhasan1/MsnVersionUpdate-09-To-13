@@ -60,7 +60,7 @@
 
     .calendar-wrapper {
       /* background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%); */
-      padding: 50px 85px;
+      padding: 50px 80px;
       border-radius: 5px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.178);
       width: 100%;
