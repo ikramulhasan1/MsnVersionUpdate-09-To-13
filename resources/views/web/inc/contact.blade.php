@@ -248,7 +248,6 @@
 <script>
 const formMessage = document.getElementById("form-message");
 const locationInput = document.getElementById("location");
-const suggestionBox = document.getElementById("autocomplete-box");
 const phoneInput = document.querySelector("#phone");
 
 const iti = window.intlTelInput(phoneInput, {
@@ -296,61 +295,34 @@ async function fetchIPInfo() {
   }
 }
 
-// Location Autocomplete
-locationInput.addEventListener("input", async () => {
-  const value = locationInput.value;
-  if (value.length < 3) {
-    suggestionBox.classList.add("d-none");
-    return;
-  }
-
-  const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(value)}&apiKey=437507f257da48b28e1d22d7f9736e62&limit=5`;
-  const res = await fetch(url);
-  const data = await res.json();
-
-  suggestionBox.innerHTML = "";
-  (data.features || []).forEach(place => {
-    const div = document.createElement("div");
-    div.className = "autocomplete-suggestion";
-    div.textContent = place.properties.formatted;
-    div.onclick = () => {
-      locationInput.value = place.properties.formatted;
-      document.getElementById("latitude").value = place.properties.lat;
-      document.getElementById("longitude").value = place.properties.lon;
-      suggestionBox.classList.add("d-none");
-    };
-    suggestionBox.appendChild(div);
-  });
-
-  suggestionBox.classList.remove("d-none");
-});
-
 // Submit Form
-document.getElementById("modal-form").addEventListener("submit", async function (e) {
+document.getElementById("booking-form").addEventListener("submit", async function (e) {
   e.preventDefault();
   const form = e.target;
   const formData = new FormData(form);
   formData.set("phone", iti.getNumber());
 
   try {
-    const res = await axios.post("/meetings", formData, {
+    const res = await fetch("/meetings", {
+      method: "POST",
       headers: {
         "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-        "Content-Type": "multipart/form-data"
-      }
+      },
+      body: formData
     });
 
-    formMessage.textContent = res.data.message || "Meeting booked successfully!";
+    const result = await res.json();
+
+    formMessage.textContent = result.message || "Meeting booked successfully!";
     formMessage.className = "text-success fw-bold";
     form.reset();
 
-    // Optionally clear message after 3 seconds
     setTimeout(() => {
       formMessage.textContent = "";
     }, 3000);
 
   } catch (err) {
-    formMessage.textContent = err.response?.data?.message || "Error saving meeting.";
+    formMessage.textContent = "Error saving meeting.";
     formMessage.className = "text-danger fw-bold";
   }
 });
