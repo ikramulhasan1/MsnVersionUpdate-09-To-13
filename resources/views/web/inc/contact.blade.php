@@ -142,6 +142,9 @@
       font-size: 0.9rem;
       color: #555;
     }
+    .fflatpickr-days {
+      width: 400px;
+    }
 
     .flatpickr-day {
       height: 50px;
