@@ -100,6 +100,144 @@ $header = \App\Models\PageSetup::page('about-us');
         box-shadow: 0 4px 15px rgb(255, 255, 255);
     }
 }
+
+
+
+/* process */
+/* process section */
+  /* process */
+  .process-section {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9fafc;
+      padding: 80px 15px;
+      /* padding-top: 50px !important;
+      padding-bottom: 50px !important; */
+    }
+
+    .process-section-title {
+      text-align: left;
+      margin-bottom: 40px;
+    }
+
+    .process-section-title h2 {
+      font-weight: 900;
+      color: #333333;
+    }
+
+    .process-step-box {
+      background-color: #fff;
+      border: 1px solid #e1e1e1;
+      border-radius: 2px;
+      padding: 30px 20px;
+      height: 100%;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      transition: all 0.5s ease;
+    }
+
+    .process-step-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .process-step-number {
+      width: 35px;
+      height: 35px;
+      background-color: #0d6efd;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 16px;
+      position: absolute;
+      top: -20px;
+      left: 20px;
+    }
+
+    .process-step-icon {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+    }
+
+    .process-step-heading {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .process-step-heading img {
+      margin-left: 0px;
+    }
+    .process-step-arrow {
+      position: absolute;
+      top: 50%;
+      right: -40px;
+      width: 40px;
+      height: 2px;
+      background: repeating-linear-gradient(
+        to right,
+        #999,
+        #999 4px,
+        transparent 4px,
+        transparent 8px
+      );
+      animation: moveArrow 1s linear infinite;
+    }
+
+    .process-step-arrow::after {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: -4px;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 6px solid #999;
+    }
+
+    @keyframes moveArrow {
+      0% { background-position: 0; }
+      100% { background-position: 8px; }
+    }
+
+    .process-btn-orange {
+      background-color: #ff6a00;
+      color: white;
+      padding: 12px 26px;
+      border-radius: 5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      border: none;
+    }
+
+    .process-btn-orange:hover {
+      background-color: #e55c00;
+      color: white
+    }
+
+    @media (max-width: 991px) {
+      .process-step-arrow {
+        display: none;
+      }
+    }
+    .process-step-arrow.arrow-hidden {
+    display: none !important;
+}
+.arrow-down {
+    /* Customize this arrow to look like a vertical one */
+    transform: rotate(90deg); /* or use a different SVG for down */
+    /* Add margin or position tweaks as needed */
+}
+
+.process-description p{
+    font-size: 16px !important; color: #333333 !important;
+
+}
+
 </style>
 
 <!--Page Title-->
@@ -296,7 +434,7 @@ $section_team = \App\Models\Section::section('team');
 <!--End Team Section -->
 @endif
 
-
+{{-- 
 @php
 $section_process = \App\Models\Section::section('process');
 @endphp
@@ -331,8 +469,60 @@ $section_process = \App\Models\Section::section('process');
 </section>
 <!--End Feautred Section -->
 @endif
+ --}}
+ @php
+ $section_process = \App\Models\Section::section('process');
+ @endphp
+ 
+ @if(count($processes) > 0 && isset($section_process))
+ {{-- process-section --}}
+ <section class="process-section px-5">
+   <div class="container">
+     <div class="process-section-title">
+       <h2 style="padding-bottom: 30px !important">{{ $section_process->title }}</h2>
+       {{-- <p class="text-muted">From research to testing, we ensure your design is intuitive, user-focused, and aligned with your goals.</p> --}}
+     </div>
+ 
+     <!-- First Row -->
+     <div class="row g-4 mb-4">
+         @foreach($processes as $key => $process)
+             {{-- @foreach ($service->processworks as $key => $process) --}}
+             <div class="col-md-4 mb-4">
+                 <div class="process-step-box">
+                     <div class="process-step-number">{{ $key + 1 }}</div>
+                     <div class="process-step-heading" style="font-size: 20px; color: #333333;">
+                         {{-- <img style="width: 50px; height: 50px;" src="{{ asset('uploads/process/' . $process->image_path) }}" class="process-step-icon" alt=""> --}}
+                         {{ $process->title }}
+                     </div>
+                     
+                     <div class="process-description">
+                         {!! $process->description !!}
+                     </div>
+                     {{-- Show arrow after every item except the last one --}}
+                     @php
+                         $totalSteps = count($processes);
+                         $showArrow = ($key != $totalSteps - 1); // hide arrow for last step
+                     @endphp
+ 
+                     <div class="process-step-arrow d-none d-md-block 
+                         {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
+                     </div>
+                 </div>
+             </div>
+             {{-- @endforeach --}}
+         @endforeach
+     </div>
+   
+     <!-- CTA -->
+     <div class="text-center mt-5">
+       <a href="https://msnsofttech.com/get-quote" class="btn process-btn-orange">Get in Touch With Us →</a>
+     </div>
+   </div>
+ </section >
+ @endif
 
-
+ 
+ 
 @php
 $section_clients = \App\Models\Section::section('clients');
 @endphp
