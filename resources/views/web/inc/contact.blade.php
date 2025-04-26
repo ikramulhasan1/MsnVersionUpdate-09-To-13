@@ -44,7 +44,7 @@
 
     .form-section h3 {
       color: #333333;
-      font-size: 68px;
+      font-size: 36px;
       font-weight: 900;
     }
 
