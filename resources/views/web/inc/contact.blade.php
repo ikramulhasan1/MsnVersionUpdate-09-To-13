@@ -39,7 +39,7 @@
     .form-section {
       flex: 1 1 60%;
       padding: 50px;
-      background: #f7f9fc;
+      background: #001A36;
     }
 
     .calendar-section {
