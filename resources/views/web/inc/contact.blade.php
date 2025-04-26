@@ -177,7 +177,7 @@
       /* transition: all 0.2s; */
       /* justify-content: center; */
 
-      height: 65px;        /* Increase height */
+      height: 40px;        /* Increase height */
       line-height: 65px;   /* Center the number vertically */
       width: 100px;         /* Increase width */
       font-size: 18px;     /* Bigger text */
