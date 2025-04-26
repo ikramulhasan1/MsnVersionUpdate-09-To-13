@@ -165,8 +165,7 @@
     </section>
     <!--End Contact Section -->
 
-    @if(isset($setting->google_map))
-    <!-- map-column Section -->
+    {{-- @if(isset($setting->google_map))
     <section class="map-section">
         <div class="container-fluid">
             <div class="row">
@@ -178,7 +177,6 @@
             </div>
         </div>
     </section>
-    <!-- End map-column Section -->
-    @endif
+    @endif --}}
 
 @endsection
