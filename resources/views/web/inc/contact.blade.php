@@ -136,7 +136,9 @@
       padding: 8px 0;
       border-bottom: 1px solid #eee;
     }
-
+    .flatpickr-next-month {
+      margin-top: 10px;
+    }
     .flatpickr-weekdays {
       background: #f0f0f0;
       font-size: 0.9rem;
