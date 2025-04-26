@@ -113,42 +113,11 @@
       background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
     }
 
-
-    /* Fix OpenCage Places dropdown alignment */
-.places-container {
-    position: relative;
-}
-
-.places-container .places-autocomplete {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-top: none;
-    max-height: 250px;
-    overflow-y: auto;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-    width: 100%; /* Make it same width as input */
-}
-.places-container .places-suggestion {
-    padding: 10px;
-    cursor: pointer;
-}
-.places-container .places-suggestion:hover {
-    background: #f0f0f0;
-}
-
-
-
-
-    
     /* Make Flatpickr Calendar bigger and better */
     .flatpickr-calendar {
       font-size: 1rem;
-   
+      width: 100% !important;
+      max-width: 100% !important;
       border-radius: 5px;
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
@@ -168,25 +137,17 @@
     }
 
     .flatpickr-day {
-      /* height: 50px;
-      line-height: 50px; */
-      /* width: 50px; */
-      /* font-size: 1.1rem; */
-      /* border-radius: 8px; */
-      /* transition: all 0.2s; */
-      /* justify-content: center; */
-
-      height: 50px;        /* Increase height */
-      line-height: 50px;   /* Center the number vertically */
-      width: 100px;         /* Increase width */
-      font-size: 18px;     /* Bigger text */
-      border-radius: 10px; /* Rounder corners (optional) */
-      transition: all 0.3s ease;
+      height: 50px;
+      line-height: 50px;
+      width: 50px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+      justify-content: center
     }
     .flatpickr-days {
       max-width: 700px !important;
       justify-content: center;
-      gap: 5px;
       /* width: 410px !important; */
     }
 
@@ -255,8 +216,8 @@
   </div>
 
   <div style="background-image: url('https://t4.ftcdn.net/jpg/10/95/98/59/240_F_1095985933_J2wC9izxs9fZHvvgFxPC7sKutX8ntwhl.jpg');" class="calendar-section">
-    {{-- <h2>Select Date</h2> --}}
-    <div class="calendar-wrapper" style="display: flex; align-items: center; justify-content: center;">
+    <div class="calendar-wrapper">
+      <h2>Select Date</h2>
       <div id="calendar"></div>
     </div>
   </div>
