@@ -153,7 +153,13 @@
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
-
+    .flatpickr-calendar.inline {
+    display: block;
+    position: relative;
+    top: 2px;
+    min-width: 400px;
+    height: 290;
+}
     .flatpickr-months {
       font-size: 1rem;
       background: #fff;
