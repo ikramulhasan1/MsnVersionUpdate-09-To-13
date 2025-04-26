@@ -32,6 +32,8 @@
       display: flex;
       flex-wrap: wrap;
       margin: auto;
+      margin-top: 50px;
+      margin-bottom: 50px;
     }
 
     .form-section {
