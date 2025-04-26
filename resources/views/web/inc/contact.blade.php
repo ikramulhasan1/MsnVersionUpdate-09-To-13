@@ -39,14 +39,9 @@
     .form-section {
       flex: 1 1 50%;
       padding: 50px;
-      background-color: #F2F6FF;
+      background: linear-gradient(135deg, #174849 0%, #0D2642 100%);
     }
-
-    .form-section h3 {
-      color: #000000;
-      font-size: 28px;
-      font-weight: 900;
-    }
+    
 
     .calendar-section {
       flex: 1 1 50%;
@@ -72,11 +67,10 @@
     }
 
     .calendar-wrapper h2 {
-      color: #ffffff;
+      color: #fff;
       font-size: 28px;
       text-align: center;
       margin-bottom: 20px;
-      font-weight: 700;
     }
 
     /* Modern input fields */
