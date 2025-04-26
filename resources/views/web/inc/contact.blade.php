@@ -81,7 +81,7 @@
       max-width: 470px;
 
       position: relative;
-      background: rgba(0, 0, 0, 0.564);
+      /* background: rgba(0, 0, 0, 0.564); */
      
     }
 
