@@ -63,6 +63,9 @@
       justify-content: center;
       padding: 0px;
       border-left: 1px solid #eee;
+      background: 
+      linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+      url('https://t4.ftcdn.net/jpg/10/95/98/59/240_F_1095985933_J2wC9izxs9fZHvvgFxPC7sKutX8ntwhl.jpg');
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center center;
@@ -230,7 +233,7 @@
     </form>
   </div>
 
-  <div style="background-image: url('https://t4.ftcdn.net/jpg/10/95/98/59/240_F_1095985933_J2wC9izxs9fZHvvgFxPC7sKutX8ntwhl.jpg');" class="calendar-section">
+  <div class="calendar-section">
     <div class="calendar-wrapper">
       <h2>Select Date</h2>
       <div id="calendar"></div>
