@@ -154,6 +154,7 @@
       width: 50px;
       font-size: 1.1rem;
       border-radius: 8px;
+      font-weight: 700;
       transition: all 0.2s;
     }
 
