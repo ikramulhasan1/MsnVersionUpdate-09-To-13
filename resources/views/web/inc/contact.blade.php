@@ -44,7 +44,7 @@
 
     .form-section h3 {
       color: #333333;
-      font-size: 36px;
+      font-size: 32px;
       font-weight: 900;
     }
 
@@ -60,11 +60,11 @@
 
     .calendar-wrapper {
       /* background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%); */
-      padding: 50px 40px;
+      padding: 50px 80px;
       border-radius: 5px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.178);
       width: 100%;
-      max-width: 470px;
+      max-width: 770px;
 
       position: relative;
       background: rgba(0, 0, 0, 0.564);
