@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
-use App\Mail\Contact as ContactMail;
-use Illuminate\Http\Request;
+use Mail;
+use Session;
+use App\Models\Client;
 use App\Models\Contact;
 use App\Models\Setting;
-use Session;
-use Mail;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Mail\Contact as ContactMail;
 
 class ContactController extends Controller
 {
@@ -19,7 +20,9 @@ class ContactController extends Controller
      */
     public function index()
     {
-        return view('web.contact');
+        // Clients
+        $data['clients'] = Client::where('status', '1')->orderBy('id', 'desc')->take(10)->get();
+        return view('web.contact',$data);
     }
 
     /**

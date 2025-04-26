@@ -21,6 +21,22 @@
     @endif
     @endsection
 
+    <style>
+        /*  */
+    /* client */
+    .partner-section {
+      padding: 60px 0;
+      background-color: #F5F7F8;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .partner-section h2 {
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+      color: #333333;
+    }
+    </style>
 @endif
 
 @section('content')
@@ -178,5 +194,21 @@
         </div>
     </section>
     @endif --}}
+    
+    @if(count($clients) > 0)
+    <section class="partner-section">
+        <div class="container">
+        <h2>Enterprises & Tech Companies Worldwide Trust Us</h2>
+        <div class="row gap-2 justify-content-center text-center partner-logos align-items-center">
+            @foreach($clients as $client)
+            <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 90px;">
+            <img src="{{ asset('uploads/client/'.$client->image_path) }}" alt="{{ $client->title }}" class="img-fluid my-1"/>
+            </div>
+            @endforeach
+        </div>
+        </div>
+    </section>
+    @endif
+
 
 @endsection
