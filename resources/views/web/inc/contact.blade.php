@@ -143,7 +143,7 @@
       color: #555;
     }
     .fflatpickr-days {
-      width: 400px;
+      width: 400px !important;
     }
 
     .flatpickr-day {
