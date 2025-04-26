@@ -63,7 +63,11 @@
       justify-content: center;
       padding: 0px;
       border-left: 1px solid #eee;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center center;
     }
+
 
     .calendar-wrapper {
       /* background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%); */
@@ -177,6 +181,10 @@
       .calendar-section {
         border-left: none;
         border-top: 1px solid #eee;
+
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
       }
     }
 
