@@ -32,8 +32,8 @@
       display: flex;
       flex-wrap: wrap;
       margin: auto;
-      margin-top: 50px;
-      margin-bottom: 50px;
+      margin-top: 80px;
+      margin-bottom: 80px;
     }
 
     .form-section {
@@ -44,7 +44,7 @@
 
     .form-section h3 {
       color: #333333;
-      font-size: 28px;
+      font-size: 68px;
       font-weight: 900;
     }
 
