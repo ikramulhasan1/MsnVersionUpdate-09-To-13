@@ -178,7 +178,7 @@
       /* justify-content: center; */
 
       height: 40px;        /* Increase height */
-      line-height: 65px;   /* Center the number vertically */
+      line-height: 40px;   /* Center the number vertically */
       width: 100px;         /* Increase width */
       font-size: 18px;     /* Bigger text */
       border-radius: 10px; /* Rounder corners (optional) */
