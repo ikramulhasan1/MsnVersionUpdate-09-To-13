@@ -524,7 +524,7 @@ body {
     
 @if(isset($about) || count($counters) > 0)
 <!-- About Section -->
-<section class="our-mission-section">
+<section class="">
     <div class="container">
         {{-- @if(isset($about))
         <div class="sec-title left">
