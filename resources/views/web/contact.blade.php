@@ -74,19 +74,19 @@
     <!--Page Title-->
     <!-- Hero Section -->
   <section class="about-hero-section" data-aos="fade">
-    <div class="container">
-      <h1>About Us</h1>
+    <div class="container d-flex" style="height: 40px; align-items: center; justify-content: flex-end;">
+      <h1>Contact Us</h1>
       <!-- <p>Building the Future of Technology and Business Innovation Together.</p> -->
     </div>
   </section>
     <section class="page-title p-0">
         <div class="container">
             <div class="inner-container clearfix">
-                <div class="title-box">
+                {{-- <div class="title-box">
                     <h1>{{ __('navbar.contact') }}</h1>
-                </div>
+                </div> --}}
                 <div class="bread-crumb">
-                    <ul>
+                    <ul class="p-0">
                         <li>{{ __('navbar.contact') }}</li>
                         <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
                     </ul>
