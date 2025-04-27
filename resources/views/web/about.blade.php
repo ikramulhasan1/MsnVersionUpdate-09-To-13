@@ -425,7 +425,7 @@ body {
     position: relative;
     padding-left: 20px; /* space for custom bullet */
     margin-bottom: 0px; /* optional: add spacing between li */
-    font-size: 18px; /* adjust font size as needed */
+    font-size: 16px; /* adjust font size as needed */
     color: #333333; /* text color */
 }
 
@@ -509,7 +509,7 @@ body {
         <div class="col-md-6" data-aos="zoom-in">
           <div class="about-glass-card shadow-sm text-center">
             <h3>{{ $about->mission_title }}</h3>
-            <div style="text-align: justify" class="about-content">
+            <div style="text-align: left" class="about-content">
               {!! $about->mission_desc !!}
             </div>
           </div>
@@ -519,7 +519,7 @@ body {
         <div class="col-md-6" data-aos="zoom-in" data-aos-delay="150">
           <div class="about-glass-card shadow-sm text-center">
             <h3>{{ $about->vision_title }}</h3>
-            <div class="about-content" style="text-align: justify">
+            <div class="about-content" style="text-align: left">
               {!! $about->vision_desc !!}
             </div>
           </div>
