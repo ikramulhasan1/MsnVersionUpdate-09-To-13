@@ -184,72 +184,63 @@ use Illuminate\Support\Str;
 
 <!-- Blog Loading Script -->
 <script>
-  const blogData = @json($articles->skip(1)->values()); // Skips the first blog (already featured)
-
-  let loadedCount = 0;
-  const perLoad = 3;
-
-  // Function to load blog cards dynamically
-  function loadBlogCards() {
-    const container = document.getElementById('blogCardsContainer');
-
-    blogData.slice(loadedCount, loadedCount + perLoad).forEach(blog => {
-      const col = document.createElement('div');
-      col.className = 'col-md-4 blog-card';
-      col.style.marginBottom = '20px';
-      col.innerHTML = `
-        <div class="p-3">
-          <img src="/uploads/article/${blog.image_path}" class="img-fluid" alt="${blog.title}">
-          <div class="p-2">
-            <div class="author-info">
-              <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
-              <div><strong>Tanim Rahman</strong></div>
+    const blogData = @json($articles->skip(1)->values()); // Skips the first blog (already featured)
+  
+    let loadedCount = 0;
+    const perLoad = 3;
+  
+    function loadBlogCards() {
+      const container = document.getElementById('blogCardsContainer');
+  
+      blogData.slice(loadedCount, loadedCount + perLoad).forEach(blog => {
+        const col = document.createElement('div');
+        col.className = 'col-md-4';
+        col.style.marginBottom = '20px';
+        col.innerHTML = `
+          <div class="blog-card p-3">
+            <img src="/uploads/article/${blog.image_path}" class="img-fluid" alt="${blog.title}">
+            <div class="p-2">
+              <div class="author-info">
+                <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
+                <div><strong>Tanim Rahman</strong></div>
+              </div>
+              <h5><strong>${blog.title}</strong></h5>
+              <p>${truncateText(stripHtml(blog.description), 150)}</p>
+              <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
             </div>
-            <h5><strong>${blog.title}</strong></h5>
-            <p>${truncateText(stripHtml(blog.description), 150)}</p>
-            <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
           </div>
-        </div>
-      `;
-      
-      container.appendChild(col);
-
-      // Trigger fade-in animation for new blog cards
-      setTimeout(() => {
-        col.classList.add('show');
-      }, 100);  // Small delay before fade-in
-
-    });
-
-    loadedCount += perLoad;
-
-    // Hide button if all blogs are loaded
-    if (loadedCount >= blogData.length) {
-      document.getElementById('loadMoreBtn').style.display = 'none';
+        `;
+        container.appendChild(col);
+      });
+  
+      loadedCount += perLoad;
+  
+      // Hide button if all blogs are loaded
+      if (loadedCount >= blogData.length) {
+        document.getElementById('loadMoreBtn').style.display = 'none';
+      }
     }
-  }
-
-  // Helper function to remove HTML tags
-  function stripHtml(html) {
-    let div = document.createElement("div");
-    div.innerHTML = html;
-    return div.textContent || div.innerText || "";
-  }
-
-  // Helper function to truncate text
-  function truncateText(text, maxLength) {
-    if (text.length <= maxLength) {
-      return text;
+  
+    // Helper function to remove HTML tags
+    function stripHtml(html) {
+      let div = document.createElement("div");
+      div.innerHTML = html;
+      return div.textContent || div.innerText || "";
     }
-    return text.substr(0, maxLength) + '...';
-  }
-
-  document.getElementById('loadMoreBtn').addEventListener('click', loadBlogCards);
-
-  // Initial load (first 3 blogs)
-  loadBlogCards();
-</script>
-
+  
+    // Helper function to truncate text
+    function truncateText(text, maxLength) {
+      if (text.length <= maxLength) {
+        return text;
+      }
+      return text.substr(0, maxLength) + '...';
+    }
+  
+    document.getElementById('loadMoreBtn').addEventListener('click', loadBlogCards);
+  
+    // Initial load
+    loadBlogCards();
+  </script>
   
 
 @endsection
