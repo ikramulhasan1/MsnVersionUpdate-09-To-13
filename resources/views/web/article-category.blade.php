@@ -81,7 +81,79 @@ $header = \App\Models\PageSetup::page('blog');
 
 
 
-     body {
+     /* body {
+      background: #f9f9f9;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .search-bar {
+      margin: 20px 0;
+    }
+
+    .search-bar input {
+      border-radius: 25px;
+      padding-left: 20px;
+    }
+
+    .featured-blog {
+      background: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 40px;
+    }
+
+    .blog-card {
+      background: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height: 100%;
+    }
+
+    .blog-card img {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .author-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .author-info img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .read-more {
+      color: #28a745;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .read-more:hover {
+      text-decoration: underline;
+    }
+
+    #loadMoreBtn {
+      margin-top: 40px;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: bold;
+      background: #ff6600;
+      color: #fff;
+      border: none;
+    }
+    #loadMoreBtn:hover {
+      background: #e65c00;
+    } */
+
+    body {
       background: #f9f9f9;
       font-family: 'Segoe UI', sans-serif;
     }
