@@ -442,9 +442,9 @@ body {
   <!-- About Section -->
   <section class="about-page">
     <div class="container">
-      <div class="about-section-title" data-aos="fade-up">
+      {{-- <div class="about-section-title" data-aos="fade-up">
         <h2>Who We Are</h2>
-      </div>
+      </div> --}}
       <div class="row align-items-center">
         <div class="col-lg-6 mb-4" data-aos="fade-right">
           <div class="about-glass-card shadow-sm">
@@ -567,12 +567,12 @@ body {
                         <!--Column-->
                         <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp ">
                             <div class="count-box border border-1 p-3 bg-white stats-card">
-                                <div style="color: #1EC000" class="count">
-                                    {{ $counter->value }}
-                                    {{-- <span class="count-text" data-speed="5000" data-stop="{{ $counter->value }}">0</span> --}}
-                                </div>
-                                <div class="separater"></div>
-                                <h4 class="counter-title">{{ $counter->title }}</h4>
+                              <div style="color: #1EC000" class="count">
+                                  {{ $counter->value }}
+                                  {{-- <span class="count-text" data-speed="5000" data-stop="{{ $counter->value }}">0</span> --}}
+                              </div>
+                              <div class="separater"></div>
+                              <h4 class="counter-title">{{ $counter->title }}</h4>
                             </div>
                         </div>
                         @endforeach
