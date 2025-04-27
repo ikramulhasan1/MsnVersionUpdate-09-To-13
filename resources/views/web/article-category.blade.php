@@ -404,8 +404,7 @@ $header = \App\Models\PageSetup::page('blog');
               <small>Tanim Rahman</small>
             </div>
             <h5>${blog.title}</h5>
-            //  <p>${blog.description.length > 300 ? blog.description.substr(0, 300) + '...' : blog.description}</p>
-                <p>{{ Str::limit(strip_tags($blog->description), 250) }}</p>
+            <p>${blog.description.length > 300 ? blog.description.substr(0, 300) + '...' : blog.description}</p><br>
             <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
           </div>
         </div>
