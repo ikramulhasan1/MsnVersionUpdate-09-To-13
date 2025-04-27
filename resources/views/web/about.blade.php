@@ -496,7 +496,7 @@ color: #009830;
       </div> --}}
       <div class="row align-items-center">
         <div class="col-lg-7 mb-4" data-aos="fade-right">
-          <div class="about-glass-card shadow-sm">
+          <div class="about-glass-card ps-0">
             <h3>{{ $about->title }}</h3>
             <div class="about-content">
               
