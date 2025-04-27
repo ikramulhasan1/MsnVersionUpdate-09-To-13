@@ -369,7 +369,7 @@ $header = \App\Models\PageSetup::page('blog');
 
 <!-- Blog Cards -->
 <div class="container">
-  <div class="row g-4 mb-3" id="blogCardsContainer">
+  <div class="row g-4" id="blogCardsContainer">
     <!-- Cards will be dynamically loaded here by JavaScript -->
   </div>
 
@@ -394,6 +394,7 @@ $header = \App\Models\PageSetup::page('blog');
     blogData.slice(loadedCount, loadedCount + perLoad).forEach(blog => {
       const col = document.createElement('div');
       col.className = 'col-md-4';
+      col.className = 'mb-3';
       col.innerHTML = `
       
         <div class="blog-card p-3">
