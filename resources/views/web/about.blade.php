@@ -415,13 +415,13 @@ body {
 
 
     .about-content ul {
-        list-style-type: disc; /* Show bullet points */
+        list-style-type: disc !important; /* Show bullet points */
         padding-left: 20px;    /* Space from the left */
         margin-bottom: 15px;   /* Space below the list */
     }
 
     .about-content ol {
-        list-style-type: decimal; /* Show numbered list if <ol> used */
+        list-style-type: decimal !important; /* Show numbered list if <ol> used */
         padding-left: 20px;
         margin-bottom: 15px;
     }
