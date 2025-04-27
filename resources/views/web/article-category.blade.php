@@ -119,11 +119,11 @@ use Illuminate\Support\Str;
         }
     }
 
-    .cardBlogExtra h5, .featured-blog-extra h3{
+    .cardBlogExtra h5{
         /* font-size: 24px; */
         color: #222222; 
     }
-    .cardBlogExtra p, .featured-blog-extra p{
+    .cardBlogExtra p{
         font-size: 17px;
         color: #000000; 
     }
