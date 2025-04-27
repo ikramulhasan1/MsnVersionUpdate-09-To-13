@@ -150,7 +150,7 @@ use Illuminate\Support\Str;
 
     <!-- Loading Spinner -->
     <div id="loadingSpinner">
-        <img src="https://i.imgur.com/llF5iyg.gif" alt="Loading...">
+        <img style="width: 15px; height: 15px;;" src="https://i.imgur.com/llF5iyg.gif" alt="Loading...">
     </div>
 
     <!-- Load More Button -->
