@@ -547,7 +547,16 @@ color: #009830;
                 <i class="bi bi-laptop"></i>
               </div>
               <h5 style="font-weight: 700" class="fw-bolder">Software Development</h5>
-              <p>Custom solutions to help you grow faster, smarter, and stronger in the digital world.</p>
+              <p>Innovative, custom-built solutions that fuel growth, optimize performance, and drive digital transformation.</p>
+            </div>
+          </div>
+          <div class="col-lg-4" data-aos="fade-right">
+            <div class="card p-4 text-center">
+              <div class="icon mx-auto mb-3">
+                <i class="bi bi-diagram-3-fill"></i>
+              </div>
+              <h5 style="font-weight: 700" class="fw-bolder">Website Development</h5>
+              <p>High-performance, responsive websites crafted to deliver outstanding user experiences and accelerate business growth.</p>
             </div>
           </div>
           <div class="col-lg-4" data-aos="fade-up">
@@ -556,7 +565,7 @@ color: #009830;
                 <i class="bi bi-phone"></i>
               </div>
               <h5 style="font-weight: 700" class="fw-bolder">Mobile App Development</h5>
-              <p>Crafting seamless and powerful mobile experiences to captivate your audience globally.</p>
+              <p>Seamless, high-impact mobile experiences designed to captivate users and expand your global reach.</p>
             </div>
           </div>
           <div class="col-lg-4" data-aos="fade-left">
@@ -565,7 +574,7 @@ color: #009830;
                 <i class="bi bi-bar-chart-line"></i>
               </div>
               <h5 style="font-weight: 700" class="fw-bolder">SEO & Marketing</h5>
-              <p>Driving visibility, engagement, and success through intelligent SEO and marketing strategies.</p>
+              <p>Strategic SEO and marketing solutions that enhance visibility, increase engagement, and deliver measurable success.</p>
             </div>
           </div>
         </div>
