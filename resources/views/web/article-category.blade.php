@@ -31,7 +31,7 @@ use Illuminate\Support\Str;
 
 <style>
     body {
-        background: #f9f9f9;
+        background: #F3F4F4;
         font-family: 'Segoe UI', sans-serif;
     }
     .search-bar {
@@ -149,9 +149,9 @@ use Illuminate\Support\Str;
 
 <!-- Featured Blog -->
 @if($articles->count() > 0)
-<div class="container featured-blog p-4">
+<div class="container featured-blog ">
     <div class="row align-items-center">
-        <div class="col-md-6">
+        <div class="col-md-5 pl-4 mt-4">
             <div class="author-info mb-2">
                 <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
                 <div><strong>Tanim Rahman</strong></div>
@@ -160,8 +160,8 @@ use Illuminate\Support\Str;
             <p>{{ Str::limit(strip_tags($articles[0]->description), 450) }}</p>
             <a href="{{ route('blog.single', $articles[0]->slug) }}" class="read-more">READ MORE</a>
         </div>
-        <div class="col-md-6">
-            <img src="{{ asset('uploads/article/'.$articles[0]->image_path) }}" alt="{{ $articles[0]->title }}" class="img-fluid rounded">
+        <div class="col-md-7">
+            <img src="{{ asset('uploads/article/'.$articles[0]->image_path) }}" alt="{{ $articles[0]->title }}" class="w-100 m-0 p-0 rounded">
         </div>
     </div>
 </div>
@@ -189,7 +189,7 @@ use Illuminate\Support\Str;
 <script>
     const blogData = @json($articles->skip(1)->values()); // Skips the first blog (already featured)
     let loadedCount = 0;
-    const perLoad = 6;
+    const perLoad = 3;
 
     // Load blog cards function
     function loadBlogCards() {
