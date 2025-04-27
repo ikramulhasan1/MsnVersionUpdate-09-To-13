@@ -89,6 +89,11 @@ use Illuminate\Support\Str;
     #loadMoreBtn:hover {
         background: #e65c00;
     }
+    #loadingSpinner {
+        display: none;
+        margin-top: 20px;
+        text-align: center;
+    }
 </style>
 
 <!-- Page Title -->
@@ -143,6 +148,11 @@ use Illuminate\Support\Str;
         <!-- Cards will be dynamically loaded here -->
     </div>
 
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner">
+        <img src="https://i.imgur.com/llF5iyg.gif" alt="Loading...">
+    </div>
+
     <!-- Load More Button -->
     <div class="d-flex justify-content-center">
         <button id="loadMoreBtn">CLICK TO LOAD MORE</button>
@@ -161,34 +171,47 @@ use Illuminate\Support\Str;
   
     function loadBlogCards() {
       const container = document.getElementById('blogCardsContainer');
+      const spinner = document.getElementById('loadingSpinner');
+      const loadMoreButton = document.getElementById('loadMoreBtn');
   
-      blogData.slice(loadedCount, loadedCount + perLoad).forEach(blog => {
-        const col = document.createElement('div');
-        col.className = 'col-md-4';
-        col.style.marginBottom = '20px';
-        col.innerHTML = `
-          <div class="blog-card p-3">
-            <img src="/uploads/article/${blog.image_path}" class="img-fluid" alt="${blog.title}">
-            <div class="p-2">
-              <div class="author-info">
-                <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
-                <div><strong>Tanim Rahman</strong></div>
+      // Show loading spinner while fetching data
+      spinner.style.display = 'block';
+      loadMoreButton.disabled = true;
+  
+      // Simulate delay (if any real-time API request)
+      setTimeout(() => {
+        blogData.slice(loadedCount, loadedCount + perLoad).forEach(blog => {
+          const col = document.createElement('div');
+          col.className = 'col-md-4';
+          col.style.marginBottom = '20px';
+          col.innerHTML = `
+            <div class="blog-card p-3">
+              <img src="/uploads/article/${blog.image_path}" class="img-fluid" alt="${blog.title}">
+              <div class="p-2">
+                <div class="author-info">
+                  <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
+                  <div><strong>Tanim Rahman</strong></div>
+                </div>
+                <h5><strong>${blog.title}</strong></h5>
+                <p>${truncateText(stripHtml(blog.description), 150)}</p>
+                <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
               </div>
-              <h5><strong>${blog.title}</strong></h5>
-              <p>${truncateText(stripHtml(blog.description), 150)}</p>
-              <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
             </div>
-          </div>
-        `;
-        container.appendChild(col);
-      });
+          `;
+          container.appendChild(col);
+        });
   
-      loadedCount += perLoad;
+        loadedCount += perLoad;
   
-      // Hide button if all blogs are loaded
-      if (loadedCount >= blogData.length) {
-        document.getElementById('loadMoreBtn').style.display = 'none';
-      }
+        // Hide button if all blogs are loaded
+        if (loadedCount >= blogData.length) {
+          loadMoreButton.style.display = 'none';
+        }
+  
+        // Hide the loading spinner and enable the button again
+        spinner.style.display = 'none';
+        loadMoreButton.disabled = false;
+      }, 1000); // Simulate network delay
     }
   
     // Helper function to remove HTML tags
@@ -210,7 +233,6 @@ use Illuminate\Support\Str;
   
     // Initial load
     loadBlogCards();
-  </script>
-  
+</script>
 
 @endsection
