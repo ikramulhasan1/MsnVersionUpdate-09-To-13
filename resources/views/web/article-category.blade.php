@@ -281,7 +281,7 @@ $header = \App\Models\PageSetup::page('blog');
     <div class="col-md-6">
       <div class="author-info mb-2">
         {{-- <img src="{{ asset('uploads/author_images/'.$articles[0]->author_image) }}" alt="author"> --}}
-        <img style="width: 10px; height: 10px;" src="{{ asset('/uploads/setting/'.$setting->logo_path) }}" alt="author">
+        <img style="padding: 10px" src="{{ asset('/uploads/setting/'.$setting->logo_path) }}" alt="author">
         <div><strong>{{ $articles[0]->author_name }}</strong></div>
       </div>
       <h3><strong>{{ $articles[0]->title }}</strong></h3>
