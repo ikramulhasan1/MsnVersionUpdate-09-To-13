@@ -432,7 +432,7 @@ body {
     position: absolute;
     left: 0;
     top: 0px;
-    font-size: 16px;
+    font-size: 18px;
     color: #00c853; /* green bullet color */
 }
 </style>
