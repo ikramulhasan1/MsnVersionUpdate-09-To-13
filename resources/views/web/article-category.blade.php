@@ -215,7 +215,7 @@ use Illuminate\Support\Str;
                                 <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
                                 <div><strong>Tanim Rahman</strong></div>
                             </div>
-                            <h5><strong>${truncateText(stripHtml(blog.title),55)}</strong></h5>
+                            <h5><strong>${truncateText(stripHtml(blog.title),50)}</strong></h5>
                             <p>${truncateText(stripHtml(blog.description), 150)}</p>
                             <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
                         </div>
