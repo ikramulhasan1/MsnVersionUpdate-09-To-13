@@ -413,7 +413,7 @@ $header = \App\Models\PageSetup::page('blog');
               <small>Tanim Rahman</small>
             </div>
             <h5>${blog.title.length > 50 ? blog.title.substr(0, 50) + '...' : blog.title}</h5>
-            <p class="paragraph-ellipsis">${blog.description}</p><br>
+            <p className="paragraph-ellipsis">${blog.description}</p><br>
             <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
           </div>
         </div>
