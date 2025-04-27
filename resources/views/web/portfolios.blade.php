@@ -20,6 +20,7 @@ $header = \App\Models\PageSetup::page('portfolio');
 <meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
 @endif
 @endsection
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 @endif
 
@@ -387,7 +388,9 @@ $section_portfolio = \App\Models\Section::section('portfolio');
   
 <!--End Gallery Section-->
 @endif
-
+{{-- portfolio-section --}}
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     
     // AOS Animation
