@@ -75,7 +75,7 @@
     <!-- Hero Section -->
   <section class="about-hero-section" data-aos="fade">
     <div class="container d-flex">
-      <h1 style="text-align: center;">Contact Us</h1>
+      <h1>Contact Us</h1>
       <!-- <p>Building the Future of Technology and Business Innovation Together.</p> -->
     </div>
   </section>
