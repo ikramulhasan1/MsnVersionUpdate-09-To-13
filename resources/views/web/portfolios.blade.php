@@ -388,12 +388,18 @@ $section_portfolio = \App\Models\Section::section('portfolio');
 <!--End Gallery Section-->
 @endif
 
-
-@endsection
-
-@section('scriptjs')
 <script>
     
+    // AOS Animation
+    AOS.init();
+  
+    // Isotope Initialization
+    var grid = document.querySelector('.portfolio-grid');
+    var iso = new Isotope( grid, {
+      itemSelector: '.portfolio-item',
+      layoutMode: 'fitRows'
+    });
+  
     // Filter buttons
     var filterButtons = document.querySelectorAll('.portfolio-filter-btn');
   
@@ -409,3 +415,6 @@ $section_portfolio = \App\Models\Section::section('portfolio');
     });
 </script>
 @endsection
+
+
+
