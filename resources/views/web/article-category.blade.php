@@ -3,9 +3,10 @@
 @php
 $header = \App\Models\PageSetup::page('blog');
 @endphp
-
 @if(isset($header))
+
 @section('title', $header->meta_title)
+
 @section('top_meta_tags')
 @if(isset($header->meta_description))
 <meta name="description" content="{!! Str::limit(strip_tags($header->meta_description), 160, ' ...') !!}">
@@ -19,6 +20,7 @@ $header = \App\Models\PageSetup::page('blog');
 <meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
 @endif
 @endsection
+
 @endif
 
 @section('content')
@@ -47,6 +49,9 @@ use Illuminate\Support\Str;
     }
     .featured-blog {
         margin-bottom: 40px;
+    }
+    .blog-card {
+        height: 100%;
     }
     .blog-card img {
         border-top-left-radius: 10px;
@@ -90,11 +95,28 @@ use Illuminate\Support\Str;
         text-align: center;
     }
     .fade-in {
-        animation: fadeIn 0.4s ease-in-out;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+    .fade-in-delay {
+        animation: fadeInDelay 0.5s ease-in-out;
     }
     @keyframes fadeIn {
-        from {opacity: 0;}
-        to {opacity: 1;}
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @keyframes fadeInDelay {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>
 
@@ -116,6 +138,7 @@ use Illuminate\Support\Str;
 </section>
 
 <!-- Search Bar -->
+<!-- Search Bar -->
 <div class="container search-bar">
     <div class="row">
         <div class="col-12 d-flex justify-content-end">
@@ -123,6 +146,7 @@ use Illuminate\Support\Str;
         </div>
     </div>
 </div>
+
 
 <!-- Featured Blog -->
 @if($articles->count() > 0)
@@ -161,100 +185,76 @@ use Illuminate\Support\Str;
     </div>
 </div>
 
-<!-- Scripts -->
-<script>
-    const blogData = @json($articles->skip(1)->values());
-    let loadedCount = 0;
-    const perLoad = 6; // Load 6 at once (faster experience)
 
+<!-- Blog Loading Script -->
+<script>
+    const blogData = @json($articles->skip(1)->values()); // Skips the first blog (already featured)
+    let loadedCount = 0;
+    const perLoad = 3;
+
+    // Load blog cards function
+    function loadBlogCards() {
+        const container = document.getElementById('blogCardsContainer');
+        const spinner = document.getElementById('loadingSpinner');
+        const loadMoreButton = document.getElementById('loadMoreBtn');
+
+        // Show loading spinner while fetching data
+        spinner.style.display = 'block';
+        loadMoreButton.disabled = true;
+
+        // Simulate delay (if any real-time API request)
+        setTimeout(() => {
+            blogData.slice(loadedCount, loadedCount + perLoad).forEach((blog, index) => {
+                const col = document.createElement('div');
+                col.className = 'col-md-4';
+                col.style.marginBottom = '20px';
+                col.classList.add('fade-in-delay');
+                col.innerHTML = `
+                    <div class="blog-card p-0">
+                        <img src="/uploads/article/${blog.image_path}" class="ml-0 img-fluid" alt="${blog.title}">
+                        <div class="p-3">
+                            <div class="author-info">
+                                <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
+                                <div><strong>Tanim Rahman</strong></div>
+                            </div>
+                            <h5><strong>${truncateText(stripHtml(blog.title),45)}</strong></h5>
+                            <p>${truncateText(stripHtml(blog.description), 150)}</p>
+                            <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(col);
+            });
+
+            loadedCount += perLoad;
+
+            // Hide button if all blogs are loaded
+            if (loadedCount >= blogData.length) {
+                loadMoreButton.style.display = 'none';
+            }
+
+            // Hide the loading spinner and enable the button again
+            spinner.style.display = 'none';
+            loadMoreButton.disabled = false;
+        }, 500); // Simulate network delay
+    }
+
+    // Helper function to remove HTML tags
     function stripHtml(html) {
         let div = document.createElement("div");
         div.innerHTML = html;
         return div.textContent || div.innerText || "";
     }
 
+    // Helper function to truncate text
     function truncateText(text, maxLength) {
-        if (text.length <= maxLength) return text;
+        if (text.length <= maxLength) {
+            return text;
+        }
         return text.substr(0, maxLength) + '...';
     }
 
-    function createCard(blog) {
-        return `
-            <div class="col-md-4 fade-in">
-                <div class="blog-card p-0">
-                    <img src="/uploads/article/${blog.image_path}" class="img-fluid" alt="${blog.title}">
-                    <div class="p-3">
-                        <div class="author-info">
-                            <img src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
-                            <div><strong>Tanim Rahman</strong></div>
-                        </div>
-                        <h5><strong>${truncateText(stripHtml(blog.title), 45)}</strong></h5>
-                        <p>${truncateText(stripHtml(blog.description), 150)}</p>
-                        <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-
-    function loadBlogCards() {
-        const container = document.getElementById('blogCardsContainer');
-        const spinner = document.getElementById('loadingSpinner');
-        const loadMoreButton = document.getElementById('loadMoreBtn');
-
-        spinner.style.display = 'block';
-        loadMoreButton.disabled = true;
-
-        setTimeout(() => {
-            let items = blogData.slice(loadedCount, loadedCount + perLoad);
-            items.forEach(blog => {
-                container.insertAdjacentHTML('beforeend', createCard(blog));
-            });
-
-            loadedCount += perLoad;
-
-            if (loadedCount >= blogData.length) {
-                loadMoreButton.style.display = 'none';
-            }
-
-            spinner.style.display = 'none';
-            loadMoreButton.disabled = false;
-        }, 300); // faster delay
-    }
-
-    function searchBlogCards(keyword) {
-        const container = document.getElementById('blogCardsContainer');
-        container.innerHTML = '';
-
-        const filtered = blogData.filter(blog =>
-            stripHtml(blog.title).toLowerCase().includes(keyword.toLowerCase()) ||
-            stripHtml(blog.description).toLowerCase().includes(keyword.toLowerCase())
-        );
-
-        if (filtered.length > 0) {
-            filtered.forEach(blog => {
-                container.insertAdjacentHTML('beforeend', createCard(blog));
-            });
-            document.getElementById('loadMoreBtn').style.display = 'none';
-        } else {
-            container.innerHTML = '<div class="text-center">No blogs found.</div>';
-            document.getElementById('loadMoreBtn').style.display = 'none';
-        }
-    }
-
     document.getElementById('loadMoreBtn').addEventListener('click', loadBlogCards);
-
-    document.getElementById('searchInput').addEventListener('input', function () {
-        const keyword = this.value.trim();
-        if (keyword.length > 0) {
-            searchBlogCards(keyword);
-        } else {
-            document.getElementById('blogCardsContainer').innerHTML = '';
-            loadedCount = 0;
-            loadBlogCards();
-            document.getElementById('loadMoreBtn').style.display = 'block';
-        }
-    });
 
     // Initial load
     loadBlogCards();
