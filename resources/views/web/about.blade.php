@@ -425,6 +425,8 @@ body {
     position: relative;
     padding-left: 20px; /* space for custom bullet */
     margin-bottom: 0px; /* optional: add spacing between li */
+    font-size: 18px; /* adjust font size as needed */
+    color: #333333; /* text color */
 }
 
 .about-content ul li::before {
