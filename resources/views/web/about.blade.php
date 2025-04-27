@@ -492,7 +492,7 @@ body {
           </div>
         </div>
         <div class="col-lg-5" data-aos="fade-left">
-          <img src="{{ asset('uploads/media/'.$about->image_path) }}" alt="{{ $about->title }}" class="img-fluid rounded-4 shadow">
+          <img src="{{ asset('uploads/'.$path.'/'.$about->image_path) }}" alt="{{ $about->title }}" class="img-fluid rounded-4 shadow">
         </div>
       </div>
     </div>
