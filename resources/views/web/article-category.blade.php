@@ -97,12 +97,25 @@ use Illuminate\Support\Str;
     .fade-in {
         animation: fadeIn 0.5s ease-in-out;
     }
+    .fade-in-delay {
+        animation: fadeInDelay 0.5s ease-in-out;
+    }
     @keyframes fadeIn {
         from {
             opacity: 0;
         }
         to {
             opacity: 1;
+        }
+    }
+    @keyframes fadeInDelay {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
     }
 </style>
@@ -176,73 +189,73 @@ use Illuminate\Support\Str;
 <!-- Blog Loading Script -->
 <script>
     const blogData = @json($articles->skip(1)->values()); // Skips the first blog (already featured)
-  
     let loadedCount = 0;
     const perLoad = 3;
-  
+
+    // Load blog cards function
     function loadBlogCards() {
-      const container = document.getElementById('blogCardsContainer');
-      const spinner = document.getElementById('loadingSpinner');
-      const loadMoreButton = document.getElementById('loadMoreBtn');
-  
-      // Show loading spinner while fetching data
-      spinner.style.display = 'block';
-      loadMoreButton.disabled = true;
-  
-      // Simulate delay (if any real-time API request)
-      setTimeout(() => {
-        blogData.slice(loadedCount, loadedCount + perLoad).forEach(blog => {
-          const col = document.createElement('div');
-          col.className = 'col-md-4';
-          col.style.marginBottom = '20px';
-          col.classList.add('fade-in');
-          col.innerHTML = `
-            <div class="blog-card p-3">
-              <img src="/uploads/article/${blog.image_path}" class="img-fluid" alt="${blog.title}">
-              <div class="p-2">
-                <div class="author-info">
-                  <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
-                  <div><strong>Tanim Rahman</strong></div>
-                </div>
-                <h5><strong>${blog.title}</strong></h5>
-                <p>${truncateText(stripHtml(blog.description), 150)}</p>
-                <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
-              </div>
-            </div>
-          `;
-          container.appendChild(col);
-        });
-  
-        loadedCount += perLoad;
-  
-        // Hide button if all blogs are loaded
-        if (loadedCount >= blogData.length) {
-          loadMoreButton.style.display = 'none';
-        }
-  
-        // Hide the loading spinner and enable the button again
-        spinner.style.display = 'none';
-        loadMoreButton.disabled = false;
-      }, 1000); // Simulate network delay
+        const container = document.getElementById('blogCardsContainer');
+        const spinner = document.getElementById('loadingSpinner');
+        const loadMoreButton = document.getElementById('loadMoreBtn');
+
+        // Show loading spinner while fetching data
+        spinner.style.display = 'block';
+        loadMoreButton.disabled = true;
+
+        // Simulate delay (if any real-time API request)
+        setTimeout(() => {
+            blogData.slice(loadedCount, loadedCount + perLoad).forEach((blog, index) => {
+                const col = document.createElement('div');
+                col.className = 'col-md-4';
+                col.style.marginBottom = '20px';
+                col.classList.add('fade-in-delay');
+                col.innerHTML = `
+                    <div class="blog-card p-3">
+                        <img src="/uploads/article/${blog.image_path}" class="img-fluid" alt="${blog.title}">
+                        <div class="p-2">
+                            <div class="author-info">
+                                <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
+                                <div><strong>Tanim Rahman</strong></div>
+                            </div>
+                            <h5><strong>${blog.title}</strong></h5>
+                            <p>${truncateText(stripHtml(blog.description), 150)}</p>
+                            <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(col);
+            });
+
+            loadedCount += perLoad;
+
+            // Hide button if all blogs are loaded
+            if (loadedCount >= blogData.length) {
+                loadMoreButton.style.display = 'none';
+            }
+
+            // Hide the loading spinner and enable the button again
+            spinner.style.display = 'none';
+            loadMoreButton.disabled = false;
+        }, 500); // Simulate network delay
     }
-  
+
     // Helper function to remove HTML tags
     function stripHtml(html) {
-      let div = document.createElement("div");
-      div.innerHTML = html;
-      return div.textContent || div.innerText || "";
+        let div = document.createElement("div");
+        div.innerHTML = html;
+        return div.textContent || div.innerText || "";
     }
-  
+
     // Helper function to truncate text
     function truncateText(text, maxLength) {
-      if (text.length <= maxLength) {
-        return text;
-      }
-      return text.substr(0, maxLength) + '...';
+        if (text.length <= maxLength) {
+            return text;
+        }
+        return text.substr(0, maxLength) + '...';
     }
-  
+
     document.getElementById('loadMoreBtn').addEventListener('click', loadBlogCards);
-  
+
     // Initial load
     loadBlogCards();
 </script>
