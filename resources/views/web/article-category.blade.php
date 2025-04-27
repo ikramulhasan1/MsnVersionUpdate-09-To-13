@@ -118,6 +118,15 @@ use Illuminate\Support\Str;
             transform: translateY(0);
         }
     }
+
+    .cardBlogExtra h5{
+        /* font-size: 24px; */
+        color: #222222; 
+    }
+    .cardBlogExtra p{
+        font-size: 17px;
+        color: #000000; 
+    }
 </style>
 
 <!-- Page Title -->
@@ -211,7 +220,7 @@ use Illuminate\Support\Str;
                 col.innerHTML = `
                     <div class="blog-card p-0">
                         <img src="/uploads/article/${blog.image_path}" class="ml-0 img-fluid" alt="${blog.title}">
-                        <div class="p-3">
+                        <div class="p-3 cardBlogExtra">
                             <div class="author-info">
                                 <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
                                 <div><strong>Tanim Rahman</strong></div>
