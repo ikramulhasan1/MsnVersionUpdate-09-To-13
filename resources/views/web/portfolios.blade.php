@@ -231,7 +231,7 @@ $header = \App\Models\PageSetup::page('portfolio');
       font-weight: 600;
     }
 
-    .view-more-btn {
+    /* .view-more-btn {
       background: #1d1d1d;
       color: #fff;
       padding: 14px 40px;
@@ -239,11 +239,11 @@ $header = \App\Models\PageSetup::page('portfolio');
       border-radius: 50px;
       text-decoration: none;
       transition: background 0.3s ease;
-    }
+    } */
 
-    .view-more-btn:hover {
+    /* .view-more-btn:hover {
       background: #ff5a00;
-    }
+    } */
 
 </style>
 
