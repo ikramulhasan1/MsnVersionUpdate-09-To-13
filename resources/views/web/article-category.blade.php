@@ -179,7 +179,7 @@ use Illuminate\Support\Str;
     </div>
 
     <!-- Load More Button -->
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mb-4">
         <button id="loadMoreBtn">CLICK TO LOAD MORE</button>
     </div>
 </div>
@@ -235,7 +235,7 @@ use Illuminate\Support\Str;
             // Hide the loading spinner and enable the button again
             spinner.style.display = 'none';
             loadMoreButton.disabled = false;
-        }, 200); // Simulate network delay
+        }, 100); // Simulate network delay
     }
 
      function searchBlogCards(keyword) {
