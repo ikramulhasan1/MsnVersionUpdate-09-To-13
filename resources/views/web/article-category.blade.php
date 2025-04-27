@@ -390,48 +390,60 @@ $header = \App\Models\PageSetup::page('blog');
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- Laravel blade -->
 <script>
-  const blogData = @json($articles->skip(1)->values());
+    const blogData = {!! $articles->skip(1)->values()->toJson() !!};
 
-  let loadedCount = 0;
-  const perLoad = 3;
+    let loadedCount = 0;
+    const perLoad = 3;
 
-  function loadBlogCards() {
-    const container = document.getElementById('blogCardsContainer');
+    function loadBlogCards() {
+        const container = document.getElementById('blogCardsContainer');
+        if (!container) {
+            console.error('Container not found');
+            return;
+        }
 
-    blogData.slice(loadedCount, loadedCount + perLoad).forEach(blog => {
-      const col = document.createElement('div');
-      col.className = 'col-md-4';
-      col.style.marginBottom = '20px'; // Add margin to the bottom of each card
-      col.innerHTML = `
-      
-        <div class="blog-card p-3">
-          <img src="/uploads/article/${blog.image_path}" class="img-fluid" alt="blog image">
-          <div class="p-2">
-            <div class="author-info">
-              <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
-              <small>Tanim Rahman</small>
-            </div>
-            <h5>${blog.title.length > 50 ? blog.title.substr(0, 50) + '...' : blog.title}</h5>
-            <p className="paragraph-ellipsis">${blog.description}</p><br>
-            <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
-          </div>
-        </div>
-      `;
-      container.appendChild(col);
-    });
+        blogData.slice(loadedCount, loadedCount + perLoad).forEach(blog => {
+            const col = document.createElement('div');
+            col.className = 'col-md-4';
+            col.style.marginBottom = '20px';
 
-    loadedCount += perLoad;
+            col.innerHTML = `
+                <div class="blog-card p-3">
+                    <img src="/uploads/article/${blog.image_path}" class="img-fluid" alt="blog image">
+                    <div class="p-2">
+                        <div class="author-info d-flex align-items-center mb-2">
+                            <img class="author-img" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author" style="width:30px; height:30px; border-radius:50%; margin-right:10px;">
+                            <small>Tanim Rahman</small>
+                        </div>
+                        <h5>${blog.title.length > 50 ? blog.title.substr(0, 50) + '...' : blog.title}</h5>
+                        <p class="paragraph-ellipsis">${blog.description}</p>
+                        <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
+                    </div>
+                </div>
+            `;
 
-    if (loadedCount >= blogData.length) {
-      document.getElementById('loadMoreBtn').style.display = 'none';
+            container.appendChild(col);
+        });
+
+        loadedCount += perLoad;
+
+        if (loadedCount >= blogData.length) {
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            if (loadMoreBtn) {
+                loadMoreBtn.style.display = 'none';
+            }
+        }
     }
-  }
 
-  document.getElementById('loadMoreBtn').addEventListener('click', loadBlogCards);
-
-  // Initially load 3 blogs
-  loadBlogCards();
+    document.addEventListener('DOMContentLoaded', function() {
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', loadBlogCards);
+        }
+        loadBlogCards(); // Initial load
+    });
 </script>
 
 <!-- End Sidebar Container -->
