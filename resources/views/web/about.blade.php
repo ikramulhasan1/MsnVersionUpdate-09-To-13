@@ -471,14 +471,14 @@ color: #009830;
       <!-- <p>Building the Future of Technology and Business Innovation Together.</p> -->
     </div>
   </section>
-  <section class="page-title">
-    <div class="container">
+  <section class="page-title p-0">
+    <div class="container d-flex" style="height: 40px; align-items: center; justify-content: flex-end;">
         <div class="inner-container clearfix">
             {{-- <div class="title-box">
                 <h1>{{ __('navbar.about') }}</h1>
             </div> --}}
             <div class="bread-crumb">
-                <ul>
+                <ul class="p-0">
                     <li>{{ __('navbar.about') }}</li>
                     <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
                 </ul>
