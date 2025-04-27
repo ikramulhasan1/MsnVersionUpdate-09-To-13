@@ -476,7 +476,7 @@ body {
         <h2>Who We Are</h2>
       </div> --}}
       <div class="row align-items-center">
-        <div class="col-lg-6 mb-4" data-aos="fade-right">
+        <div class="col-lg-7 mb-4" data-aos="fade-right">
           <div class="about-glass-card shadow-sm">
             <h3>{{ $about->title }}</h3>
             <div class="about-content">
@@ -491,8 +491,8 @@ body {
             </ul> --}}
           </div>
         </div>
-        <div class="col-lg-6" data-aos="fade-left">
-          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1350&q=80" alt="About Us Image" class="img-fluid rounded-4 shadow">
+        <div class="col-lg-5" data-aos="fade-left">
+          <img src="{{ asset('uploads/media/'.$about->image_path) }}" alt="{{ $about->title }}" class="img-fluid rounded-4 shadow">
         </div>
       </div>
     </div>
