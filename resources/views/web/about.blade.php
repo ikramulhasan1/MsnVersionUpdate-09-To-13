@@ -443,7 +443,7 @@ color: #009830;
 
 
 .fact-counter{
-  padding-bottom: 20px;
+  padding-bottom: 35px;
 }
 </style>
 
