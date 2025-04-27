@@ -378,11 +378,11 @@ $section_portfolio = \App\Models\Section::section('portfolio');
       $page_portfolio = \App\Models\PageSetup::page('portfolio');
       @endphp
 
-      @if(isset($page_portfolio))
+      {{-- @if(isset($page_portfolio))
       <div class="text-center mt-5" data-aos="zoom-in" data-aos-delay="500">
         <a href="{{ route('portfolios') }}" class="text-white btn view-more-btn">{{ __('common.view_more') }}</a>
       </div>
-      @endif
+      @endif --}}
     </div>
   </section>
   
