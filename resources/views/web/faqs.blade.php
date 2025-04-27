@@ -140,7 +140,7 @@ $header = \App\Models\PageSetup::page('faqs');
     
         /* Hero Section */
         .about-hero-section {
-      background: linear-gradient(135deg, rgba(106,17,203,0.9), rgba(37,117,252,0.9)), url('https://msnsofttech.com/faqshttps://getpaidstock.com/tmp/[GetPaidStock.com]-680e50020de1e.jpg') no-repeat center center/cover;
+      background: linear-gradient(135deg, rgba(106,17,203,0.9), rgba(37,117,252,0.9)), url('https://plus.unsplash.com/premium_photo-1678903394369-87bed03d2268?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
       height: 40vh;
       color: #fff;
       display: flex;
