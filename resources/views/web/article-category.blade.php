@@ -194,8 +194,8 @@ use Illuminate\Support\Str;
                 </div> --}}
                 <div class="bread-crumb">
                     <ul class="p-0">
-                        <li>{{ __('navbar.portfolio-detail') }}</li>
-                        <li><a href="{{ route('home') }}">{{ __('navbar.blog') }}</a></li>
+                        <li>{{ __('navbar.blog') }}</li>
+                        <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
                     </ul>
                 </div>
             </div>
