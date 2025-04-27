@@ -507,15 +507,19 @@ body {
         <div class="col-md-6" data-aos="zoom-in">
           <div class="about-glass-card shadow-sm text-center">
             <h3>{{ $about->mission_title }}</h3>
-            {!! $about->mission_desc !!}
+            <div style="text-align: justify" class="about-content">
+              {!! $about->mission_desc !!}
+            </div>
           </div>
         </div>
         @endif
         @if(isset($about->vision_title))
         <div class="col-md-6" data-aos="zoom-in" data-aos-delay="150">
           <div class="about-glass-card shadow-sm text-center">
-            <h3>Our Vision</h3>
-            <p>To be a global benchmark in delivering transformative IT services and creating a future where every business thrives through technology-driven success and sustainable growth.</p>
+            <h3>{{ $about->vision_title }}</h3>
+            <div class="about-content" style="text-align: justify">
+              {{ $about->vision_desc }}
+            </div>
           </div>
         </div>
         @endif
