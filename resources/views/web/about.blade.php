@@ -561,7 +561,7 @@ color: #009830;
                 <i class="bi bi-diagram-3-fill"></i>
               </div>
               <h5 style="font-weight: 700" class="fw-bolder">Website Development</h5>
-              <p style="font-size: 16px; text-align: left;">High-performance, responsive websites crafted to deliver outstanding user experiences and accelerate business growth.</p>
+              <p style="font-size: 16px; text-align: left;">High-performance, responsive websites crafted to deliver outstanding user experiences business growth.</p>
             </div>
           </div>
           <div class="col-lg-4 mb-4" data-aos="fade-up">
