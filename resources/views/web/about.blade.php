@@ -428,11 +428,11 @@ body {
 }
 
 .about-content ul li::before {
-    content: '🟢'; /* your custom bullet */
+    content: '●'; /* your custom bullet */
     position: absolute;
     left: 0;
     top: 0px;
-    font-size: 18px;
+    font-size: 14px;
     color: #00c853; /* green bullet color */
 }
 </style>
