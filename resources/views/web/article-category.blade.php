@@ -353,7 +353,7 @@ $header = \App\Models\PageSetup::page('blog');
     <div class="col-md-6">
       <div class="author-info mb-2">
         {{-- <img src="{{ asset('uploads/author_images/'.$articles[0]->author_image) }}" alt="author"> --}}
-        <img src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
+        <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
         <div><strong>Tanim Rahman</strong></div>
       </div>
       <h3><strong>{{ $articles[0]->title }}</strong></h3>
@@ -400,7 +400,7 @@ $header = \App\Models\PageSetup::page('blog');
           <img src="/uploads/article/${blog.image_path}" class="img-fluid" alt="blog image">
           <div class="p-2">
             <div class="author-info">
-              <img src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
+              <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
               <small>Tanim Rahman</small>
             </div>
             <h5>${blog.title}</h5>
