@@ -285,7 +285,7 @@ $header = \App\Models\PageSetup::page('blog');
         <div><strong>Tanim Rahman</strong></div>
       </div>
       <h3><strong>{{ $articles[0]->title }}</strong></h3>
-      <p>{{ Str::limit(strip_tags($articles[0]->description), 150) }}</p>
+      <p>{{ Str::limit(strip_tags($articles[0]->description), 450) }}</p>
       <a href="{{ route('blog.single', $articles[0]->slug) }}" class="read-more">READ MORE</a>
     </div>
     <div class="col-md-6">
@@ -332,8 +332,8 @@ $header = \App\Models\PageSetup::page('blog');
               <small>Tanim Rahman</small>
             </div>
             <h5>${blog.title}</h5>
-            <p>${blog.description.length > 100 ? blog.description.substr(0, 100) + '...' : blog.description}</p>
-            <a href="/article/${blog.slug}" class="read-more">READ MORE</a>
+            <p>${blog.description.length > 300 ? blog.description.substr(0, 300) + '...' : blog.description}</p>
+            <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
           </div>
         </div>
       `;
