@@ -336,7 +336,7 @@ body {
       font-size: 28px;
       font-weight: 700;
       margin-bottom: 20px;
-      color: #2575fc;
+      color: #333333;
     }
 
     .about-glass-card p {
