@@ -235,31 +235,10 @@ use Illuminate\Support\Str;
             // Hide the loading spinner and enable the button again
             spinner.style.display = 'none';
             loadMoreButton.disabled = false;
-        }, 500); // Simulate network delay
+        }, 200); // Simulate network delay
     }
 
-    // Helper function to remove HTML tags
-    function stripHtml(html) {
-        let div = document.createElement("div");
-        div.innerHTML = html;
-        return div.textContent || div.innerText || "";
-    }
-
-    // Helper function to truncate text
-    function truncateText(text, maxLength) {
-        if (text.length <= maxLength) {
-            return text;
-        }
-        return text.substr(0, maxLength) + '...';
-    }
-
-    // document.getElementById('loadMoreBtn').addEventListener('click', loadBlogCards);
-
-
-
-
-
-    function searchBlogCards(keyword) {
+     function searchBlogCards(keyword) {
         const container = document.getElementById('blogCardsContainer');
         container.innerHTML = '';
 
@@ -292,6 +271,23 @@ use Illuminate\Support\Str;
             document.getElementById('loadMoreBtn').style.display = 'block';
         }
     });
+
+    // Helper function to remove HTML tags
+    function stripHtml(html) {
+        let div = document.createElement("div");
+        div.innerHTML = html;
+        return div.textContent || div.innerText || "";
+    }
+
+    // Helper function to truncate text
+    function truncateText(text, maxLength) {
+        if (text.length <= maxLength) {
+            return text;
+        }
+        return text.substr(0, maxLength) + '...';
+    }
+
+    // document.getElementById('loadMoreBtn').addEventListener('click', loadBlogCards);
 
 
 
