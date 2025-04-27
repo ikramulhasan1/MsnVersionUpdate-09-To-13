@@ -467,7 +467,7 @@ color: #009830;
 <!-- Hero Section -->
   <section class="about-hero-section" data-aos="fade">
     <div class="container">
-      <h1>About Us</h1>
+      <h1>{{ __('navbar.about') }}</h1>
       <!-- <p>Building the Future of Technology and Business Innovation Together.</p> -->
     </div>
   </section>
