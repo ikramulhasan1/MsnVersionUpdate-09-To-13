@@ -14,7 +14,7 @@ class ArticleController extends Controller
         // Articles                                
         $data['articles'] = Article::where('status', '1')
                             ->orderBy('id', 'desc')
-                            ->paginate(5);
+                            ->get();
 
         // Article Category
         $data['article_categories'] = ArticleCategory::where('status', '1')
