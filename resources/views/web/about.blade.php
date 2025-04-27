@@ -534,7 +534,7 @@ body {
   <section class="about-page">
       <div class="container">
         <div class="text-center mb-5" data-aos="fade-up">
-          <h2 class="fw-bold">We Are Provide</h2>
+          <h2 class="fw-bolder">We Are Provide</h2>
           <p class="lead">10+ years of excellence in delivering top-notch IT services globally.</p>
         </div>
         <div class="row g-4">
@@ -543,7 +543,7 @@ body {
               <div class="icon mx-auto mb-3">
                 <i class="bi bi-laptop"></i>
               </div>
-              <h5 class="fw-bold">Software Development</h5>
+              <h5 class="fw-bolder">Software Development</h5>
               <p>Custom solutions to help you grow faster, smarter, and stronger in the digital world.</p>
             </div>
           </div>
@@ -552,7 +552,7 @@ body {
               <div class="icon mx-auto mb-3">
                 <i class="bi bi-phone"></i>
               </div>
-              <h5 class="fw-bold">Mobile App Development</h5>
+              <h5 class="fw-bolder">Mobile App Development</h5>
               <p>Crafting seamless and powerful mobile experiences to captivate your audience globally.</p>
             </div>
           </div>
@@ -561,7 +561,7 @@ body {
               <div class="icon mx-auto mb-3">
                 <i class="bi bi-bar-chart-line"></i>
               </div>
-              <h5 class="fw-bold">SEO & Marketing</h5>
+              <h5 class="fw-bolder">SEO & Marketing</h5>
               <p>Driving visibility, engagement, and success through intelligent SEO and marketing strategies.</p>
             </div>
           </div>
