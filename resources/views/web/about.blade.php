@@ -541,7 +541,7 @@ color: #009830;
           <p class="lead">10+ years of excellence in delivering top-notch IT services globally.</p>
         </div>
         <div class="row g-4">
-          <div class="col-lg-4 mb-3" data-aos="fade-right">
+          <div class="col-lg-4 mb-4" data-aos="fade-right">
             <div class="card p-4 text-center">
               <div class="icon mx-auto mb-3">
                 <i class="bi bi-laptop"></i>
@@ -550,7 +550,7 @@ color: #009830;
               <p>Innovative, custom-built solutions that fuel growth, optimize performance, and drive digital transformation.</p>
             </div>
           </div>
-          <div class="col-lg-4 mb-3" data-aos="fade-right">
+          <div class="col-lg-4 mb-4" data-aos="fade-right">
             <div class="card p-4 text-center">
               <div class="icon mx-auto mb-3">
                 <i class="bi bi-diagram-3-fill"></i>
@@ -559,7 +559,7 @@ color: #009830;
               <p>High-performance, responsive websites crafted to deliver outstanding user experiences and accelerate business growth.</p>
             </div>
           </div>
-          <div class="col-lg-4 mb-3" data-aos="fade-up">
+          <div class="col-lg-4 mb-4" data-aos="fade-up">
             <div class="card p-4 text-center">
               <div class="icon mx-auto mb-3">
                 <i class="bi bi-phone"></i>
@@ -568,7 +568,7 @@ color: #009830;
               <p>Seamless, high-impact mobile experiences designed to captivate users and expand your global reach.</p>
             </div>
           </div>
-          <div class="col-lg-4 mb-3" data-aos="fade-left">
+          <div class="col-lg-4 mb-4" data-aos="fade-left">
             <div class="card p-4 text-center">
               <div class="icon mx-auto mb-3">
                 <i class="bi bi-bar-chart-line"></i>
