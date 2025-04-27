@@ -394,7 +394,7 @@ $header = \App\Models\PageSetup::page('blog');
     blogData.slice(loadedCount, loadedCount + perLoad).forEach(blog => {
       const col = document.createElement('div');
       col.className = 'col-md-4';
-      col.className = 'mb-3';
+      col.style.marginBottom = '20px'; // Add margin to the bottom of each card
       col.innerHTML = `
       
         <div class="blog-card p-3">
