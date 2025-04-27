@@ -552,7 +552,7 @@ color: #009830;
                 <i class="bi bi-laptop"></i>
               </div>
               <h5 style="font-weight: 700" class="fw-bolder">Software Development</h5>
-              <p>Innovative, custom-built solutions that fuel growth, optimize performance, and drive digital transformation.</p>
+              <p style="font-size: 16px;">Innovative, custom-built solutions that fuel growth, optimize performance, and drive digital transformation.</p>
             </div>
           </div>
           <div class="col-lg-4 mb-4" data-aos="fade-right">
@@ -561,7 +561,7 @@ color: #009830;
                 <i class="bi bi-diagram-3-fill"></i>
               </div>
               <h5 style="font-weight: 700" class="fw-bolder">Website Development</h5>
-              <p>High-performance, responsive websites crafted to deliver outstanding user experiences and accelerate business growth.</p>
+              <p style="font-size: 16px;">High-performance, responsive websites crafted to deliver outstanding user experiences and accelerate business growth.</p>
             </div>
           </div>
           <div class="col-lg-4 mb-4" data-aos="fade-up">
@@ -570,7 +570,7 @@ color: #009830;
                 <i class="bi bi-phone"></i>
               </div>
               <h5 style="font-weight: 700" class="fw-bolder">Mobile App Development</h5>
-              <p>Seamless, high-impact mobile experiences designed to captivate users and expand your global reach.</p>
+              <p style="font-size: 16px;">Seamless, high-impact mobile experiences designed to captivate users and expand your global reach.</p>
             </div>
           </div>
           <div class="col-lg-4 mb-4" data-aos="fade-left">
@@ -579,7 +579,7 @@ color: #009830;
                 <i class="bi bi-bar-chart-line"></i>
               </div>
               <h5 style="font-weight: 700" class="fw-bolder">SEO & Marketing</h5>
-              <p>Strategic SEO and marketing solutions that enhance visibility, increase engagement, and deliver measurable success.</p>
+              <p style="font-size: 16px;">Strategic SEO and marketing solutions that enhance visibility, increase engagement, and deliver measurable success.</p>
             </div>
           </div>
         </div>
