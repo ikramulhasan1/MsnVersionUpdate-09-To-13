@@ -452,10 +452,11 @@ body {
       {{-- <div class="about-section-title" data-aos="fade-up">
         <h2>Who We Are</h2>
       </div> --}}
+      @dd($about->description)
       <div class="row align-items-center">
         <div class="col-lg-6 mb-4" data-aos="fade-right">
           <div class="about-glass-card shadow-sm">
-            <h3>Our Journey</h3>
+            <h3>{{ $about->title }}</h3>
             {!! $about->description !!}
             {{-- <ul class="about-feature-list mt-4">
               <li>Over <strong>3,500+</strong> satisfied clients worldwide</li>
