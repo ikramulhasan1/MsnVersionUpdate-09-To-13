@@ -438,7 +438,7 @@ body {
     color: #00c853; /* green bullet color */
 }
 .about-content b{
-color: #00c853;
+color: #02b23a;
 }
 </style>
 
