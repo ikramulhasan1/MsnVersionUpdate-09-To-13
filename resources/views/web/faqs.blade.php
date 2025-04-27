@@ -133,16 +133,57 @@ $header = \App\Models\PageSetup::page('faqs');
     .description>p {
         font-size: 18px !important;
     }
+
+
+
+
+    
+.about-content ul {
+    list-style: none; /* remove default bullets */
+    padding-left: 0; /* remove default padding */
+}
+
+.about-content ul li {
+    position: relative;
+    padding-left: 20px; /* space for custom bullet */
+    margin-bottom: 0px; /* optional: add spacing between li */
+    font-size: 16px; /* adjust font size as needed */
+    color: #333333; /* text color */
+}
+
+.about-content ul li::before {
+    content: '●'; /* your custom bullet */
+    position: absolute;
+    left: 0;
+    top: 0px;
+    font-size: 18px;
+    color: #00c853; /* green bullet color */
+}
+.about-content b{
+color: #009830;
+}
+
+
+.fact-counter{
+  padding-bottom: 35px;
+}
 </style>
 <!--Page Title-->
-<section class="page-title">
+
+<section class="about-hero-section" data-aos="fade">
     <div class="container">
+      <h1>{{ __('navbar.faqs') }}</h1>
+      <!-- <p>Building the Future of Technology and Business Innovation Together.</p> -->
+    </div>
+  </section>
+  <section class="page-title p-0" style="background-color: black;">
+    <div class="container d-flex" style="height: 40px; align-items: center; justify-content: flex-end;">
         <div class="inner-container clearfix">
-            <div class="title-box">
-                <h1>{{ __('navbar.faqs') }}</h1>
-            </div>
+            {{-- <div class="title-box">
+                <h1>{{ __('navbar.about') }}</h1>
+            </div> --}}
             <div class="bread-crumb">
-                <ul>
+                <ul class="p-0">
                     <li>{{ __('navbar.faqs') }}</li>
                     <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
                 </ul>
@@ -151,7 +192,6 @@ $header = \App\Models\PageSetup::page('faqs');
     </div>
 </section>
 <!--End Page Title-->
-
 
 @php
 $section_faqs = \App\Models\Section::section('faqs');
