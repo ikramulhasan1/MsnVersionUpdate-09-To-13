@@ -480,7 +480,7 @@ body {
           <div class="about-glass-card shadow-sm">
             <h3>{{ $about->title }}</h3>
             <div class="about-content">
-              {!! $about->description !!}
+              {!! html_entity_decode($about->description) !!}
             </div>
             
             {{-- <ul class="about-feature-list mt-4">
