@@ -25,7 +25,7 @@ $header = \App\Models\PageSetup::page('blog');
 
 @section('content')
 <style>
-    table {
+    /* table {
         width: px;
     }
 
@@ -53,7 +53,6 @@ $header = \App\Models\PageSetup::page('blog');
         background-color: yellow;
     }
 
-    /* </p><table border="1" cellpadding="1" cellspacing="1" style="width:500px">  */
 
     .description>ul>li {
         margin-left: 30px !important;
@@ -62,7 +61,6 @@ $header = \App\Models\PageSetup::page('blog');
     }
 
     .description>ol>li {
-        /* list-style: decimal; */
         margin-left: 30px !important;
         all: revert;
         font-size: 16px !important;
@@ -76,6 +74,83 @@ $header = \App\Models\PageSetup::page('blog');
 
     .description>p {
         font-size: 18px !important;
+    }
+
+     */
+
+
+
+
+     body {
+      background: #f9f9f9;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .search-bar {
+      margin: 20px 0;
+    }
+
+    .search-bar input {
+      border-radius: 25px;
+      padding-left: 20px;
+    }
+
+    .featured-blog {
+      background: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 40px;
+    }
+
+    .blog-card {
+      background: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height: 100%;
+    }
+
+    .blog-card img {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .author-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .author-info img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .read-more {
+      color: #28a745;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .read-more:hover {
+      text-decoration: underline;
+    }
+
+    #loadMoreBtn {
+      margin-top: 40px;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: bold;
+      background: #ff6600;
+      color: #fff;
+      border: none;
+    }
+    #loadMoreBtn:hover {
+      background: #e65c00;
     }
 </style>
 <!--Page Title-->
@@ -97,7 +172,7 @@ $header = \App\Models\PageSetup::page('blog');
 <!--End Page Title-->
 
 <!-- Sidebar Page Container -->
-<div class="sidebar-page-container">
+{{-- <div class="sidebar-page-container">
     <div class="container">
         <div class="row clearfix">
             <!--Content Side-->
@@ -184,7 +259,98 @@ $header = \App\Models\PageSetup::page('blog');
             </div>
         </div>
     </div>
+</div> --}}
+
+@php
+    use Illuminate\Support\Str;
+@endphp
+
+<!-- Search bar -->
+<div class="container search-bar">
+  <div class="row">
+    <div class="col-12 d-flex justify-content-end">
+      <input type="text" class="form-control w-25" placeholder="Search" disabled>
+    </div>
+  </div>
 </div>
+
+<!-- Featured Blog -->
+@if($articles->count()>0)
+<div class="container featured-blog p-4">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <div class="author-info mb-2">
+        <img src="{{ asset('uploads/author_images/'.$articles[0]->author_image) }}" alt="author">
+        <div><strong>{{ $articles[0]->author_name }}</strong></div>
+      </div>
+      <h3><strong>{{ $articles[0]->title }}</strong></h3>
+      <p>{{ Str::limit(strip_tags($articles[0]->description), 150) }}</p>
+      <a href="{{ route('blog.single', $articles[0]->slug) }}" class="read-more">READ MORE</a>
+    </div>
+    <div class="col-md-6">
+      <img src="{{ asset('uploads/article_images/'.$articles[0]->image) }}" alt="Featured" class="img-fluid rounded">
+    </div>
+  </div>
+</div>
+@endif
+
+<!-- Blog Cards -->
+<div class="container">
+  <div class="row g-4" id="blogCardsContainer">
+    <!-- Cards will be dynamically loaded here by JavaScript -->
+  </div>
+
+  <!-- Load More Button -->
+  <div class="d-flex justify-content-center">
+    <button id="loadMoreBtn">CLICK TO LOAD MORE</button>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> --}}
+
+<script>
+  const blogData = @json($articles->skip(1)->values());
+
+  let loadedCount = 0;
+  const perLoad = 3;
+
+  function loadBlogCards() {
+    const container = document.getElementById('blogCardsContainer');
+
+    blogData.slice(loadedCount, loadedCount + perLoad).forEach(blog => {
+      const col = document.createElement('div');
+      col.className = 'col-md-4';
+      col.innerHTML = `
+        <div class="blog-card p-3">
+          <img src="/uploads/article_images/${blog.image}" class="img-fluid" alt="blog image">
+          <div class="p-2">
+            <div class="author-info">
+              <img src="/uploads/author_images/${blog.author_image}" alt="author">
+              <small>${blog.author_name}</small>
+            </div>
+            <h5>${blog.title}</h5>
+            <p>${blog.description.length > 100 ? blog.description.substr(0, 100) + '...' : blog.description}</p>
+            <a href="/article/${blog.slug}" class="read-more">READ MORE</a>
+          </div>
+        </div>
+      `;
+      container.appendChild(col);
+    });
+
+    loadedCount += perLoad;
+
+    if (loadedCount >= blogData.length) {
+      document.getElementById('loadMoreBtn').style.display = 'none';
+    }
+  }
+
+  document.getElementById('loadMoreBtn').addEventListener('click', loadBlogCards);
+
+  // Initially load 3 blogs
+  loadBlogCards();
+</script>
+
 <!-- End Sidebar Container -->
 
 @endsection
