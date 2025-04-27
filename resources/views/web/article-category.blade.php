@@ -45,7 +45,7 @@ use Illuminate\Support\Str;
         background: #ffffff;
         border-radius: 10px;
         overflow: hidden;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        box-shadow: 0 0px 1px rgba(0,0,0,0.1);
     }
     .featured-blog {
         margin-bottom: 40px;
@@ -152,7 +152,7 @@ use Illuminate\Support\Str;
     <div class="row align-items-center">
         <div class="col-md-6">
             <div class="author-info mb-2">
-                <img src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
+                <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
                 <div><strong>Tanim Rahman</strong></div>
             </div>
             <h3><strong>{{ $articles[0]->title }}</strong></h3>
@@ -208,8 +208,8 @@ use Illuminate\Support\Str;
                 col.style.marginBottom = '20px';
                 col.classList.add('fade-in-delay');
                 col.innerHTML = `
-                    <div class="blog-card p-3">
-                        <img src="/uploads/article/${blog.image_path}" class="img-fluid" alt="${blog.title}">
+                    <div class="blog-card p-0">
+                        <img src="/uploads/article/${blog.image_path}" class="ml-0 img-fluid" alt="${blog.title}">
                         <div class="p-2">
                             <div class="author-info">
                                 <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
