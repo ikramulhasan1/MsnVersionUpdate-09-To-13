@@ -480,8 +480,8 @@ body {
           <div class="about-glass-card shadow-sm">
             <h3>{{ $about->title }}</h3>
             <div class="about-content">
-              @dd(html_entity_decode($about->description))
-              {!! html_entity_decode($about->description) !!}
+              @dd(strip_tags($about->description))
+              {!! $about->description !!}
             </div>
             
             {{-- <ul class="about-feature-list mt-4">
