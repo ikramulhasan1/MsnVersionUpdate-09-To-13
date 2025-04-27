@@ -853,15 +853,12 @@ $section_clients = \App\Models\Section::section('clients');
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const listItems = document.querySelectorAll('ul li');
+document.addEventListener('DOMContentLoaded', function() {
+    const listItems = document.querySelectorAll('.about-content ul li');
 
     listItems.forEach(function(li) {
-        // Create a new <span> for the tick mark
         const tick = document.createElement('span');
-        tick.textContent = '✅ ';
-        
-        // Insert tick before the text inside <li>
+        tick.textContent = '🟢 ';
         li.prepend(tick);
     });
 });
