@@ -437,6 +437,9 @@ body {
     font-size: 18px;
     color: #00c853; /* green bullet color */
 }
+.about-content b{
+color: #00c853;
+}
 </style>
 
 <!--Page Title-->
