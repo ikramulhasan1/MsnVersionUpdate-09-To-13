@@ -136,16 +136,18 @@ use Illuminate\Support\Str;
         </div>
     </div>
 </section>
-{{ $articles->appends(Request::only('search')) }}
+
 <!-- Search Bar -->
 <div class="container search-bar">
     <div class="row">
-        <form method="get" action="{{ route('blog.search') }}">
+        
             <div class="col-12 d-flex justify-content-end">
-                <input name="search" value="@if(isset($search)){{ $search }}@endif" type="text" class="form-control w-25" placeholder="Search">
-                <button type="submit"><span class="icon fa fa-search"></span></button>
+                <form method="get" action="{{ route('blog.search') }}">
+                    <input name="search" value="@if(isset($search)){{ $search }}@endif" type="text" class="form-control w-25" placeholder="Search">
+                    <button type="submit"><span class="icon fa fa-search"></span></button>
+                </form>
             </div>
-        </form>
+        
     </div>
 </div>
 
