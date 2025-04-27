@@ -91,7 +91,7 @@
             </div>
 
             <div class="row">
-              {{-- <div class="form-group col-md-6">
+              <div class="form-group col-md-6">
                         <label for="image">{{ __('dashboard.thumbnail') }}: <span>{{ __('dashboard.image_size', ['height' => 600, 'width' => 600]) }}</span></label>
               <input type="file" class="form-control" name="image" id="image">
 
@@ -105,7 +105,7 @@
               <img src="{{ asset('uploads/'.$path.'/'.$row->image_path) }}" class="img-fluid" alt="Thumb">
               @endif
               @endif
-            </div> --}}
+            </div>
 
             <div class="form-group col-md-6">
               <label for="video_id">{{ __('dashboard.youtube_video_id') }}</label>
@@ -150,6 +150,7 @@
 <!-- End Content-->
 <script>
   CKEDITOR.replace('editor', {
+    autoParagraph: false,
     on: {
       instanceReady: function(ev) {
         this.dataProcessor.writer.setRules('strong', {
@@ -167,6 +168,7 @@
     } // Converts <strong> to <b>
   });
   CKEDITOR.replace('editor1', {
+    autoParagraph: false,
     on: {
       instanceReady: function(ev) {
         this.dataProcessor.writer.setRules('strong', {
@@ -184,6 +186,7 @@
     } // Converts <strong> to <b>
   });
   CKEDITOR.replace('editor2', {
+    autoParagraph: false,
     on: {
       instanceReady: function(ev) {
         this.dataProcessor.writer.setRules('strong', {
