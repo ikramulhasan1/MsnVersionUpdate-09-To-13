@@ -160,8 +160,8 @@ use Illuminate\Support\Str;
             <p>{{ Str::limit(strip_tags($articles[0]->description), 450) }}</p>
             <a href="{{ route('blog.single', $articles[0]->slug) }}" class="read-more">READ MORE</a>
         </div>
-        <div class="col-md-7">
-            <img src="{{ asset('uploads/article/'.$articles[0]->image_path) }}" alt="{{ $articles[0]->title }}" class="w-100 m-0 p-0 rounded">
+        <div class="col-md-7 pr-0">
+            <img src="{{ asset('uploads/article/'.$articles[0]->image_path) }}" alt="{{ $articles[0]->title }}" class="w-100 m-0 p-0 rounded-right ">
         </div>
     </div>
 </div>
