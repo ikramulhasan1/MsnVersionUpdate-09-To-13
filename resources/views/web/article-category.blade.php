@@ -189,7 +189,7 @@ use Illuminate\Support\Str;
 <script>
     const blogData = @json($articles->skip(1)->values()); // Skips the first blog (already featured)
     let loadedCount = 0;
-    const perLoad = 3;
+    const perLoad = 6;
 
     // Load blog cards function
     function loadBlogCards() {
@@ -235,7 +235,7 @@ use Illuminate\Support\Str;
             // Hide the loading spinner and enable the button again
             spinner.style.display = 'none';
             loadMoreButton.disabled = false;
-        }, 100); // Simulate network delay
+        }, 300); // Simulate network delay
     }
 
      function searchBlogCards(keyword) {
