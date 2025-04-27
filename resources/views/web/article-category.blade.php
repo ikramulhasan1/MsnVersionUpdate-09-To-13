@@ -136,7 +136,7 @@ use Illuminate\Support\Str;
         </div>
     </div>
 </section>
-
+{{ $articles->appends(Request::only('search'))->links() }}
 <!-- Search Bar -->
 <div class="container search-bar">
     <div class="row">
