@@ -428,10 +428,10 @@ body {
 }
 
 .about-content ul li::before {
-    content: '●'; /* your custom bullet */
+    content: '🟢'; /* your custom bullet */
     position: absolute;
     left: 0;
-    top: 6px;
+    top: 0px;
     font-size: 18px;
     color: #00c853; /* green bullet color */
 }
@@ -873,15 +873,15 @@ $section_clients = \App\Models\Section::section('clients');
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const listItems = document.querySelectorAll('.about-content ul li');
+// document.addEventListener('DOMContentLoaded', function() {
+//     const listItems = document.querySelectorAll('.about-content ul li');
 
-    listItems.forEach(function(li) {
-        const tick = document.createElement('span');
-        tick.textContent = '🟢 ';
-        li.prepend(tick);
-    });
-});
+//     listItems.forEach(function(li) {
+//         const tick = document.createElement('span');
+//         tick.textContent = '🟢 ';
+//         li.prepend(tick);
+//     });
+// });
 
 </script>
 @endsection
