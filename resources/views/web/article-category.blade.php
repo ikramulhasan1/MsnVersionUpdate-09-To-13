@@ -224,6 +224,14 @@ $header = \App\Models\PageSetup::page('blog');
     #loadMoreBtn:hover {
       background: #e65c00;
     }
+
+    .paragraph-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Show only 3 lines */
+    -webkit-box-orient: vertical;
+  }
 </style>
 <!--Page Title-->
 <section class="page-title">
@@ -405,7 +413,7 @@ $header = \App\Models\PageSetup::page('blog');
               <small>Tanim Rahman</small>
             </div>
             <h5>${blog.title.length > 50 ? blog.title.substr(0, 50) + '...' : blog.title}</h5>
-            <p>${blog.description.length > 250 ? blog.description.substr(0, 250) + '...' : blog.description}</p><br>
+            <p class="paragraph-ellipsis">${blog.description}</p><br>
             <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
           </div>
         </div>
