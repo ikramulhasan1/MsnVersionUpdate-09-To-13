@@ -119,11 +119,11 @@ use Illuminate\Support\Str;
         }
     }
 
-    .cardBlogExtra h5{
+    .cardBlogExtra h5, .featured-blog-extra h3{
         /* font-size: 24px; */
         color: #222222; 
     }
-    .cardBlogExtra p{
+    .cardBlogExtra p, .featured-blog-extra p{
         font-size: 17px;
         color: #000000; 
     }
@@ -160,7 +160,7 @@ use Illuminate\Support\Str;
 @if($articles->count() > 0)
 <div class="container featured-blog ">
     <div class="row align-items-center">
-        <div class="col-md-5 pl-4 mt-4">
+        <div class="col-md-5 pl-4 mt-4 featured-blog-extra">
             <div class="author-info mb-2">
                 <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
                 <div><strong>Tanim Rahman</strong></div>
@@ -225,7 +225,7 @@ use Illuminate\Support\Str;
                                 <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
                                 <div><strong>Tanim Rahman</strong></div>
                             </div>
-                            <h5><strong>${truncateText(stripHtml(blog.title),45)}</strong></h5>
+                            <h5 class="mb-3"><strong>${truncateText(stripHtml(blog.title),45)}</strong></h5>
                             <p>${truncateText(stripHtml(blog.description), 150)}</p>
                             <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
                         </div>
