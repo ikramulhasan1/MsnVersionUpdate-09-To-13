@@ -140,14 +140,9 @@ use Illuminate\Support\Str;
 <!-- Search Bar -->
 <div class="container search-bar">
     <div class="row">
-        
-            <div class="col-12 d-flex justify-content-end">
-                <form method="get" action="{{ route('blog.search') }}">
-                    <input name="search" value="@if(isset($search)){{ $search }}@endif" type="text" class="form-control w-25" placeholder="Search">
-                    
-                </form>
-            </div>
-        
+        <div class="col-12 d-flex justify-content-end">
+            <input type="text" class="form-control w-25" placeholder="Search">
+        </div>
     </div>
 </div>
 
