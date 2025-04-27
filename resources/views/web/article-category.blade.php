@@ -282,7 +282,7 @@ $header = \App\Models\PageSetup::page('blog');
       <div class="author-info mb-2">
         {{-- <img src="{{ asset('uploads/author_images/'.$articles[0]->author_image) }}" alt="author"> --}}
         <img src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
-        <div><strong>{{ $articles[0]->author_name }}</strong></div>
+        <div><strong>Tanim Rahman</strong></div>
       </div>
       <h3><strong>{{ $articles[0]->title }}</strong></h3>
       <p>{{ Str::limit(strip_tags($articles[0]->description), 150) }}</p>
@@ -329,7 +329,7 @@ $header = \App\Models\PageSetup::page('blog');
           <div class="p-2">
             <div class="author-info">
               <img src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
-              <small>${blog.author_name}</small>
+              <small>Tanim Rahman</small>
             </div>
             <h5>${blog.title}</h5>
             <p>${blog.description.length > 100 ? blog.description.substr(0, 100) + '...' : blog.description}</p>
