@@ -322,8 +322,9 @@ $header = \App\Models\PageSetup::page('blog');
       const col = document.createElement('div');
       col.className = 'col-md-4';
       col.innerHTML = `
+      
         <div class="blog-card p-3">
-          <img src="/uploads/article_images/${blog.image}" class="img-fluid" alt="blog image">
+          <img src="/uploads/article/${blog.image_path}" class="img-fluid" alt="blog image">
           <div class="p-2">
             <div class="author-info">
               <img src="/uploads/author_images/${blog.author_image}" alt="author">
