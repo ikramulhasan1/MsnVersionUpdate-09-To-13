@@ -465,19 +465,28 @@ color: #009830;
 </section> --}}
 <!--End Page Title-->
 <!-- Hero Section -->
-<section class="about-hero-section" data-aos="fade">
+  <section class="about-hero-section" data-aos="fade">
     <div class="container">
       <h1>About Us</h1>
       <!-- <p>Building the Future of Technology and Business Innovation Together.</p> -->
     </div>
-    <div class="bread-crumb">
-      <ul>
-          <li>{{ __('navbar.about') }}</li>
-          <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
-      </ul>
-  </div>
   </section>
-  
+  <section class="page-title">
+    <div class="container">
+        <div class="inner-container clearfix">
+            {{-- <div class="title-box">
+                <h1>{{ __('navbar.about') }}</h1>
+            </div> --}}
+            <div class="bread-crumb">
+                <ul>
+                    <li>{{ __('navbar.about') }}</li>
+                    <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
   <!-- About Section -->
   @if(isset($about) || count($counters) > 0)
   <section class="about-page">
