@@ -112,6 +112,138 @@ $header = \App\Models\PageSetup::page('portfolio');
     }
 
 
+
+
+
+/* portfolio-section */
+.portfolio-section {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+      color: #1d1d1d;
+    }
+
+    .portfolio-section-title {
+      font-size: 48px;
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+    }
+
+    .portfolio-section-title::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(to right, #ff5a00, #ff9500);
+      margin: 12px auto 0;
+      border-radius: 3px;
+    }
+
+    /* FILTER BUTTONS - HORIZONTAL SCROLL */
+    .portfolio-filters-wrapper {
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    .portfolio-filters {
+      display: inline-flex;
+      gap: 12px;
+      padding: 10px 0;
+    }
+    .portfolio-filter-btn {
+      flex: 0 0 auto;
+      background: #fff;
+      border: 1px solid #dee2e6;
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-weight: 500;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .portfolio-filter-btn.active, 
+    .portfolio-filter-btn:hover {
+      background: #ff5a00;
+      color: #fff;
+      border-color: #ff5a00;
+    }
+
+    /* Hide ugly scrollbar (optional) */
+    .portfolio-filters-wrapper::-webkit-scrollbar {
+      height: 6px;
+    }
+    .portfolio-filters-wrapper::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 10px;
+    }
+    .portfolio-filters-wrapper::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .portfolio-grid {
+      margin-top: 30px;
+    }
+
+    .portfolio-card {
+      overflow: hidden;
+      position: relative;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      background: #fff;
+      margin-bottom: 30px;
+    }
+
+    .portfolio-card img {
+      width: 100%;
+      height: auto;
+      transition: transform 0.5s ease;
+    }
+
+    .portfolio-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .portfolio-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      transition: all 0.5s ease;
+    }
+
+    .portfolio-card:hover .portfolio-overlay {
+      opacity: 1;
+    }
+
+    .portfolio-overlay h5 {
+      color: #ffffff;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .view-more-btn {
+      background: #1d1d1d;
+      color: #fff;
+      padding: 14px 40px;
+      font-size: 18px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .view-more-btn:hover {
+      background: #ff5a00;
+    }
+
 </style>
 
 <!--Page Title-->
@@ -140,7 +272,7 @@ $header = \App\Models\PageSetup::page('portfolio');
 <!--End Page Title-->
 
 
-@php
+{{-- @php
 $section_portfolio = \App\Models\Section::section('portfolio');
 @endphp
 @if(count($portfolios) > 0 && isset($section_portfolio))
@@ -201,6 +333,58 @@ $section_portfolio = \App\Models\Section::section('portfolio');
     </div>
 </section>
 <!--End Gallery Section-->
-@endif
+@endif --}}
+@php
+$section_portfolio = \App\Models\Section::section('portfolio');
+@endphp
 
+ @if(count($portfolios) > 0 && isset($section_portfolio))
+ <section class="portfolio-section py-5">
+    <div class="container text-center">
+      <h2 class="portfolio-section-title" data-aos="fade-up">{{ $section_portfolio->title }}</h2>
+      <div class="text description">{!! $section_portfolio->description !!}</div>
+
+      <!-- FILTER BUTTONS SCROLLABLE WRAPPER -->
+      <div class="portfolio-filters-wrapper" data-aos="fade-up" data-aos-delay="200">
+        <div class="portfolio-filters">
+          <button class="portfolio-filter-btn active" data-filter="*">All</button>
+          @foreach($portfolio_categories as $portfolio_category)
+            <button class="portfolio-filter-btn" data-filter=".{{ $portfolio_category->slug }}">{{ $portfolio_category->title }}</button>
+          @endforeach
+          
+        </div>
+      </div>
+  
+        <div class="row portfolio-grid" data-aos="fade-up" data-aos-delay="400">
+        <!-- Portfolio Items -->
+        @foreach($portfolios as $portfolio)
+            <a href="{{ route('portfolio.single', $portfolio->slug) }}">
+                <div class="col-lg-4 col-md-6 portfolio-item @foreach($portfolio->categories as $category)
+                                    {{ $category->slug }} 
+                                @endforeach">
+                    <div class="portfolio-card">
+                        <img src="{{ asset('uploads/portfolio/'.$portfolio->image_path) }}" alt="{{ $portfolio->title }}" class="img-fluid">
+                        <div class="portfolio-overlay">
+                            <h5><a class="text-white" href="{{ route('portfolio.single', $portfolio->slug) }}">{{ $portfolio->title }}</a></h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        @endforeach
+        </div>
+  
+      @php
+      $page_portfolio = \App\Models\PageSetup::page('portfolio');
+      @endphp
+
+      @if(isset($page_portfolio))
+      <div class="text-center mt-5" data-aos="zoom-in" data-aos-delay="500">
+        <a href="{{ route('portfolios') }}" class="text-white btn view-more-btn">{{ __('common.view_more') }}</a>
+      </div>
+      @endif
+    </div>
+  </section>
+  
+<!--End Gallery Section-->
+@endif
 @endsection
