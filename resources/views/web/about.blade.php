@@ -542,7 +542,7 @@ color: #009830;
   <section class="about-page">
       <div class="container">
         <div class="text-center mb-5" data-aos="fade-up">
-          <h2 style="font-weight: 700" class="fw-bolder">We Are Provide</h2>
+          <h2 style="font-weight: 700" class="fw-bolder mb-3">We Are Provide</h2>
           <p class="lead">10+ years of excellence in delivering top-notch IT services globally.</p>
         </div>
         <div class="row g-4">
@@ -551,7 +551,7 @@ color: #009830;
               <div class="icon mx-auto mb-3">
                 <i class="bi bi-laptop"></i>
               </div>
-              <h5 style="font-weight: 700" class="fw-bolder">Software Development</h5>
+              <h5 style="font-weight: 700" class="fw-bolder mb-3">Software Development</h5>
               <p style="font-size: 16px; text-align: left;">Innovative, custom-built solutions that fuel growth, optimize performance, and drive digital transformation.</p>
             </div>
           </div>
@@ -560,7 +560,7 @@ color: #009830;
               <div class="icon mx-auto mb-3">
                 <i class="bi bi-diagram-3-fill"></i>
               </div>
-              <h5 style="font-weight: 700" class="fw-bolder">Website Development</h5>
+              <h5 style="font-weight: 700" class="fw-bolder mb-3">Website Development</h5>
               <p style="font-size: 16px; text-align: left;">High-performance, responsive websites crafted to deliver outstanding user experiences business growth.</p>
             </div>
           </div>
@@ -569,7 +569,7 @@ color: #009830;
               <div class="icon mx-auto mb-3">
                 <i class="bi bi-phone"></i>
               </div>
-              <h5 style="font-weight: 700" class="fw-bolder">Mobile App Development</h5>
+              <h5 style="font-weight: 700" class="fw-bolder mb-3">Mobile App Development</h5>
               <p style="font-size: 16px; text-align: left;">Seamless, high-impact mobile experiences designed to captivate users and expand your global reach.</p>
             </div>
           </div>
@@ -578,7 +578,7 @@ color: #009830;
               <div class="icon mx-auto mb-3">
                 <i class="bi bi-bar-chart-line"></i>
               </div>
-              <h5 style="font-weight: 700" class="fw-bolder">SEO & Marketing</h5>
+              <h5 style="font-weight: 700" class="fw-bolder mb-3">SEO & Marketing</h5>
               <p style="font-size: 16px; text-align: left;">Strategic SEO and marketing solutions that enhance visibility, increase engagement, and deliver measurable success.</p>
             </div>
           </div>
