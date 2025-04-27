@@ -518,7 +518,7 @@ body {
           <div class="about-glass-card shadow-sm text-center">
             <h3>{{ $about->vision_title }}</h3>
             <div class="about-content" style="text-align: justify">
-              {{ $about->vision_desc }}
+              {!! $about->vision_desc !!}
             </div>
           </div>
         </div>

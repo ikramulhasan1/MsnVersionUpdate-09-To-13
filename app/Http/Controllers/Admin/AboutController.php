@@ -111,8 +111,8 @@ class AboutController extends Controller
         $content=$request->input('description');
         $cleanDescription = $this->cleanHtml($content);
 
-        $cleanMissionDesc = $this->cleanMissionHtml($request->input('mission_desc'));
-        $cleanVisionDesc = $this->cleanVissionHtml($request->input('vision_desc'));
+        $cleanMissionDesc = $this->cleanHtml($request->input('mission_desc'));
+        $cleanVisionDesc = $this->cleanHtml($request->input('vision_desc'));
 
 
         $dom = new \DomDocument();
@@ -200,14 +200,5 @@ class AboutController extends Controller
         $html = preg_replace('/<p>(.*?)<(h[1-6]|ul)/i', '<p>$1</p><$2', $html);
         return $html;
     }
-    private function cleanMissionHtml($html)
-    {
-        $html = preg_replace('/<p>(.*?)<(h[1-6]|ul)/i', '<p>$1</p><$2', $html);
-        return $html;
-    }
-    private function cleanVissionHtml($html)
-    {
-        $html = preg_replace('/<p>(.*?)<(h[1-6]|ul)/i', '<p>$1</p><$2', $html);
-        return $html;
-    }
+   
 }
