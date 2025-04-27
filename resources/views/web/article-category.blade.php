@@ -138,7 +138,6 @@ use Illuminate\Support\Str;
 </section>
 
 <!-- Search Bar -->
-<!-- Search Bar -->
 <div class="container search-bar">
     <div class="row">
         <div class="col-12 d-flex justify-content-end">
@@ -254,7 +253,47 @@ use Illuminate\Support\Str;
         return text.substr(0, maxLength) + '...';
     }
 
+    // document.getElementById('loadMoreBtn').addEventListener('click', loadBlogCards);
+
+
+
+
+
+    function searchBlogCards(keyword) {
+        const container = document.getElementById('blogCardsContainer');
+        container.innerHTML = '';
+
+        const filtered = blogData.filter(blog =>
+            stripHtml(blog.title).toLowerCase().includes(keyword.toLowerCase()) ||
+            stripHtml(blog.description).toLowerCase().includes(keyword.toLowerCase())
+        );
+
+        if (filtered.length > 0) {
+            filtered.forEach(blog => {
+                container.insertAdjacentHTML('beforeend', createCard(blog));
+            });
+            document.getElementById('loadMoreBtn').style.display = 'none';
+        } else {
+            container.innerHTML = '<div class="text-center">No blogs found.</div>';
+            document.getElementById('loadMoreBtn').style.display = 'none';
+        }
+    }
+
     document.getElementById('loadMoreBtn').addEventListener('click', loadBlogCards);
+
+    document.getElementById('searchInput').addEventListener('input', function () {
+        const keyword = this.value.trim();
+        if (keyword.length > 0) {
+            searchBlogCards(keyword);
+        } else {
+            document.getElementById('blogCardsContainer').innerHTML = '';
+            loadedCount = 0;
+            loadBlogCards();
+            document.getElementById('loadMoreBtn').style.display = 'block';
+        }
+    });
+
+
 
     // Initial load
     loadBlogCards();
