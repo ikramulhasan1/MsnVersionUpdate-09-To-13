@@ -119,7 +119,7 @@ use Illuminate\Support\Str;
         }
     }
 
-    .cardBlogExtra h5, .featured-blog-extra h3{
+    .cardBlogExtra h5, .featured-blog-extra h3, .author-info strong {
         /* font-size: 24px; */
         color: #222222; 
     }
@@ -160,12 +160,12 @@ use Illuminate\Support\Str;
 @if($articles->count() > 0)
 <div class="container featured-blog ">
     <div class="row align-items-center">
-        <div class="col-md-5 pl-4 mt-4 featured-blog-extra">
+        <div class="col-md-5 pl-4 mt-2 featured-blog-extra">
             <div class="author-info mb-2">
                 <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
                 <div><strong>Tanim Rahman</strong></div>
             </div>
-            <h3><strong>{{ $articles[0]->title }}</strong></h3>
+            <h3 class="mb-3"><strong>{{ $articles[0]->title }}</strong></h3>
             <p>{{ Str::limit(strip_tags($articles[0]->description), 450) }}</p>
             <a href="{{ route('blog.single', $articles[0]->slug) }}" class="read-more">READ MORE</a>
         </div>
