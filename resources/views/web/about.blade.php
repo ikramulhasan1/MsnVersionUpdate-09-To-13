@@ -334,7 +334,7 @@ body {
 
     .about-glass-card h3 {
       font-size: 28px;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 20px;
       color: #2575fc;
     }
@@ -412,6 +412,29 @@ body {
       font-size: 30px;
     }
 
+
+
+    .about-content ul {
+        list-style-type: disc; /* Show bullet points */
+        padding-left: 20px;    /* Space from the left */
+        margin-bottom: 15px;   /* Space below the list */
+    }
+
+    .about-content ol {
+        list-style-type: decimal; /* Show numbered list if <ol> used */
+        padding-left: 20px;
+        margin-bottom: 15px;
+    }
+
+    .about-content li {
+        margin-bottom: 8px; /* Space between list items */
+    }
+
+    .about-content h3, 
+    .about-content h2,
+    .about-content p {
+        margin-bottom: 10px; /* Nice spacing for headings and paragraphs */
+    }
 </style>
 
 <!--Page Title-->
@@ -452,12 +475,14 @@ body {
       {{-- <div class="about-section-title" data-aos="fade-up">
         <h2>Who We Are</h2>
       </div> --}}
-      @dd($about->description)
       <div class="row align-items-center">
         <div class="col-lg-6 mb-4" data-aos="fade-right">
           <div class="about-glass-card shadow-sm">
             <h3>{{ $about->title }}</h3>
-            {!! $about->description !!}
+            <div class="about-content">
+              {!! $about->description !!}
+            </div>
+            
             {{-- <ul class="about-feature-list mt-4">
               <li>Over <strong>3,500+</strong> satisfied clients worldwide</li>
               <li>Custom software & digital marketing expertise</li>
