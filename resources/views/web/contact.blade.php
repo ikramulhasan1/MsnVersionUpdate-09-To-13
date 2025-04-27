@@ -42,7 +42,7 @@
 
         /* Hero Section */
         .about-hero-section {
-      background: linear-gradient(135deg, rgba(106,17,203,0.9), rgba(37,117,252,0.9)), url('https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?q=80&w=2034&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+      background: linear-gradient(135deg, rgba(106,17,203,0.9), rgba(37,117,252,0.9)), url('https://getpaidstock.com/tmp/[GetPaidStock.com]-680e50020de1e.jpg') no-repeat center center/cover;
       height: 40vh;
       color: #fff;
       display: flex;
