@@ -415,6 +415,26 @@ body {
 
 
 
+
+    .about-content ul {
+    list-style: none; /* remove default bullets */
+    padding-left: 0; /* remove default padding */
+}
+
+.about-content ul li {
+    position: relative;
+    padding-left: 30px; /* space for custom bullet */
+    margin-bottom: 10px; /* optional: add spacing between li */
+}
+
+.about-content ul li::before {
+    content: '●'; /* your custom bullet */
+    position: absolute;
+    left: 0;
+    top: 6px;
+    font-size: 18px;
+    color: #00c853; /* green bullet color */
+}
 </style>
 
 <!--Page Title-->
