@@ -109,7 +109,8 @@ class AboutController extends Controller
 
         // Get content with media file
         $content=$request->input('description');
-        
+        $cleanDescription = $this->cleanHtml($content);
+
         $dom = new \DomDocument();
         libxml_use_internal_errors(true);
         $dom->encoding = 'utf-8';
@@ -158,7 +159,7 @@ class AboutController extends Controller
             $data = new About;
             $data->title = $request->title;
             $data->slug = Str::slug($request->title, '-');
-            $data->description = $dom->saveHTML();
+            $data->description = $cleanDescription;
             $data->image_path = $fileNameToStore;
             $data->video_id = $request->video_id;
             $data->mission_title = $request->mission_title;
@@ -173,7 +174,7 @@ class AboutController extends Controller
             $data = About::find($id);
             $data->title = $request->title;
             $data->slug = Str::slug($request->title, '-');
-            $data->description = $dom->saveHTML();
+            $data->description = $cleanDescription;
             $data->image_path = $fileNameToStore;
             $data->video_id = $request->video_id;
             $data->mission_title = $request->mission_title;
@@ -189,4 +190,12 @@ class AboutController extends Controller
 
         return redirect()->route($this->route.'.index');
     }
+
+    private function cleanHtml($html)
+{
+    // Fix: Close <p> before <h3> or <ul>
+    $html = preg_replace('/<p>(.*?)<(h[1-6]|ul)/i', '<p>$1</p><$2', $html);
+
+    return $html;
+}
 }
