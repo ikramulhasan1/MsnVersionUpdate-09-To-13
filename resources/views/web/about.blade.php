@@ -414,27 +414,7 @@ body {
 
 
 
-    .about-content ul {
-        list-style-type: disc !important; /* Show bullet points */
-        padding-left: 20px;    /* Space from the left */
-        margin-bottom: 15px;   /* Space below the list */
-    }
 
-    .about-content ol {
-        list-style-type: decimal !important; /* Show numbered list if <ol> used */
-        padding-left: 20px;
-        margin-bottom: 15px;
-    }
-
-    .about-content li {
-        margin-bottom: 8px; /* Space between list items */
-    }
-
-    .about-content h3, 
-    .about-content h2,
-    .about-content p {
-        margin-bottom: 10px; /* Nice spacing for headings and paragraphs */
-    }
 </style>
 
 <!--Page Title-->
