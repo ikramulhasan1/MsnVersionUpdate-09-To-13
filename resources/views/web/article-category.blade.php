@@ -150,7 +150,7 @@ use Illuminate\Support\Str;
 
     <!-- Loading Spinner -->
     <div id="loadingSpinner">
-        <img style="width: 15px; height: 15px;;" src="https://i.imgur.com/llF5iyg.gif" alt="Loading...">
+        <img style="width: 15px; height: 15px;" src="https://i.imgur.com/llF5iyg.gif" alt="Loading...">
     </div>
 
     <!-- Load More Button -->
@@ -184,7 +184,7 @@ use Illuminate\Support\Str;
           const col = document.createElement('div');
           col.className = 'col-md-4';
           col.style.marginBottom = '20px';
-          col.innerHTML = `
+          col.innerHTML = ` 
             <div class="blog-card p-3">
               <img src="/uploads/article/${blog.image_path}" class="img-fluid" alt="${blog.title}">
               <div class="p-2">
