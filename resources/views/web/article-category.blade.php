@@ -369,7 +369,7 @@ $header = \App\Models\PageSetup::page('blog');
 
 <!-- Blog Cards -->
 <div class="container">
-  <div class="row g-4" id="blogCardsContainer">
+  <div class="row g-4 mb-3" id="blogCardsContainer">
     <!-- Cards will be dynamically loaded here by JavaScript -->
   </div>
 
