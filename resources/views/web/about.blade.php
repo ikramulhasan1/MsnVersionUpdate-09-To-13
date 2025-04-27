@@ -437,9 +437,16 @@ body {
       <h1>About Us</h1>
       <!-- <p>Building the Future of Technology and Business Innovation Together.</p> -->
     </div>
+    <div class="bread-crumb">
+      <ul>
+          <li>{{ __('navbar.about') }}</li>
+          <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
+      </ul>
+  </div>
   </section>
   
   <!-- About Section -->
+  @if(isset($about) || count($counters) > 0)
   <section class="about-page">
     <div class="container">
       {{-- <div class="about-section-title" data-aos="fade-up">
@@ -449,12 +456,12 @@ body {
         <div class="col-lg-6 mb-4" data-aos="fade-right">
           <div class="about-glass-card shadow-sm">
             <h3>Our Journey</h3>
-            <p>MSN SoftTech is a global leader in <strong>software development, web design, mobile app development</strong> and <strong>SEO services</strong>. With over <strong>10 years</strong> of excellence, we deliver powerful IT solutions locally and internationally, helping businesses grow, innovate, and lead in their industries.</p>
-            <ul class="about-feature-list mt-4">
+            {!! $about->description !!}
+            {{-- <ul class="about-feature-list mt-4">
               <li>Over <strong>3,500+</strong> satisfied clients worldwide</li>
               <li>Custom software & digital marketing expertise</li>
               <li>Cross-industry technology leadership</li>
-            </ul>
+            </ul> --}}
           </div>
         </div>
         <div class="col-lg-6" data-aos="fade-left">
@@ -463,27 +470,34 @@ body {
       </div>
     </div>
   </section>
-  
+  @endif
   <!-- Mission and Vision -->
+  @if(isset($about->mission_title) || isset($about->vision_title))
   <section class="about-page" style="background: #eef2f7;">
     <div class="container">
       <div class="row g-5">
+        @if(isset($about->mission_title))
         <div class="col-md-6" data-aos="zoom-in">
           <div class="about-glass-card shadow-sm text-center">
-            <h3>Our Mission</h3>
-            <p>To empower businesses with next-gen technology solutions that enhance operational efficiency, stimulate innovation, and drive exponential growth in the digital era.</p>
+            <h3>{{ $about->mission_title }}</h3>
+            {!! $about->mission_desc !!}
           </div>
         </div>
+        @endif
+        @if(isset($about->vision_title))
         <div class="col-md-6" data-aos="zoom-in" data-aos-delay="150">
           <div class="about-glass-card shadow-sm text-center">
             <h3>Our Vision</h3>
             <p>To be a global benchmark in delivering transformative IT services and creating a future where every business thrives through technology-driven success and sustainable growth.</p>
           </div>
         </div>
+        @endif
       </div>
     </div>
   </section>
+  @endif
   <!-- About-page Us Section -->
+
   <section class="about-page">
       <div class="container">
         <div class="text-center mb-5" data-aos="fade-up">
