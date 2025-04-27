@@ -404,8 +404,8 @@ $header = \App\Models\PageSetup::page('blog');
               <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
               <small>Tanim Rahman</small>
             </div>
-            <h5>${blog.title}</h5>
-            <p>${blog.description.length > 300 ? blog.description.substr(0, 300) + '...' : blog.description}</p><br>
+            <h5>${blog.title.length > 50 ? blog.title.substr(0, 50) + '...' : blog.title}</h5>
+            <p>${blog.description.length > 250 ? blog.description.substr(0, 250) + '...' : blog.description}</p><br>
             <a href="/blog/${blog.slug}" class="read-more">READ MORE</a>
           </div>
         </div>
