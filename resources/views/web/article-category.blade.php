@@ -160,7 +160,7 @@ use Illuminate\Support\Str;
 @if($articles->count() > 0)
 <div class="container featured-blog ">
     <div class="row align-items-center">
-        <div class="col-md-5 pl-4 mt-2 featured-blog-extra">
+        <div class="col-md-5 pl-4 mt-4 featured-blog-extra">
             <div class="author-info mb-2">
                 <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
                 <div><strong>Tanim Rahman</strong></div>
