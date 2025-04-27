@@ -480,7 +480,7 @@ body {
           <div class="about-glass-card shadow-sm">
             <h3>{{ $about->title }}</h3>
             <div class="about-content">
-              @dd($about->description)
+              
               {!! $about->description !!}
             </div>
             
