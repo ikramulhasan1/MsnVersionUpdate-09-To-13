@@ -138,35 +138,31 @@ $header = \App\Models\PageSetup::page('faqs');
 
 
     
-.about-content ul {
-    list-style: none; /* remove default bullets */
-    padding-left: 0; /* remove default padding */
-}
+        /* Hero Section */
+        .about-hero-section {
+      background: linear-gradient(135deg, rgba(106,17,203,0.9), rgba(37,117,252,0.9)), url('https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?q=80&w=2034&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+      height: 40vh;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-.about-content ul li {
-    position: relative;
-    padding-left: 20px; /* space for custom bullet */
-    margin-bottom: 0px; /* optional: add spacing between li */
-    font-size: 16px; /* adjust font size as needed */
-    color: #333333; /* text color */
-}
+    .about-hero-section h1 {
+      font-size: 60px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
 
-.about-content ul li::before {
-    content: '●'; /* your custom bullet */
-    position: absolute;
-    left: 0;
-    top: 0px;
-    font-size: 18px;
-    color: #00c853; /* green bullet color */
-}
-.about-content b{
-color: #009830;
-}
-
-
-.fact-counter{
-  padding-bottom: 35px;
-}
+    .about-hero-section p {
+      font-size: 22px;
+      max-width: 700px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
 </style>
 <!--Page Title-->
 
