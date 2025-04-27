@@ -388,6 +388,9 @@ $section_portfolio = \App\Models\Section::section('portfolio');
 <!--End Gallery Section-->
 @endif
 
+
+@endsection
+
 @section('scriptjs')
 <script>
     
@@ -405,5 +408,4 @@ $section_portfolio = \App\Models\Section::section('portfolio');
       });
     });
 </script>
-@endsection
 @endsection
