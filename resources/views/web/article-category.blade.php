@@ -288,7 +288,7 @@ $header = \App\Models\PageSetup::page('blog');
       <a href="{{ route('blog.single', $articles[0]->slug) }}" class="read-more">READ MORE</a>
     </div>
     <div class="col-md-6">
-      <img src="{{ asset('uploads/article/'.$articles[0]->image_path) }}" alt="{{ $article->title }}" class="img-fluid rounded">
+      <img src="{{ asset('uploads/article/'.$articles[0]->image_path) }}" alt="{{ $articles->title }}" class="img-fluid rounded">
     </div>
   </div>
 </div>
