@@ -416,7 +416,7 @@ body {
 
 
 
-    .about-content ul {
+.about-content ul {
     list-style: none; /* remove default bullets */
     padding-left: 0; /* remove default padding */
 }
@@ -424,7 +424,7 @@ body {
 .about-content ul li {
     position: relative;
     padding-left: 20px; /* space for custom bullet */
-    margin-bottom: 2px; /* optional: add spacing between li */
+    margin-bottom: 0px; /* optional: add spacing between li */
 }
 
 .about-content ul li::before {
