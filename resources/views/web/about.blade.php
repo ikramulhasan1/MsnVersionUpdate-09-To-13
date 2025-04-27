@@ -423,8 +423,8 @@ body {
 
 .about-content ul li {
     position: relative;
-    padding-left: 30px; /* space for custom bullet */
-    margin-bottom: 10px; /* optional: add spacing between li */
+    padding-left: 20px; /* space for custom bullet */
+    margin-bottom: 5px; /* optional: add spacing between li */
 }
 
 .about-content ul li::before {
