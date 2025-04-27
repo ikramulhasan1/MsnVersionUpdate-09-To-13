@@ -89,6 +89,48 @@ use Illuminate\Support\Str;
     #loadMoreBtn:hover {
         background: #e65c00;
     }
+
+
+
+    .blog-card {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.blog-card.show {
+  opacity: 1;
+}
+
+#blogCardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.blog-card img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.blog-card .p-2 {
+  padding: 15px;
+}
+
+.read-more {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
+
+#loadMoreBtn {
+  cursor: pointer;
+}
+
 </style>
 
 <!-- Page Title -->
@@ -118,36 +160,24 @@ use Illuminate\Support\Str;
 </div>
 
 <!-- Featured Blog -->
-@if($articles->count() > 0)
-<div class="container featured-blog p-4">
-    <div class="row align-items-center">
-        <div class="col-md-6">
-            <div class="author-info mb-2">
-                <img src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
-                <div><strong>Tanim Rahman</strong></div>
-            </div>
-            <h3><strong>{{ $articles[0]->title }}</strong></h3>
-            <p>{{ Str::limit(strip_tags($articles[0]->description), 450) }}</p>
-            <a href="{{ route('blog.single', $articles[0]->slug) }}" class="read-more">READ MORE</a>
-        </div>
-        <div class="col-md-6">
-            <img src="{{ asset('uploads/article/'.$articles[0]->image_path) }}" alt="{{ $articles[0]->title }}" class="img-fluid rounded">
-        </div>
-    </div>
-</div>
-@endif
-
-<!-- Blog Cards -->
 <div class="container">
-    <div class="row g-4" id="blogCardsContainer">
-        <!-- Cards will be dynamically loaded here -->
+    <!-- Featured Blog (first blog) -->
+    <div class="featured-blog">
+      <h2>{{ $articles->first()->title }}</h2>
+      <img src="/uploads/article/{{ $articles->first()->image_path }}" class="img-fluid" alt="{{ $articles->first()->title }}">
+      <p>{{ stripHtml($articles->first()->description) }}</p>
+      <a href="/blog/{{ $articles->first()->slug }}" class="btn btn-primary">Read More</a>
     </div>
-
+  
+    <!-- Blog Cards (after featured blog) -->
+    <div id="blogCardsContainer" class="row mt-5"></div>
+  
     <!-- Load More Button -->
-    <div class="d-flex justify-content-center">
-        <button id="loadMoreBtn">CLICK TO LOAD MORE</button>
+    <div class="text-center mt-4">
+      <button id="loadMoreBtn" class="btn btn-outline-primary">Load More</button>
     </div>
-</div>
+  </div>
+  
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -159,15 +189,16 @@ use Illuminate\Support\Str;
     let loadedCount = 0;
     const perLoad = 3;
   
+    // Function to load blog cards dynamically
     function loadBlogCards() {
       const container = document.getElementById('blogCardsContainer');
   
       blogData.slice(loadedCount, loadedCount + perLoad).forEach(blog => {
         const col = document.createElement('div');
-        col.className = 'col-md-4';
+        col.className = 'col-md-4 blog-card';
         col.style.marginBottom = '20px';
         col.innerHTML = `
-          <div class="blog-card p-3">
+          <div class="p-3">
             <img src="/uploads/article/${blog.image_path}" class="img-fluid" alt="${blog.title}">
             <div class="p-2">
               <div class="author-info">
@@ -180,7 +211,14 @@ use Illuminate\Support\Str;
             </div>
           </div>
         `;
+        
         container.appendChild(col);
+  
+        // Trigger fade-in animation for new blog cards
+        setTimeout(() => {
+          col.classList.add('show');
+        }, 100);  // Small delay before fade-in
+  
       });
   
       loadedCount += perLoad;
@@ -208,9 +246,10 @@ use Illuminate\Support\Str;
   
     document.getElementById('loadMoreBtn').addEventListener('click', loadBlogCards);
   
-    // Initial load
+    // Initial load (first 3 blogs)
     loadBlogCards();
   </script>
+  
   
 
 @endsection
