@@ -288,7 +288,7 @@ $header = \App\Models\PageSetup::page('blog');
       <a href="{{ route('blog.single', $articles[0]->slug) }}" class="read-more">READ MORE</a>
     </div>
     <div class="col-md-6">
-      <img src="{{ asset('uploads/article_images/'.$articles[0]->image) }}" alt="Featured" class="img-fluid rounded">
+      <img src="{{ asset('uploads/article/'.$recent->image_path) }}" alt="{{ $recent->title }}" class="img-fluid rounded">
     </div>
   </div>
 </div>
@@ -307,7 +307,7 @@ $header = \App\Models\PageSetup::page('blog');
 </div>
 
 <!-- Bootstrap JS -->
-{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> --}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
   const blogData = @json($articles->skip(1)->values());
