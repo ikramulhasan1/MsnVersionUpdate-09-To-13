@@ -144,7 +144,7 @@ use Illuminate\Support\Str;
             <div class="col-12 d-flex justify-content-end">
                 <form method="get" action="{{ route('blog.search') }}">
                     <input name="search" value="@if(isset($search)){{ $search }}@endif" type="text" class="form-control w-25" placeholder="Search">
-                    <button type="submit"><span class="icon fa fa-search"></span></button>
+                    
                 </form>
             </div>
         
