@@ -111,6 +111,10 @@ class AboutController extends Controller
         $content=$request->input('description');
         $cleanDescription = $this->cleanHtml($content);
 
+        $cleanMissionDesc = $this->cleanMissionHtml($request->input('mission_desc'));
+        $cleanVisionDesc = $this->cleanVissionHtml($request->input('vision_desc'));
+
+
         $dom = new \DomDocument();
         libxml_use_internal_errors(true);
         $dom->encoding = 'utf-8';
@@ -163,9 +167,9 @@ class AboutController extends Controller
             $data->image_path = $fileNameToStore;
             $data->video_id = $request->video_id;
             $data->mission_title = $request->mission_title;
-            $data->mission_desc = $request->mission_desc;
+            $data->mission_desc = $cleanMissionDesc;
             $data->vision_title = $request->vision_title;
-            $data->vision_desc = $request->vision_desc;
+            $data->vision_desc = $cleanVisionDesc;
             $data->status = $request->status;
             $data->save();
         }
@@ -178,9 +182,9 @@ class AboutController extends Controller
             $data->image_path = $fileNameToStore;
             $data->video_id = $request->video_id;
             $data->mission_title = $request->mission_title;
-            $data->mission_desc = $request->mission_desc;
+            $data->mission_desc = $cleanMissionDesc;
             $data->vision_title = $request->vision_title;
-            $data->vision_desc = $request->vision_desc;
+            $data->vision_desc = $cleanVisionDesc;
             $data->status = $request->status;
             $data->save();
         }
@@ -192,10 +196,18 @@ class AboutController extends Controller
     }
 
     private function cleanHtml($html)
-{
-    // Fix: Close <p> before <h3> or <ul>
-    $html = preg_replace('/<p>(.*?)<(h[1-6]|ul)/i', '<p>$1</p><$2', $html);
-
-    return $html;
-}
+    {
+        $html = preg_replace('/<p>(.*?)<(h[1-6]|ul)/i', '<p>$1</p><$2', $html);
+        return $html;
+    }
+    private function cleanMissionHtml($html)
+    {
+        $html = preg_replace('/<p>(.*?)<(h[1-6]|ul)/i', '<p>$1</p><$2', $html);
+        return $html;
+    }
+    private function cleanVissionHtml($html)
+    {
+        $html = preg_replace('/<p>(.*?)<(h[1-6]|ul)/i', '<p>$1</p><$2', $html);
+        return $html;
+    }
 }
