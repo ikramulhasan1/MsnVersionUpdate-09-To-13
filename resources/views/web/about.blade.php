@@ -424,7 +424,7 @@ body {
 .about-content ul li {
     position: relative;
     padding-left: 20px; /* space for custom bullet */
-    margin-bottom: 5px; /* optional: add spacing between li */
+    margin-bottom: 2px; /* optional: add spacing between li */
 }
 
 .about-content ul li::before {
@@ -432,7 +432,7 @@ body {
     position: absolute;
     left: 0;
     top: 0px;
-    font-size: 14px;
+    font-size: 16px;
     color: #00c853; /* green bullet color */
 }
 </style>
