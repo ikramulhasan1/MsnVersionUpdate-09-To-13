@@ -94,6 +94,17 @@ use Illuminate\Support\Str;
         margin-top: 20px;
         text-align: center;
     }
+    .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
 </style>
 
 <!-- Page Title -->
@@ -184,7 +195,8 @@ use Illuminate\Support\Str;
           const col = document.createElement('div');
           col.className = 'col-md-4';
           col.style.marginBottom = '20px';
-          col.innerHTML = ` 
+          col.classList.add('fade-in');
+          col.innerHTML = `
             <div class="blog-card p-3">
               <img src="/uploads/article/${blog.image_path}" class="img-fluid" alt="${blog.title}">
               <div class="p-2">
