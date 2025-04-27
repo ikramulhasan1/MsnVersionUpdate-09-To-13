@@ -440,6 +440,11 @@ body {
 .about-content b{
 color: #009830;
 }
+
+
+.fact-counter{
+  padding-bottom: 20px;
+}
 </style>
 
 <!--Page Title-->
