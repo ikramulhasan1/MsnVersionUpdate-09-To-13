@@ -387,4 +387,23 @@ $section_portfolio = \App\Models\Section::section('portfolio');
   
 <!--End Gallery Section-->
 @endif
+
+@section('scriptjs')
+<script>
+    
+    // Filter buttons
+    var filterButtons = document.querySelectorAll('.portfolio-filter-btn');
+  
+    filterButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        var filterValue = button.getAttribute('data-filter');
+        iso.arrange({ filter: filterValue });
+  
+        // Active class switching
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+      });
+    });
+</script>
+@endsection
 @endsection

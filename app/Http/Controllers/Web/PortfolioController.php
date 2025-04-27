@@ -17,32 +17,14 @@ class PortfolioController extends Controller
     public function index()
     {
         // Portfolio Categories                                
-        // $data['portfolio_categories'] = PortfolioCategory::where('status', '1')
-        //     ->orderBy('id', 'asc')
-        //     ->get();
-
-        // // Portfolios                                
-        // $data['portfolios'] = Portfolio::where('status', '1')
-        //     ->orderBy('id', 'desc')
-        //     ->get();
-
-
-
-
-        // Portfolio Categories                                
         $data['portfolio_categories'] = PortfolioCategory::where('status', '1')
-                            ->orderBy('id', 'asc')
-                            ->get();
+            ->orderBy('id', 'asc')
+            ->get();
 
         // Portfolios                                
         $data['portfolios'] = Portfolio::where('status', '1')
-                            ->orderBy('id', 'desc')
-                            ->take(9)
-                            ->get();
-
-
-
-
+            ->orderBy('id', 'desc')
+            ->get();
 
         return view('web.portfolios', $data);
     }
