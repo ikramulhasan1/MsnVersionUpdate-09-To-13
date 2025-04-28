@@ -1081,6 +1081,10 @@ color: #222222;
             <div>
               <h6 class="mb-0 fw-bold"><strong>Ikramul Hasan</strong></h6>
               <small style="font-size: 18px">Admin</small>
+              
+              <div style="z-index: 1000 !important;">
+                @include('web.layouts.googlemeet')
+              </div>
             </div>
           </div>
           <hr>
