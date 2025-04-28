@@ -858,7 +858,7 @@ font-weight: 800;
     position: relative;
     padding-left: 20px; /* space for custom bullet */
     margin-bottom: 0px; /* optional: add spacing between li */
-    font-size: 16px; /* adjust font size as needed */
+    font-size: 16px; 
     color: #333333; /* text color */
 }
 
@@ -878,16 +878,24 @@ color: #009830;
 }
 
 .about-content h2{
-    font-size: 24px; /* adjust font size as needed */
-    margin-top: 10px; /* space below heading */
-    margin-bottom: 10px; /* space below heading */
+    font-size: 24px; 
+    font-weight: 700;
+    margin-top: 10px; 
+    margin-bottom: 10px; 
     color: #333333; /* heading color */
 }
 .about-content h3{
-    font-size: 21px; /* adjust font size as needed */
-    margin-top: 7px; /* space below heading */
-    margin-bottom: 7px; /* space below heading */
+    font-size: 21px; 
+    font-weight: 700;
+    margin-top: 10px; 
+    margin-bottom: 10px;
     color: #333333; /* heading color */
+}
+.about-content p{
+    font-size: 17px; 
+    /* margin-top: 2px; 
+    margin-bottom: 2px;  */
+    color: #000000; /* heading color */
 }
 
  </style>
