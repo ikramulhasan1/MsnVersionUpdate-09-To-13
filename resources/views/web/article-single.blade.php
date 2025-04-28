@@ -669,14 +669,14 @@ font-weight: 800;
 }
 
 .help-text {
-  font-weight: 600;
   color: #212529;
   text-decoration: none;
   font-size: 15px;
 }
 
 .help-text:hover {
-  color: #007bff;
+  color: red;
+  text-decoration: none;
 }
 
 .dotted-border {
@@ -908,19 +908,6 @@ font-weight: 800;
           
 
           <!-- Help Box -->
-            @if(count($services) > 0)
-                <div class="bg-white rounded p-4 shadow-sm mb-4">
-                    <h5 class="fw-bold mb-3">I Need Help With...</h5>
-                    <ul class="color-text list-unstyled sidebar-list needHelpList">
-                        @foreach($services as $service)
-                        
-                            <li><a href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a></li>
-                       
-                        @endforeach
-                    
-                    </ul>
-                </div>
-            @endif
             @if(count($services) > 0)
             <div class="help-section card p-4">
                 <h5 class="section-title">I Need Help With…</h5>
