@@ -933,7 +933,7 @@ color: #222222;
 
 
 .service-package h3{
-    background-color: #FFFF00;
+    /* background-color: #FFFF00; */
     color: #000000;
 }
 .service-package p b{
