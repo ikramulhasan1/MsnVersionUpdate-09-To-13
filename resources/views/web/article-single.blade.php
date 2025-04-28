@@ -886,15 +886,14 @@ font-weight: 800;
           @if(count($recents) > 0)
           <div class="popular-posts card p-4">
             <h5 class="section-title">{{ __('common.recent_posts') }}</h5>
-            <div class="post-item d-flex align-items-center mb-3 pb-3 border-bottom">
             @foreach($recents as $key => $recent)
+            <div class="post-item d-flex align-items-center mb-3 pb-3 border-bottom">
                 <img src="{{ asset('uploads/article/'.$recent->image_path) }}" class="post-thumb rounded" alt="{{ $recent->title }}">
                 <div class="ms-3">
                     <a class="post-title" href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 30, ' ...') !!}</a>
                 </div>
-            @endforeach 
             </div>
-           
+            @endforeach 
           </div>
           @endif
           <!-- Case Studies (NEW Section) -->
