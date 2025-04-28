@@ -635,6 +635,60 @@ font-weight: 800;
 }
 
 
+/* help section */
+.help-section {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 30px;
+  height: 2px;
+  background: #007bff;
+  margin-top: 8px;
+}
+
+.help-item {
+  border-color: #eee;
+}
+
+.help-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.help-text {
+  font-weight: 600;
+  color: #212529;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.help-text:hover {
+  color: #007bff;
+}
+
+.dotted-border {
+  border-bottom: 1px dotted #ccc;
+}
+
+
+
+
+
+
+
 
 .case-studies-box {
   background: linear-gradient(135deg, #4b006e, #7303c0, #ec38bc);
@@ -867,6 +921,18 @@ font-weight: 800;
                     </ul>
                 </div>
             @endif
+            @if(count($services) > 0)
+            <div class="help-section card p-4">
+                <h5 class="section-title">I Need Help With…</h5>
+                @foreach($services as $service)
+                <div class="help-item d-flex align-items-center mb-3 pb-3 dotted-border">
+                  <img src="{{ asset('uploads/service/'.$service->image_path) }}" class="help-icon me-3" alt="{{ $service->short_title }}">
+                  <a class="help-text" href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a>
+                </div>
+                @endforeach
+            </div>
+            @endif
+
           <!-- Categories -->
           @if (count($article_categories) > 0)
           <div class="bg-gradient rounded p-4 shadow-sm mb-4">
@@ -919,7 +985,7 @@ font-weight: 800;
                     <p class="mb-4">For Inspiring Success Stories</p>
                 </div>
                 <div class="">
-                    <a href="#" class="btn view-all-btn w-100">VIEW ALL <i class=" text-white fa-solid fa-arrow-right-long"></i></a>
+                    <a href="#" class="btn view-all-btn w-100" style="display: flex; justify-content: space-evenly">VIEW ALL <i class=" text-white fa-solid fa-arrow-right-long"></i></a>
                 </div>
             </div>
             
