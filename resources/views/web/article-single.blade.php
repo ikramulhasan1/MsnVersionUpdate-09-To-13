@@ -689,34 +689,35 @@ font-weight: 800;
 
 
 
-.social-section {
-  margin-top: 30px;
+.social-icons-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  background-color: #f7f7f7;
+  border-radius: 10px;
 }
 
 .social-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  margin: 0 5px;
+  width: 45px;
+  height: 45px;
+  border: 1px solid #ccc;
   border-radius: 50%;
-  background-color: #f0f0f0;
-  color: #555;
-  font-size: 18px;
-  transition: all 0.3s ease;
+  color: #333;
+  font-size: 20px;
   text-decoration: none;
+  transition: all 0.3s ease;
 }
 
 .social-icon:hover {
   background-color: #ff4d00;
-  color: white;
+  color: #fff;
+  border-color: #ff4d00;
 }
-
-.social-icon.facebook:hover { background-color: #3b5998; }
-.social-icon.twitter:hover { background-color: #1da1f2; }
-.social-icon.linkedin:hover { background-color: #0077b5; }
-.social-icon.instagram:hover { background-color: #e4405f; }
 
  </style>
 <!-- End Sidebar Container -->
@@ -843,15 +844,17 @@ font-weight: 800;
             <div class="text-center mb-4">
                 <img src="https://www.capitalnumbers.com/blog/wp-content/uploads/2024/08/NodeJS-Performance-Optimization-download-ebook.jpg.webp" class="img-fluid rounded shadow-sm" alt="Advertisement">
             </div>
-            <!-- Social Media Section -->
-            <div class="social-section mt-4 text-center">
-                <h6 class="fw-bold mb-3">Share:</h6>
-                <a href="#" class="social-icon facebook" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                <a href="#" class="social-icon twitter" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
-                <a href="#" class="social-icon linkedin" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                <a href="#" class="social-icon instagram" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <!-- Social Media Section (exact match) -->
+            <div class="social-icons-wrapper text-center">
+                <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+                <a href="#" class="social-icon"><i class="bi bi-pinterest"></i></a>
+                <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="social-icon"><i class="bi bi-youtube"></i></a>
+                <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="bi bi-behance"></i></a>
             </div>
-            <!-- End Social Media Section -->      
+      
           </div>
       </div>
     
