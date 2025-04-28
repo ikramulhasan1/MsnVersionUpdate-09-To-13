@@ -197,6 +197,18 @@
 </div> <!-- container -->
 <!-- End Content-->
 <script>
+function cleanContent(content) {
+  // Remove tags that are empty or only have whitespace or &nbsp;
+  return content.replace(/<(\w+)[^>]*>(&nbsp;|\s)*<\/\1>/gi, '');
+}
+
+const originalContent = document.getElementById('editor1').innerHTML;
+const cleanedContent = cleanContent(originalContent);
+// Now save cleanedContent to your database
+
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
         const taginInputs = document.querySelectorAll(".tagin");
         taginInputs.forEach(input => new Tagin(input, {
