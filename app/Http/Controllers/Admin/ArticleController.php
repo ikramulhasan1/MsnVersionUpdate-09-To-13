@@ -422,7 +422,14 @@ class ArticleController extends Controller
     //     return redirect()->back();
     // }
 
-   
+    private function cleanContent($content) {
+        // Remove empty tags
+        return preg_replace('/<(\w+)[^>]*>(&nbsp;|\s)*<\/\1>/i', '', $content);
+    }
+    
+    // Example usage:
+    
+    
     public function update(Request $request, Article $article)
     {
         // Field Validation
@@ -527,7 +534,7 @@ class ArticleController extends Controller
                 $img->setAttribute('src', $new_src);
             } // <!--endif
         } // <!--foreach
-    
+        $cleanedContent = $this->cleanContent($request->service_desc);
         // Update Data
         $article->title = $request->title;
         $article->short_title = $request->short_title;
@@ -542,7 +549,7 @@ class ArticleController extends Controller
         $article->meta_desc = $request->meta_desc;
         $article->meta_desc = $request->meta_desc;
         $article->meta_title = $request->meta_title;
-        $article->service_desc = trim($request->service_desc);
+        $article->service_desc = trim($cleanedContent);
         $article->service_title = $request->service_title;
         $article->status = $request->status;
         $article->save();
