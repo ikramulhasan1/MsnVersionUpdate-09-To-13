@@ -606,7 +606,7 @@ font-weight: 800;
 }
 
 .bg-white h5{
-    color: white;
+    color: #222222;
     font-weight: 800;
 }
 
