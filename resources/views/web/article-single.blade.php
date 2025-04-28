@@ -769,7 +769,7 @@ font-weight: 800;
   
           <!-- Author Box -->
           <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
-            <img src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" class="rounded-circle me-3" alt="Author">
+            <img style="width: 50px; height: 50px;" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" class="rounded-circle me-3" alt="Author">
             <div>
               <h6 class="mb-0 fw-bold"><strong>Tanim Rahman</strong></h6>
               {{-- <small>Editor & AI Enthusiast</small> --}}
