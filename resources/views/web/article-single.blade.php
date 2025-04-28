@@ -890,7 +890,7 @@ font-weight: 800;
             <div class="post-item d-flex align-items-center mb-3 pb-3 border-bottom">
                 <img src="{{ asset('uploads/article/'.$recent->image_path) }}" class="post-thumb mr-3 rounded" alt="{{ $recent->title }}">
                 <div class="ms-3">
-                    <a class="post-title text-black-50" href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 45, ' ...') !!}</a>
+                    <a class="post-title" style="color:#000000" href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 45, ' ...') !!}</a>
                 </div>
             </div>
             @endforeach 
