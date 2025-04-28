@@ -883,15 +883,15 @@ color: #009830;
 .about-content h2{
     font-size: 24px; 
     font-weight: 800;
-    margin-top: 15px; 
-    margin-bottom: 15px; 
+    margin-top: 20px; 
+    margin-bottom: 20px; 
     color: #333333; /* heading color */
 }
 .about-content h3{
     font-size: 21px; 
     font-weight: 800;
-    margin-top: 15px; 
-    margin-bottom: 15px;
+    margin-top: 20px; 
+    margin-bottom: 20px;
     color: #333333; /* heading color */
 }
 .about-content p{
