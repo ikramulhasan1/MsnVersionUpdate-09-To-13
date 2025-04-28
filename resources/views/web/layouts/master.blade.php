@@ -274,6 +274,88 @@
             }
         }
         
+
+
+        /* footer section */
+        footer {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0B2447;
+      color: #fff;
+    }
+    footer {
+      background: radial-gradient(circle at top left, #1A3C63, #0B2447);
+      padding: 60px 0 30px;
+    }
+    .footer-section h5 {
+      font-weight: 700;
+      font-size: 20px;
+      margin-bottom: 25px;
+      position: relative;
+    }
+    .footer-section h5::after {
+      content: '';
+      width: 40px;
+      height: 3px;
+      background: #32CD32;
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+    }
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .footer-section ul li {
+      margin-bottom: 15px;
+    }
+    .footer-section ul li a {
+      text-decoration: none;
+      color: #e0e0e0;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    .footer-section ul li a:hover {
+      color: #32CD32;
+    }
+    .footer-divider {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin: 50px 0 20px;
+    }
+    .footer-bottom {
+      text-align: left;
+      color: #aaa;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .footer-social-icons {
+      margin-top: 20px;
+    }
+    .footer-social-icons a {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      margin: 0 5px;
+      text-align: center;
+      border-radius: 50%;
+      font-size: 20px;
+      background: #fff;
+      color: #000;
+      transition: 0.3s;
+    }
+    .footer-social-icons a:hover {
+      transform: scale(1.1);
+    }
+    .footer-social-icons a.facebook { background: #1877f2; color: #fff; }
+    .footer-social-icons a.twitter { background: #000; color: #fff; }
+    .footer-social-icons a.linkedin { background: #0a66c2; color: #fff; }
+    .footer-social-icons a.youtube { background: #ff0000; color: #fff; }
+    .footer-social-icons a.instagram { background: #E1306C; color: #fff; }
+    .footer-social-icons a.behance { background: #1769ff; color: #fff; }
+    .footer-social-icons a.pinterest { background: #e60023; color: #fff; }
       </style>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       {{-- google analytics --}}
@@ -1156,7 +1238,94 @@
     </div>
     </footer>
     <!-- End Main Footer -->
-
+    <footer>
+        <div class="container">
+          <div class="row text-start">
+            
+            <div class="col-md-3 footer-section mb-4">
+              <h5>Company</h5>
+              <ul>
+                <li><a href="#">About Us</a></li>
+                {{-- <li><a href="#">Careers</a></li>
+                <li><a href="#">Giving Back</a></li>
+                <li><a href="#">Referral Program</a></li> --}}
+              </ul>
+            </div>
+      
+            <div class="col-md-3 footer-section mb-4">
+              <h5>Services</h5>
+              <ul>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Technologies</a></li>
+                {{-- <li><a href="#">How We Work</a></li> --}}
+              </ul>
+            </div>
+      
+            <div class="col-md-3 footer-section mb-4">
+              <h5>Insights</h5>
+              <ul>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Case Studies</a></li>
+                {{-- <li><a href="#">Sitemap</a></li> --}}
+              </ul>
+            </div>
+      
+            <div class="col-md-3 footer-section mb-4">
+              <h5>Policies</h5>
+              <ul>
+                <li><a href="#">T&amp;C</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                {{-- <li><a href="#">Cookie Policy</a></li>
+                <li><a href="#">Refund Policy</a></li> --}}
+                <li><a href="#">Disclaimer</a></li>
+              </ul>
+            </div>
+      
+          </div>
+      
+          <div class="footer-divider"></div>
+            
+                <div class="d-flex justify-content-between align-items-center">
+                    @if(isset($setting))
+                    <div class="footer-bottom mt-3">
+                        <p>&copy; {!! strip_tags($setting->footer_text, '<p><a><b><i><u><strong>') !!}</p>
+                    </div>
+                    @endif
+                    <div class="text-center">
+                        <div class="footer-social-icons">
+                            @if(isset($social->facebook))
+                                <a class="facebook" href="{{ $social->facebook }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            @endif
+                            @if(isset($social->twitter))
+                                <a class="twitter" href="{{ $social->twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
+                            @endif
+                            @if(isset($social->instagram))
+                                <a class="instagram" href="{{ $social->instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+                            @endif
+                            @if(isset($social->linkedin))
+                                <a class="linkedin" href="{{ $social->linkedin }}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                            @endif
+                            @if(isset($social->pinterest))
+                                <a class="pinterest" href="{{ $social->pinterest }}" target="_blank"><i class="fab fa-pinterest"></i></a>
+                            @endif
+                            @if(isset($social->youtube))
+                                <a class="youtube" href="{{ $social->youtube }}" target="_blank"><i class="fab fa-youtube"></i></a>
+                            @endif
+                            @if(isset($social->skype))
+                                <a href="skype:{{ $social->skype }}?chat" target="_blank"><i class="fab fa-skype"></i></a>
+                            @endif
+                            @if(isset($social->whatsapp))
+                                <a rel="noopener noreferrer" href="https://wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                            @endif
+                            
+                        </div>
+                    </div>
+                </div>
+            
+          
+        </div>
+      </footer>
+      
 
 
     </div>
