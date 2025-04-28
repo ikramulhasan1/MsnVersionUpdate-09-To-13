@@ -1078,12 +1078,12 @@ color: #222222;
           <!-- Author Box -->
           <div class="d-flex align-items-center p-3 bg-white rounded border mb-5 shadow-sm">
             <img style="width: 80px; height: 80px;" src="https://media.licdn.com/dms/image/v2/D5603AQH-I8hrGgl2sw/profile-displayphoto-shrink_400_400/B56ZSYezwrGsAg-/0/1737725001194?e=1751500800&v=beta&t=Tv_CyfSmY0Tdycx0F0HFJ50ysKX6Yb-h8AXp8YA4qEw" class="rounded-circle m-0 mr-3" alt="Author">
-            <div>
-              <h6 class="mb-0 fw-bold"><strong>Ikramul Hasan</strong></h6>
-              <small style="font-size: 18px">Admin</small>
-              
+            <div class="d-flex flex-column">
+              <div class="">
+                <h6 class="mb-0 fw-bold"><strong>Ikramul Hasan</strong></h6>
+                <small style="font-size: 18px">Admin</small>
+              </div>
               <div style="z-index: 1000 !important;">
-                
                 <div>
                   <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer; display: flex; align-items: center;">
                     <div class="logo-container">
