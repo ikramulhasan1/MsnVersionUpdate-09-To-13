@@ -1082,12 +1082,21 @@ color: #222222;
               <h6 class="mb-0 fw-bold"><strong>Ikramul Hasan</strong></h6>
               <small style="font-size: 18px">Admin</small>
               
-              <div>
-                @include('web.layouts.googlemeet')
+              <div style="z-index: 1000 !important;">
                 
+                <div>
+                  <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer; display: flex; align-items: center;">
+                    <div class="logo-container">
+                      <img id="google-meet-img" src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_2x_icon_124_40_292e71bcb52a56e2a9005164118f183b.png" alt="Google Meet Logo" />
+                      <img id="zoom-img" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg" alt="Zoom Logo" />
+                    </div>
+                    <span style="font-weight: 600; font-size: 18px; color: white; margin-left: 12px;">Book a Meeting</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+          @include('web.layouts.googlemeet')
           <hr>
           <div class="share-icons-section">
             <div class="share-title">Share</div>
