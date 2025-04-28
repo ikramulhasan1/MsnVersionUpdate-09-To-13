@@ -529,7 +529,7 @@ $header = \App\Models\PageSetup::page('blog');
  --}}
 
  <style>
-    .full-content {
+    body {
     background-color: #eef2f7;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
