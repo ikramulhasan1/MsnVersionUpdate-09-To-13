@@ -912,6 +912,11 @@ color: #222222;
     margin-bottom: 2px;  */
     color: #222222; /* heading color */
 }
+.about-content {
+    font-size: 14px; 
+    background-color:#FAFAFA;
+    color: #009830; /* heading color */
+}
 
  </style>
 <!-- End Sidebar Container -->
@@ -932,9 +937,9 @@ color: #222222;
           <h1 class="mb-3 fw-bold">{{ $article->title }}</h1>
   
           <!-- Table of Contents -->
-          <div class="p-4 bg-white rounded shadow-sm mb-4">
+          <div class="p-4 tableofContents rounded shadow-sm mb-4">
             <h5 class="fw-bold mb-3">Table of Contents</h5>
-            <ul class="list-unstyled toc">
+            <ul class=" toc">
               <li><a href="#section1">AI as a Career Catalyst for Early Entrants</a></li>
               <li><a href="#section2">AI-First Mindset: Thinking Beyond Technology</a></li>
               <li><a href="#section3">AI Technology Driving Business Transformation</a></li>
