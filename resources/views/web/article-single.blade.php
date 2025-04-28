@@ -992,6 +992,12 @@ color: #222222;
   position: sticky;
   top: 20px; /* Distance from top when sticky starts */
 }
+.sticky-sidebar {
+  position: sticky;
+  top: 20px; /* or whatever top spacing you want */
+  z-index: 100;
+  height: fit-content;
+}
 
  </style>
 <!-- End Sidebar Container -->
@@ -1068,8 +1074,8 @@ color: #222222;
   
       <!-- Sidebar -->
       
-      <div class="col-lg-4 sidebar ">
-          <div class="sidebar-area">
+      <div class="col-lg-4">
+          <div class="sidebar-area sidebar sticky-sidebar">
       
           <!-- Search Box -->
           <div class="bg-white rounded p-4 shadow-sm mb-4">
