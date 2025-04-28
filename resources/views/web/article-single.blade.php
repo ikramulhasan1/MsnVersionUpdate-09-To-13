@@ -728,6 +728,16 @@ font-weight: 800;
               </ul>
           </div>
           @endif
+          <!-- Case Studies (NEW Section) -->
+        <div class="bg-white rounded p-4 shadow-sm mb-4">
+            <h5 class="fw-bold mb-3">Case Studies</h5>
+            <ul class="list-unstyled sidebar-list">
+            <li><a href="#">AI Transforming Healthcare</a></li>
+            <li><a href="#">Scaling an E-Commerce Brand</a></li>
+            <li><a href="#">Optimizing Cloud Infrastructure</a></li>
+            </ul>
+        </div>
+  
           <!-- Ad Banner -->
           <div class="text-center mb-4">
               <img src="https://via.placeholder.com/300x250?text=Ad+Banner" class="img-fluid rounded shadow-sm" alt="Advertisement">
