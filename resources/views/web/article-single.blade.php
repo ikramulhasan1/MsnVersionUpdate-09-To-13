@@ -527,6 +527,7 @@ $header = \App\Models\PageSetup::page('blog');
     </div>
 </div>
  --}}
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
  <style>
     body {
