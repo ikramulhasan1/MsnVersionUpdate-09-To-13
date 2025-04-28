@@ -672,14 +672,18 @@ font-weight: 800;
               <button class="btn btn-primary" type="submit">Go</button>
               </form>
           </div>
-      
+          
+
           <!-- Help Box -->
             @if(count($services) > 0)
                 <div class="bg-white rounded p-4 shadow-sm mb-4">
                     <h5 class="fw-bold mb-3">I Need Help With...</h5>
                     <ul class="list-unstyled sidebar-list">
                         @foreach($services as $service)
+                        <div class="d-flex align-items-center mb-2">
+                            <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; " src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
                             <li><a href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a></li>
+                        </div>
                         @endforeach
                     
                     </ul>
