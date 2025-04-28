@@ -904,8 +904,9 @@ color: #222222;
     margin-bottom: 2px;  */
     color: #000000; /* heading color */
 }
-.about-content table{
+.about-content table, .about-content th, .about-content td {
     font-size: 17px; 
+    padding: 3px;
     border: 1px solid #111111; /* border color */
     /* margin-top: 2px; 
     margin-bottom: 2px;  */
