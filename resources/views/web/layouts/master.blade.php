@@ -964,7 +964,7 @@
                                     @php
                                     $page_blog = \App\Models\PageSetup::page('blog');
                                     @endphp
-                                    @if(isset($page_blog))
+                                    {{-- @if(isset($page_blog))
                                     <li class="dropdown {{ Request::is('blog*') ? 'current' : '' }}"><a href="{{ route('blogs') }}">{{ $page_blog->title }}</a>
                                         <ul>
                                             @foreach($article_subnavs as $article_subnav)
@@ -972,8 +972,10 @@
                                             @endforeach
                                         </ul>
                                     </li>
+                                    @endif --}}
+                                    @if(isset($page_blog))
+                                    <li class="{{ Request::is('blogs*') ? 'current' : '' }}"><a href="{{ route('blogs') }}">{{ $page_blog->title }}</a></li>
                                     @endif
-
 
                                     @php
                                     $page_quote = \App\Models\PageSetup::page('get-quote');
