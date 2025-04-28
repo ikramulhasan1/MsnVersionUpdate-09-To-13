@@ -1064,7 +1064,7 @@ color: #222222;
   
       <!-- Sidebar -->
       
-      <div class="col-lg-4">
+      <div class="col-lg-4 sticky-top">
           <div class="sidebar-area">
       
           <!-- Search Box -->
