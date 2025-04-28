@@ -666,6 +666,15 @@ font-weight: 800;
   background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
   transform: rotate(-30deg);
 }
+.case-studies-box h5{
+    font-size: 30px;
+    color: white;
+    font-weight: 800;
+}
+.case-studies-box p{
+    font-size: 18px;
+    color: white;
+}
 
 .view-all-btn {
   background-color: #ff4d00;
@@ -735,7 +744,7 @@ font-weight: 800;
 
 .popular-posts {
   background: #fff;
-  border-radius: 10px;
+  border-radius: 5px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
@@ -890,7 +899,7 @@ font-weight: 800;
             <div class="post-item d-flex align-items-center mb-3 pb-3 border-bottom">
                 <img src="{{ asset('uploads/article/'.$recent->image_path) }}" class="post-thumb mr-3 rounded" alt="{{ $recent->title }}">
                 <div class="ms-3">
-                    <a class="post-title" style="color:#000000" href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 45, ' ...') !!}</a>
+                    <a class="post-title" style="color:#000000" href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 50, ' ...') !!}</a>
                 </div>
             </div>
             @endforeach 
@@ -898,11 +907,13 @@ font-weight: 800;
           @endif
           <!-- Case Studies (NEW Section) -->
          <!-- Case Studies Section -->
-            <div class="case-studies-box rounded p-4 mb-4 text-white text-center position-relative overflow-hidden">
+            <div class="case-studies-box rounded p-4 mb-4 text-white position-relative overflow-hidden">
                 <div class="background-shape"></div>
-                <p class="small mb-1">Explore Our</p>
-                <h5 class="fw-bold mb-2">Case Studies</h5>
-                <p class="small mb-4">For Inspiring Success Stories</p>
+                <div class="text-left">
+                    <p class="mb-1">Explore Our</p>
+                    <h5 class="fw-bold mb-2">Case Studies</h5>
+                    <p class="mb-4">For Inspiring Success Stories</p>
+                </div>
                 <a href="#" class="btn view-all-btn">VIEW ALL <i class="bi bi-arrow-right ms-2"></i></a>
             </div>
             
