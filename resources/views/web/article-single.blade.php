@@ -595,6 +595,14 @@ $header = \App\Models\PageSetup::page('blog');
     /* margin-bottom: 20px; */
     color: #000000
   }
+
+  .bg-gradient {
+  background: linear-gradient(180deg, #1AB394 0%, #0B5EA8 100%);
+  color: white;
+}
+.sidebar-list li i {
+  color: #1dd1a1;
+}
  </style>
 <!-- End Sidebar Container -->
 
@@ -670,7 +678,7 @@ $header = \App\Models\PageSetup::page('blog');
                 </div>
             @endif
           <!-- Categories -->
-          <div class="bg-white rounded p-4 shadow-sm mb-4">
+          <div class="bg-gradient rounded p-4 shadow-sm mb-4">
               <h5 class="fw-bold mb-3">Categories</h5>
               <ul class="list-unstyled sidebar-list">
               <li><a href="#">Artificial Intelligence</a></li>
