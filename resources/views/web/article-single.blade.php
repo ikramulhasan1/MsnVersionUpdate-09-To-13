@@ -608,7 +608,7 @@ font-weight: 800;
   color: white;
   text-decoration: none;
 }
-.sidebar-list-categories li a {
+.sidebar-list-categories li a:hover {
   text-decoration: underline;
 }
  </style>
