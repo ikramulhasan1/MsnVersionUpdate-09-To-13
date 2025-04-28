@@ -1082,7 +1082,7 @@ color: #222222;
               <h6 class="mb-0 fw-bold"><strong>Ikramul Hasan</strong></h6>
               <small style="font-size: 18px">Admin</small>
               
-              <div style="z-index: 1000 !important;">
+              <div>
                 @include('web.layouts.googlemeet')
                 <div>
                   <button id="open-modal" class="button google-meet-button" style="background-color: #48bb78; color: white; padding: 12px 24px; cursor: pointer; display: flex; align-items: center;">
