@@ -218,8 +218,8 @@ use Illuminate\Support\Str;
     <div class="row align-items-center">
         <div class="col-md-5 pl-4 mt-4 featured-blog-extra">
             <div class="author-info mb-2">
-                <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
-                <div><strong>Tanim Rahman</strong></div>
+                <img class="ml-0" src="https://media.licdn.com/dms/image/v2/D5603AQH-I8hrGgl2sw/profile-displayphoto-shrink_400_400/B56ZSYezwrGsAg-/0/1737725001194?e=1751500800&v=beta&t=Tv_CyfSmY0Tdycx0F0HFJ50ysKX6Yb-h8AXp8YA4qEw" alt="author">
+                <div><strong>Ikramul Hasan</strong></div>
             </div>
             <h3><strong>{{ $articles[0]->title }}</strong></h3>
             <p>{{ Str::limit(strip_tags($articles[0]->description), 450) }}</p>
@@ -278,8 +278,8 @@ use Illuminate\Support\Str;
                         <img src="/uploads/article/${blog.image_path}" class="ml-0 img-fluid" alt="${blog.title}">
                         <div class="p-3 cardBlogExtra">
                             <div class="author-info">
-                                <img class="ml-0" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" alt="author">
-                                <div><strong>Tanim Rahman</strong></div>
+                                <img class="ml-0" src="https://media.licdn.com/dms/image/v2/D5603AQH-I8hrGgl2sw/profile-displayphoto-shrink_400_400/B56ZSYezwrGsAg-/0/1737725001194?e=1751500800&v=beta&t=Tv_CyfSmY0Tdycx0F0HFJ50ysKX6Yb-h8AXp8YA4qEw" alt="author">
+                                <div><strong>Ikramul Hasan</strong></div>
                             </div>
                             <h5 class="mb-3"><strong>${truncateText(stripHtml(blog.title),45)}</strong></h5>
                             <p>${truncateText(stripHtml(blog.description), 150)}</p>
