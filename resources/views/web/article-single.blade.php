@@ -596,7 +596,7 @@ $header = \App\Models\PageSetup::page('blog');
         <div class="content-area p-4 mb-4">
           
           <!-- Blog Banner -->
-          <img src="{{ asset('uploads/article/'.$article->image_path) }}" alt="{{ $article->title }}" class="img-fluid rounded mb-4" >
+          <img src="{{ asset('uploads/article/'.$article->image_path) }}" alt="{{ $article->title }}" class="w-100 rounded mb-4" >
   
           <!-- Title -->
           <h1 class="mb-3 fw-bold">{{ $article->title }}</h1>
@@ -613,6 +613,7 @@ $header = \App\Models\PageSetup::page('blog');
             </ul>
           </div>
           <section id="section1" class="mb-5">
+            @dd($article->description)
             <p>{!! $article->description !!}</p>
           </section>
           <!-- Sections -->
@@ -706,7 +707,7 @@ $header = \App\Models\PageSetup::page('blog');
               <h5 class="fw-bold mb-3">{{ __('common.recent_posts') }}</h5>
               <ul class="list-unstyled sidebar-list">
               @foreach($recents as $key => $recent)
-              <li><a href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 40, ' ...') !!}</a></li>
+              <li><a href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 30, ' ...') !!}</a></li>
               @endforeach
               </ul>
           </div>
