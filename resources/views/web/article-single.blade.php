@@ -920,6 +920,10 @@ color: #222222;
 .tableofContents h5{
     color: #222222; 
     font-size: 21px;
+    font-weight: 800;
+}
+.tableofContents li {
+    list-style: circle;
 }
 .tableofContents li a{
     color: #009830;
