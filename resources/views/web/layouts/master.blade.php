@@ -1331,7 +1331,7 @@
                                 <a href="skype:{{ $social->skype }}?chat" target="_blank"><i class="bi bi-skype"></i></a>
                             @endif
                             @if(isset($social->whatsapp))
-                                <a rel="noopener noreferrer" href="https://wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><i class="bi bi-whatsapp"></i></a>
+                                <a rel="noopener noreferrer" class="facebook" href="https://wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><i class="bi bi-whatsapp"></i></a>
                             @endif
                             
                         </div>
