@@ -1156,15 +1156,6 @@
                 {{-- <li><a href="#">Sitemap</a></li> --}}
               </ul>
             </div>
-      
-
-
-
-
-
-
-
-           
 
             @if(count($pages) > 0)
             <div class="col-md-3 footer-section mb-4">
@@ -1189,7 +1180,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     @if(isset($setting))
                     <div class="footer-bottom mt-3">
-                        <p>&copy; {!! strip_tags($setting->footer_text, '<p><a><b><i><u><strong>') !!}</p>
+                        <p style="color: #ffffff;">&copy; {!! strip_tags($setting->footer_text, '<p><a><b><i><u><strong>') !!}</p>
                     </div>
                     @endif
                     <div class="text-center">
