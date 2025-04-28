@@ -991,7 +991,7 @@ color: #222222;
 
 .sticky-sidebar {
   position: sticky;
-  top: 50px; /* or whatever top spacing you want */
+  top: 80px; /* or whatever top spacing you want */
   z-index: 100;
   height: fit-content;
 }
