@@ -991,7 +991,7 @@ color: #222222;
 
 .sticky-sidebar {
   position: sticky;
-  top: 20px; /* or whatever top spacing you want */
+  top: 30px; /* or whatever top spacing you want */
   z-index: 100;
   height: fit-content;
 }
@@ -1072,7 +1072,7 @@ color: #222222;
       <!-- Sidebar -->
       
       <div class="col-lg-4">
-          <div class="sidebar-area">
+          <div class="sidebar-area sticky-sidebar">
       
           <!-- Search Box -->
           <div class="bg-white rounded p-4 shadow-sm mb-4">
@@ -1084,88 +1084,86 @@ color: #222222;
           </div>
           
 
-            <div class=" sticky-sidebar">
-                    <!-- Help Box -->
-                @if(count($services) > 0)
-                <div class="help-section card mb-4 p-4">
-                    <h5 class="section-title">I Need Help With…</h5>
-                    @foreach($services as $service)
-                    <div class="help-item d-flex align-items-center mb-0 pb-0 dotted-border">
-                    <img src="{{ asset('uploads/service/'.$service->image_path) }}" class="help-icon m-0 mr-3 rounded" alt="{{ $service->short_title }}">
-                    <a class="help-text" href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a>
-                    </div>
-                    @endforeach
+          <!-- Help Box -->
+            @if(count($services) > 0)
+            <div class="help-section card mb-4 p-4">
+                <h5 class="section-title">I Need Help With…</h5>
+                @foreach($services as $service)
+                <div class="help-item d-flex align-items-center mb-0 pb-0 dotted-border">
+                  <img src="{{ asset('uploads/service/'.$service->image_path) }}" class="help-icon m-0 mr-3 rounded" alt="{{ $service->short_title }}">
+                  <a class="help-text" href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a>
                 </div>
-                @endif
-
-            <!-- Categories -->
-            @if (count($article_categories) > 0)
-            <div class="bg-gradient rounded p-4 shadow-sm mb-4">
-                    <h5 class="fw-bold mb-3">Categories</h5>
-                    <ul class="list-unstyled sidebar-list-categories">
-                    @foreach($article_categories as $article_category)
-                        <div class="d-flex align-items-center mb-2">
-                            <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; " src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
-                            <li class="@if($article->category->id == $article_category->id) active @endif"><a href="{{ route('blog.category', $article_category->slug) }}">{{ $article_category->title }} <span>({{ $article_category->articles->where('status', 1)->count() }})</span></a></li>
-                        </div>
-                    @endforeach
-                    </ul>
+                @endforeach
             </div>
             @endif
+
+          <!-- Categories -->
+          @if (count($article_categories) > 0)
+          <div class="bg-gradient rounded p-4 shadow-sm mb-4">
+                <h5 class="fw-bold mb-3">Categories</h5>
+                <ul class="list-unstyled sidebar-list-categories">
+                @foreach($article_categories as $article_category)
+                    <div class="d-flex align-items-center mb-2">
+                        <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; " src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
+                        <li class="@if($article->category->id == $article_category->id) active @endif"><a href="{{ route('blog.category', $article_category->slug) }}">{{ $article_category->title }} <span>({{ $article_category->articles->where('status', 1)->count() }})</span></a></li>
+                    </div>
+                @endforeach
+                </ul>
+          </div>
+          @endif
+      
+
+          @if(count($recents) > 0)
+          <div class="popular-posts card p-4 mb-4">
+            <h5 class="section-title">{{ __('common.recent_posts') }}</h5>
+            @foreach($recents as $key => $recent)
+            <div class="post-item d-flex align-items-center mb-3 pb-3 border-bottom">
+                <img src="{{ asset('uploads/article/'.$recent->image_path) }}" class="post-thumb mr-3 rounded" alt="{{ $recent->title }}">
+                <div class="ms-3">
+                    <a class="post-title" style="color:#000000" href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 50, ' ...') !!}</a>
+                </div>
+            </div>
+            @endforeach 
+          </div>
+          @endif
+          <!-- Case Studies (NEW Section) -->
+         <!-- Case Studies Section -->
+            <div class="case-studies-box rounded p-4 mb-4 text-white position-relative overflow-hidden">
+                <div class="background-shape"></div>
+                <div class="text-left">
+                    <p class="mb-1">Explore Our</p>
+                    <h5 class="fw-bold mb-2">Case Studies</h5>
+                    <p class="mb-4">For Inspiring Success Stories</p>
+                </div>
+                <div class="">
+                    <a href="#" class="btn view-all-btn w-100" style="display: flex; justify-content: space-evenly">VIEW ALL <i class=" text-white fa-solid fa-arrow-right-long"></i></a>
+                </div>
+            </div>
+            
+           
+            <!-- Subscribe Form -->
+            <div class="bg-white rounded p-4 shadow-sm mb-4">
+                <h5 class="fw-bold text-center mb-3">Subscribe to Our Newsletter</h5>
+                <form>
+                <input type="text" class="form-control mb-3" placeholder="Enter your first name">
+                <input type="email" class="form-control mb-3" placeholder="Enter your email">
+                <button type="submit" class="btn btn-success w-100">Subscribe</button>
+                </form>
+            </div>
+            <!-- Ad Banner -->
+            <div class="text-center mb-4">
+                <img src="https://www.capitalnumbers.com/blog/wp-content/uploads/2024/08/NodeJS-Performance-Optimization-download-ebook.jpg.webp" class="img-fluid rounded shadow-sm" alt="Advertisement">
+            </div>
         
-
-            @if(count($recents) > 0)
-            <div class="popular-posts card p-4 mb-4">
-                <h5 class="section-title">{{ __('common.recent_posts') }}</h5>
-                @foreach($recents as $key => $recent)
-                <div class="post-item d-flex align-items-center mb-3 pb-3 border-bottom">
-                    <img src="{{ asset('uploads/article/'.$recent->image_path) }}" class="post-thumb mr-3 rounded" alt="{{ $recent->title }}">
-                    <div class="ms-3">
-                        <a class="post-title" style="color:#000000" href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 50, ' ...') !!}</a>
-                    </div>
-                </div>
-                @endforeach 
-            </div>
-            @endif
-            <!-- Case Studies (NEW Section) -->
-            <!-- Case Studies Section -->
-                <div class="case-studies-box rounded p-4 mb-4 text-white position-relative overflow-hidden">
-                    <div class="background-shape"></div>
-                    <div class="text-left">
-                        <p class="mb-1">Explore Our</p>
-                        <h5 class="fw-bold mb-2">Case Studies</h5>
-                        <p class="mb-4">For Inspiring Success Stories</p>
-                    </div>
-                    <div class="">
-                        <a href="#" class="btn view-all-btn w-100" style="display: flex; justify-content: space-evenly">VIEW ALL <i class=" text-white fa-solid fa-arrow-right-long"></i></a>
-                    </div>
-                </div>
-                
-            
-                <!-- Subscribe Form -->
-                <div class="bg-white rounded p-4 shadow-sm mb-4">
-                    <h5 class="fw-bold text-center mb-3">Subscribe to Our Newsletter</h5>
-                    <form>
-                    <input type="text" class="form-control mb-3" placeholder="Enter your first name">
-                    <input type="email" class="form-control mb-3" placeholder="Enter your email">
-                    <button type="submit" class="btn btn-success w-100">Subscribe</button>
-                    </form>
-                </div>
-                <!-- Ad Banner -->
-                <div class="text-center mb-4">
-                    <img src="https://www.capitalnumbers.com/blog/wp-content/uploads/2024/08/NodeJS-Performance-Optimization-download-ebook.jpg.webp" class="img-fluid rounded shadow-sm" alt="Advertisement">
-                </div>
-            
-                <!-- Social Media Section (perfect match) -->
-                <div class="social-icons-wrapper text-center">
-                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-x-twitter"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-behance"></i></a>
-                </div>
+            <!-- Social Media Section (perfect match) -->
+            <div class="social-icons-wrapper text-center">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-x-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-behance"></i></a>
             </div>
           </div>
       </div>
