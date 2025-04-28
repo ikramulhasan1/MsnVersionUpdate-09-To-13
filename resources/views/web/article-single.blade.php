@@ -732,6 +732,51 @@ font-weight: 800;
 
 
 
+
+.popular-posts {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 30px;
+  height: 2px;
+  background: #007bff;
+  margin-top: 8px;
+}
+
+.post-item {
+  border-color: #eee;
+}
+
+.post-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.post-title {
+  font-weight: 600;
+  color: #212529;
+  text-decoration: none;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.post-title:hover {
+  color: #007bff;
+}
+
  </style>
 <!-- End Sidebar Container -->
 
@@ -824,7 +869,7 @@ font-weight: 800;
           </div>
           @endif
           <!-- Popular Posts -->
-          @if(count($recents) > 0)
+          {{-- @if(count($recents) > 0)
           <div class="bg-white rounded p-4 shadow-sm mb-4">
               <h5 class="fw-bold mb-3">{{ __('common.recent_posts') }}</h5>
               <ul class="color-text list-unstyled sidebar-list">
@@ -832,6 +877,24 @@ font-weight: 800;
                 <li><a href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 30, ' ...') !!}</a></li>
                 @endforeach
               </ul>
+          </div>
+          @endif --}}
+
+
+
+
+          @if(count($recents) > 0)
+          <div class="popular-posts card p-4">
+            <h5 class="section-title">{{ __('common.recent_posts') }}</h5>
+            <div class="post-item d-flex align-items-center mb-3 pb-3 border-bottom">
+              <img src="https://via.placeholder.com/60" class="post-thumb rounded" alt="Post 1">
+              <div class="ms-3">
+                @foreach($recents as $key => $recent)
+                    <a class="post-title" href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 30, ' ...') !!}</a>
+                @endforeach 
+              </div>
+            </div>
+           
           </div>
           @endif
           <!-- Case Studies (NEW Section) -->
