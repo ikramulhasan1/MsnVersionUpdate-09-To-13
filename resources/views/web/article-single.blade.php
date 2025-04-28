@@ -930,10 +930,13 @@ color: #222222;
     text-decoration: none;
 }
 
-
+.marker{
+    background-color: #ffffff; /* Vibrant green for visibility */
+    color: black; /* Text color */
+}
 .service-package h3{
     /* background-color: #FFFF00; */
-    margin-top: 15px;
+    margin-top: 30px;
     color: #000000;
 }
 .service-package p b{
