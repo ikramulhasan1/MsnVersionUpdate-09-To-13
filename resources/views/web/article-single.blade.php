@@ -529,7 +529,7 @@ $header = \App\Models\PageSetup::page('blog');
  --}}
 
  <style>
-    body {
+    .full-content {
     background-color: #eef2f7;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
@@ -585,7 +585,7 @@ $header = \App\Models\PageSetup::page('blog');
   }
   .content-area h1{
     font-size: 30px;
-    font-weight: 700;
+    font-weight: 900;
     /* margin-bottom: 20px; */
     color: #212529
   }
@@ -600,7 +600,7 @@ $header = \App\Models\PageSetup::page('blog');
 
 
 
-<div class="container my-5">
+<div class="full-content container my-5">
     <div class="row">
       <!-- Main Content -->
       <div class="col-lg-8">
