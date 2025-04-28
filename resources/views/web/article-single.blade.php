@@ -801,7 +801,7 @@ font-weight: 800;
             
                     <!-- Ad Banner -->
           <div class="text-center mb-4">
-              <img src="https://via.placeholder.com/300x250?text=Ad+Banner" class="img-fluid rounded shadow-sm" alt="Advertisement">
+              <img src="https://www.capitalnumbers.com/blog/wp-content/uploads/2024/08/NodeJS-Performance-Optimization-download-ebook.jpg.webp" class="img-fluid rounded shadow-sm" alt="Advertisement">
           </div>
       
           <!-- Subscribe Form -->
