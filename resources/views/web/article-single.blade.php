@@ -933,6 +933,7 @@ color: #222222;
 .marker{
     background-color: #ffffff; /* Vibrant green for visibility */
     color: black; /* Text color */
+    padding-right: 15px;
 }
 .service-package h3{
     /* background-color: #FFFF00; */
