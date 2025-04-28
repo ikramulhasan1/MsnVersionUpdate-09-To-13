@@ -913,9 +913,18 @@ color: #222222;
     color: #222222; /* heading color */
 }
 .tableofContents{
-    font-size: 14px; 
+    border: 2px solid #b9b9b9; /* border color */
     background-color:#FAFAFA;
     color: #009830; /* heading color */
+}
+.tableofContents h5{
+    color: #222222; 
+    font-size: 21px;
+}
+.tableofContents a{
+    color: #009830;
+    font-size: 15px;
+    text-decoration: none;
 }
 
  </style>
