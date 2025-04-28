@@ -946,10 +946,11 @@ color: #222222;
 /* share */
 .share-icons-section {
   background: #fff;
-  border-radius: 8px;
+  /* border-radius: 8px; */
   padding: 20px;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding-left: 0px;
+  text-align: left;
+  /* box-shadow: 0 2px 8px rgba(0,0,0,0.05); */
 }
 
 .share-title {
@@ -957,11 +958,12 @@ color: #222222;
   color: #555;
   margin-bottom: 15px;
   font-size: 18px;
+  text-align: left;
 }
 
 .share-icons {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
@@ -1030,6 +1032,7 @@ color: #222222;
               <small style="font-size: 18px">Editor & AI Enthusiast</small>
             </div>
           </div>
+          <hr>
           <div class="share-icons-section">
             <div class="share-title">Share</div>
             <div class="share-icons">
