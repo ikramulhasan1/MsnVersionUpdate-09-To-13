@@ -848,12 +848,12 @@ font-weight: 800;
 
 
 
-.about-content ul {
+.about-content ul, .about-content ol {
     list-style: none; /* remove default bullets */
     padding-left: 0; /* remove default padding */
 }
 
-.about-content ul li {
+.about-content ul li, .about-content ol li {
     position: relative;
     padding-left: 20px; /* space for custom bullet */
     margin-bottom: 0px; /* optional: add spacing between li */
@@ -861,7 +861,7 @@ font-weight: 800;
     color: #333333; /* text color */
 }
 
-.about-content ul li::before {
+.about-content ul li::before, .about-content ol li::before {
     content: '●'; /* your custom bullet */
     position: absolute;
     left: 0;
