@@ -720,6 +720,46 @@ font-weight: 800;
   border-color: #ff4d00;
 }
 
+
+
+
+
+
+
+.social-icons-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #d1d1d1;
+  border-radius: 50%;
+  color: #333;
+  font-size: 20px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.social-icon i {
+  font-weight: 400; /* thinner lines */
+}
+
+.social-icon:hover {
+  background-color: #ff4d00;
+  border-color: #ff4d00;
+  color: #fff;
+}
+
  </style>
 <!-- End Sidebar Container -->
 
@@ -856,6 +896,16 @@ font-weight: 800;
                 <a href="#" class="social-icon"><i class="bi bi-behance"></i></a>
             </div>
       
+            <!-- Social Media Section (perfect match) -->
+            <div class="social-icons-wrapper text-center">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-x-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-pinterest-p"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-behance"></i></a>
+            </div>
           </div>
       </div>
     
