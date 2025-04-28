@@ -923,7 +923,7 @@ color: #222222;
     font-weight: 800;
 }
 .tableofContents li {
-    list-style: circle;
+    list-style: disc;
 }
 .tableofContents li a{
     color: #009830;
