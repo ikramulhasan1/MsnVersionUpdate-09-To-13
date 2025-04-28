@@ -940,6 +940,53 @@ color: #222222;
 .service-package p b{
     color: #ffffff;
 }
+
+
+
+/* share */
+.share-icons-section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.share-title {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.share-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.share-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #eee;
+  transition: transform 0.3s ease;
+}
+
+.share-icon img {
+  width: 22px;
+  height: 22px;
+}
+
+.share-icon:hover {
+  transform: scale(1.1);
+}
+
  </style>
 <!-- End Sidebar Container -->
 
@@ -983,6 +1030,30 @@ color: #222222;
               <small style="font-size: 18px">Editor & AI Enthusiast</small>
             </div>
           </div>
+          <div class="share-icons-section">
+            <div class="share-title">Share</div>
+            <div class="share-icons">
+              <a href="#" class="share-icon" style="background-color: #000;">
+                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968776.png" alt="X">
+              </a>
+              <a href="#" class="share-icon" style="background-color: #0e76a8;">
+                <img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn">
+              </a>
+              <a href="#" class="share-icon" style="background-color: #3b5998;">
+                <img src="https://cdn-icons-png.flaticon.com/512/145/145802.png" alt="Facebook">
+              </a>
+              <a href="#" class="share-icon" style="background-color: #25D366;">
+                <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+              </a>
+              <a href="#" class="share-icon" style="background-color: #ea4335;">
+                <img src="https://cdn-icons-png.flaticon.com/512/281/281769.png" alt="Gmail">
+              </a>
+              <a href="#" class="share-icon" style="background-color: #f57c00;">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" alt="Share">
+              </a>
+            </div>
+          </div>
+          
   
          </div>
         </div>
