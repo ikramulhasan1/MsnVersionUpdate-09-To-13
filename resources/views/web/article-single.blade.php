@@ -675,6 +675,10 @@ font-weight: 800;
     font-size: 18px;
     color: white;
 }
+.case-studies-box a:hover{
+    color: white;
+    text-decoration: underline;
+}
 
 .view-all-btn {
   background-color: #ff4d00;
@@ -914,7 +918,9 @@ font-weight: 800;
                     <h5 class="fw-bold mb-2">Case Studies</h5>
                     <p class="mb-4">For Inspiring Success Stories</p>
                 </div>
-                <a href="#" class="btn view-all-btn">VIEW ALL <i class="bi bi-arrow-right ms-2"></i></a>
+                <div class="">
+                    <a href="#" class="btn view-all-btn w-100">VIEW ALL <i class="text-white bi bi-arrow-right ms-2"></i></a>
+                </div>
             </div>
             
            
