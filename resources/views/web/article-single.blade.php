@@ -604,6 +604,12 @@ $header = \App\Models\PageSetup::page('blog');
 color: white;
 font-weight: 800;
 }
+
+.bg-white h5{
+    color: white;
+    font-weight: 800;
+}
+
 .sidebar-list-categories li a {
   color: white;
   text-decoration: none;
@@ -611,6 +617,15 @@ font-weight: 800;
 .sidebar-list-categories li a:hover {
   text-decoration: underline;
 }
+
+.color-text a {
+  color: #222222;
+  text-decoration: none;
+}
+.color-text a:hover {
+  color: red;
+}
+
  </style>
 <!-- End Sidebar Container -->
 
@@ -678,7 +693,7 @@ font-weight: 800;
             @if(count($services) > 0)
                 <div class="bg-white rounded p-4 shadow-sm mb-4">
                     <h5 class="fw-bold mb-3">I Need Help With...</h5>
-                    <ul class="list-unstyled sidebar-list">
+                    <ul class="color-text list-unstyled sidebar-list">
                         @foreach($services as $service)
                         
                             <li><a href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a></li>
@@ -706,10 +721,10 @@ font-weight: 800;
           @if(count($recents) > 0)
           <div class="bg-white rounded p-4 shadow-sm mb-4">
               <h5 class="fw-bold mb-3">{{ __('common.recent_posts') }}</h5>
-              <ul class="list-unstyled sidebar-list">
-              @foreach($recents as $key => $recent)
-              <li><a href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 30, ' ...') !!}</a></li>
-              @endforeach
+              <ul class="color-text list-unstyled sidebar-list">
+                @foreach($recents as $key => $recent)
+                <li><a href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 30, ' ...') !!}</a></li>
+                @endforeach
               </ul>
           </div>
           @endif
