@@ -770,7 +770,7 @@ font-weight: 800;
   gap: 10px;
   padding: 20px;
   background-color: #f8f9fa;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .social-icon {
@@ -1024,7 +1024,8 @@ color: #222222;
       flex-wrap: wrap;
       justify-content: center;
       gap: 40px;
-      padding: 30 100px;
+      padding: 0px 100px;
+      padding-bottom: 80px;
     }
 
     .award {
