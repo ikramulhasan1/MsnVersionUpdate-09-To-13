@@ -600,9 +600,16 @@ $header = \App\Models\PageSetup::page('blog');
   background: linear-gradient(180deg, #145B72 0%, #152D64 100%);
   color: white;
 }
+.bg-gradient h5{
+color: white;
+font-weight: 800;
+}
 .sidebar-list-categories li a {
   color: white;
   text-decoration: none;
+}
+.sidebar-list-categories li a {
+  text-decoration: underline;
 }
  </style>
 <!-- End Sidebar Container -->
