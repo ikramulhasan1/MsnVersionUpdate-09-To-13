@@ -320,7 +320,7 @@ $header = \App\Models\PageSetup::page('blog');
         font-size: 1.25rem!important;    
         font-weight: 500!important; 
     }
-
+ --}} <style>
         .circle-container {
             width: 180px;
             height: 54px;
@@ -363,7 +363,8 @@ $header = \App\Models\PageSetup::page('blog');
             width: 25px; /* Adjust icon size */
             height: 25px;
         }
-
+        </style>
+{{--
     .service-title {
         font-weight: 600 !important;
         text-align: left;
@@ -526,7 +527,7 @@ $header = \App\Models\PageSetup::page('blog');
         </div>
     </div>
 </div>
- --}}
+ --}} 
 
  <style>
     body {
