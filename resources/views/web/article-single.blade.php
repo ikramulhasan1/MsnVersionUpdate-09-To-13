@@ -147,7 +147,7 @@ $header = \App\Models\PageSetup::page('blog');
 @endsection
 
 @section('content')
-<style>
+{{-- <style>
     /* fonts style */
     .poppins-thin {
   font-family: "Poppins", sans-serif;
@@ -372,9 +372,9 @@ $header = \App\Models\PageSetup::page('blog');
     }
     
 
-</style>
+</style> --}}
 <!--Page Title-->
-<section class="page-title">
+{{-- <section class="page-title">
     <div class="container">
         <div class="inner-container clearfix">
             <div class="title-box">
@@ -388,10 +388,12 @@ $header = \App\Models\PageSetup::page('blog');
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 <!--End Page Title-->
 
 <!-- Sidebar Page Container -->
+
+{{-- 
 <div class="sidebar-page-container">
     <div class="container">
         <div class="row clearfix">
@@ -405,26 +407,12 @@ $header = \App\Models\PageSetup::page('blog');
                                 <figure class="image"><img src="{{ asset('uploads/article/'.$article->image_path) }}" alt="{{ $article->title }}"></figure>
                                 <div class="overlay-box"><a href="{{ route('blog.single', $article->slug) }}"><i class="icon fas fa-image"></i></a></div>
                             </div>
-                            {{-- <div class="image-box">
-                                <figure class="image">
-                                    <picture>
-                                        <source type="image/webp" srcset="{{ asset('uploads/article/'.$article->image_path.'.webp') }}">
-                                        <img src="{{ asset('uploads/article/'.$article->image_path) }}" alt="{{ $article->title }}">
-                                    </picture>
-                                </figure>
-                                <div class="overlay-box">
-                                    <a href="{{ route('blog.single', $article->slug) }}">
-                                        <i class="icon fas fa-image"></i>
-                                    </a>
-                                </div>
-                            </div> --}}
+                    
                             
                             <div style="padding-bottom: 0px; padding-left: 0px; padding-right: 0px;" class="caption-box">
                                 <div class="inner">
                                     <h3 style="margin-bottom: 10px"><a href="{{ route('blog.single', $article->slug) }}">{{ $article->title }}</a></h3>
-                                    {{-- <ul class="post-meta">
-                                        <li><i class="far fa-calendar-check"></i>{{ date('d M, Y', strtotime($article->created_at)) }}</li>
-                                    </ul> --}}
+                                   
                                     <div class="description article-description" id="article-description" style="color: black !important " >                                        
                                                 {!! $article->description !!}
                                     </div>
@@ -524,14 +512,7 @@ $header = \App\Models\PageSetup::page('blog');
                                         <img src="{{ asset('uploads/article/'.$recent->image_path) }}" alt="{{ $recent->title }}">
                                     </a>
                                 </div>
-                                {{-- <div class="post-thumb">
-                                    <a href="{{ route('blog.single', $recent->slug) }}">
-                                        <picture>
-                                            <source type="image/webp" srcset="{{ asset('uploads/article/'.$recent->image_path.'.webp') }}">
-                                            <img src="{{ asset('uploads/article/'.$recent->image_path) }}" alt="{{ $recent->title }}">
-                                        </picture>
-                                    </a>
-                                </div> --}}
+                               
                                 
                                 <h3><a href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 50, ' ...') !!}</a></h3>
                                 <div class="post-info">{{ date('F d Y', strtotime($recent->created_at)) }}</div>
@@ -545,7 +526,208 @@ $header = \App\Models\PageSetup::page('blog');
         </div>
     </div>
 </div>
+ --}}
+
+ <style>
+    body {
+    background-color: #eef2f7;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  h1, h2, h5 {
+    color: #212529;
+  }
+  
+  .toc li a,
+  .sidebar-list li a {
+    color: #0d6efd;
+    text-decoration: none;
+  }
+  
+  .toc li a:hover,
+  .sidebar-list li a:hover {
+    text-decoration: underline;
+  }
+  
+  .content-area {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.08);
+  }
+  
+  .sidebar-area .sidebar-list li {
+    margin-bottom: 10px;
+  }
+  
+  .sidebar-area .sidebar-list li a {
+    font-size: 0.95rem;
+  }
+  
+  section ul, section ol {
+    padding-left: 1.5rem;
+  }
+  
+  section ul li, section ol li {
+    margin-bottom: 8px;
+  }
+  
+  .author-box img {
+    object-fit: cover;
+  }
+  
+  button.btn-success {
+    background-color: #00b894;
+    border: none;
+  }
+  
+  button.btn-success:hover {
+    background-color: #019875;
+  }
+  
+ </style>
 <!-- End Sidebar Container -->
+
+
+
+<div class="container my-5">
+    <div class="row">
+      <!-- Main Content -->
+      <div class="col-lg-8">
+        <div class="content-area p-4 mb-4">
+          
+          <!-- Blog Banner -->
+          <img src="https://via.placeholder.com/750x250?text=Blog+Banner" class="img-fluid rounded mb-4" alt="Blog Banner">
+  
+          <!-- Title -->
+          <h1 class="mb-3 fw-bold">Democratizing AI: Building an AI-First Culture Within Your Organization</h1>
+  
+          <!-- Table of Contents -->
+          <div class="p-4 bg-white rounded shadow-sm mb-4">
+            <h5 class="fw-bold mb-3">Table of Contents</h5>
+            <ul class="list-unstyled toc">
+              <li><a href="#section1">AI as a Career Catalyst for Early Entrants</a></li>
+              <li><a href="#section2">AI-First Mindset: Thinking Beyond Technology</a></li>
+              <li><a href="#section3">AI Technology Driving Business Transformation</a></li>
+              <li><a href="#section4">AI’s Role in Enhancing Business Strategy</a></li>
+              <li><a href="#section5">Final Thoughts</a></li>
+            </ul>
+          </div>
+  
+          <!-- Sections -->
+          <section id="section1" class="mb-5">
+            <h2 class="h4 fw-bold mb-3">AI as a Career Catalyst for Early Entrants</h2>
+            <p>AI’s impact on professional development is undeniable, offering opportunities to grow careers and enable innovation at unprecedented rates...</p>
+          </section>
+  
+          <section id="section2" class="mb-5">
+            <h2 class="h4 fw-bold mb-3">AI-First Mindset: Thinking Beyond Technology</h2>
+            <p>Building an AI-first organization is about changing the cultural DNA, not just implementing tools. Mindsets must evolve...</p>
+          </section>
+  
+          <section id="section3" class="mb-5">
+            <h2 class="h4 fw-bold mb-3">AI Technology Driving Business Transformation</h2>
+            <ul>
+              <li>Enhancing Customer Experience</li>
+              <li>Improving Efficiency</li>
+              <li>Creating New Business Models</li>
+            </ul>
+          </section>
+  
+          <section id="section4" class="mb-5">
+            <h2 class="h4 fw-bold mb-3">AI’s Role in Enhancing Business Strategy</h2>
+            <img src="https://via.placeholder.com/750x300?text=AI+Business+Strategy" class="img-fluid rounded mb-4" alt="AI Strategy">
+            <ol>
+              <li>Individualized Solutions</li>
+              <li>Leveraging Internal/External Resources</li>
+              <li>Operational Improvements</li>
+              <li>Data-Driven Decision Making</li>
+              <li>Cross-Team Collaboration</li>
+            </ol>
+          </section>
+  
+          <section id="section5" class="mb-5">
+            <h2 class="h4 fw-bold mb-3">Final Thoughts</h2>
+            <p>Embedding AI successfully into an organization begins by fostering curiosity, openness, and collaboration from top leadership down...</p>
+          </section>
+  
+          <!-- Author Box -->
+          <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+            <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Author">
+            <div>
+              <h6 class="mb-0 fw-bold">Stephanie Martin</h6>
+              <small>Editor & AI Enthusiast</small>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+  
+      <!-- Sidebar -->
+      
+      <div class="col-lg-4">
+          <div class="sidebar-area">
+      
+          <!-- Search Box -->
+          <div class="bg-white rounded p-4 shadow-sm mb-4">
+              <h5 class="fw-bold mb-3">Search</h5>
+              <form class="d-flex">
+              <input type="text" class="form-control me-2" placeholder="Search...">
+              <button class="btn btn-primary" type="submit">Go</button>
+              </form>
+          </div>
+      
+          <!-- Help Box -->
+          <div class="bg-white rounded p-4 shadow-sm mb-4">
+              <h5 class="fw-bold mb-3">I Need Help With...</h5>
+              <ul class="list-unstyled sidebar-list">
+              <li><a href="#">Hiring Developers</a></li>
+              <li><a href="#">Product Strategy</a></li>
+              <li><a href="#">Scaling Startups</a></li>
+              <li><a href="#">Funding</a></li>
+              </ul>
+          </div>
+      
+          <!-- Categories -->
+          <div class="bg-white rounded p-4 shadow-sm mb-4">
+              <h5 class="fw-bold mb-3">Categories</h5>
+              <ul class="list-unstyled sidebar-list">
+              <li><a href="#">Artificial Intelligence</a></li>
+              <li><a href="#">Data Science</a></li>
+              <li><a href="#">Cloud Computing</a></li>
+              <li><a href="#">Startups</a></li>
+              </ul>
+          </div>
+      
+          <!-- Popular Posts -->
+          <div class="bg-white rounded p-4 shadow-sm mb-4">
+              <h5 class="fw-bold mb-3">Popular Posts</h5>
+              <ul class="list-unstyled sidebar-list">
+              <li><a href="#">Top AI Trends 2024</a></li>
+              <li><a href="#">Cloud vs Edge Computing</a></li>
+              <li><a href="#">Growth Hacking Strategies</a></li>
+              </ul>
+          </div>
+      
+          <!-- Ad Banner -->
+          <div class="text-center mb-4">
+              <img src="https://via.placeholder.com/300x250?text=Ad+Banner" class="img-fluid rounded shadow-sm" alt="Advertisement">
+          </div>
+      
+          <!-- Subscribe Form -->
+          <div class="bg-white rounded p-4 shadow-sm mb-4">
+              <h5 class="fw-bold text-center mb-3">Subscribe to Newsletter</h5>
+              <form>
+              <input type="email" class="form-control mb-3" placeholder="Enter your email">
+              <button type="submit" class="btn btn-success w-100">Subscribe</button>
+              </form>
+          </div>
+      
+          </div>
+      </div>
+    
+    </div>
+  </div>
+  
 <script>
 document.addEventListener("DOMContentLoaded", function() {
         const descriptionElement = document.querySelectorAll(".article-description");
@@ -566,9 +748,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // 
-
-
-
  document.querySelectorAll('.news-block').forEach(element => {
         element.setAttribute('style', 'border: none !important;');
     });
