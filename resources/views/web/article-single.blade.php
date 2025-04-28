@@ -626,6 +626,66 @@ font-weight: 800;
   color: red;
 }
 
+
+
+
+.case-studies-box {
+  background: linear-gradient(135deg, #5f00ba, #8e2de2, #4a00e0);
+  background-size: 200% 200%;
+  animation: gradientMove 6s ease infinite;
+  border-radius: 12px;
+  padding: 30px;
+  position: relative;
+}
+
+.case-studies-box::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.case-studies-box::after {
+  content: '';
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.view-all-btn {
+  background-color: #ff4d00;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-size: 14px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.view-all-btn:hover {
+  background-color: #e64000;
+  color: #ffffff;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
  </style>
 <!-- End Sidebar Container -->
 
@@ -729,14 +789,14 @@ font-weight: 800;
           </div>
           @endif
           <!-- Case Studies (NEW Section) -->
-        <div class="bg-white rounded p-4 shadow-sm mb-4">
-            <h5 class="fw-bold mb-3">Case Studies</h5>
-            <ul class="list-unstyled sidebar-list">
-            <li><a href="#">AI Transforming Healthcare</a></li>
-            <li><a href="#">Scaling an E-Commerce Brand</a></li>
-            <li><a href="#">Optimizing Cloud Infrastructure</a></li>
-            </ul>
-        </div>
+            <!-- Case Studies Section -->
+            <div class="case-studies-box rounded p-4 mb-4 text-white text-center">
+                <p class="small mb-1">Explore Our</p>
+                <h5 class="fw-bold mb-2">Case Studies</h5>
+                <p class="small mb-4">For Inspiring Success Stories</p>
+                <a href="#" class="btn view-all-btn">VIEW ALL <i class="bi bi-arrow-right ms-2"></i></a>
+            </div>
+  
   
           <!-- Ad Banner -->
           <div class="text-center mb-4">
