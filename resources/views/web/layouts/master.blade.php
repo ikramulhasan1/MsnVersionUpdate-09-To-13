@@ -1308,22 +1308,22 @@
                     <div class="text-center">
                         <div class="footer-social-icons">
                             @if(isset($social->facebook))
-                                <a class="facebook" href="{{ $social->facebook }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                <a class="facebook" href="{{ $social->facebook }}" target="_blank"><i class="bi bi-facebook"></i></a>
                             @endif
                             @if(isset($social->twitter))
-                                <a class="twitter" href="{{ $social->twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
+                                <a class="twitter" href="{{ $social->twitter }}" target="_blank"><i class="bi bi-twitter-x"></i></a>
                             @endif
                             @if(isset($social->instagram))
-                                <a class="instagram" href="{{ $social->instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+                                <a class="instagram" href="{{ $social->instagram }}" target="_blank"><i class="bi bi-instagram"></i></a>
                             @endif
                             @if(isset($social->linkedin))
-                                <a class="linkedin" href="{{ $social->linkedin }}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                <a class="linkedin" href="{{ $social->linkedin }}" target="_blank"><i class="bi bi-linkedin"></i></a>
                             @endif
                             @if(isset($social->pinterest))
-                                <a class="pinterest" href="{{ $social->pinterest }}" target="_blank"><i class="fab fa-pinterest"></i></a>
+                                <a class="pinterest" href="{{ $social->pinterest }}" target="_blank"><i class="bi bi-pinterest"></i></a>
                             @endif
                             @if(isset($social->youtube))
-                                <a class="youtube" href="{{ $social->youtube }}" target="_blank"><i class="fab fa-youtube"></i></a>
+                                <a class="youtube" href="{{ $social->youtube }}" target="_blank"><i class="bi bi-youtube"></i></a>
                             @endif
                             @if(isset($social->skype))
                                 <a href="skype:{{ $social->skype }}?chat" target="_blank"><i class="fab fa-skype"></i></a>
