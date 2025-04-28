@@ -625,12 +625,13 @@ font-weight: 800;
 .color-text a:hover {
   color: red;
 }
-.needHelpList a{
-    color: #222222;
+.needHelpList li a{
+    color: #222222 !important;
     text-decoration: none;
 }
-.needHelpList a:hover{
+.needHelpList li a:hover{
     color: red;
+    text-decoration: none;
 }
 
 
