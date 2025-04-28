@@ -769,10 +769,10 @@ font-weight: 800;
   
           <!-- Author Box -->
           <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
-            <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Author">
+            <img src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" class="rounded-circle m-0 me-3" alt="Author">
             <div>
-              <h6 class="mb-0 fw-bold">Stephanie Martin</h6>
-              <small>Editor & AI Enthusiast</small>
+              <h6 class="mb-0 fw-bold"><strong>Tanim Rahman</strong></h6>
+              {{-- <small>Editor & AI Enthusiast</small> --}}
             </div>
           </div>
   
