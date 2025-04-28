@@ -1064,11 +1064,11 @@ color: #222222;
   
       <!-- Sidebar -->
       
-      <div class="col-lg-4 sticky-top">
+      <div class="col-lg-4">
           <div class="sidebar-area">
       
           <!-- Search Box -->
-          <div class="bg-white rounded p-4 shadow-sm mb-4">
+          <div class="bg-white rounded p-4 shadow-sm mb-4 sticky-top">
               <h5 class="fw-bold mb-3">Search</h5>
               <form class="d-flex">
               <input type="text" class="form-control me-2" placeholder="Search...">
