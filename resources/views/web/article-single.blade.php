@@ -123,7 +123,6 @@ $header = \App\Models\PageSetup::page('blog');
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-
 @endif
 
 @section('social_meta_tags')
@@ -933,8 +932,8 @@ color: #222222;
 
 
 .service-package h3{
-    background-color: #FFFF00;
-    margin-top: 0px;
+    /* background-color: #FFFF00; */
+    margin-top: 15px;
     color: #000000;
 }
 .service-package p b{

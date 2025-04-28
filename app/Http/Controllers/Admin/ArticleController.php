@@ -258,7 +258,7 @@ class ArticleController extends Controller
         } // <!--endif
     } // <!--foreach
 
-    
+    $cleanedContent = $this->cleanContent($request->service_desc);
     // Insert Data
     $article = new Article;
     $article->title = $request->title;
@@ -271,7 +271,7 @@ class ArticleController extends Controller
     $article->placeholder = $request->placeholder;
     $article->meta_desc = $request->meta_desc;
     $article->service_title = $request->service_title;
-    $article->service_desc = trim($request->service_desc);
+    $article->service_desc = trim($cleanedContent);
     $article->description = $dom->saveHTML();
     $article->image_path = $fileNameToStore;
     $article->video_id = $request->video_id;
@@ -319,108 +319,6 @@ class ArticleController extends Controller
         return view($this->view.'.edit', $data);
     }
 
-
-    // public function update(Request $request, Article $article)
-    // {
-    //     // Field Validation
-    //     $request->validate([
-    //         'title' => 'required|max:191|unique:articles,title,'.$article->id,
-    //         'category' => 'required',
-    //         'description' => 'required',
-    //         'image' => 'nullable|image',
-    //         'video_id' => 'nullable|max:100',
-    //     ]);
-
-
-    //     // image upload, fit and store inside public folder 
-    //     if($request->hasFile('image')){
-
-    //         $file_path = public_path('uploads/'.$this->path.'/'.$article->image_path);
-    //         if(File::isFile($file_path)){
-    //             File::delete($file_path);
-    //         }
-
-    //         //Upload New Image
-    //         $filenameWithExt = $request->file('image')->getClientOriginalName();
-    //         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME); 
-    //         $extension = $request->file('image')->getClientOriginalExtension();
-    //         $fileNameToStore = $filename.'_'.time().'.'.$extension;
-
-    //         //Crete Folder Location
-    //         $path = public_path('uploads/'.$this->path.'/');
-    //         if (! File::exists($path)) {
-    //             File::makeDirectory($path, 0777, true, true);
-    //         }
-
-    //         //Resize And Crop as Fit image here (500 width, 280 height)
-    //         $thumbnailpath = $path.$fileNameToStore;
-    //         $img = Image::make($request->file('image')->getRealPath())->fit(500, 280, function ($constraint) { $constraint->upsize(); })->save($thumbnailpath);
-    //     }
-    //     else{
-
-    //         $fileNameToStore = $article->image_path; 
-    //     }
-
-
-    //     // Get content with media file
-    //     $content=$request->input('description');
-        
-    //     $dom = new \DomDocument();
-    //     libxml_use_internal_errors(true);
-    //     $dom->encoding = 'utf-8';
-    //     $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);    
-    //     $images = $dom->getElementsByTagName('img');
-    //    // foreach <img> in the submited content
-    //     foreach($images as $img){
-    //         $src = $img->getAttribute('src');
-            
-    //         // if the img source is 'data-url'
-    //         if(preg_match('/data:image/', $src)){                
-    //             // get the mimetype
-    //             preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-    //             $mimetype = $groups['mime'];                
-    //             // Generating a random filename
-    //             $filename = uniqid().'_'.time();
-
-    //             //Crete Folder Location
-    //             $path = public_path('uploads/media/');
-    //             if (! File::exists($path)) {
-    //                 File::makeDirectory($path, 0777, true, true);
-    //             }
-
-    //             $filepath = "/uploads/media/$filename.$mimetype";    
-    //             // @see http://image.intervention.io/api/
-    //             $image = Image::make($src)
-    //               // resize if required
-    //               //->resize(500, null) 
-    //               ->resize(800, null, function ($constraint) {
-    //                     $constraint->aspectRatio();
-    //                     $constraint->upsize();
-    //                 })
-    //               ->encode($mimetype, 100)  // encode file to the specified mimetype
-    //               ->save(public_path($filepath));                
-    //             $new_src = asset($filepath);
-    //             $img->removeAttribute('src');
-    //             $img->setAttribute('src', $new_src);
-    //         } // <!--endif
-    //     } // <!-
-
-
-    //     // Update Data
-    //     $article->title = $request->title;
-    //     $article->slug = Str::slug($request->title, '-');
-    //     $article->category_id = $request->category;
-    //     $article->description = $dom->saveHTML();
-    //     $article->image_path = $fileNameToStore;
-    //     $article->video_id = $request->video_id;
-    //     $article->status = $request->status;
-    //     $article->save();
-
-
-    //     Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
-
-    //     return redirect()->back();
-    // }
 
     private function cleanContent($content) {
         // Remove empty tags
