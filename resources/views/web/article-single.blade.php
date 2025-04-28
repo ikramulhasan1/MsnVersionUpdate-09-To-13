@@ -630,34 +630,34 @@ font-weight: 800;
 
 
 .case-studies-box {
-  background: linear-gradient(135deg, #5f00ba, #8e2de2, #4a00e0);
-  background-size: 200% 200%;
-  animation: gradientMove 6s ease infinite;
-  border-radius: 12px;
-  padding: 30px;
+  background: linear-gradient(135deg, #4b006e, #7303c0, #ec38bc);
+  background-size: 400% 400%;
+  animation: gradientMove 10s ease infinite;
+  border-radius: 16px;
+  padding: 40px 20px;
   position: relative;
+  overflow: hidden;
+}
+
+.background-shape {
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+  transform: rotate(45deg);
 }
 
 .case-studies-box::before {
   content: '';
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 60px;
-  height: 60px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-}
-
-.case-studies-box::after {
-  content: '';
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
+  bottom: -40px;
+  left: -40px;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  transform: rotate(-30deg);
 }
 
 .view-all-btn {
@@ -666,18 +666,19 @@ font-weight: 800;
   font-weight: bold;
   border: none;
   border-radius: 5px;
-  padding: 10px 25px;
+  padding: 12px 30px;
   font-size: 14px;
   text-transform: uppercase;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: background 0.3s ease;
+  z-index: 1;
+  position: relative;
 }
 
 .view-all-btn:hover {
   background-color: #e64000;
-  color: #ffffff;
 }
 
 @keyframes gradientMove {
@@ -789,16 +790,16 @@ font-weight: 800;
           </div>
           @endif
           <!-- Case Studies (NEW Section) -->
-            <!-- Case Studies Section -->
-            <div class="case-studies-box rounded p-4 mb-4 text-white text-center">
+         <!-- Case Studies Section -->
+            <div class="case-studies-box rounded p-4 mb-4 text-white text-center position-relative overflow-hidden">
+                <div class="background-shape"></div>
                 <p class="small mb-1">Explore Our</p>
                 <h5 class="fw-bold mb-2">Case Studies</h5>
                 <p class="small mb-4">For Inspiring Success Stories</p>
                 <a href="#" class="btn view-all-btn">VIEW ALL <i class="bi bi-arrow-right ms-2"></i></a>
             </div>
-  
-  
-          <!-- Ad Banner -->
+            
+                    <!-- Ad Banner -->
           <div class="text-center mb-4">
               <img src="https://via.placeholder.com/300x250?text=Ad+Banner" class="img-fluid rounded shadow-sm" alt="Advertisement">
           </div>
