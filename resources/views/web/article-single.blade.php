@@ -936,7 +936,7 @@ color: #222222;
     background-color: #FFFF00;
     color: #000000;
 }
-.service-package b{
+.service-package p b{
     color: #ffffff;
 }
  </style>
