@@ -349,6 +349,7 @@
     .footer-social-icons a:hover {
       transform: scale(1.1);
     }
+    .footer-social-icons a.whatsapp { background: #32CD32; color: #fff; }
     .footer-social-icons a.facebook { background: #1877f2; color: #fff; }
     .footer-social-icons a.twitter { background: #000; color: #fff; }
     .footer-social-icons a.linkedin { background: #0a66c2; color: #fff; }
@@ -1331,7 +1332,7 @@
                                 <a href="skype:{{ $social->skype }}?chat" target="_blank"><i class="bi bi-skype"></i></a>
                             @endif
                             @if(isset($social->whatsapp))
-                                <a rel="noopener noreferrer" class="facebook" href="https://wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><i class="bi bi-whatsapp"></i></a>
+                                <a rel="noopener noreferrer" class="whatsapp" href="https://wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><i class="bi bi-whatsapp"></i></a>
                             @endif
                             
                         </div>
