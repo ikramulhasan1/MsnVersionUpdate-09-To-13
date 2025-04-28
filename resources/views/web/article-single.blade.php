@@ -874,19 +874,22 @@ font-weight: 800;
 color: #009830;
 }
 .about-content b{
+color: #000000;
+}
+.about-content a{
 color: #009830;
 }
 
 .about-content h2{
     font-size: 24px; 
-    font-weight: 700;
+    font-weight: 800;
     margin-top: 10px; 
     margin-bottom: 10px; 
     color: #333333; /* heading color */
 }
 .about-content h3{
     font-size: 21px; 
-    font-weight: 700;
+    font-weight: 800;
     margin-top: 10px; 
     margin-bottom: 10px;
     color: #333333; /* heading color */
