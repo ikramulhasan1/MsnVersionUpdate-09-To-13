@@ -593,12 +593,13 @@ $header = \App\Models\PageSetup::page('blog');
     <div class="row">
       <!-- Main Content -->
       <div class="col-lg-8">
-        <div class="content-area p-4 mb-4">
+        <div class="content-area mb-4">
           
           <!-- Blog Banner -->
           <img src="{{ asset('uploads/article/'.$article->image_path) }}" alt="{{ $article->title }}" class="w-100 rounded mb-4" >
   
-          <!-- Title -->
+         <div class="p-4">
+             <!-- Title -->
           <h1 class="mb-3 fw-bold">{{ $article->title }}</h1>
   
           <!-- Table of Contents -->
@@ -616,42 +617,7 @@ $header = \App\Models\PageSetup::page('blog');
             
             <div>{!! $article->description !!}</div>
           </section>
-          <!-- Sections -->
-          {{-- <section id="section1" class="mb-5">
-            <h2 class="h4 fw-bold mb-3">AI as a Career Catalyst for Early Entrants</h2>
-            <p>AI’s impact on professional development is undeniable, offering opportunities to grow careers and enable innovation at unprecedented rates...</p>
-          </section>
-  
-          <section id="section2" class="mb-5">
-            <h2 class="h4 fw-bold mb-3">AI-First Mindset: Thinking Beyond Technology</h2>
-            <p>Building an AI-first organization is about changing the cultural DNA, not just implementing tools. Mindsets must evolve...</p>
-          </section>
-  
-          <section id="section3" class="mb-5">
-            <h2 class="h4 fw-bold mb-3">AI Technology Driving Business Transformation</h2>
-            <ul>
-              <li>Enhancing Customer Experience</li>
-              <li>Improving Efficiency</li>
-              <li>Creating New Business Models</li>
-            </ul>
-          </section>
-  
-          <section id="section4" class="mb-5">
-            <h2 class="h4 fw-bold mb-3">AI’s Role in Enhancing Business Strategy</h2>
-            <img src="https://via.placeholder.com/750x300?text=AI+Business+Strategy" class="img-fluid rounded mb-4" alt="AI Strategy">
-            <ol>
-              <li>Individualized Solutions</li>
-              <li>Leveraging Internal/External Resources</li>
-              <li>Operational Improvements</li>
-              <li>Data-Driven Decision Making</li>
-              <li>Cross-Team Collaboration</li>
-            </ol>
-          </section> --}}
-  
-          {{-- <section id="section5" class="mb-5">
-            <h2 class="h4 fw-bold mb-3">Final Thoughts</h2>
-            <p>Embedding AI successfully into an organization begins by fostering curiosity, openness, and collaboration from top leadership down...</p>
-          </section> --}}
+       
   
           <!-- Author Box -->
           <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
@@ -662,6 +628,7 @@ $header = \App\Models\PageSetup::page('blog');
             </div>
           </div>
   
+         </div>
         </div>
       </div>
   
