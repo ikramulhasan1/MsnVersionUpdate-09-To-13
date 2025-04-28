@@ -596,10 +596,10 @@ $header = \App\Models\PageSetup::page('blog');
         <div class="content-area p-4 mb-4">
           
           <!-- Blog Banner -->
-          <img src="https://via.placeholder.com/750x250?text=Blog+Banner" class="img-fluid rounded mb-4" alt="Blog Banner">
+          <img src="{{ asset('uploads/article/'.$article->image_path) }}" alt="{{ $article->title }}" class="img-fluid rounded mb-4" >
   
           <!-- Title -->
-          <h1 class="mb-3 fw-bold">Democratizing AI: Building an AI-First Culture Within Your Organization</h1>
+          <h1 class="mb-3 fw-bold">{{ $article->title }}</h1>
   
           <!-- Table of Contents -->
           <div class="p-4 bg-white rounded shadow-sm mb-4">
@@ -612,9 +612,11 @@ $header = \App\Models\PageSetup::page('blog');
               <li><a href="#section5">Final Thoughts</a></li>
             </ul>
           </div>
-  
-          <!-- Sections -->
           <section id="section1" class="mb-5">
+            <p>{!! $article->description !!}</p>
+          </section>
+          <!-- Sections -->
+          {{-- <section id="section1" class="mb-5">
             <h2 class="h4 fw-bold mb-3">AI as a Career Catalyst for Early Entrants</h2>
             <p>AI’s impact on professional development is undeniable, offering opportunities to grow careers and enable innovation at unprecedented rates...</p>
           </section>
@@ -643,12 +645,12 @@ $header = \App\Models\PageSetup::page('blog');
               <li>Data-Driven Decision Making</li>
               <li>Cross-Team Collaboration</li>
             </ol>
-          </section>
+          </section> --}}
   
-          <section id="section5" class="mb-5">
+          {{-- <section id="section5" class="mb-5">
             <h2 class="h4 fw-bold mb-3">Final Thoughts</h2>
             <p>Embedding AI successfully into an organization begins by fostering curiosity, openness, and collaboration from top leadership down...</p>
-          </section>
+          </section> --}}
   
           <!-- Author Box -->
           <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
@@ -699,15 +701,16 @@ $header = \App\Models\PageSetup::page('blog');
           </div>
       
           <!-- Popular Posts -->
+          @if(count($recents) > 0)
           <div class="bg-white rounded p-4 shadow-sm mb-4">
-              <h5 class="fw-bold mb-3">Popular Posts</h5>
+              <h5 class="fw-bold mb-3">{{ __('common.recent_posts') }}</h5>
               <ul class="list-unstyled sidebar-list">
-              <li><a href="#">Top AI Trends 2024</a></li>
-              <li><a href="#">Cloud vs Edge Computing</a></li>
-              <li><a href="#">Growth Hacking Strategies</a></li>
+              @foreach($recents as $key => $recent)
+              <li><a href="{{ route('blog.single', $recent->slug) }}">{!! str_limit(strip_tags($recent->title), 40, ' ...') !!}</a></li>
+              @endforeach
               </ul>
           </div>
-      
+          @endif
           <!-- Ad Banner -->
           <div class="text-center mb-4">
               <img src="https://via.placeholder.com/300x250?text=Ad+Banner" class="img-fluid rounded shadow-sm" alt="Advertisement">
