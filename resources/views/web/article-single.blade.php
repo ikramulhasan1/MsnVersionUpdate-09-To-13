@@ -527,7 +527,6 @@ $header = \App\Models\PageSetup::page('blog');
     </div>
 </div>
  --}}
- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
  <style>
     body {
@@ -626,7 +625,13 @@ font-weight: 800;
 .color-text a:hover {
   color: red;
 }
-
+.needHelpList a{
+    color: #222222;
+    text-decoration: none;
+}
+.needHelpList a:hover{
+    color: red;
+}
 
 
 
@@ -724,6 +729,8 @@ font-weight: 800;
   color: #fff;
 }
 
+
+
  </style>
 <!-- End Sidebar Container -->
 
@@ -791,7 +798,7 @@ font-weight: 800;
             @if(count($services) > 0)
                 <div class="bg-white rounded p-4 shadow-sm mb-4">
                     <h5 class="fw-bold mb-3">I Need Help With...</h5>
-                    <ul class="color-text list-unstyled sidebar-list">
+                    <ul class="color-text list-unstyled sidebar-list needHelpList">
                         @foreach($services as $service)
                         
                             <li><a href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a></li>
