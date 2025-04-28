@@ -680,26 +680,28 @@ font-weight: 800;
                     <h5 class="fw-bold mb-3">I Need Help With...</h5>
                     <ul class="list-unstyled sidebar-list">
                         @foreach($services as $service)
-                        <div class="d-flex align-items-center mb-2">
-                            <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; " src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
+                        
                             <li><a href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a></li>
-                        </div>
+                       
                         @endforeach
                     
                     </ul>
                 </div>
             @endif
           <!-- Categories -->
+          @if (count($article_categories) > 0)
           <div class="bg-gradient rounded p-4 shadow-sm mb-4">
-              <h5 class="fw-bold mb-3">Categories</h5>
-              <ul class="list-unstyled sidebar-list-categories">
-              <li><a href="#">Artificial Intelligence</a></li>
-              <li><a href="#">Data Science</a></li>
-              <li><a href="#">Cloud Computing</a></li>
-              <li><a href="#">Startups</a></li>
-              </ul>
+                <h5 class="fw-bold mb-3">Categories</h5>
+                <ul class="list-unstyled sidebar-list-categories">
+                @foreach($article_categories as $article_category)
+                    <div class="d-flex align-items-center mb-2">
+                        <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; " src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
+                        <li class="@if($article->category->id == $article_category->id) active @endif"><a href="{{ route('blog.category', $article_category->slug) }}">{{ $article_category->title }} <span>({{ $article_category->articles->where('status', 1)->count() }})</span></a></li>
+                    </div>
+                @endforeach
+                </ul>
           </div>
-      
+          @endif
           <!-- Popular Posts -->
           @if(count($recents) > 0)
           <div class="bg-white rounded p-4 shadow-sm mb-4">
