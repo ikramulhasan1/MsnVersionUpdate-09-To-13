@@ -626,7 +626,7 @@ font-weight: 800;
   color: red;
 }
 .needHelpList li a{
-    color: #222222 !important;
+    color: #222222;
     text-decoration: none;
 }
 .needHelpList li a:hover{
