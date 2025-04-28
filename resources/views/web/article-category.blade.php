@@ -293,7 +293,7 @@ use Illuminate\Support\Str;
 </div>
 
  {{-- Awords section --}}
- <section class="awords-section">
+ <section class="awords-section mt-5">
     <header class="awords-section-header">Recent Awards & Certifications</header>
   
     <div class="awards-container">
