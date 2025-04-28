@@ -871,13 +871,17 @@ font-weight: 800;
     color: #00c853; /* green bullet color */
 }
 .about-content b{
-color: #009830;
+    color: #009830;
 }
 .about-content b{
 color: #222222;
 }
 .about-content a b{
-color: #009830;
+    color: #009830;
+}
+.about-content a b:hover{
+    color: #009830;
+    text-decoration: underline;
 }
 
 .about-content h2{
