@@ -1248,7 +1248,7 @@
             <div class="col-md-3 footer-section mb-4">
               <h5>Company</h5>
               <ul>
-                <li><a href="#">About Us</a></li>
+                <li><a href="{{ route('about') }}">About Us</a></li>
                 {{-- <li><a href="#">Careers</a></li>
                 <li><a href="#">Giving Back</a></li>
                 <li><a href="#">Referral Program</a></li> --}}
@@ -1258,8 +1258,8 @@
             <div class="col-md-3 footer-section mb-4">
               <h5>Services</h5>
               <ul>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Technologies</a></li>
+                <li><a href="{{ route('services') }}">Services</a></li>
+                <li><a>Technologies</a></li>
                 {{-- <li><a href="#">How We Work</a></li> --}}
               </ul>
             </div>
@@ -1267,8 +1267,8 @@
             <div class="col-md-3 footer-section mb-4">
               <h5>Insights</h5>
               <ul>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Case Studies</a></li>
+                <li><a href="{{ route('blogs') }}">Blog</a></li>
+                <li><a>Case Studies</a></li>
                 {{-- <li><a href="#">Sitemap</a></li> --}}
               </ul>
             </div>
@@ -1311,22 +1311,22 @@
                     <div class="text-center">
                         <div class="footer-social-icons">
                             @if(isset($social->facebook))
-                                <a class="facebook" href="{{ $social->facebook }}" target="_blank"><i class="bi bi-facebook"></i></a>
+                                <a class="facebook d-flex justify-content-center align-items-center" href="{{ $social->facebook }}" target="_blank"><i class="bi bi-facebook"></i></a>
                             @endif
                             @if(isset($social->twitter))
-                                <a class="twitter" href="{{ $social->twitter }}" target="_blank"><i class="bi bi-twitter-x"></i></a>
+                                <a class="twitter d-flex justify-content-center align-items-center" href="{{ $social->twitter }}" target="_blank"><i class="bi bi-twitter-x"></i></a>
                             @endif
                             @if(isset($social->instagram))
-                                <a class="instagram" href="{{ $social->instagram }}" target="_blank"><i class="bi bi-instagram"></i></a>
+                                <a class="instagram d-flex justify-content-center align-items-center" href="{{ $social->instagram }}" target="_blank"><i class="bi bi-instagram"></i></a>
                             @endif
                             @if(isset($social->linkedin))
-                                <a class="linkedin" href="{{ $social->linkedin }}" target="_blank"><i class="bi bi-linkedin"></i></a>
+                                <a class="linkedin d-flex justify-content-center align-items-center" href="{{ $social->linkedin }}" target="_blank"><i class="bi bi-linkedin"></i></a>
                             @endif
                             @if(isset($social->pinterest))
-                                <a class="pinterest" href="{{ $social->pinterest }}" target="_blank"><i class="bi bi-pinterest"></i></a>
+                                <a class="pinterest d-flex justify-content-center align-items-center" href="{{ $social->pinterest }}" target="_blank"><i class="bi bi-pinterest"></i></a>
                             @endif
                             @if(isset($social->youtube))
-                                <a class="youtube" href="{{ $social->youtube }}" target="_blank"><i class="bi bi-youtube"></i></a>
+                                <a class="youtube d-flex justify-content-center align-items-center" href="{{ $social->youtube }}" target="_blank"><i class="bi bi-youtube"></i></a>
                             @endif
                             @if(isset($social->skype))
                                 <a href="skype:{{ $social->skype }}?chat" target="_blank"><i class="bi bi-skype"></i></a>
