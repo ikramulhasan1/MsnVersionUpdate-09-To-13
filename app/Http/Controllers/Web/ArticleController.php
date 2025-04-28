@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
-use App\Models\ArticleCategory;
-use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Service;
+use Illuminate\Http\Request;
+use App\Models\ArticleCategory;
+use App\Http\Controllers\Controller;
 
 class ArticleController extends Controller
 {
@@ -81,7 +82,11 @@ class ArticleController extends Controller
         $data['article_categories'] = ArticleCategory::where('status', '1')
                             ->orderBy('id', 'asc')
                             ->get();
-    
+        
+        // Services                                
+        $data['services'] = Service::with('subservices')->where('status', '1')
+                            ->orderBy('id', 'asc')
+                            ->get();
         // Service Package HTML with Modern Design
         $packageHtml = '';
     

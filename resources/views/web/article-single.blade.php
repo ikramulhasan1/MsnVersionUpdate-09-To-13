@@ -658,16 +658,17 @@ $header = \App\Models\PageSetup::page('blog');
           </div>
       
           <!-- Help Box -->
-          <div class="bg-white rounded p-4 shadow-sm mb-4">
-              <h5 class="fw-bold mb-3">I Need Help With...</h5>
-              <ul class="list-unstyled sidebar-list">
-              <li><a href="#">Hiring Developers</a></li>
-              <li><a href="#">Product Strategy</a></li>
-              <li><a href="#">Scaling Startups</a></li>
-              <li><a href="#">Funding</a></li>
-              </ul>
-          </div>
-      
+            @if(count($services) > 0)
+                <div class="bg-white rounded p-4 shadow-sm mb-4">
+                    <h5 class="fw-bold mb-3">I Need Help With...</h5>
+                    <ul class="list-unstyled sidebar-list">
+                        @foreach($services as $service)
+                            <li><a href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a></li>
+                        @endforeach
+                    
+                    </ul>
+                </div>
+            @endif
           <!-- Categories -->
           <div class="bg-white rounded p-4 shadow-sm mb-4">
               <h5 class="fw-bold mb-3">Categories</h5>
