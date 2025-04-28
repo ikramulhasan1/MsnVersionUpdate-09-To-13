@@ -931,6 +931,14 @@ color: #222222;
     text-decoration: none;
 }
 
+
+.service-package h3{
+    background-color: #FFFF00;
+    color: #000000;
+}
+.service-package b{
+    color: #ffffff;
+}
  </style>
 <!-- End Sidebar Container -->
 
@@ -971,7 +979,7 @@ color: #222222;
             <img style="width: 80px; height: 80px;" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" class="rounded-circle m-0 mr-3" alt="Author">
             <div>
               <h6 class="mb-0 fw-bold"><strong>Tanim Rahman</strong></h6>
-              <small>Editor & AI Enthusiast</small>
+              <small style="font-size: 18px">Editor & AI Enthusiast</small>
             </div>
           </div>
   
