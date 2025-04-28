@@ -1326,10 +1326,10 @@
                                 <a class="youtube" href="{{ $social->youtube }}" target="_blank"><i class="bi bi-youtube"></i></a>
                             @endif
                             @if(isset($social->skype))
-                                <a href="skype:{{ $social->skype }}?chat" target="_blank"><i class="fab fa-skype"></i></a>
+                                <a href="skype:{{ $social->skype }}?chat" target="_blank"><i class="bi bi-skype"></i></a>
                             @endif
                             @if(isset($social->whatsapp))
-                                <a rel="noopener noreferrer" href="https://wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                <a rel="noopener noreferrer" href="https://wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><i class="bi bi-whatsapp"></i></a>
                             @endif
                             
                         </div>
