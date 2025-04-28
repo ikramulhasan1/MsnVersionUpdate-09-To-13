@@ -271,7 +271,7 @@ class ArticleController extends Controller
     $article->placeholder = $request->placeholder;
     $article->meta_desc = $request->meta_desc;
     $article->service_title = $request->service_title;
-    $article->service_desc = $request->service_desc;
+    $article->service_desc = trim($request->service_desc);
     $article->description = $dom->saveHTML();
     $article->image_path = $fileNameToStore;
     $article->video_id = $request->video_id;
@@ -542,7 +542,7 @@ class ArticleController extends Controller
         $article->meta_desc = $request->meta_desc;
         $article->meta_desc = $request->meta_desc;
         $article->meta_title = $request->meta_title;
-        $article->service_desc = $request->service_desc;
+        $article->service_desc = trim($request->service_desc);
         $article->service_title = $request->service_title;
         $article->status = $request->status;
         $article->save();
