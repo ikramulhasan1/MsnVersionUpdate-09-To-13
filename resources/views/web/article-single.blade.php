@@ -874,9 +874,9 @@ font-weight: 800;
 color: #009830;
 }
 .about-content b{
-color: #000000;
+color: #222222;
 }
-.about-content a{
+.about-content a b{
 color: #009830;
 }
 
