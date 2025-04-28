@@ -330,6 +330,9 @@
       font-size: 14px;
       line-height: 1.6;
     }
+    .footer-bottom p a{
+        color: #ffffff
+    }
     .footer-social-icons {
       margin-top: 20px;
     }
@@ -1180,7 +1183,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     @if(isset($setting))
                     <div class="footer-bottom mt-3">
-                        <p style="color: #ffffff;">&copy; {!! strip_tags($setting->footer_text, '<p><a><b><i><u><strong>') !!}</p>
+                        <p style="color: #ffffff;">Copyright &copy; 2023 – {!! strip_tags($setting->footer_text, '<p><a><b><i><u><strong>') !!}</p>
                     </div>
                     @endif
                     <div class="text-center">
