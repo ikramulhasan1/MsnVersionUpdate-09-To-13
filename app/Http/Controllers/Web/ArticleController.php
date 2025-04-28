@@ -111,14 +111,14 @@ class ArticleController extends Controller
             text-align: center;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             '>
-                <h3 style='
+                <h2 style='
                     font-size: 22px; 
                     font-weight: 700;
                     margin-bottom: 10px; 
                     text-transform: uppercase;
                     color: #FFD700 !important;  
                     letter-spacing: 1px;
-                '>" . htmlspecialchars($article->service_title) . "</h3>
+                '>" . htmlspecialchars($article->service_title) . "</h2>
     
                 <div id='emoji' style='
                     text-align:left !important; 
