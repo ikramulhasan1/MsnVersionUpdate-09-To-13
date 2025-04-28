@@ -1075,7 +1075,7 @@ color: #222222;
       <!-- Sidebar -->
       
       <div class="col-lg-4">
-          <div class="sidebar-area sidebar sticky-sidebar">
+          <div class="sidebar-area sticky-sidebar">
       
           <!-- Search Box -->
           <div class="bg-white rounded p-4 shadow-sm mb-4">
