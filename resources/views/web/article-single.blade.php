@@ -913,7 +913,7 @@ color: #222222;
     color: #222222; /* heading color */
 }
 .tableofContents{
-    border: 2px solid #b9b9b9; /* border color */
+    border: 2px solid #d6d6d6; /* border color */
     background-color:#FAFAFA;
     color: #009830; /* heading color */
 }
@@ -921,7 +921,7 @@ color: #222222;
     color: #222222; 
     font-size: 21px;
 }
-.tableofContents a{
+.tableofContents li a{
     color: #009830;
     font-size: 15px;
     text-decoration: none;
