@@ -663,8 +663,8 @@ font-weight: 800;
 }
 
 .help-icon {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
 }
 
@@ -913,7 +913,7 @@ font-weight: 800;
                 <h5 class="section-title">I Need Help With…</h5>
                 @foreach($services as $service)
                 <div class="help-item d-flex align-items-center mb-3 pb-3 dotted-border">
-                  <img src="{{ asset('uploads/service/'.$service->image_path) }}" class="help-icon me-3" alt="{{ $service->short_title }}">
+                  <img src="{{ asset('uploads/service/'.$service->image_path) }}" class="help-icon m-0 mr-3" alt="{{ $service->short_title }}">
                   <a class="help-text" href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a>
                 </div>
                 @endforeach
