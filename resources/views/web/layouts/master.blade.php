@@ -1270,17 +1270,31 @@
               </ul>
             </div>
       
+
+
+
+
+
+
+
+           
+
+            @if(count($pages) > 0)
             <div class="col-md-3 footer-section mb-4">
               <h5>Policies</h5>
               <ul>
-                <li><a href="#">T&amp;C</a></li>
-                <li><a href="#">Privacy Policy</a></li>
+                @foreach($pages as $key => $page)
+                @if (isset($page->type) && $page->type == 'footer')
+                    <li><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></li>
+                @endif
+                @endforeach
+                {{-- <li><a href="#">Privacy Policy</a></li> --}}
                 {{-- <li><a href="#">Cookie Policy</a></li>
                 <li><a href="#">Refund Policy</a></li> --}}
-                <li><a href="#">Disclaimer</a></li>
+                {{-- <li><a href="#">Disclaimer</a></li> --}}
               </ul>
             </div>
-      
+            @endif
           </div>
       
           <div class="footer-divider"></div>
