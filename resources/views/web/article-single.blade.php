@@ -919,7 +919,7 @@ font-weight: 800;
                     <p class="mb-4">For Inspiring Success Stories</p>
                 </div>
                 <div class="">
-                    <a href="#" class="btn view-all-btn w-100">VIEW ALL <i class="text-white bi bi-arrow-right ms-2"></i></a>
+                    <a href="#" class="btn view-all-btn w-100">VIEW ALL <i class=" text-white fa-solid fa-arrow-right-long"></i></a>
                 </div>
             </div>
             
