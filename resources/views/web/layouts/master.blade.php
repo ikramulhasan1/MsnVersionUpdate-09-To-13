@@ -768,11 +768,11 @@
                                     @endphp
                                     @if(isset($page_blog))
                                     <li class="dropdown {{ Request::is('blog*') ? 'current' : '' }}"><a href="{{ route('blogs') }}">{{ $page_blog->title }}</a>
-                                        <ul>
+                                        {{-- <ul>
                                             @foreach($article_subnavs as $article_subnav)
                                             <li class="{{ Request::is('blogs/'.$article_subnav->slug) ? 'current' : '' }}"><a href="{{ route('blog.category', $article_subnav->slug) }}">{{ $article_subnav->title }}</a></li>
                                             @endforeach
-                                        </ul>
+                                        </ul> --}}
                                     </li>
                                     @endif
 
