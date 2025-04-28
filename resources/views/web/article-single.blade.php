@@ -1025,7 +1025,7 @@ color: #222222;
        
   
           <!-- Author Box -->
-          <div class="d-flex align-items-center p-3 bg-white rounded border mb-4 shadow-sm">
+          <div class="d-flex align-items-center p-3 bg-white rounded border shadow-sm">
             <img style="width: 80px; height: 80px;" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" class="rounded-circle m-0 mr-3" alt="Author">
             <div>
               <h6 class="mb-0 fw-bold"><strong>Tanim Rahman</strong></h6>
