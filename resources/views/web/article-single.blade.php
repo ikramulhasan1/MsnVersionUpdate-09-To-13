@@ -912,7 +912,7 @@ color: #222222;
     margin-bottom: 2px;  */
     color: #222222; /* heading color */
 }
-.about-content {
+.about-content .tableofContents{
     font-size: 14px; 
     background-color:#FAFAFA;
     color: #009830; /* heading color */
