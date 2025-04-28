@@ -912,7 +912,7 @@ font-weight: 800;
             <div class="help-section card p-4">
                 <h5 class="section-title">I Need Help With…</h5>
                 @foreach($services as $service)
-                <div class="help-item d-flex align-items-center mb-3 pb-3 dotted-border">
+                <div class="help-item d-flex align-items-center mb-2 pb-2 dotted-border">
                   <img src="{{ asset('uploads/service/'.$service->image_path) }}" class="help-icon m-0 mr-3" alt="{{ $service->short_title }}">
                   <a class="help-text" href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a>
                 </div>
