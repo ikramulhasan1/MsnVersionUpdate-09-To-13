@@ -873,6 +873,22 @@ font-weight: 800;
 .about-content b{
 color: #009830;
 }
+.about-content b{
+color: #009830;
+}
+
+.about-content h2{
+    font-size: 24px; /* adjust font size as needed */
+    margin-top: 10px; /* space below heading */
+    margin-bottom: 10px; /* space below heading */
+    color: #333333; /* heading color */
+}
+.about-content h3{
+    font-size: 21px; /* adjust font size as needed */
+    margin-top: 7px; /* space below heading */
+    margin-bottom: 7px; /* space below heading */
+    color: #333333; /* heading color */
+}
 
  </style>
 <!-- End Sidebar Container -->
