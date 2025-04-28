@@ -689,43 +689,7 @@ font-weight: 800;
 }
 
 
-
-.social-icons-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  padding: 15px;
-  background-color: #f7f7f7;
-  border-radius: 10px;
-}
-
-.social-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 45px;
-  height: 45px;
-  border: 1px solid #ccc;
-  border-radius: 50%;
-  color: #333;
-  font-size: 20px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.social-icon:hover {
-  background-color: #ff4d00;
-  color: #fff;
-  border-color: #ff4d00;
-}
-
-
-
-
-
-
-
+/* social */
 .social-icons-wrapper {
   display: flex;
   justify-content: center;
@@ -885,17 +849,7 @@ font-weight: 800;
             <div class="text-center mb-4">
                 <img src="https://www.capitalnumbers.com/blog/wp-content/uploads/2024/08/NodeJS-Performance-Optimization-download-ebook.jpg.webp" class="img-fluid rounded shadow-sm" alt="Advertisement">
             </div>
-            <!-- Social Media Section (exact match) -->
-            <div class="social-icons-wrapper text-center">
-                <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
-                <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
-                <a href="#" class="social-icon"><i class="bi bi-pinterest"></i></a>
-                <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
-                <a href="#" class="social-icon"><i class="bi bi-youtube"></i></a>
-                <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
-                <a href="#" class="social-icon"><i class="bi bi-behance"></i></a>
-            </div>
-      
+        
             <!-- Social Media Section (perfect match) -->
             <div class="social-icons-wrapper text-center">
                 <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
