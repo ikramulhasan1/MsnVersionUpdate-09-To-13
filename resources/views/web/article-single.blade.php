@@ -991,7 +991,7 @@ color: #222222;
 
 .sticky-sidebar {
   position: sticky;
-  top: 0px; /* or whatever top spacing you want */
+  top: 30px; /* or whatever top spacing you want */
   z-index: 100;
   height: fit-content;
 }
@@ -1073,13 +1073,13 @@ color: #222222;
       
       <div class="col-lg-4">
         <!-- Search Box -->
-        <div class="bg-white rounded p-4 shadow-sm mb-4">
-            <h5 class="fw-bold mb-3">Search</h5>
-            <form class="d-flex">
-            <input type="text" class="form-control me-2" placeholder="Search...">
-            <button class="btn btn-primary" type="submit">Go</button>
-            </form>
-        </div>
+            <div class="bg-white rounded p-4 shadow-sm mb-4">
+                <h5 class="fw-bold mb-3">Search</h5>
+                <form class="d-flex">
+                <input type="text" class="form-control me-2" placeholder="Search...">
+                <button class="btn btn-primary" type="submit">Go</button>
+                </form>
+            </div>
           <div class="sidebar-area sticky-sidebar">
       
           
