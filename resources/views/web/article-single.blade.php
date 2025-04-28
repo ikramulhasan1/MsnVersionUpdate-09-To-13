@@ -583,7 +583,18 @@ $header = \App\Models\PageSetup::page('blog');
   button.btn-success:hover {
     background-color: #019875;
   }
-  
+  .content-area h1{
+    font-size: 30px;
+    font-weight: 700;
+    /* margin-bottom: 20px; */
+    color: #212529
+  }
+  .content-area p{
+    font-size: 17px;
+    /* font-weight: 700; */
+    /* margin-bottom: 20px; */
+    color: #000000
+  }
  </style>
 <!-- End Sidebar Container -->
 
@@ -596,7 +607,7 @@ $header = \App\Models\PageSetup::page('blog');
         <div class="content-area mb-4">
           
           <!-- Blog Banner -->
-          <img src="{{ asset('uploads/article/'.$article->image_path) }}" alt="{{ $article->title }}" class="w-100 rounded mb-4" >
+          <img src="{{ asset('uploads/article/'.$article->image_path) }}" alt="{{ $article->title }}" class="w-100 rounded-top mb-4" >
   
          <div class="p-4">
              <!-- Title -->
