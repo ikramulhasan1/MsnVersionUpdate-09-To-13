@@ -844,6 +844,35 @@ font-weight: 800;
   color: #007bff;
 }
 
+
+
+
+
+.about-content ul {
+    list-style: none; /* remove default bullets */
+    padding-left: 0; /* remove default padding */
+}
+
+.about-content ul li {
+    position: relative;
+    padding-left: 20px; /* space for custom bullet */
+    margin-bottom: 0px; /* optional: add spacing between li */
+    font-size: 16px; /* adjust font size as needed */
+    color: #333333; /* text color */
+}
+
+.about-content ul li::before {
+    content: '●'; /* your custom bullet */
+    position: absolute;
+    left: 0;
+    top: 0px;
+    font-size: 18px;
+    color: #00c853; /* green bullet color */
+}
+.about-content b{
+color: #009830;
+}
+
  </style>
 <!-- End Sidebar Container -->
 
@@ -875,13 +904,13 @@ font-weight: 800;
           </div>
           <section id="section1" class="mb-5">
             
-            <div>{!! $article->description !!}</div>
+            <div class="about-content">{!! $article->description !!}</div>
           </section>
        
   
           <!-- Author Box -->
           <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
-            <img style="width: 60px; height: 70px;" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" class="rounded-circle m-0 mr-3" alt="Author">
+            <img style="width: 60px; height: 60px;" src="https://getpaidstock.com/tmp/[GetPaidStock.com]-680e80c61e4ab.jpg" class="rounded-circle m-0 mr-3" alt="Author">
             <div>
               <h6 class="mb-0 fw-bold"><strong>Tanim Rahman</strong></h6>
               <small>Editor & AI Enthusiast</small>
