@@ -988,6 +988,10 @@ color: #222222;
 .share-icon:hover {
   transform: scale(1.1);
 }
+.sidebar {
+  position: sticky;
+  top: 20px; /* Distance from top when sticky starts */
+}
 
  </style>
 <!-- End Sidebar Container -->
@@ -1064,11 +1068,11 @@ color: #222222;
   
       <!-- Sidebar -->
       
-      <div class="col-lg-4">
+      <div class="col-lg-4 sidebar ">
           <div class="sidebar-area">
       
           <!-- Search Box -->
-          <div class="bg-white rounded p-4 shadow-sm mb-4 sticky-header ">
+          <div class="bg-white rounded p-4 shadow-sm mb-4">
               <h5 class="fw-bold mb-3">Search</h5>
               <form class="d-flex">
               <input type="text" class="form-control me-2" placeholder="Search...">
