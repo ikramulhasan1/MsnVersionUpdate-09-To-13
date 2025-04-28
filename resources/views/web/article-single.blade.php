@@ -613,8 +613,8 @@ $header = \App\Models\PageSetup::page('blog');
             </ul>
           </div>
           <section id="section1" class="mb-5">
-            @dd($article->description)
-            <p>{!! $article->description !!}</p>
+            
+            <div>{!! $article->description !!}</div>
           </section>
           <!-- Sections -->
           {{-- <section id="section1" class="mb-5">
