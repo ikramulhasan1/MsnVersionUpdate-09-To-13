@@ -264,7 +264,7 @@ $header = \App\Models\PageSetup::page('get-quote');
     .quote-textarea,
     select {
       width: 100%;
-      padding: 10px 12px;
+      padding: 5px 12px;
       border-radius: 5px;
       border: 1px solid #ddd;
       font-size: 15px;
@@ -314,7 +314,7 @@ $header = \App\Models\PageSetup::page('get-quote');
 
     .quote-services label {
       background-color: #f0f0f0;
-      padding: 10px 20px;
+      padding: 5px 20px;
       border-radius: 30px;
       cursor: pointer;
       user-select: none;
