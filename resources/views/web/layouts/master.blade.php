@@ -1165,7 +1165,7 @@
               <h5>Policies</h5>
               <ul>
                 @foreach($pages as $key => $page)
-                @if (isset($page->type) && $page->type == 'custom-footer')
+                @if (isset($page->type) && $page->type == 'footer')
                     <li><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></li>
                 @endif
                 @endforeach
