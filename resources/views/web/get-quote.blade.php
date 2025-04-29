@@ -219,7 +219,6 @@ $header = \App\Models\PageSetup::page('get-quote');
 
 
 
-/* quote box */
 * {
       /* margin: 0;
       padding: 0; */
@@ -236,7 +235,7 @@ $header = \App\Models\PageSetup::page('get-quote');
       padding: 60px 20px;
     }
 
-    .container {
+    .quote-container {
       background: rgba(255, 255, 255, 0.3);
       backdrop-filter: blur(20px);
       border-radius: 24px;
@@ -247,7 +246,7 @@ $header = \App\Models\PageSetup::page('get-quote');
       color: #333;
     }
 
-    .container h2 {
+    .quote-container h2 {
       text-align: center;
       margin-bottom: 40px;
       font-size: 32px;
@@ -255,14 +254,14 @@ $header = \App\Models\PageSetup::page('get-quote');
       color: #222;
     }
 
-    form {
+    .quote-form {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 24px 30px;
     }
 
-    input,
-    textarea,
+    .quote-input,
+    .quote-textarea,
     select {
       width: 100%;
       padding: 14px 16px;
@@ -273,47 +272,47 @@ $header = \App\Models\PageSetup::page('get-quote');
       transition: all 0.3s ease;
     }
 
-    input:focus,
-    textarea:focus,
+    .quote-input:focus,
+    .quote-textarea:focus,
     select:focus {
       outline: none;
       border-color: #3f7cf4;
       background-color: #fff;
     }
 
-    textarea {
+    .quote-textarea {
       grid-column: 1 / -1;
       resize: vertical;
       min-height: 120px;
     }
 
-    .full-width {
+    .quote-full-width {
       grid-column: 1 / -1;
     }
 
-    .radio-group {
+    .quote-radio-group {
       grid-column: 1 / -1;
       display: flex;
       gap: 40px;
       margin-top: -10px;
     }
 
-    .radio-group label {
+    .quote-radio-group label {
       font-size: 14px;
     }
 
-    .radio-group input {
+    .quote-radio-group .quote-input {
       margin-right: 6px;
     }
 
-    .services {
+    .quote-services {
       grid-column: 1 / -1;
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
     }
 
-    .services label {
+    .quote-services label {
       background-color: #f0f0f0;
       padding: 10px 20px;
       border-radius: 30px;
@@ -324,17 +323,17 @@ $header = \App\Models\PageSetup::page('get-quote');
       border: 1px solid #ccc;
     }
 
-    .services input {
+    .quote-services .quote-input {
       display: none;
     }
 
-    .services input:checked + label {
+    .quote-services .quote-input:checked + label {
       background-color: #3f7cf4;
       color: #fff;
       border-color: #3f7cf4;
     }
 
-    .submit-btn {
+    .quote-submit-btn {
       grid-column: 1 / -1;
       padding: 16px;
       font-size: 16px;
@@ -348,16 +347,16 @@ $header = \App\Models\PageSetup::page('get-quote');
       transition: background 0.3s ease;
     }
 
-    .submit-btn:hover {
+    .quote-submit-btn:hover {
       background-color: #2c64d4;
     }
 
     @media (max-width: 768px) {
-      form {
+      .quote-form {
         grid-template-columns: 1fr;
       }
 
-      .radio-group {
+      .quote-radio-group {
         flex-direction: column;
         gap: 10px;
       }
@@ -539,42 +538,40 @@ $header = \App\Models\PageSetup::page('get-quote');
 </section> --}}
 <!--End Contact Section -->
 <section class="quoteFormSection">
-    <div class="container">
+    <div class="quote-container">
       <h2>Get A Beautiful Quote</h2>
-      <form>
-        <input type="text" placeholder="Your Name *" required>
-        <input type="email" placeholder="Email Address *" required>
-        <input type="tel" placeholder="Phone No *" required>
-        <input type="text" placeholder="Company (Optional)">
-        <input type="text" placeholder="Address *" required>
-        <input type="text" placeholder="City *" required>
+      <form class="quote-form" action="#" method="POST">
+        <input class="quote-input" type="text" placeholder="Your Name *" required>
+        <input class="quote-input" type="email" placeholder="Email Address *" required>
+        <input class="quote-input" type="tel" placeholder="Phone No *" required>
+        <input class="quote-input" type="text" placeholder="Company (Optional)">
+        <input class="quote-input" type="text" placeholder="Address *" required>
+        <input class="quote-input" type="text" placeholder="City *" required>
   
-        <div class="radio-group">
-          <label><input type="radio" name="contact" value="Phone" checked> Phone</label>
-          <label><input type="radio" name="contact" value="Email"> Email</label>
+        <div class="quote-radio-group">
+          <label><input class="quote-input" type="radio" name="contact" value="Phone" checked> Phone</label>
+          <label><input class="quote-input" type="radio" name="contact" value="Email"> Email</label>
         </div>
   
-        <div class="services">
-          <input type="checkbox" id="wordpress"><label for="wordpress">WordPress Website</label>
-          <input type="checkbox" id="webdev"><label for="webdev">Website Development</label>
-          <input type="checkbox" id="android"><label for="android">Android App Development</label>
-          <input type="checkbox" id="ios"><label for="ios">iOS App Development</label>
-          <input type="checkbox" id="seo"><label for="seo">SEO Services</label>
-          <input type="checkbox" id="pwa"><label for="pwa">Progressive Web App</label>
-          <input type="checkbox" id="b2c"><label for="b2c">B2C eCommerce Website</label>
-          <input type="checkbox" id="ecomm"><label for="ecomm">Ecommerce Website</label>
-          <input type="checkbox" id="highda"><label for="highda">High DA Backlink</label>
-          <input type="checkbox" id="shopify"><label for="shopify">Shopify Store</label>
+        <div class="quote-services">
+          <input class="quote-input" type="checkbox" id="wordpress"><label for="wordpress">WordPress Website</label>
+          <input class="quote-input" type="checkbox" id="webdev"><label for="webdev">Website Development</label>
+          <input class="quote-input" type="checkbox" id="android"><label for="android">Android App Development</label>
+          <input class="quote-input" type="checkbox" id="ios"><label for="ios">iOS App Development</label>
+          <input class="quote-input" type="checkbox" id="seo"><label for="seo">SEO Services</label>
+          <input class="quote-input" type="checkbox" id="pwa"><label for="pwa">Progressive Web App</label>
+          <input class="quote-input" type="checkbox" id="b2c"><label for="b2c">B2C eCommerce Website</label>
+          <input class="quote-input" type="checkbox" id="ecomm"><label for="ecomm">Ecommerce Website</label>
+          <input class="quote-input" type="checkbox" id="highda"><label for="highda">High DA Backlink</label>
+          <input class="quote-input" type="checkbox" id="shopify"><label for="shopify">Shopify Store</label>
         </div>
   
-        <textarea placeholder="Write Your Quotation Detail Here...*" required></textarea>
-        <input type="file" class="full-width">
-        <button class="submit-btn" type="submit">SUBMIT NOW</button>
+        <textarea class="quote-textarea" placeholder="Write Your Quotation Detail Here...*" required></textarea>
+        <input class="quote-input" type="file" class="quote-full-width">
+        <button class="quote-submit-btn" type="submit">SUBMIT NOW</button>
       </form>
     </div>
   </section>
-
-
 
 
 {{-- @php
