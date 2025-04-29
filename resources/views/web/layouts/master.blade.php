@@ -276,25 +276,25 @@
         
 
 
-        /* footer section */
-        footer {
+    /* footer section */
+    .custom-footer {
       margin: 0;
       padding: 0;
       font-family: 'Poppins', sans-serif;
       background-color: #0B2447;
       color: #fff;
     }
-    footer {
+    .custom-footer {
       background: radial-gradient(circle at top left, #1A3C63, #0B2447);
       padding: 60px 0 30px;
     }
-    .footer-section h5 {
+    .custom-footer-section h5 {
       font-weight: 700;
       font-size: 20px;
       margin-bottom: 25px;
       position: relative;
     }
-    .footer-section h5::after {
+    .custom-footer-section h5::after {
       content: '';
       width: 40px;
       height: 3px;
@@ -303,40 +303,40 @@
       bottom: -10px;
       left: 0;
     }
-    .footer-section ul {
+    .custom-footer-section ul {
       list-style: none;
       padding: 0;
       margin: 0;
     }
-    .footer-section ul li {
+    .custom-footer-section ul li {
       margin-bottom: 15px;
     }
-    .footer-section ul li a {
+    .custom-footer-section ul li a {
       text-decoration: none;
       color: #e0e0e0;
       font-size: 16px;
       transition: 0.3s;
     }
-    .footer-section ul li a:hover {
+    .custom-footer-section ul li a:hover {
       color: #32CD32;
     }
-    .footer-divider {
+    .custom-footer-divider {
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       margin: 50px 0 20px;
     }
-    .footer-bottom {
+    .custom-footer-bottom {
       text-align: left;
       color: #aaa;
       font-size: 14px;
       line-height: 1.6;
     }
-    .footer-bottom p a{
+    .custom-footer-bottom p a{
         color: #ffffff
     }
-    .footer-social-icons {
+    .custom-footer-social-icons {
       margin-top: 20px;
     }
-    .footer-social-icons a {
+    .custom-footer-social-icons a {
       display: inline-block;
       width: 40px;
       height: 40px;
@@ -349,17 +349,17 @@
       color: #000;
       transition: 0.3s;
     }
-    .footer-social-icons a:hover {
+    .custom-footer-social-icons a:hover {
       transform: scale(1.1);
     }
-    .footer-social-icons a.whatsapp { background: #32CD32; color: #fff; }
-    .footer-social-icons a.facebook { background: #1877f2; color: #fff; }
-    .footer-social-icons a.twitter { background: #000; color: #fff; }
-    .footer-social-icons a.linkedin { background: #0a66c2; color: #fff; }
-    .footer-social-icons a.youtube { background: #ff0000; color: #fff; }
-    .footer-social-icons a.instagram { background: #E1306C; color: #fff; }
-    .footer-social-icons a.behance { background: #1769ff; color: #fff; }
-    .footer-social-icons a.pinterest { background: #e60023; color: #fff; }
+    .custom-footer-social-icons a.whatsapp { background: #32CD32; color: #fff; }
+    .custom-footer-social-icons a.facebook { background: #1877f2; color: #fff; }
+    .custom-footer-social-icons a.twitter { background: #000; color: #fff; }
+    .custom-footer-social-icons a.linkedin { background: #0a66c2; color: #fff; }
+    .custom-footer-social-icons a.youtube { background: #ff0000; color: #fff; }
+    .custom-footer-social-icons a.instagram { background: #E1306C; color: #fff; }
+    .custom-footer-social-icons a.behance { background: #1769ff; color: #fff; }
+    .custom-footer-social-icons a.pinterest { background: #e60023; color: #fff; }
       </style>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       {{-- google analytics --}}
@@ -1127,12 +1127,12 @@
         <!--End Subscribe Section-->
         @endif
 
-        <!-- Main Footer -->
-    <footer>
+        <!-- Main custom-Footer -->
+    <footer class="custom-footer">
         <div class="container">
           <div class="row text-start">
             
-            <div class="col-md-3 footer-section mb-4">
+            <div class="col-md-3 custom-footer-section mb-4">
               <h5>Company</h5>
               <ul>
                 <li><a href="{{ route('about') }}">About Us</a></li>
@@ -1142,7 +1142,7 @@
               </ul>
             </div>
       
-            <div class="col-md-3 footer-section mb-4">
+            <div class="col-md-3 custom-footer-section mb-4">
               <h5>Services</h5>
               <ul>
                 <li><a href="{{ route('services') }}">Services</a></li>
@@ -1151,7 +1151,7 @@
               </ul>
             </div>
       
-            <div class="col-md-3 footer-section mb-4">
+            <div class="col-md-3 custom-footer-section mb-4">
               <h5>Insights</h5>
               <ul>
                 <li><a href="{{ route('blogs') }}">Blog</a></li>
@@ -1161,11 +1161,11 @@
             </div>
 
             @if(count($pages) > 0)
-            <div class="col-md-3 footer-section mb-4">
+            <div class="col-md-3 custom-footer-section mb-4">
               <h5>Policies</h5>
               <ul>
                 @foreach($pages as $key => $page)
-                @if (isset($page->type) && $page->type == 'footer')
+                @if (isset($page->type) && $page->type == 'custom-footer')
                     <li><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></li>
                 @endif
                 @endforeach
@@ -1178,16 +1178,16 @@
             @endif
           </div>
       
-          <div class="footer-divider"></div>
+          <div class="custom-footer-divider"></div>
             
                 <div class="d-flex justify-content-between align-items-center">
                     @if(isset($setting))
-                    <div class="footer-bottom mt-3">
-                        <p style="color: #ffffff;">Copyright &copy; 2023 – {!! strip_tags($setting->footer_text, '<p><a><b><i><u><strong>') !!}</p>
+                    <div class="custom-footer-bottom mt-3">
+                        <p style="color: #ffffff;">Copyright &copy; 2023 – {!! strip_tags($setting->custom-footer_text, '<p><a><b><i><u><strong>') !!}</p>
                     </div>
                     @endif
                     <div class="text-center">
-                        <div class="footer-social-icons">
+                        <div class="custom-footer-social-icons">
                             @if(isset($social->facebook))
                                 <a class="facebook d-flex justify-content-center align-items-center" href="{{ $social->facebook }}" target="_blank"><i class="bi bi-facebook"></i></a>
                             @endif
@@ -1219,7 +1219,7 @@
             
           
         </div>
-      </footer>
+    </footer>
       
 
 
