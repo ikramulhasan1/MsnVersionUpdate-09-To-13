@@ -1130,7 +1130,7 @@
         <!-- Main custom-Footer -->
     <footer class="custom-footer">
         <div class="container">
-          <div class="row text-start">
+          <div class="row text-left">
             
             <div class="col-md-3 custom-footer-section mb-4">
               <h5>Company</h5>
