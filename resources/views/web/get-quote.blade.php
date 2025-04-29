@@ -357,7 +357,7 @@ $header = \App\Models\PageSetup::page('get-quote');
       }
 
       .quote-radio-group {
-        /* flex-direction: column; */
+        flex-direction: column;
         gap: 10px;
       }
     }
@@ -567,7 +567,7 @@ $header = \App\Models\PageSetup::page('get-quote');
         </div>
   
         <textarea class="quote-textarea" placeholder="Write Your Quotation Detail Here...*" required></textarea>
-        <input class="quote-input" type="file" class="quote-full-width">
+        <input class="quote-input" type="file" class="">
         <button class="quote-submit-btn" type="submit">SUBMIT NOW</button>
       </form>
     </div>
