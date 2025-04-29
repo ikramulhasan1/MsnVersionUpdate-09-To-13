@@ -364,7 +364,7 @@ $header = \App\Models\PageSetup::page('get-quote');
     }
 </style>
 <!--Page Title-->
-<section class="page-title">
+{{-- <section class="page-title">
     <div class="container">
         <div class="inner-container clearfix">
             <div class="title-box">
@@ -378,7 +378,7 @@ $header = \App\Models\PageSetup::page('get-quote');
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 <!--End Page Title-->
 
 <!-- Contact Section -->
