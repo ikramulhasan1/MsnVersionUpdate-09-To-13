@@ -216,6 +216,152 @@ $header = \App\Models\PageSetup::page('get-quote');
 
 }
 
+
+
+
+/* quote box */
+* {
+      /* margin: 0;
+      padding: 0; */
+      box-sizing: border-box;
+    }
+
+    .quoteFormSection {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(120deg, #e0eafc, #cfdef3);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      padding: 50px;
+      width: 100%;
+      max-width: 960px;
+      color: #333;
+    }
+
+    .container h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 32px;
+      font-weight: 600;
+      color: #222;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px 30px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      font-size: 15px;
+      background-color: rgba(255, 255, 255, 0.6);
+      transition: all 0.3s ease;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #3f7cf4;
+      background-color: #fff;
+    }
+
+    textarea {
+      grid-column: 1 / -1;
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    .radio-group {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 40px;
+      margin-top: -10px;
+    }
+
+    .radio-group label {
+      font-size: 14px;
+    }
+
+    .radio-group input {
+      margin-right: 6px;
+    }
+
+    .services {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .services label {
+      background-color: #f0f0f0;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      border: 1px solid #ccc;
+    }
+
+    .services input {
+      display: none;
+    }
+
+    .services input:checked + label {
+      background-color: #3f7cf4;
+      color: #fff;
+      border-color: #3f7cf4;
+    }
+
+    .submit-btn {
+      grid-column: 1 / -1;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 5px;
+      background-color: #3f7cf4;
+      color: #fff;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: #2c64d4;
+    }
+
+    @media (max-width: 768px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+
+      .radio-group {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
 </style>
 <!--Page Title-->
 <section class="page-title">
@@ -236,7 +382,7 @@ $header = \App\Models\PageSetup::page('get-quote');
 <!--End Page Title-->
 
 <!-- Contact Section -->
-<section class="contact-section">
+{{-- <section class="contact-section">
     <div class="container">
         <div class="row">
 
@@ -390,8 +536,45 @@ $header = \App\Models\PageSetup::page('get-quote');
 
         </div>
     </div>
-</section>
+</section> --}}
 <!--End Contact Section -->
+<section class="quoteFormSection">
+    <div class="container">
+      <h2>Get A Beautiful Quote</h2>
+      <form>
+        <input type="text" placeholder="Your Name *" required>
+        <input type="email" placeholder="Email Address *" required>
+        <input type="tel" placeholder="Phone No *" required>
+        <input type="text" placeholder="Company (Optional)">
+        <input type="text" placeholder="Address *" required>
+        <input type="text" placeholder="City *" required>
+  
+        <div class="radio-group">
+          <label><input type="radio" name="contact" value="Phone" checked> Phone</label>
+          <label><input type="radio" name="contact" value="Email"> Email</label>
+        </div>
+  
+        <div class="services">
+          <input type="checkbox" id="wordpress"><label for="wordpress">WordPress Website</label>
+          <input type="checkbox" id="webdev"><label for="webdev">Website Development</label>
+          <input type="checkbox" id="android"><label for="android">Android App Development</label>
+          <input type="checkbox" id="ios"><label for="ios">iOS App Development</label>
+          <input type="checkbox" id="seo"><label for="seo">SEO Services</label>
+          <input type="checkbox" id="pwa"><label for="pwa">Progressive Web App</label>
+          <input type="checkbox" id="b2c"><label for="b2c">B2C eCommerce Website</label>
+          <input type="checkbox" id="ecomm"><label for="ecomm">Ecommerce Website</label>
+          <input type="checkbox" id="highda"><label for="highda">High DA Backlink</label>
+          <input type="checkbox" id="shopify"><label for="shopify">Shopify Store</label>
+        </div>
+  
+        <textarea placeholder="Write Your Quotation Detail Here...*" required></textarea>
+        <input type="file" class="full-width">
+        <button class="submit-btn" type="submit">SUBMIT NOW</button>
+      </form>
+    </div>
+  </section>
+
+
 
 
 {{-- @php
