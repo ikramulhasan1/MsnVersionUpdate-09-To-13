@@ -238,8 +238,8 @@ $header = \App\Models\PageSetup::page('get-quote');
     .quote-container {
       background: rgba(255, 255, 255, 0.3);
       backdrop-filter: blur(20px);
-      border-radius: 24px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      box-shadow: 0 0px 2px rgba(0, 0, 0, 0.2);
       padding: 50px;
       width: 100%;
       max-width: 960px;
@@ -264,7 +264,7 @@ $header = \App\Models\PageSetup::page('get-quote');
     .quote-textarea,
     select {
       width: 100%;
-      padding: 14px 16px;
+      padding: 10px 12px;
       border-radius: 5px;
       border: 1px solid #ddd;
       font-size: 15px;
