@@ -238,8 +238,8 @@ $header = \App\Models\PageSetup::page('get-quote');
     .quote-container {
       background: rgba(255, 255, 255, 0.3);
       backdrop-filter: blur(20px);
-      border-radius: 10px;
-      box-shadow: 0 0px 2px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      box-shadow: 0 0px 1px rgba(0, 0, 0, 0.2);
       padding: 50px;
       width: 100%;
       max-width: 960px;
@@ -265,7 +265,7 @@ $header = \App\Models\PageSetup::page('get-quote');
     select {
       width: 100%;
       padding: 5px 12px;
-      border-radius: 5px;
+      border-radius: 2px;
       border: 1px solid #ddd;
       font-size: 15px;
       background-color: rgba(255, 255, 255, 0.6);
@@ -335,11 +335,11 @@ $header = \App\Models\PageSetup::page('get-quote');
 
     .quote-submit-btn {
       grid-column: 1 / -1;
-      padding: 16px;
+      padding: 7px;
       font-size: 16px;
       font-weight: 600;
       border: none;
-      border-radius: 5px;
+      border-radius: 2px;
       background-color: #3f7cf4;
       color: #fff;
       cursor: pointer;
