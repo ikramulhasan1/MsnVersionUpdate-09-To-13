@@ -548,11 +548,7 @@ $header = \App\Models\PageSetup::page('get-quote');
         <input class="quote-input" type="text" placeholder="Address *" required>
         <input class="quote-input" type="text" placeholder="City *" required>
   
-        <div class="quote-radio-group">
-          <label><input class="quote-input" type="radio" name="contact" value="Phone" checked> Phone</label>
-          <label><input class="quote-input" type="radio" name="contact" value="Email"> Email</label>
-        </div>
-  
+        
         <div class="quote-services">
           <input class="quote-input" type="checkbox" id="wordpress"><label for="wordpress">WordPress Website</label>
           <input class="quote-input" type="checkbox" id="webdev"><label for="webdev">Website Development</label>
@@ -568,6 +564,12 @@ $header = \App\Models\PageSetup::page('get-quote');
   
         <textarea class="quote-textarea" placeholder="Write Your Quotation Detail Here...*" required></textarea>
         <input class="quote-input" type="file" class="quote-full-width">
+
+        <div class="quote-radio-group">
+            <label><input class="quote-input" type="radio" name="contact" value="Phone" checked> Phone</label>
+            <label><input class="quote-input" type="radio" name="contact" value="Email"> Email</label>
+          </div>
+    
         <button class="quote-submit-btn" type="submit">SUBMIT NOW</button>
       </form>
     </div>
