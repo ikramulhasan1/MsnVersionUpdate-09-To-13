@@ -563,12 +563,14 @@ $header = \App\Models\PageSetup::page('get-quote');
         </div>
   
         <textarea class="quote-textarea" placeholder="Write Your Quotation Detail Here...*" required></textarea>
-        <input class="quote-input" type="file" class="quote-full-width">
+        <div class="d-flex align-items-center justify-content-between">
+            <input class="quote-input" type="file" class="quote-full-width">
 
-        <div class="quote-radio-group">
-            <label><input class="quote-input" type="radio" name="contact" value="Phone" checked> Phone</label>
-            <label><input class="quote-input" type="radio" name="contact" value="Email"> Email</label>
-          </div>
+            <div class="quote-radio-group">
+                <label><input class="quote-input" type="radio" name="contact" value="Phone" checked> Phone</label>
+                <label><input class="quote-input" type="radio" name="contact" value="Email"> Email</label>
+            </div>
+        </div>
     
         <button class="quote-submit-btn" type="submit">SUBMIT NOW</button>
       </form>
