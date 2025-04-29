@@ -227,7 +227,7 @@ $header = \App\Models\PageSetup::page('get-quote');
 
     .quoteFormSection {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(120deg, #F9FAFC, #F9FAFC);
+      background: linear-gradient(120deg, #e0eafc, #cfdef3);
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -539,7 +539,7 @@ $header = \App\Models\PageSetup::page('get-quote');
 <!--End Contact Section -->
 <section class="quoteFormSection">
     <div class="quote-container">
-      <h2>Get A Beautiful Quote</h2>
+      <h2 style="font-weight: 800" >Get A Quote</h2>
       <form class="quote-form" action="#" method="POST">
         <input class="quote-input" type="text" placeholder="Your Name *" required>
         <input class="quote-input" type="email" placeholder="Email Address *" required>
