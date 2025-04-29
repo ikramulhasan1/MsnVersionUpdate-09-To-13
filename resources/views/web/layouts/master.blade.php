@@ -1183,7 +1183,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     @if(isset($setting))
                     <div class="custom-footer-bottom mt-3">
-                        <p style="color: #ffffff;">Copyright &copy; 2023 – {!! strip_tags($setting->custom-footer_text, '<p><a><b><i><u><strong>') !!}</p>
+                        <p style="color: #ffffff;">Copyright &copy; 2023 – {!! strip_tags($setting->footer_text, '<p><a><b><i><u><strong>') !!}</p>
                     </div>
                     @endif
                     <div class="text-center">
