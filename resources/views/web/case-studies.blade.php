@@ -151,7 +151,7 @@
       <!-- Start of card -->
       <template id="card-template">
         <div class="col-md-6 col-lg-4">
-          
+          @foreach ($portfolios as $portfolio)
           <div class="card case-card">
             <img src="https://www.capitalnumbers.com/images/case-study-home/new-thumb-184.jpg" alt="Case Study">
             <div class="card-body d-flex flex-column">
@@ -172,14 +172,15 @@
               </div>
             </div>
           </div>
+          @endforeach
         </div>
       </template>
       <script>
-        const row = document.querySelector('.row');
-        const template = document.getElementById('card-template');
-        for (let i = 0; i < 9; i++) {
-          row.appendChild(template.content.cloneNode(true));
-        }
+        // const row = document.querySelector('.row');
+        // const template = document.getElementById('card-template');
+        // for (let i = 0; i < 9; i++) {
+        //   row.appendChild(template.content.cloneNode(true));
+        // }
       </script>
     </div>
   </div>
