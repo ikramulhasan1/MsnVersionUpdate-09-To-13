@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\CaseStudy;
+use App\Models\FaqCategory;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class CaseStudyController extends Controller
 {
@@ -36,7 +37,7 @@ class CaseStudyController extends Controller
         $data['title'] = $this->title;
         $data['route'] = $this->route;
         $data['view'] = $this->view;
-        // $data['faqCategories'] = FaqCategory::where('status', 1)->get();
+        $data['faqCategories'] = FaqCategory::where('status', 1)->get();
 
         return view($this->view.'.create', $data);
     }
