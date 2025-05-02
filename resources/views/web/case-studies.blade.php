@@ -165,9 +165,9 @@
                         DOWNLOAD
                     </a>
                 </div>
-                <button class="btn btn-sm btn-readmore">
+                <a href="{{ route('case-study.single') }}" class="btn btn-sm btn-readmore">
                   READ MORE
-                </button>
+                </a>
               </div>
             </div>
           </div>

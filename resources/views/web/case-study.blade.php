@@ -1,4 +1,6 @@
 @extends('web.layouts.master')
+@section('content')
+
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <!-- Glide.js CSS -->
@@ -984,3 +986,4 @@
   
   
 
+@endsection
