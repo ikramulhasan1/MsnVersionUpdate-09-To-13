@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\WhyweController;
+use App\Http\Controllers\Web\MeetingController;
+use App\Http\Controllers\web\CasestudyController;
 use App\Http\Controllers\Admin\IndustryController;
 use App\Http\Controllers\Admin\MeetingGetController;
-use App\Http\Controllers\Web\MeetingController;
 use App\Http\Controllers\Admin\RedirectUrlController;
-use App\Http\Controllers\Admin\WhyweController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,10 @@ Route::middleware(['XSS','redirect'])->namespace('Web')->group(function () {
     // Portfolio Routes
     Route::get('/portfolios', 'PortfolioController@index')->name('portfolios');
     Route::get('/portfolio/{slug}', 'PortfolioController@show')->name('portfolio.single');
+
+    // Case studies Routes
+    Route::get('/case-studies', [CasestudyController::class, 'index'])->name('case-studies');
+    Route::get('/case-study/{slug}', [CasestudyController::class, 'show'])->name('case-study.single');
 
     // Pricing Route
     Route::get('/pricing', 'PricingController@index')->name('pricing');
