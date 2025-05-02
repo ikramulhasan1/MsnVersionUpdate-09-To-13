@@ -1072,6 +1072,14 @@
                                     @if(isset($page_blog))
                                     <li class="{{ Request::is('blogs*') ? 'current' : '' }}"><a href="{{ route('blogs') }}">{{ $page_blog->title }}</a></li>
                                     @endif
+                                    
+                                    @php
+                                    $page_casestudy = \App\Models\PageSetup::page('case-studies');
+                                    @endphp
+                                    @if(isset($page_casestudy))
+                                    <li class="{{ Request::is('case-studies*') ? 'current' : '' }}"><a href="{{ route(name: 'case-studies') }}">{{ $page_casestudy->title }}</a></li>
+                                    @endif
+
 
                                     @php
                                     $page_quote = \App\Models\PageSetup::page('get-quote');
