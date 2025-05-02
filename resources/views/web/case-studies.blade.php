@@ -149,9 +149,10 @@
   <div class="container pb-5">
     <div class="row g-4">
       <!-- Start of card -->
+      @foreach ($portfolios as $portfolio)
       <template id="card-template">
         <div class="col-md-6 col-lg-4">
-          @foreach ($portfolios as $portfolio)
+         
           <div class="card case-card">
             <img src="https://www.capitalnumbers.com/images/case-study-home/new-thumb-184.jpg" alt="Case Study">
             <div class="card-body d-flex flex-column">
@@ -172,9 +173,10 @@
               </div>
             </div>
           </div>
-          @endforeach
+          
         </div>
       </template>
+      @endforeach
       <script>
         const row = document.querySelector('.row');
         const template = document.getElementById('card-template');
