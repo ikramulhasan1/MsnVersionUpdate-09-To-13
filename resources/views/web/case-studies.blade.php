@@ -2,7 +2,7 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <style>
-  body {
+  /* body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #fff;
   }
@@ -11,7 +11,7 @@
     color: white;
     padding: 4rem 2rem 3rem;
     text-align: center;
-  }
+  } */
   .hero h1 {
     font-size: 3rem;
     font-weight: 700;
