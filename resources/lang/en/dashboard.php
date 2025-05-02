@@ -85,6 +85,7 @@ return array (
   'faq_list' => 'FAQ List|FAQ List',
   'faq_category' => 'FAQ Category|FAQ Categories',
   'slider' => 'Slider|Sliders',
+  'case-studies' => 'Case Studies|Case Study',
   'partner' => 'Partner|Partners',
   'testimonial' => 'Testimonial|Testimonials',
   'work_process' => 'Work Process|Work Processes',

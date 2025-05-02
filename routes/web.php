@@ -2,21 +2,12 @@
 
 use App\Http\Controllers\Admin\WhyweController;
 use App\Http\Controllers\Web\MeetingController;
-use App\Http\Controllers\web\CasestudyController;
+// use App\Http\Controllers\web\CasestudyController;
 use App\Http\Controllers\Admin\IndustryController;
+use App\Http\Controllers\Admin\CaseStudyController;
 use App\Http\Controllers\Admin\MeetingGetController;
 use App\Http\Controllers\Admin\RedirectUrlController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::middleware(['XSS','redirect'])->namespace('Web')->group(function () {
     Route::post('/meetings', [MeetingController::class, 'store'])->name('meetings.store');
@@ -57,8 +48,8 @@ Route::middleware(['XSS','redirect'])->namespace('Web')->group(function () {
     Route::get('/portfolio/{slug}', 'PortfolioController@show')->name('portfolio.single');
 
     // Case studies Routes
-    Route::get('/case-studies', 'CasestudyController@index')->name('case-studies');
-    Route::get('/case-study/{slug}', [CasestudyController::class, 'show'])->name('case-study.single');
+    Route::get('/case', 'CaseController@index')->name('case');
+    Route::get('/case-study/{slug}', 'CaseController@show')->name('case-study.single');
 
     // Pricing Route
     Route::get('/pricing', 'PricingController@index')->name('pricing');
@@ -98,6 +89,7 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
 
     // Resource route for Redirect URL management
     Route::resource('meetinggets', MeetingGetController::class);
+    Route::resource('case-studies', CaseStudyController::class);
 
     Route::resource('whywes', WhyweController::class);
     Route::resource('industries', IndustryController::class);

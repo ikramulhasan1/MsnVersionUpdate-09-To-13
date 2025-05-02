@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\web;
+namespace App\Http\Controllers\Web;
 
 use App\Models\Portfolio;
 use Illuminate\Http\Request;
 use App\Models\PortfolioCategory;
 use App\Http\Controllers\Controller;
 
-class CasestudyController extends Controller
+class CaseController extends Controller
 {
-     public function index()
+    public function index()
     {
         // Portfolio Categories                                
         $data['portfolio_categories'] = PortfolioCategory::where('status', '1')

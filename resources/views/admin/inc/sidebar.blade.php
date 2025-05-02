@@ -131,6 +131,13 @@
         </li>
 
         <li>
+            <a href="{{ route('admin.case-studies.index') }}">
+                <span class="icon"><i class="fas fa-photo-video"></i></span>
+                <span> {{ trans_choice('dashboard.case-studies', 2) }} </span>
+            </a>
+        </li>
+
+        <li>
             <a href="{{ route('admin.client.index') }}">
                 <span class="icon"><i class="fas fa-mug-hot"></i></span>
                 <span> {{ trans_choice('dashboard.partner', 2) }} </span>

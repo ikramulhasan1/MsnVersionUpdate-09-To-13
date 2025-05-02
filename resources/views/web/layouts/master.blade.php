@@ -871,7 +871,7 @@
                                     $page_casestudy = \App\Models\PageSetup::page('case-studies');
                                     @endphp
                                     @if(isset($page_casestudy))
-                                    <li class="{{ Request::is('case-studies*') ? 'current' : '' }}"><a href="{{ route(name: 'case-studies') }}">{{ $page_casestudy->title }}</a></li>
+                                    <li class="{{ Request::is('case*') ? 'current' : '' }}"><a href="{{ route(name: 'case') }}">{{ $page_casestudy->title }}</a></li>
                                     @endif
 
 
@@ -1077,7 +1077,7 @@
                                     $page_casestudy = \App\Models\PageSetup::page('case-studies');
                                     @endphp
                                     @if(isset($page_casestudy))
-                                    <li class="{{ Request::is('case-studies*') ? 'current' : '' }}"><a href="{{ route(name: 'case-studies') }}">{{ $page_casestudy->title }}</a></li>
+                                    <li class="{{ Request::is('case*') ? 'current' : '' }}"><a href="{{ route(name: 'case') }}">{{ $page_casestudy->title }}</a></li>
                                     @endif
 
 
