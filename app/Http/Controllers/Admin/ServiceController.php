@@ -17,11 +17,6 @@ use App\Models\Whywe;
 
 class ServiceController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         // Module Data
@@ -31,11 +26,6 @@ class ServiceController extends Controller
         $this->path = 'service';
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         //
@@ -49,11 +39,6 @@ class ServiceController extends Controller
         return view($this->view.'.index', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
