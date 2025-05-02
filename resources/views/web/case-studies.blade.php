@@ -1,6 +1,8 @@
 @extends('web.layouts.master')
+@section('content')
 
-{{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"> --}}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <style>
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -195,3 +197,4 @@
       </ul>
     </nav>
   </div>
+  @endsection
