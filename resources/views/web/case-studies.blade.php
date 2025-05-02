@@ -1,6 +1,6 @@
 @extends('web.layouts.master')
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+{{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"> --}}
 <style>
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -12,7 +12,7 @@
     padding: 4rem 2rem 3rem;
     text-align: center;
   }
-  /* .hero h1 {
+  .hero h1 {
     font-size: 3rem;
     font-weight: 700;
     letter-spacing: 1px;
@@ -69,9 +69,13 @@
     margin-bottom: 0.5rem;
     font-size: 16px !important;
     color: #333333 !important;
+  }
+  /* .card-body .btn {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
   } */
-
-  /* .btn-download {
+  .btn-download {
     border: none;
     border-bottom: 1px solid #a7a7a7;
     color: #333333;
@@ -119,7 +123,7 @@
     background-color: #FF5722;
     border-color: #FF5722;
     color: #fff;
-  } */
+  }
 
 
 </style>
