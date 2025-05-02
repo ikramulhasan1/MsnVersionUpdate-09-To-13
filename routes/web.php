@@ -57,7 +57,7 @@ Route::middleware(['XSS','redirect'])->namespace('Web')->group(function () {
     Route::get('/portfolio/{slug}', 'PortfolioController@show')->name('portfolio.single');
 
     // Case studies Routes
-    Route::get('/case-studies', [CasestudyController::class, 'index'])->name('case-studies');
+    Route::get('/case-studies', 'CasestudyController@index')->name('case-studies');
     Route::get('/case-study/{slug}', [CasestudyController::class, 'show'])->name('case-study.single');
 
     // Pricing Route
