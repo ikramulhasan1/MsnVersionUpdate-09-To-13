@@ -151,6 +151,7 @@
       <!-- Start of card -->
       <template id="card-template">
         <div class="col-md-6 col-lg-4">
+          
           <div class="card case-card">
             <img src="https://www.capitalnumbers.com/images/case-study-home/new-thumb-184.jpg" alt="Case Study">
             <div class="card-body d-flex flex-column">
@@ -165,7 +166,7 @@
                         DOWNLOAD
                     </a>
                 </div>
-                <a href="{{ route('case-study.single') }}" class="btn btn-sm btn-readmore">
+                <a href="{{ route('case-study.single', $portfolio->slug) }}" class="btn btn-sm btn-readmore">
                   READ MORE
                 </a>
               </div>
