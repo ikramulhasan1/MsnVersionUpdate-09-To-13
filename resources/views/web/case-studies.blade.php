@@ -176,11 +176,11 @@
         </div>
       </template>
       <script>
-        // const row = document.querySelector('.row');
-        // const template = document.getElementById('card-template');
-        // for (let i = 0; i < 9; i++) {
-        //   row.appendChild(template.content.cloneNode(true));
-        // }
+        const row = document.querySelector('.row');
+        const template = document.getElementById('card-template');
+        for (let i = 0; i < 9; i++) {
+          row.appendChild(template.content.cloneNode(true));
+        }
       </script>
     </div>
   </div>
