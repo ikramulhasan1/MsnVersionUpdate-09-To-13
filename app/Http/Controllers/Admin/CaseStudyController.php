@@ -36,7 +36,7 @@ class CaseStudyController extends Controller
         $data['title'] = $this->title;
         $data['route'] = $this->route;
         $data['view'] = $this->view;
-        $data['faqCategories'] = FaqCategory::where('status', 1)->get();
+        // $data['faqCategories'] = FaqCategory::where('status', 1)->get();
 
         return view($this->view.'.create', $data);
     }
