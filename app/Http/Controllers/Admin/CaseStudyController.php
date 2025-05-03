@@ -174,9 +174,9 @@ class CaseStudyController extends Controller
                 $processImageName = null;
         
                 // // Check if record already exists
-                // $existing = CaseStudy::where('case_title', $process['case_title'])
-                //     ->where('id', $CaseStudy->id)
-                //     ->first();
+                $existing = CaseStudy::where('case_title', $process['case_title'])
+                    ->where('id', $CaseStudy->id)
+                    ->first();
         
                 // Check if new image uploaded
                 if ($request->hasFile("case.$index.case_image")) {
@@ -190,9 +190,9 @@ class CaseStudyController extends Controller
                     }
         
                     // Delete old image if exists
-                    // if ($existing && $existing->image_path && File::exists($path . $existing->image_path)) {
-                    //     File::delete($path . $existing->image_path);
-                    // }
+                    if ($existing && $existing->image_path && File::exists($path . $existing->image_path)) {
+                        File::delete($path . $existing->image_path);
+                    }
         
                     // Save new image
                     Image::make($file->getRealPath())
@@ -206,10 +206,15 @@ class CaseStudyController extends Controller
                 // Use new image or retain existing
                 $finalImagePath = $processImageName ?? ($existing->image_path ?? null);
         
-                $CaseStudy->case_title = $process['case_title'];
-                $CaseStudy->case_description = $process['case_description'];
-                $CaseStudy->case_image = $finalImagePath;
-                $CaseStudy->save();
+                // $CaseStudy->case_title = $process['case_title'];
+                // $CaseStudy->case_description = $process['case_description'];
+                // $CaseStudy->case_image = $finalImagePath;
+                // $CaseStudy->save();
+
+                CaseStudy::updateOrCreate(
+                    ['case_title' => $process['case_title']],
+                    ['case_description' => $process['case_description'], 'case_image' => $finalImagePath]
+                );
             }
         }
         
