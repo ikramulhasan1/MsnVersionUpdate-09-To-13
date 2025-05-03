@@ -150,8 +150,8 @@
     <div class="row g-4">
       <!-- Start of card -->
       @foreach ($portfolios as $portfolio)
-      <template id="card-template" class="mb-4">
-        <div class="col-md-6 col-lg-4">
+      <template id="card-template">
+        <div class="col-md-6 col-lg-4 mb-4">
          
           <div class="card case-card">
             <img src="https://www.capitalnumbers.com/images/case-study-home/new-thumb-184.jpg" alt="Case Study">
