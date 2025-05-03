@@ -102,13 +102,6 @@
     }
 
     .caseStudy-section-header {
-      font-size: 35px;
-      font-weight: 700;
-      border-left: 4px solid #2ED47A;
-      padding-left: 12px;
-      margin-bottom: 20px;
-    }
-    .caseStudy-section-header {
       position: relative;
       font-size: 35px;
       font-weight: 700;
@@ -224,12 +217,6 @@
       margin-bottom: 40px;
     }
 
-    /* .section-title {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 30px;
-    } */
-
     .caseStudy-subheading {
       font-weight: 600;
       margin-top: 25px;
@@ -305,13 +292,6 @@
       text-decoration: underline;
     }
 
-    /* TECHNOLOGY SECTION */
-    /* .section-title {
-      font-size: 28px;
-      font-weight: 700;
-      color: #1E1E1E;
-      margin-bottom: 10px;
-    } */
 
     /* .section-divider {
       width: 70px;
@@ -394,31 +374,11 @@
       cursor: pointer;
     }
 
-
-
     /* result */
     .caseStudy-results-section {
       max-width: 900px;
       margin: auto;
     }
-
-    /* .results-title {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      position: relative;
-    }
-
-    .results-title::after {
-      content: '';
-      display: block;
-      width: 60px;
-      height: 4px;
-      background-color: #00b67a;
-      margin-top: 8px;
-      border-radius: 2px;
-    } */
-
     .caseStudy-result-item {
       display: flex;
       align-items: flex-start;
@@ -555,14 +515,6 @@
       font-weight: 700;
       margin-bottom: 0.5rem;
     }
-
-    /* .underline {
-      width: 60px;
-      height: 4px;
-      background-color: #10b981;
-      border-radius: 4px;
-      margin-bottom: 1.5rem;
-    } */
 
     .caseStudy-section p {
       font-size: 1rem;

@@ -150,7 +150,7 @@
     <div class="row g-4">
       <!-- Start of card -->
       @foreach ($portfolios as $portfolio)
-      <template id="card-template">
+      <template id="card-template" class="mb-4">
         <div class="col-md-6 col-lg-4">
          
           <div class="card case-card">
