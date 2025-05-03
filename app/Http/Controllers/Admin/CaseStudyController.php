@@ -136,22 +136,26 @@ class CaseStudyController extends Controller
         }
 
         // Insert Data
-        $service = new Service;
-        $service->title = $request->title;
-        $service->keywords = $request->keywords;
-        $service->price = $request->price;
-        $service->starting_price = $request->starting_price;
-        $service->priceCurrency = $request->priceCurrency;
-        $service->average_rating = $request->average_rating;
-        $service->review_count = $request->review_count;
-        $service->short_title = $request->short_title;
-        $service->meta_title = $request->meta_title;
-        $service->slug = Str::slug(strtolower($request->slug), '-');
-        $service->short_desc = $request->short_desc;
-        $service->description = $dom->saveHTML();
-        $service->image_path = $fileNameToStore;
-        $service->manu = $request->manu;
-        $service->save();
+        $CaseStudy = new CaseStudy;
+        $CaseStudy->main_title = $request->main_title;
+        $CaseStudy->slug = Str::slug(strtolower($request->main_title), '-');
+        $CaseStudy->meta_title = $request->meta_title;
+        $CaseStudy->meta_desc = $request->meta_desc;
+        $CaseStudy->keywords = $request->keywords;
+        $CaseStudy->the_client = $request->the_client;
+        $CaseStudy->the_client_desc = $request->the_client_desc;
+        // $CaseStudy->description = $dom->saveHTML();
+        $CaseStudy->industry = $request->industry;
+        $CaseStudy->tech_stack = $request->tech_stack;
+        $CaseStudy->country = $request->country;
+        $CaseStudy->case_title = $request->case_title;
+        $CaseStudy->case_description = $request->case_description;
+        $CaseStudy->country = $request->country;
+        $CaseStudy->service_id = $request->service_id;
+        $CaseStudy->technology_id = $request->technology_id;
+        $CaseStudy->image_path = $fileNameToStore;
+        $CaseStudy->status = $request->status;
+        $CaseStudy->save();
 
 
         foreach ($request->faqs as $faq) {
@@ -160,7 +164,7 @@ class CaseStudyController extends Controller
                 'type' => $request->type,
                 'title' => $faq['title'],
                 'description' => $faq['description'],
-                'service_id' => $service->id,
+                'service_id' => $CaseStudy->id,
             ]);
         }
         Toastr::success(__('dashboard.created_successfully'), __('dashboard.success'));

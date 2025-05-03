@@ -117,6 +117,8 @@ return array (
   'youtube_video_id' => 'Youtube Video ID',
   'icon' => 'Icon',
   'value' => 'Value',
+  'country' => 'Country',
+  'the_client' => 'The Client',
   'status' => 'Status',
   'action' => 'Action',
   'logo' => 'Logo',

@@ -38,19 +38,26 @@
                         </div>
                         
                         <div class="row">                        
-                            <div class="form-group col-6">
-                                <label for="slug">{{ __('dashboard.slug') }} <span>* [Write a unique slug]</span></label>
-                                <input type="text" class="form-control" name="slug" id="slug" value="{{ old('slug') }}" required>
+                            <div class="form-group col-4">
+                                <label for="the_client">{{ __('dashboard.the_client') }} <span>* [Write a unique the_client]</span></label>
+                                <input type="text" class="form-control" name="the_client" id="the_client" value="The Client" required>
                                 <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.slug') }}
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.the_client') }}
                                 </div>
                             </div>
-                            <div class="form-group col-6">
-                                <label for="short_title">{{ __('dashboard.short_title') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="short_title" id="short_title" value="{{ old('short_title') }}" required>
+                            <div class="form-group col-4">
+                                <label for="industry">{{ __('dashboard.industry') }} <span>* [Write a industry]</span></label>
+                                <input type="text" class="form-control" name="industry" id="industry" value="{{ old('industry') }}" required>
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.industry') }}
+                                </div>
+                            </div>
+                            <div class="form-group col-4">
+                                <label for="country">{{ __('dashboard.country') }} <span>*</span></label>
+                                <input type="text" class="form-control" name="country" id="country" value="{{ old('country') }}" required>
     
                                 <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.short_title') }}
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.country') }}
                                 </div>
                             </div>
                         </div>
