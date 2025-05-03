@@ -273,7 +273,7 @@ function addProcess() {
     const processGroup = document.createElement('div');
     processGroup.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
     processGroup.innerHTML = `
-        <div class="form-group col p-0">
+        <div class="">
             <label for="status">{{ __('dashboard.title') }}</label>
              <select name="case[${processIndex}][case_title]" class="form-select select2" id="select2Example">
                  <option selected value="The Challenges">The Challenges</option>
@@ -282,10 +282,6 @@ function addProcess() {
                 <option value="Key Features Delivered">Key Features Delivered</option>
                 <option value="Client Testimonial">Client Testimonial (if available)</option>
             </select>
-
-            
- 
-
 
         </div>
         <textarea type="text" class="form-control mb-1" name="case[${processIndex}][case_description]" placeholder="${processIndex + 1}. Description"></textarea>
