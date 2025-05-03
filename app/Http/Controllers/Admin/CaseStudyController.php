@@ -147,11 +147,17 @@ class CaseStudyController extends Controller
         $CaseStudy->meta_title = $request->meta_title;
         $CaseStudy->meta_desc = $request->meta_desc;
         $CaseStudy->keywords = $request->keywords;
+    
+    
+
         $CaseStudy->the_client = $request->the_client;
         $CaseStudy->the_client_desc = $request->the_client_desc;
         // $CaseStudy->description = $dom->saveHTML();
         $CaseStudy->industry = $request->industry;
-        $CaseStudy->tech_stack = $request->tech_stack;
+        // $CaseStudy->tech_stack = $request->tech_stack;
+        $CaseStudy->tech_stack = is_array($request->tech_stack)
+        ? implode(',', $request->tech_stack)
+        : $request->tech_stack;
         $CaseStudy->country = $request->country;
         // $CaseStudy->case_title = $request->case_title;
         // $CaseStudy->case_description = $request->case_description;
@@ -160,7 +166,7 @@ class CaseStudyController extends Controller
         // $CaseStudy->technology_id = $request->technology_id;
         $CaseStudy->image_path = $fileNameToStore;
         $CaseStudy->status = $request->status;
-        
+        $CaseStudy->save();
 
         // 
         if ($request->has('case')) {
@@ -197,20 +203,16 @@ class CaseStudyController extends Controller
                         ->encode('webp', 90)
                         ->save($path . $processImageName);
                 }
-        
                 // Use new image or retain existing
                 $finalImagePath = $processImageName ?? ($existing->image_path ?? null);
         
-                
                 $CaseStudy->case_title = $process['case_title'];
                 $CaseStudy->case_description = $process['case_description'];
                 $CaseStudy->case_image = $finalImagePath;
                 $CaseStudy->save();
-                   
-                
             }
         }
-        $CaseStudy->save();
+        
         // foreach ($request->faqs as $faq) {
         //     Faq::create([
         //         'category_id' => $faq['category_id'],
