@@ -50,6 +50,7 @@ class CaseStudyController extends Controller
 
     public function store(Request $request)
     {
+
         // Field Validation
         $request->validate([
             'main_title' => 'required|max:191|unique:case_studies,main_title',
@@ -68,15 +69,6 @@ class CaseStudyController extends Controller
         if ($existingKeywords) {
             return back()->withErrors(['keywords' => 'Some keywords already exist. Please use unique tags.']);
         }
-
-        
-        // $tech_stack = array_unique(array_map('trim', explode(',', $request->tech_stack)));
-        // $existingtech_stack = CaseStudy::whereRaw("FIND_IN_SET(tech_stack, ?) > 0", [implode(',', $tech_stack)])->exists();
-        // if ($existingtech_stack) {
-        //     return back()->withErrors(['tech_stack' => 'Some tech_stack already exist. Please use unique tags.']);
-        // }
-
-
         // Image upload, fit, and store inside public folder 
         if($request->hasFile('image')){
             $filenameWithExt = $request->file('image')->getClientOriginalName();
@@ -161,7 +153,7 @@ class CaseStudyController extends Controller
         $CaseStudy->country = $request->country;
         // $CaseStudy->case_title = $request->case_title;
         // $CaseStudy->case_description = $request->case_description;
-        $CaseStudy->country = $request->country;
+        // $CaseStudy->country = $request->country;
         // $CaseStudy->service_id = $request->service_id;
         // $CaseStudy->technology_id = $request->technology_id;
         $CaseStudy->image_path = $fileNameToStore;
@@ -178,7 +170,7 @@ class CaseStudyController extends Controller
                     $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                     $processImageName = $filename.'_'.time().'.webp';
         
-                    $path = public_path('uploads/casestudy/');
+                    $path = public_path('uploads/'.$this->path.'/');
                     if (!File::exists($path)) {
                         File::makeDirectory($path, 0777, true, true);
                     }
