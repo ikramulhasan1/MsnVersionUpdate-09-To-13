@@ -5,6 +5,35 @@
     .ts-dropdown{
         background-color: #ffffff !important;
     }
+
+
+    .case-services {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .case-services label {
+      background-color: #f0f0f0;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      border: 1px solid #ccc;
+    }
+
+    .case-services input {
+      display: none;
+    }
+
+    .case-services input:checked + label {
+      background-color: #3f7cf4;
+      color: #fff;
+      border-color: #3f7cf4;
+    }
 </style>
 <!-- Tom Select CSS -->
 <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
@@ -84,6 +113,21 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
                             </div>
                         </div>
+
+                        <div class="case-services">
+                            <input type="checkbox" id="wordpress"><label for="wordpress">WordPress Website</label>
+                            <input type="checkbox" id="webdev"><label for="webdev">Website Development</label>
+                            <input type="checkbox" id="android"><label for="android">Android App Development</label>
+                            <input type="checkbox" id="ios"><label for="ios">iOS App Development</label>
+                            <input type="checkbox" id="seo"><label for="seo">SEO Services</label>
+                            <input type="checkbox" id="pwa"><label for="pwa">Progressive Web App</label>
+                            <input type="checkbox" id="b2c"><label for="b2c">B2C eCommerce Website</label>
+                            <input type="checkbox" id="ecomm"><label for="ecomm">Ecommerce Website</label>
+                            <input type="checkbox" id="highda"><label for="highda">High DA Backlink</label>
+                            <input type="checkbox" id="shopify"><label for="shopify">Shopify Store</label>
+                          </div>
+
+
                         <div class="form-group">
                             <label for="the_client_desc">{{ __('dashboard.description') }} <span>*</span></label>
                             <textarea class="form-control" name="the_client_desc" id="editor1" rows="8" required>{{ old('the_client_desc') }}</textarea>
@@ -124,7 +168,8 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.thumbnail') }}
                             </div>
                         </div>
-                        
+                        <input hidden type="file" class="form-control mb-1" value="1" name="status">
+
                         {{-- <h3>FAQs</h3>
                         <div class="row">
                         

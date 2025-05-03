@@ -150,9 +150,7 @@ class CaseStudyController extends Controller
         ? implode(',', $request->tech_stack)
         : $request->tech_stack;
         $CaseStudy->country = $request->country;
-        // $CaseStudy->case_title = $request->case_title;
-        // $CaseStudy->case_description = $request->case_description;
-        // $CaseStudy->country = $request->country;
+     
         // $CaseStudy->service_id = $request->service_id;
         // $CaseStudy->technology_id = $request->technology_id;
         $CaseStudy->image_path = $fileNameToStore;
@@ -194,8 +192,6 @@ class CaseStudyController extends Controller
         $CaseStudy->case_steps = json_encode($caseSteps);
         $CaseStudy->save();
 
-                
-        
         // foreach ($request->faqs as $faq) {
         //     Faq::create([
         //         'category_id' => $faq['category_id'],
