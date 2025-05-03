@@ -70,11 +70,11 @@ class CaseStudyController extends Controller
         }
 
         
-        $tech_stack = array_unique(array_map('trim', explode(',', $request->tech_stack)));
-        $existingtech_stack = CaseStudy::whereRaw("FIND_IN_SET(tech_stack, ?) > 0", [implode(',', $tech_stack)])->exists();
-        if ($existingtech_stack) {
-            return back()->withErrors(['tech_stack' => 'Some tech_stack already exist. Please use unique tags.']);
-        }
+        // $tech_stack = array_unique(array_map('trim', explode(',', $request->tech_stack)));
+        // $existingtech_stack = CaseStudy::whereRaw("FIND_IN_SET(tech_stack, ?) > 0", [implode(',', $tech_stack)])->exists();
+        // if ($existingtech_stack) {
+        //     return back()->withErrors(['tech_stack' => 'Some tech_stack already exist. Please use unique tags.']);
+        // }
 
 
         // Image upload, fit, and store inside public folder 
