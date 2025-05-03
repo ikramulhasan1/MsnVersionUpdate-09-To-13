@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use File;
+use Image;
+use Toastr;
+use Illuminate\Support\Str;
 use App\Models\CaseStudy;
 use App\Models\FaqCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
 
 class CaseStudyController extends Controller
 {
@@ -148,15 +153,63 @@ class CaseStudyController extends Controller
         $CaseStudy->industry = $request->industry;
         $CaseStudy->tech_stack = $request->tech_stack;
         $CaseStudy->country = $request->country;
-        $CaseStudy->case_title = $request->case_title;
-        $CaseStudy->case_description = $request->case_description;
+        // $CaseStudy->case_title = $request->case_title;
+        // $CaseStudy->case_description = $request->case_description;
         $CaseStudy->country = $request->country;
-        $CaseStudy->service_id = $request->service_id;
-        $CaseStudy->technology_id = $request->technology_id;
+        // $CaseStudy->service_id = $request->service_id;
+        // $CaseStudy->technology_id = $request->technology_id;
         $CaseStudy->image_path = $fileNameToStore;
         $CaseStudy->status = $request->status;
         $CaseStudy->save();
 
+        // 
+        if ($request->has('case')) {
+            foreach ($request->case as $index => $process) {
+                $processImageName = null;
+        
+                // // Check if record already exists
+                // $existing = CaseStudy::where('case_title', $process['case_title'])
+                //     ->where('id', $CaseStudy->id)
+                //     ->first();
+        
+                // Check if new image uploaded
+                if ($request->hasFile("case.$index.case_image")) {
+                    $file = $request->file("case.$index.case_image");
+                    $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $processImageName = $filename.'_'.time().'.webp';
+        
+                    $path = public_path('uploads/casestudy/');
+                    if (!File::exists($path)) {
+                        File::makeDirectory($path, 0777, true, true);
+                    }
+        
+                    // Delete old image if exists
+                    // if ($existing && $existing->image_path && File::exists($path . $existing->image_path)) {
+                    //     File::delete($path . $existing->image_path);
+                    // }
+        
+                    // Save new image
+                    Image::make($file->getRealPath())
+                        ->resize(756, 419, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })
+                        ->encode('webp', 90)
+                        ->save($path . $processImageName);
+                }
+        
+                // Use new image or retain existing
+                $finalImagePath = $processImageName ?? ($existing->image_path ?? null);
+        
+                CaseStudy::save(
+                    [
+                        'case_title' => $process['case_title'],
+                        'case_description' => $process['case_description'], 
+                        'case_image' => $finalImagePath
+                    ]
+                );
+            }
+        }
 
         foreach ($request->faqs as $faq) {
             Faq::create([
@@ -182,7 +235,7 @@ class CaseStudyController extends Controller
         $data['view'] = $this->view;
         $data['path'] = $this->path;
 
-        $data['row'] = $service;
+        $data['row'] = $casestudy;
 
         return view($this->view.'.show', $data);
     }
@@ -201,7 +254,7 @@ class CaseStudyController extends Controller
         $data['view'] = $this->view;
         $data['path'] = $this->path;
         $data['faqCategories'] = FaqCategory::where('status', 1)->get();
-        $data['row'] = $service;
+        $data['row'] = $casestudy;
 
         return view($this->view.'.edit', $data);
     }
@@ -212,7 +265,7 @@ class CaseStudyController extends Controller
 {
     // Field Validation
     $request->validate([
-        'main_title' => 'required|max:191|unique:case_studies,main_title'.$service->id,
+        'main_title' => 'required|max:191|unique:case_studies,main_title'.$casestudy->id,
         'the_client' => 'required',
         'the_client_desc' => 'required',
         'industry' => 'required',
@@ -223,7 +276,7 @@ class CaseStudyController extends Controller
     $keywords = array_unique(array_map('trim', explode(',', $request->keywords)));
 
     // Check for existing keywords in other articles (excluding the current article)
-    $existingKeywords = Service::where('id', '!=', $service->id)
+    $existingKeywords = Service::where('id', '!=', $casestudy->id)
                                ->whereRaw("FIND_IN_SET(keywords, ?) > 0", [implode(',', $keywords)])
                                ->exists();
 
@@ -234,7 +287,7 @@ class CaseStudyController extends Controller
     // Image upload, fit, and store inside public folder 
     if($request->hasFile('image')){
 
-        $file_path = public_path('uploads/'.$this->path.'/'.$service->image_path);
+        $file_path = public_path('uploads/'.$this->path.'/'.$casestudy->image_path);
         if(File::isFile($file_path)){
             File::delete($file_path);
         }
@@ -259,7 +312,7 @@ class CaseStudyController extends Controller
             ->encode('webp', 90)
             ->save($thumbnailpath);
     } else {
-        $fileNameToStore = $service->image_path; 
+        $fileNameToStore = $casestudy->image_path; 
     }
 
     // Get content with media file
@@ -301,22 +354,22 @@ class CaseStudyController extends Controller
     }
 
     // Update Data
-    $service->title = $request->title;
-    $service->keywords = $request->keywords;
-    $service->price = $request->price;
-    $service->starting_price = $request->starting_price;
-    $service->priceCurrency = $request->priceCurrency;
-    $service->average_rating = $request->average_rating;
-    $service->review_count = $request->review_count;
-    $service->short_title = $request->short_title;
-    $service->meta_title = $request->meta_title;
-    $service->slug = Str::slug(strtolower($request->slug), '-');
-    $service->short_desc = $request->short_desc;
-    $service->description = $dom->saveHTML();
-    $service->image_path = $fileNameToStore;
-    $service->manu = $request->manu;
-    $service->status = $request->status;
-    $service->save();
+    $casestudy->title = $request->title;
+    $casestudy->keywords = $request->keywords;
+    $casestudy->price = $request->price;
+    $casestudy->starting_price = $request->starting_price;
+    $casestudy->priceCurrency = $request->priceCurrency;
+    $casestudy->average_rating = $request->average_rating;
+    $casestudy->review_count = $request->review_count;
+    $casestudy->short_title = $request->short_title;
+    $casestudy->meta_title = $request->meta_title;
+    $casestudy->slug = Str::slug(strtolower($request->slug), '-');
+    $casestudy->short_desc = $request->short_desc;
+    $casestudy->description = $dom->saveHTML();
+    $casestudy->image_path = $fileNameToStore;
+    $casestudy->manu = $request->manu;
+    $casestudy->status = $request->status;
+    $casestudy->save();
 
     if ($request->has('faqs')) {
         foreach ($request->faqs as $faq) {
@@ -325,23 +378,23 @@ class CaseStudyController extends Controller
                 'type' => $request->type,
                 'title' => $faq['title'],
                 'description' => $faq['description'],
-                'service_id' => $service->id,
+                'service_id' => $casestudy->id,
             ]);
         }
     }
     // 
-    if ($request->has('workprocess')) {
-        foreach ($request->workprocess as $index => $process) {
+    if ($request->has('case')) {
+        foreach ($request->case as $index => $process) {
             $processImageName = null;
     
             // Check if record already exists
             $existing = Processwork::where('title', $process['title'])
-                ->where('service_id', $service->id)
+                ->where('service_id', $casestudy->id)
                 ->first();
     
             // Check if new image uploaded
-            if ($request->hasFile("workprocess.$index.process_image")) {
-                $file = $request->file("workprocess.$index.process_image");
+            if ($request->hasFile("case.$index.process_image")) {
+                $file = $request->file("case.$index.process_image");
                 $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 $processImageName = $filename.'_'.time().'.webp';
     
@@ -369,7 +422,7 @@ class CaseStudyController extends Controller
             $finalImagePath = $processImageName ?? ($existing->image_path ?? null);
     
             Processwork::updateOrCreate(
-                ['title' => $process['title'], 'service_id' => $service->id],
+                ['title' => $process['title'], 'service_id' => $casestudy->id],
                 ['description' => $process['description'], 'image_path' => $finalImagePath]
             );
         }
@@ -382,7 +435,7 @@ class CaseStudyController extends Controller
                 ['title' =>  trim($industry['title'])], // Only use title for the match
                 [
                     'link' => trim($industry['link']) ?: null, // Even if empty, set it
-                    'service_id' => $service->id,
+                    'service_id' => $casestudy->id,
                 ]
             );
         }

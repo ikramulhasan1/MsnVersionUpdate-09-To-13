@@ -123,7 +123,7 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.thumbnail') }}
                             </div>
                         </div>
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="form-group col">
                                 <label for="price">{{ __('dashboard.price') }} <span>* </span></label>
                                 <input type="number" class="form-control" name="price" id="price" value="499" required>
@@ -164,12 +164,11 @@
                                 </div>
                             </div>
                         </div>
-                        <hr>
-                        <h3>FAQs</h3>
+                        <hr> --}}
+                        {{-- <h3>FAQs</h3>
                         <div class="row">
                         
                             <div id="faq-wrapper" class="form-group col-9 faq-group mb-2">
-                                {{-- <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label> --}}
                                 <input type="text" class="form-control mb-1" name="faqs[0][title]" placeholder="0. Question" required>
                                 <input type="text" class="form-control mb-1" name="faqs[0][description]" placeholder="0. Answer" required>
     
@@ -181,33 +180,23 @@
                                 <button class="btn btn-success" type="button" onclick="addFaq()">{{ __('dashboard.add_another_FAQ') }}</button>
                             </div>
                             <br><br>
-                        </div>
-                        <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
-                        <input hidden type="text" class="form-control mb-1" name="category_id" value="12" required>
+                        </div> --}}
+                        {{-- <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
+                        <input hidden type="text" class="form-control mb-1" name="category_id" value="12" required> --}}
 
                         <hr>
-                        <h3>Work Process</h3>
+                        <h3>Case Study</h3>
                         <div class="row process-row">
                             <div class="form-group col-9 faq-group mb-2">
-                                
-                                <input type="text" class="form-control mb-1" name="workprocess[0][title]" placeholder="Title">
-                                <input type="text" class="form-control mb-1" name="workprocess[0][description]" placeholder="Description">
-                                <input type="file" class="form-control mb-1" name="workprocess[0][process_image]">
+                                <input type="text" class="form-control mb-1" name="case[0][case_title]" placeholder="Title">
+                                <input type="text" class="form-control mb-1" name="case[0][case_description]" placeholder="Description">
+                                <input type="file" class="form-control mb-1" name="case[0][case_image]">
                                
                             </div>
                             <div class="form-group col-3">
-                                <button class="btn btn-success" type="button" onclick="addProcess()">{{ __('dashboard.add_another_FAQ') }}</button>
+                                <button class="btn btn-success" type="button" onclick="addProcess()">{{ __('dashboard.case-studies') }}</button>
                             </div>
                             <br><br>
-                        </div>
-                       
-                        <!-- Form End -->
-                        <div class="form-group">
-                            <label for="manu">Manu</label>
-                            <select class="wide" name="manu" id="manu" data-plugin="customselect">
-                                <option value="0" >Hidden</option>
-                                <option value="1" >Show</option>
-                            </select>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -306,9 +295,9 @@ function addProcess() {
     const processGroup = document.createElement('div');
     processGroup.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
     processGroup.innerHTML = `
-        <input type="text" class="form-control mb-1" name="workprocess[${processIndex}][title]" placeholder="${processIndex + 1}. Title">
-        <input type="text" class="form-control mb-1" name="workprocess[${processIndex}][description]" placeholder="${processIndex + 1}. Description">
-        <input type="file" class="form-control mb-1" name="workprocess[${processIndex}][process_image]">
+        <input type="text" class="form-control mb-1" name="case[${processIndex}][case_title]" placeholder="${processIndex + 1}. Title">
+        <input type="text" class="form-control mb-1" name="case[${processIndex}][case_description]" placeholder="${processIndex + 1}. Description">
+        <input type="file" class="form-control mb-1" name="case[${processIndex}][case_image]">
     `;
 
     // Insert before the last column (button)
