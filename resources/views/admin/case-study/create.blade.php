@@ -1,6 +1,11 @@
 @extends('admin.layouts.master')
 @section('title', $title)
 @section('content')
+<style>
+    .ts-dropdown{
+        background-color: #ffffff !important;
+    }
+</style>
 <!-- Tom Select CSS -->
 <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
 
