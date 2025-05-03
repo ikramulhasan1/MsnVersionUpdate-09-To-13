@@ -211,9 +211,10 @@ class CaseStudyController extends Controller
                 // $CaseStudy->case_image = $finalImagePath;
                 // $CaseStudy->save();
 
-                CaseStudy::updateOrCreate(
-                    ['case_title' => $process['case_title']],
-                    ['case_description' => $process['case_description'], 'case_image' => $finalImagePath]
+                CaseStudy::create(
+                    ['case_title' => $process['case_title'],
+                                'case_description' => $process['case_description'], 
+                                'case_image' => $finalImagePath],  
                 );
             }
         }
