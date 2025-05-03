@@ -5,7 +5,39 @@
     .ts-dropdown{
         background-color: #ffffff !important;
     }
-</style>
+
+    .select2-container--default .select2-selection--single {
+      height: 45px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 1px solid #ced4da;
+      background-color: #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s;
+    }
+  
+    .select2-container--default .select2-selection--single:focus,
+    .select2-container--default .select2-selection--single:hover {
+      border-color: #6c63ff;
+      box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.1);
+    }
+  
+    .select2-container--default .select2-selection__rendered {
+      color: #495057;
+      font-weight: 500;
+    }
+  
+    .select2-results__option {
+      padding-left: 30px;
+      position: relative;
+    }
+  
+    .select2-results__option:before {
+      content: "🔹";
+      position: absolute;
+      left: 10px;
+    }
+  </style>
 <!-- Tom Select CSS -->
 <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -273,16 +305,16 @@ function addProcess() {
     const processGroup = document.createElement('div');
     processGroup.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
     processGroup.innerHTML = `
-        <div class="">
-            <label for="status">{{ __('dashboard.title') }}</label>
-             <select name="case[${processIndex}][case_title]" class="form-select select2" id="select2Example">
-                 <option selected value="The Challenges">The Challenges</option>
-                <option value="Solutions We Offered">Solutions We Offered</option>
-                <option value="Results">Results</option>
-                <option value="Key Features Delivered">Key Features Delivered</option>
-                <option value="Client Testimonial">Client Testimonial (if available)</option>
-            </select>
-
+        
+        <div class="container py-5">
+        <label for="selectModern" class="form-label">Select Your Option</label>
+        <select name="case[${processIndex}][case_title]" class="form-select stylish-select selectModern" >
+            <option selected value="The Challenges">The Challenges</option>
+            <option value="Solutions We Offered">Solutions We Offered</option>
+            <option value="Results">Results</option>
+            <option value="Key Features Delivered">Key Features Delivered</option>
+            <option value="Client Testimonial">Client Testimonial (if available)</option>
+        </select>
         </div>
         <textarea type="text" class="form-control mb-1" name="case[${processIndex}][case_description]" placeholder="${processIndex + 1}. Description"></textarea>
         <input type="file" class="form-control mb-1" name="case[${processIndex}][case_image]">
@@ -310,11 +342,18 @@ function addProcess() {
       }
     });
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-  <script>
-    $(document).ready(function() {
-      $('.select2').select2();
-    });
-  </script>
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+ 
+ <script>
+   $(document).ready(function() {
+     $('.selectModern').select2({
+       minimumResultsForSearch: 1, // set to 0 to enable search for any count
+       placeholder: "Choose an option",
+       width: '100%' // ensures full-width dropdown
+     });
+   });
+ </script>
+ 
   
 @endsection
