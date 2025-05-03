@@ -101,13 +101,13 @@
       padding: 60px 0;
     }
 
-    /* .caseStudy-section-header {
+    .caseStudy-section-header {
       font-size: 35px;
       font-weight: 700;
       border-left: 4px solid #2ED47A;
       padding-left: 12px;
       margin-bottom: 20px;
-    } */
+    }
     .caseStudy-section-header {
       position: relative;
       font-size: 35px;
