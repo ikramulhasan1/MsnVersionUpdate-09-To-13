@@ -47,30 +47,30 @@ class CaseStudyController extends Controller
     {
         // Field Validation
         $request->validate([
-            'title' => 'required|max:191|unique:services,title',
-            'short_title' => 'required|max:30|unique:services,short_title',
-            'meta_title' => 'required|max:70',
-            'keywords' => 'required',
-            'price' => 'required',
-            'starting_price' => 'required',
-            'priceCurrency' => 'required',
-            'average_rating' => 'required',
-            'review_count' => 'required',
-            'short_desc' => 'required',
-            'description' => 'required',
-            'image' => 'required|image',
+            'main_title' => 'required|max:191|unique:case_studies,main_title',
+            'the_client' => 'required',
+            'the_client_desc' => 'required',
+            'industry' => 'required',
+            'tech_stack' => 'required',
+           
             // 'faqs.*.title' => 'required|string',
             // 'faqs.*.description' => 'required|string',
         ]);
 
          // Remove duplicate keywords but keep multi-word keywords intact
         $keywords = array_unique(array_map('trim', explode(',', $request->keywords)));
-
-        // Check for existing keywords in other articles
-        $existingKeywords = Service::whereRaw("FIND_IN_SET(keywords, ?) > 0", [implode(',', $keywords)])->exists();
+        $existingKeywords = CaseStudy::whereRaw("FIND_IN_SET(keywords, ?) > 0", [implode(',', $keywords)])->exists();
         if ($existingKeywords) {
             return back()->withErrors(['keywords' => 'Some keywords already exist. Please use unique tags.']);
         }
+
+        
+        $tech_stack = array_unique(array_map('trim', explode(',', $request->tech_stack)));
+        $existingtech_stack = CaseStudy::whereRaw("FIND_IN_SET(tech_stack, ?) > 0", [implode(',', $tech_stack)])->exists();
+        if ($existingtech_stack) {
+            return back()->withErrors(['tech_stack' => 'Some tech_stack already exist. Please use unique tags.']);
+        }
+
 
         // Image upload, fit, and store inside public folder 
         if($request->hasFile('image')){
@@ -170,7 +170,7 @@ class CaseStudyController extends Controller
 
 
 
-    public function show(Service $service)
+    public function show(CaseStudy $casestudy)
     {
         //
         $data['title'] = $this->title;
@@ -189,7 +189,7 @@ class CaseStudyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Service $service)
+    public function edit(CaseStudy $casestudy)
     {
         //
         $data['title'] = $this->title;
@@ -204,22 +204,15 @@ class CaseStudyController extends Controller
 
    
 
-    public function update(Request $request, Service $service)
+    public function update(Request $request, CaseStudy $casestudy)
 {
     // Field Validation
     $request->validate([
-        'title' => 'required|max:191|unique:services,title,'.$service->id,
-        'short_title' => 'required|max:30|unique:services,short_title,'.$service->id,
-        'meta_title' => 'required|max:70',
-        'keywords' => 'required',
-        'price' => 'required',
-        'starting_price' => 'required',
-        'priceCurrency' => 'required',
-        'average_rating' => 'required',
-        'review_count' => 'required',
-        'short_desc' => 'required',
-        'description' => 'required',
-        'image' => 'nullable|image',
+        'main_title' => 'required|max:191|unique:case_studies,main_title'.$service->id,
+        'the_client' => 'required',
+        'the_client_desc' => 'required',
+        'industry' => 'required',
+        'tech_stack' => 'required',
        
     ]);
 
