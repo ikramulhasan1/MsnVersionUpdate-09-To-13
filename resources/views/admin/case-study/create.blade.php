@@ -156,7 +156,7 @@
                                     <option value="Client Testimonial">Client Testimonial (if available)</option>
                                   </select> --}}
 
-                                  <div class="form-group col">
+                                <div class="form-group col p-0">
                                     <label for="status">{{ __('dashboard.title') }}</label>
                                     <select class="wide" name="case[0][case_title]" id="status" data-plugin="customselect">
                                         <option selected value="The Challenges">The Challenges</option>
@@ -272,7 +272,16 @@ function addProcess() {
     const processGroup = document.createElement('div');
     processGroup.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
     processGroup.innerHTML = `
-        <input type="text" class="form-control mb-1" name="case[${processIndex}][case_title]" placeholder="${processIndex + 1}. Title">
+        <div class="form-group col p-0">
+            <label for="status">{{ __('dashboard.title') }}</label>
+            <select class="wide" name="case[${processIndex}][case_title]" id="status" data-plugin="customselect">
+                <option selected value="The Challenges">The Challenges</option>
+                <option value="Solutions We Offered">Solutions We Offered</option>
+                <option value="Results">Results</option>
+                <option value="Key Features Delivered">Key Features Delivered</option>
+                <option value="Client Testimonial">Client Testimonial (if available)</option>
+            </select>
+        </div>
         <textarea type="text" class="form-control mb-1" name="case[${processIndex}][case_description]" placeholder="${processIndex + 1}. Description"></textarea>
         <input type="file" class="form-control mb-1" name="case[${processIndex}][case_image]">
     `;
