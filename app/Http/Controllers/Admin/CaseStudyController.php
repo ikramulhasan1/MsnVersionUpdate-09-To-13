@@ -50,7 +50,7 @@ class CaseStudyController extends Controller
 
     public function store(Request $request)
     {
-
+dd($request->all());
         // Field Validation
         $request->validate([
             'main_title' => 'required|max:191|unique:case_studies,main_title',
@@ -158,43 +158,44 @@ class CaseStudyController extends Controller
         // $CaseStudy->technology_id = $request->technology_id;
         $CaseStudy->image_path = $fileNameToStore;
         $CaseStudy->status = $request->status;
+        // $CaseStudy->save();
+
+        $caseSteps = [];
+
+        foreach ($request->case as $index => $process) {
+            $processImageName = null;
+
+            if ($request->hasFile("case.$index.case_image")) {
+                $file = $request->file("case.$index.case_image");
+                $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $processImageName = $filename.'_'.time().'.webp';
+
+                $path = public_path('uploads/'.$this->path.'/');
+                if (!File::exists($path)) {
+                    File::makeDirectory($path, 0777, true, true);
+                }
+
+                Image::make($file->getRealPath())
+                    ->resize(756, 419, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    })
+                    ->encode('webp', 90)
+                    ->save($path . $processImageName);
+            }
+
+            $caseSteps[] = [
+                'case_title' => $process['case_title'],
+                'case_description' => $process['case_description'],
+                'case_image' => $processImageName,
+            ];
+        }
+
+        // Save array as JSON
+        $CaseStudy->case_steps = json_encode($caseSteps);
         $CaseStudy->save();
 
-        // 
-        if ($request->has('case')) {
-            foreach ($request->case as $index => $process) {
-                $processImageName = null;
-        
-                if ($request->hasFile("case.$index.case_image")) {
-                    $file = $request->file("case.$index.case_image");
-                    $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $processImageName = $filename.'_'.time().'.webp';
-        
-                    $path = public_path('uploads/'.$this->path.'/');
-                    if (!File::exists($path)) {
-                        File::makeDirectory($path, 0777, true, true);
-                    }
-        
-                    Image::make($file->getRealPath())
-                        ->resize(756, 419, function ($constraint) {
-                            $constraint->aspectRatio();
-                            $constraint->upsize();
-                        })
-                        ->encode('webp', 90)
-                        ->save($path . $processImageName);
-                }
-        
-                $finalImagePath = $processImageName;
-        
-                // Save each process step as a new record
-                    CaseStudy::create([
-                    'case_title' => $process['case_title'],
-                    'case_description' => $process['case_description'],
-                    'case_image' => $finalImagePath,
-                ]);
-            }
-        }
-        
+                
         
         // foreach ($request->faqs as $faq) {
         //     Faq::create([
