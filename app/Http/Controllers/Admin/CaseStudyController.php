@@ -201,13 +201,13 @@ class CaseStudyController extends Controller
                 // Use new image or retain existing
                 $finalImagePath = $processImageName ?? ($existing->image_path ?? null);
         
-                CaseStudy::save(
-                    [
-                        'case_title' => $process['case_title'],
-                        'case_description' => $process['case_description'], 
-                        'case_image' => $finalImagePath
-                    ]
-                );
+                
+                $CaseStudy->case_title = $process['case_title'];
+                $CaseStudy->case_description = $process['case_description'];
+                $CaseStudy->case_image = $finalImagePath;
+                $CaseStudy->save();
+                   
+                
             }
         }
         $CaseStudy->save();
