@@ -1,6 +1,8 @@
 @extends('admin.layouts.master')
 @section('title', $title)
 @section('content')
+<!-- Tom Select CSS -->
+<link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
 
 <!-- Start Content-->
 <div class="container-fluid">
@@ -39,7 +41,7 @@
                         
                         <div class="row">                        
                             <div class="form-group col-4">
-                                <label for="the_client">{{ __('dashboard.the_client') }} <span>* [Write a unique the_client]</span></label>
+                                <label for="the_client">{{ __('dashboard.the_client') }} <span>*</span></label>
                                 <input type="text" class="form-control" name="the_client" id="the_client" value="The Client" required>
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.the_client') }}
@@ -64,8 +66,22 @@
                         
 
                         <div class="form-group">
-                            <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
-                            <textarea class="form-control" name="description" id="editor1" rows="8" required>{{ old('description') }}</textarea>
+                            <label for="tags" class="form-label">Choose Your Skills</label>
+                            <select id="tags" name="tags[]" multiple class="form-control" placeholder="Select tags...">
+                                <option value="php">PHP</option>
+                                <option value="laravel">Laravel</option>
+                                <option value="vue">Vue.js</option>
+                                <option value="react">React</option>
+                                <option value="node">Node.js</option>
+                                <option value="js">JavaScript</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="the_client_desc">{{ __('dashboard.description') }} <span>*</span></label>
+                            <textarea class="form-control" name="the_client_desc" id="editor1" rows="8" required>{{ old('the_client_desc') }}</textarea>
 
                             <div class="invalid-feedback">
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
@@ -80,8 +96,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="short_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
-                            <textarea class="form-control" name="short_desc" id="editor" rows="4" required>{{ old('short_desc') }}</textarea>
+                            <label for="meta_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
+                            <textarea class="form-control" name="meta_desc" id="editor" rows="4" required>{{ old('meta_desc') }}</textarea>
 
                             <div class="invalid-feedback">
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_description') }}
@@ -298,4 +314,20 @@ function addProcess() {
     processIndex++;
 }
 </script>
+<!-- Tom Select JS -->
+<script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+<script>
+    new TomSelect("#tags", {
+      plugins: ['remove_button'],
+      persist: false,
+      create: false,
+      maxItems: null,
+      render: {
+        item: function(data, escape) {
+          return '<div class="item bg-primary text-white px-2 py-1 rounded me-1">' + escape(data.text) + '</div>';
+        }
+      }
+    });
+  </script>
+  
 @endsection
