@@ -173,12 +173,6 @@ class CaseStudyController extends Controller
             foreach ($request->case as $index => $process) {
                 $processImageName = null;
         
-                // // Check if record already exists
-                $existing = CaseStudy::where('case_title', $process['case_title'])
-                    ->where('id', $CaseStudy->id)
-                    ->first();
-        
-                // Check if new image uploaded
                 if ($request->hasFile("case.$index.case_image")) {
                     $file = $request->file("case.$index.case_image");
                     $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -189,12 +183,6 @@ class CaseStudyController extends Controller
                         File::makeDirectory($path, 0777, true, true);
                     }
         
-                    // Delete old image if exists
-                    if ($existing && $existing->image_path && File::exists($path . $existing->image_path)) {
-                        File::delete($path . $existing->image_path);
-                    }
-        
-                    // Save new image
                     Image::make($file->getRealPath())
                         ->resize(756, 419, function ($constraint) {
                             $constraint->aspectRatio();
@@ -203,21 +191,18 @@ class CaseStudyController extends Controller
                         ->encode('webp', 90)
                         ->save($path . $processImageName);
                 }
-                // Use new image or retain existing
-                $finalImagePath = $processImageName ?? ($existing->image_path ?? null);
         
-                // $CaseStudy->case_title = $process['case_title'];
-                // $CaseStudy->case_description = $process['case_description'];
-                // $CaseStudy->case_image = $finalImagePath;
-                // $CaseStudy->save();
-
-                CaseStudy::save(
-                    ['case_title' => $process['case_title'],
-                                'case_description' => $process['case_description'], 
-                                'case_image' => $finalImagePath],  
-                );
+                $finalImagePath = $processImageName;
+        
+                // Save each process step as a new record
+                    CaseStudy::create([
+                    'case_title' => $process['case_title'],
+                    'case_description' => $process['case_description'],
+                    'case_image' => $finalImagePath,
+                ]);
             }
         }
+        
         $CaseStudy->save();
         // foreach ($request->faqs as $faq) {
         //     Faq::create([
