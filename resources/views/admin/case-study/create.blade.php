@@ -131,16 +131,16 @@
                         </div>
                         <label for="technology" class="form-label">Technology</label>
                         <div id="technology" class="case-services p-2 mb-3">
-                            <input type="checkbox" id="wordpress"><label for="wordpress">WordPress Website</label>
-                            <input type="checkbox" id="webdev"><label for="webdev">Website Development</label>
-                            <input type="checkbox" id="android"><label for="android">Android App Development</label>
-                            <input type="checkbox" id="ios"><label for="ios">iOS App Development</label>
-                            <input type="checkbox" id="seo"><label for="seo">SEO Services</label>
-                            <input type="checkbox" id="pwa"><label for="pwa">Progressive Web App</label>
-                            <input type="checkbox" id="b2c"><label for="b2c">B2C eCommerce Website</label>
-                            <input type="checkbox" id="ecomm"><label for="ecomm">Ecommerce Website</label>
-                            <input type="checkbox" id="highda"><label for="highda">High DA Backlink</label>
-                            <input type="checkbox" id="shopify"><label for="shopify">Shopify Store</label>
+                            <input type="checkbox" id="1wordpress"><label for="wordpress">WordPress Website</label>
+                            <input type="checkbox" id="1webdev"><label for="webdev">Website Development</label>
+                            <input type="checkbox" id="1android"><label for="android">Android App Development</label>
+                            <input type="checkbox" id="1ios"><label for="ios">iOS App Development</label>
+                            <input type="checkbox" id="1seo"><label for="seo">SEO Services</label>
+                            <input type="checkbox" id="1pwa"><label for="pwa">Progressive Web App</label>
+                            <input type="checkbox" id="1b2c"><label for="b2c">B2C eCommerce Website</label>
+                            <input type="checkbox" id="1ecomm"><label for="ecomm">Ecommerce Website</label>
+                            <input type="checkbox" id="1highda"><label for="highda">High DA Backlink</label>
+                            <input type="checkbox" id="1shopify"><label for="shopify">Shopify Store</label>
                         </div>
                        
 
