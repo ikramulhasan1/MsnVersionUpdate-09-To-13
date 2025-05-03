@@ -13,7 +13,6 @@
       flex-wrap: wrap;
       gap: 12px;
       border: 1px solid #ccc;
-      padding: 5cqminpx;
     }
 
     .case-services label {
@@ -117,7 +116,7 @@
                             </div>
                         </div>
                        
-                        <div class="case-services">
+                        <div class="case-services p-2 mb-3">
                             <input type="checkbox" id="wordpress"><label for="wordpress">WordPress Website</label>
                             <input type="checkbox" id="webdev"><label for="webdev">Website Development</label>
                             <input type="checkbox" id="android"><label for="android">Android App Development</label>
