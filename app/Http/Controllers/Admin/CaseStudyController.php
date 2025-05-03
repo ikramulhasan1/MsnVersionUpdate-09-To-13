@@ -166,7 +166,7 @@ class CaseStudyController extends Controller
         // $CaseStudy->technology_id = $request->technology_id;
         $CaseStudy->image_path = $fileNameToStore;
         $CaseStudy->status = $request->status;
-        $CaseStudy->save();
+        
 
         // 
         if ($request->has('case')) {
@@ -211,14 +211,14 @@ class CaseStudyController extends Controller
                 // $CaseStudy->case_image = $finalImagePath;
                 // $CaseStudy->save();
 
-                CaseStudy::create(
+                CaseStudy::save(
                     ['case_title' => $process['case_title'],
                                 'case_description' => $process['case_description'], 
                                 'case_image' => $finalImagePath],  
                 );
             }
         }
-        
+        $CaseStudy->save();
         // foreach ($request->faqs as $faq) {
         //     Faq::create([
         //         'category_id' => $faq['category_id'],
