@@ -8,6 +8,7 @@
 </style>
 <!-- Tom Select CSS -->
 <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 <!-- Start Content-->
 <div class="container-fluid">
@@ -274,13 +275,18 @@ function addProcess() {
     processGroup.innerHTML = `
         <div class="form-group col p-0">
             <label for="status">{{ __('dashboard.title') }}</label>
-            <select class="wide" name="case[${processIndex}][case_title]">
-                <option selected value="The Challenges">The Challenges</option>
+             <select name="case[${processIndex}][case_title]" class="form-select select2" id="select2Example">
+                 <option selected value="The Challenges">The Challenges</option>
                 <option value="Solutions We Offered">Solutions We Offered</option>
                 <option value="Results">Results</option>
                 <option value="Key Features Delivered">Key Features Delivered</option>
                 <option value="Client Testimonial">Client Testimonial (if available)</option>
             </select>
+
+            
+ 
+
+
         </div>
         <textarea type="text" class="form-control mb-1" name="case[${processIndex}][case_description]" placeholder="${processIndex + 1}. Description"></textarea>
         <input type="file" class="form-control mb-1" name="case[${processIndex}][case_image]">
@@ -306,6 +312,12 @@ function addProcess() {
           return '<div class="item bg-primary text-white px-2 py-1 rounded me-1">' + escape(data.text) + '</div>';
         }
       }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('.select2').select2();
     });
   </script>
   
