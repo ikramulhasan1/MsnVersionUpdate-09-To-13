@@ -275,11 +275,11 @@ function addProcess() {
     processGroup.innerHTML = `
         <div class="form-group col p-0">
             <label for="status">{{ __('dashboard.title') }}</label>
-            <select class="wide w-100 p-1 rounded-0" style="font-size:18px" name="case[${processIndex}][case_title]">
-                <option selected value="The Challenges">The Challenges</option>
-                <option value="Solutions We Offered">Solutions We Offered</option>
+            <select class="wide w-100 p-1 rounded-0" style="font-size:17px" name="case[${processIndex}][case_title]">
+                <option value="The Challenges">The Challenges</option>
+                <option selected value="Solutions We Offered">Solutions We Offered</option>
                 <option value="Results">Results</option>
-                <option value="Key Features Delivered">Key Features Delivered</option>
+                <option value="Key Features Delivered">Key Features Delivered (if available)</option>
                 <option value="Client Testimonial">Client Testimonial (if available)</option>
             </select>
         </div>
