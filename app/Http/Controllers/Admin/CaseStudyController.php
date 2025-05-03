@@ -160,7 +160,7 @@ class CaseStudyController extends Controller
         // $CaseStudy->technology_id = $request->technology_id;
         $CaseStudy->image_path = $fileNameToStore;
         $CaseStudy->status = $request->status;
-        $CaseStudy->save();
+        
 
         // 
         if ($request->has('case')) {
@@ -210,16 +210,16 @@ class CaseStudyController extends Controller
                 );
             }
         }
-
-        foreach ($request->faqs as $faq) {
-            Faq::create([
-                'category_id' => $faq['category_id'],
-                'type' => $request->type,
-                'title' => $faq['title'],
-                'description' => $faq['description'],
-                'service_id' => $CaseStudy->id,
-            ]);
-        }
+        $CaseStudy->save();
+        // foreach ($request->faqs as $faq) {
+        //     Faq::create([
+        //         'category_id' => $faq['category_id'],
+        //         'type' => $request->type,
+        //         'title' => $faq['title'],
+        //         'description' => $faq['description'],
+        //         'service_id' => $CaseStudy->id,
+        //     ]);
+        // }
         Toastr::success(__('dashboard.created_successfully'), __('dashboard.success'));
 
         return redirect()->route($this->route.'.index');
