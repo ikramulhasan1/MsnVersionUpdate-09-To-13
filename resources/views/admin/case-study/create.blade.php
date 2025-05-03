@@ -66,8 +66,8 @@
                         
 
                         <div class="form-group">
-                            <label for="tags" class="form-label">Choose Your Skills</label>
-                            <select id="tags" name="tags[]" multiple class="form-control" placeholder="Select tags...">
+                            <label for="tech_stack" class="form-label">Choose Your Skills</label>
+                            <select id="tech_stack" name="tech_stack[]" multiple class="form-control" placeholder="Select tech stack...">
                                 <option value="php">PHP</option>
                                 <option value="laravel">Laravel</option>
                                 <option value="vue">Vue.js</option>
@@ -317,7 +317,7 @@ function addProcess() {
 <!-- Tom Select JS -->
 <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
 <script>
-    new TomSelect("#tags", {
+    new TomSelect("#tech_stack", {
       plugins: ['remove_button'],
       persist: false,
       create: false,
