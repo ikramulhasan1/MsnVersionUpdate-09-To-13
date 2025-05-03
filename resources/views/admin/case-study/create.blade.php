@@ -69,16 +69,15 @@
                             </div>
                         </div>
                         
-
                         <div class="form-group">
                             <label for="tech_stack" class="form-label">Choose Your Skills</label>
                             <select id="tech_stack" name="tech_stack[]" multiple class="form-control" placeholder="Select tech stack...">
-                                <option value="php">PHP</option>
-                                <option value="laravel">Laravel</option>
-                                <option value="vue">Vue.js</option>
-                                <option value="react">React</option>
-                                <option value="node">Node.js</option>
-                                <option value="js">JavaScript</option>
+                                <option value="PHP">PHP</option>
+                                <option value="Laravel">Laravel</option>
+                                <option value="Vue.js">Vue.js</option>
+                                <option value="React">React</option>
+                                <option value="Node.js">Node.js</option>
+                                <option value="JavaScript">JavaScript</option>
                             </select>
                             <div class="invalid-feedback">
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
