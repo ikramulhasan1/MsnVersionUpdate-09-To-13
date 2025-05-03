@@ -12,6 +12,8 @@
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
+      border: 1px solid #ccc;
+      padding: 5cqminpx;
     }
 
     .case-services label {
@@ -114,8 +116,7 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
                             </div>
                         </div>
-                        <fieldset>
-                            <legend>Service</legend>
+                       
                         <div class="case-services">
                             <input type="checkbox" id="wordpress"><label for="wordpress">WordPress Website</label>
                             <input type="checkbox" id="webdev"><label for="webdev">Website Development</label>
@@ -128,7 +129,7 @@
                             <input type="checkbox" id="highda"><label for="highda">High DA Backlink</label>
                             <input type="checkbox" id="shopify"><label for="shopify">Shopify Store</label>
                           </div>
-                        </fieldset>
+                       
 
                         <div class="form-group">
                             <label for="the_client_desc">{{ __('dashboard.description') }} <span>*</span></label>
