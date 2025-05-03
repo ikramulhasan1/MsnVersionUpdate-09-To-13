@@ -36,8 +36,8 @@
 
                         <!-- Form Start -->
                         <div class="form-group">
-                            <label for="title">{{ __('dashboard.title') }} <span>*</span></label>
-                            <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}" required>
+                            <label for="main_title">{{ __('dashboard.title') }} <span>*</span></label>
+                            <input type="text" class="form-control" name="main_title" id="main_title" value="{{ old('main_title') }}" required>
 
                             <div class="invalid-feedback">
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.title') }}
