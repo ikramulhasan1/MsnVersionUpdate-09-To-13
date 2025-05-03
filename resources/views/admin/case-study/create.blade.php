@@ -160,16 +160,16 @@
                         </div>
                         <label for="technology" class="form-label">Technology</label>
                         <div id="technology" class="technology-case p-2 mb-3">
-                            <input type="checkbox" id="technology-wordpress"><label for="wordpress">WordPress Website</label>
-                            <input type="checkbox" id="technology-webdev"><label for="webdev">Website Development</label>
-                            <input type="checkbox" id="technology-android"><label for="android">Android App Development</label>
-                            <input type="checkbox" id="technology-ios"><label for="ios">iOS App Development</label>
-                            <input type="checkbox" id="technology-seo"><label for="seo">SEO Services</label>
-                            <input type="checkbox" id="technology-pwa"><label for="pwa">Progressive Web App</label>
-                            <input type="checkbox" id="technology-b2c"><label for="b2c">B2C eCommerce Website</label>
-                            <input type="checkbox" id="technology-ecomm"><label for="ecomm">Ecommerce Website</label>
-                            <input type="checkbox" id="technology-highda"><label for="highda">High DA Backlink</label>
-                            <input type="checkbox" id="technology-shopify"><label for="shopify">Shopify Store</label>
+                            <input type="checkbox" id="technology-wordpress"><label for="wordpress">technology WordPress Website</label>
+                            <input type="checkbox" id="technology-webdev"><label for="webdev">technology Website Development</label>
+                            <input type="checkbox" id="technology-android"><label for="android">Andvroid App Development</label>
+                            <input type="checkbox" id="technology-ios"><label for="ios">iOSc App Development</label>
+                            <input type="checkbox" id="technology-seo"><label for="seo">SEOv Services</label>
+                            <input type="checkbox" id="technology-pwa"><label for="pwa">Prcogressive Web App</label>
+                            <input type="checkbox" id="technology-b2c"><label for="b2c">B2cC eCommerce Website</label>
+                            <input type="checkbox" id="technology-ecomm"><label for="ecomm">Ecovmmerce Website</label>
+                            <input type="checkbox" id="technology-highda"><label for="highda">Hivgh DA Backlink</label>
+                            <input type="checkbox" id="technology-shopify"><label for="shopify">Svopify Store</label>
                         </div>
                        
 
