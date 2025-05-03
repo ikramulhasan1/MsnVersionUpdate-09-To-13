@@ -147,7 +147,15 @@
                         <h3>Case Study</h3>
                         <div class="row process-row">
                             <div class="form-group col-9 faq-group mb-2">
-                                <input type="text" class="form-control mb-1" name="case[0][case_title]" placeholder="Title">
+                                {{-- <input type="text" class="form-control mb-1" name="case[0][case_title]" placeholder="Title"> --}}
+                                <select name="case[0][case_title]" class="form-select" aria-label="Default select example">
+                                    <option selected value="The Challenges">The Challenges</option>
+                                    <option value="Solutions We Offered">Solutions We Offered</option>
+                                    <option value="Results">Results</option>
+                                    <option value="Key Features Delivered">Key Features Delivered</option>
+                                    <option value="Client Testimonial">Client Testimonial (if available)</option>
+                                  </select>
+                                  
                                 <textarea type="text" class="form-control mb-1" name="case[0][case_description]" placeholder="Description"></textarea>
                                 <input type="file" class="form-control mb-1" name="case[0][case_image]">
                                

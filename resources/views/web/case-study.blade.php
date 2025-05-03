@@ -764,7 +764,7 @@
 
       <!-- TECHNOLOGY SECTION -->
       <div class="technology-section mb-5">
-      <h3 class="caseStudy-section-h1-title">Technology</h3>
+      <h3 class="caseStudy-section-h1-title">Technologies Used</h3>
       <!-- <div class="section-divider"></div> -->
 
       <div class="caseStudy-tech-grid">
