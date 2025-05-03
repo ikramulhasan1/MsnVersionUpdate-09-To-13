@@ -50,6 +50,7 @@ class CaseStudyController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
         // Field Validation
         $request->validate([
             'main_title' => 'required|max:191|unique:case_studies,main_title',

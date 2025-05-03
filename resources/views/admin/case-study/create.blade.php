@@ -123,48 +123,7 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.thumbnail') }}
                             </div>
                         </div>
-                        {{-- <div class="row">
-                            <div class="form-group col">
-                                <label for="price">{{ __('dashboard.price') }} <span>* </span></label>
-                                <input type="number" class="form-control" name="price" id="price" value="499" required>
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.price') }}
-                                </div>
-                            </div>
-                            <div class="form-group col">
-                                <label for="starting_price">{{ __('dashboard.starting_price') }} <span>*</span></label>
-                                <input type="number" class="form-control" name="starting_price" id="starting_price" value="499" required>
-    
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.starting_price') }}
-                                </div>
-                            </div>
-                            <div class="form-group col">
-                                <label for="review_count">{{ __('dashboard.review_count') }} <span>*</span></label>
-                                <input type="number" class="form-control" name="review_count" id="review_count" value="150" required>
-    
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.review_count') }}
-                                </div>
-                            </div>
-                            <div class="form-group col">
-                                <label for="priceCurrency">{{ __('dashboard.priceCurrency') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="priceCurrency" id="priceCurrency" value="USD" required>
-    
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.priceCurrency') }}
-                                </div>
-                            </div>
-                            <div class="form-group col">
-                                <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="average_rating" id="average_rating" value="4.9" required>
-    
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.average_rating') }}
-                                </div>
-                            </div>
-                        </div>
-                        <hr> --}}
+                        
                         {{-- <h3>FAQs</h3>
                         <div class="row">
                         
@@ -189,7 +148,7 @@
                         <div class="row process-row">
                             <div class="form-group col-9 faq-group mb-2">
                                 <input type="text" class="form-control mb-1" name="case[0][case_title]" placeholder="Title">
-                                <input type="text" class="form-control mb-1" name="case[0][case_description]" placeholder="Description">
+                                <textarea type="text" class="form-control mb-1" name="case[0][case_description]" placeholder="Description"></textarea>
                                 <input type="file" class="form-control mb-1" name="case[0][case_image]">
                                
                             </div>
@@ -296,7 +255,7 @@ function addProcess() {
     processGroup.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
     processGroup.innerHTML = `
         <input type="text" class="form-control mb-1" name="case[${processIndex}][case_title]" placeholder="${processIndex + 1}. Title">
-        <input type="text" class="form-control mb-1" name="case[${processIndex}][case_description]" placeholder="${processIndex + 1}. Description">
+        <textarea type="text" class="form-control mb-1" name="case[${processIndex}][case_description]" placeholder="${processIndex + 1}. Description"></textarea>
         <input type="file" class="form-control mb-1" name="case[${processIndex}][case_image]">
     `;
 
