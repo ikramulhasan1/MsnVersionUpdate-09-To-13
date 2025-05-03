@@ -102,7 +102,7 @@ class CaseStudyController extends Controller
         }
 
         // Get content with media file
-        $content = $request->input('description');
+        $content = $request->input('the_client_desc');
 
         $dom = new \DomDocument();
         libxml_use_internal_errors(true);
