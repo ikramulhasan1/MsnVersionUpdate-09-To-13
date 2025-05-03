@@ -16,13 +16,14 @@
 
     .case-services label {
       background-color: #f0f0f0;
-      padding: 10px 20px;
+      padding: 5px 14px;
       border-radius: 30px;
       cursor: pointer;
       user-select: none;
       font-size: 14px;
       transition: all 0.3s ease;
       border: 1px solid #ccc;
+      margin: 0px;
     }
 
     .case-services input {
