@@ -624,7 +624,9 @@
             <div class="col-lg-8">
                 <!-- The Challenges Section -->
                 @foreach (json_decode($case_study->case_steps) as $case)
-                <div class="caseStudy-section-box">
+                @if (!empty($case->case_title) && $case->case_title == 'The Challenges')
+                  
+                  <div class="caseStudy-section-box">
                     <h2 class="caseStudy-section-h1-title">{{ $case->case_title }}</h2>
                     
                     {{-- <div class="caseStudy-subheading">Limited Technical Resources</div>
@@ -658,7 +660,10 @@
 
                     <p>These challenges hampered the company’s ability to launch and scale its platform, delaying its market
                         entry and business growth.</p> --}}
-                </div>
+                  </div>
+                @else
+                  
+                @endif
                 @endforeach
                 <!-- Solutions We Offered Section -->
                 <div class="caseStudy-section-box">
