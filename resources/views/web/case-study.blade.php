@@ -804,12 +804,16 @@
                     <!-- <div class="section-divider"></div> -->
 
                     <div class="caseStudy-tech-grid">
+                        @foreach ($case_study->technologies as $case)
+                        <a href="{{ route('service.technology', $case->slug) }}">
                         <div class="caseStudy-tech-item">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                            <img src="{{ asset('uploads/service/'.$case->logo_path) }}"
                                 alt="React">
-                            <div class="caseStudy-tech-label">React</div>
+                            <div class="caseStudy-tech-label">{{ $case->short_title }}</div>
                         </div>
-                        <div class="caseStudy-tech-item">
+                        </a>
+                        @endforeach
+                        {{-- <div class="caseStudy-tech-item">
                             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rails/rails-plain.svg"
                                 alt="Rails">
                             <div class="caseStudy-tech-label">Rails</div>
@@ -837,7 +841,7 @@
                         <div class="caseStudy-tech-item">
                             <img src="https://www.capitalnumbers.com/images/technologies-icons/aws.svg" alt="AWS">
                             <div class="caseStudy-tech-label">AWS</div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <!-- RESULTS SECTION -->
