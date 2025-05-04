@@ -626,8 +626,8 @@
                 @foreach (json_decode($case_study->case_steps) as $case)
                 <div class="caseStudy-section-box">
                     <h2 class="caseStudy-section-h1-title">{{ $case->case_title }}</h2>
-
-                    <div class="caseStudy-subheading">Limited Technical Resources</div>
+                    
+                    {{-- <div class="caseStudy-subheading">Limited Technical Resources</div>
                     <ul class="caseStudy-check-list">
                         <li>The client struggled to find and hire skilled developers locally due to talent shortages and
                             high
@@ -639,12 +639,14 @@
                         <li>The incomplete platform lacked essential digital tools, including e-signatures, identity
                             verification,
                             secure communication, and advanced reporting.</li>
-                    </ul>
+                    </ul> --}}
 
-                    <img src="https://www.capitalnumbers.com/images/case-studies-details/case-study-185/cs185-challenge.png"
-                        alt="Team discussion" class="caseStudy-section-image img-fluid">
+                    <img src="{{ asset('uploads/case-study/'.$case->case_image) }}"
+                        alt="{{ $case->case_title }}" class="caseStudy-section-image img-fluid">
 
-                    <div class="caseStudy-subheading">Operational Inefficiencies</div>
+                      
+                      <template>{!! $case->case_description !!}</template>
+                    {{-- <div class="caseStudy-subheading">Operational Inefficiencies</div>
                     <ul class="caseStudy-check-list">
                         <li>Manual processes such as in-person meetings and paperwork slowed down financial advisory
                             workflows,
@@ -655,7 +657,7 @@
                     </ul>
 
                     <p>These challenges hampered the company’s ability to launch and scale its platform, delaying its market
-                        entry and business growth.</p>
+                        entry and business growth.</p> --}}
                 </div>
                 @endforeach
                 <!-- Solutions We Offered Section -->
