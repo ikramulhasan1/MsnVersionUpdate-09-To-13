@@ -150,15 +150,14 @@
     <div class="row g-4">
       <!-- Start of card -->
       @foreach ($case_studies as $case)
-      {{-- <template id="card-template"> --}}
         <div class="col-md-6 col-lg-4 mb-4">
          
           <div class="card case-card">
             <img src="{{ asset('uploads/case-study/'.$case->image_path) }}" alt="{{ $case->main_title }}" class="card-img-top">
             <div class="card-body d-flex flex-column">
               <h5 class="card-title">{{ $case->main_title }}</h5>
-              <p class="industry"><strong>Industry:</strong>{{ $case->industry }}</p>
-              <p><strong>Skills:</strong>{{ $case->tech_stack }}</p>
+              <p class="industry"><strong>Industry:</strong> {{ $case->industry }}</p>
+              <p><strong>Skills:</strong> {{ $case->tech_stack }}</p>
               
               <div class="mt-auto d-flex justify-content-between pt-2">
                 <div class="d-flex align-items-center">
@@ -175,17 +174,8 @@
           </div>
           
         </div>
-      {{-- </template> --}}
       @endforeach
-{{-- 
-      <script>
-        const row = document.querySelector('.row');
-        const template = document.getElementById('card-template');
-        for (let i = 0; i < 9; i++) {
-          row.appendChild(template.content.cloneNode(true));
-        }
-      </script>
-       --}}
+
     </div>
   </div>
 
