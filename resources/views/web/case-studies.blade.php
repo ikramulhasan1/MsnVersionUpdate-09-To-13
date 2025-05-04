@@ -177,7 +177,6 @@
         </div>
       </template>
       @endforeach
-      {{-- 
       <script>
         const row = document.querySelector('.row');
         const template = document.getElementById('card-template');
@@ -185,7 +184,6 @@
           row.appendChild(template.content.cloneNode(true));
         }
       </script>
-       --}}
     </div>
   </div>
 
