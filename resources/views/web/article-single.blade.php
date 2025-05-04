@@ -1195,7 +1195,7 @@ color: #222222;
                     <p class="mb-4">For Inspiring Success Stories</p>
                 </div>
                 <div class="">
-                    <a href="#" class="btn view-all-btn w-100" style="display: flex; justify-content: space-evenly">VIEW ALL <i class=" text-white fa-solid fa-arrow-right-long"></i></a>
+                    <a href="{{ route('case') }}" class="btn view-all-btn w-100" style="display: flex; justify-content: space-evenly">VIEW ALL <i class=" text-white fa-solid fa-arrow-right-long"></i></a>
                 </div>
             </div>
             
