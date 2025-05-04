@@ -7,7 +7,7 @@
     }
 
 
-    .case-services {
+    /* .case-services {
       grid-column: 1 / -1;
       display: flex;
       flex-wrap: wrap;
@@ -35,7 +35,7 @@
       background-color: #3f7cf4;
       color: #fff;
       border-color: #3f7cf4;
-    }
+    } */
     .technology-case {
       grid-column: 1 / -1;
       display: flex;
@@ -61,9 +61,9 @@
     }
 
     .technology-case input:checked + label {
-      background-color: #3f7cf4;
+      background-color: #00a830;
       color: #fff;
-      border-color: #3f7cf4;
+      border-color: #078700;
     }
 </style>
 <!-- Tom Select CSS -->
