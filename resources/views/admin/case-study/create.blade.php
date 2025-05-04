@@ -158,6 +158,8 @@
                             <input type="checkbox" id="highda"><label for="highda">High DA Backlink</label>
                             <input type="checkbox" id="shopify"><label for="shopify">Shopify Store</label>
                         </div>
+
+                        <label for="technology" class="form-label">Technology</label>
                         <div id="technology" class="technologyCase p-2 mb-3">
                             <input class="input" type="checkbox" id="technology-wordpress">
                             <label class="label" for="technology-wordpress">Technology WordPress Website</label>
