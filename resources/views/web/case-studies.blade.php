@@ -150,7 +150,7 @@
     <div class="row g-4">
       <!-- Start of card -->
       @foreach ($case_studies as $case)
-      <template id="card-template">
+      {{-- <template id="card-template"> --}}
         <div class="col-md-6 col-lg-4 mb-4">
          
           <div class="card case-card">
@@ -175,8 +175,9 @@
           </div>
           
         </div>
-      </template>
+      {{-- </template> --}}
       @endforeach
+{{-- 
       <script>
         const row = document.querySelector('.row');
         const template = document.getElementById('card-template');
@@ -184,6 +185,7 @@
           row.appendChild(template.content.cloneNode(true));
         }
       </script>
+       --}}
     </div>
   </div>
 
