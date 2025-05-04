@@ -28,7 +28,7 @@ class CaseController extends Controller
     public function show($slug)
     {
         // Portfolio                                
-        $data['case_study'] = CaseStudy::where('slug', $slug)
+        $data['case_study'] = CaseStudy::with(['services', 'technologies'])->where('slug', $slug)
             ->where('status', '1')
             ->firstOrFail();
 

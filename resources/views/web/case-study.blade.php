@@ -554,12 +554,14 @@
             <h6>In this case study</h6>
             <ul>
                 <li><a href="#{{ $case_study->the_client }}">{{ $case_study->the_client }}</a></li>
-                <li>The Challenges</li>
-                <li>Solutions We Offered</li>
+                @foreach (json_decode($case_study->case_steps) as $case)
+                <li>{{ $case->case_title }}</li>
+                @endforeach
+                {{-- <li>Solutions We Offered</li>
                 <li>Key Deliverables</li>
                 <li>Services Involved</li>
                 <li>Technology Stack</li>
-                <li>Results</li>
+                <li>Results</li> --}}
             </ul>
         </div>
     </div>
@@ -782,15 +784,18 @@
 
             <div class="col-lg-8">
                 <!-- SERVICES INVOLVED SECTION -->
+                @foreach ($case_study->services as $case)
+                
                 <div class="caseStudy-services-involved">
                     <h4>Services Involved</h4>
                     <ul>
-                        <li><a href="#">Financial Software Development</a></li>
-                        <li><a href="#">React Development Services</a></li>
-                        <li><a href="#">Cloud Engineering Services</a></li>
+                        <li><a href="{{ route('service.single', $case->slug) }}">{{ $case->short_title }}</a></li>
+                        {{-- <li><a href="#">React Development Services</a></li>
+                        <li><a href="#">Cloud Engineering Services</a></li> --}}
                     </ul>
                 </div>
-
+                
+                @endforeach
                 <!-- TECHNOLOGY SECTION -->
                 <div class="technology-section mb-5">
                     <h3 class="caseStudy-section-h1-title">Technologies Used</h3>
