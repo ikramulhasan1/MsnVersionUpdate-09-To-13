@@ -197,10 +197,11 @@ class CaseStudyController extends Controller
                 'case_image' => $processImageName,
             ];
         }
-        $CaseStudy->save();
+        
         // Save array as JSON
         $CaseStudy->case_steps = json_encode($caseSteps);
-
+        $CaseStudy->save();
+        
         $CaseStudy->services()->attach($request->services);
         $CaseStudy->technologies()->attach($request->technologies);
         
