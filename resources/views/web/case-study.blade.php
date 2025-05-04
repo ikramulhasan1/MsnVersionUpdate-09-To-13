@@ -553,7 +553,7 @@
         <div class="caseStudy-case-menu">
             <h6>In this case study</h6>
             <ul>
-                <li>The Client</li>
+                <li><a href="#{{ $case_study->the_client }}">{{ $case_study->the_client }}</a></li>
                 <li>The Challenges</li>
                 <li>Solutions We Offered</li>
                 <li>Key Deliverables</li>
@@ -606,7 +606,7 @@
 
                     <div class="row">
                         <div class="col-lg-8">
-                            <div class="caseStudy-section-header">{{ $case_study->the_client }}</div>
+                            <div id="{{ $case_study->the_client }}" class="caseStudy-section-header">{{ $case_study->the_client }}</div>
                             <p class="caseStudy-client-text">{!! $case_study->the_client_desc !!}</p>
                         </div>
                         <div class="col-lg-4 caseStudy-tech-info">
