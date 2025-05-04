@@ -569,8 +569,7 @@
     <div class="row">
       <div class="col-lg-8">
       <span class="badge bg-success mb-3">CASE STUDY</span>
-      <h1 class="title">Capital Numbers Helps Fintech Client Quickly Launch Innovative Financial Advisory Platform
-      </h1>
+      <h1 class="title">{{ $case_study->main_title }}</h1>
       <div class="d-flex flex-wrap gap-3 mt-4">
         <a href="#" class="caseStudy-btn-pdf">
         <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="PDF icon">

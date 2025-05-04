@@ -13,9 +13,9 @@ class CaseController extends Controller
     public function index()
     {
         // Portfolio Categories                                
-        $data['portfolio_categories'] = PortfolioCategory::where('status', '1')
-            ->orderBy('id', 'asc')
-            ->get();
+        // $data['portfolio_categories'] = PortfolioCategory::where('status', '1')
+        //     ->orderBy('id', 'asc')
+        //     ->get();
 
         // Portfolios                                
         $data['case_studies'] = CaseStudy::where('status', '1')
@@ -28,7 +28,7 @@ class CaseController extends Controller
     public function show($slug)
     {
         // Portfolio                                
-        $data['portfolio'] = Portfolio::where('slug', $slug)
+        $data['case_study'] = CaseStudy::where('slug', $slug)
             ->where('status', '1')
             ->firstOrFail();
 
