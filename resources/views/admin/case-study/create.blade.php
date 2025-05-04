@@ -7,7 +7,7 @@
     }
 
 
-    /* .case-services {
+    .case-services {
       grid-column: 1 / -1;
       display: flex;
       flex-wrap: wrap;
@@ -35,8 +35,8 @@
       background-color: #3f7cf4;
       color: #fff;
       border-color: #3f7cf4;
-    } */
-    .technology-case {
+    }
+    .technologyCase {
       grid-column: 1 / -1;
       display: flex;
       flex-wrap: wrap;
@@ -44,7 +44,7 @@
       border: 1px solid #ccc;
     }
 
-    .technology-case label {
+    .technologyCase label {
       background-color: #f0f0f0;
       padding: 5px 14px;
       border-radius: 30px;
@@ -56,11 +56,11 @@
       margin: 0px;
     }
 
-    .technology-case input {
+    .technologyCase input {
       display: none;
     }
 
-    .technology-case input:checked + label {
+    .technologyCase input:checked + label {
       background-color: #00a830;
       color: #fff;
       border-color: #078700;
@@ -158,21 +158,22 @@
                             <input type="checkbox" id="highda"><label for="highda">High DA Backlink</label>
                             <input type="checkbox" id="shopify"><label for="shopify">Shopify Store</label>
                         </div>
-                        <label for="technology" class="form-label">Technology</label>
-                        <div id="technology" class="technology-case p-2 mb-3">
-                            <input type="checkbox" id="technology-wordpress"><label for="wordpress">technology WordPress Website</label>
-                            <input type="checkbox" id="technology-webdev"><label for="webdev">technology Website Development</label>
-                            <input type="checkbox" id="technology-android"><label for="android">Andvroid App Development</label>
-                            <input type="checkbox" id="technology-ios"><label for="ios">iOSc App Development</label>
-                            <input type="checkbox" id="technology-seo"><label for="seo">SEOv Services</label>
-                            <input type="checkbox" id="technology-pwa"><label for="pwa">Prcogressive Web App</label>
-                            <input type="checkbox" id="technology-b2c"><label for="b2c">B2cC eCommerce Website</label>
-                            <input type="checkbox" id="technology-ecomm"><label for="ecomm">Ecovmmerce Website</label>
-                            <input type="checkbox" id="technology-highda"><label for="highda">Hivgh DA Backlink</label>
-                            <input type="checkbox" id="technology-shopify"><label for="shopify">Svopify Store</label>
-                        </div>
+                        <div class="">
+                            <label for="technology" class="form-label">Technology</label>
+                            <div id="technology" class="technologyCase p-2 mb-3">
+                                <input type="checkbox" id="technology-wordpress"><label for="wordpress">technology WordPress Website</label>
+                                <input type="checkbox" id="technology-webdev"><label for="webdev">technology Website Development</label>
+                                <input type="checkbox" id="technology-android"><label for="android">Andvroid App Development</label>
+                                <input type="checkbox" id="technology-ios"><label for="ios">iOSc App Development</label>
+                                <input type="checkbox" id="technology-seo"><label for="seo">SEOv Services</label>
+                                <input type="checkbox" id="technology-pwa"><label for="pwa">Prcogressive Web App</label>
+                                <input type="checkbox" id="technology-b2c"><label for="b2c">B2cC eCommerce Website</label>
+                                <input type="checkbox" id="technology-ecomm"><label for="ecomm">Ecovmmerce Website</label>
+                                <input type="checkbox" id="technology-highda"><label for="highda">Hivgh DA Backlink</label>
+                                <input type="checkbox" id="technology-shopify"><label for="shopify">Svopify Store</label>
+                            </div>
                        
-
+                        </div>
                         <div class="form-group">
                             <label for="the_client_desc">{{ __('dashboard.description') }} <span>*</span></label>
                             <textarea class="form-control" name="the_client_desc" id="editor1" rows="8" required>{{ old('the_client_desc') }}</textarea>
