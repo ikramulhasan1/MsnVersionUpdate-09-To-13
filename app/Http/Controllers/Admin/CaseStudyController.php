@@ -201,8 +201,8 @@ class CaseStudyController extends Controller
         // Save array as JSON
         $CaseStudy->case_steps = json_encode($caseSteps);
 
-        $CaseStudy->services()->attach($CaseStudy->id, $request->services);
-        $CaseStudy->technologies()->attach($CaseStudy->id, $request->technologies);
+        $CaseStudy->services()->attach($request->services);
+        $CaseStudy->technologies()->attach($request->technologies);
         
 
         // foreach ($request->faqs as $faq) {
