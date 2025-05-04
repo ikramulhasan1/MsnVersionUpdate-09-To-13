@@ -148,15 +148,15 @@
                         <label for="Services" class="form-label">Services</label>
                         <div id="Services" class="case-services p-2 mb-3">
                             @foreach($services as $service)
-                                <input name="services[]" type="checkbox" value="{{ $service->id }}" {{ (is_array(old('services')) && in_array($service->id, old('services'))) ? 'checked' : '' }} id="{{ $service->id }}"><label for="{{ $service->id }}">{{ $service->short_title }}</label>
+                                <input name="services[]" type="checkbox" value="{{ $service->id }}" {{ (is_array(old('services')) && in_array($service->id, old('services'))) ? 'checked' : '' }} id="services-{{ $service->id }}"><label for="services-{{ $service->id }}">{{ $service->short_title }}</label>
                             @endforeach
                         </div>
 
                         <label for="technology" class="form-label">Technology</label>
                         <div id="technology" class="technologyCase p-2 mb-3">
                             @foreach($technologies as $tech)
-                                <input name="technologies[]" value="{{ $tech->id }}" class="input" type="checkbox" {{ (is_array(old('technologies')) && in_array($tech->id, old('technologies'))) ? 'checked' : '' }} id="{{ $tech->id }}">
-                                <label class="label" for="{{ $tech->id }}">{{ $tech->short_title }}</label>
+                                <input name="technologies[]" value="{{ $tech->id }}" class="input" type="checkbox" {{ (is_array(old('technologies')) && in_array($tech->id, old('technologies'))) ? 'checked' : '' }} id="technologies-{{ $tech->id }}">
+                                <label class="label" for="technologies-{{ $tech->id }}">{{ $tech->short_title }}</label>
                             @endforeach
                         </div>
                         
