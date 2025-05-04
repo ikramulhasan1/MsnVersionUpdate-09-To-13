@@ -200,7 +200,7 @@
                                 {{ __('dashboard.please_provide') }} {{ __('dashboard.thumbnail') }}
                             </div>
                         </div>
-                        <input hidden type="file" class="form-control mb-1" value="1" name="status">
+                        <input hidden type="text" class="form-control mb-1" value="1" name="status">
 
                         {{-- <h3>FAQs</h3>
                         <div class="row">

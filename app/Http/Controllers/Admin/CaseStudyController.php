@@ -140,7 +140,6 @@ class CaseStudyController extends Controller
                 $img->setAttribute('src', $new_src);
             }
         }
-
         // Insert Data
         $CaseStudy = new CaseStudy;
         $CaseStudy->main_title = $request->main_title;
@@ -148,24 +147,17 @@ class CaseStudyController extends Controller
         $CaseStudy->meta_title = $request->meta_title;
         $CaseStudy->meta_desc = $request->meta_desc;
         $CaseStudy->keywords = $request->keywords;
-    
-    
 
         $CaseStudy->the_client = $request->the_client;
         $CaseStudy->the_client_desc = $request->the_client_desc;
-        // $CaseStudy->description = $dom->saveHTML();
         $CaseStudy->industry = $request->industry;
-        // $CaseStudy->tech_stack = $request->tech_stack;
         $CaseStudy->tech_stack = is_array($request->tech_stack)
         ? implode(',', $request->tech_stack)
         : $request->tech_stack;
         $CaseStudy->country = $request->country;
-     
-        // $CaseStudy->service_id = $request->service_id;
-        // $CaseStudy->technology_id = $request->technology_id;
+    
         $CaseStudy->image_path = $fileNameToStore;
         $CaseStudy->status = $request->status;
-        // $CaseStudy->save();
 
         $caseSteps = [];
 
@@ -201,7 +193,7 @@ class CaseStudyController extends Controller
         // Save array as JSON
         $CaseStudy->case_steps = json_encode($caseSteps);
         $CaseStudy->save();
-        
+
         $CaseStudy->services()->attach($request->services);
         $CaseStudy->technologies()->attach($request->technologies);
         
