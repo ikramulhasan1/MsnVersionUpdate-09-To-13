@@ -670,7 +670,7 @@
                 @foreach (json_decode($case_study->case_steps) as $case)
                 @if (!empty($case->case_title) && $case->case_title == 'Solutions We Offered')
                 <div class="caseStudy-section-box">
-                    <h2 class="caseStudy-section-h1-title">Solutions We Offered</h2>
+                    <h2 class="caseStudy-section-h1-title">{{ $case->case_title }}</h2>
 
                     {{-- <p>Capital Numbers deployed a dedicated IT Staff Augmentation team to address the client’s technical and
                         operational challenges through:</p>
@@ -689,9 +689,12 @@
                             knowledge transfer and minimal project downtime.</li>
                     </ul> --}}
 
-                    <img src="https://www.capitalnumbers.com/images/case-studies-details/case-study-185/cs185-solutions.png"
-                        alt="Client discussion" class="caseStudy-section-image img-fluid">
-
+                    <img src="{{ asset('uploads/case-study/'.$case->case_image) }}"
+                    alt="{{ $case->case_title }}" class="caseStudy-section-image img-fluid">
+                    
+                    <div>
+                      {!! $case->case_description !!}
+                    </div>
                     {{-- <div class="caseStudy-subheading">Seamless Integration</div>
                     <ul class="caseStudy-check-list">
                         <li>Integrated our developers directly into the client’s team, working collaboratively to accelerate
@@ -713,9 +716,11 @@
                 @foreach (json_decode($case_study->case_steps) as $case)
                 @if (!empty($case->case_title) && $case->case_title == 'Key Features Delivered')
                 <div class="caseStudy-section pb-5">
-                    <h2 class="caseStudy-section-h1-title">Key Deliverables</h2>
+                    <h2 class="caseStudy-section-h1-title">{{ $case->case_title }}</h2>
 
-                    <p>Capital Numbers successfully delivered the following:</p>
+                    <div>
+                      {!! $case->case_description !!}
+                    </div>
 
                     {{-- <p><strong>Code Optimization:</strong> Enhanced the platform’s stability and performance (React Frontend
                         and
@@ -863,8 +868,8 @@
                     </div> --}}
 
                     <div class="caseStudy-result-image">
-                        <img src="https://www.capitalnumbers.com/images/case-studies-details/case-study-185/cs185-results.png"
-                            alt="Handshake Image" />
+                        <img src="{{ asset('uploads/case-study/'.$case->case_image) }}"
+                        alt="{{ $case->case_title }}" />
                     </div>
                     <div>
                         {!! $case->case_description !!}
