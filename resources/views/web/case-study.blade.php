@@ -784,18 +784,20 @@
 
             <div class="col-lg-8">
                 <!-- SERVICES INVOLVED SECTION -->
-                @foreach ($case_study->services as $case)
+                
                 
                 <div class="caseStudy-services-involved">
                     <h4>Services Involved</h4>
                     <ul>
+                      @foreach ($case_study->services as $case)
                         <li><a href="{{ route('service.single', $case->slug) }}">{{ $case->short_title }}</a></li>
+                      @endforeach
                         {{-- <li><a href="#">React Development Services</a></li>
                         <li><a href="#">Cloud Engineering Services</a></li> --}}
                     </ul>
                 </div>
                 
-                @endforeach
+                
                 <!-- TECHNOLOGY SECTION -->
                 <div class="technology-section mb-5">
                     <h3 class="caseStudy-section-h1-title">Technologies Used</h3>
