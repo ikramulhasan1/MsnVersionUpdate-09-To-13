@@ -805,12 +805,12 @@
 
                     <div class="caseStudy-tech-grid">
                         @foreach ($case_study->technologies as $case)
-                        <a href="{{ route('service.technology', $case->slug) }}">
-                        <div class="caseStudy-tech-item">
+                        <a class="caseStudy-tech-item" href="{{ route('service.technology', $case->slug) }}">
+                        {{-- <div class="caseStudy-tech-item"> --}}
                             <img src="{{ asset('uploads/service/'.$case->logo_path) }}"
                                 alt="React">
                             <div class="caseStudy-tech-label">{{ $case->short_title }}</div>
-                        </div>
+                        {{-- </div> --}}
                         </a>
                         @endforeach
                         {{-- <div class="caseStudy-tech-item">
