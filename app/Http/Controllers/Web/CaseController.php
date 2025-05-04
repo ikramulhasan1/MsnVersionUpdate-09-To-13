@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Models\CaseStudy;
 use App\Models\Portfolio;
 use Illuminate\Http\Request;
 use App\Models\PortfolioCategory;
@@ -17,7 +18,7 @@ class CaseController extends Controller
             ->get();
 
         // Portfolios                                
-        $data['portfolios'] = Portfolio::where('status', '1')
+        $data['case_studies'] = CaseStudy::where('status', '1')
             ->orderBy('id', 'desc')
             ->get();
 

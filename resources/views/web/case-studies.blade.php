@@ -149,16 +149,16 @@
   <div class="container pb-5">
     <div class="row g-4">
       <!-- Start of card -->
-      @foreach ($portfolios as $portfolio)
+      @foreach ($case_studies as $case)
       <template id="card-template">
         <div class="col-md-6 col-lg-4 mb-4">
          
           <div class="card case-card">
-            <img src="https://www.capitalnumbers.com/images/case-study-home/new-thumb-184.jpg" alt="Case Study">
+            <img src="{{ asset('uploads/case-study/'.$case->image_path) }}" alt="{{ $case->main_title }}" class="card-img-top">
             <div class="card-body d-flex flex-column">
-              <h5 class="card-title">Case Study Title</h5>
-              <p class="industry"><strong>Industry:</strong> Sample Industry</p>
-              <p><strong>Skills:</strong> Tech1, Tech2, Tech3</p>
+              <h5 class="card-title">{{ $case->main_title }}</h5>
+              <p class="industry"><strong>Industry:</strong>{{ $case->industry }}</p>
+              <p><strong>Skills:</strong>{{ $case->tech_stack }}</p>
               
               <div class="mt-auto d-flex justify-content-between pt-2">
                 <div class="d-flex align-items-center">
@@ -167,7 +167,7 @@
                         DOWNLOAD
                     </a>
                 </div>
-                <a href="{{ route('case-study.single', $portfolio->slug) }}" class="btn btn-sm btn-readmore">
+                <a href="{{ route('case-study.single', $case->slug) }}" class="btn btn-sm btn-readmore">
                   READ MORE
                 </a>
               </div>
@@ -177,6 +177,7 @@
         </div>
       </template>
       @endforeach
+      {{-- 
       <script>
         const row = document.querySelector('.row');
         const template = document.getElementById('card-template');
@@ -184,6 +185,7 @@
           row.appendChild(template.content.cloneNode(true));
         }
       </script>
+       --}}
     </div>
   </div>
 
