@@ -557,6 +557,12 @@
                 @foreach (json_decode($case_study->case_steps) as $case)
                 <li><a href="#{{ $case->case_title }}">{{ $case->case_title }}</a></li>
                 @endforeach
+                @if ($case_study->services->count() > 0)
+                <li><a href="#ServicesInvolved">Services Involved</a></li>
+                @endif 
+                @if ($case_study->technologies->count() > 0)
+                <li><a href="#technologies">Technologies</a></li>
+                @endif 
                 {{-- <li>Solutions We Offered</li>
                 <li>Key Deliverables</li>
                 <li>Services Involved</li>
@@ -786,7 +792,7 @@
                 <!-- SERVICES INVOLVED SECTION -->
                 
                 
-                <div class="caseStudy-services-involved">
+                <div id="ServicesInvolved" class="caseStudy-services-involved">
                     <h4>Services Involved</h4>
                     <ul>
                       @foreach ($case_study->services as $case)
@@ -799,8 +805,8 @@
                 
                 
                 <!-- TECHNOLOGY SECTION -->
-                <div class="technology-section mb-5">
-                    <h3 class="caseStudy-section-h1-title">Technologies Used</h3>
+                <div id="technologies" class="technology-section mb-5">
+                    <h3 class="caseStudy-section-h1-title">Technologies</h3>
                     <!-- <div class="section-divider"></div> -->
 
                     <div class="caseStudy-tech-grid">
