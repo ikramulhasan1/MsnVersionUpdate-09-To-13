@@ -582,7 +582,7 @@
                             <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="PDF icon">
                             Download this case study
                         </a>
-                        <a href="#" class="caseStudy-btn-query">Send Your Query →</a>
+                        <a id="open-modal" href="#" class="caseStudy-btn-query">Send Your Query →</a>
                     </div>
                 </div>
             </div>
@@ -962,7 +962,7 @@
         </div>
 
 
-
+        @include('web.layouts.googlemeet')
     </section>
     <!-- Glide.js JS -->
     <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
