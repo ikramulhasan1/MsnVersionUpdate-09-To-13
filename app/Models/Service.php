@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Faq;
 use App\Models\Whywe;
 use App\Models\Industry;
+use App\Models\CaseStudy;
 use App\Models\Subservice;
 use App\Models\Processwork;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,10 @@ class Service extends Model
         'title', 'keywords', 'price', 'starting_price', 'priceCurrency', 'average_rating', 'review_count', 'short_title', 'meta_title', 'slug', 'short_desc', 'description', 'image_path', 'file_path', 'manu', 'status',
     ];
 
+    public function caseStudies()
+    {
+        return $this->belongsToMany(CaseStudy::class);
+    }
     // Relationship with Article
     public function articles()
     {

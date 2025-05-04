@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use File;
 use Image;
 use Toastr;
-use Illuminate\Support\Str;
+use App\Models\Service;
 use App\Models\CaseStudy;
+use App\Models\Technology;
 use App\Models\FaqCategory;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -42,6 +44,9 @@ class CaseStudyController extends Controller
         $data['title'] = $this->title;
         $data['route'] = $this->route;
         $data['view'] = $this->view;
+
+        $data['services'] = Service::where('status', 1)->get();
+        $data['technologies'] = Technology::where('status', 1)->get();
         $data['faqCategories'] = FaqCategory::where('status', 1)->get();
 
         return view($this->view.'.create', $data);
@@ -57,6 +62,11 @@ class CaseStudyController extends Controller
             'the_client_desc' => 'required',
             'industry' => 'required',
             'tech_stack' => 'required',
+
+            'services' => 'required|array',
+            'services.*' => 'exists:services,id',
+            'technologies' => 'nullable|array',
+            'technologies.*' => 'exists:technologies,id',
            
             // 'faqs.*.title' => 'required|string',
             // 'faqs.*.description' => 'required|string',
@@ -190,6 +200,9 @@ class CaseStudyController extends Controller
 
         // Save array as JSON
         $CaseStudy->case_steps = json_encode($caseSteps);
+
+        $CaseStudy->services()->attach($request->services);
+        $CaseStudy->technologies()->attach($request->technologies);
         $CaseStudy->save();
 
         // foreach ($request->faqs as $faq) {

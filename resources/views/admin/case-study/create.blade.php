@@ -147,8 +147,10 @@
 
                         <label for="Services" class="form-label">Services</label>
                         <div id="Services" class="case-services p-2 mb-3">
-                            <input type="checkbox" id="wordpress"><label for="wordpress">WordPress Website</label>
-                            <input type="checkbox" id="webdev"><label for="webdev">Website Development</label>
+                            @foreach($services as $service)
+                                <input name="services[]" type="checkbox" value="{{ $service->id }}" {{ (is_array(old('services')) && in_array($service->id, old('services'))) ? 'checked' : '' }} id="{{ $service->id }}"><label for="{{ $service->id }}">{{ $service->short_title }}</label>
+                            @endforeach
+                            {{-- <input type="checkbox" id="webdev"><label for="webdev">Website Development</label>
                             <input type="checkbox" id="android"><label for="android">Android App Development</label>
                             <input type="checkbox" id="ios"><label for="ios">iOS App Development</label>
                             <input type="checkbox" id="seo"><label for="seo">SEO Services</label>
@@ -156,15 +158,16 @@
                             <input type="checkbox" id="b2c"><label for="b2c">B2C eCommerce Website</label>
                             <input type="checkbox" id="ecomm"><label for="ecomm">Ecommerce Website</label>
                             <input type="checkbox" id="highda"><label for="highda">High DA Backlink</label>
-                            <input type="checkbox" id="shopify"><label for="shopify">Shopify Store</label>
+                            <input type="checkbox" id="shopify"><label for="shopify">Shopify Store</label> --}}
                         </div>
 
                         <label for="technology" class="form-label">Technology</label>
                         <div id="technology" class="technologyCase p-2 mb-3">
-                            <input class="input" type="checkbox" id="technology-wordpress">
-                            <label class="label" for="technology-wordpress">Technology WordPress Website</label>
-                        
-                            <input class="input" type="checkbox" id="technology-webdev">
+                            @foreach($technologies as $tech)
+                                <input name="technologies[]" value="{{ $tech->id }}" class="input" type="checkbox" {{ (is_array(old('technologies')) && in_array($tech->id, old('technologies'))) ? 'checked' : '' }} id="{{ $tech->id }}">
+                                <label class="label" for="{{ $tech->id }}">{{ $tech->short_title }}</label>
+                            @endforeach
+                            {{-- <input class="input" type="checkbox" id="technology-webdev">
                             <label class="label" for="technology-webdev">Technology Website Development</label>
                         
                             <input class="input" type="checkbox" id="technology-android">
@@ -189,7 +192,7 @@
                             <label class="label" for="technology-highda">High DA Backlink</label>
                         
                             <input class="input" type="checkbox" id="technology-shopify">
-                            <label class="label" for="technology-shopify">Shopify Store</label>
+                            <label class="label" for="technology-shopify">Shopify Store</label> --}}
                         </div>
                         
                         <div class="form-group">
