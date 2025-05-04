@@ -158,22 +158,38 @@
                             <input type="checkbox" id="highda"><label for="highda">High DA Backlink</label>
                             <input type="checkbox" id="shopify"><label for="shopify">Shopify Store</label>
                         </div>
-                        <div class="">
-                            <label for="technology" class="form-label">Technology</label>
-                            <div id="technology" class="technologyCase p-2 mb-3">
-                                <input class="input" type="checkbox" id="technology-wordpress"><label class="label" for="wordpress">technology WordPress Website</label>
-                                <input class="input" type="checkbox" id="technology-webdev"><label class="label" for="webdev">technology Website Development</label>
-                                <input class="input" type="checkbox" id="technology-android"><label class="label" for="android">Andvroid App Development</label>
-                                <input class="input" type="checkbox" id="technology-ios"><label class="label" for="ios">iOSc App Development</label>
-                                <input class="input" type="checkbox" id="technology-seo"><label class="label" for="seo">SEOv Services</label>
-                                <input class="input" type="checkbox" id="technology-pwa"><label class="label" for="pwa">Prcogressive Web App</label>
-                                <input class="input" type="checkbox" id="technology-b2c"><label class="label" for="b2c">B2cC eCommerce Website</label>
-                                <input class="input" type="checkbox" id="technology-ecomm"><label class="label" for="ecomm">Ecovmmerce Website</label>
-                                <input class="input" type="checkbox" id="technology-highda"><label class="label" for="highda">Hivgh DA Backlink</label>
-                                <input class="input" type="checkbox" id="technology-shopify"><label class="label" for="shopify">Svopify Store</label>
-                            </div>
-                       
+                        <div id="technology" class="technologyCase p-2 mb-3">
+                            <input class="input" type="checkbox" id="technology-wordpress">
+                            <label class="label" for="technology-wordpress">Technology WordPress Website</label>
+                        
+                            <input class="input" type="checkbox" id="technology-webdev">
+                            <label class="label" for="technology-webdev">Technology Website Development</label>
+                        
+                            <input class="input" type="checkbox" id="technology-android">
+                            <label class="label" for="technology-android">Android App Development</label>
+                        
+                            <input class="input" type="checkbox" id="technology-ios">
+                            <label class="label" for="technology-ios">iOS App Development</label>
+                        
+                            <input class="input" type="checkbox" id="technology-seo">
+                            <label class="label" for="technology-seo">SEO Services</label>
+                        
+                            <input class="input" type="checkbox" id="technology-pwa">
+                            <label class="label" for="technology-pwa">Progressive Web App</label>
+                        
+                            <input class="input" type="checkbox" id="technology-b2c">
+                            <label class="label" for="technology-b2c">B2C eCommerce Website</label>
+                        
+                            <input class="input" type="checkbox" id="technology-ecomm">
+                            <label class="label" for="technology-ecomm">Ecommerce Website</label>
+                        
+                            <input class="input" type="checkbox" id="technology-highda">
+                            <label class="label" for="technology-highda">High DA Backlink</label>
+                        
+                            <input class="input" type="checkbox" id="technology-shopify">
+                            <label class="label" for="technology-shopify">Shopify Store</label>
                         </div>
+                        
                         <div class="form-group">
                             <label for="the_client_desc">{{ __('dashboard.description') }} <span>*</span></label>
                             <textarea class="form-control" name="the_client_desc" id="editor1" rows="8" required>{{ old('the_client_desc') }}</textarea>
