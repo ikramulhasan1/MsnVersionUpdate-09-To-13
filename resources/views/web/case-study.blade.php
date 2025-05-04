@@ -645,7 +645,7 @@
                         alt="{{ $case->case_title }}" class="caseStudy-section-image img-fluid">
 
                       
-                      <template>{!! $case->case_description !!}</template>
+                      <div>{!! $case->case_description !!}</div>
                     {{-- <div class="caseStudy-subheading">Operational Inefficiencies</div>
                     <ul class="caseStudy-check-list">
                         <li>Manual processes such as in-person meetings and paperwork slowed down financial advisory
