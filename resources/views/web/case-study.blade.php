@@ -555,7 +555,7 @@
             <ul>
                 <li><a href="#{{ $case_study->the_client }}">{{ $case_study->the_client }}</a></li>
                 @foreach (json_decode($case_study->case_steps) as $case)
-                <li>{{ $case->case_title }}</li>
+                <li><a href="#{{ $case->case_title }}">{{ $case->case_title }}</a></li>
                 @endforeach
                 {{-- <li>Solutions We Offered</li>
                 <li>Key Deliverables</li>
@@ -628,7 +628,7 @@
                 @foreach (json_decode($case_study->case_steps) as $case)
                 @if (!empty($case->case_title) && $case->case_title == 'The Challenges')
                   
-                  <div class="caseStudy-section-box">
+                  <div id="{{ $case->case_title }}" class="caseStudy-section-box">
                     <h2 class="caseStudy-section-h1-title">{{ $case->case_title }}</h2>
                     
                     {{-- <div class="caseStudy-subheading">Limited Technical Resources</div>
@@ -671,7 +671,7 @@
 
                 @foreach (json_decode($case_study->case_steps) as $case)
                 @if (!empty($case->case_title) && $case->case_title == 'Solutions We Offered')
-                <div class="caseStudy-section-box">
+                <div id="{{ $case->case_title }}" class="caseStudy-section-box">
                     <h2 class="caseStudy-section-h1-title">{{ $case->case_title }}</h2>
 
                     {{-- <p>Capital Numbers deployed a dedicated IT Staff Augmentation team to address the client’s technical and
@@ -717,7 +717,7 @@
                 <!-- Key Deliverables -->
                 @foreach (json_decode($case_study->case_steps) as $case)
                 @if (!empty($case->case_title) && $case->case_title == 'Key Features Delivered')
-                <div class="caseStudy-section pb-5">
+                <div id="{{ $case->case_title }}" class="caseStudy-section pb-5">
                     <h2 class="caseStudy-section-h1-title">{{ $case->case_title }}</h2>
 
                     <div>
@@ -847,7 +847,7 @@
                 <!-- RESULTS SECTION -->
                 @foreach (json_decode($case_study->case_steps) as $case)
                 @if (!empty($case->case_title) && $case->case_title == 'Results')
-                <section class="caseStudy-results-section">
+                <section id="{{ $case->case_title }}" class="caseStudy-results-section">
                     <h2 class="caseStudy-section-h1-title">Results</h2>
 
                     {{-- <div class="caseStudy-result-item">
