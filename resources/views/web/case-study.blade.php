@@ -805,20 +805,20 @@
 
                     <div class="caseStudy-tech-grid">
                         @foreach ($case_study->technologies as $case)
-                        <a class="caseStudy-tech-item" href="{{ route('service.technology', $case->slug) }}">
-                        {{-- <div class="caseStudy-tech-item"> --}}
+                        {{-- <a class="caseStudy-tech-item" href="{{ route('service.technology', $case->slug) }}"> --}}
+                        <div class="caseStudy-tech-item">
                             <img src="{{ asset('uploads/service/'.$case->logo_path) }}"
                                 alt="React">
                             <div class="caseStudy-tech-label">{{ $case->short_title }}</div>
-                        {{-- </div> --}}
-                        </a>
+                        </div>
+                        {{-- </a> --}}
                         @endforeach
-                        {{-- <div class="caseStudy-tech-item">
+                         <div class="caseStudy-tech-item">
                             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rails/rails-plain.svg"
                                 alt="Rails">
                             <div class="caseStudy-tech-label">Rails</div>
                         </div>
-                        <div class="caseStudy-tech-item">
+                        {{--<div class="caseStudy-tech-item">
                             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
                                 alt="PostgreSQL">
                             <div class="caseStudy-tech-label">PostgreSQL</div>
