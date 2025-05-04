@@ -666,10 +666,13 @@
                 @endif
                 @endforeach
                 <!-- Solutions We Offered Section -->
+
+                @foreach (json_decode($case_study->case_steps) as $case)
+                @if (!empty($case->case_title) && $case->case_title == 'Solutions We Offered')
                 <div class="caseStudy-section-box">
                     <h2 class="caseStudy-section-h1-title">Solutions We Offered</h2>
 
-                    <p>Capital Numbers deployed a dedicated IT Staff Augmentation team to address the client’s technical and
+                    {{-- <p>Capital Numbers deployed a dedicated IT Staff Augmentation team to address the client’s technical and
                         operational challenges through:</p>
 
                     <div class="caseStudy-subheading">Understanding Client Needs</div>
@@ -684,12 +687,12 @@
                         <li>Quickly onboarded highly skilled developers proficient in the required technologies, ensuring
                             seamless
                             knowledge transfer and minimal project downtime.</li>
-                    </ul>
+                    </ul> --}}
 
                     <img src="https://www.capitalnumbers.com/images/case-studies-details/case-study-185/cs185-solutions.png"
                         alt="Client discussion" class="caseStudy-section-image img-fluid">
 
-                    <div class="caseStudy-subheading">Seamless Integration</div>
+                    {{-- <div class="caseStudy-subheading">Seamless Integration</div>
                     <ul class="caseStudy-check-list">
                         <li>Integrated our developers directly into the client’s team, working collaboratively to accelerate
                             development without disrupting existing workflows.</li>
@@ -700,16 +703,21 @@
                         <li>Allowed the client to dynamically adjust team size and expertise based on project needs,
                             ensuring
                             agility and cost-effectiveness.</li>
-                    </ul>
+                    </ul> --}}
                 </div>
-
+                @else
+                  
+                @endif
+                @endforeach
                 <!-- Key Deliverables -->
+                @foreach (json_decode($case_study->case_steps) as $case)
+                @if (!empty($case->case_title) && $case->case_title == 'Key Features Delivered')
                 <div class="caseStudy-section pb-5">
                     <h2 class="caseStudy-section-h1-title">Key Deliverables</h2>
 
                     <p>Capital Numbers successfully delivered the following:</p>
 
-                    <p><strong>Code Optimization:</strong> Enhanced the platform’s stability and performance (React Frontend
+                    {{-- <p><strong>Code Optimization:</strong> Enhanced the platform’s stability and performance (React Frontend
                         and
                         Rails Backend).</p>
 
@@ -759,8 +767,12 @@
 
                     <p><strong>AWS Cloud Deployment:</strong> Provided a reliable, scalable, and secure cloud infrastructure
                         for
-                        seamless platform operation.</p>
+                        seamless platform operation.</p> --}}
                 </div>
+                @else
+                  
+                @endif
+                @endforeach
             </div>
 
             <div class="col-lg-8">
@@ -817,10 +829,12 @@
                     </div>
                 </div>
                 <!-- RESULTS SECTION -->
+                @foreach (json_decode($case_study->case_steps) as $case)
+                @if (!empty($case->case_title) && $case->case_title == 'Results')
                 <section class="caseStudy-results-section">
                     <h2 class="caseStudy-section-h1-title">Results</h2>
 
-                    <div class="caseStudy-result-item">
+                    {{-- <div class="caseStudy-result-item">
                         <div class="caseStudy-result-icon"></div>
                         <div class="caseStudy-result-text">
                             <h4>Rapid Project Completion</h4>
@@ -846,14 +860,16 @@
                                 engagement
                                 and strategy.</p>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="caseStudy-result-image">
                         <img src="https://www.capitalnumbers.com/images/case-studies-details/case-study-185/cs185-results.png"
                             alt="Handshake Image" />
                     </div>
-
-                    <div class="caseStudy-result-item">
+                    <div>
+                        {!! $case->case_description !!}
+                    </div>
+                    {{-- <div class="caseStudy-result-item">
                         <div class="caseStudy-result-icon"></div>
                         <div class="caseStudy-result-text">
                             <h4>Improved Security & Compliance</h4>
@@ -870,8 +886,12 @@
                             <p>A microservices architecture and AWS deployment ensured long-term scalability and
                                 flexibility.</p>
                         </div>
-                    </div>
+                    </div> --}}
                 </section>
+                @else
+                  
+                @endif
+                @endforeach
             </div>
         </section>
 
