@@ -150,15 +150,6 @@
                             @foreach($services as $service)
                                 <input name="services[]" type="checkbox" value="{{ $service->id }}" {{ (is_array(old('services')) && in_array($service->id, old('services'))) ? 'checked' : '' }} id="{{ $service->id }}"><label for="{{ $service->id }}">{{ $service->short_title }}</label>
                             @endforeach
-                            {{-- <input type="checkbox" id="webdev"><label for="webdev">Website Development</label>
-                            <input type="checkbox" id="android"><label for="android">Android App Development</label>
-                            <input type="checkbox" id="ios"><label for="ios">iOS App Development</label>
-                            <input type="checkbox" id="seo"><label for="seo">SEO Services</label>
-                            <input type="checkbox" id="pwa"><label for="pwa">Progressive Web App</label>
-                            <input type="checkbox" id="b2c"><label for="b2c">B2C eCommerce Website</label>
-                            <input type="checkbox" id="ecomm"><label for="ecomm">Ecommerce Website</label>
-                            <input type="checkbox" id="highda"><label for="highda">High DA Backlink</label>
-                            <input type="checkbox" id="shopify"><label for="shopify">Shopify Store</label> --}}
                         </div>
 
                         <label for="technology" class="form-label">Technology</label>
@@ -167,32 +158,6 @@
                                 <input name="technologies[]" value="{{ $tech->id }}" class="input" type="checkbox" {{ (is_array(old('technologies')) && in_array($tech->id, old('technologies'))) ? 'checked' : '' }} id="{{ $tech->id }}">
                                 <label class="label" for="{{ $tech->id }}">{{ $tech->short_title }}</label>
                             @endforeach
-                            {{-- <input class="input" type="checkbox" id="technology-webdev">
-                            <label class="label" for="technology-webdev">Technology Website Development</label>
-                        
-                            <input class="input" type="checkbox" id="technology-android">
-                            <label class="label" for="technology-android">Android App Development</label>
-                        
-                            <input class="input" type="checkbox" id="technology-ios">
-                            <label class="label" for="technology-ios">iOS App Development</label>
-                        
-                            <input class="input" type="checkbox" id="technology-seo">
-                            <label class="label" for="technology-seo">SEO Services</label>
-                        
-                            <input class="input" type="checkbox" id="technology-pwa">
-                            <label class="label" for="technology-pwa">Progressive Web App</label>
-                        
-                            <input class="input" type="checkbox" id="technology-b2c">
-                            <label class="label" for="technology-b2c">B2C eCommerce Website</label>
-                        
-                            <input class="input" type="checkbox" id="technology-ecomm">
-                            <label class="label" for="technology-ecomm">Ecommerce Website</label>
-                        
-                            <input class="input" type="checkbox" id="technology-highda">
-                            <label class="label" for="technology-highda">High DA Backlink</label>
-                        
-                            <input class="input" type="checkbox" id="technology-shopify">
-                            <label class="label" for="technology-shopify">Shopify Store</label> --}}
                         </div>
                         
                         <div class="form-group">
