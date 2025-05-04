@@ -44,7 +44,7 @@
       border: 1px solid #ccc;
     }
 
-    .technologyCase label {
+    .technologyCase .label {
       background-color: #f0f0f0;
       padding: 5px 14px;
       border-radius: 30px;
@@ -56,11 +56,11 @@
       margin: 0px;
     }
 
-    .technologyCase input {
+    .technologyCase .input {
       display: none;
     }
 
-    .technologyCase input:checked + label {
+    .technologyCase .input:checked + label {
       background-color: #00a830;
       color: #fff;
       border-color: #078700;
@@ -161,16 +161,16 @@
                         <div class="">
                             <label for="technology" class="form-label">Technology</label>
                             <div id="technology" class="technologyCase p-2 mb-3">
-                                <input type="checkbox" id="technology-wordpress"><label for="wordpress">technology WordPress Website</label>
-                                <input type="checkbox" id="technology-webdev"><label for="webdev">technology Website Development</label>
-                                <input type="checkbox" id="technology-android"><label for="android">Andvroid App Development</label>
-                                <input type="checkbox" id="technology-ios"><label for="ios">iOSc App Development</label>
-                                <input type="checkbox" id="technology-seo"><label for="seo">SEOv Services</label>
-                                <input type="checkbox" id="technology-pwa"><label for="pwa">Prcogressive Web App</label>
-                                <input type="checkbox" id="technology-b2c"><label for="b2c">B2cC eCommerce Website</label>
-                                <input type="checkbox" id="technology-ecomm"><label for="ecomm">Ecovmmerce Website</label>
-                                <input type="checkbox" id="technology-highda"><label for="highda">Hivgh DA Backlink</label>
-                                <input type="checkbox" id="technology-shopify"><label for="shopify">Svopify Store</label>
+                                <input class="input" type="checkbox" id="technology-wordpress"><label class="label" for="wordpress">technology WordPress Website</label>
+                                <input class="input" type="checkbox" id="technology-webdev"><label class="label" for="webdev">technology Website Development</label>
+                                <input class="input" type="checkbox" id="technology-android"><label class="label" for="android">Andvroid App Development</label>
+                                <input class="input" type="checkbox" id="technology-ios"><label class="label" for="ios">iOSc App Development</label>
+                                <input class="input" type="checkbox" id="technology-seo"><label class="label" for="seo">SEOv Services</label>
+                                <input class="input" type="checkbox" id="technology-pwa"><label class="label" for="pwa">Prcogressive Web App</label>
+                                <input class="input" type="checkbox" id="technology-b2c"><label class="label" for="b2c">B2cC eCommerce Website</label>
+                                <input class="input" type="checkbox" id="technology-ecomm"><label class="label" for="ecomm">Ecovmmerce Website</label>
+                                <input class="input" type="checkbox" id="technology-highda"><label class="label" for="highda">Hivgh DA Backlink</label>
+                                <input class="input" type="checkbox" id="technology-shopify"><label class="label" for="shopify">Svopify Store</label>
                             </div>
                        
                         </div>
