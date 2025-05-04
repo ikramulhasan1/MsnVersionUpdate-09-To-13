@@ -227,7 +227,7 @@ $header = \App\Models\PageSetup::page('get-quote');
 
     .quoteFormSection {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(120deg, #05264A, #00511c );
+      background: linear-gradient(120deg, #05264A, #054a43 );
       min-height: 100vh;
       display: flex;
       align-items: center;
