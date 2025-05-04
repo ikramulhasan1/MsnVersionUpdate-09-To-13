@@ -55,7 +55,6 @@ class CaseStudyController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
         // Field Validation
         $request->validate([
             'main_title' => 'required|max:191|unique:case_studies,main_title',
@@ -198,13 +197,13 @@ class CaseStudyController extends Controller
                 'case_image' => $processImageName,
             ];
         }
-
+        $CaseStudy->save();
         // Save array as JSON
         $CaseStudy->case_steps = json_encode($caseSteps);
 
-        $CaseStudy->services()->attach($request->services);
-        $CaseStudy->technologies()->attach($request->technologies);
-        $CaseStudy->save();
+        $CaseStudy->services()->attach($CaseStudy->id, $request->services);
+        $CaseStudy->technologies()->attach($CaseStudy->id, $request->technologies);
+        
 
         // foreach ($request->faqs as $faq) {
         //     Faq::create([
