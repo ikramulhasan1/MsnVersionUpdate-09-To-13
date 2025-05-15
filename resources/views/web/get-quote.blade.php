@@ -586,8 +586,9 @@ $header = \App\Models\PageSetup::page('get-quote');
         <input class="quote-input" type="text" name="address" placeholder="{{ __('form.address') }}" value="{{ old('address') }}" required>
         <input class="quote-input" type="text" name="city" placeholder="{{ __('form.city') }}" value="{{ old('city') }}" required>
   
+        <h5 for="prefer_contact">{{ __('form.prefer_contact') }}</h5>
         <div class="quote-radio-group">
-          <h4 for="prefer_contact">{{ __('form.prefer_contact') }}</h4>
+          
           <label><input class="quote-input" type="radio" name="prefer_contact" value="1" id="pre_email" @if(old('prefer_contact')=='1' ) checked @else checked @endif required>Email </label>
           <label><input class="quote-input" type="radio" name="prefer_contact" value="2" id="pre_phone" @if(old('prefer_contact')=='2' ) checked @endif required>Phone </label>
         </div>
@@ -600,15 +601,7 @@ $header = \App\Models\PageSetup::page('get-quote');
               <input class="quote-input" type="checkbox" name="services[]" value="{{ $service->id }}" @if(old('services')==$service->id) checked @endif id="service-{{ $service->id }}"><label for="service-{{ $service->id }}">{{ $service->short_title }}</label>
             @endif
           @endforeach
-          {{-- <input class="quote-input" type="checkbox" id="webdev"><label for="webdev">Website Development</label>
-          <input class="quote-input" type="checkbox" id="android"><label for="android">Android App Development</label>
-          <input class="quote-input" type="checkbox" id="ios"><label for="ios">iOS App Development</label>
-          <input class="quote-input" type="checkbox" id="seo"><label for="seo">SEO Services</label>
-          <input class="quote-input" type="checkbox" id="pwa"><label for="pwa">Progressive Web App</label>
-          <input class="quote-input" type="checkbox" id="b2c"><label for="b2c">B2C eCommerce Website</label>
-          <input class="quote-input" type="checkbox" id="ecomm"><label for="ecomm">Ecommerce Website</label>
-          <input class="quote-input" type="checkbox" id="highda"><label for="highda">High DA Backlink</label>
-          <input class="quote-input" type="checkbox" id="shopify"><label for="shopify">Shopify Store</label> --}}
+          
         </div>
   
         <textarea class="quote-textarea" name="message" placeholder="{{ __('form.your_massage') }}" required>{{ old('message') }}</textarea>
