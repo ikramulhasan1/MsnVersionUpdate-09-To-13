@@ -579,6 +579,7 @@ $header = \App\Models\PageSetup::page('get-quote');
       @endif
 
       <form class="quote-form" method="post" action="{{ route('get-quote.store') }}" enctype="multipart/form-data" accept-charset="utf-8">
+        @csrf
         <input class="quote-input" type="text" name="name" placeholder="{{ __('form.your_name') }}" value="{{ old('name') }}" required>
         <input class="quote-input" type="email" name="email" placeholder="{{ __('form.email_address') }}" value="{{ old('email') }}" required>
         <input class="quote-input" type="tel" name="phone" placeholder="{{ __('form.phone_no') }}" value="{{ old('phone') }}" required>
