@@ -225,7 +225,7 @@ $header = \App\Models\PageSetup::page('get-quote');
 
     .quoteFormSection {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(120deg, #F5F7F8, #C8E0F4);
+      background: linear-gradient(120deg, #F5F7F8, #F5F7F8);
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -535,9 +535,14 @@ $header = \App\Models\PageSetup::page('get-quote');
     </div>
 </section> --}}
 <!--End Contact Section -->
+@php
+  $section_getquote = \App\Models\Section::section('get-quote');
+@endphp
+ @if(isset($section_getquote))
 <section class="quoteFormSection">
     <div class="quote-container">
-      <h2 style="font-weight: 800" >Get A Quote</h2>
+      <h2 style="font-weight: 800" >{{ $section_getquote->title }}</h2>
+      <div class="text description">{!! $section_getquote->description !!}</div>
       <form class="quote-form" action="#" method="POST">
         <input class="quote-input" type="text" placeholder="Your Name *" required>
         <input class="quote-input" type="email" placeholder="Email Address *" required>
@@ -569,8 +574,8 @@ $header = \App\Models\PageSetup::page('get-quote');
         <button class="quote-submit-btn" type="submit">SUBMIT NOW</button>
       </form>
     </div>
-  </section>
-
+</section>
+@endif
 
 {{-- @php
 $section_process = \App\Models\Section::section('process');
