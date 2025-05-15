@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\WhyweController;
 use App\Http\Controllers\Web\MeetingController;
 // use App\Http\Controllers\web\CasestudyController;
+use App\Http\Controllers\Web\GetQuoteController;
 use App\Http\Controllers\Admin\IndustryController;
 use App\Http\Controllers\Admin\CaseStudyController;
 use App\Http\Controllers\Admin\MeetingGetController;
@@ -65,6 +66,7 @@ Route::middleware(['XSS','redirect'])->namespace('Web')->group(function () {
     // Get Quote
     Route::get('/get-quote', 'GetQuoteController@index')->name('get-quote');
     Route::post('/get-quote', 'GetQuoteController@store')->name('get-quote.store');
+    Route::post('/go-to-quote', [GetQuoteController::class, 'storeSelection'])->name('goToQuotePage');
 
     // Subscribe Route
     Route::post('/subscribe', 'HomeController@subscribe')->name('subscribe');

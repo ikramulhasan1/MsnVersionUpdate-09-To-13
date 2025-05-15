@@ -580,6 +580,9 @@ $header = \App\Models\PageSetup::page('get-quote');
 
       <form class="quote-form" method="post" action="{{ route('get-quote.store') }}" enctype="multipart/form-data" accept-charset="utf-8">
         @csrf
+        <input type="hidden" name="work_model" value="{{ $work_model }}">
+        <input type="hidden" name="work_scope" value="{{ $work_scope }}">
+
         <input class="quote-input" type="text" name="name" placeholder="{{ __('form.your_name') }}" value="{{ old('name') }}" required>
         <input class="quote-input" type="email" name="email" placeholder="{{ __('form.email_address') }}" value="{{ old('email') }}" required>
         <input class="quote-input" type="tel" name="phone" placeholder="{{ __('form.phone_no') }}" value="{{ old('phone') }}" required>
@@ -590,8 +593,8 @@ $header = \App\Models\PageSetup::page('get-quote');
         <h6 style="text-align: left !important" for="prefer_contact">{{ __('form.prefer_contact') }}</h6>
         <div class="quote-radio-group">
           
-          <label><input class="quote-input" type="radio" name="prefer_contact" value="1" id="pre_email" @if(old('prefer_contact')=='1' ) checked @else checked @endif required>Email </label>
-          <label><input class="quote-input" type="radio" name="prefer_contact" value="2" id="pre_phone" @if(old('prefer_contact')=='2' ) checked @endif required>Phone </label>
+          <label class="d-flex align-items-center"><input class="quote-input" type="radio" name="prefer_contact" value="1" id="pre_email" @if(old('prefer_contact')=='1' ) checked @else checked @endif required>Email </label>
+          <label class="d-flex align-items-center"><input class="quote-input" type="radio" name="prefer_contact" value="2" id="pre_phone" @if(old('prefer_contact')=='2' ) checked @endif required>Phone </label>
         </div>
 
         <h6 style="text-align: left !important">{{ __('form.services') }}</h6>

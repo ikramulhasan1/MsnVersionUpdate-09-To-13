@@ -22,8 +22,12 @@ class GetQuoteController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
+         // Retrieve the selected service from session
+        $data['work_model'] = $request->session()->get('work_model');
+        $data['work_scope'] = $request->session()->get('work_scope');
+
         // Services                                
         $data['services'] = Service::where('status', '1')
             ->orderBy('id', 'asc')
@@ -38,12 +42,14 @@ class GetQuoteController extends Controller
         return view('web.get-quote', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function storeSelection(Request $request)
+    {
+        // Save radio value to session
+        $request->session()->put('work_model', $request->work_model);
+        $request->session()->put('work_scope', $request->work_scope);
+        return redirect()->route('get-quote');
+    }
+
     public function store(Request $request)
     {
         // Field Validation
@@ -90,11 +96,16 @@ class GetQuoteController extends Controller
         $quote->prefer_contact = $request->prefer_contact;
         $quote->quantity = $request->quantity;
         $quote->message = $request->message;
+        $quote->work_model = $request->work_model;
+        $quote->work_scope = $request->work_scope;
         $quote->file_path = $fileNameToStore;
         $quote->pre_delivery_time = $request->pre_delivery_time;
         $quote->where_find = $request->where_find;
         $quote->save();
 
+        // Clear session
+        $request->session()->forget('work_model');
+        $request->session()->forget('work_scope');
         // Polymorphic Services Store
         if (is_array($request->services) == 1) {
             foreach ($request->services as $service_id) {

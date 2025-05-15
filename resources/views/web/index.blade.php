@@ -101,7 +101,9 @@ $header = \App\Models\PageSetup::page('home');
       padding-bottom: 30px;
       padding-top: 30px;
     }
-
+    .model-section h1{
+      font-size: 42px !important;  
+    }
     h1.title {
       font-size: 51px;
       font-weight: 900;
@@ -119,7 +121,7 @@ $header = \App\Models\PageSetup::page('home');
       background: #fff;
       border-radius: 0px;
       padding: 30px 20px;
-      text-align: center;
+     
       height: 100%;
       position: relative;
     }
@@ -133,13 +135,16 @@ $header = \App\Models\PageSetup::page('home');
     .card-box h5 {
       font-weight: 700;
       color: #333333;
-      font-size: 31px;
+      font-size: 28px;
+      text-align: center;
+      margin-bottom: 10px;
     }
 
     .card-box p {
       color: #333333;
       font-size: 15px;
       font-weight: 500 !important;
+      margin-bottom: 0px;
     }
 
     .card-box .btn {
@@ -151,12 +156,34 @@ $header = \App\Models\PageSetup::page('home');
       font-size: 0.9rem;
       border-radius: 6px;
       margin-top: 15px;
+      
     }
 
     .card-box .btn:hover {
       background-color: #e55d1b;
     }
 
+    .card-box ul {
+        list-style: none; /* remove default bullets */
+        padding-left: 0; /* remove default padding */
+    }
+
+    .card-box ul li {
+        position: relative;
+        padding-left: 20px; /* space for custom bullet */
+        margin-bottom: 0px; /* optional: add spacing between li */
+        font-size: 16px; /* adjust font size as needed */
+        color: #333333; /* text color */
+    }
+
+    .card-box ul li::before {
+        content: '●'; /* your custom bullet */
+        position: absolute;
+        left: 0;
+        top: 0px;
+        font-size: 18px;
+        color: #00c853; /* green bullet color */
+    }
     .border-success-bottom {
       border-bottom: 7px solid #3CC065;
     }
@@ -1153,74 +1180,175 @@ $section_services = \App\Models\Section::section('services');
         
         <section class="model-section">
             <div class="container py-5">
-              <h1 class="title">Flexible Engagement Models<br>to Suit Your Needs</h1>
-              <p id="compare" class="subtitle mt-3">
+              <h1 class="title">Our Work Models – Choose What Fits You Best</h1>
+              {{-- <p id="compare" class="subtitle mt-3">
                 Find the Perfect Solution for Your Project, Whether You Need a<br>
                 Fully Managed Team, Staff Augmentation, or a Fixed-Price Approach.
-              </p>
+              </p> --}}
           
               <!-- Engagement Model Cards -->
+              <form id="modelForm" action="{{ route('goToQuotePage') }}" method="post" accept-charset="utf-8">
+              @csrf
               <div class="row mt-5 g-4">
-                <!-- Managed Team -->
-                <div class="col-md-4">
-                  <div class="card-box border-success-bottom2">
-                    <img src="https://img.icons8.com/ios/100/000000/developer.png" alt="Managed Team Icon">
-                    <h5>Managed Team</h5>
-                    <p>Your product, our dedicated team. From concept to completion, we handle it all.</p>
-                    <button class="btn">Contact Us For Details →</button>
+                  <!-- Managed Team -->
+                
+                  
+                  <div class="col-md-4 mb-4">
+                    <div class="card-box border-success-bottom2">
+                      <input type="radio" name="work_model" id="model-fixed-price" value="Fixed Price Model" hidden>
+                      <img src="https://thumbs.dreamstime.com/b/fixed-price-badge-sign-white-background-design-vector-366219601.jpg" alt="Managed Team Icon">
+                      <h5>Fixed Price Model</h5>
+                      <p>For clear, small projects with a fixed budget</p>
+                      <ul>
+                        <li>Fixed cost & timeline</li>
+                        <li>No surprises</li>
+                        <li><strong>Best for:</strong> Landing pages, company websites</li>
+                      </ul>
+                      
+                      <button class="btn" type="button" onclick="selectAndSubmit('fixed-price')">Contact Us For Details →</button>
+                    </div>
                   </div>
-                </div>
-          
+               
+                  <!-- Staff Augmentation -->
+                
+                
+                  <div class="col-md-4 mb-4">
+                    <div class="card-box border-success-bottom">
+                      <input type="radio" name="work_model" id="model-hourly" value="Hourly Model" hidden>
+                      <img src="https://img.freepik.com/free-vector/alarm-clock-concept-illustration_114360-12926.jpg?ga=GA1.1.976765849.1741899989&semt=ais_hybrid&w=740" alt="Staff Augmentation Icon">
+                      <h5>Hourly Model</h5>
+                      <p>Pay only for what you need, when you need it</p>
+                      <ul>
+                        <li>Full flexibility</li>
+                        <li>You decide what to change or add</li>
+                        <li><strong>Best for:</strong> Features, updates, redesigns</li>
+                      </ul>
+                      <button class="btn" type="button" onclick="selectAndSubmit('hourly')">Contact Us For Details →</button>
+                    </div>
+                  </div>
+                
+                  <!-- Fixed Cost -->
+                
+                
+                  <div class="col-md-4 mb-4">
+                    <div class="card-box border-success-bottom2">
+                      <input type="radio" name="work_model" id="model-monthly-support" value="Monthly Support" hidden>
+                      <img src="https://img.freepik.com/free-vector/customer-support-flat-design-illustration_23-2148889374.jpg?ga=GA1.1.976765849.1741899989&semt=ais_hybrid&w=740" alt="Fixed Cost Icon">
+                      <h5>Monthly Support</h5>
+                      <p>Keep us on standby for monthly help</p>
+                      <ul>
+                        <li>Regular updates & maintenance</li>
+                        <li>SEO, performance, bug fixing</li>
+                        <li><strong>Best for:</strong> Running websites, ongoing services</li>
+                      </ul>
+                      <button class="btn" type="button" onclick="selectAndSubmit('monthly-support')">Share Your Requirements →</button>
+                    </div>
+                  </div>
+                
+                  <!-- Fixed Cost -->
+                
+                
+                  <div class="col-md-4 mb-4">
+                    <div class="card-box border-success-bottom2">
+                      <input type="radio" name="work_model" id="model-dedicated-developer" value="Dedicated Developer / Team" hidden>
+                      <img src="https://img.freepik.com/free-vector/programming-concept-illustration_114360-1351.jpg?ga=GA1.1.976765849.1741899989&semt=ais_hybrid&w=740" alt="Fixed Cost Icon">
+                      <h5>Dedicated Developer / Team</h5>
+                      <p>Your own remote developer without hiring full-time</p>
+                      <ul>
+                        <li>Full focus on your project</li>
+                        <li>Control & collaboration</li>
+                        <li><strong>Best for:</strong> Large projects, long-term goals</li>
+                      </ul>
+                      <button class="btn" type="button" onclick="selectAndSubmit('dedicated-developer')">Share Your Requirements →</button>
+                    </div>
+                  </div>
+                
                 <!-- Staff Augmentation -->
-                <div class="col-md-4">
-                  <div class="card-box border-success-bottom">
-                    <img src="https://img.icons8.com/ios/100/000000/teamwork.png" alt="Staff Augmentation Icon">
-                    <h5>Staff Augmentation</h5>
-                    <p>Need extra hands? Our experts seamlessly join your team, providing the skills you need, when you need them.</p>
-                    <button class="btn">Contact Us For Details →</button>
+                
+                  <div class="col-md-4 mb-4">
+                    <div class="card-box border-success-bottom">
+                      <input type="radio" name="work_model" id="model-milestone-based" value="Milestone-Based Model" hidden>
+                      <img src="https://img.freepik.com/free-vector/ambition-abstract-concept-vector-illustration-business-ambition-determination-setting-big-goal-making-fast-career-self-confident-getting-what-you-want-desire-success-abstract-metaphor_335657-2892.jpg?ga=GA1.1.976765849.1741899989&semt=ais_hybrid&w=740" alt="Staff Augmentation Icon">
+                      <h5>Milestone-Based Model</h5>
+                      <p>Break the project into parts. Pay as we deliver.</p>
+                      <ul>
+                        <li>Track progress easily</li>
+                        <li>Pay after each milestone</li>
+                        <li><strong>Best for:</strong> Big projects, apps, platforms</li>
+                      </ul>
+                      <button class="btn" type="button" onclick="selectAndSubmit('milestone-based')">Contact Us For Details →</button>
+                    </div>
                   </div>
+                
+                  <!-- Fixed Cost -->
+                
+                
+                  <div class="col-md-4 mb-4">
+                    <div class="card-box border-success-bottom2">
+                      <input type="radio" name="work_model" id="model-pay-as-you-go" value="Pay-as-You-Go" hidden>
+                      <img src="https://img.freepik.com/free-vector/payment-information-concept-illustration_114360-2886.jpg?ga=GA1.1.976765849.1741899989&semt=ais_hybrid&w=740" alt="Fixed Cost Icon">
+                      <h5>Pay-as-You-Go</h5>
+                      <p>One-time small tasks & urgent help</p>
+                      <ul>
+                        <li>Quick & affordable</li>
+                        <li>No contract needed</li>
+                        <li><strong>Best for:</strong> Fixes, performance tweaks</li>
+                      </ul>
+                      <button class="btn" type="button" onclick="selectAndSubmit('pay-as-you-go')">Share Your Requirements →</button>
+                    </div>
+                  </div>
+                
+                  <!-- Fixed Cost -->
+                
+                
+                  <div class="col-md-4 mb-4">
+                    <div class="card-box border-success-bottom2">
+                      <input type="radio" name="work_model" id="model-partnership" value="Partnership / Revenue Share" hidden>
+                      <img src="https://img.freepik.com/free-vector/handshake-concept-illustration_114360-22576.jpg?ga=GA1.1.976765849.1741899989&semt=ais_hybrid&w=740" alt="Fixed Cost Icon">
+                      <h5>Partnership / Revenue Share</h5>
+                      <p>We grow with your idea</p>
+                      <ul>
+                        <li>We reduce your upfront cost</li>
+                        <li>We share success</li>
+                        <li><strong>Best for:</strong> Startups with big ideas but small budgets</li>
+                      </ul>
+                      <button class="btn" type="button" onclick="selectAndSubmit('partnership')">Share Your Requirements →</button>
+                    </div>
+                  </div>
+                
                 </div>
-          
-                <!-- Fixed Cost -->
-                <div class="col-md-4">
-                  <div class="card-box border-success-bottom2">
-                    <img src="https://img.icons8.com/ios/100/000000/receipt-approved.png" alt="Fixed Cost Icon">
-                    <h5>Fixed Cost</h5>
-                    <p>Upfront price, guaranteed delivery. Your project completed on time and within budget.</p>
-                    <button class="btn">Share Your Requirements →</button>
-                  </div>
+                </form>
+                <div class="fieldset-div">
+                  <!-- Options Section -->
+                  <form action="{{ route('goToQuotePage') }}" method="post" accept-charset="utf-8">
+                  @csrf
+                  
+                    <fieldset>
+                      <legend>Need a Different Approach?</legend>
+                      <p>Explore More Ways We Can Help.</p>
+                
+                      <div class="radio-options">
+                        <div>
+                          <input type="radio" id="option1" value="Scope My Requirements" name="work_scope">
+                          <label for="option1">Scope My Requirements</label>
+                        </div>
+                      
+                        <div>
+                          <input type="radio" id="option3" value="Existing Project Takeover" name="work_scope">
+                          <label for="option3">Existing Project Takeover</label>
+                        </div>
+                        <div>
+                          <input type="radio" id="option4" value="Get Help With a Task" name="work_scope">
+                          <label for="option4">Get Help With a Task</label>
+                        </div>
+                      </div>
+                
+                      <button class="explore-btn">Explore Your Options →</button>
+                      <a class="compare-link">Compare All Engagement Models</a>
+                    </fieldset>
+                  </form>
                 </div>
-              </div>
-          
-              <div class="fieldset-div">
-                <!-- Options Section -->
-              <fieldset>
-                <legend>Need a Different Approach?</legend>
-                <p>Explore More Ways We Can Help.</p>
-          
-                <div class="radio-options">
-                  <div>
-                    <input type="radio" id="option1" name="engagement-option">
-                    <label for="option1">Scope My Requirements</label>
-                  </div>
-                  <div>
-                    <input type="radio" id="option2" name="engagement-option" checked>
-                    <label for="option2">I Have an RFI/RFP</label>
-                  </div>
-                  <div>
-                    <input type="radio" id="option3" name="engagement-option">
-                    <label for="option3">Existing Project Takeover</label>
-                  </div>
-                  <div>
-                    <input type="radio" id="option4" name="engagement-option">
-                    <label for="option4">Get Help With a Task</label>
-                  </div>
-                </div>
-          
-                <button class="explore-btn">Explore Your Options →</button>
-                <a href="#compare" class="compare-link">Compare All Engagement Models</a>
-              </fieldset>
-              </div>
+              
             </div>
            </section>
 @php
@@ -1683,6 +1811,14 @@ $section_process = \App\Models\Section::section('process');
   </section>
 
 @section('scriptjs')
+<script>
+  function selectAndSubmit(model) {
+    document.getElementById('model-' + model).checked = true; // Select radio
+    document.getElementById('modelForm').submit(); // Submit form
+  }
+</script>
+
+
 {{-- banner --}}
 <script>
     $(document).ready(function(){
