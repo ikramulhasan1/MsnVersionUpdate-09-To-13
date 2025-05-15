@@ -463,8 +463,7 @@ $header = \App\Models\PageSetup::page('get-quote');
 
                                 <div class="col-lg-12 col-md-12">
                                     <div class="form-element margin-top-20">
-                                        <label for="prefer_contact">{{ __('form.prefer_contact') }}
-                                        </label>
+                                        <label for="prefer_contact">{{ __('form.prefer_contact') }}</label>
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-4 col-md-4">
@@ -540,25 +539,68 @@ $header = \App\Models\PageSetup::page('get-quote');
 @endphp
  @if(isset($section_getquote))
 <section class="quoteFormSection">
-    <div class="quote-container">
+    <div class="quote-container text-center">
       <h2 style="font-weight: 800" >{{ $section_getquote->title }}</h2>
-      <div class="text description">{!! $section_getquote->description !!}</div>
-      <form class="quote-form" action="#" method="POST">
-        <input class="quote-input" type="text" placeholder="Your Name *" required>
-        <input class="quote-input" type="email" placeholder="Email Address *" required>
-        <input class="quote-input" type="tel" placeholder="Phone No *" required>
-        <input class="quote-input" type="text" placeholder="Company (Optional)">
-        <input class="quote-input" type="text" placeholder="Address *" required>
-        <input class="quote-input" type="text" placeholder="City *" required>
+      <div class="text description mb-3 text-center">{!! $section_getquote->description !!}</div>
+
+      {{-- message --}}
+      <!-- Message Display -->
+      @if(Session::has('success'))
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          {{ Session::get('success') }}
+      </div>
+      @endif
+
+      <!-- Message Display -->
+      @if(Session::has('error'))
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          {{ Session::get('error') }}
+      </div>
+      @endif
+
+      <!-- Error Display -->
+      @if ($errors->any())
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          <ul>
+              @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+      </div>
+      @endif
+
+      <form class="quote-form" method="post" action="{{ route('get-quote.store') }}" enctype="multipart/form-data" accept-charset="utf-8">
+        <input class="quote-input" type="text" name="name" placeholder="{{ __('form.your_name') }}" value="{{ old('name') }}" required>
+        <input class="quote-input" type="email" name="email" placeholder="{{ __('form.email_address') }}" value="{{ old('email') }}" required>
+        <input class="quote-input" type="tel" name="phone" placeholder="{{ __('form.phone_no') }}" value="{{ old('phone') }}" required>
+        <input class="quote-input" type="text" name="company" placeholder="{{ __('form.company') }}" value="{{ old('company') }}">
+        <input class="quote-input" type="text" name="address" placeholder="{{ __('form.address') }}" value="{{ old('address') }}" required>
+        <input class="quote-input" type="text" name="city" placeholder="{{ __('form.city') }}" value="{{ old('city') }}" required>
   
         <div class="quote-radio-group">
-          <label><input class="quote-input" type="radio" name="contact" value="Phone" checked> Phone</label>
-          <label><input class="quote-input" type="radio" name="contact" value="Email"> Email</label>
+          <h4 for="prefer_contact">{{ __('form.prefer_contact') }}</h4>
+          <label><input class="quote-input" type="radio" name="prefer_contact" value="1" id="pre_email" @if(old('prefer_contact')=='1' ) checked @else checked @endif required>Email </label>
+          <label><input class="quote-input" type="radio" name="prefer_contact" value="2" id="pre_phone" @if(old('prefer_contact')=='2' ) checked @endif required>Phone </label>
         </div>
   
         <div class="quote-services">
-          <input class="quote-input" type="checkbox" id="wordpress"><label for="wordpress">WordPress Website</label>
-          <input class="quote-input" type="checkbox" id="webdev"><label for="webdev">Website Development</label>
+          @foreach($services as $service)
+            @if (!empty($service->short_title))
+              <input class="quote-input" type="checkbox" name="services[]" value="{{ $service->id }}" @if(old('services')==$service->id) checked @endif id="service-{{ $service->id }}"><label for="service-{{ $service->id }}">{{ $service->short_title }}</label>
+            @else
+              <input class="quote-input" type="checkbox" name="services[]" value="{{ $service->id }}" @if(old('services')==$service->id) checked @endif id="service-{{ $service->id }}"><label for="service-{{ $service->id }}">{{ $service->short_title }}</label>
+            @endif
+          @endforeach
+          {{-- <input class="quote-input" type="checkbox" id="webdev"><label for="webdev">Website Development</label>
           <input class="quote-input" type="checkbox" id="android"><label for="android">Android App Development</label>
           <input class="quote-input" type="checkbox" id="ios"><label for="ios">iOS App Development</label>
           <input class="quote-input" type="checkbox" id="seo"><label for="seo">SEO Services</label>
@@ -566,11 +608,11 @@ $header = \App\Models\PageSetup::page('get-quote');
           <input class="quote-input" type="checkbox" id="b2c"><label for="b2c">B2C eCommerce Website</label>
           <input class="quote-input" type="checkbox" id="ecomm"><label for="ecomm">Ecommerce Website</label>
           <input class="quote-input" type="checkbox" id="highda"><label for="highda">High DA Backlink</label>
-          <input class="quote-input" type="checkbox" id="shopify"><label for="shopify">Shopify Store</label>
+          <input class="quote-input" type="checkbox" id="shopify"><label for="shopify">Shopify Store</label> --}}
         </div>
   
-        <textarea class="quote-textarea" placeholder="Write Your Quotation Detail Here...*" required></textarea>
-        <input class="quote-input" type="file" class="">
+        <textarea class="quote-textarea" name="message" placeholder="{{ __('form.your_massage') }}" required>{{ old('message') }}</textarea>
+        <input class="quote-input" type="file" name="file_path" value="{{ old('file_path') }}" id="file_path">
         <button class="quote-submit-btn" type="submit">SUBMIT NOW</button>
       </form>
     </div>
