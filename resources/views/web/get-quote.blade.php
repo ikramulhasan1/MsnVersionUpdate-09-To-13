@@ -540,8 +540,8 @@ $header = \App\Models\PageSetup::page('get-quote');
  @if(isset($section_getquote))
 <section class="quoteFormSection">
     <div class="quote-container text-center">
-      <h2 style="font-weight: 800" >{{ $section_getquote->title }}</h2>
-      <div class="text description mb-3 text-center">{!! $section_getquote->description !!}</div>
+      <h2 style="font-weight: 800" class="mb-3" >{{ $section_getquote->title }}</h2>
+      <div class="text description mb-4 text-center">{!! $section_getquote->description !!}</div>
 
       {{-- message --}}
       <!-- Message Display -->
@@ -592,9 +592,9 @@ $header = \App\Models\PageSetup::page('get-quote');
           <label><input class="quote-input" type="radio" name="prefer_contact" value="1" id="pre_email" @if(old('prefer_contact')=='1' ) checked @else checked @endif required>Email </label>
           <label><input class="quote-input" type="radio" name="prefer_contact" value="2" id="pre_phone" @if(old('prefer_contact')=='2' ) checked @endif required>Phone </label>
         </div>
-  
+
+        <h6 style="text-align: left !important">{{ __('form.services') }}</h6>
         <div class="quote-services">
-          <h6 style="text-align: left !important">{{ __('form.services') }}</h6>
           @foreach($services as $service)
             @if (!empty($service->short_title))
               <input class="quote-input" type="checkbox" name="services[]" value="{{ $service->id }}" @if(old('services')==$service->id) checked @endif id="service-{{ $service->id }}"><label for="service-{{ $service->id }}">{{ $service->short_title }}</label>
