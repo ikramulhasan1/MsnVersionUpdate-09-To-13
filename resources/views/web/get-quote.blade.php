@@ -613,7 +613,7 @@ $header = \App\Models\PageSetup::page('get-quote');
   
         <textarea class="quote-textarea" name="message" placeholder="{{ __('form.your_massage') }}" required>{{ old('message') }}</textarea>
         <input class="quote-input" type="file" name="file_path" value="{{ old('file_path') }}" id="file_path">
-        <button class="quote-submit-btn" type="submit">SUBMIT NOW</button>
+        <button class="quote-submit-btn" type="submit" name="submit-form">SUBMIT NOW</button>
       </form>
     </div>
 </section>
