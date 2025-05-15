@@ -594,6 +594,7 @@ $header = \App\Models\PageSetup::page('get-quote');
         </div>
   
         <div class="quote-services">
+          <h6 style="text-align: left !important">{{ __('form.services') }}</h6>
           @foreach($services as $service)
             @if (!empty($service->short_title))
               <input class="quote-input" type="checkbox" name="services[]" value="{{ $service->id }}" @if(old('services')==$service->id) checked @endif id="service-{{ $service->id }}"><label for="service-{{ $service->id }}">{{ $service->short_title }}</label>
