@@ -586,7 +586,7 @@ $header = \App\Models\PageSetup::page('get-quote');
         <input class="quote-input" type="text" name="address" placeholder="{{ __('form.address') }}" value="{{ old('address') }}" required>
         <input class="quote-input" type="text" name="city" placeholder="{{ __('form.city') }}" value="{{ old('city') }}" required>
   
-        <h5 for="prefer_contact">{{ __('form.prefer_contact') }}</h5>
+        <h5 style="text-align: left !important" for="prefer_contact">{{ __('form.prefer_contact') }}</h5>
         <div class="quote-radio-group">
           
           <label><input class="quote-input" type="radio" name="prefer_contact" value="1" id="pre_email" @if(old('prefer_contact')=='1' ) checked @else checked @endif required>Email </label>
