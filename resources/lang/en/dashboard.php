@@ -65,6 +65,7 @@ return array (
   'dashboard' => 'Dashboard',
   'invoice' => 'Invoice',
   'blog' => 'Blog|Blogs',
+  'work_model' => 'Work Model|Work Models',
   'blog_list' => 'Blog List|Blog List',
   'blog_category' => 'Blog Category|Blog Categories',
   'portfolio' => 'Portfolio|Portfolios',

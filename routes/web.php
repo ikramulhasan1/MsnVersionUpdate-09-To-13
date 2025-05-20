@@ -115,6 +115,7 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
     // Article Routes
     Route::resource('article-category', 'ArticleCategoryController');
     Route::resource('article', 'ArticleController');
+    Route::resource('work-model', 'WorkModelController');
 
     // Portfolio Routes
     Route::resource('portfolio-category', 'PortfolioCategoryController');

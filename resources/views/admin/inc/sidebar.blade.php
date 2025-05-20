@@ -159,6 +159,13 @@
         </li>
 
         <li>
+            <a href="{{ route('admin.work-model.index') }}">
+                <span class="icon"><i class="fas fa-chart-line"></i></span>
+                <span> {{ trans_choice('dashboard.work_model', 2) }} </span>
+            </a>
+        </li>
+
+        <li>
             <a href="{{ route('admin.why-choose-us.index') }}">
                 <span class="icon"><i class="fas fa-hand-point-right"></i></span>
                 <span> {{ trans_choice('dashboard.feature', 2) }} </span>
