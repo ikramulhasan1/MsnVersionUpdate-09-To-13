@@ -389,9 +389,9 @@ body {
 
     .about-page .card {
       background: #ffffff;
-      border: none;
-      border-radius: 8px;
-      box-shadow: 0 0px 5px rgba(0, 0, 0, 0.1);
+      /* border: none; */
+      border-radius: 5px;
+      /* box-shadow: 0 0px 5px rgba(0, 0, 0, 0.1); */
       /* transition: 0.3s; */
     }
 
