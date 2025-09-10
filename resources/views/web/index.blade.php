@@ -1115,8 +1115,9 @@ $header = \App\Models\PageSetup::page('home');
 
         @if(count($counters) > 0)
         <div class="row">
-          <h3 class="fw-bold" >Our Impact in Numbers</h3>
             <div class="col-xl-12 col-lg-12 col-md-12 clearfix fun-fact-section">
+                        <h3 style="color: black; font-weight: 700;" >Our Impact in Numbers</h3>
+
                 <div class="fact-counter">
                     <div class="row ">
                         @foreach($counters as $counter)
