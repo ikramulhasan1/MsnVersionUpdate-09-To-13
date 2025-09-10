@@ -1241,7 +1241,7 @@ $section_services = \App\Models\Section::section('services');
                   <!-- Fixed Cost -->
                 
                 
-                  <div class="col-md-4 mb-4">
+                  {{-- <div class="col-md-4 mb-4">
                     <div class="card-box border-success-bottom2">
                       <input type="radio" name="work_model" id="model-monthly-support" value="Monthly Support" hidden>
                       <img src="https://img.freepik.com/free-vector/customer-support-flat-design-illustration_23-2148889374.jpg?ga=GA1.1.976765849.1741899989&semt=ais_hybrid&w=740" alt="Fixed Cost Icon">
@@ -1254,7 +1254,7 @@ $section_services = \App\Models\Section::section('services');
                       </ul>
                       <button class="btn" type="button" onclick="selectAndSubmit('monthly-support')">Share Your Requirements →</button>
                     </div>
-                  </div>
+                  </div> --}}
                 
                   <!-- Fixed Cost -->
                 
