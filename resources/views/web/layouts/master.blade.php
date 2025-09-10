@@ -44,13 +44,13 @@
     <link href="{{ asset('web/css/responsive.css') }}" rel="stylesheet">
 
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="//fonts.googleapis.com">
+    <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
+    <link href="//fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
     
     <!-- ✅ Owl Carousel CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <style>
         .poppins-regular {
         font-family: "Poppins", sans-serif;
@@ -361,10 +361,10 @@
     .custom-footer-social-icons a.behance { background: #1769ff; color: #fff; }
     .custom-footer-social-icons a.pinterest { background: #e60023; color: #fff; }
       </style>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       {{-- google analytics --}}
       <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQTTGFBMBE"></script>
+    <script async src="//www.googletagmanager.com/gtag/js?id=G-FQTTGFBMBE"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -372,7 +372,7 @@
 
         gtag('config', 'G-FQTTGFBMBE');
     </script>
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+      <link href="//cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
 </head>
 
@@ -425,7 +425,7 @@
                                 <li><a href="skype:{{ $social->skype }}?chat" target="_blank"><span class="icon fab fa-skype"></span></a></li>
                                 @endif
                                 @if(isset($social->whatsapp))
-                                <li><a rel="noopener noreferrer" href="https://wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><span class="icon fab fa-whatsapp"></span></a></li>
+                                <li><a rel="noopener noreferrer" href="//wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><span class="icon fab fa-whatsapp"></span></a></li>
                                 @endif
                             </ul>
                         </div>
@@ -730,7 +730,7 @@
                                     {{ Request::is('about*') ? 'current' : '' }}
                                     {{ Request::is('faqs*') ? 'current' : '' }}
                                     {{ Request::is('contact*') ? 'current' : '' }}">
-                                    <a href="">Company<a>
+                                    <a href="">About Us<a>
                                         <ul >
                                             @if(isset($page_about))
                                             <li class="{{ Request::is('about*') ? 'current' : '' }}"> <a href="{{ route('about') }}">{{ $page_about->title }}</a></li>
@@ -1226,7 +1226,7 @@
                                 <a href="skype:{{ $social->skype }}?chat" target="_blank"><i class="bi bi-skype"></i></a>
                             @endif
                             @if(isset($social->whatsapp))
-                                <a rel="noopener noreferrer" class="whatsapp d-flex justify-content-center align-items-center" href="https://wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><i class="bi bi-whatsapp"></i></a>
+                                <a rel="noopener noreferrer" class="whatsapp d-flex justify-content-center align-items-center" href="//wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><i class="bi bi-whatsapp"></i></a>
                             @endif
                             
                         </div>
@@ -1244,11 +1244,11 @@
     <!--Scroll to top-->
     <div style="background-color: #1ebe5d" class="scroll-to-top scroll-to-target" data-target="html"><span class="fas fa-angle-double-up"></span></div>
     
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
     <!-- ✅ Owl Carousel JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script src="{{ asset('web/js/jquery.js') }}"></script>
     <script src="{{ asset('web/js/popper.min.js') }}"></script>
     <script src="{{ asset('web/js/bootstrap.min.js') }}"></script>
@@ -1308,7 +1308,7 @@
                 if (d.getElementById(id)) return;
                 js = d.createElement(s);
                 js.id = id;
-                js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+                js.src = '//connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
 
@@ -1329,8 +1329,8 @@
             let waButton = document.createElement("div");
             waButton.innerHTML = `
             
-                <a rel="noopener noreferrer" href="https://wa.link/lnuvjw" target="_blank" class="whatsapp-button">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                <a rel="noopener noreferrer" href="//wa.link/lnuvjw" target="_blank" class="whatsapp-button">
+                    <img src="//upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
                 </a>
             `;
             document.body.appendChild(waButton);
