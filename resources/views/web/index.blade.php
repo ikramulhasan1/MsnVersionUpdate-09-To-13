@@ -1116,8 +1116,7 @@ $header = \App\Models\PageSetup::page('home');
         @if(count($counters) > 0)
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 clearfix fun-fact-section">
-                        <h3 style="color: black; font-weight: 700;" >Our Impact in Numbers</h3>
-
+                <h3 style="color: black; font-weight: 700;" >Our Impact in Numbers</h3>
                 <div class="fact-counter">
                     <div class="row ">
                         @foreach($counters as $counter)
@@ -1182,19 +1181,16 @@ $section_services = \App\Models\Section::section('services');
         
         <section class="model-section">
             <div class="container py-5">
-              <h1 class="title">Our Work Models – Choose What Fits You Best</h1>
-              {{-- <p id="compare" class="subtitle mt-3">
-                Find the Perfect Solution for Your Project, Whether You Need a<br>
-                Fully Managed Team, Staff Augmentation, or a Fixed-Price Approach.
-              </p> --}}
+              <h1 class="title">Flexible Engagement Models</h1>
+              <p id="compare" class="subtitle mt-3">
+                Tailored ways to collaborate — pick the model that matches your goals and budget.
+              </p>
           
               <!-- Engagement Model Cards -->
               <form id="modelForm" action="{{ route('goToQuotePage') }}" method="post" accept-charset="utf-8">
               @csrf
               <div class="row mt-5 g-4">
                   <!-- Managed Team -->
-                
-                  
                   <div class="col-md-4 mb-4">
                     <div class="card-box border-success-bottom2">
                       <input type="radio" name="work_model" id="model-fixed-price" value="Fixed Price Model" hidden>
@@ -1211,10 +1207,23 @@ $section_services = \App\Models\Section::section('services');
                     </div>
                   </div>
                
-                  <!-- Staff Augmentation -->
-                
-                
+                  {{-- Milestone-Based --}}
                   <div class="col-md-4 mb-4">
+                    <div class="card-box border-success-bottom">
+                      <input type="radio" name="work_model" id="model-milestone-based" value="Milestone-Based Model" hidden>
+                      <img src="https://img.freepik.com/free-vector/ambition-abstract-concept-vector-illustration-business-ambition-determination-setting-big-goal-making-fast-career-self-confident-getting-what-you-want-desire-success-abstract-metaphor_335657-2892.jpg?ga=GA1.1.976765849.1741899989&semt=ais_hybrid&w=740" alt="Staff Augmentation Icon">
+                      <h5>Milestone-Based Model</h5>
+                      <p>Break the project into parts. Pay as we deliver.</p>
+                      <ul>
+                        <li>Track progress easily</li>
+                        <li>Pay after each milestone</li>
+                        <li><strong>Best for:</strong> Big projects, apps, platforms</li>
+                      </ul>
+                      <button class="btn" type="button" onclick="selectAndSubmit('milestone-based')">Contact Us For Details →</button>
+                    </div>
+                  </div>
+                  <!-- Staff Augmentation -->
+                  {{-- <div class="col-md-4 mb-4">
                     <div class="card-box border-success-bottom">
                       <input type="radio" name="work_model" id="model-hourly" value="Hourly Model" hidden>
                       <img src="https://img.freepik.com/free-vector/alarm-clock-concept-illustration_114360-12926.jpg?ga=GA1.1.976765849.1741899989&semt=ais_hybrid&w=740" alt="Staff Augmentation Icon">
@@ -1227,7 +1236,7 @@ $section_services = \App\Models\Section::section('services');
                       </ul>
                       <button class="btn" type="button" onclick="selectAndSubmit('hourly')">Contact Us For Details →</button>
                     </div>
-                  </div>
+                  </div> --}}
                 
                   <!-- Fixed Cost -->
                 
@@ -1250,7 +1259,7 @@ $section_services = \App\Models\Section::section('services');
                   <!-- Fixed Cost -->
                 
                 
-                  <div class="col-md-4 mb-4">
+                  {{-- <div class="col-md-4 mb-4">
                     <div class="card-box border-success-bottom2">
                       <input type="radio" name="work_model" id="model-dedicated-developer" value="Dedicated Developer / Team" hidden>
                       <img src="https://img.freepik.com/free-vector/programming-concept-illustration_114360-1351.jpg?ga=GA1.1.976765849.1741899989&semt=ais_hybrid&w=740" alt="Fixed Cost Icon">
@@ -1263,11 +1272,11 @@ $section_services = \App\Models\Section::section('services');
                       </ul>
                       <button class="btn" type="button" onclick="selectAndSubmit('dedicated-developer')">Share Your Requirements →</button>
                     </div>
-                  </div>
+                  </div> --}}
                 
                 <!-- Staff Augmentation -->
                 
-                  <div class="col-md-4 mb-4">
+                  {{-- <div class="col-md-4 mb-4">
                     <div class="card-box border-success-bottom">
                       <input type="radio" name="work_model" id="model-milestone-based" value="Milestone-Based Model" hidden>
                       <img src="https://img.freepik.com/free-vector/ambition-abstract-concept-vector-illustration-business-ambition-determination-setting-big-goal-making-fast-career-self-confident-getting-what-you-want-desire-success-abstract-metaphor_335657-2892.jpg?ga=GA1.1.976765849.1741899989&semt=ais_hybrid&w=740" alt="Staff Augmentation Icon">
@@ -1280,12 +1289,12 @@ $section_services = \App\Models\Section::section('services');
                       </ul>
                       <button class="btn" type="button" onclick="selectAndSubmit('milestone-based')">Contact Us For Details →</button>
                     </div>
-                  </div>
+                  </div> --}}
                 
                   <!-- Fixed Cost -->
                 
                 
-                  <div class="col-md-4 mb-4">
+                  {{-- <div class="col-md-4 mb-4">
                     <div class="card-box border-success-bottom2">
                       <input type="radio" name="work_model" id="model-pay-as-you-go" value="Pay-as-You-Go" hidden>
                       <img src="https://img.freepik.com/free-vector/payment-information-concept-illustration_114360-2886.jpg?ga=GA1.1.976765849.1741899989&semt=ais_hybrid&w=740" alt="Fixed Cost Icon">
@@ -1298,7 +1307,7 @@ $section_services = \App\Models\Section::section('services');
                       </ul>
                       <button class="btn" type="button" onclick="selectAndSubmit('pay-as-you-go')">Share Your Requirements →</button>
                     </div>
-                  </div>
+                  </div> --}}
                 
                   <!-- Fixed Cost -->
                 
