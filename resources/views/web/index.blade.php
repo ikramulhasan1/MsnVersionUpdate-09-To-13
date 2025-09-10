@@ -1249,7 +1249,7 @@ $section_services = \App\Models\Section::section('services');
                       <p>Keep us on standby for monthly help</p>
                       <ul>
                         <li>Regular updates & maintenance</li>
-                        <li>SEO/performance/bug fixing</li>
+                        <li>SEO/Performance/Bug fixing</li>
                         <li><strong>Best for:</strong> Running websites, ongoing services</li>
                       </ul>
                       <button class="btn" type="button" onclick="selectAndSubmit('monthly-support')">Share Your Requirements →</button>
