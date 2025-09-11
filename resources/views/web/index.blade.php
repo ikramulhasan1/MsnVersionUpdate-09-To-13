@@ -1196,10 +1196,11 @@ $section_services = \App\Models\Section::section('services');
                       <input type="radio" name="work_model" id="model-fixed-price" value="Fixed Price Model" hidden>
                       <img src="https://thumbs.dreamstime.com/b/fixed-price-badge-sign-white-background-design-vector-366219601.jpg" alt="Managed Team Icon">
                       <h5>Fixed Price Model</h5>
-                      <p>For clear, small projects with a fixed budget</p>
+                      <p>Perfect for projects with a clearly defined scope. You pay a set price for guaranteed delivery.</p>
+                      {{-- <p>For clear, small projects with a fixed budget</p> --}}
                       <ul>
-                        <li>Fixed cost & timeline</li>
-                        <li>No surprises</li>
+                        {{-- <li>Fixed cost & timeline</li>
+                        <li>No surprises</li> --}}
                         <li><strong>Best for:</strong> Landing pages, company websites</li>
                       </ul>
                       
@@ -1213,10 +1214,11 @@ $section_services = \App\Models\Section::section('services');
                       <input type="radio" name="work_model" id="model-milestone-based" value="Milestone-Based Model" hidden>
                       <img src="https://img.freepik.com/free-vector/ambition-abstract-concept-vector-illustration-business-ambition-determination-setting-big-goal-making-fast-career-self-confident-getting-what-you-want-desire-success-abstract-metaphor_335657-2892.jpg?ga=GA1.1.976765849.1741899989&semt=ais_hybrid&w=740" alt="Staff Augmentation Icon">
                       <h5>Milestone-Based Model</h5>
-                      <p>Break the project into parts. Pay as we deliver.</p>
+                      <p>Break your project into achievable phases and pay only as each milestone is successfully completed.</p>
+                      {{-- <p>Break the project into parts. Pay as we deliver.</p> --}}
                       <ul>
-                        <li>Track progress easily</li>
-                        <li>Pay after each milestone</li>
+                        {{-- <li>Track progress easily</li>
+                        <li>Pay after each milestone</li> --}}
                         <li><strong>Best for:</strong> Big projects, apps, platforms</li>
                       </ul>
                       <button class="btn" type="button" onclick="selectAndSubmit('milestone-based')">Contact Us For Details →</button>
@@ -1246,10 +1248,11 @@ $section_services = \App\Models\Section::section('services');
                       <input type="radio" name="work_model" id="model-monthly-support" value="Monthly Support" hidden>
                       <img src="https://img.freepik.com/free-vector/customer-support-flat-design-illustration_23-2148889374.jpg?ga=GA1.1.976765849.1741899989&semt=ais_hybrid&w=740" alt="Fixed Cost Icon">
                       <h5>Monthly Support</h5>
-                      <p>Keep us on standby for monthly help</p>
+                      <p>Ongoing assistance to ensure your business operations run smoothly without interruptions.</p>
+                      {{-- <p>Keep us on standby for monthly help</p> --}}
                       <ul>
-                        <li>Regular updates & maintenance</li>
-                        <li>SEO/Performance/Bug fixing</li>
+                        {{-- <li>Regular updates & maintenance</li>
+                        <li>SEO/Performance/Bug fixing</li> --}}
                         <li><strong>Best for:</strong> Running websites, ongoing services</li>
                       </ul>
                       <button class="btn" type="button" onclick="selectAndSubmit('monthly-support')">Share Your Requirements →</button>
