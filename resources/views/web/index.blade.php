@@ -1343,17 +1343,17 @@ $section_services = \App\Models\Section::section('services');
                 
                       <div class="radio-options">
                         <div>
-                          <input type="radio" id="option1" value="Scope My Requirements" name="work_scope">
-                          <label for="option1">Scope My Requirements</label>
+                          <input type="radio" id="option1" value="Define My Project Scope" name="work_scope">
+                          <label for="option1">Define My Project Scope</label>
                         </div>
                       
                         <div>
-                          <input type="radio" id="option3" value="Existing Project Takeover" name="work_scope">
-                          <label for="option3">Existing Project Takeover</label>
+                          <input type="radio" id="option3" value="Take Over My Project" name="work_scope">
+                          <label for="option3">Take Over My Project</label>
                         </div>
                         <div>
-                          <input type="radio" id="option4" value="Get Help With a Task" name="work_scope">
-                          <label for="option4">Get Help With a Task</label>
+                          <input type="radio" id="option4" value="Assist Me With a Task" name="work_scope">
+                          <label for="option4">Assist Me With a Task</label>
                         </div>
                       </div>
                 
