@@ -1418,103 +1418,103 @@ $section_services = \App\Models\Section::section('services');
         <div class="d-flex flex-wrap justify-content-center">
           <!-- Tech cards -->
           <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/fullstack-icon.png" alt="Full-stack">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/fullstack-icon.png" alt="Full-stack">
             <p class="tech-title">Full-stack</p>
           </a>
           <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/web-icon.svg" alt="Web">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/web-icon.svg" alt="Web">
             <p class="tech-title">Web</p>
           </a>
           {{-- <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/cloud-icon.svg" alt="Cloud">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/cloud-icon.svg" alt="Cloud">
             <p class="tech-title">Cloud</p>
           </a> --}}
           <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/frontend-icon.svg" alt="Frontend">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/frontend-icon.svg" alt="Frontend">
             <p class="tech-title">Frontend</p>
           </a>
           <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/mobile-icon.svg" alt="Mobile">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/mobile-icon.svg" alt="Mobile">
             <p class="tech-title">Mobile</p>
           </a>
           <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/shopify-icon.svg" alt="Shopify">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/shopify-icon.svg" alt="Shopify">
             <p class="tech-title">Shopify</p>
           </a>
-          <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/react-icon.svg" alt="ReactJS">
+          {{-- <a href="#" class="tech-card">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/react-icon.svg" alt="ReactJS">
             <p class="tech-title">ReactJS</p>
+          </a> --}}
+          <a href="#" class="tech-card">
+            <img src="//upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png" alt="ReactJS">
+            <p class="tech-title">VueJS</p>
           </a>
           <a href="#" class="tech-card">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png" alt="ReactJS">
-            <p class="tech-title">Vue.js</p>
-          </a>
-          <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/wordpress-icon.svg" alt="WordPress">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/wordpress-icon.svg" alt="WordPress">
             <p class="tech-title">WordPress</p>
           </a>
           <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/backend-icon.svg" alt="Backend">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/backend-icon.svg" alt="Backend">
             <p class="tech-title">Backend</p>
           </a>
           {{-- <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/bi-icon.svg" alt="BI">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/bi-icon.svg" alt="BI">
             <p class="tech-title">BI</p>
           </a> --}}
           {{-- <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/java-icon.svg" alt="Java">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/java-icon.svg" alt="Java">
             <p class="tech-title">Java</p>
           </a> --}}
           {{-- <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/dotnet-icon.svg" alt=".NET">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/dotnet-icon.svg" alt=".NET">
             <p class="tech-title">.NET</p>
           </a> --}}
           {{-- <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/python-icon.svg" alt="Python">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/python-icon.svg" alt="Python">
             <p class="tech-title">Python</p>
           </a> --}}
           <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/ui-ux-icon.svg" alt="UI/UX">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/ui-ux-icon.svg" alt="UI/UX">
             <p class="tech-title">UI/UX</p>
           </a>
           {{-- <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/ai-icon.svg" alt="AI/ML">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/ai-icon.svg" alt="AI/ML">
             <p class="tech-title">AI/ML</p>
           </a> --}}
           <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/open-ai-icon.svg" alt="Open AI">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/open-ai-icon.svg" alt="Open AI">
             <p class="tech-title">Open AI</p>
           </a>
           {{-- <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/data-engineering-icon.svg" alt="Data Engineering">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/data-engineering-icon.svg" alt="Data Engineering">
             <p class="tech-title">Data Engineering</p>
           </a> --}}
           {{-- <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/new_nav_icon/skill/aws.svg" alt="AWS">
+            <img src="//www.capitalnumbers.com/images/new_nav_icon/skill/aws.svg" alt="AWS">
             <p class="tech-title">AWS</p>
           </a> --}}
           {{-- <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/megento-icon.svg" alt="Magento">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/megento-icon.svg" alt="Magento">
             <p class="tech-title">Magento</p>
           </a> --}}
           {{-- <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/flutter-icon.svg" alt="Flutter">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/flutter-icon.svg" alt="Flutter">
             <p class="tech-title">Flutter</p>
           </a> --}}
           <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/php-icon.svg" alt="PHP">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/php-icon.svg" alt="PHP">
             <p class="tech-title">PHP</p>
           </a>
           {{-- <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/vr-icon.svg" alt="AR/VR">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/vr-icon.svg" alt="AR/VR">
             <p class="tech-title">AR/VR</p>
           </a> --}}
           {{-- <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/blockchain-icon.svg" alt="Blockchain">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/blockchain-icon.svg" alt="Blockchain">
             <p class="tech-title">Blockchain</p>
           </a> --}}
           <a href="#" class="tech-card">
-            <img src="https://www.capitalnumbers.com/images/pool-icon-home/qa-icon.svg" alt="QA">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/qa-icon.svg" alt="QA">
             <p class="tech-title">QA</p>
           </a>
         </div>
