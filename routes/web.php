@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\MeetingGetController;
 use App\Http\Controllers\Admin\RedirectUrlController;
 
 
-Route::middleware(['XSS','redirect'])->namespace('Web')->group(function () {
+Route::middleware(['XSS', 'redirect'])->namespace('Web')->group(function () {
     Route::post('/meetings', [MeetingController::class, 'store'])->name('meetings.store');
 
     // Home Route
@@ -132,18 +132,18 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
     Route::resource('member', 'MemberController');
 
     // FAQ Routes
-	Route::resource('faq-category', 'FaqCategoryController');
-	Route::resource('faq', 'FaqController');
-    
+    Route::resource('faq-category', 'FaqCategoryController');
+    Route::resource('faq', 'FaqController');
+
     // Slider Routes
     Route::resource('slider', 'SliderController');
-    
+
     // Client Routes
     Route::resource('client', 'ClientController');
 
     // Testimonial Routes
     Route::resource('testimonial', 'TestimonialController');
-    
+
     // Work Process Routes
     Route::resource('work-process', 'WorkProcessController');
 
@@ -169,7 +169,7 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
     Route::resource('page-setup', 'PageSetupController');
     Route::resource('subservices', 'SubserviceController');
     Route::resource('technologies', 'TechnologyController');
-    
+
     // Section Routes
     Route::resource('section', 'SectionController');
 
