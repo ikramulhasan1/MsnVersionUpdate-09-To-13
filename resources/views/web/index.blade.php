@@ -1475,17 +1475,17 @@ $section_services = \App\Models\Section::section('services');
             <p class="tech-title">Python</p>
           </a> --}}
           <a href="#" class="tech-card">
-            <img src="//www.capitalnumbers.com/images/pool-icon-home/ui-ux-icon.svg" alt="UI/UX">
-            <p class="tech-title">UI/UX</p>
+            <img src="//upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1154px-Laravel.svg.png" alt="Laravel">
+            <p class="tech-title">Laravel</p>
           </a>
           {{-- <a href="#" class="tech-card">
             <img src="//www.capitalnumbers.com/images/pool-icon-home/ai-icon.svg" alt="AI/ML">
             <p class="tech-title">AI/ML</p>
           </a> --}}
-          <a href="#" class="tech-card">
+          {{-- <a href="#" class="tech-card">
             <img src="//www.capitalnumbers.com/images/pool-icon-home/open-ai-icon.svg" alt="Open AI">
             <p class="tech-title">Open AI</p>
-          </a>
+          </a> --}}
           {{-- <a href="#" class="tech-card">
             <img src="//www.capitalnumbers.com/images/pool-icon-home/data-engineering-icon.svg" alt="Data Engineering">
             <p class="tech-title">Data Engineering</p>
