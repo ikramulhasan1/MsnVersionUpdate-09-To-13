@@ -1418,13 +1418,14 @@ $section_services = \App\Models\Section::section('services');
         <div class="d-flex flex-wrap justify-content-center">
           <!-- Tech cards -->
           <a href="#" class="tech-card">
-            <img src="//www.capitalnumbers.com/images/pool-icon-home/fullstack-icon.png" alt="Full-stack">
-            <p class="tech-title">Full-stack</p>
-          </a>
-          <a href="#" class="tech-card">
             <img src="//www.capitalnumbers.com/images/pool-icon-home/web-icon.svg" alt="Web">
             <p class="tech-title">Web</p>
           </a>
+          <a href="#" class="tech-card">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/fullstack-icon.png" alt="Full-stack">
+            <p class="tech-title">Full-stack</p>
+          </a>
+          
           {{-- <a href="#" class="tech-card">
             <img src="//www.capitalnumbers.com/images/pool-icon-home/cloud-icon.svg" alt="Cloud">
             <p class="tech-title">Cloud</p>
@@ -1432,6 +1433,10 @@ $section_services = \App\Models\Section::section('services');
           <a href="#" class="tech-card">
             <img src="//www.capitalnumbers.com/images/pool-icon-home/frontend-icon.svg" alt="Frontend">
             <p class="tech-title">Frontend</p>
+          </a>
+          <a href="#" class="tech-card">
+            <img src="//www.capitalnumbers.com/images/pool-icon-home/backend-icon.svg" alt="Backend">
+            <p class="tech-title">Backend</p>
           </a>
           <a href="#" class="tech-card">
             <img src="//www.capitalnumbers.com/images/pool-icon-home/mobile-icon.svg" alt="Mobile">
@@ -1453,10 +1458,7 @@ $section_services = \App\Models\Section::section('services');
             <img src="//www.capitalnumbers.com/images/pool-icon-home/wordpress-icon.svg" alt="WordPress">
             <p class="tech-title">WordPress</p>
           </a>
-          <a href="#" class="tech-card">
-            <img src="//www.capitalnumbers.com/images/pool-icon-home/backend-icon.svg" alt="Backend">
-            <p class="tech-title">Backend</p>
-          </a>
+          
           {{-- <a href="#" class="tech-card">
             <img src="//www.capitalnumbers.com/images/pool-icon-home/bi-icon.svg" alt="BI">
             <p class="tech-title">BI</p>
