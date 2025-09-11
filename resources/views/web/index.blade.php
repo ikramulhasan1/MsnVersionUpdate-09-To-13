@@ -1425,10 +1425,10 @@ $section_services = \App\Models\Section::section('services');
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/web-icon.svg" alt="Web">
             <p class="tech-title">Web</p>
           </a>
-          <a href="#" class="tech-card">
+          {{-- <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/cloud-icon.svg" alt="Cloud">
             <p class="tech-title">Cloud</p>
-          </a>
+          </a> --}}
           <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/frontend-icon.svg" alt="Frontend">
             <p class="tech-title">Frontend</p>
@@ -1453,62 +1453,62 @@ $section_services = \App\Models\Section::section('services');
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/backend-icon.svg" alt="Backend">
             <p class="tech-title">Backend</p>
           </a>
-          <a href="#" class="tech-card">
+          {{-- <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/bi-icon.svg" alt="BI">
             <p class="tech-title">BI</p>
-          </a>
-          <a href="#" class="tech-card">
+          </a> --}}
+          {{-- <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/java-icon.svg" alt="Java">
             <p class="tech-title">Java</p>
-          </a>
-          <a href="#" class="tech-card">
+          </a> --}}
+          {{-- <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/dotnet-icon.svg" alt=".NET">
             <p class="tech-title">.NET</p>
-          </a>
-          <a href="#" class="tech-card">
+          </a> --}}
+          {{-- <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/python-icon.svg" alt="Python">
             <p class="tech-title">Python</p>
-          </a>
+          </a> --}}
           <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/ui-ux-icon.svg" alt="UI/UX">
             <p class="tech-title">UI/UX</p>
           </a>
-          <a href="#" class="tech-card">
+          {{-- <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/ai-icon.svg" alt="AI/ML">
             <p class="tech-title">AI/ML</p>
-          </a>
+          </a> --}}
           <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/open-ai-icon.svg" alt="Open AI">
             <p class="tech-title">Open AI</p>
           </a>
-          <a href="#" class="tech-card">
+          {{-- <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/data-engineering-icon.svg" alt="Data Engineering">
             <p class="tech-title">Data Engineering</p>
-          </a>
-          <a href="#" class="tech-card">
+          </a> --}}
+          {{-- <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/new_nav_icon/skill/aws.svg" alt="AWS">
             <p class="tech-title">AWS</p>
-          </a>
-          <a href="#" class="tech-card">
+          </a> --}}
+          {{-- <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/megento-icon.svg" alt="Magento">
             <p class="tech-title">Magento</p>
-          </a>
-          <a href="#" class="tech-card">
+          </a> --}}
+          {{-- <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/flutter-icon.svg" alt="Flutter">
             <p class="tech-title">Flutter</p>
-          </a>
+          </a> --}}
           <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/php-icon.svg" alt="PHP">
             <p class="tech-title">PHP</p>
           </a>
-          <a href="#" class="tech-card">
+          {{-- <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/vr-icon.svg" alt="AR/VR">
             <p class="tech-title">AR/VR</p>
-          </a>
-          <a href="#" class="tech-card">
+          </a> --}}
+          {{-- <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/blockchain-icon.svg" alt="Blockchain">
             <p class="tech-title">Blockchain</p>
-          </a>
+          </a> --}}
           <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/qa-icon.svg" alt="QA">
             <p class="tech-title">QA</p>
