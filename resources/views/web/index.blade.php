@@ -1402,7 +1402,9 @@ $section_services = \App\Models\Section::section('services');
             @endforeach
 
         </div>
-        <button class="btn btn-primary">View All Services</button>
+        <div class="d-flex justify-content-center">
+          <button class="btn" style="background-color: #FF6F2C">View All Services</button>
+        </div>
     </div>
 </section>
 <!--End Services Section -->
