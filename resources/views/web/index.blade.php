@@ -1403,7 +1403,7 @@ $section_services = \App\Models\Section::section('services');
 
         </div>
         <div class="d-flex justify-content-center">
-          <button class="btn text-white fw-800" style="background-color: #FF6F2C">View All Services</button>
+          <button class="btn text-white fw-800" style="background-color: #FF6F2C; font-weight: bold;">View All Services</button>
         </div>
     </div>
 </section>
