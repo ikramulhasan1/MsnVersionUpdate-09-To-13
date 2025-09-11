@@ -1198,11 +1198,11 @@ $section_services = \App\Models\Section::section('services');
                       <h5>Fixed Price Model</h5>
                       <p>Perfect for projects with a clearly defined scope. You pay a set price for guaranteed delivery.</p>
                       {{-- <p>For clear, small projects with a fixed budget</p> --}}
-                      <ul>
-                        {{-- <li>Fixed cost & timeline</li>
-                        <li>No surprises</li> --}}
+                      {{-- <ul>
+                        <li>Fixed cost & timeline</li>
+                        <li>No surprises</li>
                         <li><strong>Best for:</strong> Landing pages, ecommerce, company websites</li>
-                      </ul>
+                      </ul> --}}
                       
                       <button class="btn" type="button" onclick="selectAndSubmit('fixed-price')">Contact Us For Details →</button>
                     </div>
@@ -1216,11 +1216,11 @@ $section_services = \App\Models\Section::section('services');
                       <h5>Milestone-Based Model</h5>
                       <p>Break your project into achievable phases and pay only as each milestone is successfully completed.</p>
                       {{-- <p>Break the project into parts. Pay as we deliver.</p> --}}
-                      <ul>
-                        {{-- <li>Track progress easily</li>
-                        <li>Pay after each milestone</li> --}}
+                      {{-- <ul>
+                        <li>Track progress easily</li>
+                        <li>Pay after each milestone</li>
                         <li><strong>Best for:</strong> Big projects, apps, platforms</li>
-                      </ul>
+                      </ul> --}}
                       <button class="btn" type="button" onclick="selectAndSubmit('milestone-based')">Contact Us For Details →</button>
                     </div>
                   </div>
@@ -1250,11 +1250,11 @@ $section_services = \App\Models\Section::section('services');
                       <h5>Monthly Support</h5>
                       <p>Ongoing assistance to ensure your business operations run smoothly without interruptions.</p>
                       {{-- <p>Keep us on standby for monthly help</p> --}}
-                      <ul>
-                        {{-- <li>Regular updates & maintenance</li>
-                        <li>SEO/Performance/Bug fixing</li> --}}
+                      {{-- <ul>
+                        <li>Regular updates & maintenance</li>
+                        <li>SEO/Performance/Bug fixing</li>
                         <li><strong>Best for:</strong> Running websites, ongoing services</li>
-                      </ul>
+                      </ul> --}}
                       <button class="btn" type="button" onclick="selectAndSubmit('monthly-support')">Share Your Requirements →</button>
                     </div>
                   </div>
