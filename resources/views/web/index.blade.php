@@ -1469,7 +1469,7 @@
         </div>
         <div class="d-flex justify-content-center">
           <a href="{{ route('services') }}" class="btn text-white fw-800"
-            style="background-color: #FF6F2C; font-weight: bold;">View All Services</a>
+            style="background-color: #FF6F2C !important; font-weight: bold;">View All Services</a>
         </div>
       </div>
     </section>
