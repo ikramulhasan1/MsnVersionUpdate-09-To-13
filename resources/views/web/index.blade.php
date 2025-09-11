@@ -472,11 +472,11 @@ $header = \App\Models\PageSetup::page('home');
       height: 100%;
       position: relative;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-      transition: all 0.5s ease;
+      transition: all 0.2s ease;
     }
 
     .process-step-box:hover {
-      transform: translateY(-2px);
+      transform: translateY(-1px);
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     }
 
