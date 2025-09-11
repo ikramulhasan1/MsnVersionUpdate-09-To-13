@@ -1435,7 +1435,7 @@ $section_services = \App\Models\Section::section('services');
           </a>
           <a href="#" class="tech-card">
             <img src="//www.capitalnumbers.com/images/pool-icon-home/mobile-icon.svg" alt="Mobile">
-            <p class="tech-title">Mobile</p>
+            <p class="tech-title">Apps Dev</p>
           </a>
           <a href="#" class="tech-card">
             <img src="//www.capitalnumbers.com/images/pool-icon-home/shopify-icon.svg" alt="Shopify">
