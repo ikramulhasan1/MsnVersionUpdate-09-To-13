@@ -1402,6 +1402,7 @@ $section_services = \App\Models\Section::section('services');
             @endforeach
 
         </div>
+        <button>View All Services</button>
     </div>
 </section>
 <!--End Services Section -->
