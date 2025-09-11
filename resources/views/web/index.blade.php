@@ -1201,7 +1201,7 @@ $section_services = \App\Models\Section::section('services');
                       <ul>
                         {{-- <li>Fixed cost & timeline</li>
                         <li>No surprises</li> --}}
-                        <li><strong>Best for:</strong> Landing pages, company websites</li>
+                        <li><strong>Best for:</strong> Landing pages, ecommerce, company websites</li>
                       </ul>
                       
                       <button class="btn" type="button" onclick="selectAndSubmit('fixed-price')">Contact Us For Details →</button>
