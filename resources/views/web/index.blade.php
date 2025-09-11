@@ -1446,6 +1446,10 @@ $section_services = \App\Models\Section::section('services');
             <p class="tech-title">ReactJS</p>
           </a>
           <a href="#" class="tech-card">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png" alt="ReactJS">
+            <p class="tech-title">Vue.js</p>
+          </a>
+          <a href="#" class="tech-card">
             <img src="https://www.capitalnumbers.com/images/pool-icon-home/wordpress-icon.svg" alt="WordPress">
             <p class="tech-title">WordPress</p>
           </a>
