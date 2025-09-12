@@ -98,9 +98,9 @@
 @if(count($clients) > 0)
     <section class="client-logo-section">
         <div class="row">
-            <div class="col-lg-2 left-slide-cover d-flex align-items-center p-0 justify-content-center client-content">
+            <div style="background-color: #052C58" class="col-lg-2 left-slide-cover d-flex align-items-center p-0 justify-content-center client-content">
                 <!-- <img src="https://dummyimage.com/200x100/ddd/000.png&text=Client+1" alt="Client 1" /> -->
-                <h6>Our Valued Clients</h6>
+                <h6 class="text-white">Our Valued Clients</h6>
             </div>
             <div class="col-lg-10 client-content">
                 <!-- Swiper -->
