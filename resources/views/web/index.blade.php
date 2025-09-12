@@ -1126,46 +1126,7 @@
     <!-- About Section -->
     <section style="background-color: #ffffff" class="our-mission-section">
       <div class="container">
-        {{-- @if(isset($about))
-        <div class="sec-title left">
-          <h2>{{ $about->title }}</h2>
-          <div class="separater"></div>
-        </div>
-        <div class="row">
-          <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 wow fadeInRight animated">
-            <div class="inner-box ">
-              <div class="text description">{!! $about->description !!} <br /></div>
-              <br />
-              @php
-              $page_about = \App\Models\PageSetup::page('about-us');
-              @endphp
-              @if(isset($page_about))
-              <div class="link-box"><a href="{{ route('about') }}" class="theme-btn btn-style-three">{{
-                  __('common.read_more') }}</a></div>
-              @endif
-            </div>
-          </div>
-          <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-            @if(isset($about->mission_title))
-            <div class="innner-box wow fadeInLeft">
-              <div class="info-box">
-                <h4>{{ $about->mission_title }}</h4>
-                <div class="text">{!! $about->mission_desc !!}</div>
-              </div>
-            </div>
-            @endif
-            @if(isset($about->vision_title))
-            <div class="innner-box wow fadeInLeft">
-              <div class="info-box">
-                <h4>{{ $about->vision_title }}</h4>
-                <div class="text">{!! $about->vision_desc !!}</div>
-              </div>
-            </div>
-            @endif
-          </div>
-        </div>
-        @endif --}}
-
+        
         @if(count($counters) > 0)
           <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 clearfix fun-fact-section">
@@ -1190,8 +1151,6 @@
             </div>
           </div>
         @endif
-
-
       </div>
     </section>
     <!--End About Section -->
