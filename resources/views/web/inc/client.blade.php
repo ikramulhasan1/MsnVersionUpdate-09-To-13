@@ -81,7 +81,7 @@
             </div>
             <div class="col-lg-10">
                 <!-- Swiper -->
-                <div class="swiper mySwiper">
+                <div class="swiper mySwiper m-0">
                     <div class="swiper-wrapper mb-5">
                         @foreach($clients as $client)
                             <div class="swiper-slide">
