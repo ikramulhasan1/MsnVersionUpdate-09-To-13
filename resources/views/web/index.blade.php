@@ -58,11 +58,11 @@
   }
 
   .row-item-content {
-    height: 20px !important;
+    height: 60px !important;
     max-height: 400px !important;
     max-width: 70% !important;
     display: flex;
-    align-items: center;
+    align-items:baseline;
     justify-content: start;
   }
 
