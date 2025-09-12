@@ -52,7 +52,7 @@
   .carousel-wrap .item {
     position: relative;
     color: white;
-    min-height: 85vh;
+    max-height: 400px;
     overflow: hidden;
   }
 
@@ -1069,11 +1069,11 @@
               @endif
 
               {{-- Foreground Content --}}
-            <div class="row w-100 position-relative" style="z-index: 2; max-height: 280px !important;">
+            <div class="row row-item-content position-relative" style="z-index: 2; height: 280px !important; max-height: 280px !important;">
                 <div class="col-md-12 item-content">
                   <div>
                     <h1>{{ $slider->title }}</h1>
-                    <p>{!! $slider->description !!}</p>
+                    {{-- <p>{!! $slider->description !!}</p> --}}
 
                     @php
                       $page_contact = \App\Models\PageSetup::page('contact-us');
@@ -1084,7 +1084,7 @@
                       {{ __('common.contact_us') }}
                     </a>
                     @endif --}}
-                    <button id="open-modal" class=" googleMeetBtn" style="position: relative; top: 150px;">Discuss Your
+                    <button id="open-modal" class=" googleMeetBtn" style="position: relative; top: 100px;">Discuss Your
                       Requirements →</button>
 
                     {{-- @if(isset($slider->link))
