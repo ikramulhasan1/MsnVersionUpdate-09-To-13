@@ -220,7 +220,7 @@
             }
 
             .page-title .bread-crumb {
-                background: #052C58 !important;
+                background: black !important;
             }
         </style>
     @endif

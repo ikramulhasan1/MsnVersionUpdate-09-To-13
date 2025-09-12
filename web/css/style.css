@@ -2534,7 +2534,7 @@ img {
 	height: 100%;
 	top: 0;
 	content: "";
-	background: black;
+	background: #052C58;
 	left: -100%;
 }
 
@@ -2545,12 +2545,12 @@ img {
 	width: 100%;
 	height: 100%;
 	top: 0;
-	background: black;
+	background: #052C58;
 	right: -100%;
 }
 
 .page-title .bread-crumb ul {
-	background: black;
+	background: #052C58;
 	padding: 16px 30px 45px;
 	position: relative;
 	display: block;
