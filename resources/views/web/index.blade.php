@@ -849,7 +849,7 @@
     border-radius: 30px;
     font-size: 25px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-    border: 2px solid #3CC065;
+    border: 2px solid #052C58;
     z-index: 20;
   }
 
