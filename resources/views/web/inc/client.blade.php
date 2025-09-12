@@ -46,7 +46,6 @@
 .swiper-slide img {
     filter: grayscale(100%);
     transition: all 0.3s ease; /* normal */
-    height: 40px !important;
 }
 
 .swiper-slide img:hover {
@@ -54,7 +53,6 @@
     transform: scale(1.08);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transition: all 0.1s ease-in; /* instant feel */
-    height: 40px !important;
 }
 
 
@@ -110,7 +108,7 @@
                     <div class="swiper-wrapper mb-5">
                         @foreach($clients as $client)
                             <div class="swiper-slide">
-                                <img class="p-0 shadow-none" src="{{ asset('uploads/client/' . $client->image_path) }}"
+                                <img style="height: 40px !important;" class="p-0 shadow-none" src="{{ asset('uploads/client/' . $client->image_path) }}"
                                     alt="{{ $client->title }}" />
                             </div>
                         @endforeach
