@@ -286,7 +286,7 @@
   }
 
   .explore-btn {
-    background-color: #052C58;
+    background-color: #3CC065;
     color: #fff;
     padding: 12px 25px;
     border-radius: 6px;
