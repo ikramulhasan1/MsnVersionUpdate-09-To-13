@@ -25,11 +25,11 @@
 
     .swiper-slide img {
         width: 140px  !important;
-        height: 60px !important;
+        max-height: 80px !important;
         margin: 0px !important;
         object-fit: contain;
         background: white;
-        padding: 10px;
+        /* padding: 10px; */
         border-radius: 2px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         filter: grayscale(100%);
