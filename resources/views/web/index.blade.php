@@ -46,14 +46,21 @@
 
 @endsection
 <style>
-  .carousel-wrap{
+  .carousel-wrap {
     max-height: 400px !important;
   }
+
   .carousel-wrap .item {
     position: relative;
     color: white;
     max-height: 400px;
     overflow: hidden;
+  }
+
+  .row-item-content {
+    height: 350px !important;
+    max-height: 400px !important;
+    max-width: 50% !important;
   }
 
   .item-content {
@@ -910,40 +917,40 @@
 {{-- schema --}}
 @section('schema_markup')
   <script type="application/ld+json">
-  {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "{{ $setting->title }}",
-      "url": "{{ route('home') }}",
-      "description": "{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}",
-      "publisher": {
-          "@type": "Organization",
-          "name": "MSN Softtech",
-          "logo": {
-              "@type": "ImageObject",
-              "url": "{{ asset('/uploads/setting/' . $setting->logo_path) }}"
-          }
-      },
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "{{ $setting->title }}",
+        "url": "{{ route('home') }}",
+        "description": "{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}",
+        "publisher": {
+            "@type": "Organization",
+            "name": "MSN Softtech",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ asset('/uploads/setting/' . $setting->logo_path) }}"
+            }
+        },
 
-      "mainEntity": {
-          "@type": "LocalBusiness",
-          "name": "MSN Softtech",
-          "url": "{{ route('home') }}",
-          "logo": "{{ asset('/uploads/setting/' . $setting->logo_path) }}",
-          "description": "{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}",
+        "mainEntity": {
+            "@type": "LocalBusiness",
+            "name": "MSN Softtech",
+            "url": "{{ route('home') }}",
+            "logo": "{{ asset('/uploads/setting/' . $setting->logo_path) }}",
+            "description": "{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}",
 
-          "contactPoint": {
-              "@type": "ContactPoint",
-              "telephone": "{{ $setting->phone_two }}",
-              "contactType": "customer service"
-          },
-          "areaServed": {
-              "@type": "Country",
-              "name": "United States"
-          }
-      }
-  }
-  </script>
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "{{ $setting->phone_two }}",
+                "contactType": "customer service"
+            },
+            "areaServed": {
+                "@type": "Country",
+                "name": "United States"
+            }
+        }
+    }
+    </script>
 @endsection
 
 
@@ -1002,26 +1009,26 @@
             </div>
             @else
             <div class="image-slide" style="
-                        background-image: url('{{ asset('uploads/slider/'.$slider->image_path) }}');
-                        background-size: cover;
-                        background-position: center;
-                        height: 600px;
-                        width: 100%;
-                      ">
+                            background-image: url('{{ asset('uploads/slider/'.$slider->image_path) }}');
+                            background-size: cover;
+                            background-position: center;
+                            height: 600px;
+                            width: 100%;
+                          ">
             </div>
             @endif
 
             <div class="slide-overlay-content" style="
-                      position: absolute;
-                      top: 0%;
-                      left: 0%;
-                      height: 600px;
-                      z-index: 10;
-                      color: white;
-                      background: rgba(0, 0, 0, 0.4);
-                      padding: 20px;
-                      border-radius: 0px;
-                    ">
+                          position: absolute;
+                          top: 0%;
+                          left: 0%;
+                          height: 600px;
+                          z-index: 10;
+                          color: white;
+                          background: rgba(0, 0, 0, 0.4);
+                          padding: 20px;
+                          border-radius: 0px;
+                        ">
 
               <h1>{{ $slider->title }}</h1>
               <p style="color: white !important">{!! $slider->description !!}</p>
@@ -1053,7 +1060,8 @@
               }
             @endphp
 
-            <div class="item" style="justify-content: space-around; position: relative; max-height: 400px !important; {{ $style }}"
+            <div class="item"
+              style="justify-content: space-around; position: relative; max-height: 400px !important; {{ $style }}"
               @if($slider->media_type === 'video' && $slider->video_id) data-video-id="{{ $slider->video_id }}" @endif>
 
               {{-- Background YouTube Video --}}
@@ -1069,7 +1077,7 @@
               @endif
 
               {{-- Foreground Content --}}
-            <div class="row row-item-content position-relative" style="z-index: 2; height: 280px !important; max-height: 280px !important;">
+              <div class="row row-item-content position-relative" style="z-index: 2; ">
                 <div class="col-md-12 item-content">
                   <div>
                     <h1>{{ $slider->title }}</h1>
@@ -1741,7 +1749,8 @@
                   <div class="text description">{!! $testimonial->description !!}</div>
                   <h5 class="name">{{ $testimonial->title }}</h5>
                   <div class="company-name">{{ $testimonial->designation }}@if(isset($testimonial->organization)),
-                  {{ $testimonial->organization }}@endif</div>
+                  {{ $testimonial->organization }}@endif
+                  </div>
                 </div>
               </div>
             </div>
@@ -1795,7 +1804,7 @@
                 @endphp
 
                 <div class="process-step-arrow d-none d-md-block 
-                              {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
+                                    {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
                 </div>
               </div>
             </div>
