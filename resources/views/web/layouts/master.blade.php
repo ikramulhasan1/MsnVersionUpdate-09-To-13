@@ -861,8 +861,21 @@
                                         $page_services = \App\Models\PageSetup::page('services');
                                         $related_services = \App\Models\PageSetup::page('related-service');
                                     @endphp
-
                                     @if(isset($page_services))
+                                        <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}">
+                                            <a href="{{ route('services') }}">{{ strtoupper($page_services->title) }}<a>
+                                                    <ul>
+                                                        @foreach($service_subnavs as $service_subnav)
+                                                            @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
+                                                                <li class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}"> <a
+                                                                        href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
+                                                                </li>
+                                                            @endif
+                                                        @endforeach
+                                                    </ul>
+                                        </li>
+                                    @endif
+                                    {{-- @if(isset($page_services))
                                         <li
                                             class="dropdown mega-menu {{ Request::is('service*') ? 'current' : '' }} {{ Request::is('related-service*') ? 'current' : '' }}">
                                             <div class="mega-menu-trigger">
@@ -916,7 +929,7 @@
                                                 </div>
                                             </div>
                                         </li>
-                                    @endif
+                                    @endif --}}
                                     @php
                                         $page_portfolio = \App\Models\PageSetup::page('portfolio');
                                     @endphp
