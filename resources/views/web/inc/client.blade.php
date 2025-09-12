@@ -29,6 +29,7 @@
     .swiper-slide img {
         width: 140px  !important;
         height: 50px !important;
+        margin: auto;
         object-fit: contain;
         background: white;
         padding: 10px;
