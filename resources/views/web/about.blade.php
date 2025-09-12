@@ -596,41 +596,69 @@ color: #009830;
       </div>
     </section>
     
-  @if(isset($about) || count($counters) > 0)
-    <!-- About Section -->
-    <section style="background-color: #ffffff" class="our-mission-section m-0">
-      <div class="container">
-        
-        @if(count($counters) > 0)
-          <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 clearfix fun-fact-section">
-              <h3 style="color: #052C58; font-weight: 700;">Our Impact in Numbers</h3>
-              <div class="fact-counter">
-                <div class="row ">
-                  @foreach($counters as $counter)
-                    <!--Column-->
-                    <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp py-5">
-                      <div class="count-box border border-1 p-3 bg-white stats-card">
-                        <div style="color: #052C58" class="count">
-                          {{ $counter->value }}+
-                          {{-- <span class="count-text" data-speed="5000" data-stop="{{ $counter->value }}">0</span> --}}
-                        </div>
-                        <div class="separater"></div>
-                        <h4 class="counter-title">{{ $counter->title }}</h4>
-                      </div>
-                    </div>
-                  @endforeach
+@if(isset($about) || count($counters) > 0)
+<!-- About Section -->
+<section class="">
+    <div class="container">
+        {{-- @if(isset($about))
+        <div class="sec-title left">
+            <h2>{{ $about->title }}</h2>
+            <div class="separater"></div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 wow fadeInRight animated">
+                <div class="inner-box ">
+                    <div class="text description">{!! $about->description !!} <br /></div>
                 </div>
-              </div>
             </div>
-          </div>
-        @endif
-      </div>
-    </section>
-    <!--End About Section -->
-  @endif
-<!--End About Section -->
+            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+                @if(isset($about->mission_title))
+                <div class="innner-box wow fadeInLeft">
+                    <div class="info-box">
+                        <h4>{{ $about->mission_title }}</h4>
+                        <div class="text">{!! $about->mission_desc !!}</div>
+                    </div>
+                </div>
+                @endif
+                @if(isset($about->vision_title))
+                <div class="innner-box wow fadeInLeft">
+                    <div class="info-box">
+                        <h4>{{ $about->vision_title }}</h4>
+                        <div class="text">{!! $about->vision_desc !!}</div>
+                    </div>
+                </div>
+                @endif
+            </div>
+        </div>
+        @endif --}}
 
+        @if(count($counters) > 0)
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 clearfix fun-fact-section">
+                <div class="fact-counter">
+                    <div class="row">
+                        @foreach($counters as $counter)
+                        <!--Column-->
+                        <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp ">
+                            <div class="count-box border border-1 p-3 bg-white stats-card">
+                              <div style="color: #1EC000" class="count">
+                                  {{ $counter->value }}
+                                  {{-- <span class="count-text" data-speed="5000" data-stop="{{ $counter->value }}">0</span> --}}
+                              </div>
+                              <div class="separater"></div>
+                              <h4 class="counter-title">{{ $counter->title }}</h4>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
+    </div>
+</section>
+<!--End About Section -->
+@endif
 
 @php
 $section_whyus = \App\Models\Section::section('why-us');
