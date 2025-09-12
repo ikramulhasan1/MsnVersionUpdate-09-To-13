@@ -58,7 +58,7 @@
   }
 
   .row-item-content {
-    height: 400px !important;
+    height: 370px !important;
     max-height: 400px !important;
     max-width: 70% !important;
     display: flex;
@@ -67,7 +67,7 @@
   }
 
   .item-content {
-    max-height: 60px !important;
+    max-height: 300px !important;
     position: relative;
     z-index: 2;
   }
