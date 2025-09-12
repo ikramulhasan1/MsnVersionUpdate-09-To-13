@@ -473,7 +473,7 @@ color: #009830;
     </div>
   </section>
   <section class="page-title p-0" style="background-color: #052C58 !important;">
-    <div class="container d-flex" style="height: 40px; align-items: center; justify-content: flex-end;">
+    <div class="container d-flex" style="height: 40px; align-items: center; justify-content: flex-end; background-color: #052C58 !important;">
         <div class="inner-container clearfix">
             {{-- <div class="title-box">
                 <h1>{{ __('navbar.about') }}</h1>
