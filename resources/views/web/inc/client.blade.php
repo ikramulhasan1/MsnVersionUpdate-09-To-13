@@ -10,18 +10,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f6f9fc;
-        }
+   
 
-        section {
+        .client-logo-section {
             padding: 60px 0;
             text-align: center;
         }
 
-        h2 {
+        .client-logo-section > h2 {
             font-size: 28px;
             margin-bottom: 40px;
             font-weight: bold;
@@ -87,7 +83,7 @@
 </head>
 
 <body>
-    <section>
+    <section class="client-logo-section">
         <h2>Enterprises & Tech Companies Worldwide Trust Us</h2>
         <div class="row">
             <div class="col-lg-2 left-slide-cover">
