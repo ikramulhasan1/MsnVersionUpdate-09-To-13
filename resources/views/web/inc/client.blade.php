@@ -24,7 +24,12 @@
         justify-content: center;
         align-items: center;
         max-height: 80px !important;
+
+        filter: grayscale(100%);
+    transition: all 0.3s ease; /* normal */
     }
+
+
 
     .swiper-slide img {
         width: 140px  !important;
@@ -34,9 +39,15 @@
         background: white;
         /* padding: 10px; */
         border-radius: 2px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        filter: grayscale(100%);
-        transition: all 0.3s ease;
+        /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); */
+        /* filter: grayscale(100%); */
+        /* transition: all 0.3s ease; */
+
+
+         filter: grayscale(0%);
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.1s ease-in; /* instant feel */
     }
 
     /* .swiper-slide img:hover {
