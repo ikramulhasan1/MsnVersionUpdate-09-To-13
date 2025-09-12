@@ -834,9 +834,9 @@
 
                                     @if(isset($page_about) || isset($page_faqs) || isset($page_contact))
                                         <li class="dropdown 
-                                                {{ Request::is('about*') ? 'current' : '' }}
-                                                {{ Request::is('faqs*') ? 'current' : '' }}
-                                                {{ Request::is('contact*') ? 'current' : '' }}">
+                                                    {{ Request::is('about*') ? 'current' : '' }}
+                                                    {{ Request::is('faqs*') ? 'current' : '' }}
+                                                    {{ Request::is('contact*') ? 'current' : '' }}">
                                             <a href="">About Us<a>
                                                     <ul>
                                                         @if(isset($page_about))
@@ -867,7 +867,9 @@
                                                     <ul>
                                                         @foreach($service_subnavs as $service_subnav)
                                                             @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                                <li class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}"> <a
+                                                                <li
+                                                                    class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
+                                                                    <a
                                                                         href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
                                                                 </li>
                                                             @endif
@@ -876,59 +878,62 @@
                                         </li>
                                     @endif
                                     {{-- @if(isset($page_services))
-                                        <li
-                                            class="dropdown mega-menu {{ Request::is('service*') ? 'current' : '' }} {{ Request::is('related-service*') ? 'current' : '' }}">
-                                            <div class="mega-menu-trigger">
-                                                <a href="{{ route('services') }}"
-                                                    class="mega-menu-link">{{ strtoupper($page_services->title) }}</a>
+                                    <li
+                                        class="dropdown mega-menu {{ Request::is('service*') ? 'current' : '' }} {{ Request::is('related-service*') ? 'current' : '' }}">
+                                        <div class="mega-menu-trigger">
+                                            <a href="{{ route('services') }}" class="mega-menu-link">{{
+                                                strtoupper($page_services->title) }}</a>
 
-                                                <div class="mega-menu-content2">
-                                                    <div class="mega-menu-column">
-                                                        <h4>Our Services</h4>
-                                                        <ul>
-                                                            @foreach($service_subnavs as $service_subnav)
-                                                                @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                                    <li
-                                                                        class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
-                                                                        <a class="mega-links"
-                                                                            href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
-                                                                    </li>
-                                                                @endif
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                    <div class="mega-menu-column">
-                                                        <h4>Related Services</h4>
-                                                        <ul>
-                                                            @foreach($related_service_subnavs as $service_subnav)
-                                                                <li
-                                                                    class="{{ Request::is('related-service/' . $service_subnav->slug) ? 'current' : '' }}">
-                                                                    <a class="mega-links"
-                                                                        href="{{ route('service.related-single', $service_subnav->slug) }}">{{ $service_subnav->title }}</a>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                    <div class="mega-menu-column">
-                                                        <h4>Technology Services</h4>
-                                                        <ul>
-                                                            @foreach($technologies as $service_subnav)
-                                                                <li
-                                                                    class="{{ Request::is('technology/' . $service_subnav->slug) ? 'current' : '' }}">
-                                                                    <div class="service-item">
-                                                                        <img class="ml-0" width="30"
-                                                                            src="{{ asset('uploads/service/' . $service_subnav->logo_path) }}"
-                                                                            alt="{{ $service_subnav->title }}" srcset=""> <a
-                                                                            class="mega-links"
-                                                                            href="{{ route('service.technology', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
-                                                                    </div>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
+                                            <div class="mega-menu-content2">
+                                                <div class="mega-menu-column">
+                                                    <h4>Our Services</h4>
+                                                    <ul>
+                                                        @foreach($service_subnavs as $service_subnav)
+                                                        @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
+                                                        <li
+                                                            class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
+                                                            <a class="mega-links"
+                                                                href="{{ route('service.single', $service_subnav->slug) }}">{{
+                                                                $service_subnav->short_title }}</a>
+                                                        </li>
+                                                        @endif
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                                <div class="mega-menu-column">
+                                                    <h4>Related Services</h4>
+                                                    <ul>
+                                                        @foreach($related_service_subnavs as $service_subnav)
+                                                        <li
+                                                            class="{{ Request::is('related-service/' . $service_subnav->slug) ? 'current' : '' }}">
+                                                            <a class="mega-links"
+                                                                href="{{ route('service.related-single', $service_subnav->slug) }}">{{
+                                                                $service_subnav->title }}</a>
+                                                        </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                                <div class="mega-menu-column">
+                                                    <h4>Technology Services</h4>
+                                                    <ul>
+                                                        @foreach($technologies as $service_subnav)
+                                                        <li
+                                                            class="{{ Request::is('technology/' . $service_subnav->slug) ? 'current' : '' }}">
+                                                            <div class="service-item">
+                                                                <img class="ml-0" width="30"
+                                                                    src="{{ asset('uploads/service/' . $service_subnav->logo_path) }}"
+                                                                    alt="{{ $service_subnav->title }}" srcset=""> <a
+                                                                    class="mega-links"
+                                                                    href="{{ route('service.technology', $service_subnav->slug) }}">{{
+                                                                    $service_subnav->short_title }}</a>
+                                                            </div>
+                                                        </li>
+                                                        @endforeach
+                                                    </ul>
                                                 </div>
                                             </div>
-                                        </li>
+                                        </div>
+                                    </li>
                                     @endif --}}
                                     @php
                                         $page_portfolio = \App\Models\PageSetup::page('portfolio');
@@ -1083,10 +1088,10 @@
 
                                     @if(isset($page_about) || isset($page_faqs) || isset($page_contact))
                                         <li class="dropdown 
-                                                {{ Request::is('about*') ? 'current' : '' }}
-                                                {{ Request::is('faqs*') ? 'current' : '' }}
-                                                {{ Request::is('contact*') ? 'current' : '' }}">
-                                            <a href="">Company<a>
+                                                    {{ Request::is('about*') ? 'current' : '' }}
+                                                    {{ Request::is('faqs*') ? 'current' : '' }}
+                                                    {{ Request::is('contact*') ? 'current' : '' }}">
+                                            <a href="">About Us<a>
                                                     <ul>
                                                         @if(isset($page_about))
                                                             <li class="{{ Request::is('about*') ? 'current' : '' }}"> <a
@@ -1113,17 +1118,17 @@
                                     @if(isset($page_services))
                                         <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}">
                                             <a href="{{ route('services') }}">{{ strtoupper($page_services->title) }}<a>
-                                                <ul>
-                                                    @foreach($service_subnavs as $service_subnav)
-                                                        @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                            <li
-                                                                class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
-                                                                <a
-                                                                    href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
-                                                            </li>
-                                                        @endif
-                                                    @endforeach
-                                                </ul>
+                                                    <ul>
+                                                        @foreach($service_subnavs as $service_subnav)
+                                                            @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
+                                                                <li
+                                                                    class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
+                                                                    <a
+                                                                        href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
+                                                                </li>
+                                                            @endif
+                                                        @endforeach
+                                                    </ul>
                                         </li>
                                     @endif
                                     {{-- @if(isset($page_services))
@@ -1485,7 +1490,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                            web / images / social / whatsapp.png ') }}">', //Button Image
+                                web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
