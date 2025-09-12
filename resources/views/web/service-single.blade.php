@@ -882,7 +882,8 @@ $header = \App\Models\PageSetup::page('services');
         </section>
         @endif
         @if(count($clients) > 0)
-        <section class="partner-section">
+        @include('web.inc.client')
+        {{-- <section class="partner-section">
           <div class="container">
             <h2>Enterprises & Tech Companies Worldwide Trust Us</h2>
             <div class="row gap-2 justify-content-center text-center partner-logos align-items-center">
@@ -893,7 +894,7 @@ $header = \App\Models\PageSetup::page('services');
               @endforeach
             </div>
           </div>
-        </section>
+        </section> --}}
         @endif
         {{-- @if ($service->subservices->count() > 0)
           <div class="mx-5 mt-5" >
