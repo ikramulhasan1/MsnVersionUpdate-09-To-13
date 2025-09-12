@@ -260,10 +260,10 @@
                                     $page_contact = \App\Models\PageSetup::page('contact-us');
                                 @endphp
                                 @if(isset($page_quote))
-                                    <a href="{{ route('get-quote') }}"
+                                    <a style="background-color: #052C58 !important;" href="{{ route('get-quote') }}"
                                         class="theme-btn btn-style-four mt-3">{{ __('navbar.get_quote') }}</a>
                                 @elseif(isset($page_contact))
-                                    <a href="{{ route('contact') }}"
+                                    <a style="background-color: #052C58 !important;" href="{{ route('contact') }}"
                                         class="theme-btn btn-style-four mt-3">{{ __('common.get_start') }}</a>
                                 @endif
                             </div>
