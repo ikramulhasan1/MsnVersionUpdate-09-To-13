@@ -5,15 +5,15 @@
     .client-logo-section {
         /* padding: 60px 0; */
         width: 100% !important;
-        margin-right: 5px; 
-        margin-left: 5px;
+        margin-right: 5px !important; 
+        margin-left: 5px !important;
         text-align: center;
     }
 
     .swiper {
-        width: 100%;
+        /* width: 100%; */
         /* max-width: 1400px; */
-        margin: auto;
+        /* margin: auto; */
     }
 
     .swiper-slide {
