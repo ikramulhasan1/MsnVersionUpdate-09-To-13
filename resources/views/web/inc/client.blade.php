@@ -6,13 +6,15 @@
         /* padding: 60px 0; */
         width: 100% !important;
         max-height: 80px !important;
-        margin-right: 5px !important; 
+        margin-right: 5px !important;
         margin-left: 15px !important;
         text-align: center;
     }
-    .client-content{
+
+    .client-content {
         max-height: 80px !important;
     }
+
     .swiper {
         /* width: 100%; */
         /* max-width: 1400px; */
@@ -27,7 +29,7 @@
     }
 
     .swiper-slide img {
-        width: 140px  !important;
+        width: 140px !important;
         max-height: 80px !important;
         margin: 0px !important;
         object-fit: contain;
@@ -36,24 +38,27 @@
         border-radius: 2px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         filter: grayscale(100%);
-    transition: all 0.3s ease; /* normal */
+        transition: all 0.3s ease;
+        /* normal */
     }
 
 
 
 
 
-.swiper-slide img {
-    filter: grayscale(100%);
-    transition: all 0.3s ease; /* normal */
-}
+    .swiper-slide img {
+        filter: grayscale(100%);
+        transition: all 0.3s ease;
+        /* normal */
+    }
 
-.swiper-slide img:hover {
-    filter: grayscale(0%);
-    transform: scale(1.08);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transition: all 0.1s ease-in; /* instant feel */
-}
+    .swiper-slide img:hover {
+        filter: grayscale(0%);
+        transform: scale(1.08);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transition: all 0.1s ease-in;
+        /* instant feel */
+    }
 
 
 
@@ -98,18 +103,19 @@
 @if(count($clients) > 0)
     <section class="client-logo-section">
         <div class="row">
-            <div style="background-color: #052C58" class="col-lg-2 left-slide-cover d-flex align-items-center p-0 justify-content-center client-content">
+            <div style="background-color: #052C58"
+                class="col-lg-2 left-slide-cover d-flex align-items-center p-0 justify-content-center client-content">
                 <!-- <img src="https://dummyimage.com/200x100/ddd/000.png&text=Client+1" alt="Client 1" /> -->
                 <h6 class="text-white">Our Valued Clients</h6>
             </div>
-            <div class="col-lg-10 client-content">
+            <div class="col-lg-10 client-content pl-0">
                 <!-- Swiper -->
                 <div class="swiper mySwiper">
                     <div class="swiper-wrapper mb-5">
                         @foreach($clients as $client)
                             <div class="swiper-slide">
-                                <img style="height: 40px !important;" class="p-0 shadow-none" src="{{ asset('uploads/client/' . $client->image_path) }}"
-                                    alt="{{ $client->title }}" />
+                                <img style="height: 40px !important;" class="p-0 shadow-none"
+                                    src="{{ asset('uploads/client/' . $client->image_path) }}" alt="{{ $client->title }}" />
                             </div>
                         @endforeach
                         {{-- <div class="swiper-slide">
@@ -144,7 +150,7 @@
 
                     <!-- Navigation -->
                     <!-- <div class="swiper-button-next"></div>
-                            <div class="swiper-button-prev"></div> -->
+                                <div class="swiper-button-prev"></div> -->
 
                     <!-- Pagination -->
                     <!-- <div class="swiper-pagination"></div> -->
