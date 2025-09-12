@@ -1066,7 +1066,7 @@
               @endif
 
               {{-- Foreground Content --}}
-              <div class="row w-100 position-relative" style="z-index: 2;">
+            <div class="row w-100 position-relative" style="z-index: 2; max-height: 290px !important ;">
                 <div class="col-md-12 item-content">
                   <div>
                     <h1>{{ $slider->title }}</h1>
