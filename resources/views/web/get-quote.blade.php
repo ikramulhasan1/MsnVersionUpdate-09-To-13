@@ -338,7 +338,7 @@ $header = \App\Models\PageSetup::page('get-quote');
       font-weight: 600;
       border: none;
       border-radius: 2px;
-      background-color: #3f7cf4;
+      background-color: #052C58;
       color: #fff;
       cursor: pointer;
       margin-top: 10px;
@@ -346,7 +346,7 @@ $header = \App\Models\PageSetup::page('get-quote');
     }
 
     .quote-submit-btn:hover {
-      background-color: #052C58;
+      background-color: #193B62;
     }
 
     @media (max-width: 768px) {
