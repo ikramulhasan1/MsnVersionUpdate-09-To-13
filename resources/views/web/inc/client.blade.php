@@ -70,7 +70,7 @@
     } */
     .left-slide-cover h6 {
         font-weight: 700;
-        font-size: 16px;
+        font-size: 20px;
         color: #000000;
     }
 </style>
