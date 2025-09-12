@@ -63,7 +63,7 @@
     max-width: 80% !important;
     display: flex;
     align-items: center;
-    justify-content:flex-start;
+    justify-content: start;
   }
 
   .item-content {
@@ -1064,7 +1064,7 @@
             @endphp
 
             <div class="item"
-              style="justify-content: space-around; position: relative; max-height: 400px !important; {{ $style }}"
+              style="justify-content: space-start; position: relative; max-height: 400px !important; {{ $style }}"
               @if($slider->media_type === 'video' && $slider->video_id) data-video-id="{{ $slider->video_id }}" @endif>
 
               {{-- Background YouTube Video --}}
