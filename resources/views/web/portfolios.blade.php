@@ -80,15 +80,10 @@ $header = \App\Models\PageSetup::page('portfolio');
         font-size: 18px !important;
     }
 
-
-
-
-
-
-
         /* Hero Section */
-        .about-hero-section {
-      background: linear-gradient(135deg, rgba(106,17,203,0.9), rgba(37,117,252,0.9)), url('//images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+      .about-hero-section {
+      /* background: linear-gradient(135deg, rgba(106,17,203,0.9), rgba(37,117,252,0.9)), url('//images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover; */
+      background-color: #052C58;
       height: 40vh;
       color: #fff;
       display: flex;
@@ -135,7 +130,7 @@ $header = \App\Models\PageSetup::page('portfolio');
       display: block;
       width: 80px;
       height: 4px;
-      background: linear-gradient(to right, #ff5a00, #ff9500);
+      background: linear-gradient(to right, #052C58, #052C58);
       margin: 12px auto 0;
       border-radius: 3px;
     }
@@ -166,9 +161,9 @@ $header = \App\Models\PageSetup::page('portfolio');
     }
     .portfolio-filter-btn.active, 
     .portfolio-filter-btn:hover {
-      background: #ff5a00;
+      background: #052C58;
       color: #fff;
-      border-color: #ff5a00;
+      border-color: #052C58;
     }
 
     /* Hide ugly scrollbar (optional) */
@@ -255,7 +250,7 @@ $header = \App\Models\PageSetup::page('portfolio');
       <!-- <p>Building the Future of Technology and Business Innovation Together.</p> -->
     </div>
   </section>
-  <section class="page-title p-0" style="background-color: black;">
+  <section class="page-title p-0" style="background-color: #052C58;">
     <div class="container d-flex" style="height: 40px; align-items: center; justify-content: flex-end;">
         <div class="inner-container clearfix">
             {{-- <div class="title-box">
