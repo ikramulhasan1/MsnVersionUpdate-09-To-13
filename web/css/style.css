@@ -2491,7 +2491,7 @@ img {
 	top: 0px;
 	width: 100%;
 	height: 100%;
-	background: #000000;
+	background: #052C58;
 	opacity: .7;
 	position: absolute;
 }
@@ -2560,7 +2560,7 @@ img {
 	position: relative;
 	font-size: 18px;
 	line-height: 30px;
-	color: #EE2124;
+	color: white;
 	font-weight: 400;
 	text-transform: capitalize;
 	cursor: default;
@@ -2605,7 +2605,7 @@ img {
 }
 
 .page-title .bread-crumb li a:hover {
-	color: #EE2124;
+	color: white;
 }
 
 
