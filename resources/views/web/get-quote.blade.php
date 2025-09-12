@@ -274,7 +274,7 @@ $header = \App\Models\PageSetup::page('get-quote');
     .quote-textarea:focus,
     select:focus {
       outline: none;
-      border-color: #3f7cf4;
+      border-color: #052C58;
       background-color: #fff;
     }
 
