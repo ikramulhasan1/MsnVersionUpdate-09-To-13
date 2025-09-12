@@ -1365,19 +1365,19 @@
     <header class="awords-section-header">Recent Awards & Certifications</header>
 
     <div class="awards-container">
-      <div class="award">
+      {{-- <div class="award">
         <img src="https://www.capitalnumbers.com/images/new-skill-section/ft-award-2024.svg" alt="Award 1">
-      </div>
+      </div> --}}
       <div class="award">
         <img src="https://www.capitalnumbers.com/images/common/clutch-global-2024.png" alt="Award 2">
       </div>
-      <div class="award">
+      {{-- <div class="award">
         <img src="https://www.capitalnumbers.com/images/common/btb-2024.svg" alt="Award 3">
-      </div>
+      </div> --}}
       <div class="award">
         <img src="https://www.capitalnumbers.com/images/common/clutch-champion-2024.png" alt="Award 4">
       </div>
-      <div class="award">
+      {{-- <div class="award">
         <img src="https://www.capitalnumbers.com//images/common/soc2-logo.svg" alt="Award 5">
       </div>
       <div class="award">
@@ -1391,7 +1391,7 @@
       </div>
       <div class="award">
         <img src="https://www.capitalnumbers.com/images/common/new-award-11.svg" alt="Award 9">
-      </div>
+      </div> --}}
     </div>
 
   </section>
