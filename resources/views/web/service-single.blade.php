@@ -792,7 +792,7 @@ $header = \App\Models\PageSetup::page('services');
         @endif
 
 
-<section class="model-section">
+{{-- <section class="model-section">
   <div class="container py-5">
     <div class="model-section-title">
       Engagement Models for Our <br><br>
@@ -851,7 +851,7 @@ $header = \App\Models\PageSetup::page('services');
       <button class="share-btn">Share Your Requirements →</button>
     </div>
   </div>
-</section>
+</section> --}}
 
 
         @if ($service->faqs->count() > 0)
@@ -881,9 +881,8 @@ $header = \App\Models\PageSetup::page('services');
               </div>
         </section>
         @endif
-        @if(count($clients) > 0)
-        @include('web.inc.client')
-        {{-- <section class="partner-section">
+        {{-- @if(count($clients) > 0)
+        <section class="partner-section">
           <div class="container">
             <h2>Enterprises & Tech Companies Worldwide Trust Us</h2>
             <div class="row gap-2 justify-content-center text-center partner-logos align-items-center">
@@ -894,8 +893,8 @@ $header = \App\Models\PageSetup::page('services');
               @endforeach
             </div>
           </div>
-        </section> --}}
-        @endif
+        </section>
+        @endif --}}
         {{-- @if ($service->subservices->count() > 0)
           <div class="mx-5 mt-5" >
               
