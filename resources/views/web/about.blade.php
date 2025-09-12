@@ -480,8 +480,8 @@ color: #009830;
             </div> --}}
             <div class="bread-crumb">
                 <ul class="p-0">
-                    <li>{{ __('navbar.about') }}</li>
-                    <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
+                    {{-- <li>{{ __('navbar.about') }}</li>
+                    <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li> --}}
                 </ul>
             </div>
         </div>
