@@ -10,7 +10,9 @@
         margin-left: 15px !important;
         text-align: center;
     }
-
+    .client-content{
+        max-height: 80px !important;
+    }
     .swiper {
         /* width: 100%; */
         /* max-width: 1400px; */
@@ -77,11 +79,11 @@
 @if(count($clients) > 0)
     <section class="client-logo-section">
         <div class="row">
-            <div class="col-lg-2 left-slide-cover d-flex align-items-center p-0 justify-content-center">
+            <div class="col-lg-2 left-slide-cover d-flex align-items-center p-0 justify-content-center client-content">
                 <!-- <img src="https://dummyimage.com/200x100/ddd/000.png&text=Client+1" alt="Client 1" /> -->
                 <h6>Our Valued Clients</h6>
             </div>
-            <div class="col-lg-10">
+            <div class="col-lg-10 client-content">
                 <!-- Swiper -->
                 <div class="swiper mySwiper">
                     <div class="swiper-wrapper mb-5">
