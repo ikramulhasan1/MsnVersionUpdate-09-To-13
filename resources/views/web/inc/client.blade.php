@@ -3,15 +3,8 @@
 
 <style>
     .client-logo-section {
-        padding: 60px 0;
+        /* padding: 60px 0; */
         text-align: center;
-    }
-
-    .client-logo-section>h2 {
-        font-size: 28px;
-        margin-bottom: 40px;
-        font-weight: bold;
-        color: #222;
     }
 
     .swiper {
