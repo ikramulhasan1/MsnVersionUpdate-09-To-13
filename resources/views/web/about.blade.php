@@ -145,7 +145,7 @@ $header = \App\Models\PageSetup::page('about-us');
     .process-step-number {
       width: 35px;
       height: 35px;
-      background-color: #0d6efd;
+      background-color: #052C58;
       color: #fff;
       border-radius: 50%;
       display: flex;
@@ -207,7 +207,7 @@ $header = \App\Models\PageSetup::page('about-us');
     }
 
     .process-btn-orange {
-      background-color: #ff6a00;
+      background-color: #052C58;
       color: white;
       padding: 12px 26px;
       border-radius: 5px;
@@ -217,7 +217,7 @@ $header = \App\Models\PageSetup::page('about-us');
     }
 
     .process-btn-orange:hover {
-      background-color: #e55c00;
+      background-color: #052C58;
       color: white
     }
 
@@ -403,7 +403,7 @@ body {
     .about-page .icon {
       width: 70px;
       height: 70px;
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      background: linear-gradient(135deg, #052C58, #052C58);
       border-radius: 50%;
       display: flex;
       align-items: center;
