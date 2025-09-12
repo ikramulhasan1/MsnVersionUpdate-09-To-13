@@ -62,7 +62,7 @@
     max-height: 450px !important;
     max-width: 70% !important;
     display: flex;
-    align-items:baseline;
+    align-items: baseline;
     justify-content: start;
   }
 
@@ -921,40 +921,40 @@
 {{-- schema --}}
 @section('schema_markup')
   <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "{{ $setting->title }}",
-        "url": "{{ route('home') }}",
-        "description": "{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}",
-        "publisher": {
-            "@type": "Organization",
-            "name": "MSN Softtech",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "{{ asset('/uploads/setting/' . $setting->logo_path) }}"
-            }
-        },
+      {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "{{ $setting->title }}",
+          "url": "{{ route('home') }}",
+          "description": "{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}",
+          "publisher": {
+              "@type": "Organization",
+              "name": "MSN Softtech",
+              "logo": {
+                  "@type": "ImageObject",
+                  "url": "{{ asset('/uploads/setting/' . $setting->logo_path) }}"
+              }
+          },
 
-        "mainEntity": {
-            "@type": "LocalBusiness",
-            "name": "MSN Softtech",
-            "url": "{{ route('home') }}",
-            "logo": "{{ asset('/uploads/setting/' . $setting->logo_path) }}",
-            "description": "{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}",
+          "mainEntity": {
+              "@type": "LocalBusiness",
+              "name": "MSN Softtech",
+              "url": "{{ route('home') }}",
+              "logo": "{{ asset('/uploads/setting/' . $setting->logo_path) }}",
+              "description": "{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}",
 
-            "contactPoint": {
-                "@type": "ContactPoint",
-                "telephone": "{{ $setting->phone_two }}",
-                "contactType": "customer service"
-            },
-            "areaServed": {
-                "@type": "Country",
-                "name": "United States"
-            }
-        }
-    }
-    </script>
+              "contactPoint": {
+                  "@type": "ContactPoint",
+                  "telephone": "{{ $setting->phone_two }}",
+                  "contactType": "customer service"
+              },
+              "areaServed": {
+                  "@type": "Country",
+                  "name": "United States"
+              }
+          }
+      }
+      </script>
 @endsection
 
 
@@ -1013,26 +1013,26 @@
             </div>
             @else
             <div class="image-slide" style="
-                            background-image: url('{{ asset('uploads/slider/'.$slider->image_path) }}');
-                            background-size: cover;
-                            background-position: center;
-                            height: 600px;
-                            width: 100%;
-                          ">
+                                background-image: url('{{ asset('uploads/slider/'.$slider->image_path) }}');
+                                background-size: cover;
+                                background-position: center;
+                                height: 600px;
+                                width: 100%;
+                              ">
             </div>
             @endif
 
             <div class="slide-overlay-content" style="
-                          position: absolute;
-                          top: 0%;
-                          left: 0%;
-                          height: 600px;
-                          z-index: 10;
-                          color: white;
-                          background: rgba(0, 0, 0, 0.4);
-                          padding: 20px;
-                          border-radius: 0px;
-                        ">
+                              position: absolute;
+                              top: 0%;
+                              left: 0%;
+                              height: 600px;
+                              z-index: 10;
+                              color: white;
+                              background: rgba(0, 0, 0, 0.4);
+                              padding: 20px;
+                              border-radius: 0px;
+                            ">
 
               <h1>{{ $slider->title }}</h1>
               <p style="color: white !important">{!! $slider->description !!}</p>
@@ -1808,7 +1808,7 @@
                 @endphp
 
                 <div class="process-step-arrow d-none d-md-block 
-                                    {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
+                                          {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
                 </div>
               </div>
             </div>
