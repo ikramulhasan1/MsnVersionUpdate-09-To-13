@@ -47,7 +47,7 @@
 @endsection
 <style>
   .carousel-wrap{
-    max-height: 300px !important;
+    max-height: 400px !important;
   }
   .carousel-wrap .item {
     position: relative;
@@ -1049,11 +1049,11 @@
             @php
               $style = '';
               if ($slider->media_type === 'image' && $slider->image_path) {
-                $style = "background-image: url('" . asset('uploads/slider/' . $slider->image_path) . "'); background-size: cover; background-position: center;";
+                $style = "background-image: url('" . asset('uploads/slider/' . $slider->image_path) . "'); background-size: cover; background-position: center; height: 400px; !important;";
               }
             @endphp
 
-            <div class="item" style="justify-content: space-around; position: relative; max-height: 300px !important; {{ $style }}"
+            <div class="item" style="justify-content: space-around; position: relative; max-height: 400px !important; {{ $style }}"
               @if($slider->media_type === 'video' && $slider->video_id) data-video-id="{{ $slider->video_id }}" @endif>
 
               {{-- Background YouTube Video --}}
