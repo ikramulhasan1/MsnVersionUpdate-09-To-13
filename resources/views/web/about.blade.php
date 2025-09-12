@@ -598,7 +598,7 @@ color: #009830;
     
   @if(isset($about) || count($counters) > 0)
     <!-- About Section -->
-    <section style="background-color: #ffffff" class="our-mission-section">
+    <section style="background-color: #ffffff" class="our-mission-section m-0">
       <div class="container">
         
         @if(count($counters) > 0)
