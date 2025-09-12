@@ -609,7 +609,7 @@ color: #009830;
                 <div class="row ">
                   @foreach($counters as $counter)
                     <!--Column-->
-                    <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp py-3">
+                    <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp py-5">
                       <div class="count-box border border-1 p-3 bg-white stats-card">
                         <div style="color: #052C58" class="count">
                           {{ $counter->value }}+
