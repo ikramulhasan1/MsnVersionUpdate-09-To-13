@@ -121,7 +121,7 @@ $header = \App\Models\PageSetup::page('get-quote');
     .process-step-number {
       width: 35px;
       height: 35px;
-      background-color: #0d6efd;
+      background-color: #052C58;
       color: #fff;
       border-radius: 50%;
       display: flex;
@@ -183,7 +183,7 @@ $header = \App\Models\PageSetup::page('get-quote');
     }
 
     .process-btn-orange {
-      background-color: #ff6a00;
+      background-color: #052C58;
       color: white;
       padding: 12px 26px;
       border-radius: 5px;
@@ -193,7 +193,7 @@ $header = \App\Models\PageSetup::page('get-quote');
     }
 
     .process-btn-orange:hover {
-      background-color: #e55c00;
+      background-color: #052C58;
       color: white
     }
 
@@ -326,9 +326,9 @@ $header = \App\Models\PageSetup::page('get-quote');
     }
 
     .quote-services .quote-input:checked + label {
-      background-color: #3f7cf4;
+      background-color: #052C58;
       color: #fff;
-      border-color: #3f7cf4;
+      border-color: #052C58;
     }
 
     .quote-submit-btn {
@@ -346,7 +346,7 @@ $header = \App\Models\PageSetup::page('get-quote');
     }
 
     .quote-submit-btn:hover {
-      background-color: #2c64d4;
+      background-color: #052C58;
     }
 
     @media (max-width: 768px) {
