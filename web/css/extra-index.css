@@ -169,7 +169,7 @@
 
     .googleMeetBtn{
       margin: 0!important;
-      background: #ff5a00!important;
+      background: #052C58!important;
       color: white!important;
       border: none!important;
       border-radius: 6px!important;
@@ -183,7 +183,7 @@
     }
   
     .googleMeetBtn:hover {
-      background: #e14b00!important;
+      background: #052C58 !important;
     }
     
 

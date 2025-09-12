@@ -747,7 +747,7 @@
   }
 
   .view-more-btn {
-    background: #1d1d1d;
+    background: #052C58;
     color: #fff;
     padding: 14px 40px;
     font-size: 18px;
