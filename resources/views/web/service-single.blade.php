@@ -1,298 +1,298 @@
 @extends('web.layouts.master')
 @php
-$header = \App\Models\PageSetup::page('services');
+  $header = \App\Models\PageSetup::page('services');
 @endphp
 @if(isset($header))
 
 @section('title', content: $service->meta_title)
 
 @section('top_meta_tags')
-@if(isset($service->short_desc))
-<meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}">
-@else
-<meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}">
-@endif
+  @if(isset($service->short_desc))
+    <meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}">
+  @else
+    <meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}">
+  @endif
 
-<script type="application/ld+json">
-    {
-      "@context": "http://schema.org",
-      "@type": "Product",
-      "name": "{{ $service->meta_title }}",
-      "image": {
-        "@type": "ImageObject",
-        "url": "{{ asset('uploads/service/'.$service->image_path) }}",
-        "width": "100",
-        "height": "100"
-      },
-      
-      "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
-      "url": "{{ route('service.single', $service->slug) }}",
-      "brand": {
-        "@type": "Brand",
-        "name": "MSN Softtech",
-        "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
-      },
-      "offers": {
-        "@type": "Offer",
-        "price": "{{ $service->price ?? '999' }}",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock",
-        "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
-        "hasMerchantReturnPolicy": {
-          "@type": "MerchantReturnPolicy",
-          "applicableCountry": "US",
-          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-          "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
-          "returnShippingFeesAmount": {
-            "@type": "MonetaryAmount",
-            "value": "0.00",
-            "currency": "USD"
-          },
-          "merchantReturnDays": "30",
-          "returnMethod": "https://schema.org/ReturnByMail",
-          "returnFees": "FreeReturn"
+  <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "Product",
+        "name": "{{ $service->meta_title }}",
+        "image": {
+          "@type": "ImageObject",
+          "url": "{{ asset('uploads/service/' . $service->image_path) }}",
+          "width": "100",
+          "height": "100"
         },
-        "shippingDetails": {
-          "@type": "OfferShippingDetails",
-          "shippingRate": {
-            "@type": "MonetaryAmount",
-            "value": "0.00",
-            "currency": "USD"
+
+        "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
+        "url": "{{ route('service.single', $service->slug) }}",
+        "brand": {
+          "@type": "Brand",
+          "name": "MSN Softtech",
+          "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "{{ $service->price ?? '999' }}",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
+          "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "applicableCountry": "US",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+            "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
+            "returnShippingFeesAmount": {
+              "@type": "MonetaryAmount",
+              "value": "0.00",
+              "currency": "USD"
+            },
+            "merchantReturnDays": "30",
+            "returnMethod": "https://schema.org/ReturnByMail",
+            "returnFees": "FreeReturn"
           },
-          "deliveryTime": {
-            "@type": "ShippingDeliveryTime",
-            "businessDays": {
-              "@type": "OpeningHoursSpecification",
-              "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
-              "https://schema.org/Sunday"]
+          "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": "0.00",
+              "currency": "USD"
             },
-            "handlingTime": {
-              "@type": "QuantitativeValue",
-              "minValue": 1,
-              "maxValue": 2,
-              "unitCode": "DAY"
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "businessDays": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
+                "https://schema.org/Sunday"]
+              },
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 2,
+                "unitCode": "DAY"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 3,
+                "maxValue": 5,
+                "unitCode": "DAY"
+              }
             },
-            "transitTime": {
-              "@type": "QuantitativeValue",
-              "minValue": 3,
-              "maxValue": 5,
-              "unitCode": "DAY"
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "US"
             }
-          },
-          "shippingDestination": {
-            "@type": "DefinedRegion",
-            "addressCountry": "US"
           }
-        }
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "{{ $service->average_rating }}",
-        "bestRating": "5",
-        "worstRating": "1",
-        "ratingCount": "{{ $service->review_count }}"
-      },
-      "review": {
-        "@type": "Review",
-        "author": {
-          "@type": "Person",
-          "name": "Joseph Garcia"
         },
-        "datePublished": "{{ $service->created_at->format('Y-m-d') }}",
-        "reviewRating": {
-          "@type": "Rating",
-          "ratingValue": "5",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "{{ $service->average_rating }}",
           "bestRating": "5",
-          "worstRating": "1"
+          "worstRating": "1",
+          "ratingCount": "{{ $service->review_count }}"
         },
-        "reviewBody": "MSN Softtech delivered an exceptional custom {{ $service->short_title }} solution that enhanced our online presence and improved performance."
+        "review": {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Joseph Garcia"
+          },
+          "datePublished": "{{ $service->created_at->format('Y-m-d') }}",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "reviewBody": "MSN Softtech delivered an exceptional custom {{ $service->short_title }} solution that enhanced our online presence and improved performance."
+        }
       }
-    }
-    </script>
-    
-    
-<!-- JSON-LD markup generated by Google Structured Data Markup Helper. -->
+      </script>
 
-@if(isset($header->meta_keywords))
-<meta name="keywords" content="{!! strip_tags($header->meta_keywords) !!}">
-@else
-<meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
-@endif
+
+  <!-- JSON-LD markup generated by Google Structured Data Markup Helper. -->
+
+  @if(isset($header->meta_keywords))
+    <meta name="keywords" content="{!! strip_tags($header->meta_keywords) !!}">
+  @else
+    <meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
+  @endif
 @endsection
 
 @endif
 
 @section('social_meta_tags')
-@if(isset($setting))
-<meta property="og:type" content="website">
-<meta property='og:site_name' content="{{ $setting->title }}" />
-<meta property='og:title' content="{{ $service->title }}" />
-<meta property='og:description' content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}" />
-<meta property='og:url' content="{{ route('service.single', $service->slug) }}" />
-<meta property='og:image' content="{{ asset('uploads/service/'.$service->image_path) }}" />
+  @if(isset($setting))
+    <meta property="og:type" content="website">
+    <meta property='og:site_name' content="{{ $setting->title }}" />
+    <meta property='og:title' content="{{ $service->title }}" />
+    <meta property='og:description' content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}" />
+    <meta property='og:url' content="{{ route('service.single', $service->slug) }}" />
+    <meta property='og:image' content="{{ asset('uploads/service/' . $service->image_path) }}" />
 
 
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="{!! '@'.str_replace(' ', '', $setting->title) !!}" />
-<meta name="twitter:creator" content="@MSNSOFTTECH" />
-<meta name="twitter:url" content="{{ route('service.single', $service->slug) }}" />
-<meta name="twitter:title" content="{{ $service->title }}" />
-<meta name="twitter:description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}" />
-<meta name="twitter:image" content="{{ asset('uploads/service/'.$service->image_path) }}" />
-@endif
- 
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="{!! '@' . str_replace(' ', '', $setting->title) !!}" />
+    <meta name="twitter:creator" content="@MSNSOFTTECH" />
+    <meta name="twitter:url" content="{{ route('service.single', $service->slug) }}" />
+    <meta name="twitter:title" content="{{ $service->title }}" />
+    <meta name="twitter:description" content="{!! str_limit(strip_tags($service->short_desc), 160, ' ...') !!}" />
+    <meta name="twitter:image" content="{{ asset('uploads/service/' . $service->image_path) }}" />
+  @endif
+
 @endsection
 
 {{-- schema section --}}
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('web/css/extra-service-single.css') }}">
-<style>
-      /* Banner */
-  /* * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  } */
+  <link rel="stylesheet" href="{{ asset('web/css/extra-service-single.css') }}">
+  <style>
+    /* Banner */
+    /* * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    } */
 
-  .banner-container {
-    font-family: 'Inter', sans-serif !important;
-    background: linear-gradient(135deg, #042b47, #091c2a)!important;
-    color: #fff!important;
-    padding: 2rem!important;
-  }
+    .banner-container {
+      font-family: 'Inter', sans-serif !important;
+      background: linear-gradient(135deg, #042b47, #091c2a) !important;
+      color: #fff !important;
+      padding: 2rem !important;
+    }
 
-  .banner {
-    display: flex!important;
-    flex-wrap: wrap!important;
-    justify-content: space-between!important;
-    align-items: flex-start!important;
-    gap: 2rem!important;
-    max-width: 1200px!important;
-    margin: 0 auto!important;
-  }
-
-  .banner-left {
-    flex: 1 1 55%!important;
-  }
-
-  .banner-left h1 {
-    font-size: 3rem!important;
-    font-weight: 800!important;
-    margin-bottom: 1rem!important;
-  }
-
-  .banner-left p {
-    font-size: 1.1rem!important;
-    line-height: 1.6!important;
-    margin-bottom: 1.5rem!important;
-    color: #ddd!important;
-  }
-
-  .banner-reviews {
-    background: rgba(255,255,255,0.05)!important;
-    padding: 1rem!important;
-    border-radius: 10px!important;
-    display: flex!important;
-    flex-direction: column!important;
-    gap: 1rem!important;
-  }
-
-  .banner-reviews-title {
-    font-weight: 600!important;
-    color: #ccc!important;
-  }
-
-  .banner-review-logos {
-    display: flex!important;
-    align-items: center!important;
-    gap: 2rem!important;
-    flex-wrap: wrap!important;
-  }
-
-  .banner-review-item {
-    text-align: center!important;
-  }
-
-  .banner-stars {
-    color: #052C58!important;
-    font-size: 1.1rem!important;
-  }
-
-  .banner-right {
-    flex: 1 1 25%!important;
-    background: #092e45!important;
-    border: 2px solid #2df3a5!important;
-    border-radius: 12px!important;
-    padding: 1rem!important;
-    text-align: center!important;
-    position: relative!important;
-  }
-
-  .banner-right h2 {
-    font-size: 1.5rem!important;
-    font-weight: 700!important;
-    margin-bottom: 1rem!important;
-    line-height: 1.4!important;
-  }
-
-  .banner-right .banner-highlight {
-    color: #fff!important;
-    font-weight: 800!important;
-  }
-
-  .banner-right button {
-    margin: 1.5rem 0!important;
-    padding: 0.8rem 2rem!important;
-    background: #052C58!important;
-    color: white!important;
-    border: none!important;
-    border-radius: 6px!important;
-    font-size: 1rem!important;
-    font-weight: 600!important;
-    cursor: pointer!important;
-    transition: background 0.3s ease!important;
-  }
-
-  .banner-right button:hover {
-    background: #e14b00!important;
-  }
-
-  .banner-right-box {
-    background: #0c3a59!important;
-    padding: 1.5rem!important;
-    border-radius: 10px!important;
-    font-size: 1rem!important;
-    color: #c7d6e0!important;
-  }
-
-  @media (max-width: 768px) {
     .banner {
-      flex-direction: column!important;
+      display: flex !important;
+      flex-wrap: wrap !important;
+      justify-content: space-between !important;
+      align-items: flex-start !important;
+      gap: 2rem !important;
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+    }
+
+    .banner-left {
+      flex: 1 1 55% !important;
     }
 
     .banner-left h1 {
-      font-size: 2.2rem!important;
+      font-size: 3rem !important;
+      font-weight: 800 !important;
+      margin-bottom: 1rem !important;
+    }
+
+    .banner-left p {
+      font-size: 1.1rem !important;
+      line-height: 1.6 !important;
+      margin-bottom: 1.5rem !important;
+      color: #ddd !important;
+    }
+
+    .banner-reviews {
+      background: rgba(255, 255, 255, 0.05) !important;
+      padding: 1rem !important;
+      border-radius: 10px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 1rem !important;
+    }
+
+    .banner-reviews-title {
+      font-weight: 600 !important;
+      color: #ccc !important;
+    }
+
+    .banner-review-logos {
+      display: flex !important;
+      align-items: center !important;
+      gap: 2rem !important;
+      flex-wrap: wrap !important;
+    }
+
+    .banner-review-item {
+      text-align: center !important;
+    }
+
+    .banner-stars {
+      color: #052C58 !important;
+      font-size: 1.1rem !important;
     }
 
     .banner-right {
-      width: 100%!important;
+      flex: 1 1 25% !important;
+      background: #092e45 !important;
+      border: 2px solid #2df3a5 !important;
+      border-radius: 12px !important;
+      padding: 1rem !important;
+      text-align: center !important;
+      position: relative !important;
     }
-  }
 
-  .faq_container{
-    margin: auto !important;
-    margin-bottom: 30px !important;
-    margin-top: 30px !important;
-  }
+    .banner-right h2 {
+      font-size: 1.5rem !important;
+      font-weight: 700 !important;
+      margin-bottom: 1rem !important;
+      line-height: 1.4 !important;
+    }
 
-  /* process */
-  .process-section {
+    .banner-right .banner-highlight {
+      color: #fff !important;
+      font-weight: 800 !important;
+    }
+
+    .banner-right button {
+      margin: 1.5rem 0 !important;
+      padding: 0.8rem 2rem !important;
+      background: #052C58 !important;
+      color: white !important;
+      border: none !important;
+      border-radius: 6px !important;
+      font-size: 1rem !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      transition: background 0.3s ease !important;
+    }
+
+    .banner-right button:hover {
+      background: #e14b00 !important;
+    }
+
+    .banner-right-box {
+      background: #0c3a59 !important;
+      padding: 1.5rem !important;
+      border-radius: 10px !important;
+      font-size: 1rem !important;
+      color: #c7d6e0 !important;
+    }
+
+    @media (max-width: 768px) {
+      .banner {
+        flex-direction: column !important;
+      }
+
+      .banner-left h1 {
+        font-size: 2.2rem !important;
+      }
+
+      .banner-right {
+        width: 100% !important;
+      }
+    }
+
+    .faq_container {
+      margin: auto !important;
+      margin-bottom: 30px !important;
+      margin-top: 30px !important;
+    }
+
+    /* process */
+    .process-section {
       font-family: 'Segoe UI', sans-serif;
       background-color: #f9fafc;
       padding: 80px 15px;
       /* padding-top: 50px !important;
-      padding-bottom: 50px !important; */
+        padding-bottom: 50px !important; */
     }
 
     .process-section-title {
@@ -353,19 +353,18 @@ $header = \App\Models\PageSetup::page('services');
     .process-step-heading img {
       margin-left: 0px;
     }
+
     .process-step-arrow {
       position: absolute;
       top: 50%;
       right: -40px;
       width: 40px;
       height: 2px;
-      background: repeating-linear-gradient(
-        to right,
-        #999,
-        #999 4px,
-        transparent 4px,
-        transparent 8px
-      );
+      background: repeating-linear-gradient(to right,
+          #999,
+          #999 4px,
+          transparent 4px,
+          transparent 8px);
       animation: moveArrow 1s linear infinite;
     }
 
@@ -380,8 +379,13 @@ $header = \App\Models\PageSetup::page('services');
     }
 
     @keyframes moveArrow {
-      0% { background-position: 0; }
-      100% { background-position: 8px; }
+      0% {
+        background-position: 0;
+      }
+
+      100% {
+        background-position: 8px;
+      }
     }
 
     .process-btn-orange {
@@ -404,20 +408,23 @@ $header = \App\Models\PageSetup::page('services');
         display: none;
       }
     }
+
     .process-step-arrow.arrow-hidden {
-    display: none !important;
-}
-.arrow-down {
-    /* Customize this arrow to look like a vertical one */
-    transform: rotate(90deg); /* or use a different SVG for down */
-    /* Add margin or position tweaks as needed */
-}
+      display: none !important;
+    }
+
+    .arrow-down {
+      /* Customize this arrow to look like a vertical one */
+      transform: rotate(90deg);
+      /* or use a different SVG for down */
+      /* Add margin or position tweaks as needed */
+    }
 
 
 
 
 
-.partner-section {
+    .partner-section {
       padding: 60px 0;
       background-color: #F5F7F8;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -430,16 +437,16 @@ $header = \App\Models\PageSetup::page('services');
     }
 
     /* .partner-logos img {
-      max-height: 60px;
-      object-fit: contain;
-      transition: transform 0.3s ease;
-      filter: grayscale(100%);
-    }
+        max-height: 60px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+        filter: grayscale(100%);
+      }
 
-    .partner-logos img:hover {
-      transform: scale(1.05);
-      filter: none;
-    } */
+      .partner-logos img:hover {
+        transform: scale(1.05);
+        filter: none;
+      } */
 
     /* Custom 5-column layout for large screens */
     @media (min-width: 992px) {
@@ -448,7 +455,7 @@ $header = \App\Models\PageSetup::page('services');
         width: 19%;
       }
     }
-    
+
 
 
     /* model section */
@@ -459,6 +466,7 @@ $header = \App\Models\PageSetup::page('services');
       padding-top: 30px;
       padding-bottom: 30px;
     }
+
     .model-section-title {
       text-align: center;
       font-weight: 700;
@@ -466,6 +474,7 @@ $header = \App\Models\PageSetup::page('services');
       margin-bottom: 40px !important;
       color: #ffffff;
     }
+
     .card-box {
       background: #ffffff !important;
       color: #052C58;
@@ -476,18 +485,22 @@ $header = \App\Models\PageSetup::page('services');
       transition: all 0.3s ease-in-out;
       position: relative;
     }
+
     .card-box img {
       height: 50px;
     }
+
     .card-box h3 {
       margin-top: 20px;
       font-weight: 700;
       font-size: 31px;
     }
+
     .card-box p {
       font-size: 15px;
       margin: 15px 0 25px;
     }
+
     .btn-orange {
       background-color: #052C58;
       color: white !important;
@@ -495,37 +508,46 @@ $header = \App\Models\PageSetup::page('services');
       font-weight: 600;
       padding: 10px 16px;
     }
+
     .btn-orange:hover {
       background-color: #052C58;
     }
+
     .btn-link-custom {
       color: #007bff;
       text-decoration: none;
       font-size: 14px;
       font-weight: 500;
     }
+
     .btn-link-custom:hover {
       text-decoration: underline;
     }
+
     .highlight-card {
       border-bottom: 4px solid #28a745;
     }
+
     .highlight-card2 {
       border-bottom: 4px solid #4492DC;
     }
+
     .helper-section {
       text-align: center;
       margin-top: 60px;
     }
+
     .helper-section h4 {
       font-weight: 700;
       margin-bottom: 10px;
       color: #ffffff;
     }
+
     .helper-section p {
       font-size: 16px;
       color: #ffffff;
     }
+
     .helper-radio-group {
       display: flex;
       flex-wrap: wrap;
@@ -533,9 +555,11 @@ $header = \App\Models\PageSetup::page('services');
       gap: 10px;
       margin-bottom: 25px;
     }
+
     .helper-radio-group input[type="radio"] {
       display: none;
     }
+
     .helper-radio-group label {
       background-color: transparent;
       border: 1px solid #28a745;
@@ -546,10 +570,12 @@ $header = \App\Models\PageSetup::page('services');
       cursor: pointer;
       transition: all 0.3s ease-in-out;
     }
-    .helper-radio-group input[type="radio"]:checked + label {
+
+    .helper-radio-group input[type="radio"]:checked+label {
       background-color: #28a745;
       color: white !important;
     }
+
     .share-btn {
       background-color: #052C58;
       border: none;
@@ -558,319 +584,335 @@ $header = \App\Models\PageSetup::page('services');
       border-radius: 8px;
       padding: 12px 28px;
     }
+
     .share-btn:hover {
       background-color: #052C58;
     }
+
     .radio-wrap {
       position: absolute;
       top: 15px;
       right: 15px;
     }
+
     .radio-wrap input[type="radio"] {
       accent-color: #28a745;
       transform: scale(1.2);
     }
-</style>
-<!--Page Title-->
-{{-- <section class="page-title"> --}}
+  </style>
+  <!--Page Title-->
+  {{-- <section class="page-title"> --}}
     {{-- <div class="container">
-        <div class="inner-container clearfix">
-            <div class="title-box">
-                <h1 style="font-size: 36px">{{ $service->title }}</h1>
-            </div>
-            <div class="bread-crumb">
-                <ul>
-                    <li>{{ __('navbar.service-detail') }}</li>
-                    <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
-                </ul>
-            </div>
+      <div class="inner-container clearfix">
+        <div class="title-box">
+          <h1 style="font-size: 36px">{{ $service->title }}</h1>
         </div>
+        <div class="bread-crumb">
+          <ul>
+            <li>{{ __('navbar.service-detail') }}</li>
+            <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
+          </ul>
+        </div>
+      </div>
     </div> --}}
     <div class="banner-container">
-        <div class="banner">
-            <div class="banner-left">
-              <h1 style="color: white">{{ $service->title }}</h1>
-              {{-- <p>Service Detail</p> --}}
-              <div class="banner-reviews mt-5" style="margin-bottom: 10px " >
-                <img style="border-radius: 5px;height: 300px; width:100%; " src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" />
-                {{-- <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
-                <div class="banner-review-logos">
-                  <div class="banner-review-item">
-                    <div style="color: white">Clutch</div>
-                    <div class="banner-stars">★★★★★</div>
-                  </div>
-                  <div class="banner-review-item">
-                    <div style="color: white">GoodFirms</div>
-                    <div class="banner-stars">★★★★★</div>
-                  </div>
-                  <div class="banner-review-item">
-                    <div style="color: white">G2</div>
-                    <div class="banner-stars">★★★★★</div>
-                  </div>
-                  <div class="banner-review-item">
-                    <div style="color: white">Google</div>
-                    <div class="banner-stars">★★★★★</div>
-                  </div>
-                </div> --}}
+      <div class="banner">
+        <div class="banner-left">
+          <h1 style="color: white">{{ $service->title }}</h1>
+          {{-- <p>Service Detail</p> --}}
+          <div class="banner-reviews mt-5" style="margin-bottom: 10px ">
+            <img style="border-radius: 5px;height: 300px; width:100%; "
+              src="{{ asset('uploads/service/' . $service->image_path) }}" alt="{{ $service->title }}" />
+            {{-- <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
+            <div class="banner-review-logos">
+              <div class="banner-review-item">
+                <div style="color: white">Clutch</div>
+                <div class="banner-stars">★★★★★</div>
               </div>
-            </div>
-           
-            <div class="banner-right">
-              <h2 style="color: #ffffff!important;">
-                Hire <span class="banner-highlight">Project-based</span> and <br>
-                <span class="banner-highlight">Dedicated Teams</span> from a<br>
-                <span class="banner-highlight">Top-rated IT Company</span>.
-              </h2>
-              <button id="open-modal">Discuss Your Requirements →</button>
-              <div style="color: white; text-align: left;" class="banner-right-box">
-                <strong style="color: white" >Have a Project in Mind? Let’s Build It Right.</strong><br>
-                Share your requirements, and our expert team will get back to you within 24 hours with a personalized consultation. You’ll get:<br>
-                {{-- <ul>
-                    <li style="color: white">✅ A detailed project strategy</li>
-                    <li style="color: white">✅ Clear timelines and cost estimates</li>
-                    <li style="color: white">✅ Technology recommendations</li>
-                    <li style="color: white">✅ Scalable solutions tailored to your needs</li>
-                </ul><br> --}}
+              <div class="banner-review-item">
+                <div style="color: white">GoodFirms</div>
+                <div class="banner-stars">★★★★★</div>
               </div>
-            </div>
+              <div class="banner-review-item">
+                <div style="color: white">G2</div>
+                <div class="banner-stars">★★★★★</div>
+              </div>
+              <div class="banner-review-item">
+                <div style="color: white">Google</div>
+                <div class="banner-stars">★★★★★</div>
+              </div>
+            </div> --}}
           </div>
-        
-     </div>
-{{-- </section> --}}
-<!--End Page Title-->
-@if(count($clients) > 0)
-  @include('web.inc.client')
-@endif
+        </div>
 
-@if(isset($service))
-<!--Sidebar Page Container-->
-<div style="background-color: #ffffff" class="sidebar-page-container">
-    <div >
+        <div class="banner-right">
+          <h2 style="color: #ffffff!important;">
+            Hire <span class="banner-highlight">Project-based</span> and <br>
+            <span class="banner-highlight">Dedicated Teams</span> from a<br>
+            <span class="banner-highlight">Top-rated IT Company</span>.
+          </h2>
+          <button id="open-modal">Discuss Your Requirements →</button>
+          <div style="color: white; text-align: left;" class="banner-right-box">
+            <strong style="color: white">Have a Project in Mind? Let’s Build It Right.</strong><br>
+            Share your requirements, and our expert team will get back to you within 24 hours with a personalized
+            consultation. You’ll get:<br>
+            {{-- <ul>
+              <li style="color: white">✅ A detailed project strategy</li>
+              <li style="color: white">✅ Clear timelines and cost estimates</li>
+              <li style="color: white">✅ Technology recommendations</li>
+              <li style="color: white">✅ Scalable solutions tailored to your needs</li>
+            </ul><br> --}}
+          </div>
+        </div>
+      </div>
+
+    </div>
+    {{--
+  </section> --}}
+  <!--End Page Title-->
+  @if(count($clients) > 0)
+    @include('web.inc.client')
+  @endif
+
+  @if(isset($service))
+    <!--Sidebar Page Container-->
+    <div style="background-color: #ffffff" class="sidebar-page-container">
+      <div>
         <div class="row clearfix mb-5 mx-5">
-            <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
-                <aside class="sidebar services-sidebar">
-                  @if ($service->industries->count() > 0)
-                    <div style="background-color: #F9FAFC" class="sidebar-widget sidebar-blog-category p-4 mb-4">
-                        <h5 class="mb-3 text-center" style="font-weight: 700">Industries We Serve</h5>
-                        <ul class="">
-                          @foreach($service->industries as $industry)
-                          <div class="d-flex align-items-center mb-2">
-                            <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; " src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
-                            <li style="font-size: 16px; color: {{ $industry->link ? '#28a745' : '#333333' }};">
-                              @if($industry->link)
-                                  <a target="_blank" style="font-size: 16px; color: #28a745;" href="{{ $industry->link }}">{{ $industry->title }}</a>
-                              @else
-                                  {{ $industry->title }}
-                              @endif
-                            </li>                            
-                          </div>
-                          @endforeach
-                        </ul>
-                    </div>
-                  @endif
-                  @if ($service->whywes->count() > 0)
-                    <div style="background-color: #F9FAFC" class="sidebar-widget sidebar-blog-category p-4 mb-4">
-                        <h5 class="mb-3 text-center" style="font-weight: 700">Why Choose MSN Softtech</h5>
-                        <ul class="">
-                          @foreach($service->whywes as $we)
-                          <div class="d-flex align-items-center mb-2">
-                            <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; " src="{{ asset('uploads/whywe/checkmark.png') }}" alt="" srcset="">
-                            <li style="font-size: 16px; color: {{ $we->link ? '#28a745' : '#333333' }};">
-                              @if($we->link)
-                                  <a target="_blank" style="font-size: 16px; color: #28a745;" href="{{ $we->link }}">{{ $we->title }}</a>
-                              @else
-                                  {{ $we->title }}
-                              @endif
-                            </li>                            
-                          </div>
-                          @endforeach
-                        </ul>
-                    </div>
-                  @endif
-                </aside>
+          <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+            <aside class="sidebar services-sidebar">
+              @if ($service->industries->count() > 0)
+                <div style="background-color: #F9FAFC" class="sidebar-widget sidebar-blog-category p-4 mb-4">
+                  <h5 class="mb-3 text-center" style="font-weight: 700">Industries We Serve</h5>
+                  <ul class="">
+                    @foreach($service->industries as $industry)
+                      <div class="d-flex align-items-center mb-2">
+                        <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; "
+                          src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
+                        <li style="font-size: 16px; color: {{ $industry->link ? '#28a745' : '#333333' }};">
+                          @if($industry->link)
+                            <a target="_blank" style="font-size: 16px; color: #28a745;"
+                              href="{{ $industry->link }}">{{ $industry->title }}</a>
+                          @else
+                            {{ $industry->title }}
+                          @endif
+                        </li>
+                      </div>
+                    @endforeach
+                  </ul>
+                </div>
+              @endif
+              @if ($service->whywes->count() > 0)
+                <div style="background-color: #F9FAFC" class="sidebar-widget sidebar-blog-category p-4 mb-4">
+                  <h5 class="mb-3 text-center" style="font-weight: 700">Why Choose MSN Softtech</h5>
+                  <ul class="">
+                    @foreach($service->whywes as $we)
+                      <div class="d-flex align-items-center mb-2">
+                        <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; "
+                          src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
+                        <li style="font-size: 16px; color: {{ $we->link ? '#28a745' : '#333333' }};">
+                          @if($we->link)
+                            <a target="_blank" style="font-size: 16px; color: #28a745;"
+                              href="{{ $we->link }}">{{ $we->title }}</a>
+                          @else
+                            {{ $we->title }}
+                          @endif
+                        </li>
+                      </div>
+                    @endforeach
+                  </ul>
+                </div>
+              @endif
+            </aside>
+          </div>
+
+          <!--Content Side-->
+          <div class="content-side col-lg-8 col-md-12 col-sm-12 mb-3">
+            <div class="service-detail">
+              <div class="inner-box">
+                {{-- <div class="image-box">
+                  <div class="single-item-">
+                    <figure class="image"><img style="border-radius: 5px;"
+                        src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
+                  </div>
+
+                  <div class="single-item-">
+                    <picture>
+                      <source type="image/webp" srcset="{{ asset('uploads/service/'.$service->image_path.'.webp') }}">
+                      <img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}"
+                        alt="{{ $service->title }}" />
+                    </picture>
+                  </div>
+
+                </div> --}}
+                <h2 style="font-size: 32px; color: black; font-weight: 700;" class="mb-4">{{ $service->short_title }}</h2>
+
+                <div id="processedContent" class="text description">
+
+                  {!! $service->description !!}
+                  {{-- {!! str_replace('? <b>', '✅', $service->description) !!} --}}
+                    {{-- {!! preg_replace('/\?{1,2} <b>/', '✅', $service->description) !!} --}}
+                </div>
+              </div>
             </div>
 
-            <!--Content Side-->
-            <div class="content-side col-lg-8 col-md-12 col-sm-12 mb-3">
-                <div class="service-detail">
-                    <div class="inner-box">
-                        {{-- <div class="image-box">
-                            <div class="single-item-">
-                                <figure class="image"><img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
-                            </div>
+            @php
+              $page_quote = \App\Models\PageSetup::page('get-quote');
+              $page_contact = \App\Models\PageSetup::page('contact-us');
+            @endphp
+            @if(isset($page_quote))
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="circle-container">
+                  <!-- Get A Quote Button -->
+                  <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
+                    <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
+                  </a>
 
-                            <div class="single-item-">
-                                <picture>
-                                    <source type="image/webp" srcset="{{ asset('uploads/service/'.$service->image_path.'.webp') }}">
-                                    <img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" />
-                                </picture>
-                            </div>
-                            
-                        </div> --}}
-                        <h2 style="font-size: 32px; color: black; font-weight: 700;" class="mb-4">{{ $service->short_title }}</h2>
+                  <!-- WhatsApp Button -->
+                  <a rel="noopener noreferrer" href="https://wa.link/vkb4au" target="_blank" class="circle-button">
+                    <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
+                  </a>
 
-                        <div id="processedContent" class="text description">
-                        
-                            {!! $service->description !!}
-                            {{-- {!! str_replace('? <b>', '✅', $service->description) !!} --}}
-                            {{-- {!! preg_replace('/\?{1,2} <b>/', '✅', $service->description) !!} --}}
-                        </div>
-                    </div>
+                  <!-- Email Button -->
+                  <a href="mailto:{{$setting->email_one}}?subject=Inquiry&body=Hello, I need your services."
+                    class="circle-button">
+                    <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
+                  </a>
                 </div>
-
-                @php
-                $page_quote = \App\Models\PageSetup::page('get-quote');
-                $page_contact = \App\Models\PageSetup::page('contact-us');
-                @endphp
-                @if(isset($page_quote))
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="circle-container">
-                        <!-- Get A Quote Button -->
-                        <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
-                            <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
-                        </a>
-                
-                        <!-- WhatsApp Button -->
-                        <a rel="noopener noreferrer" href="https://wa.link/vkb4au" target="_blank" class="circle-button">
-                            <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
-                        </a>
-                
-                        <!-- Email Button -->
-                        <a href="mailto:{{$setting->email_one}}?subject=Inquiry&body=Hello, I need your services." class="circle-button">
-                            <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
-                        </a>
-                    </div>
-                    <div class="">
-                        @include('web.layouts.googlemeet')
-                    </div>
+                <div class="">
+                  @include('web.layouts.googlemeet')
                 </div>
-                @elseif(isset($page_contact))
-                <a href="{{ route('contact') }}" class="theme-btn btn-style-four mt-3">{{ __('common.get_start') }}</a>
-                @endif
-            </div>
+              </div>
+            @elseif(isset($page_contact))
+              <a href="{{ route('contact') }}" class="theme-btn btn-style-four mt-3">{{ __('common.get_start') }}</a>
+            @endif
+          </div>
         </div>
 
 
         @if ($service->processworks->count() > 0)
-        {{-- process-section --}}
-        <section class="process-section px-5">
-          <div class="container">
-            <div class="process-section-title">
-              <h2 style="padding-bottom: 30px !important">Our Application Development Process</h2>
-              {{-- <p class="text-muted">From research to testing, we ensure your design is intuitive, user-focused, and aligned with your goals.</p> --}}
-            </div>
-        
-            <!-- First Row -->
-            <div class="row g-4 mb-4">
-              @foreach ($service->processworks as $key => $process)
-                <div class="col-md-4 mb-4">
+          {{-- process-section --}}
+          <section class="process-section px-5">
+            <div class="container">
+              <div class="process-section-title">
+                <h2 style="padding-bottom: 30px !important">Our Application Development Process</h2>
+                {{-- <p class="text-muted">From research to testing, we ensure your design is intuitive, user-focused, and
+                  aligned with your goals.</p> --}}
+              </div>
+
+              <!-- First Row -->
+              <div class="row g-4 mb-4">
+                @foreach ($service->processworks as $key => $process)
+                  <div class="col-md-4 mb-4">
                     <div class="process-step-box">
-                        <div class="process-step-number">{{ $key + 1 }}</div>
-                        <div class="process-step-heading" style="font-size: 20px; color: #333333;">
-                            <img style="width: 50px; height: 50px;" src="{{ asset('uploads/process/' . $process->image_path) }}" class="process-step-icon" alt="">
-                            {{ $process->title }}
-                        </div>
-                        <p style="font-size: 16px; color: #333333;">{{ $process->description }}</p>
-                        
-                        {{-- Show arrow after every item except the last one --}}
-                        @php
-                            $totalSteps = count($service->processworks);
-                            $showArrow = ($key != $totalSteps - 1); // hide arrow for last step
-                        @endphp
-        
+                      <div class="process-step-number">{{ $key + 1 }}</div>
+                      <div class="process-step-heading" style="font-size: 20px; color: #333333;">
+                        <img style="width: 50px; height: 50px;" src="{{ asset('uploads/process/' . $process->image_path) }}"
+                          class="process-step-icon" alt="">
+                        {{ $process->title }}
+                      </div>
+                      <p style="font-size: 16px; color: #333333;">{{ $process->description }}</p>
+
+                      {{-- Show arrow after every item except the last one --}}
+                      @php
+                        $totalSteps = count($service->processworks);
+                        $showArrow = ($key != $totalSteps - 1); // hide arrow for last step
+                      @endphp
+
                       <div class="process-step-arrow d-none d-md-block 
-                        {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
+                                {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
                       </div>
                     </div>
-                </div>
-              @endforeach
+                  </div>
+                @endforeach
+              </div>
+
+              <!-- CTA -->
+              <div class="text-center mt-5">
+                <a href="https://msnsofttech.com/get-quote" class="btn process-btn-orange">Get in Touch With Us →</a>
+              </div>
             </div>
-          
-            <!-- CTA -->
-            <div class="text-center mt-5">
-              <a href="https://msnsofttech.com/get-quote" class="btn process-btn-orange">Get in Touch With Us →</a>
-            </div>
-          </div>
-        </section >
+          </section>
         @endif
 
 
-{{-- <section class="model-section">
-  <div class="container py-5">
-    <div class="model-section-title">
-      Engagement Models for Our <br><br>
-      UI UX Design Services
-    </div>
+        {{-- <section class="model-section">
+          <div class="container py-5">
+            <div class="model-section-title">
+              Engagement Models for Our <br><br>
+              UI UX Design Services
+            </div>
 
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card-box h-100 highlight-card2">
-         
-          <img src="https://img.icons8.com/ios-filled/50/4a90e2/groups.png" alt="Managed Team">
-          <h3>Managed Team</h3>
-          <p>Your product, our dedicated team. From concept to completion, we handle it all.</p>
-          <a href="#" class="btn btn-orange w-100 mb-2">Contact Us For Details →</a><br>
-          <a href="#" class="btn-link-custom">Know More</a>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card-box h-100 highlight-card">
-          
-          <img src="https://img.icons8.com/ios-filled/50/4a90e2/developer.png" alt="Staff Augmentation">
-          <h3>Staff Augmentation</h3>
-          <p>Need extra hands? Our experts seamlessly join your team, providing the skills you need, when you need them.</p>
-          <a href="#" class="btn btn-orange w-100 mb-2">Contact Us For Details →</a><br>
-          <a href="#" class="btn-link-custom">Know More</a>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card-box h-100 highlight-card2">
-          
-          <img src="https://img.icons8.com/ios-filled/50/4a90e2/price-tag.png" alt="Fixed Cost">
-          <h3>Fixed Cost</h3>
-          <p>Upfront price, guaranteed delivery. Your project completed on time and within budget.</p>
-          <a href="#" class="btn btn-orange w-100 mb-2">Share Your Requirements →</a><br>
-          <a href="#" class="btn-link-custom">Know More</a>
-        </div>
-      </div>
-    </div>
+            <div class="row g-4">
+              <div class="col-md-4">
+                <div class="card-box h-100 highlight-card2">
 
-    <div class="helper-section">
-      <h4>Still Not Sure? Let Us Help You</h4>
-      <p>Pick your business needs:</p>
-      <div class="helper-radio-group">
-        <input type="radio" name="businessNeed" id="scopeReq">
-        <label for="scopeReq">Scope My Requirements</label>
+                  <img src="https://img.icons8.com/ios-filled/50/4a90e2/groups.png" alt="Managed Team">
+                  <h3>Managed Team</h3>
+                  <p>Your product, our dedicated team. From concept to completion, we handle it all.</p>
+                  <a href="#" class="btn btn-orange w-100 mb-2">Contact Us For Details →</a><br>
+                  <a href="#" class="btn-link-custom">Know More</a>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card-box h-100 highlight-card">
 
-        <input type="radio" name="businessNeed" id="rfi">
-        <label for="rfi">I Have an RFI/RFP</label>
+                  <img src="https://img.icons8.com/ios-filled/50/4a90e2/developer.png" alt="Staff Augmentation">
+                  <h3>Staff Augmentation</h3>
+                  <p>Need extra hands? Our experts seamlessly join your team, providing the skills you need, when you need
+                    them.</p>
+                  <a href="#" class="btn btn-orange w-100 mb-2">Contact Us For Details →</a><br>
+                  <a href="#" class="btn-link-custom">Know More</a>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card-box h-100 highlight-card2">
 
-        <input type="radio" name="businessNeed" id="takeover">
-        <label for="takeover">Existing Project Takeover</label>
+                  <img src="https://img.icons8.com/ios-filled/50/4a90e2/price-tag.png" alt="Fixed Cost">
+                  <h3>Fixed Cost</h3>
+                  <p>Upfront price, guaranteed delivery. Your project completed on time and within budget.</p>
+                  <a href="#" class="btn btn-orange w-100 mb-2">Share Your Requirements →</a><br>
+                  <a href="#" class="btn-link-custom">Know More</a>
+                </div>
+              </div>
+            </div>
 
-        <input type="radio" name="businessNeed" id="taskHelp">
-        <label for="taskHelp">Get Help With a Task</label>
-      </div>
-      <button class="share-btn">Share Your Requirements →</button>
-    </div>
-  </div>
-</section> --}}
+            <div class="helper-section">
+              <h4>Still Not Sure? Let Us Help You</h4>
+              <p>Pick your business needs:</p>
+              <div class="helper-radio-group">
+                <input type="radio" name="businessNeed" id="scopeReq">
+                <label for="scopeReq">Scope My Requirements</label>
+
+                <input type="radio" name="businessNeed" id="rfi">
+                <label for="rfi">I Have an RFI/RFP</label>
+
+                <input type="radio" name="businessNeed" id="takeover">
+                <label for="takeover">Existing Project Takeover</label>
+
+                <input type="radio" name="businessNeed" id="taskHelp">
+                <label for="taskHelp">Get Help With a Task</label>
+              </div>
+              <button class="share-btn">Share Your Requirements →</button>
+            </div>
+          </div>
+        </section> --}}
 
 
         @if ($service->faqs->count() > 0)
-        <section class="mx-5 py-5">
+          <section class="mx-5 py-5">
             <div class="faq_container">
-                <div class="faq-section-title">
-                  <h3 style="font-weight: 700">FAQ</h3>
-                </div>
-            
-                <div class="faq-accordion">
-                  <!-- Step 1 -->
-                  @foreach ($service->faqs as $key=>$item)
+              <div class="faq-section-title">
+                <h3 style="font-weight: 700">FAQ</h3>
+              </div>
+
+              <div class="faq-accordion">
+                <!-- Step 1 -->
+                @foreach ($service->faqs as $key => $item)
                   <div class="faq-accordion-item">
                     <div class="faq-accordion-header">
                       <div class="faq-accordion-title">
-                        <span class="faq-step-badge">{{ $key+1 }}</span>
+                        <span class="faq-step-badge">{{ $key + 1 }}</span>
                         {{ $item->title }}
                       </div>
                       <span class="faq-arrow">🔄</span>
@@ -879,10 +921,10 @@ $header = \App\Models\PageSetup::page('services');
                       <p>{{ $item->description }}</p>
                     </div>
                   </div>
-                  @endforeach
-                </div>
+                @endforeach
               </div>
-        </section>
+            </div>
+          </section>
         @endif
         {{-- @if(count($clients) > 0)
         <section class="partner-section">
@@ -890,8 +932,11 @@ $header = \App\Models\PageSetup::page('services');
             <h2>Enterprises & Tech Companies Worldwide Trust Us</h2>
             <div class="row gap-2 justify-content-center text-center partner-logos align-items-center">
               @foreach($clients as $client)
-              <div class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1" style="height: 90px;">
-                <img src="{{ asset('uploads/client/'.$client->image_path) }}" alt="{{ $client->title }}" class="img-fluid my-1"/>
+              <div
+                class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1"
+                style="height: 90px;">
+                <img src="{{ asset('uploads/client/'.$client->image_path) }}" alt="{{ $client->title }}"
+                  class="img-fluid my-1" />
               </div>
               @endforeach
             </div>
@@ -899,103 +944,104 @@ $header = \App\Models\PageSetup::page('services');
         </section>
         @endif --}}
         {{-- @if ($service->subservices->count() > 0)
-          <div class="mx-5 mt-5" >
-              
-              <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
-              <div class="row ml-2 g-1 owl-carousel owl-theme">
+        <div class="mx-5 mt-5">
 
-                  @foreach ($service->subservices as $key => $item)
-                      
-                          <div class="card" style="width: 100% !important;">
-                              <img src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" class="card-img-top">
-                              <div class="card-body">
-                                  <h6 style="font-weight: 700" class="card-title"><a class="cardlink" href="{{ route('service.related-single',$item->slug) }}">{{ $item->title }}</a></h6>
-                              </div>
-                          </div>
-                      
-                  @endforeach  
-                  
+          <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
+          <div class="row ml-2 g-1 owl-carousel owl-theme">
+
+            @foreach ($service->subservices as $key => $item)
+
+            <div class="card" style="width: 100% !important;">
+              <img src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" class="card-img-top">
+              <div class="card-body">
+                <h6 style="font-weight: 700" class="card-title"><a class="cardlink"
+                    href="{{ route('service.related-single',$item->slug) }}">{{ $item->title }}</a></h6>
               </div>
-              
+            </div>
+
+            @endforeach
+
           </div>
-        @endif  --}}
+
+        </div>
+        @endif --}}
+      </div>
     </div>
-</div>
-@endif
-<script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Get the description content
-            let descriptionContent = document.querySelector('.text.description').innerHTML;
+  @endif
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Get the description content
+      let descriptionContent = document.querySelector('.text.description').innerHTML;
 
-            // Find the index of the first occurrence of the word "hidden"
-            let index = descriptionContent.toLowerCase().indexOf("hidden");
+      // Find the index of the first occurrence of the word "hidden"
+      let index = descriptionContent.toLowerCase().indexOf("hidden");
 
-            if (index !== -1) {
-                // Show content before the word "hidden"
-                let visibleContent = descriptionContent.substring(0, index);
-                document.getElementById("processedContent").innerHTML = visibleContent;
+      if (index !== -1) {
+        // Show content before the word "hidden"
+        let visibleContent = descriptionContent.substring(0, index);
+        document.getElementById("processedContent").innerHTML = visibleContent;
 
-                // Hide content after the word "hidden"
-                let hiddenContent = descriptionContent.substring(index);
-                document.getElementById("processedContent").innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
-            } else {
-                // If the word "hidden" is not found, show the entire content
-                document.getElementById("processedContent").innerHTML = descriptionContent;
-            }
-        });
-</script>
- <!-- ✅ jQuery -->
-@section('scriptjs')
-<script>
-    $(document).ready(function(){
-       $('.owl-carousel').owlCarousel({
-         loop: false,
-         margin: 10,
-         nav: true,
-         dots: true,
-         lazyLoad: true,
-         autoplay: true,
-         autoplayTimeout: 3000,
-         responsive: {
-           0: {
-             items: 1
-           },
-           400: {
-             items: 2
-           },
-           800: {
-             items: 3
-           },
-           1200: {
-             items: 4
-           }
-         }
-       });
-     });
-     
-
-
-    // faq
-    const headers = document.querySelectorAll('.faq-accordion-header');
-
-    headers.forEach(header => {
-      header.addEventListener('click', () => {
-        const body = header.nextElementSibling;
-        const isOpen = body.classList.contains('open');
-
-        // Close all
-        document.querySelectorAll('.faq-accordion-body').forEach(b => b.classList.remove('open'));
-        document.querySelectorAll('.faq-accordion-header').forEach(h => h.classList.remove('active'));
-
-        // Toggle this one
-        if (!isOpen) {
-          body.classList.add('open');
-          header.classList.add('active');
-        }
-      });
+        // Hide content after the word "hidden"
+        let hiddenContent = descriptionContent.substring(index);
+        document.getElementById("processedContent").innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
+      } else {
+        // If the word "hidden" is not found, show the entire content
+        document.getElementById("processedContent").innerHTML = descriptionContent;
+      }
     });
-  
-   </script>
-@endsection
- 
+  </script>
+  <!-- ✅ jQuery -->
+  @section('scriptjs')
+    <script>
+      $(document).ready(function () {
+        $('.owl-carousel').owlCarousel({
+          loop: false,
+          margin: 10,
+          nav: true,
+          dots: true,
+          lazyLoad: true,
+          autoplay: true,
+          autoplayTimeout: 3000,
+          responsive: {
+            0: {
+              items: 1
+            },
+            400: {
+              items: 2
+            },
+            800: {
+              items: 3
+            },
+            1200: {
+              items: 4
+            }
+          }
+        });
+      });
+
+
+
+      // faq
+      const headers = document.querySelectorAll('.faq-accordion-header');
+
+      headers.forEach(header => {
+        header.addEventListener('click', () => {
+          const body = header.nextElementSibling;
+          const isOpen = body.classList.contains('open');
+
+          // Close all
+          document.querySelectorAll('.faq-accordion-body').forEach(b => b.classList.remove('open'));
+          document.querySelectorAll('.faq-accordion-header').forEach(h => h.classList.remove('active'));
+
+          // Toggle this one
+          if (!isOpen) {
+            body.classList.add('open');
+            header.classList.add('active');
+          }
+        });
+      });
+
+    </script>
+  @endsection
+
 @endsection
