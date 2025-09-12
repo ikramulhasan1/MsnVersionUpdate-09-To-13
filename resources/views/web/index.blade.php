@@ -49,7 +49,7 @@ $header = \App\Models\PageSetup::page('home');
     .carousel-wrap .item {
   position: relative;
   color: white;
-  min-height: 85vh;
+  min-height: 55vh;
   overflow: hidden;
 }
 
@@ -719,7 +719,7 @@ $header = \App\Models\PageSetup::page('home');
 
     .case-studies-carousel-wrap {
       width: 100%;
-      height: 300px;
+      height: 500px;
       position: relative;
       overflow: hidden;
     }
@@ -727,7 +727,7 @@ $header = \App\Models\PageSetup::page('home');
 
     .owl-carousel .case-studies-item {
       width: 100%;
-      height: 300px;
+      height: 500px;
       background-size: cover;
       background-position: center;
       display: flex;
