@@ -1334,7 +1334,7 @@
             <form>
               <input type="text" class="form-control mb-3" placeholder="Enter your first name">
               <input type="email" class="form-control mb-3" placeholder="Enter your email">
-              <button type="submit" class="btn btn-success w-100">Subscribe</button>
+              <button style="background-color: #052C58 !important" type="submit" class="btn btn-success w-100">Subscribe</button>
             </form>
           </div>
           <!-- Ad Banner -->
