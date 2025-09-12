@@ -404,8 +404,8 @@
 
   .btn-custom-outline {
     background-color: transparent;
-    border: 2px solid #000;
-    color: #000;
+    border: 2px solid #052C58;
+    color: #052C58;
     border-radius: 12px;
     padding: 14px 30px;
     font-weight: 600;
@@ -414,7 +414,7 @@
   }
 
   .btn-custom-outline:hover {
-    background-color: #000;
+    background-color: #052C58;
     color: #fff;
   }
 
@@ -428,12 +428,12 @@
   .blog-section-title {
     font-size: 44px;
     font-weight: 700;
-    color: #1d1d1d;
+    color: #052C58;
     margin-bottom: 10px;
   }
 
   .blog-section-subtitle {
-    color: #28a745;
+    color: #052C58;
     font-size: 24px;
     font-weight: 600;
     margin-bottom: 30px;
@@ -1169,7 +1169,7 @@
         @if(count($counters) > 0)
           <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 clearfix fun-fact-section">
-              <h3 style="color: black; font-weight: 700;">Our Impact in Numbers</h3>
+              <h3 style="color: #052C58; font-weight: 700;">Our Impact in Numbers</h3>
               <div class="fact-counter">
                 <div class="row ">
                   @foreach($counters as $counter)
@@ -1498,10 +1498,10 @@
 
       <div class="d-flex flex-wrap justify-content-center">
         <!-- Tech cards -->
-        <a href="#" class="tech-card">
+        {{-- <a href="#" class="tech-card">
           <img src="//www.capitalnumbers.com/images/pool-icon-home/web-icon.svg" alt="Web">
           <p class="tech-title">Web</p>
-        </a>
+        </a> --}}
         <a href="#" class="tech-card">
           <img src="//www.capitalnumbers.com/images/pool-icon-home/fullstack-icon.png" alt="Full-stack">
           <p class="tech-title">Full-stack</p>
