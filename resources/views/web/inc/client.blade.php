@@ -84,7 +84,7 @@
                     <div class="swiper-wrapper mb-5">
                         @foreach($clients as $client)
                             <div class="swiper-slide">
-                                <img class="p-0" src="{{ asset('uploads/client/' . $client->image_path) }}"
+                                <img class="p-0 m-0" src="{{ asset('uploads/client/' . $client->image_path) }}"
                                     alt="{{ $client->title }}" />
                             </div>
                         @endforeach
