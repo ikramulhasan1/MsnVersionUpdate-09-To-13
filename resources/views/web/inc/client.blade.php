@@ -72,7 +72,7 @@
 
 
 @if(count($clients) > 0)
-    <section class="client-logo-section">
+    <section class="client-logo-section container">
         <h2>Enterprises & Tech Companies Worldwide Trust Us</h2>
         <div class="row">
             <div class="col-lg-2 left-slide-cover">
