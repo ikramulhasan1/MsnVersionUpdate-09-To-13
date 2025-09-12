@@ -533,7 +533,7 @@ Developer:    Hi-Tech Parks
 	.main-menu .navbar-collapse > .navigation > li.current > a,
 	.main-menu .navigation > li .mega-menu-bar .column > ul > li > a,
 	.main-menu .navbar-collapse > .navigation > li.current-menu-item > a{
-		background:#ff9c00;
+		background:#000000;
 		color:#ffffff !important;
 	}
 	
@@ -646,7 +646,7 @@ Developer:    Hi-Tech Parks
 	.main-menu .navbar-header .navbar-toggler {
 	    display: inline-block;
 	    z-index: 12;
-	    border: 1px solid #ff9c00;
+	    border: 1px solid #000000;
 	    float: none;
 	    margin: 0px 0px 0px 0px;
 	    border-radius: 0px;
