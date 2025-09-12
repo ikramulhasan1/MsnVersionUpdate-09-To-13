@@ -534,6 +534,36 @@ $header = \App\Models\PageSetup::page('get-quote');
     </div>
 </section> --}}
 <!--End Contact Section -->
+<style>
+          /* Hero Section */
+        .about-hero-section {
+      /* background: linear-gradient(135deg, rgba(106,17,203,0.9), rgba(37,117,252,0.9)), url('//images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover; */
+      background-color: #052C58;
+      height: 40vh;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-hero-section h1 {
+      font-size: 60px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .about-hero-section p {
+      font-size: 22px;
+      max-width: 700px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
+
+
+</style>
 <section class="about-hero-section" data-aos="fade">
     <div class="container">
       <h1>{{ __('Quote') }}</h1>
