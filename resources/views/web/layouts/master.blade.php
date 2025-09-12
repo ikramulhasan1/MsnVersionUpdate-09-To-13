@@ -311,6 +311,7 @@
             font-size: 20px;
             margin-bottom: 25px;
             position: relative;
+            color: #ffffff !important;
         }
 
         .custom-footer-section h5::after {
