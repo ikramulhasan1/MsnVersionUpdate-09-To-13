@@ -47,19 +47,19 @@
 @endsection
 <style>
   .carousel-wrap {
-    max-height: 400px !important;
+    max-height: 450px !important;
   }
 
   .carousel-wrap .item {
     position: relative;
     color: white;
-    max-height: 400px;
+    max-height: 450px;
     overflow: hidden;
   }
 
   .row-item-content {
     height: 370px !important;
-    max-height: 400px !important;
+    max-height: 450px !important;
     max-width: 70% !important;
     display: flex;
     align-items:baseline;
@@ -1060,12 +1060,12 @@
             @php
               $style = '';
               if ($slider->media_type === 'image' && $slider->image_path) {
-                $style = "background-image: url('" . asset('uploads/slider/' . $slider->image_path) . "'); background-size: cover; background-position: center; height: 400px; !important;";
+                $style = "background-image: url('" . asset('uploads/slider/' . $slider->image_path) . "'); background-size: cover; background-position: center; height: 450px; !important;";
               }
             @endphp
 
             <div class="item"
-              style="justify-content: space-start; position: relative; max-height: 400px !important; {{ $style }}"
+              style="justify-content: space-start; position: relative; max-height: 450px !important; {{ $style }}"
               @if($slider->media_type === 'video' && $slider->video_id) data-video-id="{{ $slider->video_id }}" @endif>
 
               {{-- Background YouTube Video --}}
