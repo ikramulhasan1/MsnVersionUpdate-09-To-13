@@ -298,7 +298,7 @@
             padding: 0;
             font-family: 'Poppins', sans-serif;
             background-color: #0B2447;
-            color: #fff;
+            color: #ffffff !important;
         }
 
         .custom-footer {
