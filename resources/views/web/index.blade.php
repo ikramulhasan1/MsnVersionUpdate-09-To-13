@@ -523,7 +523,7 @@
   .process-step-number {
     width: 35px;
     height: 35px;
-    background-color: #0d6efd;
+    background-color: #052C58;
     color: #fff;
     border-radius: 50%;
     display: flex;
@@ -1807,8 +1807,7 @@
                   $showArrow = ($key != $totalSteps - 1); // hide arrow for last step
                 @endphp
 
-                <div class="process-step-arrow d-none d-md-block 
-                                          {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
+                <div class="process-step-arrow d-none d-md-block {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
                 </div>
               </div>
             </div>
