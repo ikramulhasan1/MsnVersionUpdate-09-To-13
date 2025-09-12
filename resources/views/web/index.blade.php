@@ -67,6 +67,7 @@
   }
 
   .item-content {
+    max-height: 60px !important;
     position: relative;
     z-index: 2;
   }
