@@ -630,7 +630,7 @@ color: #009830;
     <!--End About Section -->
   @endif
 <!--End About Section -->
-@endif
+
 
 @php
 $section_whyus = \App\Models\Section::section('why-us');
