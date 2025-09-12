@@ -167,7 +167,7 @@
   }
 
   .card-box .btn {
-    background-color: #ff6f2c;
+    background-color: #052C58;
     color: white;
     font-weight: 600;
     border: none;
@@ -179,7 +179,7 @@
   }
 
   .card-box .btn:hover {
-    background-color: #e55d1b;
+    background-color: #052C58;
   }
 
   .card-box ul {
@@ -286,7 +286,7 @@
   }
 
   .explore-btn {
-    background-color: #ff6f2c;
+    background-color: #052C58;
     color: #fff;
     padding: 12px 25px;
     border-radius: 6px;
@@ -388,7 +388,7 @@
   }
 
   .btn-custom-orange {
-    background-color: #FF5A00;
+    background-color: #052C58;
     color: #fff;
     border: none;
     border-radius: 12px;
@@ -399,7 +399,7 @@
   }
 
   .btn-custom-orange:hover {
-    background-color: #e64a00;
+    background-color: #052C58;
   }
 
   .btn-custom-outline {
@@ -467,7 +467,7 @@
   }
 
   .blog-btn-orange {
-    background-color: #ff5a00;
+    background-color: #052C58;
     color: #ffffff;
     padding: 14px 36px;
     font-size: 18px;
@@ -479,7 +479,7 @@
   }
 
   .blog-btn-orange:hover {
-    background-color: #e14e00;
+    background-color: #052C58;
   }
 
 
@@ -589,7 +589,7 @@
   }
 
   .process-btn-orange {
-    background-color: #ff6a00;
+    background-color: #052C58;
     color: white;
     padding: 12px 26px;
     border-radius: 5px;
@@ -599,7 +599,7 @@
   }
 
   .process-btn-orange:hover {
-    background-color: #e55c00;
+    background-color: #052C58;
     color: white
   }
 
@@ -679,9 +679,9 @@
 
   .portfolio-filter-btn.active,
   .portfolio-filter-btn:hover {
-    background: #ff5a00;
+    background: #052C58;
     color: #fff;
-    border-color: #ff5a00;
+    border-color: #052C58;
   }
 
   /* Hide ugly scrollbar (optional) */
@@ -1483,7 +1483,7 @@
 
         </div>
         <div class="d-flex justify-content-center">
-          <button id="go-services" class="btn text-white fw-800" style="background-color: #FF6F2C; font-weight: bold;">View
+          <button id="go-services" class="btn text-white fw-800" style="background-color: #052C58; font-weight: bold;">View
             All Services</button>
         </div>
       </div>
