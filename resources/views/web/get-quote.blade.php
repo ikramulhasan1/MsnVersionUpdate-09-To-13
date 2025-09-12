@@ -534,6 +534,27 @@ $header = \App\Models\PageSetup::page('get-quote');
     </div>
 </section> --}}
 <!--End Contact Section -->
+<section class="about-hero-section" data-aos="fade">
+    <div class="container">
+      <h1>{{ __('Quote') }}</h1>
+      <!-- <p>Building the Future of Technology and Business Innovation Together.</p> -->
+    </div>
+  </section>
+    <section class="page-title p-0" style="background-color: black;">
+        <div class="container d-flex" style="height: 40px; align-items: center; justify-content: flex-end;">
+            <div class="inner-container clearfix">
+                {{-- <div class="title-box">
+                    <h1>{{ __('navbar.contact') }}</h1>
+                </div> --}}
+                <div class="bread-crumb">
+                    <ul class="p-0">
+                        <li>{{ __('Quote') }}</li>
+                        <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 @php
   $section_getquote = \App\Models\Section::section('get-quote');
 @endphp
