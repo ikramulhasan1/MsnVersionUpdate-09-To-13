@@ -1069,7 +1069,7 @@ $header = \App\Models\PageSetup::page('home');
 <!-- End Bnner Section -->
 @endif
 
-
+@include('web.inc.client')
 @if(isset($about) || count($counters) > 0)
 <!-- About Section -->
 <section style="background-color: #F5F7F8" class="our-mission-section">
