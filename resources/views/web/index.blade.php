@@ -1072,7 +1072,7 @@ $header = \App\Models\PageSetup::page('home');
 @include('web.inc.client')
 @if(isset($about) || count($counters) > 0)
 <!-- About Section -->
-<section style="background-color: #F5F7F8" class="our-mission-section">
+<section style="background-color: #ffffff" class="our-mission-section">
     <div class="container">
         {{-- @if(isset($about))
         <div class="sec-title left">
