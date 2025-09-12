@@ -365,7 +365,7 @@ body {
       content: '✔';
       position: absolute;
       left: 0;
-      color: #2575fc;
+      color: #052C58;
       font-size: 20px;
     }
 
@@ -641,7 +641,7 @@ color: #009830;
                         <!--Column-->
                         <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp ">
                             <div class="count-box border border-1 p-3 bg-white stats-card">
-                              <div style="color: #1EC000" class="count">
+                              <div style="color: #052C58" class="count">
                                   {{ $counter->value }}
                                   {{-- <span class="count-text" data-speed="5000" data-stop="{{ $counter->value }}">0</span> --}}
                               </div>
