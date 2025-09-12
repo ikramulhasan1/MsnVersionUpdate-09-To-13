@@ -1050,7 +1050,7 @@
               }
             @endphp
 
-            <div class="item" style="justify-content: space-around; position: relative; min-height: 40vh; {{ $style }}"
+            <div class="item" style="justify-content: space-around; position: relative; min-height: 400px !important; {{ $style }}"
               @if($slider->media_type === 'video' && $slider->video_id) data-video-id="{{ $slider->video_id }}" @endif>
 
               {{-- Background YouTube Video --}}
