@@ -58,9 +58,9 @@
   }
 
   .row-item-content {
-    height: 350px !important;
+    height: 50px !important;
     max-height: 400px !important;
-    max-width: 80% !important;
+    max-width: 70% !important;
     display: flex;
     align-items: center;
     justify-content: start;
