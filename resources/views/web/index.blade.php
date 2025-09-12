@@ -1885,7 +1885,7 @@
 
 
 
-  @if(count($clients) > 0)
+  {{-- @if(count($clients) > 0)
     <section class="partner-section">
       <div class="container">
         <h2>Enterprises & Tech Companies Worldwide Trust Us</h2>
@@ -1901,7 +1901,7 @@
         </div>
       </div>
     </section>
-  @endif
+  @endif --}}
 
   <section class="latest-blogs py-5">
     <div class="container">
