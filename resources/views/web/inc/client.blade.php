@@ -79,7 +79,7 @@
         <div class="row">
             <div class="col-lg-2 left-slide-cover">
                 <!-- <img src="https://dummyimage.com/200x100/ddd/000.png&text=Client+1" alt="Client 1" /> -->
-                <h5>Our Partners</h5>
+                <h5>Our Valued Clients</h5>
             </div>
             <div class="col-lg-10">
                 <!-- Swiper -->
