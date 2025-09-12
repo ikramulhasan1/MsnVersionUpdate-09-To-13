@@ -638,6 +638,9 @@ $header = \App\Models\PageSetup::page('services');
      </div>
 {{-- </section> --}}
 <!--End Page Title-->
+@if(count($clients) > 0)
+  @include('web.inc.client')
+@endif
 
 @if(isset($service))
 <!--Sidebar Page Container-->
