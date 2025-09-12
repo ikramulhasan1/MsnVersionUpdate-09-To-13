@@ -77,9 +77,9 @@
 
 
 @if(count($clients) > 0)
-    <section class="client-logo-section container">
+    <section class="client-logo-section">
         <div class="row">
-            <div class="col-lg-2 left-slide-cover d-flex align-items-center">
+            <div class="col-lg-2 left-slide-cover d-flex align-items-center pr-0 pl-4">
                 <!-- <img src="https://dummyimage.com/200x100/ddd/000.png&text=Client+1" alt="Client 1" /> -->
                 <h6>Our Valued Clients</h6>
             </div>
