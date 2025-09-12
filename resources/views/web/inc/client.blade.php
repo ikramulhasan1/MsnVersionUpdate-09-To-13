@@ -21,6 +21,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        max-height: 80px !important;
     }
 
     .swiper-slide img {
