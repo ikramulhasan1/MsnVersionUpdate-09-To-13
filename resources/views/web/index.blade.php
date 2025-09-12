@@ -46,10 +46,18 @@ $header = \App\Models\PageSetup::page('home');
 
 @endsection
 <style>
+
+/* banner */
+.banner-section{
+  height: 400px;
+}
+
+
+
     .carousel-wrap .item {
   position: relative;
   color: white;
-  min-height: 25vh !important;
+  min-height: 85vh;
   overflow: hidden;
 }
 
