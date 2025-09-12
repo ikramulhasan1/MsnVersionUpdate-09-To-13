@@ -789,7 +789,7 @@
                     </div>
                 </div>
             </div> --}}
-            <div class="header-lower">
+            <div class="header-lower" style="border: 0px solid">
                 <div class="container clearfix">
                     @if(isset($setting))
                         <!--Logo-->
