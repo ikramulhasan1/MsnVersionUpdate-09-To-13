@@ -888,7 +888,7 @@ $section_clients = \App\Models\Section::section('clients');
 <!--End Clients Section-->
 @endif --}}
 
-@if(count($clients) > 0)
+{{-- @if(count($clients) > 0)
     <section class="partner-section">
         <div class="container">
         <h2>Enterprises & Tech Companies Worldwide Trust Us</h2>
@@ -901,7 +901,7 @@ $section_clients = \App\Models\Section::section('clients');
         </div>
         </div>
     </section>
-@endif
+@endif --}}
 <!-- Bootstrap Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
