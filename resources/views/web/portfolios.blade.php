@@ -120,7 +120,7 @@ $header = \App\Models\PageSetup::page('portfolio');
 .portfolio-section {
       font-family: 'Poppins', sans-serif;
       background-color: #f8f9fa;
-      color: #1d1d1d;
+      color: #052C58;
     }
 
     .portfolio-section-title {
