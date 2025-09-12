@@ -73,7 +73,6 @@
 
 @if(count($clients) > 0)
     <section class="client-logo-section container">
-        <h2>Enterprises & Tech Companies Worldwide Trust Us</h2>
         <div class="row">
             <div class="col-lg-2 left-slide-cover">
                 <!-- <img src="https://dummyimage.com/200x100/ddd/000.png&text=Client+1" alt="Client 1" /> -->
