@@ -162,7 +162,7 @@
 <script>
     var swiper = new Swiper(".mySwiper", {
         slidesPerView: 6,
-        spaceBetween: 30,
+        spaceBetween: 0,
         loop: true,
         freeMode: true, // smooth effect
         speed: 4000,    // control smooth speed
