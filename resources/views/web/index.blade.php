@@ -46,6 +46,9 @@
 
 @endsection
 <style>
+  .carousel-wrap{
+    max-height: 300px !important;
+  }
   .carousel-wrap .item {
     position: relative;
     color: white;
