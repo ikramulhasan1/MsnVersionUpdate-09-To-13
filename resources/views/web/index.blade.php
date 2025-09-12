@@ -310,8 +310,8 @@
   }
 
   .our-mission-section {
-    padding-bottom: 40px !important;
-    padding-top: 50px !important;
+    padding-bottom: 50px !important;
+    padding-top: 70px !important;
     margin-bottom: 0px !important;
   }
 
