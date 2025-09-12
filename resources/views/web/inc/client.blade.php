@@ -161,7 +161,7 @@
     </script> -->
 <script>
     var swiper = new Swiper(".mySwiper", {
-        slidesPerView: 6,
+        slidesPerView: 5,
         spaceBetween: 0,
         loop: true,
         freeMode: true, // smooth effect
@@ -174,7 +174,7 @@
             320: { slidesPerView: 2 },
             640: { slidesPerView: 3 },
             768: { slidesPerView: 4 },
-            1024: { slidesPerView: 6 },
+            1024: { slidesPerView: 5 },
         },
     });
 </script>
