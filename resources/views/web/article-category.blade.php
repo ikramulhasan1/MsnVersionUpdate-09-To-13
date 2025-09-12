@@ -82,12 +82,12 @@ use Illuminate\Support\Str;
         padding: 12px 30px;
         border-radius: 30px;
         font-weight: bold;
-        background: #ff6600;
+        background: #052C58;
         color: #fff;
         border: none;
     }
     #loadMoreBtn:hover {
-        background: #e65c00;
+        background: #052C58;
     }
     #loadingSpinner {
         display: none;
@@ -137,7 +137,8 @@ use Illuminate\Support\Str;
      
         /* Hero Section */
         .about-hero-section {
-      background: linear-gradient(135deg, rgba(106,17,203,0.9), rgba(37,117,252,0.9)), url('//images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+      /* background: linear-gradient(135deg, rgba(106,17,203,0.9), rgba(37,117,252,0.9)), url('//images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover; */
+      background-color: #052C58;
       height: 40vh;
       color: #fff;
       display: flex;
@@ -229,7 +230,7 @@ use Illuminate\Support\Str;
       <!-- <p>Building the Future of Technology and Business Innovation Together.</p> -->
     </div>
   </section>
-    <section class="page-title p-0" style="background-color: black;">
+    <section class="page-title p-0" style="background-color: #052C58;">
         <div class="container d-flex" style="height: 40px; align-items: center; justify-content: flex-end;">
             <div class="inner-container clearfix">
                 {{-- <div class="title-box">
