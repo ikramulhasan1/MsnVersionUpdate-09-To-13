@@ -215,7 +215,7 @@ $header = \App\Models\PageSetup::page('services');
   }
 
   .banner-stars {
-    color: #f7b731!important;
+    color: #052C58!important;
     font-size: 1.1rem!important;
   }
 
@@ -244,7 +244,7 @@ $header = \App\Models\PageSetup::page('services');
   .banner-right button {
     margin: 1.5rem 0!important;
     padding: 0.8rem 2rem!important;
-    background: #ff5a00!important;
+    background: #052C58!important;
     color: white!important;
     border: none!important;
     border-radius: 6px!important;
@@ -323,7 +323,7 @@ $header = \App\Models\PageSetup::page('services');
     .process-step-number {
       width: 35px;
       height: 35px;
-      background-color: #0d6efd;
+      background-color: #052C58;
       color: #fff;
       border-radius: 50%;
       display: flex;
@@ -385,7 +385,7 @@ $header = \App\Models\PageSetup::page('services');
     }
 
     .process-btn-orange {
-      background-color: #ff6a00;
+      background-color: #052C58;
       color: white;
       padding: 12px 26px;
       border-radius: 5px;
@@ -395,7 +395,7 @@ $header = \App\Models\PageSetup::page('services');
     }
 
     .process-btn-orange:hover {
-      background-color: #e55c00;
+      background-color: #052C58;
       color: white
     }
 
@@ -468,7 +468,7 @@ $header = \App\Models\PageSetup::page('services');
     }
     .card-box {
       background: #ffffff !important;
-      color: #000000;
+      color: #052C58;
       border-radius: 2px;
       padding: 30px 20px;
       text-align: center;
@@ -489,14 +489,14 @@ $header = \App\Models\PageSetup::page('services');
       margin: 15px 0 25px;
     }
     .btn-orange {
-      background-color: #ff5f2e;
+      background-color: #052C58;
       color: white !important;
       border: none;
       font-weight: 600;
       padding: 10px 16px;
     }
     .btn-orange:hover {
-      background-color: #e95520;
+      background-color: #052C58;
     }
     .btn-link-custom {
       color: #007bff;
@@ -551,7 +551,7 @@ $header = \App\Models\PageSetup::page('services');
       color: white !important;
     }
     .share-btn {
-      background-color: #ff5f2e;
+      background-color: #052C58;
       border: none;
       color: white !important;
       font-weight: 600;
@@ -559,7 +559,7 @@ $header = \App\Models\PageSetup::page('services');
       padding: 12px 28px;
     }
     .share-btn:hover {
-      background-color: #e95520;
+      background-color: #052C58;
     }
     .radio-wrap {
       position: absolute;
