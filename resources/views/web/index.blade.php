@@ -1084,7 +1084,7 @@
                       {{ __('common.contact_us') }}
                     </a>
                     @endif --}}
-                    <button id="open-modal" class=" googleMeetBtn" style="position: relative; top: 100px;">Discuss Your
+                    <button id="open-modal" class=" googleMeetBtn" style="position: relative; top: 50px;">Discuss Your
                       Requirements →</button>
 
                     {{-- @if(isset($slider->link))
