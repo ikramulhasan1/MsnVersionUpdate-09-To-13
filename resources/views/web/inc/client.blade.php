@@ -68,7 +68,7 @@
         filter: grayscale(100%);
         transition: all 0.3s ease;
     } */
-    .left-slide-cover h5 {
+    .left-slide-cover h6 {
         font-weight: 700;
     }
 </style>
@@ -77,9 +77,9 @@
 @if(count($clients) > 0)
     <section class="client-logo-section container">
         <div class="row">
-            <div class="col-lg-2 left-slide-cover">
+            <div class="col-lg-2 left-slide-cover d-flex align-items-center">
                 <!-- <img src="https://dummyimage.com/200x100/ddd/000.png&text=Client+1" alt="Client 1" /> -->
-                <h5>Our Valued Clients</h5>
+                <h6>Our Valued Clients</h6>
             </div>
             <div class="col-lg-10">
                 <!-- Swiper -->
