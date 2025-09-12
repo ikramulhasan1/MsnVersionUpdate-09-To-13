@@ -49,7 +49,7 @@ $header = \App\Models\PageSetup::page('home');
     .carousel-wrap .item {
   position: relative;
   color: white;
-  min-height: 55vh;
+  min-height: 35vh;
   overflow: hidden;
 }
 
