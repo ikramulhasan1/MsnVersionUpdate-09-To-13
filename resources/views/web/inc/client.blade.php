@@ -4,7 +4,9 @@
 <style>
     .client-logo-section {
         /* padding: 60px 0; */
-        width: 100%;
+        width: 100% !important;
+        margin-right: 5px; 
+        margin-left: 5px;
         text-align: center;
     }
 
