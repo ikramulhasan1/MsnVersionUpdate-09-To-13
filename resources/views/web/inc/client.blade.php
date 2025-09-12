@@ -56,7 +56,7 @@
         color: #ff6f2c;
     }
 
-    .left-slide-cover img {
+    /* .left-slide-cover img {
 
         width: 140px;
         height: auto;
@@ -67,6 +67,9 @@
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         filter: grayscale(100%);
         transition: all 0.3s ease;
+    } */
+    .left-slide-cover h5 {
+        font-weight: 700;
     }
 </style>
 
@@ -76,7 +79,7 @@
         <div class="row">
             <div class="col-lg-2 left-slide-cover">
                 <!-- <img src="https://dummyimage.com/200x100/ddd/000.png&text=Client+1" alt="Client 1" /> -->
-                <h5>Worldwide Trust Us</h5>
+                <h5>Our Partners</h5>
             </div>
             <div class="col-lg-10">
                 <!-- Swiper -->
