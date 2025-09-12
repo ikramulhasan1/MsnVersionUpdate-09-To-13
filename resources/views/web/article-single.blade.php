@@ -894,7 +894,7 @@
       display: block;
       width: 30px;
       height: 2px;
-      background: #007bff;
+      background: #052C58;
       margin-top: 8px;
     }
 
