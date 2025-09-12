@@ -645,7 +645,7 @@
     display: block;
     width: 80px;
     height: 4px;
-    background: linear-gradient(to right, #ff5a00, #ff9500);
+    background: linear-gradient(to right, #052C58, #07356b);
     margin: 12px auto 0;
     border-radius: 3px;
   }
@@ -757,7 +757,7 @@
   }
 
   .view-more-btn:hover {
-    background: #ff5a00;
+    background: #052C58;
   }
 
 
@@ -899,7 +899,7 @@
   }
 
   .read-more-btn {
-    background: #ff5e00;
+    background: #052C58;
     border: none;
     color: #fff;
     padding: 17px 30px;
@@ -910,7 +910,7 @@
   }
 
   .read-more-btn:hover {
-    background: #ff7b29;
+    background: #052C58;
   }
 
   .owl-prev,
