@@ -8412,17 +8412,17 @@ img {
 /*=== Custom ===*/
 .page-link {
 	padding: .75rem 1.5rem;
-	color: #ffffff;
+	color: #000000;
 	background-color: #fff;
 	border: 1px solid #d7d7d7;
 }
 
 .page-link:hover {
 	z-index: 2;
-	color: #ffffff;
+	color: #fff;
 	text-decoration: none;
-	background-color: #052C58;
-	border-color: #ffffff;
+	background-color: #EE2124;
+	border-color: #EE2124;
 }
 
 .page-link:focus {
