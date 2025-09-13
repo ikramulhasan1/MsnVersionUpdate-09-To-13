@@ -103,8 +103,8 @@
     color: #008939;
   }
   .btn-readmore {
-    border: 2px solid #E65100;
-    color: #E65100;
+    border: 2px solid #052C58;
+    color: #052C58;
     font-size: 16px !important;
     font-weight: 600 !important;
     background-color: rgb(255, 255, 255);
@@ -112,7 +112,7 @@
     border-radius: 4px;
   }
   .btn-readmore:hover {
-    background-color: #E65100;
+    background-color: #052C58;
     color: #ffffff;
   }
   .pagination .page-link {
@@ -122,8 +122,8 @@
     font-weight: 500;
   }
   .pagination .page-item.active .page-link {
-    background-color: #FF5722;
-    border-color: #FF5722;
+    background-color: #052C58;
+    border-color: #052C58;
     color: #fff;
   }
 
