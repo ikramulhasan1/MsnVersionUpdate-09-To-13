@@ -486,7 +486,7 @@
         }
 
         .caseStudy-download-button:hover {
-            background-color: #e94e00;
+            background-color: #052C58;
         }
 
         .caseStudy-download-button::after {
