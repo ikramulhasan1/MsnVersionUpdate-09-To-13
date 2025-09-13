@@ -20,7 +20,7 @@
         }
 
         .caseStudy-btn-pdf {
-            background-color: #FF5A1F;
+            background-color: #052C58;
             color: white;
             padding: 12px 20px;
             font-weight: 500;
