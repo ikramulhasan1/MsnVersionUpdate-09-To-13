@@ -4,7 +4,7 @@
 <style>
     .client-logo-section {
         /* padding: 60px 0; */
-        width: 97.50% !important;
+        width: 97.90% !important;
         max-height: 80px !important;
         margin-right: 5px !important;
         margin-left: 15px !important;
