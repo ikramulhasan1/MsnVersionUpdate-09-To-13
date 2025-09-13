@@ -302,7 +302,7 @@
         }
 
         .custom-footer {
-            background: radial-gradient(circle at top left, #1A3C63, #0B2447);
+            background: radial-gradient(circle at top left, #052C58);
             padding: 60px 0 30px;
         }
 
