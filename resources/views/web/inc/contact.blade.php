@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -39,7 +40,7 @@
     .form-section {
       flex: 1 1 55%;
       padding: 50px;
-      background-color: #F2F6FF;
+      background-color: #052C58;
     }
 
     .form-section h3 {
@@ -47,15 +48,16 @@
       font-size: 28px;
       font-weight: 900;
     }
+
     .dayContainer {
-    padding: 15!important;
-    width: 400px!important;
-    min-width: 400!important;
-    max-width: 400px!important;
-    height: 220px!important;
-  }
-  
-  .calendar-section {
+      padding: 15 !important;
+      width: 400px !important;
+      min-width: 400 !important;
+      max-width: 400px !important;
+      height: 220px !important;
+    }
+
+    .calendar-section {
       flex: 1 1 45%;
       /* background: #fff; */
       display: flex;
@@ -63,9 +65,9 @@
       justify-content: center;
       padding: 0px;
       border-left: 1px solid #eee;
-      background: 
-      linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-      url('https://t4.ftcdn.net/jpg/10/95/98/59/240_F_1095985933_J2wC9izxs9fZHvvgFxPC7sKutX8ntwhl.jpg');
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+        url('https://t4.ftcdn.net/jpg/10/95/98/59/240_F_1095985933_J2wC9izxs9fZHvvgFxPC7sKutX8ntwhl.jpg');
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center center;
@@ -82,7 +84,7 @@
 
       position: relative;
       /* background: rgba(0, 0, 0, 0.564); */
-     
+
     }
 
     .calendar-wrapper h2 {
@@ -134,7 +136,7 @@
       max-width: 100% !important;
       border-radius: 5px;
       overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
 
     .flatpickr-months {
@@ -143,14 +145,17 @@
       padding: 8px 0;
       border-bottom: 1px solid #eee;
     }
+
     .flatpickr-next-month {
       margin-top: 10px;
     }
+
     .flatpickr-weekdays {
       background: #f0f0f0;
       font-size: 0.9rem;
       color: #555;
     }
+
     .flatpickr-days {
       width: 400px !important;
     }
@@ -181,6 +186,7 @@
       .contact-container {
         flex-direction: column;
       }
+
       .calendar-section {
         border-left: none;
         border-top: 1px solid #eee;
@@ -192,34 +198,37 @@
     }
 
     .flatpickr-rContainer {
-        width: 100%;
+      width: 100%;
     }
 
-    #phone{
-        width: 420px !important;
-        /* margin-bottom: 20px !important; */
+    #phone {
+      width: 420px !important;
+      /* margin-bottom: 20px !important; */
     }
-    #email{
-        margin-top: 20px !important;
+
+    #email {
+      margin-top: 20px !important;
     }
-    .selected{
-        background-color: #3CC065 !important;
+
+    .selected {
+      background-color: #3CC065 !important;
     }
   </style>
 </head>
 
 <body>
 
-<div class="contact-container">
-  <div class="form-section">
-    <h3 class="mb-4">Let's schedule your meeting</h3>
-    <div id="form-message" class="text-center mb-3 fw-bold"></div>
+  <div class="contact-container">
+    <div class="form-section">
+      <h3 class="mb-4 text-white">Let's schedule your meeting</h3>
+      <div id="form-message" class="text-center mb-3 fw-bold"></div>
 
-    <form id="booking-form">
+      <form id="booking-form">
         <input type="text" id="name" name="name" class="form-control" placeholder="Your Name" required />
         <input type="tel" id="phone" name="phone" class="form-control" placeholder="Phone Number" required />
         <input type="email" id="email" name="email" class="form-control" placeholder="Email Address" required />
-        <input type="text" id="location" name="location" class="form-control" placeholder="Location" autocomplete="off" required />
+        <input type="text" id="location" name="location" class="form-control" placeholder="Location" autocomplete="off"
+          required />
         <input type="time" id="meeting_time" name="meeting_time" class="form-control" required />
         <input type="hidden" id="selected_date" name="date">
         <input type="hidden" id="latitude" name="latitude">
@@ -229,105 +238,106 @@
         <input type="hidden" id="distance_time" name="distance_time">
         <input type="hidden" id="distance_km" name="distance_km">
 
-      <button type="submit" class="btn btn-primary mt-3">Book a Meeting</button>
-    </form>
-  </div>
+        <button type="submit" class="btn btn-primary mt-3">Book a Meeting</button>
+      </form>
+    </div>
 
-  <div class="calendar-section">
-    <div class="calendar-wrapper">
-      <h2>Select Date</h2>
-      <div id="calendar"></div>
+    <div class="calendar-section">
+      <div class="calendar-wrapper">
+        <h2>Select Date</h2>
+        <div id="calendar"></div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 
-<script>
-const formMessage = document.getElementById("form-message");
-const locationInput = document.getElementById("location");
-const phoneInput = document.querySelector("#phone");
+  <script>
+    const formMessage = document.getElementById("form-message");
+    const locationInput = document.getElementById("location");
+    const phoneInput = document.querySelector("#phone");
 
-const iti = window.intlTelInput(phoneInput, {
-  nationalMode: false,
-  initialCountry: "auto",
-  geoIpLookup: async function (callback) {
-    try {
-      const response = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
-      const data = await response.json();
-      callback(data.country || "us");
-    } catch (e) {
-      callback("us");
-    }
-  },
-  utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-});
-
-flatpickr("#calendar", {
-  inline: true,
-  minDate: "today",
-  onChange: function (selectedDates, dateStr) {
-    document.getElementById("selected_date").value = dateStr;
-  }
-});
-
-// Auto Fetch IP Location Info when page loads
-document.addEventListener("DOMContentLoaded", function () {
-  fetchIPInfo();
-});
-
-async function fetchIPInfo() {
-  try {
-    const res = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
-    const data = await res.json();
-    const [lat, lon] = data.loc.split(",");
-    document.getElementById("ip").value = data.ip;
-    document.getElementById("city").value = data.city;
-    document.getElementById("location").value = `${data.city}, ${data.region}`;
-    document.getElementById("latitude").value = lat;
-    document.getElementById("longitude").value = lon;
-    document.getElementById("distance_time").value = "15";  // default
-    document.getElementById("distance_km").value = "5.3";   // default
-  } catch (err) {
-    console.error("IP info error:", err);
-  }
-}
-
-// Submit Form
-document.getElementById("booking-form").addEventListener("submit", async function (e) {
-  e.preventDefault();
-  const form = e.target;
-  const formData = new FormData(form);
-  formData.set("phone", iti.getNumber());
-
-  try {
-    const res = await fetch("/meetings", {
-      method: "POST",
-      headers: {
-        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+    const iti = window.intlTelInput(phoneInput, {
+      nationalMode: false,
+      initialCountry: "auto",
+      geoIpLookup: async function (callback) {
+        try {
+          const response = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
+          const data = await response.json();
+          callback(data.country || "us");
+        } catch (e) {
+          callback("us");
+        }
       },
-      body: formData
+      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
     });
 
-    const result = await res.json();
+    flatpickr("#calendar", {
+      inline: true,
+      minDate: "today",
+      onChange: function (selectedDates, dateStr) {
+        document.getElementById("selected_date").value = dateStr;
+      }
+    });
 
-    formMessage.textContent = result.message || "Meeting booked successfully!";
-    formMessage.className = "text-success fw-bold";
-    form.reset();
+    // Auto Fetch IP Location Info when page loads
+    document.addEventListener("DOMContentLoaded", function () {
+      fetchIPInfo();
+    });
 
-    setTimeout(() => {
-      formMessage.textContent = "";
-    }, 3000);
+    async function fetchIPInfo() {
+      try {
+        const res = await fetch("https://ipinfo.io/json?token=85d3b65b39e700");
+        const data = await res.json();
+        const [lat, lon] = data.loc.split(",");
+        document.getElementById("ip").value = data.ip;
+        document.getElementById("city").value = data.city;
+        document.getElementById("location").value = `${data.city}, ${data.region}`;
+        document.getElementById("latitude").value = lat;
+        document.getElementById("longitude").value = lon;
+        document.getElementById("distance_time").value = "15";  // default
+        document.getElementById("distance_km").value = "5.3";   // default
+      } catch (err) {
+        console.error("IP info error:", err);
+      }
+    }
 
-  } catch (err) {
-    formMessage.textContent = "Error saving meeting.";
-    formMessage.className = "text-danger fw-bold";
-  }
-});
+    // Submit Form
+    document.getElementById("booking-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      formData.set("phone", iti.getNumber());
 
-</script>
+      try {
+        const res = await fetch("/meetings", {
+          method: "POST",
+          headers: {
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+          },
+          body: formData
+        });
+
+        const result = await res.json();
+
+        formMessage.textContent = result.message || "Meeting booked successfully!";
+        formMessage.className = "text-success fw-bold";
+        form.reset();
+
+        setTimeout(() => {
+          formMessage.textContent = "";
+        }, 3000);
+
+      } catch (err) {
+        formMessage.textContent = "Error saving meeting.";
+        formMessage.className = "text-danger fw-bold";
+      }
+    });
+
+  </script>
 
 </body>
+
 </html>
