@@ -8412,14 +8412,14 @@ img {
 /*=== Custom ===*/
 .page-link {
 	padding: .75rem 1.5rem;
-	color: #000000;
+	color: #ffffff;
 	background-color: #fff;
 	border: 1px solid #d7d7d7;
 }
 
 .page-link:hover {
 	z-index: 2;
-	color: #fff;
+	color: #ffffff;
 	text-decoration: none;
 	background-color: #052C58;
 	border-color: #ffffff;
