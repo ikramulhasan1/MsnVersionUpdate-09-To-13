@@ -470,7 +470,7 @@
         }
 
         .caseStudy-download-button {
-            background-color: #ff5a00;
+            background-color: #052C58;
             color: white;
             font-weight: 600;
             padding: 0.8rem 1.5rem;
