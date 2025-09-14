@@ -708,7 +708,7 @@ $section_process = \App\Models\Section::section('process');
 
 @if(count($processes) > 0 && isset($section_process))
 {{-- process-section --}}
-<section class="process-section px-5">
+<section class="process-section">
   <div class="container">
     <div class="process-section-title">
       <h2 style="padding-bottom: 30px !important">{{ $section_process->title }}</h2>
