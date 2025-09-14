@@ -150,6 +150,15 @@
             margin: 0 auto;
             opacity: 0.9;
         }
+
+        .portfolio-btn{
+            background-color: #052C58 !important;
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
     </style>
     <!--Page Title-->
     {{-- <section class="page-title">
@@ -211,23 +220,29 @@
                         <div class="row d-flex justify-content-between content-column col-lg-8 col-md-12 col-sm-12">
                             @if (!empty($portfolio->link))
                                 <div class="content-column col-lg-4 col-md-4 col-sm-12">
-                                    <a target="_blank" href="{{ $portfolio->link }}"><img
+                                    <a class="portfolio-btn" target="_blank" href="{{ $portfolio->link }}">Web view
+                                        {{-- <img
                                             style="width:100%; height: 100%; box-shadow: 10px 10px 8px #888888;"
-                                            src="{{ asset('uploads/portfolio/view/Frontend.png') }}" alt="Frontend view"></a>
+                                            src="{{ asset('uploads/portfolio/view/Frontend.png') }}" alt="Frontend view"> --}}
+                                        </a>
                                 </div>
                             @endif
                             @if (!empty($portfolio->link2))
                                 <div class="content-column col-lg-4 col-md-4 col-sm-12">
-                                    <a target="_blank" href="{{ $portfolio->link2 }}"><img
+                                    <a class="portfolio-btn" target="_blank" href="{{ $portfolio->link2 }}">
+                                        {{-- <img
                                             style="width:100%; height: 100%; box-shadow: 10px 10px 8px #888888;"
-                                            src="{{ asset('uploads/portfolio/view/Admin.png') }}" alt="Admin view"></a>
+                                            src="{{ asset('uploads/portfolio/view/Admin.png') }}" alt="Admin view"> --}}
+                                        </a>
                                 </div>
                             @endif
                             @if (!empty($portfolio->link3))
                                 <div class="content-column col-lg-4 col-md-4 col-sm-12">
-                                    <a target="_blank" href="{{ $portfolio->link3 }}"><img
+                                    <a class="portfolio-btn" target="_blank" href="{{ $portfolio->link3 }}">
+                                        {{-- <img
                                             style="width:100%; height: 100%; box-shadow: 10px 10px 8px #888888;"
-                                            src="{{ asset('uploads/portfolio/view/User.png') }}" alt="Admin view"></a>
+                                            src="{{ asset('uploads/portfolio/view/User.png') }}" alt="Admin view"> --}}
+                                        </a>
                                 </div>
                             @endif
                         </div>
