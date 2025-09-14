@@ -181,6 +181,16 @@ $header = \App\Models\PageSetup::page('faqs');
       margin-bottom: 40px;
       color: #333333;
     }
+    @media (max-width: 575.98px) {
+        .partner-section h2 {
+            font-weight: 700;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333333;
+        }
+}
+
     @media (min-width: 576px) { 
         .partner-section h2 {
             font-weight: 700;
