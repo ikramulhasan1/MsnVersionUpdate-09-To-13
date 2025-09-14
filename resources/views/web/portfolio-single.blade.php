@@ -158,6 +158,7 @@
             border-radius: 5px;
             text-decoration: none;
             font-weight: bold;
+            margin-bottom: 10px;
         }
     </style>
     <!--Page Title-->
