@@ -917,6 +917,10 @@
   .owl-next {
     display: none !important;
   }
+
+  .legend-p{
+    margin-top: 20px;
+  }
 </style>
 {{-- schema --}}
 @section('schema_markup')
@@ -1376,8 +1380,8 @@
 
           <fieldset>
             {{-- <div class=""> --}}
-              <legend class="mb-4">Need a Different Approach?</legend>
-              <p>Explore More Ways We Can Help.</p>
+              <legend>Need a Different Approach?</legend>
+              <p class="legend-p">Explore More Ways We Can Help.</p>
             {{-- </div> --}}
 
             <div class="radio-options">
