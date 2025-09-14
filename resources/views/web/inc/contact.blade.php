@@ -214,7 +214,7 @@
 
 
     }
-      .form-section>.phone {
+      .form-section>input {
         width: 100% !important;
       }
     @media (min-width: 576px) {
