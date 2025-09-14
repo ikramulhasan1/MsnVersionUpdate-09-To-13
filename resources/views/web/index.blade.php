@@ -917,8 +917,13 @@
   .owl-next {
     display: none !important;
   }
-  
+  .top-banner-img{ 
+    justify-content: space-start;
+  }
   @media (max-width: 575.98px) {
+    .top-banner-img{ 
+      justify-content: center;
+    }
     .legend-p{
       margin-top: 50px;
     }
@@ -1084,8 +1089,8 @@
               }
             @endphp
 
-            <div class="item"
-              style="justify-content: space-start; position: relative; max-height: 450px !important; {{ $style }}"
+            <div class="item top-banner-img"
+              style="position: relative; max-height: 450px !important; {{ $style }}"
               @if($slider->media_type === 'video' && $slider->video_id) data-video-id="{{ $slider->video_id }}" @endif>
 
               {{-- Background YouTube Video --}}
