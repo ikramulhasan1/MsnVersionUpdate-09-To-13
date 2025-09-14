@@ -189,6 +189,10 @@ $header = \App\Models\PageSetup::page('faqs');
             margin-bottom: 40px;
             color: #333333;
         }
+
+        .faq-section-two{
+            padding-bottom: 20px !important;
+        }
 }
 
     @media (min-width: 576px) { 
