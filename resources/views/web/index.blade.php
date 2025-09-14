@@ -1376,7 +1376,7 @@
 
           <fieldset>
             <legend>Need a Different Approach?</legend>
-            <p>Explore More Ways We Can Help.</p>
+            {{-- <p>Explore More Ways We Can Help.</p> --}}
 
             <div class="radio-options">
               <div>
@@ -1736,7 +1736,7 @@
 
   @if(count($processes) > 0 && isset($section_process))
     {{-- process-section --}}
-    <section class="process-section px-5">
+    <section class="process-section">
       <div class="container">
         <div class="process-section-title">
           <h2 style="padding-bottom: 30px !important">{{ $section_process->title }}</h2>
