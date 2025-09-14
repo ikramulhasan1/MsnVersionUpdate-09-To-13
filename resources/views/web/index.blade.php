@@ -1375,8 +1375,10 @@
           @csrf
 
           <fieldset>
-            <legend>Need a Different Approach?</legend>
-            <p>Explore More Ways We Can Help.</p>
+            <div class="">
+              <legend>Need a Different Approach?</legend>
+              <p>Explore More Ways We Can Help.</p>
+            </div>
 
             <div class="radio-options">
               <div>
