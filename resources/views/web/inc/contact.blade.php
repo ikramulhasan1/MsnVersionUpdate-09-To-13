@@ -183,6 +183,9 @@
       color: white;
       border-radius: 8px;
     } */
+     .form-section>.phone {
+        width: 600px !important;
+      }
     @media (max-width: 575.98px) {
       .form-section {
         flex: 1 1 55%;
@@ -212,11 +215,11 @@
         background-position: center center;
       }
 
-
-    }
-      .form-section>input {
-        width: 100% !important;
+    .form-section>.phone {
+        width: 400px !important;
       }
+    }
+      
     @media (min-width: 576px) {
       .form-section {
         flex: 1 1 55%;
@@ -246,7 +249,9 @@
         background-position: center center;
       }
 
-
+    .form-section>.phone {
+        width: 400px !important;
+      }
     }
 
     @media (max-width: 768px) {
