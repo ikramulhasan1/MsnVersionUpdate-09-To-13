@@ -917,10 +917,13 @@
   .owl-next {
     display: none !important;
   }
-
-  .legend-p{
+  
+  @media (max-width: 575.98px) {
+    .legend-p{
     margin-top: 50px;
   }
+   }
+  
 </style>
 {{-- schema --}}
 @section('schema_markup')
