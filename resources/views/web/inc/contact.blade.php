@@ -183,7 +183,7 @@
     } */
     @media (max-width: 575.98px) {
       .form-section {
-        flex: 1 1 45%;
+        flex: 1 1 35%;
         padding: 50px;
         background-color: #052C58;
       }
@@ -195,7 +195,7 @@
       }
 
       .calendar-section {
-        flex: 1 1 45%;
+        flex: 1 1 35%;
         /* background: #fff; */
         display: flex;
         align-items: center;
@@ -215,7 +215,7 @@
 
     @media (min-width: 576px) {
       .form-section {
-        flex: 1 1 45%;
+        flex: 1 1 35%;
         padding: 50px;
         background-color: #052C58;
       }
@@ -227,7 +227,7 @@
       }
 
       .calendar-section {
-        flex: 1 1 45%;
+        flex: 1 1 35%;
         /* background: #fff; */
         display: flex;
         align-items: center;
