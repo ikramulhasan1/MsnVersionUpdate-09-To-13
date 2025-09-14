@@ -215,8 +215,8 @@
         background-position: center center;
       }
 
-    .form-section>.phone {
-        width: 400px !important;
+      .phone {
+        width: 100% !important;
       }
     }
       
@@ -249,8 +249,8 @@
         background-position: center center;
       }
 
-    .form-section>.phone {
-        width: 400px !important;
+      .phone {
+        width: 100% !important;
       }
     }
 
