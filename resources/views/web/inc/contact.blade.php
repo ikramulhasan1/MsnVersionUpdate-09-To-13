@@ -181,6 +181,69 @@
       color: white;
       border-radius: 8px;
     } */
+    @media (max-width: 575.98px) {
+      .form-section {
+        flex: 1 1 45%;
+        padding: 50px;
+        background-color: #052C58;
+      }
+
+      .form-section h3 {
+        color: #000000;
+        font-size: 28px;
+        font-weight: 900;
+      }
+
+      .calendar-section {
+        flex: 1 1 45%;
+        /* background: #fff; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0px;
+        border-left: 1px solid #eee;
+        background:
+          linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+          url('https://t4.ftcdn.net/jpg/10/95/98/59/240_F_1095985933_J2wC9izxs9fZHvvgFxPC7sKutX8ntwhl.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+      }
+
+
+    }
+
+    @media (min-width: 576px) {
+      .form-section {
+        flex: 1 1 45%;
+        padding: 50px;
+        background-color: #052C58;
+      }
+
+      .form-section h3 {
+        color: #000000;
+        font-size: 28px;
+        font-weight: 900;
+      }
+
+      .calendar-section {
+        flex: 1 1 45%;
+        /* background: #fff; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0px;
+        border-left: 1px solid #eee;
+        background:
+          linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+          url('https://t4.ftcdn.net/jpg/10/95/98/59/240_F_1095985933_J2wC9izxs9fZHvvgFxPC7sKutX8ntwhl.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+      }
+
+
+    }
 
     @media (max-width: 768px) {
       .contact-container {
