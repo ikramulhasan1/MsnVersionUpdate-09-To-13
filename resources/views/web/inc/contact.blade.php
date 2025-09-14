@@ -212,6 +212,10 @@
         background-position: center center;
       }
 
+      #phone {
+        width: 400px !important;
+        /* margin-bottom: 20px !important; */
+      }
 
     }
 
@@ -244,7 +248,10 @@
         background-position: center center;
       }
 
-
+      #phone {
+        width: 400px !important;
+        /* margin-bottom: 20px !important; */
+      }
     }
 
     @media (max-width: 768px) {
@@ -267,7 +274,7 @@
     }
 
     #phone {
-      width: 100% !important;
+      width: 450px !important;
       /* margin-bottom: 20px !important; */
     }
 
