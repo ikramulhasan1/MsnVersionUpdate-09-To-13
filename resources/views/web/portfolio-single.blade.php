@@ -229,7 +229,7 @@
                             @endif
                             @if (!empty($portfolio->link2))
                                 <div class="content-column col-lg-4 col-md-4 col-sm-12">
-                                    <a class="portfolio-btn" target="_blank" href="{{ $portfolio->link2 }}">
+                                    <a class="portfolio-btn" target="_blank" href="{{ $portfolio->link2 }}">Admin view
                                         {{-- <img
                                             style="width:100%; height: 100%; box-shadow: 10px 10px 8px #888888;"
                                             src="{{ asset('uploads/portfolio/view/Admin.png') }}" alt="Admin view"> --}}
@@ -238,7 +238,7 @@
                             @endif
                             @if (!empty($portfolio->link3))
                                 <div class="content-column col-lg-4 col-md-4 col-sm-12">
-                                    <a class="portfolio-btn" target="_blank" href="{{ $portfolio->link3 }}">
+                                    <a class="portfolio-btn" target="_blank" href="{{ $portfolio->link3 }}">User view
                                         {{-- <img
                                             style="width:100%; height: 100%; box-shadow: 10px 10px 8px #888888;"
                                             src="{{ asset('uploads/portfolio/view/User.png') }}" alt="Admin view"> --}}
