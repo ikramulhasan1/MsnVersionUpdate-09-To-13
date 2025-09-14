@@ -256,10 +256,24 @@
                             <div class="content-column col-lg-8 col-md-12 col-sm-12">
                                 <div class="inner-column">
                                     <h2>{{ $portfolio->title }}</h2>
-                                    <div class="description">
+                                    {{-- <div class="description">
 
                                         {!! $portfolio->description !!}
+                                    </div> --}}
+                                    @php
+                                        // Extract first link from description
+                                        preg_match('/<a\s+[^>]*href=["\']([^"\']+)["\']/i', $portfolio->description, $matches);
+                                        $link = $matches[1] ?? null;
+                                    @endphp
+
+                                    <div class="description">
+                                        @if($link)
+                                            <a href="{{ $link }}" target="_blank" rel="noopener noreferrer">Visit Now</a>
+                                        @else
+                                            {!! $portfolio->description !!}
+                                        @endif
                                     </div>
+
 
                                     @if(!empty($portfolio->video_id))
                                         <div class="embed-responsive embed-responsive-16by9">
