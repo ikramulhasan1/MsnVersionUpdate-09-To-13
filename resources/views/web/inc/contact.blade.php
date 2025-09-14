@@ -183,9 +183,6 @@
       color: white;
       border-radius: 8px;
     } */
-     .phone {
-        width: 200% !important;
-      }
     @media (max-width: 575.98px) {
       .form-section {
         flex: 1 1 55%;
@@ -215,11 +212,9 @@
         background-position: center center;
       }
 
-      .phone {
-        width: 100% !important;
-      }
+
     }
-      
+
     @media (min-width: 576px) {
       .form-section {
         flex: 1 1 55%;
@@ -249,9 +244,7 @@
         background-position: center center;
       }
 
-      .phone {
-        width: 100% !important;
-      }
+
     }
 
     @media (max-width: 768px) {
@@ -273,9 +266,10 @@
       width: 100%;
     }
 
-    /* #phone {
+    #phone {
       width: 420px;
-    } */
+      /* margin-bottom: 20px !important; */
+    }
 
     #email {
       margin-top: 20px !important;
@@ -296,7 +290,7 @@
 
       <form id="booking-form">
         <input type="text" id="name" name="name" class="form-control" placeholder="Your Name" required />
-        <input type="tel" id="phone" name="phone" class="form-control phone" placeholder="Phone Number" required />
+        <input type="tel" id="phone" name="phone" class="form-control" placeholder="Phone Number" required />
         <input type="email" id="email" name="email" class="form-control" placeholder="Email Address" required />
         <input type="text" id="location" name="location" class="form-control" placeholder="Location" autocomplete="off"
           required />
