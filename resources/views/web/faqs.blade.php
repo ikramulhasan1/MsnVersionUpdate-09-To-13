@@ -298,21 +298,7 @@ $section_faqs = \App\Models\Section::section('faqs');
 $section_clients = \App\Models\Section::section('clients');
 @endphp
 @if(count($clients) > 0 && isset($section_clients))
-<!--Clients Section-->
-{{-- <section class="clients-section style-two">
-    <div class="container">
-        <div class="sponsors-outer">
-            <!--Sponsors Carousel-->
-            <ul class="sponsors-carousel owl-carousel owl-theme">
-                @foreach($clients as $client)
-                <li class="slide-item">
-                    <figure class="image-box"><a href="{{ $client->link }}" target="_blank"><img src="{{ asset('uploads/client/'.$client->image_path) }}" alt="{{ $client->title }}"></a></figure>
-                </li>
-                @endforeach
-            </ul>
-        </div>
-    </div>
-</section> --}}
+{{-- 
 <section class="partner-section">
     <div class="container">
     <h2>Enterprises & Tech Companies Worldwide Trust Us</h2>
@@ -324,7 +310,8 @@ $section_clients = \App\Models\Section::section('clients');
         @endforeach
     </div>
     </div>
-</section>
+</section> --}}
+@include('web.inc.client')
 <!--End Clients Section-->
 @endif
 
