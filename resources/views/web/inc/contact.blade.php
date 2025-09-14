@@ -41,6 +41,7 @@
       flex: 1 1 55%;
       padding: 50px;
       background-color: #052C58;
+      width: 100%;
     }
 
     .form-section h3 {
@@ -71,6 +72,7 @@
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center center;
+      width: 100%;
     }
 
 
@@ -183,7 +185,7 @@
     } */
     @media (max-width: 575.98px) {
       .form-section {
-        flex: 1 1 35%;
+        flex: 1 1 55%;
         padding: 50px;
         background-color: #052C58;
       }
@@ -195,7 +197,7 @@
       }
 
       .calendar-section {
-        flex: 1 1 35%;
+        flex: 1 1 45%;
         /* background: #fff; */
         display: flex;
         align-items: center;
@@ -215,7 +217,7 @@
 
     @media (min-width: 576px) {
       .form-section {
-        flex: 1 1 35%;
+        flex: 1 1 55%;
         padding: 50px;
         background-color: #052C58;
       }
@@ -227,7 +229,7 @@
       }
 
       .calendar-section {
-        flex: 1 1 35%;
+        flex: 1 1 45%;
         /* background: #fff; */
         display: flex;
         align-items: center;
