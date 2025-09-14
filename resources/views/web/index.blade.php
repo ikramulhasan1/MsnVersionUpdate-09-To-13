@@ -920,8 +920,11 @@
   
   @media (max-width: 575.98px) {
     .legend-p{
-    margin-top: 50px;
-  }
+      margin-top: 50px;
+    }
+    .slider-img-title{
+      font-size: 24px !important;
+    }
    }
   
 </style>
@@ -1091,7 +1094,7 @@
               <div class="row row-item-content position-relative" style="z-index: 2; ">
                 <div class="col-md-12 item-content">
                   <div>
-                    <h1>{{ $slider->title }}</h1>
+                    <h1 class="slider-img-title">{{ $slider->title }}</h1>
                     {{-- <p>{!! $slider->description !!}</p> --}}
 
                     @php
