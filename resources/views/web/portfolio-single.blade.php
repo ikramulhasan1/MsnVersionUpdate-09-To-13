@@ -265,7 +265,7 @@
                                             '/<a\s+[^>]*href=["\']([^"\']+)["\'][^>]*>.*?<\/a>/i',
                                             function ($matches) {
                                                 $url = $matches[1];
-                                                return '<a href="' . $url . '" target="_blank" rel="noopener noreferrer">Visit Now</a>';
+                                                return '<a href="' . $url . '" style="font-weight: 700; color: #052C58;" target="_blank" rel="noopener noreferrer">Visit Now</a>';
                                             },
                                             $portfolio->description
                                         );
