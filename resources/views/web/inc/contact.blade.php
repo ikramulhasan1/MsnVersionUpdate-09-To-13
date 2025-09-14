@@ -183,7 +183,7 @@
       color: white;
       border-radius: 8px;
     } */
-     .form-section>.phone {
+     .phone {
         width: 600px !important;
       }
     @media (max-width: 575.98px) {
