@@ -674,8 +674,8 @@
   @if(isset($service))
     <!--Sidebar Page Container-->
     <div style="background-color: #ffffff" class="sidebar-page-container">
-      <div>
-        <div class="row clearfix mb-5 mx-5">
+      <div class="container">
+        <div class="row mb-5">
           <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
             <aside class="sidebar services-sidebar">
               @if ($service->industries->count() > 0)
