@@ -78,6 +78,35 @@ $header = \App\Models\PageSetup::page('services');
     .description>p {
         font-size: 18px !important;
     }
+
+
+
+
+    .about-hero-section {
+      /* background: linear-gradient(135deg, rgba(106,17,203,0.9), rgba(37,117,252,0.9)), url('//images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover; */
+      background-color: #052C58;
+      height: 40vh;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-hero-section h1 {
+      font-size: 60px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .about-hero-section p {
+      font-size: 22px;
+      max-width: 700px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
 </style>
 <!--Page Title-->
 {{-- <section class="page-title">
