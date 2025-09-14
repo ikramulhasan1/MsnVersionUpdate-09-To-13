@@ -262,10 +262,10 @@
                                     </div> --}}
                                     @php
                                         $modifiedDescription = preg_replace_callback(
-                                            '/<a\s+[^>]*href=["\']([^"\']+)["\'][^>]*>.*?<\/a>/i',
+                                            '/<a\s+[^>]*href=["\']((?!mailto:)[^"\']+)["\'][^>]*>.*?<\/a>/i',
                                             function ($matches) {
                                                 $url = $matches[1];
-                                                return '<a href="' . $url . '" style="font-weight: 700; color: #052C58;" target="_blank" rel="noopener noreferrer">Visit Now</a>';
+                                                return '<a href="' . $url . '" target="_blank" style="font-weight: 700; color: #0d00ff;" rel="noopener noreferrer">Visit Now</a>';
                                             },
                                             $portfolio->description
                                         );
@@ -274,6 +274,7 @@
                                     <div class="description">
                                         {!! $modifiedDescription !!}
                                     </div>
+
 
 
 
