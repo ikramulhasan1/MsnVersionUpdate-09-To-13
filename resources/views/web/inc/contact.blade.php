@@ -213,7 +213,7 @@
       }
 
       #phone {
-        width: 200px !important;
+        width: 400px !important;
         /* margin-bottom: 20px !important; */
       }
 
@@ -249,7 +249,7 @@
       }
 
       #phone {
-        width: 200px !important;
+        width: 400px !important;
         /* margin-bottom: 20px !important; */
       }
     }
@@ -274,7 +274,7 @@
     }
 
     #phone {
-      width: 600px;
+      width: 600px!important;
       /* margin-bottom: 20px !important; */
     }
 
