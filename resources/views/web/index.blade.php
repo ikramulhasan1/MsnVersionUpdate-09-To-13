@@ -932,7 +932,7 @@
       max-width: 100% !important;
       display: flex;
       align-items: baseline;
-      justify-content: start;
+      justify-content: center;
     }
 
    }
