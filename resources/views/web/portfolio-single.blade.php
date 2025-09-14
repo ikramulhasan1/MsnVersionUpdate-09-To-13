@@ -219,7 +219,7 @@
                     <div class="my-4">
                         <div class="row d-flex justify-content-between content-column col-lg-8 col-md-12 col-sm-12">
                             @if (!empty($portfolio->link))
-                                <div class="content-column col-lg-4 col-md-4 col-sm-12">
+                                <div class="">
                                     <a class="portfolio-btn" target="_blank" href="{{ $portfolio->link }}">Web view
                                         {{-- <img
                                             style="width:100%; height: 100%; box-shadow: 10px 10px 8px #888888;"
@@ -228,8 +228,8 @@
                                 </div>
                             @endif
                             @if (!empty($portfolio->link2))
-                                <div class="content-column col-lg-4 col-md-4 col-sm-12">
-                                    <a class="portfolio-btn" target="_blank" href="{{ $portfolio->link2 }}">Admin view
+                                <div class="">
+                                    <a class="portfolio-btn" target="_blank" href="{{ $portfolio->link2 }}">Admin dashboard
                                         {{-- <img
                                             style="width:100%; height: 100%; box-shadow: 10px 10px 8px #888888;"
                                             src="{{ asset('uploads/portfolio/view/Admin.png') }}" alt="Admin view"> --}}
@@ -237,8 +237,8 @@
                                 </div>
                             @endif
                             @if (!empty($portfolio->link3))
-                                <div class="content-column col-lg-4 col-md-4 col-sm-12">
-                                    <a class="portfolio-btn" target="_blank" href="{{ $portfolio->link3 }}">User view
+                                <div class="">
+                                    <a class="portfolio-btn" target="_blank" href="{{ $portfolio->link3 }}">User dashboard
                                         {{-- <img
                                             style="width:100%; height: 100%; box-shadow: 10px 10px 8px #888888;"
                                             src="{{ asset('uploads/portfolio/view/User.png') }}" alt="Admin view"> --}}
