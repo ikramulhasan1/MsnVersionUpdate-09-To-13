@@ -919,7 +919,7 @@
   }
 
   .legend-p{
-    margin-top: 30px;
+    margin-top: 40px;
   }
 </style>
 {{-- schema --}}
