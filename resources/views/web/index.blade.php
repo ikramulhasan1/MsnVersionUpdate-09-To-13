@@ -925,6 +925,16 @@
     .slider-img-title{
       font-size: 24px !important;
     }
+
+    .row-item-content {
+      height: 370px !important;
+      max-height: 450px !important;
+      max-width: 100% !important;
+      display: flex;
+      align-items: baseline;
+      justify-content: start;
+    }
+
    }
   
 </style>
