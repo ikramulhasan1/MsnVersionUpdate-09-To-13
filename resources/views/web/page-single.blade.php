@@ -88,10 +88,36 @@
     .sidebar-page-container {
         padding-top: 50px !important;
     }
+
+    .about-hero-section {
+      /* background: linear-gradient(135deg, rgba(106,17,203,0.9), rgba(37,117,252,0.9)), url('//images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover; */
+      background-color: #052C58;
+      height: 40vh;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-hero-section h1 {
+      font-size: 60px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .about-hero-section p {
+      font-size: 22px;
+      max-width: 700px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
 </style>
 @if(isset($page))
 <!--Page Title-->
-<section class="page-title">
+{{-- <section class="page-title">
     <div class="container">
         <div class="inner-container clearfix">
             <div class="title-box">
@@ -99,6 +125,28 @@
             </div>
             <div class="bread-crumb">
                 <ul>
+                    <li>{{ $page->title }}</li>
+                    <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section> --}}
+
+  <section class="about-hero-section" data-aos="fade">
+    <div class="container">
+      <h1>{{ $page->title }}</h1>
+      <!-- <p>Building the Future of Technology and Business Innovation Together.</p> -->
+    </div>
+  </section>
+  <section class="page-title p-0" style="background-color: black;">
+    <div class="container d-flex" style="height: 40px; align-items: center; justify-content: flex-end;">
+        <div class="inner-container clearfix">
+            {{-- <div class="title-box">
+                <h1>{{ $page->title }}</h1>
+            </div> --}}
+            <div class="bread-crumb">
+                <ul class="p-0">
                     <li>{{ $page->title }}</li>
                     <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
                 </ul>
