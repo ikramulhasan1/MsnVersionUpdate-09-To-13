@@ -673,9 +673,9 @@
 
   @if(isset($service))
     <!--Sidebar Page Container-->
-    <div style="background-color: #ffffff" class="sidebar-page-container container">
+    <div style="background-color: #ffffff" class="sidebar-page-container">
       <div>
-        <div class="row">
+        <div class="row clearfix mb-5 mx-5">
           <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
             <aside class="sidebar services-sidebar">
               @if ($service->industries->count() > 0)
@@ -789,7 +789,7 @@
 
         @if ($service->processworks->count() > 0)
           {{-- process-section --}}
-          <section class="">
+          <section class="process-section px-5">
             <div class="container">
               <div class="process-section-title">
                 <h2 style="padding-bottom: 30px !important">Our Application Development Process</h2>
@@ -897,7 +897,7 @@
 
 
         @if ($service->faqs->count() > 0)
-          <section class="containner">
+          <section class="mx-5 py-5">
             <div class="faq_container">
               <div class="faq-section-title">
                 <h3 style="font-weight: 700">FAQ</h3>
