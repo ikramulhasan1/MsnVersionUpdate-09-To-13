@@ -241,7 +241,7 @@
         </div>
     </section>
     @endif --}}
-
+{{-- 
     @if(count($clients) > 0)
         <section class="partner-section">
             <div class="container">
@@ -257,7 +257,7 @@
                 </div>
             </div>
         </section>
-    @endif
+    @endif --}}
 
 
 @endsection
