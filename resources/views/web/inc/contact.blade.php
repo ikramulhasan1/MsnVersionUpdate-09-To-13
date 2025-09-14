@@ -267,7 +267,7 @@
     }
 
     #phone {
-      width: 420px !important;
+      width: 100% !important;
       /* margin-bottom: 20px !important; */
     }
 
