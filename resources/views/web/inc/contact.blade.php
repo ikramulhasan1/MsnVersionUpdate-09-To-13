@@ -184,7 +184,7 @@
       border-radius: 8px;
     } */
      .phone {
-        width: 600px !important;
+        width: 200% !important;
       }
     @media (max-width: 575.98px) {
       .form-section {
