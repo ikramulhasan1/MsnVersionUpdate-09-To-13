@@ -261,18 +261,20 @@
                                         {!! $portfolio->description !!}
                                     </div> --}}
                                     @php
-                                        // Extract first link from description
-                                        preg_match('/<a\s+[^>]*href=["\']([^"\']+)["\']/i', $portfolio->description, $matches);
-                                        $link = $matches[1] ?? null;
+                                        $modifiedDescription = preg_replace_callback(
+                                            '/<a\s+[^>]*href=["\']([^"\']+)["\'][^>]*>.*?<\/a>/i',
+                                            function ($matches) {
+                                                $url = $matches[1];
+                                                return '<a href="' . $url . '" target="_blank" rel="noopener noreferrer">Visit Now</a>';
+                                            },
+                                            $portfolio->description
+                                        );
                                     @endphp
 
                                     <div class="description">
-                                        @if($link)
-                                            <a href="{{ $link }}" target="_blank" rel="noopener noreferrer">Visit Now</a>
-                                        @else
-                                            {!! $portfolio->description !!}
-                                        @endif
+                                        {!! $modifiedDescription !!}
                                     </div>
+
 
 
                                     @if(!empty($portfolio->video_id))
