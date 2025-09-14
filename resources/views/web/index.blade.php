@@ -1375,10 +1375,10 @@
           @csrf
 
           <fieldset>
-            <div class="">
-              <legend>Need a Different Approach?</legend>
+            {{-- <div class=""> --}}
+              <legend class="mb-4">Need a Different Approach?</legend>
               <p>Explore More Ways We Can Help.</p>
-            </div>
+            {{-- </div> --}}
 
             <div class="radio-options">
               <div>
