@@ -184,7 +184,7 @@ $header = \App\Models\PageSetup::page('faqs');
     @media (min-width: 576px) { 
         .partner-section h2 {
             font-weight: 700;
-            font-size: 24px;
+            font-size: 20px;
             text-align: center;
             margin-bottom: 40px;
             color: #333333;
