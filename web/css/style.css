@@ -862,7 +862,7 @@ img {
 
 .main-header .info-box .icon-box span:before {
 	color: #000000;
-	font-size: 48px;
+	font-size: 18px;
 	line-height: 50px;
 	margin-left: 0;
 }
@@ -3229,7 +3229,7 @@ img {
 
 .services-section-two .service-block .inner-box .icon-box .icon:before {
 	margin: 0;
-	font-size: 60px;
+	font-size: 18px;
 }
 
 .services-section-two .service-block .lower-content h3 {
