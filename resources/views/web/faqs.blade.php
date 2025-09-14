@@ -293,12 +293,12 @@ $section_faqs = \App\Models\Section::section('faqs');
 <!--End FAQs Section-->
 @endif
 
-
+{{-- 
 @php
 $section_clients = \App\Models\Section::section('clients');
 @endphp
 @if(count($clients) > 0 && isset($section_clients))
-{{-- 
+
 <section class="partner-section">
     <div class="container">
     <h2>Enterprises & Tech Companies Worldwide Trust Us</h2>
@@ -310,9 +310,7 @@ $section_clients = \App\Models\Section::section('clients');
         @endforeach
     </div>
     </div>
-</section> --}}
-@include('web.inc.client')
-<!--End Clients Section-->
-@endif
+</section>
+@endif --}}
 
 @endsection
