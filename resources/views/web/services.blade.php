@@ -80,7 +80,7 @@ $header = \App\Models\PageSetup::page('services');
     }
 </style>
 <!--Page Title-->
-<section class="page-title">
+{{-- <section class="page-title">
     <div class="container">
         <div class="inner-container clearfix">
             <div class="title-box">
@@ -94,7 +94,28 @@ $header = \App\Models\PageSetup::page('services');
             </div>
         </div>
     </div>
-</section>
+</section> --}}
+<section class="about-hero-section" data-aos="fade">
+        <div class="container">
+            <h1>{{ __('navbar.services') }}</h1>
+            <!-- <p>Building the Future of Technology and Business Innovation Together.</p> -->
+        </div>
+    </section>
+    <section class="page-title p-0" style="background-color: black;">
+        <div class="container d-flex" style="height: 40px; align-items: center; justify-content: flex-end;">
+            <div class="inner-container clearfix">
+                {{-- <div class="title-box">
+                    <h1>{{ __('navbar.services') }}</h1>
+                </div> --}}
+                <div class="bread-crumb">
+                    <ul class="p-0">
+                        <li>{{ __('navbar.services') }}</li>
+                        <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 <!--End Page Title-->
 
 
