@@ -1462,8 +1462,7 @@
 
     <!-- ✅ Owl Carousel JS -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script src="{{ asset('js/web-all.js') }}"></script>
-    {{-- <script src="{{ asset('web/js/jquery.js') }}"></script>
+    <script src="{{ asset('web/js/jquery.js') }}"></script>
     <script src="{{ asset('web/js/popper.min.js') }}"></script>
     <script src="{{ asset('web/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('web/js/jquery.fancybox.js') }}"></script>
@@ -1473,7 +1472,7 @@
     <script src="{{ asset('web/js/isotope.js') }}"></script>
     <script src="{{ asset('web/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
     <script src="{{ asset('web/js/jquery-ui.js') }}"></script>
-    <script src="{{ asset('web/js/mixitup.js') }}"></script> --}}
+    <script src="{{ asset('web/js/mixitup.js') }}"></script>
     @if($livechat->status == 1)
         <script src="{{ asset('web/js/floating-wpp.min.js') }}"></script>
     @endif
