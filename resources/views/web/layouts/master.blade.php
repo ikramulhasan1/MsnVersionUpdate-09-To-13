@@ -1460,7 +1460,7 @@
 
 
     <!-- ✅ Owl Carousel JS -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" defer></script>
     <script src="{{ asset('web/js/jquery.js') }}" defer></script>
     <script src="{{ asset('web/js/popper.min.js') }}" defer></script>
     <script src="{{ asset('web/js/bootstrap.min.js') }}" defer></script>
