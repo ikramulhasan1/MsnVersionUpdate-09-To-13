@@ -1477,9 +1477,9 @@
     <script src="{{ asset('web/js/jquery-ui.js') }}"></script>
     <script src="{{ asset('web/js/mixitup.js') }}"></script>
     @if($livechat->status == 1)
-        {{-- <script src="{{ asset('web/js/floating-wpp.min.js') }}"></script> --}}
+        <script src="{{ asset('web/js/floating-wpp.min.js') }}"></script>
     @endif
-    {{-- <script src="{{ asset('web/js/script.js') }}"></script> --}}
+    <script src="{{ asset('web/js/script.js') }}"></script>
 
 
     @if($livechat->status == 1)
