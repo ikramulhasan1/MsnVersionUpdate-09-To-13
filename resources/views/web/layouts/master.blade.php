@@ -43,7 +43,6 @@
     @endif
     <link href="{{ asset('web/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('web/css/responsive.css') }}" rel="stylesheet">
-    {{-- <link href="{{ asset('css/web-all.css') }}" rel="stylesheet"> --}}
 
 
     <link rel="preconnect" href="//fonts.googleapis.com">
@@ -1476,8 +1475,6 @@
     @if($livechat->status == 1)
         <script src="{{ asset('web/js/floating-wpp.min.js') }}"></script>
     @endif
-    {{-- <script src="{{ asset('web/js/script.js') }}"></script> --}}
-
 
     @if($livechat->status == 1)
         <!--Div where the WhatsApp will be rendered-->
