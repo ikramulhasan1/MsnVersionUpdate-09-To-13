@@ -1471,7 +1471,7 @@
     <script src="{{ asset('web/js/isotope.js') }}" defer></script>
     <script src="{{ asset('web/js/jquery.mCustomScrollbar.concat.min.js') }}" defer></script>
     <script src="{{ asset('web/js/jquery-ui.js') }}" defer></script>
-    <script src="{{ asset('web/js/mixitup.js') }}" defer></script>
+    <script type="module" src="{{ asset('web/js/mixitup.js') }}" defer></script>
     @if($livechat->status == 1)
         <script src="{{ asset('web/js/floating-wpp.min.js') }}" defer></script>
     @endif
