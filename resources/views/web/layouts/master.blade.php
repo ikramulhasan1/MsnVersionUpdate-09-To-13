@@ -37,12 +37,13 @@
 
 
     <!-- Stylesheets -->
-    <link href="{{ asset('web/css/bootstrap.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('web/css/bootstrap.css') }}" rel="stylesheet"> --}}
     @if($livechat->status == 1)
         <link href="{{ asset('web/css/floating-wpp.min.css') }}" rel="stylesheet">
     @endif
-    <link href="{{ asset('web/css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('web/css/responsive.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('web/css/style.css') }}" rel="stylesheet"> --}}
+    {{-- <link href="{{ asset('web/css/responsive.css') }}" rel="stylesheet"> --}}
+    <link href="{{ asset('css/web-all.css') }}" rel="stylesheet">
 
 
     <link rel="preconnect" href="//fonts.googleapis.com">
@@ -835,9 +836,9 @@
 
                                     @if(isset($page_about) || isset($page_faqs) || isset($page_contact))
                                         <li class="dropdown 
-                                                    {{ Request::is('about*') ? 'current' : '' }}
-                                                    {{ Request::is('faqs*') ? 'current' : '' }}
-                                                    {{ Request::is('contact*') ? 'current' : '' }}">
+                                                        {{ Request::is('about*') ? 'current' : '' }}
+                                                        {{ Request::is('faqs*') ? 'current' : '' }}
+                                                        {{ Request::is('contact*') ? 'current' : '' }}">
                                             <a href="">About Us<a>
                                                     <ul>
                                                         @if(isset($page_about))
@@ -1089,9 +1090,9 @@
 
                                     @if(isset($page_about) || isset($page_faqs) || isset($page_contact))
                                         <li class="dropdown 
-                                                    {{ Request::is('about*') ? 'current' : '' }}
-                                                    {{ Request::is('faqs*') ? 'current' : '' }}
-                                                    {{ Request::is('contact*') ? 'current' : '' }}">
+                                                        {{ Request::is('about*') ? 'current' : '' }}
+                                                        {{ Request::is('faqs*') ? 'current' : '' }}
+                                                        {{ Request::is('contact*') ? 'current' : '' }}">
                                             <a href="">About Us<a>
                                                     <ul>
                                                         @if(isset($page_about))
@@ -1461,21 +1462,24 @@
 
     <!-- ✅ Owl Carousel JS -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script src="{{ asset('web/js/jquery.js') }}"></script>
-    <script src="{{ asset('web/js/popper.min.js') }}"></script>
-    <script src="{{ asset('web/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('web/js/jquery.fancybox.js') }}"></script>
-    <script src="{{ asset('web/js/owl.js') }}"></script>
-    <script src="{{ asset('web/js/wow.js') }}"></script>
-    <script src="{{ asset('web/js/appear.js') }}"></script>
-    <script src="{{ asset('web/js/isotope.js') }}"></script>
-    <script src="{{ asset('web/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
-    <script src="{{ asset('web/js/jquery-ui.js') }}"></script>
-    <script src="{{ asset('web/js/mixitup.js') }}"></script>
+    
+    <script src="{{ asset('js/web-all.js') }}"></script>
+
+    {{-- <script src="{{ asset('web/js/jquery.js') }}"></script> --}}
+    {{-- <script src="{{ asset('web/js/popper.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('web/js/bootstrap.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('web/js/jquery.fancybox.js') }}"></script> --}}
+    {{-- <script src="{{ asset('web/js/owl.js') }}"></script> --}}
+    {{-- <script src="{{ asset('web/js/wow.js') }}"></script> --}}
+    {{-- <script src="{{ asset('web/js/appear.js') }}"></script> --}}
+    {{-- <script src="{{ asset('web/js/isotope.js') }}"></script> --}}
+    {{-- <script src="{{ asset('web/js/jquery.mCustomScrollbar.concat.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('web/js/jquery-ui.js') }}"></script> --}}
+    {{-- <script src="{{ asset('web/js/mixitup.js') }}"></script> --}}
     @if($livechat->status == 1)
-        <script src="{{ asset('web/js/floating-wpp.min.js') }}"></script>
+        {{-- <script src="{{ asset('web/js/floating-wpp.min.js') }}"></script> --}}
     @endif
-    <script src="{{ asset('web/js/script.js') }}"></script>
+    {{-- <script src="{{ asset('web/js/script.js') }}"></script> --}}
 
 
     @if($livechat->status == 1)
@@ -1491,7 +1495,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                web / images / social / whatsapp.png ') }}">', //Button Image
+                                    web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
