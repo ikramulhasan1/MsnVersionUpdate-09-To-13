@@ -154,7 +154,14 @@
 </div>
 
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> --}}
+<script type="module">
+  import flatpickr from "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.esm.js";
+
+  flatpickr("#datepicker", {});
+</script>
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
