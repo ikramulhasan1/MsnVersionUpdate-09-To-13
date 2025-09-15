@@ -37,11 +37,11 @@
 
 
     <!-- Stylesheets -->
-    {{-- <link href="{{ asset('web/css/bootstrap.css') }}" rel="stylesheet"> --}}
+    <link href="{{ asset('web/css/bootstrap.css') }}" rel="stylesheet">
     @if($livechat->status == 1)
         <link href="{{ asset('web/css/floating-wpp.min.css') }}" rel="stylesheet">
     @endif
-    <link href="{{ asset('web/css/style.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('web/css/style.css') }}" rel="stylesheet"> --}}
     <link href="{{ asset('web/css/responsive.css') }}" rel="stylesheet">
     <link href="{{ asset('css/web-all.css') }}" rel="stylesheet">
 
