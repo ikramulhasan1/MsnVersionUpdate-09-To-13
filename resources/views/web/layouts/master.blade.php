@@ -45,14 +45,10 @@
     <link href="{{ asset('web/css/responsive.css') }}" rel="stylesheet">
 
 
-    {{-- <link rel="preconnect" href="//fonts.googleapis.com">
-    <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="//fonts.googleapis.com">
+    <link rel="preload" href="//fonts.gstatic.com" crossorigin>
     <link href="//fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap"
-        rel="stylesheet"> --}}
-    <link rel="preload" href="/fonts/Flaticon.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/bootstrap-icons.woff2" as="font" type="font/woff2" crossorigin>
-
+        rel="stylesheet">
 
     <!-- ✅ Owl Carousel CSS -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
