@@ -1235,7 +1235,7 @@
               <input type="radio" name="work_model" id="model-fixed-price" value="Fixed Price Model" hidden>
               <img
                 src="https://thumbs.dreamstime.com/b/fixed-price-badge-sign-white-background-design-vector-366219601.jpg"
-                alt="Managed Team Icon">
+                alt="Managed Team Icon" loading="lazy">
               <h5>Fixed Price Model</h5>
               <p>Perfect for projects with a clearly defined scope. You pay a set price for guaranteed delivery.</p>
               {{-- <p>For clear, small projects with a fixed budget</p> --}}
@@ -1255,7 +1255,7 @@
               <input type="radio" name="work_model" id="model-milestone-based" value="Milestone-Based Model" hidden>
               <img
                 src="https://img.freepik.com/free-vector/ambition-abstract-concept-vector-illustration-business-ambition-determination-setting-big-goal-making-fast-career-self-confident-getting-what-you-want-desire-success-abstract-metaphor_335657-2892.jpg?ga=GA1.1.976765849.1741899989&semt=ais_hybrid&w=740"
-                alt="Staff Augmentation Icon">
+                alt="Staff Augmentation Icon" loading="lazy">
               <h5>Milestone-Based Model</h5>
               <p>Break your project into achievable phases and pay only as each milestone is successfully completed.</p>
               {{-- <p>Break the project into parts. Pay as we deliver.</p> --}}
@@ -1294,7 +1294,7 @@
               <input type="radio" name="work_model" id="model-monthly-support" value="Monthly Support" hidden>
               <img
                 src="https://img.freepik.com/free-vector/customer-support-flat-design-illustration_23-2148889374.jpg?ga=GA1.1.976765849.1741899989&semt=ais_hybrid&w=740"
-                alt="Fixed Cost Icon">
+                alt="Fixed Cost Icon" loading="lazy">
               <h5>Monthly Support</h5>
               <p>Ongoing assistance to ensure your business operations run smoothly without interruptions.</p>
               {{-- <p>Keep us on standby for monthly help</p> --}}
@@ -1453,7 +1453,7 @@
               <div class="service-block wow fadeInDown">
                 <div class="inner-box">
                   <div class="image-box">
-                    <figure><img src="{{ asset('uploads/service/' . $service->image_path) }}" alt="{{ $service->title }}" />
+                    <figure><img src="{{ asset('uploads/service/' . $service->image_path) }}" alt="{{ $service->title }}" loading="lazy" />
                     </figure>
                     <div class="overlay-box"><a
                         href="{{ route('service.single', $service->slug) }}">{{ __('common.read_more') }}</a></div>
@@ -1489,7 +1489,7 @@
           <p class="tech-title">Web</p>
         </a> --}}
         <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/fullstack-icon.png" alt="Full-stack">
+          <img src="//www.capitalnumbers.com/images/pool-icon-home/fullstack-icon.png" alt="Full-stack" loading="lazy">
           <p class="tech-title">Full-stack</p>
         </a>
 
@@ -1523,7 +1523,7 @@
         </a>
         <a href="#" class="tech-card">
           <img src="//upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png"
-            alt="ReactJS" loading="lazy">
+            alt="VueJS" loading="lazy">
           <p class="tech-title">VueJS</p>
         </a>
         {{-- <a href="#" class="tech-card">
@@ -1625,7 +1625,7 @@
               @endforeach">
                 <div class="portfolio-card">
                   <img src="{{ asset('uploads/portfolio/' . $portfolio->image_path) }}" alt="{{ $portfolio->title }}"
-                    class="img-fluid">
+                    class="img-fluid" loading="lazy">
                   <div class="portfolio-overlay">
                     <h5><a class="text-white"
                         href="{{ route('portfolio.single', $portfolio->slug) }}">{{ $portfolio->title }}</a></h5>
@@ -1673,7 +1673,7 @@
                 <div class="inner-box">
                   <div class="image-box">
                     <div class="image"><img src="{{ asset('uploads/member/' . $member->image_path) }}"
-                        alt="{{ $member->title }}"></div>
+                        alt="{{ $member->title }}" loading="lazy"></div>
 
                   </div>
                   <div class="info-box">
@@ -1733,7 +1733,7 @@
               <div class="inner-box">
                 <div class="image-box">
                   <div class="thumb"><img src="{{ asset('uploads/testimonial/' . $testimonial->image_path) }}"
-                      alt="{{ $testimonial->title }}"></div>
+                      alt="{{ $testimonial->title }}" loading="lazy"></div>
                 </div>
                 <div class="info-box">
                   <div class="text description">{!! $testimonial->description !!}</div>
@@ -1899,7 +1899,7 @@
           <div class="col-md-4">
             <div class="blog-card p-3">
               <img src="{{ asset('uploads/article/' . $article->image_path) }}" class="img-fluid blog-img"
-                alt="{{ $article->title }}">
+                alt="{{ $article->title }}" loading="lazy">
               <div class="blog-content pt-3">
                 <div class="blog-title"><a href="{{ route('blog.single', $article->slug) }}">{{ $article->title }}</a></div>
                 <p class="blog-meta">By <span class="fw-bold">MSN Softtech</span>, in Digital Transformation</p>
