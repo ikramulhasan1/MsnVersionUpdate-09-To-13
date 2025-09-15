@@ -1456,26 +1456,26 @@
     <div style="background-color: #1ebe5d" class="scroll-to-top scroll-to-target" data-target="html"><span
             class="fas fa-angle-double-up"></span></div>
 
-    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-3.6.0.min.js" defer></script>
 
 
     <!-- ✅ Owl Carousel JS -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script src="{{ asset('web/js/jquery.js') }}"></script>
-    <script src="{{ asset('web/js/popper.min.js') }}"></script>
-    <script src="{{ asset('web/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('web/js/jquery.fancybox.js') }}"></script>
-    <script src="{{ asset('web/js/owl.js') }}"></script>
-    <script src="{{ asset('web/js/wow.js') }}"></script>
-    <script src="{{ asset('web/js/appear.js') }}"></script>
-    <script src="{{ asset('web/js/isotope.js') }}"></script>
-    <script src="{{ asset('web/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
-    <script src="{{ asset('web/js/jquery-ui.js') }}"></script>
-    <script src="{{ asset('web/js/mixitup.js') }}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" defer></script>
+    <script src="{{ asset('web/js/jquery.js') }}" defer></script>
+    <script src="{{ asset('web/js/popper.min.js') }}" defer></script>
+    <script src="{{ asset('web/js/bootstrap.min.js') }}" defer></script>
+    <script src="{{ asset('web/js/jquery.fancybox.js') }}" defer></script>
+    <script src="{{ asset('web/js/owl.js') }}" defer></script>
+    <script src="{{ asset('web/js/wow.js') }}" defer></script>
+    <script src="{{ asset('web/js/appear.js') }}" defer></script>
+    <script src="{{ asset('web/js/isotope.js') }}" defer></script>
+    <script src="{{ asset('web/js/jquery.mCustomScrollbar.concat.min.js') }}" defer></script>
+    <script src="{{ asset('web/js/jquery-ui.js') }}" defer></script>
+    <script src="{{ asset('web/js/mixitup.js') }}" defer></script>
     @if($livechat->status == 1)
-        <script src="{{ asset('web/js/floating-wpp.min.js') }}"></script>
+        <script src="{{ asset('web/js/floating-wpp.min.js') }}" defer></script>
     @endif
-    <script src="{{ asset('web/js/script.js') }}"></script>
+    <script src="{{ asset('web/js/script.js') }}" defer></script>
 
 
     @if($livechat->status == 1)
