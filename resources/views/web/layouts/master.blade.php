@@ -37,7 +37,11 @@
 
 
     <!-- Stylesheets -->
-    <link href="{{ asset('web/css/bootstrap.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('web/css/bootstrap.css') }}" rel="stylesheet"> --}}
+
+    <link rel="preload" href="{{ asset('web/css/bootstrap.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('web/css/bootstrap.css') }}"></noscript>
+
     @if($livechat->status == 1)
         <link href="{{ asset('web/css/floating-wpp.min.css') }}" rel="stylesheet">
     @endif
