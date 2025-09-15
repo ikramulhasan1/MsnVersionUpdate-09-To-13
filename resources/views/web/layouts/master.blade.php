@@ -1475,6 +1475,8 @@
     @if($livechat->status == 1)
         <script src="{{ asset('web/js/floating-wpp.min.js') }}"></script>
     @endif
+    <script src="{{ asset('web/js/script.js') }}"></script>
+
 
     @if($livechat->status == 1)
         <!--Div where the WhatsApp will be rendered-->
