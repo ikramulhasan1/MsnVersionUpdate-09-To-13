@@ -18,7 +18,7 @@ mix.styles([
     // "web/css/bootstrap.css",
     // "web/css/floating-wpp.min.css",
     // "web/css/style.css",
-    "web/css/responsive.css",
+    // "web/css/responsive.css",
 ], "public/css/web-all.css");
 
 // Merge + minify JS (web)
