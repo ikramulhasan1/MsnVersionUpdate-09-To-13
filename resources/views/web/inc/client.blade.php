@@ -115,7 +115,7 @@
                         @foreach($clients as $client)
                             <div class="swiper-slide">
                                 <img style="height: 40px !important;" class="p-0 shadow-none"
-                                    src="{{ asset('uploads/client/' . $client->image_path) }}" alt="{{ $client->title }}" />
+                                    src="{{ asset('uploads/client/' . $client->image_path) }}" alt="{{ $client->title }}" loading="lazy" />
                             </div>
                         @endforeach
                         {{-- <div class="swiper-slide">
