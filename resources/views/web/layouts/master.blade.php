@@ -1456,11 +1456,11 @@
     <div style="background-color: #1ebe5d" class="scroll-to-top scroll-to-target" data-target="html"><span
             class="fas fa-angle-double-up"></span></div>
 
-    <script src="//code.jquery.com/jquery-3.6.0.min.js" defer></script>
+    <script src="//code.jquery.com/jquery-3.6.0.min.js" async></script>
 
 
     <!-- ✅ Owl Carousel JS -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" defer></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" async></script>
     <script src="{{ asset('web/js/jquery.js') }}" defer></script>
     <script src="{{ asset('web/js/popper.min.js') }}" defer></script>
     <script src="{{ asset('web/js/bootstrap.min.js') }}" defer></script>
