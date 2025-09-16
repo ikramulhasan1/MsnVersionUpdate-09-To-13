@@ -141,8 +141,7 @@
                             </div>
                         </div>
                         <hr>
-                       @dd($row)
-                        <h3>FAQs</h3>
+                        {{-- <h3>FAQs</h3>
                         <div class="row faq-row">
                        
                             @foreach ($row->faqs as $key => $faq)
@@ -168,7 +167,7 @@
                             </div>
                             <br><br>
                         </div>
-                        <hr>
+                        <hr> --}}
                        
                         <h3>Work Process</h3>
                         <div class="row process-row">
