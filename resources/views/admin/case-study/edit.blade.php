@@ -255,7 +255,7 @@
                                 <br><br>
                             </div> --}}
 
-                            <hr>
+                            {{-- <hr>
 
                             <h3>Why We</h3>
                             <div class="row whywes-row">
@@ -287,7 +287,7 @@
                                         onclick="addWhywes()">{{ __('dashboard.why_wes') }}</button>
                                 </div>
                                 <br><br>
-                            </div>
+                            </div> --}}
 
 
                             <div class="row">
