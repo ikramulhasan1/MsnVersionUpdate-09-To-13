@@ -189,7 +189,7 @@
                             </div>
                             <hr> --}}
 
-                            <h3>Work Process</h3>
+                            {{-- <h3>Work Process</h3>
                             <div class="row process-row">
 
                                 @foreach ($row->processworks as $key => $process)
@@ -220,7 +220,7 @@
                                 </div>
                                 <br><br>
                             </div>
-                            <hr>
+                            <hr> --}}
 
                             <h3>Industries Serve</h3>
                             <div class="row industry-row">
