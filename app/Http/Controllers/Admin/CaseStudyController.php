@@ -446,38 +446,19 @@ class CaseStudyController extends Controller
     //     return redirect()->back();
 // }
 
-    // public function edit(CaseStudy $case_study)
-    // {
-    //     $data['title'] = $this->title;
-    //     $data['route'] = $this->route;
-    //     $data['view'] = $this->view;
+    public function edit(CaseStudy $case_study)
+    {
+        $data['title'] = $this->title;
+        $data['route'] = $this->route;
+        $data['view'] = $this->view;
 
-    //     $data['row'] = $case_study;
-    //     $data['services'] = Service::where('status', 1)->get();
-    //     $data['technologies'] = Technology::where('status', 1)->get();
-    //     $data['faqCategories'] = FaqCategory::where('status', 1)->get();
+        $data['row'] = $case_study;
+        $data['services'] = Service::where('status', 1)->get();
+        $data['technologies'] = Technology::where('status', 1)->get();
+        $data['faqCategories'] = FaqCategory::where('status', 1)->get();
 
-    //     return view($this->view . '.edit', $data);
-    // }
-public function edit(CaseStudy $case_study)
-{
-    $data['title'] = $this->title;
-    $data['route'] = $this->route;
-    $data['view'] = $this->view;
-
-    $data['row'] = $case_study;
-    $data['services'] = Service::where('status', 1)->get();
-    $data['technologies'] = Technology::where('status', 1)->get();
-    $data['faqCategories'] = FaqCategory::where('status', 1)->get();
-
-    // Decode JSON case_steps for form
-    $data['case_steps'] = $case_study->case_steps ? json_decode($case_study->case_steps, true) : [];
-
-    // Load FAQs safely
-    $data['faqs'] = $case_study->faqs ?? collect([]);
-
-    return view($this->view . '.edit', $data);
-}
+        return view($this->view . '.edit', $data);
+    }
 
 
    public function update(Request $request, CaseStudy $case_study)
