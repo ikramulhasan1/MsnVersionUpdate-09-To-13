@@ -222,7 +222,7 @@
                             </div>
                             <hr> --}}
 
-                            <h3>Industries Serve</h3>
+                            {{-- <h3>Industries Serve</h3>
                             <div class="row industry-row">
 
                                 @foreach ($row->industries as $key => $industry)
@@ -253,7 +253,7 @@
                                         onclick="addIndustry()">{{ __('dashboard.industry') }}</button>
                                 </div>
                                 <br><br>
-                            </div>
+                            </div> --}}
 
                             <hr>
 
