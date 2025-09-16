@@ -16,7 +16,7 @@
             <a href="{{ route($route.'.index') }}" class="btn btn-info">{{ __('dashboard.back') }}</a>
         </div>
     </div>
-{{ dd( $row->id) }}
+{{ dd( $row) }}
 
     <div class="row">
         <div class="col-12 col-lg-12">
