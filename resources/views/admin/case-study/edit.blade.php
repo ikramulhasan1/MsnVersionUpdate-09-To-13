@@ -141,7 +141,7 @@
                             </div>
                         </div>
                         <hr>
-                       
+                       @dd($row->faqs)
                         <h3>FAQs</h3>
                         <div class="row faq-row">
                        
