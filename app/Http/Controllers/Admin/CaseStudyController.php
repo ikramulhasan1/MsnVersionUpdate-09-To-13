@@ -233,18 +233,20 @@ class CaseStudyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function edit(CaseStudy $casestudy)
-    // {
-    //     //
-    //     $data['title'] = $this->title;
-    //     $data['route'] = $this->route;
-    //     $data['view'] = $this->view;
-    //     $data['path'] = $this->path;
-    //     $data['faqCategories'] = FaqCategory::where('status', 1)->get();
-    //     $data['row'] = $casestudy;
+    public function edit(CaseStudy $case_study)
+    {
+        //
+        $data['title'] = $this->title;
+        $data['route'] = $this->route;
+        $data['view'] = $this->view;
+        $data['path'] = $this->path;
+        $data['services'] = Service::where('status', 1)->get();
+        $data['faqCategories'] = FaqCategory::where('status', 1)->get();
+        $data['technologies'] = Technology::where('status', 1)->get();
+        $data['row'] = $case_study;
 
-    //     return view($this->view.'.edit', $data);
-    // }
+        return view($this->view . '.edit', $data);
+    }
 
 
 
@@ -446,186 +448,181 @@ class CaseStudyController extends Controller
     //     return redirect()->back();
 // }
 
-    public function edit(CaseStudy $case_study)
+    public function update(Request $request, CaseStudy $case_study)
     {
-        $data['title'] = $this->title;
-        $data['route'] = $this->route;
-        $data['view'] = $this->view;
+        
+        // Validation
+        $request->validate([
+            'main_title' => 'required|max:191|unique:case_studies,main_title,' . $case_study->id,
+            'the_client' => 'required',
+            'the_client_desc' => 'required',
+            'industry' => 'required',
+            'tech_stack' => 'required',
+            'services' => 'required|array',
+            'services.*' => 'exists:services,id',
+            'technologies' => 'nullable|array',
+            'technologies.*' => 'exists:technologies,id',
+            // 'faqs.*.title' => 'required|string',
+            // 'faqs.*.description' => 'required|string',
+        ]);
 
-        $data['row'] = $case_study;
-        $data['services'] = Service::where('status', 1)->get();
-        $data['technologies'] = Technology::where('status', 1)->get();
-        $data['faqCategories'] = FaqCategory::where('status', 1)->get();
-
-        return view($this->view . '.edit', $data);
-    }
-
-
-   public function update(Request $request, CaseStudy $case_study)
-{
-    // Validation
-    $request->validate([
-        'main_title' => 'required|max:191|unique:case_studies,main_title,' . $case_study->id,
-        'the_client' => 'required',
-        'the_client_desc' => 'required',
-        'industry' => 'required',
-        'tech_stack' => 'required',
-        'services' => 'required|array',
-        'services.*' => 'exists:services,id',
-        'technologies' => 'nullable|array',
-        'technologies.*' => 'exists:technologies,id',
-        // 'faqs.*.title' => 'required|string',
-        // 'faqs.*.description' => 'required|string',
-    ]);
-
-    // Keywords check
-    $keywords = array_unique(array_map('trim', explode(',', $request->keywords)));
-    $existingKeywords = CaseStudy::whereRaw("FIND_IN_SET(keywords, ?) > 0", [implode(',', $keywords)])
-        ->where('id', '!=', $case_study->id)
-        ->exists();
-    if ($existingKeywords) {
-        return back()->withErrors(['keywords' => 'Some keywords already exist. Please use unique tags.']);
-    }
-
-    // Update Image if uploaded
-    if ($request->hasFile('image')) {
-        $filenameWithExt = $request->file('image')->getClientOriginalName();
-        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-        $fileNameToStore = $filename . '_' . time() . '.webp';
-
-        $path = public_path('uploads/' . $this->path . '/');
-        if (!File::exists($path)) {
-            File::makeDirectory($path, 0777, true, true);
+        // Keywords check
+        $keywords = array_unique(array_map('trim', explode(',', $request->keywords)));
+        $existingKeywords = CaseStudy::whereRaw("FIND_IN_SET(keywords, ?) > 0", [implode(',', $keywords)])
+            ->where('id', '!=', $case_study->id)
+            ->exists();
+        if ($existingKeywords) {
+            return back()->withErrors(['keywords' => 'Some keywords already exist. Please use unique tags.']);
         }
 
-        Image::make($request->file('image')->getRealPath())
-            ->fit(800, 500, function ($constraint) {
-                $constraint->upsize();
-            })
-            ->encode('webp', 90)
-            ->save($path . $fileNameToStore);
+        // Update Image if uploaded
+        if ($request->hasFile('image')) {
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $fileNameToStore = $filename . '_' . time() . '.webp';
 
-        $case_study->image_path = $fileNameToStore;
-    }
-
-    // Process description images (like in store)
-    $content = $request->input('the_client_desc');
-    $dom = new \DomDocument();
-    libxml_use_internal_errors(true);
-    $dom->encoding = 'utf-8';
-    $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);    
-    $images = $dom->getElementsByTagName('img');
-
-    foreach ($images as $img) {
-        $src = $img->getAttribute('src');
-
-        if (preg_match('/data:image/', $src)) {
-            preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-            $mimetype = 'webp'; // Force conversion
-
-            $filename = uniqid() . '_' . time();
-            $path = public_path('uploads/media/');
+            $path = public_path('uploads/' . $this->path . '/');
             if (!File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
-            $filepath = "/uploads/media/$filename.$mimetype";
-            Image::make($src)
-                ->resize(800, null, function ($constraint) {
-                    $constraint->aspectRatio();
+            Image::make($request->file('image')->getRealPath())
+                ->fit(800, 500, function ($constraint) {
                     $constraint->upsize();
                 })
                 ->encode('webp', 90)
-                ->save(public_path($filepath));
+                ->save($path . $fileNameToStore);
 
-            $new_src = asset($filepath);
-            $img->removeAttribute('src');
-            $img->setAttribute('src', $new_src);
+            $case_study->image_path = $fileNameToStore;
         }
-    }
-    $case_study->the_client_desc = $dom->saveHTML();
 
-    // Update Fields
-    $case_study->main_title = $request->main_title;
-    $case_study->slug = Str::slug(strtolower($request->main_title), '-');
-    $case_study->meta_title = $request->meta_title;
-    $case_study->meta_desc = $request->meta_desc;
-    $case_study->keywords = $request->keywords;
-    $case_study->the_client = $request->the_client;
-    $case_study->industry = $request->industry;
-    $case_study->tech_stack = is_array($request->tech_stack)
-        ? implode(',', $request->tech_stack)
-        : $request->tech_stack;
-    $case_study->country = $request->country;
-    $case_study->status = $request->status;
+        // Process description images (like in store)
+        $content = $request->input('the_client_desc');
+        $dom = new \DomDocument();
+        libxml_use_internal_errors(true);
+        $dom->encoding = 'utf-8';
+        $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $images = $dom->getElementsByTagName('img');
 
-    // Case Steps Update
-    $caseSteps = [];
-    if ($request->case) {
-        foreach ($request->case as $index => $process) {
-            $processImageName = $process['old_case_image'] ?? null;
+        foreach ($images as $img) {
+            $src = $img->getAttribute('src');
 
-            if ($request->hasFile("case.$index.case_image")) {
-                $file = $request->file("case.$index.case_image");
-                $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $processImageName = $filename . '_' . time() . '.webp';
+            if (preg_match('/data:image/', $src)) {
+                preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
+                $mimetype = 'webp'; // Force conversion
 
-                $path = public_path('uploads/' . $this->path . '/');
+                $filename = uniqid() . '_' . time();
+                $path = public_path('uploads/media/');
                 if (!File::exists($path)) {
                     File::makeDirectory($path, 0777, true, true);
                 }
 
-                Image::make($file->getRealPath())
-                    ->resize(756, 419, function ($constraint) {
+                $filepath = "/uploads/media/$filename.$mimetype";
+                Image::make($src)
+                    ->resize(800, null, function ($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     })
                     ->encode('webp', 90)
-                    ->save($path . $processImageName);
+                    ->save(public_path($filepath));
+
+                $new_src = asset($filepath);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $new_src);
             }
-
-            $caseSteps[] = [
-                'case_title' => $process['case_title'],
-                'case_description' => $process['case_description'],
-                'case_image' => $processImageName,
-            ];
         }
-    }
-    $case_study->case_steps = json_encode($caseSteps);
+        $case_study->the_client_desc = $dom->saveHTML();
 
-    // FAQ Update (if any)
-    if ($request->faqs) {
-        // Remove old FAQs
-        $case_study->faqs()->delete();
-        foreach ($request->faqs as $faq) {
-            $case_study->faqs()->create([
-                'category_id' => $faq['category_id'] ?? null,
-                'title' => $faq['title'] ?? '',
-                'description' => $faq['description'] ?? '',
-            ]);
+        // Update Fields
+        $case_study->main_title = $request->main_title;
+        $case_study->slug = Str::slug(strtolower($request->main_title), '-');
+        $case_study->meta_title = $request->meta_title;
+        $case_study->meta_desc = $request->meta_desc;
+        $case_study->keywords = $request->keywords;
+        $case_study->the_client = $request->the_client;
+        $case_study->industry = $request->industry;
+        $case_study->tech_stack = is_array($request->tech_stack)
+            ? implode(',', $request->tech_stack)
+            : $request->tech_stack;
+        $case_study->country = $request->country;
+        $case_study->status = $request->status;
+
+        $caseSteps = [];
+        if ($request->case) {
+            foreach ($request->case as $index => $process) {
+                $processImageName = $process['old_case_image'] ?? null;
+
+                if ($request->hasFile("case.$index.case_image")) {
+                    $file = $request->file("case.$index.case_image");
+                    $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $processImageName = $filename . '_' . time() . '.webp';
+
+                    $path = public_path('uploads/' . $this->path . '/');
+                    if (!File::exists($path)) {
+                        File::makeDirectory($path, 0777, true, true);
+                    }
+
+                    Image::make($file->getRealPath())
+                        ->resize(756, 419, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })
+                        ->encode('webp', 90)
+                        ->save($path . $processImageName);
+                }
+
+                $caseSteps[] = [
+                    'case_title'       => $process['case_title'] ?? '',
+                    'case_description' => $process['case_description'] ?? '',
+                    'case_image'       => $processImageName,
+                ];
+            }
         }
+
+        // ✅ Directly assign array (no json_encode)
+        $case_study->case_steps = json_encode($caseSteps);
+
+
+        // FAQ Update (if any)
+        // if ($request->faqs) {
+        //     // Remove old FAQs
+        //     $case_study->faqs()->delete();
+        //     foreach ($request->faqs as $faq) {
+        //         $case_study->faqs()->create([
+        //             'category_id' => $faq['category_id'] ?? null,
+        //             'title' => $faq['title'] ?? '',
+        //             'description' => $faq['description'] ?? '',
+        //         ]);
+        //     }
+        // }
+
+        // Save main case study
+        $case_study->save();
+
+        // Clean services & technologies arrays
+        $services = array_filter($request->services ?? [], fn($id) => !empty($id));
+        $technologies = array_filter($request->technologies ?? [], fn($id) => !empty($id));
+
+        // Sync Relations safely
+        $case_study->services()->sync($services);
+        $case_study->technologies()->sync($technologies);
+
+        Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
+        return redirect()->route($this->route . '.index');
     }
 
-    // Save main case study
-    $case_study->save();
 
-    // Sync Relations
-    $case_study->services()->sync($request->services);
-    $case_study->technologies()->sync($request->technologies);
 
-    Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
-    return redirect()->route($this->route . '.index');
-}
 
-    public function destroy(Service $service)
+    public function destroy(CaseStudy $case_study)
     {
         // Delete Data
-        $image_path = public_path('uploads/' . $this->path . '/' . $service->image_path);
+        $image_path = public_path('uploads/' . $this->path . '/' . $case_study->image_path);
         if (File::isFile($image_path)) {
             File::delete($image_path);
         }
 
-        $service->delete();
+        $case_study->delete();
 
         Toastr::success(__('dashboard.deleted_successfully'), __('dashboard.success'));
 

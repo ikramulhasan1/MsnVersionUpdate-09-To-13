@@ -1,495 +1,569 @@
 @extends('admin.layouts.master')
 @section('title', $title)
 @section('content')
-
-<!-- Start Content-->
-<div class="container-fluid">
-
-    <!-- start page title -->
-    <!-- Include page breadcrumb -->
-    @include('admin.inc.breadcrumb')
-    <!-- end page title -->
+    <style>
+        .ts-dropdown {
+            background-color: #ffffff !important;
+        }
 
 
-    <div class="row">
-        <div class="col-12">
-            <a href="{{ route($route.'.index') }}" class="btn btn-info">{{ __('dashboard.back') }}</a>
+        .case-services {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            border: 1px solid #ccc;
+        }
+
+        .case-services label {
+            background-color: #f0f0f0;
+            padding: 5px 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            user-select: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: 1px solid #ccc;
+            margin: 0px;
+        }
+
+        .case-services input {
+            display: none;
+        }
+
+        .case-services input:checked+label {
+            background-color: #3f7cf4;
+            color: #fff;
+            border-color: #3f7cf4;
+        }
+
+        .technologyCase {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            border: 1px solid #ccc;
+        }
+
+        .technologyCase .label {
+            background-color: #f0f0f0;
+            padding: 5px 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            user-select: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: 1px solid #ccc;
+            margin: 0px;
+        }
+
+        .technologyCase .input {
+            display: none;
+        }
+
+        .technologyCase .input:checked+label {
+            background-color: #00a830;
+            color: #fff;
+            border-color: #078700;
+        }
+
+        .nice-select>ul{
+            width: 100%;
+            margin-bottom: 20px !important;
+            margin-top: 20px !important;
+        }
+    </style>
+    <!-- Tom Select CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Start Content-->
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <!-- Include page breadcrumb -->
+        @include('admin.inc.breadcrumb')
+        <!-- end page title -->
+
+
+        <div class="row">
+            <div class="col-12">
+                <a href="{{ route($route . '.index') }}" class="btn btn-info">{{ __('dashboard.back') }}</a>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-12 col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="header-title">{{ __('dashboard.edit') }} {{ $title }}</h4>
-                </div>
-                <form class="needs-validation" novalidate action="{{ route($route.'.update',  ['case_study' => $row->id]) }}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="header-title">{{ __('dashboard.add') }} {{ $title }}</h4>
+                    </div>
+                    <form class="needs-validation" novalidate action="{{ route($route . '.update',$row->id) }}" method="post"
+                        enctype="multipart/form-data">
+                        @csrf
+                        @method('PATCH')
+                        <div class="card-body">
 
-                        <!-- Form Start -->
-                        <div class="form-group">
-                            <label for="title">{{ __('dashboard.title') }} <span>*</span></label>
-                            <input type="text" class="form-control" name="title" id="title" value="{{ $row->title }}" required>
+                            <!-- Form Start -->
+                            <div class="form-group">
+                                <label for="main_title">{{ __('dashboard.title') }} <span>*</span></label>
+                                <input type="text" class="form-control" name="main_title" id="main_title"
+                                    value="{{ $row->main_title }}" required>
 
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.title') }}
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="form-group col-6">
-                                <label for="slug">{{ __('dashboard.slug') }} <span>* </span></label>
-                                <input type="text" class="form-control" name="slug" id="slug" value="{{ $row->slug }}" readonly required>
                                 <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.slug') }}
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.title') }}
                                 </div>
                             </div>
-                            <div class="form-group col-6">
-                                <label for="short_title">{{ __('dashboard.short_title') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="short_title" id="short_title" value="{{ $row->short_title }}" required>
-    
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.short_title') }}
-                                </div>
-                            </div>
-                        </div>
 
-                        
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <label for="the_client">{{ __('dashboard.the_client') }} <span>*</span></label>
+                                    <input type="text" class="form-control" name="the_client" id="the_client"
+                                        value="The Client" required>
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.the_client') }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-4">
+                                    <label for="industry">{{ __('dashboard.industry') }} <span>* [Write a
+                                            industry]</span></label>
+                                    <input type="text" class="form-control" name="industry" id="industry"
+                                        value="{{ $row->industry }}" required>
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.industry') }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-4">
+                                    <label for="country">{{ __('dashboard.country') }} <span>*</span></label>
+                                    <input type="text" class="form-control" name="country" id="country"
+                                        value="{{ $row->country }}" required>
 
-                        <div class="form-group">
-                            <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
-                            <textarea class="form-control" name="description" id="editor1" rows="8" required>{{ $row->description }}</textarea>
-
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="meta_title">{{ __('dashboard.meta_title') }} <span>*</span></label>
-                            <input type="text" class="form-control" name="meta_title" id="meta_title" value="{{ $row->meta_title }}" required>
-
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_title') }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="short_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
-                            <textarea class="form-control" name="short_desc" id="editor" rows="4" required>{{ $row->short_desc }}</textarea>
-
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_description') }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="keywords">{{ __('dashboard.meta_keywords') }} <span>*</span></label>
-                            <input type="text" class="form-control tagin" data-tagin-separator=" " name="keywords" value="{{ $row->keywords ?? '' }}" required>
-                            
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="image">{{ __('dashboard.thumbnail') }} <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
-                            <input type="file" class="form-control" name="image" id="image">
-
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.thumbnail') }}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col">
-                                <label for="price">{{ __('dashboard.price') }} <span>* </span></label>
-                                <input type="number" class="form-control" name="price" id="price" value="{{ $row->price }}" required>
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.price') }}
-                                </div>
-                            </div>
-                            <div class="form-group col">
-                                <label for="starting_price">{{ __('dashboard.starting_price') }} <span>*</span></label>
-                                <input type="number" class="form-control" name="starting_price" id="starting_price" value="{{ $row->starting_price }}" required>
-    
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.starting_price') }}
-                                </div>
-                            </div>
-                            <div class="form-group col">
-                                <label for="review_count">{{ __('dashboard.review_count') }} <span>*</span></label>
-                                <input type="number" class="form-control" name="review_count" id="review_count" value="{{ $row->review_count }}" required>
-    
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.review_count') }}
-                                </div>
-                            </div>
-                            <div class="form-group col">
-                                <label for="priceCurrency">{{ __('dashboard.priceCurrency') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="priceCurrency" id="priceCurrency" value="{{ $row->priceCurrency }}" required>
-    
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.priceCurrency') }}
-                                </div>
-                            </div>
-                            <div class="form-group col">
-                                <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="average_rating" id="average_rating" value="{{ $row->average_rating }}" required>
-    
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.average_rating') }}
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                       
-                        <h3>FAQs</h3>
-                        <div class="row faq-row">
-                       
-                            @foreach ($row->faqs as $key => $faq)
-                            <div class="form-group col-10 faq-group mb-2 row">
-                                <div class="col-1">
-                                    {{ $key+1 }}. 
-                                </div>
-                                <div class="col-11">
-                                    <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][title]" value="{{ $faq->title }}" placeholder="{{ $key+1 }}. Question" required>
-                                    <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][description]" value="{{ $faq->description }}" placeholder="{{ $key+1 }}. Answer" required>
-                                    <input type="hidden" class="form-control mb-1" name="type" value="{{ $faq->type }}" required>
-                                    <select hidden name="faqs[{{ $key }}][category_id]">
-                                        @foreach ($faqCategories as $category)
-                                            <option value="{{ 12 }}" @if($category->id == $faq->category_id) selected @endif>{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            @endforeach
-                        
-                            <div class="form-group col-2">
-                                <button class="btn btn-success" type="button" onclick="addFaq()">{{ __('dashboard.add_another_FAQ') }}</button>
-                            </div>
-                            <br><br>
-                        </div>
-                        <hr>
-                       
-                        <h3>Work Process</h3>
-                        <div class="row process-row">
-                       
-                            @foreach ($row->processworks as $key => $process)
-                            <div class="form-group col-10 faq-group mb-2 row">
-                                <div class="col-1">
-                                    {{ $key+1 }}. 
-                                </div>
-                                <div class="col-11">
-                                    <input type="text" class="form-control mb-1" name="workprocess[{{ $key }}][title]" value="{{ $process->title }}" placeholder="{{ $key+1 }}. Title">
-                                    <input type="text" class="form-control mb-1" name="workprocess[{{ $key }}][description]" value="{{ $process->description }}" placeholder="{{ $key+1 }}. Description">
-                                    <div class="d-flex">
-                                        <input type="file" class="form-control mb-1 mr-3 w-75" name="workprocess[{{ $key }}][process_image]">
-                                    <img style="width: 40px; height: 40px;" src="{{ asset('uploads/process/' . $process->image_path) }}" class="process-step-icon" alt="">
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.country') }}
                                     </div>
                                 </div>
                             </div>
-                            @endforeach
-                        
-                            <div class="form-group col-2">
-                                <button class="btn btn-success" type="button" onclick="addProcess()">{{ __('dashboard.add_work_process') }}</button>
-                            </div>
-                            <br><br>
-                        </div>
-                        <hr>
-                       
-                        <h3>Industries Serve</h3>
-                        <div class="row industry-row">
-                       
-                            @foreach ($row->industries as $key => $industry)
-                            <div class="form-group col-10 industry-group mb-2 row align-items-center" id="industry-{{ $industry->id }}">
-                                <div class="col-1">
-                                    {{ $key+1 }}.
-                                </div> 
-                                <div class="col-8">
-                                    <input type="text" class="form-control mb-1" name="industries[{{ $key }}][title]" value="{{ $industry->title }}" placeholder="{{ $key+1 }}. Title" required>                                
-                                    <input type="text" class="form-control mb-1" name="industries[{{ $key }}][link]" value="{{ $industry->link }}" placeholder="{{ $key+1 }}. Link">                                
-                                </div>
-                                <div class="col-1">
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="removeIndustry(this)">✕</button>
-                                </div>
-                                <div class="col-1">
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteIndustry({{ $industry->id }})">🗑️ Delete</button>
+                            <div class="form-group">
+                                <label for="the_client_desc">{{ __('dashboard.description') }} <span>*</span></label>
+                                <textarea class="form-control" name="the_client_desc" id="editor1" rows="8"
+                                    required>{!! $row->the_client_desc !!}</textarea>
+
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
                                 </div>
                             </div>
-                            @endforeach
-                        
-                            <div class="form-group col-2">
-                                <button class="btn btn-success" type="button" onclick="addIndustry()">{{ __('dashboard.industry') }}</button>
-                            </div>
-                            <br><br>
-                        </div>
-                       
-                        <hr>
-                       
-                        <h3>Why We</h3>
-                        <div class="row whywes-row">
-                            @foreach ($row->whywes as $key => $we)
-                            <div class="form-group col-10 whywes-group mb-2 row align-items-center" id="whywes-{{ $we->id }}">
-                                <div class="col-1">
-                                    {{ $key+1 }}.
-                                </div> 
-                                <div class="col-8">
-                                    <input type="text" class="form-control mb-1" name="whywes[{{ $key }}][title]" value="{{ $we->title }}" placeholder="{{ $key+1 }}. Title" required>                                
-                                    <input type="text" class="form-control mb-1" name="whywes[{{ $key }}][link]" value="{{ $we->link }}" placeholder="{{ $key+1 }}. Link">                                
-                                </div>
-                                <div class="col-1">
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="removeWhyWe(this)">✕</button>
-                                </div>
-                                <div class="col-1">
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteWhyWe({{ $we->id }})">🗑️ Delete</button>
-                                </div>
-                            </div>
-                            @endforeach
-                        
-                            <div class="form-group col-2">
-                                <button class="btn btn-success" type="button" onclick="addWhywes()">{{ __('dashboard.why_wes') }}</button>
-                            </div>
-                            <br><br>
-                        </div>
-                       
-                        
-                        <div class="row">
-                            <div class="form-group col">
-                                <label for="manu">Manu</label>
-                                <select class="wide" name="manu" id="manu" data-plugin="customselect">
-                                    <option value="0" @if( $row->manu == 0 ) selected @endif>Hidden</option>
-                                    <option value="1" @if( $row->manu == 1 ) selected @endif>Show</option>
+                            <div class="form-group">
+                                <label for="tech_stack" class="form-label">Choose Your Skills</label>
+                                <select id="tech_stack" name="tech_stack[]" multiple class="form-control"
+                                    placeholder="Select tech stack...">
+                                    @php
+                                        $selectedTechs = is_array($row->tech_stack) ? $row->tech_stack : explode(',', $row->tech_stack ?? '');
+                                    @endphp
+                                    <option value="PHP" {{ in_array('PHP', $selectedTechs) ? 'selected' : '' }}>PHP</option>
+                                    <option value="Laravel" {{ in_array('Laravel', $selectedTechs) ? 'selected' : '' }}>
+                                        Laravel</option>
+                                    <option value="Vue.js" {{ in_array('Vue.js', $selectedTechs) ? 'selected' : '' }}>Vue.js
+                                    </option>
+                                    <option value="React" {{ in_array('React', $selectedTechs) ? 'selected' : '' }}>React
+                                    </option>
+                                    <option value="Node.js" {{ in_array('Node.js', $selectedTechs) ? 'selected' : '' }}>
+                                        Node.js</option>
+                                    <option value="JavaScript" {{ in_array('JavaScript', $selectedTechs) ? 'selected' : '' }}>JavaScript</option>
                                 </select>
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
+                                </div>
                             </div>
 
-                            <div class="form-group col">
-                                <label for="status">{{ __('dashboard.select_status') }}</label>
-                                <select class="wide" name="status" id="status" data-plugin="customselect">
-                                    <option value="1" @if( $row->status == 1 ) selected @endif>{{ __('dashboard.active') }}</option>
-                                    <option value="0" @if( $row->status == 0 ) selected @endif>{{ __('dashboard.inactive') }}</option>
-                                </select>
+                            <label for="Services" class="form-label">Services</label>
+                            <div id="Services" class="case-services p-2 mb-3">
+                                @foreach($services as $service)
+                                    <input 
+                                        name="services[]" 
+                                        type="checkbox" 
+                                        value="{{ $service->id }}" 
+                                        {{ (is_array(old('services', $row->services->pluck('id')->toArray())) && in_array($service->id, old('services', $row->services->pluck('id')->toArray()))) ? 'checked' : '' }} 
+                                        id="services-{{ $service->id }}">
+                                    <label for="services-{{ $service->id }}">{{ $service->short_title }}</label>
+                                @endforeach
                             </div>
-                        
+
+
+                            <label for="technology" class="form-label">Technology</label>
+                            <div id="technology" class="technologyCase p-2 mb-3">
+                                @foreach($technologies as $tech)
+                                    <input name="technologies[]" value="{{ $tech->id }}" class="input" type="checkbox"  {{ (is_array(old('technologies', $row->technologies->pluck('id')->toArray())) && in_array($tech->id, old('technologies', $row->technologies->pluck('id')->toArray()))) ? 'checked' : '' }}  id="technologies-{{ $tech->id }}">
+                                    <label class="label" for="technologies-{{ $tech->id }}">{{ $tech->short_title }}</label>
+                                @endforeach
+                            </div>
+
+                            
+                            <div class="form-group">
+                                <label for="meta_title">{{ __('dashboard.meta_title') }} <span>*</span></label>
+                                <input type="text" class="form-control" name="meta_title" id="meta_title"
+                                    value="{{ $row->meta_title }}" required>
+
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_title') }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="meta_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
+                                <textarea class="form-control" name="meta_desc" id="editor" rows="4"
+                                    required>{!! $row->meta_desc !!}</textarea>
+
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_description') }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="keywords">{{ __('dashboard.meta_keywords') }} <span>*</span></label>
+                                <input type="text" class="form-control tagin" data-tagin-separator=" " name="keywords"
+                                    value="{{ $row->keywords }}" required>
+
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="image">{{ __('dashboard.thumbnail') }} <span>*</span>
+                                        <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
+                                    <input type="file" class="form-control" name="image" id="image">
+
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.thumbnail') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3 col-lg-3">
+                                <img class="w-100" src="{{ asset('uploads/case-study/'.$row->image_path) }}" alt="">
+                            </div>
+                            <input hidden type="text" class="form-control mb-1" value="1" name="status">
+
+                            {{-- <h3>FAQs</h3>
+                            <div class="row">
+
+                                <div id="faq-wrapper" class="form-group col-9 faq-group mb-2">
+                                    <input type="text" class="form-control mb-1" name="faqs[0][title]"
+                                        placeholder="0. Question" required>
+                                    <input type="text" class="form-control mb-1" name="faqs[0][description]"
+                                        placeholder="0. Answer" required>
+
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.faq') }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <button class="btn btn-success" type="button" onclick="addFaq()">{{
+                                        __('dashboard.add_another_FAQ') }}</button>
+                                </div>
+                                <br><br>
+                            </div> --}}
+                            {{-- <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
+                            <input hidden type="text" class="form-control mb-1" name="category_id" value="12" required> --}}
+
+                            <hr>
+                            <h3>Case Study</h3>
+                            <div class="row process-row">
+                                <div class="form-group col-9 faq-group mb-2">
+                                    @php
+                                        $steps = json_decode($row->case_steps, true);
+                                    @endphp
+                                    @foreach ($steps as $index => $case)
+                                        <div class="form-group col p-0 w-100">
+                                            {{-- <input type="text" class="form-control mb-1" name="case[{{ $index }}][case_title]"
+                                                placeholder="Title"> --}}
+                                            <select name="case[{{ $index }}][case_title]" class="form-select w-100 mb-3"
+                                                aria-label="Default select example" data-plugin="customselect">
+                                                <option class=" w-100" selected value="{{ $case['case_title'] }}">{{ $case['case_title'] }}
+                                                </option>
+                                                <option value="Business Need">Business Need</option>
+                                                <option value="The Challenges">The Challenges</option>
+                                                <option value="Solution">Solution</option>
+                                                {{-- <option value="Services Involved">Services Involved</option> --}}
+                                                <option value="Results">Results</option>
+                                                <option value="Benefits">Benefits</option>
+                                                <option value="Key Features Delivered">Key Features Delivered</option>
+                                                <option value="Client Testimonial">Client Testimonial</option>
+                                                <option value="Conclusion">Conclusion</option>
+                                            </select>
+                                        </div>
+                                    
+
+                                        <textarea type="text" class="form-control mb-3" id="editor{{ 2+$index }}"
+                                            name="case[{{ $index }}][case_description]" placeholder="Description">{!! $case['case_description'] ?? '' !!}</textarea>
+                                        <input type="file" class="form-control mb-3" name="case[{{ $index }}][case_image]">
+                                    @endforeach
+                                </div>
+                                <div class="form-group col-3">
+                                    <button class="btn btn-success" type="button"
+                                        onclick="addProcess()">{{ __('dashboard.case-studies') }}</button>
+                                </div>
+                                <br><br>
+                            </div>
                         </div>
-                        <!-- Form End -->
-                    </div>
-                    <div class="card-footer">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">{{ __('dashboard.update') }}</button>
+                        <div class="card-footer">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">{{ __('dashboard.save') }}</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+            </div><!-- end col-->
+        </div>
+        <!-- end row-->
+
+
+
+    </div> <!-- container -->
+    <!-- End Content-->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const taginInputs = document.querySelectorAll(".tagin");
+            taginInputs.forEach(input => new Tagin(input, {
+                separator: ',',
+                duplicate: false,      // Prevent duplicate tags in the frontend
+                enter: true,
+                maxTags: 100
+            }));
+        });
+
+
+        CKEDITOR.replace('editor', {
+            on: {
+                instanceReady: function (ev) {
+                    this.dataProcessor.writer.setRules('strong', {
+                        indent: false,
+                        breakBeforeOpen: false,
+                        breakAfterOpen: false,
+                        breakBeforeClose: false,
+                        breakAfterClose: false
+                    });
+                }
+            },
+            coreStyles_bold: {
+                element: 'b',
+                overrides: 'strong'
+            } // Converts <strong> to <b>
+        });
+        CKEDITOR.replace('editor1', {
+            on: {
+                instanceReady: function (ev) {
+                    this.dataProcessor.writer.setRules('strong', {
+                        indent: false,
+                        breakBeforeOpen: false,
+                        breakAfterOpen: false,
+                        breakBeforeClose: false,
+                        breakAfterClose: false
+                    });
+                }
+            },
+            coreStyles_bold: {
+                element: 'b',
+                overrides: 'strong'
+            } // Converts <strong> to <b>
+        });
+        CKEDITOR.replace('editor2', {
+            on: {
+                instanceReady: function (ev) {
+                    this.dataProcessor.writer.setRules('strong', {
+                        indent: false,
+                        breakBeforeOpen: false,
+                        breakAfterOpen: false,
+                        breakBeforeClose: false,
+                        breakAfterClose: false
+                    });
+                }
+            },
+            coreStyles_bold: {
+                element: 'b',
+                overrides: 'strong'
+            } // Converts <strong> to <b>
+        });
+        CKEDITOR.replace('editor3', {
+            on: {
+                instanceReady: function (ev) {
+                    this.dataProcessor.writer.setRules('strong', {
+                        indent: false,
+                        breakBeforeOpen: false,
+                        breakAfterOpen: false,
+                        breakBeforeClose: false,
+                        breakAfterClose: false
+                    });
+                }
+            },
+            coreStyles_bold: {
+                element: 'b',
+                overrides: 'strong'
+            } // Converts <strong> to <b>
+        });
+        CKEDITOR.replace('editor4', {
+            on: {
+                instanceReady: function (ev) {
+                    this.dataProcessor.writer.setRules('strong', {
+                        indent: false,
+                        breakBeforeOpen: false,
+                        breakAfterOpen: false,
+                        breakBeforeClose: false,
+                        breakAfterClose: false
+                    });
+                }
+            },
+            coreStyles_bold: {
+                element: 'b',
+                overrides: 'strong'
+            } // Converts <strong> to <b>
+        });
+        CKEDITOR.replace('editor5', {
+            on: {
+                instanceReady: function (ev) {
+                    this.dataProcessor.writer.setRules('strong', {
+                        indent: false,
+                        breakBeforeOpen: false,
+                        breakAfterOpen: false,
+                        breakBeforeClose: false,
+                        breakAfterClose: false
+                    });
+                }
+            },
+            coreStyles_bold: {
+                element: 'b',
+                overrides: 'strong'
+            } // Converts <strong> to <b>
+        });
+        CKEDITOR.replace('editor6', {
+            on: {
+                instanceReady: function (ev) {
+                    this.dataProcessor.writer.setRules('strong', {
+                        indent: false,
+                        breakBeforeOpen: false,
+                        breakAfterOpen: false,
+                        breakBeforeClose: false,
+                        breakAfterClose: false
+                    });
+                }
+            },
+            coreStyles_bold: {
+                element: 'b',
+                overrides: 'strong'
+            } // Converts <strong> to <b>
+        });
+        CKEDITOR.replace('editor7', {
+            on: {
+                instanceReady: function (ev) {
+                    this.dataProcessor.writer.setRules('strong', {
+                        indent: false,
+                        breakBeforeOpen: false,
+                        breakAfterOpen: false,
+                        breakBeforeClose: false,
+                        breakAfterClose: false
+                    });
+                }
+            },
+            coreStyles_bold: {
+                element: 'b',
+                overrides: 'strong'
+            } // Converts <strong> to <b>
+        });
+        CKEDITOR.replace('editor8', {
+            on: {
+                instanceReady: function (ev) {
+                    this.dataProcessor.writer.setRules('strong', {
+                        indent: false,
+                        breakBeforeOpen: false,
+                        breakAfterOpen: false,
+                        breakBeforeClose: false,
+                        breakAfterClose: false
+                    });
+                }
+            },
+            coreStyles_bold: {
+                element: 'b',
+                overrides: 'strong'
+            } // Converts <strong> to <b>
+        });
+
+
+        // FAQs Section
+        let faqIndex = 1;
+
+        function addFaq() {
+            const wrapper = document.querySelector('.faq-group').parentNode;
+            const group = document.createElement('div');
+            group.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
+            group.innerHTML = `
+            ${faqIndex + 1}. 
+            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question" required>
+            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer" required>
+            <input type="hidden" class="form-control mb-1" name="faqs[${faqIndex}][type]" value="service" required>
+            <select hidden name="faqs[${faqIndex}][category_id]">
+                @foreach ($faqCategories as $category)
+                    <option value="{{ 12 }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+        `;
+            wrapper.appendChild(group);
+            faqIndex++;
+        }
+
+
+
+        let processIndex = 1;
+        let processIndexImg = 1;
+
+        function addProcess() {
+            const processWrapper = document.querySelector('.process-row');
+
+            const processGroup = document.createElement('div');
+            processGroup.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
+            processGroup.innerHTML = `
+            <div class="form-group col p-0">
+                <label for="status">{{ __('dashboard.title') }}</label>
+                <select class="wide w-100 p-1 rounded-0" style="font-size:17px" name="case[${processIndex}][case_title]">
+                    <option value="Business Need">Business Need</option>
+                    <option value="The Challenges">The Challenges</option>
+                    <option value="Solution">Solution</option>
+                    <option value="Results">Results</option>
+                    <option value="Benefits">Benefits</option>
+                    <option value="Key Features Delivered">Key Features Delivered</option>
+                    <option value="Client Testimonial">Client Testimonial</option>
+                    <option value="Conclusion">Conclusion</option>
+                </select>
             </div>
-        </div><!-- end col-->
-    </div>
-    <!-- end row-->
+            <textarea type="text" class="form-control mb-1" name="case[${processIndex}][case_description]" placeholder="${processIndex + 1}. Description"></textarea>
+            <input type="file" class="form-control mb-1" name="case[${processIndexImg}][case_image]">
+        `;
 
+            // Insert before the last column (button)
+            const processButtonContainer = processWrapper.querySelector('.col-3');
+            processWrapper.insertBefore(processGroup, processButtonContainer);
 
-</div> <!-- container -->
-<!-- End Content-->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-        const taginInputs = document.querySelectorAll(".tagin");
-        taginInputs.forEach(input => new Tagin(input, {
-            separator: ',',
-            duplicate: false,      // Prevent duplicate tags in the frontend
-            enter: true,           
-            maxTags: 100            
-        }));
-    });
-
-
-    CKEDITOR.replace('editor', {
-        on: {
-            instanceReady: function(ev) {
-                this.dataProcessor.writer.setRules('strong', {
-                    indent: false,
-                    breakBeforeOpen: false,
-                    breakAfterOpen: false,
-                    breakBeforeClose: false,
-                    breakAfterClose: false
-                });
+            processIndex++;
+            processIndexImg++;
+        }
+    </script>
+    <!-- Tom Select JS -->
+    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        new TomSelect("#tech_stack", {
+            plugins: ['remove_button'],
+            persist: false,
+            create: false,
+            maxItems: null,
+            render: {
+                item: function (data, escape) {
+                    return '<div class="item bg-primary text-white px-2 py-1 rounded me-1">' + escape(data.text) + '</div>';
+                }
             }
-        },
-        coreStyles_bold: {
-            element: 'b',
-            overrides: 'strong'
-        } // Converts <strong> to <b>
-    });
-    CKEDITOR.replace('editor1', {
-        on: {
-            instanceReady: function(ev) {
-                this.dataProcessor.writer.setRules('strong', {
-                    indent: false,
-                    breakBeforeOpen: false,
-                    breakAfterOpen: false,
-                    breakBeforeClose: false,
-                    breakAfterClose: false
-                });
-            }
-        },
-        coreStyles_bold: {
-            element: 'b',
-            overrides: 'strong'
-        } // Converts <strong> to <b>
-    });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+    </script>
 
-
-// Initial index count
-  let faqIndex = {{ count($row->faqs) }};
-
-// Render all category options as string
-const categoryOptions = `{!! collect($faqCategories)->map(fn($c) => "<option value='{$c->id}'>{$c->name}</option>")->implode('') !!}`;
-
-function addFaq() {
-    const wrapper = document.querySelector('.faq-row');
-
-    const group = document.createElement('div');
-    group.classList.add('form-group', 'faq-group', 'col-10', 'mb-2');
-    group.innerHTML = `
-        <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question" required>
-        <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer" required>
-        <input type="hidden" name="faqs[${faqIndex}][type]" value="service">
-        <select hidden name="faqs[${faqIndex}][category_id]">
-            ${categoryOptions}
-        </select>
-    `;
-
-    // Insert before the last column (button)
-    const buttonContainer = wrapper.querySelector('.col-2');
-    wrapper.insertBefore(group, buttonContainer);
-
-    faqIndex++;
-}
-
-
-
-  let processIndex = {{ count($row->processworks) }};
-
-// Render all category options as string
-
-function addProcess() {
-    const processWrapper = document.querySelector('.process-row');
-
-    const processGroup = document.createElement('div');
-    processGroup.classList.add('form-group', 'faq-group', 'col-10', 'mb-2');
-    processGroup.innerHTML = `
-        <input type="text" class="form-control mb-1" name="workprocess[${processIndex}][title]" placeholder="${processIndex + 1}. Title">
-        <input type="text" class="form-control mb-1" name="workprocess[${processIndex}][description]" placeholder="${processIndex + 1}. Description">
-        <input type="file" class="form-control mb-1" name="workprocess[${processIndex}][process_image]">
-    `;
-
-    // Insert before the last column (button)
-    const processButtonContainer = processWrapper.querySelector('.col-2');
-    processWrapper.insertBefore(processGroup, processButtonContainer);
-
-    processIndex++;
-}
-
-
-
-let industryIndex = {{ count($row->industries) }};
-
-function addIndustry() {
-    const industryWrapper = document.querySelector('.industry-row');
-
-    const industryGroup = document.createElement('div');
-    industryGroup.classList.add('form-group', 'industry-group', 'col-10', 'mb-2');
-    industryGroup.innerHTML = `
-        <input type="text" class="form-control mb-1" name="industries[${industryIndex}][title]" placeholder="${industryIndex + 1}. Title">
-        <input type="text" class="form-control mb-1" name="industries[${industryIndex}][link]" placeholder="${industryIndex + 1}. Link">
-    `;
-
-    // Insert before the last column (button)
-    const industryButtonContainer = industryWrapper.querySelector('.col-2');
-    industryWrapper.insertBefore(industryGroup, industryButtonContainer);
-
-    industryIndex++;
-}
-
-
-function removeIndustry(button) {
-    const row = button.closest('.industry-group');
-    if (row) {
-        row.remove();
-    }
-}
-
-const csrfToken = '{{ csrf_token() }}';
-
-function deleteIndustry(id) {
-    if (!confirm('Are you sure you want to delete this item permanently?')) return;
-
-    fetch(`/admin/industries/${id}`, {
-        method: 'DELETE',
-        headers: {
-            'X-CSRF-TOKEN': csrfToken,
-            'Accept': 'application/json'
-        }
-    }).then(response => response.json())
-      .then(data => {
-        if (data.success) {
-            document.getElementById(`industry-${id}`).remove();
-        } else {
-            alert('Failed to delete.');
-        }
-    }).catch(error => {
-        alert('Error occurred.');
-        console.error(error);
-    });
-}
-
-
-
-// 
-let whywesIndex = {{ count($row->whywes) }};
-
-function addWhywes() {
-    const whywesWrapper = document.querySelector('.whywes-row');
-
-    const whywesGroup = document.createElement('div');
-    whywesGroup.classList.add('form-group', 'whywes-group', 'col-10', 'mb-2');
-    whywesGroup.innerHTML = `
-        <input type="text" class="form-control mb-1" name="whywes[${whywesIndex}][title]" placeholder="${whywesIndex + 1}. Title">
-        <input type="text" class="form-control mb-1" name="whywes[${whywesIndex}][link]" placeholder="${whywesIndex + 1}. Link">
-    `;
-
-    // Insert before the last column (button)
-    const whywesButtonContainer = whywesWrapper.querySelector('.col-2');
-    whywesWrapper.insertBefore(whywesGroup, whywesButtonContainer);
-
-    whywesIndex++;
-}
-
-function removeWhyWe(button) {
-    const row = button.closest('.whywes-group');
-    if (row) {
-        row.remove();
-    }
-}
-
-// const csrfToken = '{{ csrf_token() }}';
-
-function deleteWhyWe(id) {
-    if (!confirm('Are you sure you want to delete this item permanently?')) return;
-
-    fetch(`/admin/whywes/${id}`, {
-        method: 'DELETE',
-        headers: {
-            'X-CSRF-TOKEN': csrfToken,
-            'Accept': 'application/json'
-        }
-    }).then(response => response.json())
-      .then(data => {
-        if (data.success) {
-            document.getElementById(`whywes-${id}`).remove();
-        } else {
-            alert('Failed to delete.');
-        }
-    }).catch(error => {
-        alert('Error occurred.');
-        console.error(error);
-    });
-}
-
-</script>
 @endsection

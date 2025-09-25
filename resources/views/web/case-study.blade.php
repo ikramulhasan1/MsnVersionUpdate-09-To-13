@@ -57,7 +57,8 @@
             top: 40px;
             right: 60px;
             border-radius: 10px;
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid #2ED47A;
+            /* box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1); */
             padding: 20px 25px;
             width: 260px;
         }
@@ -80,10 +81,16 @@
             position: relative;
             padding-left: 14px;
         }
+       .caseStudy-case-menu ul li a.active {
+            font-size: 15px;
+            font-weight: 700;
+            color: #2ED47A;
+        }
+
 
         .caseStudy-case-menu ul li::before {
             content: "•";
-            color: #0A2540;
+            color: #2ED47A;
             position: absolute;
             left: 0;
         }
@@ -300,32 +307,56 @@
 
         .caseStudy-tech-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
+            gap: 20px;
+            margin-top: 20px;
         }
 
         .caseStudy-tech-item {
-            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            background: #fff;
+            border: 1px solid #e0e0e0;
             border-radius: 12px;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
-            padding: 20px;
-            text-align: center;
-            transition: transform 0.2s ease;
+            padding: 20px 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+            height: 100%; /* ensures equal height */
         }
 
         .caseStudy-tech-item:hover {
-            transform: translateY(-4px);
+            transform: translateY(0px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+            border-color: #2ED47A;
         }
 
         .caseStudy-tech-item img {
-            height: 40px;
-            margin-bottom: 10px;
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 12px;
         }
 
         .caseStudy-tech-label {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             color: #333;
+            text-align: center;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 992px) {
+            .caseStudy-tech-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 per row on tablets */
+            }
+        }
+
+        @media (max-width: 576px) {
+            .caseStudy-tech-grid {
+                grid-template-columns: 1fr; /* 1 per row on mobile */
+            }
         }
 
 
@@ -548,21 +579,99 @@
         .integration-text {
             line-height: 1.6;
         }
+
+        .description-text {
+            font-size: 16px !important;
+            line-height: 1.6;
+        }
+        .description-text p {
+            font-size: 16px !important;
+            line-height: 1.6;
+        }
+
+        .description-text ul,
+        .description-text ol {
+            list-style: none; /* default bullet/number remove */
+            padding-left: 0;  /* extra space remove */
+        }
+
+        .description-text li {
+            position: relative;
+            padding-left: 28px; /* image এর জন্য left space */
+            margin-bottom: 8px;
+        }
+
+        .description-text li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 18px;
+            height: 18px;
+            background-image: url('{{ asset('uploads/case-study/check2.png') }}'); /* ✅ আপনার checkmark image path দিন */
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
     </style>
+    @php
+        $steps = json_decode($case_study->case_steps, true); // true না দিলে object হবে
+    @endphp
     <div class="d-none d-lg-block" id="sticky-case" style="position: sticky; top: 10%; z-index: 10;">
         <div class="caseStudy-case-menu">
             <h6>In this case study</h6>
             <ul>
-                <li><a href="#{{ $case_study->the_client }}">{{ $case_study->the_client }}</a></li>
-                @foreach (json_decode($case_study->case_steps) as $case)
-                <li><a href="#{{ $case->case_title }}">{{ $case->case_title }}</a></li>
+                @if (!empty($case_study->the_client))
+                    <li><a href="#{{ $case_study->the_client }}">{{ $case_study->the_client }}</a></li>
+                @endif
+                
+                @foreach ($steps as $case)
+                    @if (!empty($case['case_title']) && $case['case_title'] == 'Business Need')
+                        <li><a href="#{{ $case['case_title'] }}">{{ $case['case_title'] }}</a></li>
+                    @endif
+                @endforeach
+                @foreach ($steps as $case)
+                    @if (!empty($case['case_title']) && $case['case_title'] == 'The Challenges')
+                        <li><a href="#{{ $case['case_title'] }}">{{ $case['case_title'] }}</a></li>
+                    @endif
+                @endforeach
+                @foreach ($steps as $case)
+                    @if (!empty($case['case_title']) && $case['case_title'] == 'Solution')
+                        <li><a href="#{{ $case['case_title'] }}">{{ $case['case_title'] }}</a></li>
+                    @endif
                 @endforeach
                 @if ($case_study->services->count() > 0)
-                <li><a href="#ServicesInvolved">Services Involved</a></li>
+                    <li><a href="#ServicesInvolved">Services Involved</a></li>
                 @endif 
                 @if ($case_study->technologies->count() > 0)
-                <li><a href="#technologies">Technologies</a></li>
+                    <li><a href="#technologies">Technologies</a></li>
                 @endif 
+                @foreach ($steps as $case)
+                    @if (!empty($case['case_title']) && $case['case_title'] == 'Results')
+                        <li><a href="#{{ $case['case_title'] }}">{{ $case['case_title'] }}</a></li>
+                    @endif
+                @endforeach
+                @foreach ($steps as $case)
+                    @if (!empty($case['case_title']) && $case['case_title'] == 'Benefits')
+                        <li><a href="#{{ $case['case_title'] }}">{{ $case['case_title'] }}</a></li>
+                    @endif
+                @endforeach
+                @foreach ($steps as $case)
+                    @if (!empty($case['case_title']) && $case['case_title'] == 'Key Features Delivered')
+                        <li><a href="#{{ $case['case_title'] }}">{{ $case['case_title'] }}</a></li>
+                    @endif
+                @endforeach
+                @foreach ($steps as $case)
+                    @if (!empty($case['case_title']) && $case['case_title'] == 'Client Testimonial')
+                        <li><a href="#{{ $case['case_title'] }}">{{ $case['case_title'] }}</a></li>
+                    @endif
+                @endforeach
+                @foreach ($steps as $case)
+                    @if (!empty($case['case_title']) && $case['case_title'] == 'Conclusion')
+                        <li><a href="#{{ $case['case_title'] }}">{{ $case['case_title'] }}</a></li>
+                    @endif
+                @endforeach
+                
                 {{-- <li>Solutions We Offered</li>
                 <li>Key Deliverables</li>
                 <li>Services Involved</li>
@@ -615,27 +724,29 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <div id="{{ $case_study->the_client }}" class="caseStudy-section-header">{{ $case_study->the_client }}</div>
-                            <p class="caseStudy-client-text">{!! $case_study->the_client_desc !!}</p>
+                            <div class="description-text">{!! $case_study->the_client_desc !!}</div>
                         </div>
                         <div class="col-lg-4 caseStudy-tech-info">
                             <h6>Industry</h6>
                             <p>{{ $case_study->industry }}</p>
                             <h6>Tech Stack</h6>
                             <p>{{ $case_study->tech_stack }}</p>
+                            <h6>Country</h6>
+                            <p>{{ $case_study->country }}</p>
                         </div>
                     </div>
                 </div>
             </section>
         </div>
 
-        <section class=" container" style="background-color: #ffffff;">
+        <section class="container" style="background-color: #ffffff;">
             <div class="col-lg-8">
                 <!-- The Challenges Section -->
-                @foreach (json_decode($case_study->case_steps) as $case)
-                @if (!empty($case->case_title) && $case->case_title == 'The Challenges')
+                @foreach ($steps as $case)
+                @if (!empty($case['case_title']) && $case['case_title'] == 'The Challenges')
                   
-                  <div id="{{ $case->case_title }}" class="caseStudy-section-box">
-                    <h2 class="caseStudy-section-h1-title">{{ $case->case_title }}</h2>
+                  <div id="{{ $case['case_title'] }}" class="caseStudy-section-box">
+                    <h2 class="caseStudy-section-h1-title">{{ $case['case_title'] }}</h2>
                     
                     {{-- <div class="caseStudy-subheading">Limited Technical Resources</div>
                     <ul class="caseStudy-check-list">
@@ -651,11 +762,11 @@
                             secure communication, and advanced reporting.</li>
                     </ul> --}}
 
-                    <img src="{{ asset('uploads/case-study/'.$case->case_image) }}"
-                        alt="{{ $case->case_title }}" class="caseStudy-section-image img-fluid">
+                    <img src="{{ asset('uploads/case-study/'.$case['case_image']) }}"
+                        alt="{{ $case['case_title'] }}" class="caseStudy-section-image img-fluid">
 
-                      
-                      <div>{!! $case->case_description !!}</div>
+
+                      <div class="description-text">{!! $case['case_description'] !!}</div>
                     {{-- <div class="caseStudy-subheading">Operational Inefficiencies</div>
                     <ul class="caseStudy-check-list">
                         <li>Manual processes such as in-person meetings and paperwork slowed down financial advisory
@@ -675,10 +786,10 @@
                 @endforeach
                 <!-- Solutions We Offered Section -->
 
-                @foreach (json_decode($case_study->case_steps) as $case)
-                @if (!empty($case->case_title) && $case->case_title == 'Solutions We Offered')
-                <div id="{{ $case->case_title }}" class="caseStudy-section-box">
-                    <h2 class="caseStudy-section-h1-title">{{ $case->case_title }}</h2>
+                @foreach ($steps as $case)
+                @if (!empty($case['case_title']) && $case['case_title'] == 'Business Need')
+                <div id="{{ $case['case_title'] }}" class="caseStudy-section-box">
+                    <h2 class="caseStudy-section-h1-title">{{ $case['case_title'] }}</h2>
 
                     {{-- <p>Capital Numbers deployed a dedicated IT Staff Augmentation team to address the client’s technical and
                         operational challenges through:</p>
@@ -697,12 +808,60 @@
                             knowledge transfer and minimal project downtime.</li>
                     </ul> --}}
 
-                    <img src="{{ asset('uploads/case-study/'.$case->case_image) }}"
-                    alt="{{ $case->case_title }}" class="caseStudy-section-image img-fluid">
-                    
-                    <div>
-                      {!! $case->case_description !!}
+                    <div class="description-text">
+                      {!! $case['case_description'] !!}
                     </div>
+
+                    <img src="{{ asset('uploads/case-study/'.$case['case_image']) }}"
+                    alt="{{ $case['case_title'] }}" class="caseStudy-section-image img-fluid">
+                    {{-- <div class="caseStudy-subheading">Seamless Integration</div>
+                    <ul class="caseStudy-check-list">
+                        <li>Integrated our developers directly into the client’s team, working collaboratively to accelerate
+                            development without disrupting existing workflows.</li>
+                    </ul>
+
+                    <div class="caseStudy-subheading">Flexible Scaling</div>
+                    <ul class="caseStudy-check-list">
+                        <li>Allowed the client to dynamically adjust team size and expertise based on project needs,
+                            ensuring
+                            agility and cost-effectiveness.</li>
+                    </ul> --}}
+                </div>
+                @else
+                  
+                @endif
+                @endforeach
+                <!-- Solutions We Offered Section -->
+
+                @foreach ($steps as $case)
+                @if (!empty($case['case_title']) && $case['case_title'] == 'Solution')
+                <div id="{{ $case['case_title'] }}" class="caseStudy-section-box">
+                    <h2 class="caseStudy-section-h1-title">{{ $case['case_title'] }}</h2>
+
+                    {{-- <p>Capital Numbers deployed a dedicated IT Staff Augmentation team to address the client’s technical and
+                        operational challenges through:</p>
+
+                    <div class="caseStudy-subheading">Understanding Client Needs</div>
+                    <ul class="caseStudy-check-list">
+                        <li>Conducted an in-depth analysis of project objectives, technical roadblocks, and business goals
+                            to
+                            tailor a strategic development plan.</li>
+                    </ul>
+
+                    <div class="caseStudy-subheading">Rapid Resource Allocation</div>
+                    <ul class="caseStudy-check-list">
+                        <li>Quickly onboarded highly skilled developers proficient in the required technologies, ensuring
+                            seamless
+                            knowledge transfer and minimal project downtime.</li>
+                    </ul> --}}
+
+                    
+
+                    <div class="description-text">
+                      {!! $case['case_description'] !!}
+                    </div>
+                    <img src="{{ asset('uploads/case-study/'.$case['case_image']) }}"
+                    alt="{{ $case['case_title'] }}" class="caseStudy-section-image img-fluid">
                     {{-- <div class="caseStudy-subheading">Seamless Integration</div>
                     <ul class="caseStudy-check-list">
                         <li>Integrated our developers directly into the client’s team, working collaboratively to accelerate
@@ -721,13 +880,13 @@
                 @endif
                 @endforeach
                 <!-- Key Deliverables -->
-                @foreach (json_decode($case_study->case_steps) as $case)
-                @if (!empty($case->case_title) && $case->case_title == 'Key Features Delivered')
-                <div id="{{ $case->case_title }}" class="caseStudy-section pb-5">
-                    <h2 class="caseStudy-section-h1-title">{{ $case->case_title }}</h2>
+                @foreach ($steps as $case)
+                @if (!empty($case['case_title']) && $case['case_title'] == 'Key Features Delivered')
+                <div id="{{ $case['case_title'] }}" class="caseStudy-section pb-5">
+                    <h2 class="caseStudy-section-h1-title">{{ $case['case_title'] }}</h2>
 
-                    <div>
-                      {!! $case->case_description !!}
+                    <div class="description-text">
+                      {!! $case['case_description'] !!}
                     </div>
 
                     {{-- <p><strong>Code Optimization:</strong> Enhanced the platform’s stability and performance (React Frontend
@@ -819,41 +978,12 @@
                         {{-- </div> --}}
                         </a>
                         @endforeach
-                         <div class="caseStudy-tech-item">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rails/rails-plain.svg"
-                                alt="Rails">
-                            <div class="caseStudy-tech-label">Rails</div>
-                        </div>
-                        {{--<div class="caseStudy-tech-item">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
-                                alt="PostgreSQL">
-                            <div class="caseStudy-tech-label">PostgreSQL</div>
-                        </div>
-                        <div class="caseStudy-tech-item">
-                            <img src="https://www.capitalnumbers.com/images/technologies-icons/docusign.svg"
-                                alt="DocuSign">
-                            <div class="caseStudy-tech-label">DocuSign</div>
-                        </div>
-                        <div class="caseStudy-tech-item">
-                            <img src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-password-cyber-security-flaticons-lineal-color-flat-icons-2.png"
-                                alt="iAM Smart">
-                            <div class="caseStudy-tech-label">iAM Smart</div>
-                        </div>
-                        <div class="caseStudy-tech-item">
-                            <img src="https://www.capitalnumbers.com/images/technologies-icons/singpass.svg"
-                                alt="Singpass">
-                            <div class="caseStudy-tech-label">Singpass</div>
-                        </div>
-                        <div class="caseStudy-tech-item">
-                            <img src="https://www.capitalnumbers.com/images/technologies-icons/aws.svg" alt="AWS">
-                            <div class="caseStudy-tech-label">AWS</div>
-                        </div> --}}
                     </div>
                 </div>
                 <!-- RESULTS SECTION -->
-                @foreach (json_decode($case_study->case_steps) as $case)
-                @if (!empty($case->case_title) && $case->case_title == 'Results')
-                <section id="{{ $case->case_title }}" class="caseStudy-results-section">
+                @foreach ($steps as $case)
+                @if (!empty($case['case_title']) && $case['case_title'] == 'Results')
+                <section id="{{ $case['case_title'] }}" class="caseStudy-results-section">
                     <h2 class="caseStudy-section-h1-title">Results</h2>
 
                     {{-- <div class="caseStudy-result-item">
@@ -884,13 +1014,142 @@
                         </div>
                     </div> --}}
 
+                    
+                    <div class="description-text">
+                        {!! $case['case_description'] !!}
+                    </div>
                     <div class="caseStudy-result-image">
-                        <img src="{{ asset('uploads/case-study/'.$case->case_image) }}"
-                        alt="{{ $case->case_title }}" />
+                        <img src="{{ asset('uploads/case-study/'.$case['case_image']) }}"
+                        alt="{{ $case['case_title'] }}" />
                     </div>
-                    <div>
-                        {!! $case->case_description !!}
+                    {{-- <div class="caseStudy-result-item">
+                        <div class="caseStudy-result-icon"></div>
+                        <div class="caseStudy-result-text">
+                            <h4>Improved Security & Compliance</h4>
+                            <p>Enhanced data security and regulatory adherence through advanced encryption and digital
+                                identity
+                                verification.</p>
+                        </div>
                     </div>
+
+                    <div class="caseStudy-result-item">
+                        <div class="caseStudy-result-icon"></div>
+                        <div class="caseStudy-result-text">
+                            <h4>Scalable and Adaptable Solution</h4>
+                            <p>A microservices architecture and AWS deployment ensured long-term scalability and
+                                flexibility.</p>
+                        </div>
+                    </div> --}}
+                </section>
+                @else
+                  
+                @endif
+                @endforeach
+
+                {{-- Benefits --}}
+                @foreach ($steps as $case)
+                @if (!empty($case['case_title']) && $case['case_title'] == 'Benefits')
+                <section id="{{ $case['case_title'] }}" class="caseStudy-results-section">
+                    <h2 class="caseStudy-section-h1-title">Benefits</h2>
+
+                    {{-- <div class="caseStudy-result-item">
+                        <div class="caseStudy-result-icon"></div>
+                        <div class="caseStudy-result-text">
+                            <h4>Rapid Project Completion</h4>
+                            <p>The platform was fully developed and launched within 12 months, significantly reducing
+                                time-to-market.</p>
+                        </div>
+                    </div>
+
+                    <div class="caseStudy-result-item">
+                        <div class="caseStudy-result-icon"></div>
+                        <div class="caseStudy-result-text">
+                            <h4>Cost Savings</h4>
+                            <p>The client avoided high hiring and operational costs, achieving cost-efficient development.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="caseStudy-result-item">
+                        <div class="caseStudy-result-icon"></div>
+                        <div class="caseStudy-result-text">
+                            <h4>Operational Efficiency</h4>
+                            <p>Automated processes drastically reduced manual tasks, allowing advisors to focus on client
+                                engagement
+                                and strategy.</p>
+                        </div>
+                    </div> --}}
+
+                    
+                    <div class="description-text">
+                        {!! $case['case_description'] !!}
+                    </div>
+                    <div class="caseStudy-result-image">
+                        <img src="{{ asset('uploads/case-study/'.$case['case_image']) }}"
+                        alt="{{ $case['case_title'] }}" />
+                    </div>
+                    {{-- <div class="caseStudy-result-item">
+                        <div class="caseStudy-result-icon"></div>
+                        <div class="caseStudy-result-text">
+                            <h4>Improved Security & Compliance</h4>
+                            <p>Enhanced data security and regulatory adherence through advanced encryption and digital
+                                identity
+                                verification.</p>
+                        </div>
+                    </div>
+
+                    <div class="caseStudy-result-item">
+                        <div class="caseStudy-result-icon"></div>
+                        <div class="caseStudy-result-text">
+                            <h4>Scalable and Adaptable Solution</h4>
+                            <p>A microservices architecture and AWS deployment ensured long-term scalability and
+                                flexibility.</p>
+                        </div>
+                    </div> --}}
+                </section>
+                @else
+                  
+                @endif
+                @endforeach
+                {{-- Conclusion --}}
+                @foreach ($steps as $case)
+                @if (!empty($case['case_title']) && $case['case_title'] == 'Conclusion')
+                <section id="{{ $case['case_title'] }}" class="caseStudy-results-section">
+                    <h2 class="caseStudy-section-h1-title">Conclusion</h2>
+
+                    {{-- <div class="caseStudy-result-item">
+                        <div class="caseStudy-result-icon"></div>
+                        <div class="caseStudy-result-text">
+                            <h4>Rapid Project Completion</h4>
+                            <p>The platform was fully developed and launched within 12 months, significantly reducing
+                                time-to-market.</p>
+                        </div>
+                    </div>
+
+                    <div class="caseStudy-result-item">
+                        <div class="caseStudy-result-icon"></div>
+                        <div class="caseStudy-result-text">
+                            <h4>Cost Savings</h4>
+                            <p>The client avoided high hiring and operational costs, achieving cost-efficient development.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="caseStudy-result-item">
+                        <div class="caseStudy-result-icon"></div>
+                        <div class="caseStudy-result-text">
+                            <h4>Operational Efficiency</h4>
+                            <p>Automated processes drastically reduced manual tasks, allowing advisors to focus on client
+                                engagement
+                                and strategy.</p>
+                        </div>
+                    </div> --}}
+
+                    
+                    <div class="description-text mb-5">
+                        {!! $case['case_description'] !!}
+                    </div>
+                    
                     {{-- <div class="caseStudy-result-item">
                         <div class="caseStudy-result-icon"></div>
                         <div class="caseStudy-result-text">
@@ -1008,6 +1267,32 @@
 
             observer.observe(endTrigger);
         });
+    </script>
+    
+    <script>
+       const menuLinks = document.querySelectorAll(".caseStudy-case-menu ul li a");
+
+        window.addEventListener("scroll", () => {
+            let current = "";
+
+            menuLinks.forEach(link => {
+                const section = document.querySelector(link.getAttribute("href"));
+                if (section) {
+                    const sectionTop = section.offsetTop - 100; // adjust offset if you have fixed header
+                    if (window.scrollY >= sectionTop) {
+                        current = link.getAttribute("href");
+                    }
+                }
+            });
+
+            menuLinks.forEach(link => {
+                link.classList.remove("active");
+                if (link.getAttribute("href") === current) {
+                    link.classList.add("active");
+                }
+            });
+        });
+
     </script>
     <!-- </div> -->
 @endsection

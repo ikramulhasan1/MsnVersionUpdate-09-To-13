@@ -21,4 +21,8 @@ class CaseStudy extends Model
     {
         return $this->belongsToMany(Technology::class);
     }
+
+    protected $casts = [
+        'case_steps' => 'array',
+    ];
 }
