@@ -180,7 +180,7 @@
   </div>
 
   <!-- Pagination -->
-  <div class="container pb-5 d-flex justify-content-center">
+  {{-- <div class="container pb-5 d-flex justify-content-center">
     <nav>
       <ul class="pagination">
         <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
@@ -192,5 +192,5 @@
         <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
       </ul>
     </nav>
-  </div>
+  </div> --}}
   @endsection
