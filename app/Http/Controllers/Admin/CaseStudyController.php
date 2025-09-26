@@ -550,9 +550,21 @@ class CaseStudyController extends Controller
         $caseSteps = [];
         if ($request->case) {
             foreach ($request->case as $index => $process) {
+                // পুরানো ইমেজ ধরে রাখি
                 $processImageName = $process['old_case_image'] ?? null;
 
+                // যদি নতুন ইমেজ থাকে তাহলে পুরানোটা ডিলিট + নতুন আপলোড
                 if ($request->hasFile("case.$index.case_image")) {
+
+                    // পুরানো ফাইল ডিলিট
+                    if (!empty($process['old_case_image'])) {
+                        $oldPath = public_path('uploads/' . $this->path . '/' . $process['old_case_image']);
+                        if (File::exists($oldPath)) {
+                            File::delete($oldPath);
+                        }
+                    }
+
+                    // নতুন ফাইল সেভ
                     $file = $request->file("case.$index.case_image");
                     $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                     $processImageName = $filename . '_' . time() . '.webp';
@@ -571,13 +583,16 @@ class CaseStudyController extends Controller
                         ->save($path . $processImageName);
                 }
 
+                // ফাইনাল array তে push করি
                 $caseSteps[] = [
                     'case_title'       => $process['case_title'] ?? '',
                     'case_description' => $process['case_description'] ?? '',
-                    'case_image'       => $processImageName,
+                    'case_image'       => $processImageName, // নতুন না থাকলে পুরানো ইমেজই যাবে
                 ];
             }
         }
+
+
 
         // ✅ Directly assign array (no json_encode)
         $case_study->case_steps = json_encode($caseSteps);

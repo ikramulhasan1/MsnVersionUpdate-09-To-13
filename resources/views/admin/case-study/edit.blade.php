@@ -293,7 +293,12 @@
 
                                         <textarea type="text" class="form-control mb-3" id="editor{{ 2+$index }}"
                                             name="case[{{ $index }}][case_description]" placeholder="Description">{!! $case['case_description'] ?? '' !!}</textarea>
+                                        <input type="hidden" name="case[{{ $index }}][old_case_image]" value="{{ $case['case_image'] }}">
                                         <input type="file" class="form-control mb-3" name="case[{{ $index }}][case_image]">
+
+                                        <div class="col-3 col-lg-3 mb-4">
+                                            <img class="w-100" src="{{ asset('uploads/case-study/'.$case['case_image']) }}" alt="">
+                                        </div>
                                     @endforeach
                                 </div>
                                 <div class="form-group col-3">
