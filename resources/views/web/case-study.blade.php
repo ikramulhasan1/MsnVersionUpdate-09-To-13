@@ -613,6 +613,31 @@
             background-repeat: no-repeat;
         }
 
+.banner {
+  position: relative;
+  width: 200px;
+  height: 35px;
+  margin: 0;
+  background: url('{{ asset('uploads/case-study/case-study.png') }}') no-repeat left center;
+  background-size: contain;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* align text to left */
+  /* padding-left: 80px; */
+  margin-bottom: 18px;
+}
+
+.banner h2 {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0px;
+}
+
     </style>
     @php
         $steps = json_decode($case_study->case_steps, true); // true না দিলে object হবে
@@ -684,14 +709,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
-                    <span class="badge bg-success mb-3">CASE STUDY</span>
-                    <h1 class="title">{{ $case_study->main_title }}</h1>
+                    <span class=" mb-3">
+                        <div class="banner p-0 pl-2">
+                            <h2>CASE STUDY</h2>
+                        </div>
+                    </span>
+                    <h1 style="font-family: 'Poppins', sans-serif; font-weight:700; font-size: 40px;" class="">{{ $case_study->main_title }}</h1>
                     <div class="d-flex flex-wrap gap-3 mt-4">
-                        <a href="#" class="caseStudy-btn-pdf">
+                        <a href="#" class="caseStudy-btn-pdf text-white mr-3">
                             <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="PDF icon">
                             Download this case study
                         </a>
-                        <a id="open-modal" href="#" class="caseStudy-btn-query">Send Your Query →</a>
+                        <a id="open-modal" href="#" class="caseStudy-btn-query text-white">Send Your Query →</a>
                     </div>
                 </div>
             </div>
@@ -1183,46 +1212,44 @@
             <div class="caseStudy-pdf-icon"></div>
             <div class="caseStudy-download-text">Download this case study in PDF</div>
         </div>
-        <a href="case-study.pdf" class="caseStudy-download-button" download>Download PDF</a>
+        <a href="case-study.pdf" class="caseStudy-download-button text-white" download>Download PDF</a>
     </section>
-    <section style="background-color: #0A1D4D;" class="py-5 case-end">
+    
+    @if ($case_studies->count()>1)
+        <section style="background-color: #0A1D4D;" class="py-5 case-end">
 
-        <h2 class="caseStudy-explore-h1-title m-0">Explore More Case Studies</h2>
-        <div class="caseStudy-glide">
-            <div class="glide__track" data-glide-el="track">
-                <ul class="glide__slides">
-                    <li class="caseStudy-glide__slide">
-                        <img src="https://www.capitalnumbers.com/images/case-study-home/new-thumb-148.jpg" alt="">
-                        <h3>Slide One</h3>
-                        <p>Description for slide one goes here.</p>
-                    </li>
-                    <li class="caseStudy-glide__slide">
-                        <img src="https://www.capitalnumbers.com/images/case-study-home/new-thumb-143.jpg" alt="">
-                        <h3>Slide Two</h3>
-                        <p>Description for slide two goes here.</p>
-                    </li>
-                    <li class="caseStudy-glide__slide">
-                        <img src="https://www.capitalnumbers.com/images/case-study-home/new-thumb-138.jpg" alt="">
-                        <h3>Slide Three</h3>
-                        <p>Description for slide three goes here.</p>
-                    </li>
-                    <li class="caseStudy-glide__slide">
-                        <img src="https://www.capitalnumbers.com/images/case-study-home/new-thumb-172.jpg" alt="">
-                        <h3>Slide Four</h3>
-                        <p>Description for slide four goes here.</p>
-                    </li>
-                </ul>
+            <h2 class="caseStudy-explore-h1-title m-0">Explore More Case Studies</h2>
+            <div class="caseStudy-glide">
+                <div class="glide__track" data-glide-el="track">
+                    <ul class="glide__slides">
+                        
+                        @foreach ($case_studies as $case)
+                        @if ($case->id != $case_study->id)
+                            <li class="caseStudy-glide__slide">
+                                <a target="_blank" href="{{ route('case-study.single', $case->slug) }}">
+                                    <img src="{{ asset('uploads/case-study/'.$case->image_path) }}" alt="{{ $case->main_title }}">
+                                    <h3 class="mb-3" style="font-size: 16px; font-family: poppins; color: black; font-weight: 700; ">{{ Str::limit($case->main_title, 30, '...') }}</h3>
+                                </a>
+                            </li>
+                        @else
+                            
+                        @endif
+                            
+                        @endforeach
+                        
+                    </ul>
+                </div>
+
+                <div class="caseStudy-glide__arrows" data-glide-el="controls">
+                    <button class="caseStudy-glide__arrow caseStudy-glide__arrow--left" data-glide-dir="<">❮</button>
+                    <button class="caseStudy-glide__arrow caseStudy-glide__arrow--right" data-glide-dir=">">❯</button>
+                </div>
             </div>
 
-            <div class="caseStudy-glide__arrows" data-glide-el="controls">
-                <button class="caseStudy-glide__arrow caseStudy-glide__arrow--left" data-glide-dir="<">❮</button>
-                <button class="caseStudy-glide__arrow caseStudy-glide__arrow--right" data-glide-dir=">">❯</button>
-            </div>
-        </div>
 
-
-        @include('web.layouts.googlemeet')
-    </section>
+            @include('web.layouts.googlemeet')
+        </section>
+    @endif
     <!-- Glide.js JS -->
     <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
     <script>

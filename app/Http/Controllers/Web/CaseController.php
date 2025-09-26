@@ -31,7 +31,10 @@ class CaseController extends Controller
         $data['case_study'] = CaseStudy::with(['services', 'technologies'])->where('slug', $slug)
             ->where('status', '1')
             ->firstOrFail();
-
+            
+        $data['case_studies'] = CaseStudy::where('status', '1')
+                    ->orderBy('id', 'desc')
+                    ->get();
         return view('web.case-study', $data);
     }
 }
