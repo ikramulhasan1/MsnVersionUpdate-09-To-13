@@ -44,7 +44,7 @@ return [
 
     // Laravel Ecosystem
     'laravel' => [
-        ['name' => 'Laravel', 'icon' => '//upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1154px-Laravel.svg.png', 'url' => ''],
+        ['name' => 'Laravel', 'icon' => '//upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1154px-Laravel.svg.png', 'url' => 'https://msnsofttech.com/technology/hire-asp-dot-net-developer-for-secure-scalable-and-enterprise-ready-web-applications'],
         // ['name' => 'Symfony', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/symfony/symfony-original.svg', 'url' => ''],
     ],
     'Content Management Systems' => [
