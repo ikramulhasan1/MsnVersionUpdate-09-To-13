@@ -914,6 +914,7 @@ $header = \App\Models\PageSetup::page('technology');
             overflow: hidden;
             transition: max-height .3s ease;
             font-size: .9rem;
+            text-align: left;
             color: #444;
             margin-top: 10px;
         }
