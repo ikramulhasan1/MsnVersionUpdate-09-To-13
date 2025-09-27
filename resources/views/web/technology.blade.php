@@ -826,7 +826,7 @@ $header = \App\Models\PageSetup::page('technology');
 }
 
 .orange-btn:hover {
-  background: #153b7d;
+  background: #052C58;
 }
 
 .blue-box {
@@ -923,14 +923,14 @@ $header = \App\Models\PageSetup::page('technology');
         }
 
         .service-card.active .toggle-btn {
-            background: #ff6a00;
+            background: #052C58;
             color: #fff;
-            border-color: #ff6a00;
+            border-color: #052C58;
         }
 
         .main-cta {
             margin-top: 20px;
-            background: #ff6a00;
+            background: #052C58;
             border: none;
             border-radius: 8px;
             padding: 12px 26px;
@@ -969,7 +969,7 @@ $header = \App\Models\PageSetup::page('technology');
 
         .start-trial {
             margin-top: 28px;
-            background: #ff6a00;
+            background: #052C58;
             border-radius: 8px;
             color: #fff;
             padding: 12px 26px;
