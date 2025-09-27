@@ -936,7 +936,8 @@ $header = \App\Models\PageSetup::page('technology');
     }
 
     .cta-button:hover {
-      background: #ffffff;
+      background: #052C58;
+      color: #ffffff;
     }
 
     /* Responsive */
