@@ -1240,7 +1240,7 @@ $header = \App\Models\PageSetup::page('technology');
                 </div>
             </div>
 
-            <button class="main-cta">Book A Developer Interview Session →</button>
+            <a href="{{ route('contact') }}" class="main-cta">Book A Developer Interview Session →</a>
         </div>
     </section>
     {{-- MIDDLE SECTION --}}
@@ -1298,7 +1298,7 @@ $header = \App\Models\PageSetup::page('technology');
                 </div>
             </div>
 
-            <a class="start-trial text-white" >Start 1-Week Free Trial →</a>
+            <a href="{{ route('contact') }}" class="start-trial text-white" >Book A Developer →</a>
         </div>
     </section>
 
