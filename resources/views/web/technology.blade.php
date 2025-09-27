@@ -852,7 +852,110 @@ $header = \App\Models\PageSetup::page('technology');
 
 
 
-/*  */
+/* Middle section */
+.discussion-section {
+      background-color: #0A1D4D; /* Dark Blue Background */
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 40px;
+      height: 300px; /* Section height */
+    }
+
+    .discussion-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    /* Left Side (Image / Illustration) */
+    .discussion-left {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .discussion-left img {
+      max-width: 90%;
+      height: auto;
+    }
+
+    /* Right Side (Text + Button) */
+    .discussion-right {
+      flex: 1;
+      padding-left: 50px;
+    }
+
+    .discussion-right h2 {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      margin-top: 0px;
+    }
+
+    .discussion-right ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 25px;
+    }
+
+    .discussion-right ul li {
+      margin-bottom: 12px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+    }
+
+    .discussion-right ul li span {
+      background: #1A3E92;
+      color: #fff;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      margin-right: 12px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 14px 28px;
+      background: #052C58;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+
+    .cta-button:hover {
+      background: #052C58;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .discussion-container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .discussion-right {
+        padding-left: 0;
+        margin-top: 20px;
+      }
+
+      .discussion-right ul li {
+        justify-content: center;
+      }
+    }
+/* Bottom section */
         section {
             font-family: "Poppins", sans-serif;
             /* background: #fff; */
@@ -873,8 +976,8 @@ $header = \App\Models\PageSetup::page('technology');
         /* --- Service Cards --- */
         .service-card {
             background: #fff;
-            border: 1px solid #3CC065;
-            border-radius: 2px;
+            border: 1px solid #eaeaea;
+            border-radius: 0px;
             padding: 18px;
             margin-bottom: 16px;
             /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); */
@@ -882,9 +985,10 @@ $header = \App\Models\PageSetup::page('technology');
             transition: all .2s ease;
         }
 
-        /* .service-card:hover {
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        } */
+        .service-card:hover {
+            /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); */
+            border: 1px solid #3CC065;
+        }
 
         .service-header {
             display: flex;
@@ -1138,6 +1242,28 @@ $header = \App\Models\PageSetup::page('technology');
             <button class="main-cta">Book A Developer Interview Session →</button>
         </div>
     </section>
+    {{-- MIDDLE SECTION --}}
+    <section class="discussion-section">
+    <div class="discussion-container">
+
+      <!-- Left Side -->
+      <div class="discussion-left">
+        <img src="https://www.capitalnumbers.com/images/new-skill-section/discuss-project-vue.svg" alt="Project Illustration">
+      </div>
+
+      <!-- Right Side -->
+      <div class="discussion-right">
+        <h2>Let's Discuss Your Project</h2>
+        <ul>
+          <li><span>1</span> Our solutions experts schedule a secure meeting within 24 hours.</li>
+          <li><span>2</span> They recommend tailored skills and hiring models.</li>
+          <li><span>3</span> You make informed decisions based on our expert guidance.</li>
+        </ul>
+        <a href="#" class="cta-button">Schedule A Discovery Call →</a>
+      </div>
+
+    </div>
+  </section>
 
     <!-- BOTTOM SECTION -->
     <section class="expertise">
