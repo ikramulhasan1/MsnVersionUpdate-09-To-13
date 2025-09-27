@@ -1036,7 +1036,7 @@ $header = \App\Models\PageSetup::page('technology');
   <!-- TOP SECTION -->
     <section class="py-5 text-center">
         <div class="container">
-            <h1>Hire Vue.js Developers to Create Interactive User Interfaces with Ease</h1>
+            <h1 style="font-weight: 700">Hire Vue.js Developers to Create Interactive User Interfaces with Ease</h1>
             <p class="lead-text mt-3 mb-5">
                 Our Vue.js developers build intuitive user interfaces for websites and single-page applications,
                 making the user experience simpler and more enjoyable. Using a component-based programming model,
