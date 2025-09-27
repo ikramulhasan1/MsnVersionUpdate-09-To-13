@@ -814,7 +814,7 @@ $header = \App\Models\PageSetup::page('technology');
 
 .orange-btn {
   display: inline-block;
-  background: #f15a29;
+  background: #052C58;
   color: white;
   padding: 12px 20px;  /* reduced */
   border-radius: 6px;
@@ -826,7 +826,7 @@ $header = \App\Models\PageSetup::page('technology');
 }
 
 .orange-btn:hover {
-  background: #d94410;
+  background: #153b7d;
 }
 
 .blue-box {
@@ -852,7 +852,7 @@ $header = \App\Models\PageSetup::page('technology');
 
 
 /*  */
-section {
+        section {
             font-family: "Poppins", sans-serif;
             /* background: #fff; */
             color: #222;
