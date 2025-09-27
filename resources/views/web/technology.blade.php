@@ -1171,7 +1171,7 @@ $header = \App\Models\PageSetup::page('technology');
                 </div>
             </div>
 
-            <a class="start-trial" >Start 1-Week Free Trial →</a>
+            <a class="start-trial text-white" >Start 1-Week Free Trial →</a>
         </div>
     </section>
 
