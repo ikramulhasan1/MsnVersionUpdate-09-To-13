@@ -873,18 +873,18 @@ $header = \App\Models\PageSetup::page('technology');
         /* --- Service Cards --- */
         .service-card {
             background: #fff;
-            border: 1px solid #e2e7ea;
-            border-radius: 10px;
+            border: 1px solid #3CC065;
+            border-radius: 2px;
             padding: 18px;
             margin-bottom: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); */
             cursor: pointer;
             transition: all .2s ease;
         }
 
-        .service-card:hover {
+        /* .service-card:hover {
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        }
+        } */
 
         .service-header {
             display: flex;
