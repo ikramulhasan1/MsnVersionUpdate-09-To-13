@@ -47,8 +47,10 @@
 
     <link rel="preload" href="//fonts.googleapis.com">
     <link rel="preload" href="//fonts.gstatic.com" crossorigin>
- 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 
     <!-- ✅ Owl Carousel CSS -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
@@ -795,7 +797,7 @@
                     @if(isset($setting))
                         <!--Logo-->
                         <div class="logo pull-left">
-                            <a href="{{ route('home') }}" class="img-responsive"><img class="w-50 mt-2"
+                            <a href="{{ route('home') }}" class="img-responsive"><img style="width:120px!important;" class="m-0 mt-2"
                                     src="{{ asset('/uploads/setting/' . $setting->logo_path) }}" alt="Logo"></a>
                         </div>
                     @endif
@@ -835,9 +837,9 @@
 
                                     @if(isset($page_about) || isset($page_faqs) || isset($page_contact))
                                         <li class="dropdown 
-                                                        {{ Request::is('about*') ? 'current' : '' }}
-                                                        {{ Request::is('faqs*') ? 'current' : '' }}
-                                                        {{ Request::is('contact*') ? 'current' : '' }}">
+                                                            {{ Request::is('about*') ? 'current' : '' }}
+                                                            {{ Request::is('faqs*') ? 'current' : '' }}
+                                                            {{ Request::is('contact*') ? 'current' : '' }}">
                                             <a href="">About Us<a>
                                                     <ul>
                                                         @if(isset($page_about))
@@ -936,6 +938,10 @@
                                         </div>
                                     </li>
                                     @endif --}}
+
+                                    <li class="{{ Request::is('technologies*') ? 'current' : '' }}"><a
+                                            href="{{ route('technologies') }}">Technologies</a></li>
+
                                     @php
                                         $page_portfolio = \App\Models\PageSetup::page('portfolio');
                                     @endphp
@@ -1089,9 +1095,9 @@
 
                                     @if(isset($page_about) || isset($page_faqs) || isset($page_contact))
                                         <li class="dropdown 
-                                                        {{ Request::is('about*') ? 'current' : '' }}
-                                                        {{ Request::is('faqs*') ? 'current' : '' }}
-                                                        {{ Request::is('contact*') ? 'current' : '' }}">
+                                                            {{ Request::is('about*') ? 'current' : '' }}
+                                                            {{ Request::is('faqs*') ? 'current' : '' }}
+                                                            {{ Request::is('contact*') ? 'current' : '' }}">
                                             <a href="">About Us<a>
                                                     <ul>
                                                         @if(isset($page_about))
@@ -1190,6 +1196,8 @@
                                         </div>
                                     </li>
                                     @endif --}}
+                                    <li class="{{ Request::is('technologies*') ? 'current' : '' }}"><a
+                                            href="{{ route('technologies') }}">Technologies</a></li>
                                     @php
                                         $page_portfolio = \App\Models\PageSetup::page('portfolio');
                                     @endphp
@@ -1491,7 +1499,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                    web / images / social / whatsapp.png ') }}">', //Button Image
+                                        web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"

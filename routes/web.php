@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\WhyweController;
 use App\Http\Controllers\Web\MeetingController;
+use App\Http\Controllers\Web\TechnologyController;
 // use App\Http\Controllers\web\CasestudyController;
 use App\Http\Controllers\Web\GetQuoteController;
 use App\Http\Controllers\Admin\IndustryController;
@@ -43,6 +44,9 @@ Route::middleware(['XSS', 'redirect'])->namespace('Web')->group(function () {
     Route::get('/service/{slug}', 'ServiceController@show')->name('service.single');
     Route::get('/related-service/{slug}', 'ServiceController@related')->name('service.related-single');
     Route::get('/technology/{slug}', 'ServiceController@technology')->name('service.technology');
+
+    // Technology Routes
+    Route::get('/technologies', 'TechnologyController@index')->name('technologies');
 
     // Portfolio Routes
     Route::get('/portfolios', 'PortfolioController@index')->name('portfolios');
