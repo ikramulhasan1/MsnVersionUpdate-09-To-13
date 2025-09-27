@@ -826,7 +826,8 @@ $header = \App\Models\PageSetup::page('technology');
 }
 
 .orange-btn:hover {
-  background: #052C58;
+    background: #052C58;
+    color: white;
 }
 
 .blue-box {
@@ -972,12 +973,15 @@ $header = \App\Models\PageSetup::page('technology');
             margin-top: 28px;
             background: #052C58;
             border-radius: 8px;
-            color: #fff;
+            color: #ffffff;
             padding: 12px 26px;
             font-weight: 700;
             display: inline-block;
             box-shadow: 0 8px 24px rgba(255, 106, 0, 0.2);
             text-decoration: none;
+        }
+        .start-trial:hover {
+            color: #ffffff;
         }
 
 </style>
