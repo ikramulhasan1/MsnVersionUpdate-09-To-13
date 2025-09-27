@@ -1260,7 +1260,7 @@ $header = \App\Models\PageSetup::page('technology');
           <li><span>2</span> They recommend tailored skills and hiring models.</li>
           <li><span>3</span> You make informed decisions based on our expert guidance.</li>
         </ul>
-        <a href="#" class="cta-button">Schedule A Discovery Call →</a>
+        <a href="{{ route('contact') }}" class="cta-button">Schedule A Discovery Call →</a>
       </div>
 
     </div>
