@@ -852,11 +852,11 @@ $header = \App\Models\PageSetup::page('technology');
 
 
 /*  */
-/* body {
+section {
             font-family: "Poppins", sans-serif;
-            background: #fff;
+            /* background: #fff; */
             color: #222;
-        } */
+        }
 
         h1,
         h2 {
