@@ -803,11 +803,11 @@
                   <div class="col-md-4 mb-4">
                     <div class="process-step-box">
                       <div class="process-step-number">{{ $key + 1 }}</div>
-                      {{-- <div class="process-step-heading" style="font-size: 20px; color: #333333;">
-                        <img style="width: 50px; height: 50px;" src="{{ asset('uploads/process/' . $process->image_path) }}"
-                          class="process-step-icon" alt="">
+                      <div class="process-step-heading" style="font-size: 20px; color: #333333;">
+                        {{-- <img style="width: 50px; height: 50px;" src="{{ asset('uploads/process/' . $process->image_path) }}"
+                          class="process-step-icon" alt=""> --}}
                         {{ $process->title }}
-                      </div> --}}
+                      </div>
                       <p style="font-size: 16px; color: #333333;">{{ $process->description }}</p>
 
                       {{-- Show arrow after every item except the last one --}}
