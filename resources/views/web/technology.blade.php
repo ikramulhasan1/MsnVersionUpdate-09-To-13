@@ -929,7 +929,7 @@ $header = \App\Models\PageSetup::page('technology');
       background: #052C58;
       color: #fff;
       font-size: 16px;
-      font-weight: bold;
+      font-weight: 600;
       text-decoration: none;
       border-radius: 6px;
       transition: 0.3s;
@@ -937,7 +937,7 @@ $header = \App\Models\PageSetup::page('technology');
 
     .cta-button:hover {
       background: #052C58;
-      color: #ffffff;
+      color: #fff;
     }
 
     /* Responsive */
