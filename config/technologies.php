@@ -31,7 +31,7 @@ return [
 
     // Vue Ecosystem
     'vue' => [
-        ['name' => 'Vue.js', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg', 'url' => ''],
+        ['name' => 'Vue.js', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg', 'url' => 'https://msnsofttech.com/technology/hire-vuejs-developers'],
         // ['name' => 'Nuxt.js', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/nuxtjs/nuxtjs-original.svg', 'url' => ''],
     ],
 
