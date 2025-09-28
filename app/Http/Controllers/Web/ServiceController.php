@@ -72,7 +72,7 @@ class ServiceController extends Controller
     public function technology($slug)
     {
         // Service                                
-        $data['service'] = Technology::where('slug', $slug)
+        $data['technology'] = Technology::where('slug', $slug)
                         ->where('status', '1')
                         ->firstOrFail();
 

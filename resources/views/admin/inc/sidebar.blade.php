@@ -76,6 +76,20 @@
                 <li>
                     <a href="{{ route('admin.service.index') }}">Main {{ trans_choice('dashboard.service', 2) }}</a>
                     <a href="{{ route('admin.subservices.index') }}">Sub {{ trans_choice('dashboard.service', 2) }}</a>
+                    {{-- <a href="{{ route('admin.technologies.index') }}">Technologies</a> --}}
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript: void(0);">
+                <span class="icon"><i class="fas fa-tools"></i></span>
+                <span> {{ trans_choice('dashboard.technology', number: 2) }} </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <ul class="nav-second-level" aria-expanded="false">
+                <li>
+                    {{-- <a href="{{ route('admin.service.index') }}">Main {{ trans_choice('dashboard.service', 2) }}</a>
+                    <a href="{{ route('admin.subservices.index') }}">Sub {{ trans_choice('dashboard.service', 2) }}</a> --}}
                     <a href="{{ route('admin.technologies.index') }}">Technologies</a>
                 </li>
             </ul>

@@ -1370,7 +1370,7 @@
                         <h5>Services</h5>
                         <ul>
                             <li><a href="{{ route('services') }}">Services</a></li>
-                            <li><a>Technologies</a></li>
+                            <li><a href="{{ route('technologies') }}">Technologies</a></li>
                             {{-- <li><a href="#">How We Work</a></li> --}}
                         </ul>
                     </div>
@@ -1379,7 +1379,7 @@
                         <h5>Insights</h5>
                         <ul>
                             <li><a href="{{ route('blogs') }}">Blog</a></li>
-                            <li><a>Case Studies</a></li>
+                            <li><a href="{{ route('case') }}">Case Studies</a></li>
                             {{-- <li><a href="#">Sitemap</a></li> --}}
                         </ul>
                     </div>

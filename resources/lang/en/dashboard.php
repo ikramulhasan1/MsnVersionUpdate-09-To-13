@@ -71,6 +71,7 @@ return array (
   'portfolio' => 'Portfolio|Portfolios',
   'portfolio_list' => 'Portfolio List|Portfolio List',
   'portfolio_category' => 'Portfolio Category|Portfolio Categories',
+  'technology' => 'Technology|Technologies',
   'service' => 'Service|Services',
   'subservice' => 'Sub Service|Sub Services',
   'subservices' => 'Sub Service|Sub Services',
