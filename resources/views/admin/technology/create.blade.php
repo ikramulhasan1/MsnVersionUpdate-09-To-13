@@ -200,8 +200,7 @@ function addExpertise() {
     const editorId = `expertise_editor_${expertiseIndex}`;
     const html = `
         <div class="form-group col-9 mb-2">
-            <input type="text" name="expertise[${expertiseIndex}][expertise_url]" class="form-control mb-1" placeholder="Url">
-            <textarea id="${editorId}" name="expertise[${expertiseIndex}][expertise_description]" class="form-control mb-1" placeholder="Description"></textarea>
+            <input type="text" name="expertise[${expertiseIndex}][expertise_url]" class="form-control mb-2" placeholder="Url">
             <input type="file" name="expertise[${expertiseIndex}][expertise_image]" class="form-control mb-1">
             <label>Remove Background?</label>
             <select name="expertise[${expertiseIndex}][remove_bg]" class="form-control">

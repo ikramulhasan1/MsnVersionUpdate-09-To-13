@@ -287,7 +287,7 @@ function addExpertise(){
     const group = document.createElement('div');
     group.className = 'form-group faq-group col-9 mb-2';
     group.innerHTML = `
-        <input type="text" class="form-control mb-1" name="expertise[${expertiseIndex}][expertise_url]" placeholder="Url">
+        <input type="text" class="form-control mb-2" name="expertise[${expertiseIndex}][expertise_url]" placeholder="Url">
         <input type="file" class="form-control mb-1" name="expertise[${expertiseIndex}][expertise_image]">
         <label><input type="checkbox" name="expertise[${expertiseIndex}][remove_bg]" value="yes"> Remove Background</label>
     `;
