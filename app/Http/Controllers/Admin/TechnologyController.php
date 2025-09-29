@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use File;
+use Image;
+use Toastr;
 use App\Models\Service;
 use App\Models\Technology;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Str;
-use Toastr;
-use Image;
-use File;
+use Illuminate\Support\Facades\Http;
 
 class TechnologyController extends Controller
 {
@@ -26,6 +27,32 @@ class TechnologyController extends Controller
         $this->view = 'admin.technology';
         $this->path = 'technology';
     }
+    private function removeBackground($file, $path, $filename)
+    {
+        $response = Http::withHeaders([
+            'X-Api-Key' => env('REMOVEBG_API_KEY'),
+        ])->attach(
+                'image_file',
+                file_get_contents($file->getRealPath()),
+                $file->getClientOriginalName()
+            )->post('https://api.remove.bg/v1.0/removebg', [
+                    'size' => 'auto',
+                ]);
+
+        if ($response->successful()) {
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0777, true, true);
+            }
+
+            $fileNameToStore = $filename . '_' . time() . '.png';
+            file_put_contents($path . $fileNameToStore, $response->body());
+
+            return $fileNameToStore;
+        }
+
+        return null;
+    }
+
     public function index()
     {
         $data['title'] = $this->title;
@@ -71,57 +98,26 @@ class TechnologyController extends Controller
             'logo' => 'nullable|image',
         ]);
 
-        // Image upload, fit, and convert to WebP
+        // 🟢 Process Main Image
+        $fileNameToStore = null;
         if ($request->hasFile('image')) {
-            // Upload New Image
-            $filenameWithExt = $request->file('image')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $fileNameToStore = $filename . '_' . time() . '.webp';
-
-            // Create Folder Location
-            $path = public_path('uploads/' . $this->path . '/');
-            if (!File::exists($path)) {
-                File::makeDirectory($path, 0777, true, true);
-            }
-
-            // Resize, Crop, and Convert to WebP
-            $thumbnailpath = $path . $fileNameToStore;
-            Image::make($request->file('image')->getRealPath())
-                ->fit(780, 400, function ($constraint) {
-                    $constraint->upsize();
-                })
-                ->encode('webp', 90)  // Encode to WebP format with 90% quality
-                ->save($thumbnailpath);
+            $filename = pathinfo($request->file('image')->getClientOriginalName(), PATHINFO_FILENAME);
+            $removeBg = $request->input('remove_bg_image') === 'yes';
+            $fileNameToStore = $this->processImage($request->file('image'), $this->path, $filename, $removeBg);
         } else {
-            $fileNameToStore = 'noimage.jpg'; // Default image
+            $fileNameToStore = 'noimage.jpg'; // Default
         }
 
-        // Upload Logo Image (optional) and save in the same location
+        // 🟢 Process Logo
         $logoFileNameToStore = null;
         if ($request->hasFile('logo')) {
-            $logoFile = $request->file('logo');
-            $logoFilename = pathinfo($logoFile->getClientOriginalName(), PATHINFO_FILENAME);
-            $logoFileNameToStore = $logoFilename . '_' . time() . '.webp';
-
-            // Use the same folder as the image for the logo
-            $logoPath = public_path('uploads/' . $this->path . '/');
-            if (!File::exists($logoPath)) {
-                File::makeDirectory($logoPath, 0777, true, true);
-            }
-
-            // Resize and convert the logo to WebP
-            Image::make($logoFile->getRealPath())
-                ->resize(200, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                })
-                ->encode('webp', 90)
-                ->save($logoPath . $logoFileNameToStore);
+            $logoFilename = pathinfo($request->file('logo')->getClientOriginalName(), PATHINFO_FILENAME);
+            $removeBgLogo = $request->input('remove_bg_logo') === 'yes';
+            $logoFileNameToStore = $this->processImage($request->file('logo'), $this->path, $logoFilename, $removeBgLogo);
         }
 
-        // Get content with media file
+        // 🟢 Process Description Images (from WYSIWYG editor)
         $content = $request->input('description');
-
         $dom = new \DomDocument();
         libxml_use_internal_errors(true);
         $dom->encoding = 'utf-8';
@@ -133,9 +129,7 @@ class TechnologyController extends Controller
 
             if (preg_match('/data:image/', $src)) {
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-                $mimetype = $groups['mime'];
                 $filename = uniqid() . '_' . time();
-
                 $path = public_path('uploads/media/');
                 if (!File::exists($path)) {
                     File::makeDirectory($path, 0777, true, true);
@@ -156,7 +150,7 @@ class TechnologyController extends Controller
             }
         }
 
-        // Insert Data
+        // 🟢 Insert Data
         $service = new Technology;
         $service->title = $request->title;
         $service->service_id = $request->service_id;
@@ -175,73 +169,33 @@ class TechnologyController extends Controller
         $service->logo_path = $logoFileNameToStore;
         $service->manu = $request->manu;
 
-
+        // 🟢 Tech Steps
         $techSteps = [];
-
         foreach ($request->tech as $index => $process) {
-            // $processImageName = null;
-
-            // if ($request->hasFile("tech.$index.tech_image")) {
-            //     $file = $request->file("tech.$index.tech_image");
-            //     $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            //     $processImageName = $filename . '_' . time() . '.webp';
-
-            //     $path = public_path('uploads/' . $this->path . '/');
-            //     if (!File::exists($path)) {
-            //         File::makeDirectory($path, 0777, true, true);
-            //     }
-
-            //     Image::make($file->getRealPath())
-            //         ->resize(756, 419, function ($constraint) {
-            //             $constraint->aspectRatio();
-            //             $constraint->upsize();
-            //         })
-            //         ->encode('webp', 90)
-            //         ->save($path . $processImageName);
-            // }
-
             $techSteps[] = [
                 'tech_title' => $process['tech_title'],
                 'tech_description' => $process['tech_description'],
-                // 'tech_image' => $processImageName,
             ];
         }
-
-        // Save array as JSON
         $service->tech_steps = json_encode($techSteps);
 
+        // 🟢 Expertise Steps
         $expertiseSteps = [];
-
         foreach ($request->expertise as $index => $process) {
             $expertiseImageName = null;
 
             if ($request->hasFile("expertise.$index.expertise_image")) {
                 $file = $request->file("expertise.$index.expertise_image");
                 $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $expertiseImageName = $filename . '_' . time() . '.webp';
-
-                $path = public_path('uploads/' . $this->path . '/');
-                if (!File::exists($path)) {
-                    File::makeDirectory($path, 0777, true, true);
-                }
-
-                Image::make($file->getRealPath())
-                    ->resize(756, 419, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    })
-                    ->encode('webp', 90)
-                    ->save($path . $expertiseImageName);
+                $removeBgExp = ($process['remove_bg'] ?? 'no') === 'yes';
+                $expertiseImageName = $this->processImage($file, $this->path, $filename, $removeBgExp);
             }
 
             $expertiseSteps[] = [
-                'expertise_url' => $process['expertise_url'],
-                // 'expertise_description' => $process['expertise_description'],
+                'expertise_url' => $process['expertise_url'] ?? null,
                 'expertise_image' => $expertiseImageName,
             ];
         }
-
-        // Save array as JSON
         $service->expertise_steps = json_encode($expertiseSteps);
 
         $service->save();
@@ -250,6 +204,48 @@ class TechnologyController extends Controller
         return redirect()->route('admin.technologies.index');
     }
 
+    /**
+     * 🟢 Image Processor Helper (Normal Upload + Background Remove Option)
+     */
+    private function processImage($file, $path, $filename, $removeBg = false)
+    {
+        $fileNameToStore = $filename . '_' . time() . '.webp';
+        $fullPath = public_path('uploads/' . $path . '/');
+
+        if (!File::exists($fullPath)) {
+            File::makeDirectory($fullPath, 0777, true, true);
+        }
+
+        if ($removeBg) {
+            // remove.bg API
+            $response = Http::withHeaders([
+                'X-Api-Key' => env('REMOVEBG_API_KEY'),
+            ])->attach(
+                    'image_file',
+                    file_get_contents($file->getRealPath()),
+                    $file->getClientOriginalName()
+                )->post('https://api.remove.bg/v1.0/removebg', [
+                        'size' => 'auto',
+                    ]);
+
+            if ($response->successful()) {
+                $fileNameToStore = $filename . '_' . time() . '.png'; // keep transparency
+                file_put_contents($fullPath . $fileNameToStore, $response->body());
+                return $fileNameToStore;
+            }
+        }
+
+        // fallback: Normal resize + webp
+        Image::make($file->getRealPath())
+            ->resize(780, 400, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })
+            ->encode('webp', 90)
+            ->save($fullPath . $fileNameToStore);
+
+        return $fileNameToStore;
+    }
     public function show(Technology $technology)
     {
         //
@@ -281,7 +277,7 @@ class TechnologyController extends Controller
     {
         // Field Validation
         $request->validate([
-            'title' => 'required|max:191|unique:subservices,title,' . $technology->id,
+            'title' => 'required|max:191|unique:services,title,' . $technology->id,
             'short_title' => 'required|max:30|unique:services,short_title,' . $technology->id,
             'meta_title' => 'required|max:70',
             'keywords' => 'required',
@@ -293,192 +289,146 @@ class TechnologyController extends Controller
             'short_desc' => 'required',
             'description' => 'required',
             'image' => 'nullable|image',
-            'logo' => 'nullable|image', // New optional logo
+            'logo' => 'nullable|image',
         ]);
 
-        // image upload, fit and store inside public folder 
+        $path = public_path('uploads/' . $this->path . '/');
+        if (!File::exists($path)) {
+            File::makeDirectory($path, 0777, true, true);
+        }
+
+        // ----- CTA Image -----
         if ($request->hasFile('image')) {
-
-            $file_path = public_path('uploads/' . $this->path . '/' . $technology->image_path);
-            if (File::isFile($file_path)) {
-                File::delete($file_path);
+            if (!empty($technology->image_path) && File::exists($path . $technology->image_path)) {
+                File::delete($path . $technology->image_path);
             }
 
-            // Upload New Image
-            $filename = pathinfo($request->file('image')->getClientOriginalName(), PATHINFO_FILENAME);
-            $fileNameToStore = $filename . '_' . time() . '.webp';
+            $file = $request->file('image');
+            $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
-            // Create Folder Location
-            $path = public_path('uploads/' . $this->path . '/');
-            if (!File::exists($path)) {
-                File::makeDirectory($path, 0777, true, true);
+            $fileNameToStore = $request->input('image_remove_bg') === 'yes'
+                ? $this->removeBackground($file, $path, $filename)
+                : null;
+
+            if (!$fileNameToStore) {
+                $fileNameToStore = $filename . '_' . time() . '.webp';
+                Image::make($file->getRealPath())
+                    ->fit(780, 400, fn($constraint) => $constraint->upsize())
+                    ->encode('webp', 90)
+                    ->save($path . $fileNameToStore);
             }
-
-            // Resize and convert to WebP (800x500)
-            $thumbnailpath = $path . $fileNameToStore;
-            Image::make($request->file('image')->getRealPath())
-                ->fit(780, 400, function ($constraint) {
-                    $constraint->upsize();
-                })
-                ->encode('webp', 90)
-                ->save($thumbnailpath);
         } else {
             $fileNameToStore = $technology->image_path;
         }
 
-
-        // Logo Upload (New Optional)
+        // ----- Logo -----
         if ($request->hasFile('logo')) {
-            // Delete old logo if exists
-            if (!empty($technology->logo_path)) {
-                $oldLogoPath = public_path('uploads/' . $this->path . '/' . $technology->logo_path);
-                if (File::isFile($oldLogoPath)) {
-                    File::delete($oldLogoPath);
-                }
+            if (!empty($technology->logo_path) && File::exists($path . $technology->logo_path)) {
+                File::delete($path . $technology->logo_path);
             }
 
-            $logoFile = $request->file('logo');
-            $logoFilename = pathinfo($logoFile->getClientOriginalName(), PATHINFO_FILENAME);
-            $logoFileNameToStore = $logoFilename . '_' . time() . '.webp';
+            $file = $request->file('logo');
+            $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
-            // Use the same path as the main image for the logo
-            $logoPath = public_path('uploads/' . $this->path . '/');
-            if (!File::exists($logoPath)) {
-                File::makeDirectory($logoPath, 0777, true, true);
+            $logoFileNameToStore = $request->input('logo_remove_bg') === 'yes'
+                ? $this->removeBackground($file, $path, $filename)
+                : null;
+
+            if (!$logoFileNameToStore) {
+                $logoFileNameToStore = $filename . '_' . time() . '.webp';
+                Image::make($file->getRealPath())
+                    ->resize(200, null, fn($constraint) => $constraint->aspectRatio()->upsize())
+                    ->encode('webp', 90)
+                    ->save($path . $logoFileNameToStore);
             }
-
-            Image::make($logoFile->getRealPath())
-                ->resize(200, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                })
-                ->encode('webp', 90)
-                ->save($logoPath . $logoFileNameToStore);
         } else {
             $logoFileNameToStore = $technology->logo_path;
         }
-        // Get content with media file
-        $content = $request->input('description');
 
+        // ----- Description Images (CKEditor) -----
+        $content = $request->input('description');
         $dom = new \DomDocument();
         libxml_use_internal_errors(true);
         $dom->encoding = 'utf-8';
         $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         $images = $dom->getElementsByTagName('img');
+
         foreach ($images as $img) {
             $src = $img->getAttribute('src');
-
             if (preg_match('/data:image/', $src)) {
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-                $mimetype = $groups['mime'];
                 $filename = uniqid() . '_' . time();
-
-                $path = public_path('uploads/media/');
-                if (!File::exists($path)) {
-                    File::makeDirectory($path, 0777, true, true);
-                }
+                $mediaPath = public_path('uploads/media/');
+                if (!File::exists($mediaPath))
+                    File::makeDirectory($mediaPath, 0777, true, true);
 
                 $filepath = "/uploads/media/$filename.webp";
                 Image::make($src)
-                    ->resize(780, 400, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    })
+                    ->resize(780, 400, fn($constraint) => $constraint->aspectRatio()->upsize())
                     ->encode('webp', 90)
                     ->save(public_path($filepath));
 
-                $new_src = asset($filepath);
-                $img->removeAttribute('src');
-                $img->setAttribute('src', $new_src);
+                $img->setAttribute('src', asset($filepath));
             }
         }
 
-        // Update Data
-        $technology->title = $request->title;
-        $technology->service_id = $request->service_id;
-        $technology->keywords = $request->keywords;
-        $technology->price = $request->price;
-        $technology->starting_price = $request->starting_price;
-        $technology->priceCurrency = $request->priceCurrency;
-        $technology->average_rating = $request->average_rating;
-        $technology->review_count = $request->review_count;
-        $technology->short_title = $request->short_title;
-        $technology->meta_title = $request->meta_title;
-        $technology->slug = Str::slug(strtolower($request->slug), '-');
-        $technology->short_desc = $request->short_desc;
-        $technology->description = $dom->saveHTML();
-        $technology->image_path = $fileNameToStore;
-        $technology->logo_path = $logoFileNameToStore;
-        $technology->status = $request->status;
-        $technology->manu = $request->manu;
+        // ----- Update Technology -----
+        $technology->update([
+            'title' => $request->title,
+            'service_id' => $request->service_id,
+            'keywords' => $request->keywords,
+            'price' => $request->price,
+            'starting_price' => $request->starting_price,
+            'priceCurrency' => $request->priceCurrency,
+            'average_rating' => $request->average_rating,
+            'review_count' => $request->review_count,
+            'short_title' => $request->short_title,
+            'meta_title' => $request->meta_title,
+            'slug' => Str::slug(strtolower($request->slug), '-'),
+            'short_desc' => $request->short_desc,
+            'description' => $dom->saveHTML(),
+            'image_path' => $fileNameToStore,
+            'logo_path' => $logoFileNameToStore,
+            'status' => $request->status,
+            'manu' => $request->manu,
+        ]);
 
-
+        // ----- Tech Steps -----
         $techSteps = [];
-
-        foreach ($request->tech as $index => $process) {
-            // $processImageName = null;
-
-            // if ($request->hasFile("tech.$index.tech_image")) {
-            //     $file = $request->file("tech.$index.tech_image");
-            //     $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            //     $processImageName = $filename . '_' . time() . '.webp';
-
-            //     $path = public_path('uploads/' . $this->path . '/');
-            //     if (!File::exists($path)) {
-            //         File::makeDirectory($path, 0777, true, true);
-            //     }
-
-            //     Image::make($file->getRealPath())
-            //         ->resize(756, 419, function ($constraint) {
-            //             $constraint->aspectRatio();
-            //             $constraint->upsize();
-            //         })
-            //         ->encode('webp', 90)
-            //         ->save($path . $processImageName);
-            // }
-
+        foreach ($request->tech as $process) {
             $techSteps[] = [
                 'tech_title' => $process['tech_title'],
                 'tech_description' => $process['tech_description'],
-                // 'tech_image' => $processImageName,
             ];
         }
-
-        // Save array as JSON
         $technology->tech_steps = json_encode($techSteps);
 
+        // ----- Expertise Steps -----
         $oldExpertiseSteps = json_decode($technology->expertise_steps, true) ?? [];
         $expertiseSteps = [];
 
         foreach ($request->expertise as $index => $process) {
             $expertiseImageName = $oldExpertiseSteps[$index]['expertise_image'] ?? null;
 
-            // যদি নতুন ফাইল আপলোড করে
             if ($request->hasFile("expertise.$index.expertise_image")) {
-                // আগের ইমেজ ডিলিট
-                if (!empty($expertiseImageName)) {
-                    $oldPath = public_path('uploads/' . $this->path . '/' . $expertiseImageName);
-                    if (File::isFile($oldPath)) {
-                        File::delete($oldPath);
-                    }
+                if (!empty($expertiseImageName) && File::exists($path . $expertiseImageName)) {
+                    File::delete($path . $expertiseImageName);
                 }
 
                 $file = $request->file("expertise.$index.expertise_image");
                 $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $expertiseImageName = $filename . '_' . time() . '.webp';
 
-                $path = public_path('uploads/' . $this->path . '/');
-                if (!File::exists($path)) {
-                    File::makeDirectory($path, 0777, true, true);
+                $expertiseImageName = ($process['remove_bg'] ?? 'no') === 'yes'
+                    ? $this->removeBackground($file, $path, $filename)
+                    : null;
+
+                if (!$expertiseImageName) {
+                    $expertiseImageName = $filename . '_' . time() . '.webp';
+                    Image::make($file->getRealPath())
+                        ->resize(756, 419, fn($constraint) => $constraint->aspectRatio()->upsize())
+                        ->encode('webp', 90)
+                        ->save($path . $expertiseImageName);
                 }
-
-                Image::make($file->getRealPath())
-                    ->resize(756, 419, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    })
-                    ->encode('webp', 90)
-                    ->save($path . $expertiseImageName);
             }
 
             $expertiseSteps[] = [
@@ -488,13 +438,12 @@ class TechnologyController extends Controller
         }
 
         $technology->expertise_steps = json_encode($expertiseSteps);
-
         $technology->save();
 
         Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
-
         return redirect()->route('admin.technologies.index');
     }
+
 
     public function destroy(Technology $technology)
     {

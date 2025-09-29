@@ -98,8 +98,18 @@
                                            class="form-control mb-1"
                                            name="expertise[{{ $index }}][expertise_url]"
                                            placeholder="Url">
+                                    @if(!empty($item['expertise_image']))
+                                        <div class="mb-1">
+                                            <img src="{{ asset('uploads/'.$path.'/'.$item['expertise_image']) }}" 
+                                                 alt="Expertise Image" style="height:80px;">
+                                        </div>
+                                    @endif
                                     <input type="file" class="form-control mb-1"
                                            name="expertise[{{ $index }}][expertise_image]">
+                                    <label>
+                                        <input type="checkbox" name="expertise[{{ $index }}][remove_bg]" value="yes">
+                                        Remove Background
+                                    </label>
                                 </div>
                             @endforeach
                             <div class="form-group col-3">
@@ -132,11 +142,29 @@
                         <div class="row">
                             <div class="form-group col-6">
                                 <label for="image">{{ __('CTA Image') }}</label>
+                                @if(!empty($subservice->image_path))
+                                    <div class="mb-1">
+                                        <img src="{{ asset('uploads/'.$path.'/'.$subservice->image_path) }}" 
+                                             alt="CTA Image" style="height:80px;">
+                                    </div>
+                                @endif
                                 <input type="file" class="form-control" name="image" id="image">
+                                <label>
+                                    <input type="checkbox" name="image_remove_bg" value="yes"> Remove Background
+                                </label>
                             </div>
                             <div class="form-group col-6">
                                 <label for="logo">{{ __('dashboard.logo') }}</label>
+                                @if(!empty($subservice->logo_path))
+                                    <div class="mb-1">
+                                        <img src="{{ asset('uploads/'.$path.'/'.$subservice->logo_path) }}" 
+                                             alt="Logo" style="height:80px;">
+                                    </div>
+                                @endif
                                 <input type="file" class="form-control" name="logo" id="logo">
+                                <label>
+                                    <input type="checkbox" name="logo_remove_bg" value="yes"> Remove Background
+                                </label>
                             </div>
                         </div>
 
@@ -261,6 +289,7 @@ function addExpertise(){
     group.innerHTML = `
         <input type="text" class="form-control mb-1" name="expertise[${expertiseIndex}][expertise_url]" placeholder="Url">
         <input type="file" class="form-control mb-1" name="expertise[${expertiseIndex}][expertise_image]">
+        <label><input type="checkbox" name="expertise[${expertiseIndex}][remove_bg]" value="yes"> Remove Background</label>
     `;
     const btnContainer = wrapper.querySelector('.col-3');
     wrapper.insertBefore(group, btnContainer);
