@@ -1270,8 +1270,8 @@ $header = \App\Models\PageSetup::page('technology');
     <!-- BOTTOM SECTION -->
     <section class="expertise">
         <div class="container">
-            <h2>Technical Expertise of Our Vue.js Developers</h2>
-            <p class="sub">Hire Vue.js Programmers Trusted by 98% of CTOs!</p>
+            <h2>Technical Expertise of Our {{ $technology->short_title }} Developers</h2>
+            <p class="sub">Hire {{ $technology->short_title }} Programmers Trusted by 98% of CTOs!</p>
 
             <div class="row justify-content-center">
                 @foreach ($expertise as $item)
