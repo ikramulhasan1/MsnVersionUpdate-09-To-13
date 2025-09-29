@@ -411,6 +411,7 @@ class TechnologyController extends Controller
             $expertiseImageName = $oldExpertiseSteps[$index]['expertise_image'] ?? null;
 
             if ($request->hasFile("expertise.$index.expertise_image")) {
+
                 if (!empty($expertiseImageName) && File::exists($path . $expertiseImageName)) {
                     File::delete($path . $expertiseImageName);
                 }
@@ -424,12 +425,22 @@ class TechnologyController extends Controller
 
                 if (!$expertiseImageName) {
                     $expertiseImageName = $filename . '_' . time() . '.webp';
-                    Image::make($file->getRealPath())
-                        ->resize(756, 419, fn($constraint) => $constraint->aspectRatio()->upsize())
-                        ->encode('webp', 90)
-                        ->save($path . $expertiseImageName);
+
+                    $image = Image::make($file->getRealPath());
+
+                    if ($image) {
+                        $image->resize(756, 419, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })->encode('webp', 90)
+                            ->save($path . $expertiseImageName);
+                    } else {
+                        // Optional: fallback or log error
+                        throw new \Exception('Failed to create image from uploaded file.');
+                    }
                 }
             }
+
 
             $expertiseSteps[] = [
                 'expertise_url' => $process['expertise_url'],
