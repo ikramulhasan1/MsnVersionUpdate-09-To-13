@@ -1001,8 +1001,9 @@
                         @foreach ($case_study->technologies as $case)
                         <a class="caseStudy-tech-item" href="{{ route('service.technology', $case->slug) }}">
                         {{-- <div class="caseStudy-tech-item"> --}}
-                            <img src="{{ asset('uploads/service/'.$case->logo_path) }}"
+                            <img src="{{ asset('uploads/technology/'.$case->logo_path) }}"
                                 alt="React">
+                                {{-- {{ asset('uploads/technology/'.$technology->logo_path) }} --}}
                             <div class="caseStudy-tech-label">{{ $case->short_title }}</div>
                         {{-- </div> --}}
                         </a>
