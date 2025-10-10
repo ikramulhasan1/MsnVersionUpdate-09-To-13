@@ -1003,7 +1003,6 @@
                         {{-- <div class="caseStudy-tech-item"> --}}
                             <img src="{{ asset('uploads/technology/'.$case->logo_path) }}"
                                 alt="React">
-                                {{-- {{ asset('uploads/technology/'.$technology->logo_path) }} --}}
                             <div class="caseStudy-tech-label">{{ $case->short_title }}</div>
                         {{-- </div> --}}
                         </a>

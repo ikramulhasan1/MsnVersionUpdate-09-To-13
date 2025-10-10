@@ -864,11 +864,13 @@
                                         $page_services = \App\Models\PageSetup::page('services');
                                         $related_services = \App\Models\PageSetup::page('related-service');
                                     @endphp
+                                    @dd($service_subnavs)
                                     @if(isset($page_services))
                                         <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}">
                                             <a href="{{ route('services') }}">{{ strtoupper($page_services->title) }}<a>
                                                     <ul>
                                                         @foreach($service_subnavs as $service_subnav)
+                                                        @dd($service_subnav)
                                                             @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
                                                                 <li
                                                                     class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
