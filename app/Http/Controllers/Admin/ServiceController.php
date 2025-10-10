@@ -159,16 +159,17 @@ class ServiceController extends Controller
         $service->description = $dom->saveHTML();
         $service->image_path = $fileNameToStore;
         $service->manu = $request->manu;
-        
+
         $faqSteps = [];
-
-        foreach ($request->faqs as $index => $faq) {
-            $faqSteps[] = [
-                'title' => $faq['title'],
-                'description' => $faq['description'],
-            ];
+        if ($request->faqs) {
+            foreach ($request->faqs as $index => $faq) {
+                // ফাইনাল array তে push করি
+                $faqSteps[] = [
+                    'title' => $faq['title'] ?? '',
+                    'description' => $faq['description'] ?? '',
+                ];
+            }
         }
-
         // Save array as JSON
         $service->faq_steps = json_encode($faqSteps);
         $service->save();
