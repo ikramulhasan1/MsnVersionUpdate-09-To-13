@@ -147,18 +147,19 @@
                             @php
                                 $faqs = json_decode($row->faq_steps, true);
                             @endphp
-                            @foreach ($faqs as $key => $faq)
-                            <div class="form-group col-10 faq-group mb-2 row">
-                                <div class="col-1">
-                                    {{ $key+1 }}. 
+                            @if(!empty($faqs) && is_array($faqs))
+                                @foreach ($faqs as $key => $faq)
+                                <div class="form-group col-10 faq-group mb-2 row">
+                                    <div class="col-1">
+                                        {{ $key+1 }}. 
+                                    </div>
+                                    <div class="col-11">
+                                        <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][title]" value="{{ $faq['title'] }} ?? '' " placeholder="{{ $key+1 }}. Question">
+                                        <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][description]" value="{{ $faq['description'] ?? '' }}" placeholder="{{ $key+1 }}. Answer">
+                                    </div>
                                 </div>
-                                <div class="col-11">
-                                    <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][title]" value="{{ $faq['title'] }}" placeholder="{{ $key+1 }}. Question">
-                                    <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][description]" value="{{ $faq['description'] }}" placeholder="{{ $key+1 }}. Answer">
-                                </div>
-                            </div>
-                            @endforeach
-                        
+                                @endforeach
+                            @endif
                             <div class="form-group col-2">
                                 <button class="btn btn-success" type="button" onclick="addFaq()">{{ __('dashboard.add_another_FAQ') }}</button>
                             </div>
