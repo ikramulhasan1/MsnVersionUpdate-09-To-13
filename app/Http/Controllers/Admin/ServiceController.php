@@ -346,7 +346,7 @@ class ServiceController extends Controller
         foreach ($request->faqs as $index => $faq) {
             $faqSteps[] = [
                 'title' => $faq['title'] ?? '',
-                'description' => $faq['description'],
+                'description' => $faq['description'] ?? '',
             ];
         }
 

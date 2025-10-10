@@ -144,8 +144,10 @@
                        
                         <h3>FAQs</h3>
                         <div class="row faq-row">
-                       
-                            @foreach ($row->faqs as $key => $faq)
+                            @php
+                                $faqs = json_decode($row->faq_steps, true);
+                            @endphp
+                            @foreach ($faqs as $key => $faq)
                             <div class="form-group col-10 faq-group mb-2 row">
                                 <div class="col-1">
                                     {{ $key+1 }}. 
