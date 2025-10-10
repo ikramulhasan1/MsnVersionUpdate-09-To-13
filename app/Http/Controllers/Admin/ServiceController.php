@@ -159,18 +159,30 @@ class ServiceController extends Controller
         $service->description = $dom->saveHTML();
         $service->image_path = $fileNameToStore;
         $service->manu = $request->manu;
+        
+        $faqSteps = [];
+
+        foreach ($request->faqs as $index => $faq) {
+            $faqSteps[] = [
+                'title' => $faq['title'],
+                'description' => $faq['description'],
+            ];
+        }
+
+        // Save array as JSON
+        $service->faq_steps = json_encode($faqSteps);
         $service->save();
 
 
-        foreach ($request->faqs as $faq) {
-            Faq::create([
-                'category_id' => $faq['category_id'],
-                'type' => $request->type,
-                'title' => $faq['title'],
-                'description' => $faq['description'],
-                'service_id' => $service->id,
-            ]);
-        }
+        // foreach ($request->faqs as $faq) {
+        //     Faq::create([
+        //         'category_id' => $faq['category_id'],
+        //         'type' => $request->type,
+        //         'title' => $faq['title'],
+        //         'description' => $faq['description'],
+        //         'service_id' => $service->id,
+        //     ]);
+        // }
         Toastr::success(__('dashboard.created_successfully'), __('dashboard.success'));
 
         return redirect()->route($this->route . '.index');
