@@ -154,8 +154,8 @@
                                         {{ $key+1 }}. 
                                     </div>
                                     <div class="col-11">
-                                        <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][title]" value="{{ $faq['title'] }} ?? '' " placeholder="{{ $key+1 }}. Question">
-                                        <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][description]" value="{{ $faq['description'] ?? '' }}" placeholder="{{ $key+1 }}. Answer">
+                                        <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][title]" value="{{ $faq['title'] }}" placeholder="{{ $key+1 }}. Question">
+                                        <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][description]" value="{{ $faq['description'] }}" placeholder="{{ $key+1 }}. Answer">
                                     </div>
                                 </div>
                                 @endforeach
