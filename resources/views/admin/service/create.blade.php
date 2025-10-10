@@ -159,9 +159,9 @@
                                     {{-- <label for="average_rating">{{ __('dashboard.average_rating') }}
                                         <span>*</span></label> --}}
                                     <input type="text" class="form-control mb-1" name="faqs[0][title]"
-                                        placeholder="0. Question" required>
+                                        placeholder="0. Question">
                                     <input type="text" class="form-control mb-1" name="faqs[0][description]"
-                                        placeholder="0. Answer" required>
+                                        placeholder="0. Answer">
 
                                     <div class="invalid-feedback">
                                         {{ __('dashboard.please_provide') }} {{ __('dashboard.faq') }}
@@ -277,14 +277,8 @@
             group.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
             group.innerHTML = `
             ${faqIndex + 1}. 
-            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question" required>
-            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer" required>
-            <input type="hidden" class="form-control mb-1" name="faqs[${faqIndex}][type]" value="service" required>
-            <select hidden name="faqs[${faqIndex}][category_id]">
-                @foreach ($faqCategories as $category)
-                    <option value="{{ 12 }}">{{ $category->name }}</option>
-                @endforeach
-            </select>
+            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question">
+            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer">           
         `;
             wrapper.appendChild(group);
             faqIndex++;
