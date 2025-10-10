@@ -12,6 +12,6 @@ class Subservice extends Model
     protected $guarded = [];
     public function service()
     {
-        return $this->belongsTo(Service::class);
+        return $this->belongsTo(Service::class, 'service_id', 'id');
     }
 }

@@ -424,6 +424,128 @@
             background: #e60023;
             color: #fff;
         }
+
+
+
+
+
+/* Base dropdown */
+.header-lower .dropdown {
+  position: relative;
+}
+
+.header-lower .dropdown > a {
+  color: #222;
+  font-weight: 600;
+  padding: 10px 15px;
+  display: inline-block;
+  text-transform: uppercase;
+}
+
+.header-lower .dropdown > a:hover {
+  color: #007bff;
+}
+
+/* Level 1 submenu */
+.main-service-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  min-width: 220px;
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  border-radius: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0px);
+  transition: all 0.25s ease;
+  z-index: 99;
+}
+
+/* Level 2 submenu */
+.main-service-menu .submenu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background: #fff;
+  min-width: 220px;
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  border-radius: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(10px);
+  transition: all 0.25s ease;
+  z-index: 100;
+}
+
+/* Hover logic */
+.header-lower .dropdown:hover > .main-service-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.main-service-menu li:hover > .submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+/* Menu item styles */
+.main-service-menu li,
+.submenu li {
+  position: relative;
+}
+
+.main-service-menu a,
+.submenu a {
+  display: block;
+  color: #333;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 8px 18px;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.main-service-menu a:hover,
+.submenu a:hover {
+  background: #f8f9fa;
+  color: #007bff;
+}
+
+/* Optional arrow indicators */
+.main-service-menu li:has(.submenu) > a::after {
+  content: "▸";
+  position: absolute;
+  right: 14px;
+  font-size: 13px;
+  color: #888;
+}
+
+/* Fix submenu overlap for smaller screens */
+@media (max-width: 991px) {
+  .main-service-menu,
+  .submenu {
+    position: static;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .main-service-menu a,
+  .submenu a {
+    padding-left: 25px;
+  }
+}
+
     </style>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -864,82 +986,35 @@
                                         $page_services = \App\Models\PageSetup::page('services');
                                         $related_services = \App\Models\PageSetup::page('related-service');
                                     @endphp
-                                    @dd($service_subnavs)
-                                    @if(isset($page_services))
-                                        <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}">
-                                            <a href="{{ route('services') }}">{{ strtoupper($page_services->title) }}<a>
-                                                    <ul>
-                                                        @foreach($service_subnavs as $service_subnav)
-                                                        @dd($service_subnav)
-                                                            @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                                <li
-                                                                    class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
-                                                                    <a
-                                                                        href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
-                                                                </li>
-                                                            @endif
-                                                        @endforeach
-                                                    </ul>
-                                        </li>
-                                    @endif
-                                    {{-- @if(isset($page_services))
-                                    <li
-                                        class="dropdown mega-menu {{ Request::is('service*') ? 'current' : '' }} {{ Request::is('related-service*') ? 'current' : '' }}">
-                                        <div class="mega-menu-trigger">
-                                            <a href="{{ route('services') }}" class="mega-menu-link">{{
-                                                strtoupper($page_services->title) }}</a>
 
-                                            <div class="mega-menu-content2">
-                                                <div class="mega-menu-column">
-                                                    <h4>Our Services</h4>
-                                                    <ul>
-                                                        @foreach($service_subnavs as $service_subnav)
-                                                        @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                        <li
-                                                            class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
-                                                            <a class="mega-links"
-                                                                href="{{ route('service.single', $service_subnav->slug) }}">{{
-                                                                $service_subnav->short_title }}</a>
-                                                        </li>
+                                    @if(isset($page_services))
+                                    <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}">
+                                        <a href="{{ route('services') }}">{{ strtoupper($page_services->title) }}</a>
+
+                                        <ul class="main-service-menu">
+                                            @foreach($service_subnavs as $service_subnav)
+                                                @if(isset($service_subnav->manu) && $service_subnav->manu == 1)
+                                                    <li class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
+                                                        <a href="{{ route('service.single', $service_subnav->slug) }}">
+                                                            {{ $service_subnav->short_title }}
+                                                        </a>
+
+                                                        @if($service_subnav->subservices->count() > 0)
+                                                            <ul class="submenu">
+                                                                @foreach($service_subnav->subservices as $sub)
+                                                                    <li><a href="{{ route('service.related-single', $sub->slug) }}">{{ $sub->title }}</a></li>
+                                                                @endforeach
+                                                            </ul>
                                                         @endif
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                                <div class="mega-menu-column">
-                                                    <h4>Related Services</h4>
-                                                    <ul>
-                                                        @foreach($related_service_subnavs as $service_subnav)
-                                                        <li
-                                                            class="{{ Request::is('related-service/' . $service_subnav->slug) ? 'current' : '' }}">
-                                                            <a class="mega-links"
-                                                                href="{{ route('service.related-single', $service_subnav->slug) }}">{{
-                                                                $service_subnav->title }}</a>
-                                                        </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                                <div class="mega-menu-column">
-                                                    <h4>Technology Services</h4>
-                                                    <ul>
-                                                        @foreach($technologies as $service_subnav)
-                                                        <li
-                                                            class="{{ Request::is('technology/' . $service_subnav->slug) ? 'current' : '' }}">
-                                                            <div class="service-item">
-                                                                <img class="ml-0" width="30"
-                                                                    src="{{ asset('uploads/service/' . $service_subnav->logo_path) }}"
-                                                                    alt="{{ $service_subnav->title }}" srcset=""> <a
-                                                                    class="mega-links"
-                                                                    href="{{ route('service.technology', $service_subnav->slug) }}">{{
-                                                                    $service_subnav->short_title }}</a>
-                                                            </div>
-                                                        </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
                                     </li>
-                                    @endif --}}
+                                    @endif
+
+
+                                    
 
                                     <li class="{{ Request::is('technologies*') ? 'current' : '' }}"><a
                                             href="{{ route('technologies') }}">Technologies</a></li>
@@ -1005,20 +1080,7 @@
                                     @php
                                         $page_blog = \App\Models\PageSetup::page('blog');
                                     @endphp
-                                    {{-- @if(isset($page_blog))
-                                    <li class="dropdown {{ Request::is('blog*') ? 'current' : '' }}"><a
-                                            href="{{ route('blogs') }}">{{ $page_blog->title }}</a>
-                                        <ul>
-                                            @foreach($article_subnavs as $article_subnav)
-                                            <li
-                                                class="{{ Request::is('blogs/'.$article_subnav->slug) ? 'current' : '' }}">
-                                                <a href="{{ route('blog.category', $article_subnav->slug) }}">{{
-                                                    $article_subnav->title }}</a>
-                                            </li>
-                                            @endforeach
-                                        </ul>
-                                    </li>
-                                    @endif --}}
+                                  
                                     @if(isset($page_blog))
                                         <li class="{{ Request::is('blogs*') ? 'current' : '' }}"><a
                                                 href="{{ route('blogs') }}">{{ $page_blog->title }}</a></li>
@@ -1124,21 +1186,31 @@
                                         $page_services = \App\Models\PageSetup::page('services');
                                         $related_services = \App\Models\PageSetup::page('related-service');
                                     @endphp
+
                                     @if(isset($page_services))
-                                        <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}">
-                                            <a href="{{ route('services') }}">{{ strtoupper($page_services->title) }}<a>
-                                                    <ul>
-                                                        @foreach($service_subnavs as $service_subnav)
-                                                            @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                                <li
-                                                                    class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
-                                                                    <a
-                                                                        href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
-                                                                </li>
-                                                            @endif
-                                                        @endforeach
-                                                    </ul>
-                                        </li>
+                                    <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}">
+                                        <a href="{{ route('services') }}">{{ strtoupper($page_services->title) }}</a>
+
+                                        <ul class="main-service-menu">
+                                            @foreach($service_subnavs as $service_subnav)
+                                                @if(isset($service_subnav->manu) && $service_subnav->manu == 1)
+                                                    <li class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
+                                                        <a href="{{ route('service.single', $service_subnav->slug) }}">
+                                                            {{ $service_subnav->short_title }}
+                                                        </a>
+
+                                                        @if($service_subnav->subservices->count() > 0)
+                                                            <ul class="submenu">
+                                                                @foreach($service_subnav->subservices as $sub)
+                                                                    <li><a href="{{ route('service.related-single', $sub->slug) }}">{{ $sub->title }}</a></li>
+                                                                @endforeach
+                                                            </ul>
+                                                        @endif
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </li>
                                     @endif
                                     {{-- @if(isset($page_services))
                                     <li

@@ -18,7 +18,22 @@ class Service extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'keywords', 'price', 'starting_price', 'priceCurrency', 'average_rating', 'review_count', 'short_title', 'meta_title', 'slug', 'short_desc', 'description', 'image_path', 'file_path', 'manu', 'status',
+        'title',
+        'keywords',
+        'price',
+        'starting_price',
+        'priceCurrency',
+        'average_rating',
+        'review_count',
+        'short_title',
+        'meta_title',
+        'slug',
+        'short_desc',
+        'description',
+        'image_path',
+        'file_path',
+        'manu',
+        'status',
     ];
 
     public function caseStudies()
@@ -36,19 +51,19 @@ class Service extends Model
     }
     public function processworks()
     {
-        return $this->hasMany( Processwork::class);
+        return $this->hasMany(Processwork::class);
     }
     public function industries()
     {
-        return $this->hasMany( Industry::class);
+        return $this->hasMany(Industry::class);
     }
     public function whywes()
     {
-        return $this->hasMany( Whywe::class);
+        return $this->hasMany(Whywe::class);
     }
     public function subservices()
     {
-        return $this->hasMany(Subservice::class);
+        return $this->hasMany(Subservice::class, 'service_id', 'id');
     }
     public function technologies()
     {

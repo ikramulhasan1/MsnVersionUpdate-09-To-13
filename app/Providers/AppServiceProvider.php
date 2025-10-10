@@ -48,13 +48,13 @@ class AppServiceProvider extends ServiceProvider
         $sections = Section::where('status', '1')->get();
         $pages = Page::where('status', '1')->get();
         $article_subnavs = ArticleCategory::where('status', '1')->get();
-        $service_subnavs = Service::where('status', '1')->get();
+        $service_subnavs = Service::with('subservices')->where('status', '1')->get();
         $related_service_subnavs = Subservice::where('status', '1')->get();
         $technologies = Technology::where('status', '1')->get();
         $recents = Article::where('status', '1')
-                            ->orderBy('id', 'desc')
-                            ->take(3)
-                            ->get();
+            ->orderBy('id', 'desc')
+            ->take(3)
+            ->get();
 
         View::share(['setting' => $setting, 'social' => $social, 'livechat' => $livechat, 'pages' => $pages, 'recents' => $recents, 'sections' => $sections, 'article_subnavs' => $article_subnavs, 'service_subnavs' => $service_subnavs, 'related_service_subnavs' => $related_service_subnavs, 'technologies' => $technologies]);
 
