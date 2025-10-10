@@ -32,6 +32,7 @@ class Service extends Model
         'description',
         'image_path',
         'file_path',
+        'faq_steps',
         'manu',
         'status',
     ];
