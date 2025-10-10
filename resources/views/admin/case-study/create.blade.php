@@ -137,7 +137,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="the_client_desc">{{ 'The Client' }} {{ __('dashboard.description') }} <span>*</span></label>
+                                <label for="the_client_desc">{{ 'The Client' }} {{ __('dashboard.description') }}
+                                    <span>*</span></label>
                                 <textarea class="form-control" name="the_client_desc" id="editor1" rows="8"
                                     required>{{ old('the_client_desc') }}</textarea>
 
@@ -177,8 +178,8 @@
                                 @endforeach
                             </div>
 
-                            
-                            
+
+
                             <div class="form-group">
                                 <label for="image">{{ __('dashboard.thumbnail') }} <span>*</span>
                                     <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
@@ -242,8 +243,8 @@
                                             <option value="Conclusion">Conclusion</option>
                                         </select>
                                     </div>
-                                    <textarea id="editor2" type="text" class="form-control mb-1" name="case[0][case_description]"
-                                        placeholder="Description"></textarea>
+                                    <textarea id="editor2" type="text" class="form-control mb-1"
+                                        name="case[0][case_description]" placeholder="Description"></textarea>
                                     <input type="file" class="form-control mb-1" name="case[0][case_image]">
 
                                 </div>
@@ -455,89 +456,89 @@
             const group = document.createElement('div');
             group.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
             group.innerHTML = `
-            ${faqIndex + 1}. 
-            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question" required>
-            <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer" required>
-            <input type="hidden" class="form-control mb-1" name="faqs[${faqIndex}][type]" value="service" required>
-            <select hidden name="faqs[${faqIndex}][category_id]">
-                @foreach ($faqCategories as $category)
-                    <option value="{{ 12 }}">{{ $category->name }}</option>
-                @endforeach
-            </select>
-        `;
+                ${faqIndex + 1}. 
+                <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question" required>
+                <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer" required>
+                <input type="hidden" class="form-control mb-1" name="faqs[${faqIndex}][type]" value="service" required>
+                <select hidden name="faqs[${faqIndex}][category_id]">
+                    @foreach ($faqCategories as $category)
+                        <option value="{{ 12 }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            `;
             wrapper.appendChild(group);
             faqIndex++;
         }
 
 
 
-function initCKEditor(id) {
-    CKEDITOR.replace(id, {
-        on: {
-            instanceReady: function (ev) {
-                this.dataProcessor.writer.setRules('strong', {
-                    indent: false,
-                    breakBeforeOpen: false,
-                    breakAfterOpen: false,
-                    breakBeforeClose: false,
-                    breakAfterClose: false
-                });
-            }
-        },
-        coreStyles_bold: {
-            element: 'b',
-            overrides: 'strong'
+        function initCKEditor(id) {
+            CKEDITOR.replace(id, {
+                on: {
+                    instanceReady: function (ev) {
+                        this.dataProcessor.writer.setRules('strong', {
+                            indent: false,
+                            breakBeforeOpen: false,
+                            breakAfterOpen: false,
+                            breakBeforeClose: false,
+                            breakAfterClose: false
+                        });
+                    }
+                },
+                coreStyles_bold: {
+                    element: 'b',
+                    overrides: 'strong'
+                }
+            });
         }
-    });
-}
 
-// প্রথমে যেগুলো আছে সেগুলো চালু করা
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll("textarea[id^='editor']").forEach(function (el) {
-        initCKEditor(el.id);
-    });
-});
+        // প্রথমে যেগুলো আছে সেগুলো চালু করা
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll("textarea[id^='editor']").forEach(function (el) {
+                initCKEditor(el.id);
+            });
+        });
 
-let processIndex = 1;
-let processIndexImg = 1;
+        let processIndex = 1;
+        let processIndexImg = 1;
 
-function addProcess() {
-    const processWrapper = document.querySelector('.process-row');
+        function addProcess() {
+            const processWrapper = document.querySelector('.process-row');
 
-    const editorId = "editor" + (2 + processIndex); // ✅ সঠিকভাবে আইডি তৈরি
+            const editorId = "editor" + (2 + processIndex); // ✅ সঠিকভাবে আইডি তৈরি
 
-    const processGroup = document.createElement('div');
-    processGroup.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
-    processGroup.innerHTML = `
-        <div class="form-group col p-0">
-            <label for="status">{{ __('dashboard.title') }}</label>
-            <select class="wide w-100 p-1 rounded-0" style="font-size:17px" name="case[${processIndex}][case_title]">
-                <option selected value="Business Need">Business Need</option>
-                <option value="The Challenges">The Challenges</option>
-                <option value="Solution">Solution</option>
-                <option value="Results">Results</option>
-                <option value="Benefits">Benefits</option>
-                <option value="Key Features Delivered">Key Features Delivered</option>
-                <option value="Client Testimonial">Client Testimonial</option>
-                <option value="Conclusion">Conclusion</option>
-            </select>
-        </div>
-        <textarea id="${editorId}" class="form-control mb-1" 
-            name="case[${processIndex}][case_description]" 
-            placeholder="${processIndex + 1}. Description"></textarea>
-        <input type="file" class="form-control mb-1" name="case[${processIndexImg}][case_image]">
-    `;
+            const processGroup = document.createElement('div');
+            processGroup.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
+            processGroup.innerHTML = `
+            <div class="form-group col p-0">
+                <label for="status">{{ __('dashboard.title') }}</label>
+                <select class="wide w-100 p-1 rounded-0" style="font-size:17px" name="case[${processIndex}][case_title]">
+                    <option selected value="Business Need">Business Need</option>
+                    <option value="The Challenges">The Challenges</option>
+                    <option value="Solution">Solution</option>
+                    <option value="Results">Results</option>
+                    <option value="Benefits">Benefits</option>
+                    <option value="Key Features Delivered">Key Features Delivered</option>
+                    <option value="Client Testimonial">Client Testimonial</option>
+                    <option value="Conclusion">Conclusion</option>
+                </select>
+            </div>
+            <textarea id="${editorId}" class="form-control mb-1" 
+                name="case[${processIndex}][case_description]" 
+                placeholder="${processIndex + 1}. Description"></textarea>
+            <input type="file" class="form-control mb-1" name="case[${processIndexImg}][case_image]">
+        `;
 
-    // Insert before the last column (button)
-    const processButtonContainer = processWrapper.querySelector('.col-3');
-    processWrapper.insertBefore(processGroup, processButtonContainer);
+            // Insert before the last column (button)
+            const processButtonContainer = processWrapper.querySelector('.col-3');
+            processWrapper.insertBefore(processGroup, processButtonContainer);
 
-    // ✅ নতুন textarea তে CKEditor চালু করা
-    initCKEditor(editorId);
+            // ✅ নতুন textarea তে CKEditor চালু করা
+            initCKEditor(editorId);
 
-    processIndex++;
-    processIndexImg++;
-}
+            processIndex++;
+            processIndexImg++;
+        }
 
 
     </script>

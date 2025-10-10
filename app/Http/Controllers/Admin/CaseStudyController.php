@@ -450,7 +450,7 @@ class CaseStudyController extends Controller
 
     public function update(Request $request, CaseStudy $case_study)
     {
-        
+
         // Validation
         $request->validate([
             'main_title' => 'required|max:191|unique:case_studies,main_title,' . $case_study->id,
@@ -585,9 +585,9 @@ class CaseStudyController extends Controller
 
                 // ফাইনাল array তে push করি
                 $caseSteps[] = [
-                    'case_title'       => $process['case_title'] ?? '',
+                    'case_title' => $process['case_title'] ?? '',
                     'case_description' => $process['case_description'] ?? '',
-                    'case_image'       => $processImageName, // নতুন না থাকলে পুরানো ইমেজই যাবে
+                    'case_image' => $processImageName, // নতুন না থাকলে পুরানো ইমেজই যাবে
                 ];
             }
         }
