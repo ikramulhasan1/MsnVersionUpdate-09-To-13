@@ -429,123 +429,123 @@
 
 
 
-/* Base dropdown */
-.header-lower .dropdown {
-  position: relative;
-}
+        /* Base dropdown */
+        .header-lower .dropdown {
+            position: relative;
+        }
 
-.header-lower .dropdown > a {
-  color: #222;
-  font-weight: 600;
-  padding: 10px 15px;
-  display: inline-block;
-  text-transform: uppercase;
-}
+        .header-lower .dropdown>a {
+            color: #222;
+            font-weight: 600;
+            padding: 10px 15px;
+            display: inline-block;
+            text-transform: uppercase;
+        }
 
-.header-lower .dropdown > a:hover {
-  color: #007bff;
-}
+        .header-lower .dropdown>a:hover {
+            color: #007bff;
+        }
 
-/* Level 1 submenu */
-.main-service-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #fff;
-  min-width: 220px;
-  list-style: none;
-  padding: 10px 0;
-  margin: 0;
-  border-radius: 2px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(0px);
-  transition: all 0.25s ease;
-  z-index: 99;
-}
+        /* Level 1 submenu */
+        .main-service-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            min-width: 220px;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            border-radius: 2px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(0px);
+            transition: all 0.25s ease;
+            z-index: 99;
+        }
 
-/* Level 2 submenu */
-.main-service-menu .submenu {
-  position: absolute;
-  top: 0;
-  left: 100%;
-  background: #fff;
-  min-width: 220px;
-  list-style: none;
-  padding: 10px 0;
-  margin: 0;
-  border-radius: 2px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateX(10px);
-  transition: all 0.25s ease;
-  z-index: 100;
-}
+        /* Level 2 submenu */
+        .main-service-menu .submenu {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            background: #fff;
+            min-width: 220px;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            border-radius: 2px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(10px);
+            transition: all 0.25s ease;
+            z-index: 100;
+        }
 
-/* Hover logic */
-.header-lower .dropdown:hover > .main-service-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
+        /* Hover logic */
+        .header-lower .dropdown:hover>.main-service-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
 
-.main-service-menu li:hover > .submenu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(0);
-}
+        .main-service-menu li:hover>.submenu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
 
-/* Menu item styles */
-.main-service-menu li,
-.submenu li {
-  position: relative;
-}
+        /* Menu item styles */
+        .main-service-menu li,
+        .submenu li {
+            position: relative;
+        }
 
-.main-service-menu a,
-.submenu a {
-  display: block;
-  color: #333;
-  font-size: 15px;
-  font-weight: 500;
-  padding: 8px 18px;
-  text-decoration: none;
-  transition: background 0.2s, color 0.2s;
-}
+        .main-service-menu a,
+        .submenu a {
+            display: block;
+            color: #333;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 8px 18px;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+        }
 
-.main-service-menu a:hover,
-.submenu a:hover {
-  background: #f8f9fa;
-  color: #007bff;
-}
+        .main-service-menu a:hover,
+        .submenu a:hover {
+            background: #f8f9fa;
+            color: #007bff;
+        }
 
-/* Optional arrow indicators */
-.main-service-menu li:has(.submenu) > a::after {
-  content: "▸";
-  position: absolute;
-  right: 14px;
-  font-size: 13px;
-  color: #888;
-}
+        /* Optional arrow indicators */
+        .main-service-menu li:has(.submenu)>a::after {
+            content: "▸";
+            position: absolute;
+            right: 14px;
+            font-size: 13px;
+            color: #888;
+        }
 
-/* Fix submenu overlap for smaller screens */
-@media (max-width: 991px) {
-  .main-service-menu,
-  .submenu {
-    position: static;
-    box-shadow: none;
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-  }
+        /* Fix submenu overlap for smaller screens */
+        @media (max-width: 991px) {
 
-  .main-service-menu a,
-  .submenu a {
-    padding-left: 25px;
-  }
-}
+            .main-service-menu,
+            .submenu {
+                position: static;
+                box-shadow: none;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+            }
 
+            .main-service-menu a,
+            .submenu a {
+                padding-left: 25px;
+            }
+        }
     </style>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -919,8 +919,9 @@
                     @if(isset($setting))
                         <!--Logo-->
                         <div class="logo pull-left">
-                            <a href="{{ route('home') }}" class="img-responsive"><img style="width:120px!important;" class="m-0 mt-2"
-                                    src="{{ asset('/uploads/setting/' . $setting->logo_path) }}" alt="Logo"></a>
+                            <a href="{{ route('home') }}" class="img-responsive"><img style="width:120px!important;"
+                                    class="m-0 mt-2" src="{{ asset('/uploads/setting/' . $setting->logo_path) }}"
+                                    alt="Logo"></a>
                         </div>
                     @endif
 
@@ -959,9 +960,9 @@
 
                                     @if(isset($page_about) || isset($page_faqs) || isset($page_contact))
                                         <li class="dropdown 
-                                                            {{ Request::is('about*') ? 'current' : '' }}
-                                                            {{ Request::is('faqs*') ? 'current' : '' }}
-                                                            {{ Request::is('contact*') ? 'current' : '' }}">
+                                                                {{ Request::is('about*') ? 'current' : '' }}
+                                                                {{ Request::is('faqs*') ? 'current' : '' }}
+                                                                {{ Request::is('contact*') ? 'current' : '' }}">
                                             <a href="">About Us<a>
                                                     <ul>
                                                         @if(isset($page_about))
@@ -988,33 +989,36 @@
                                     @endphp
 
                                     @if(isset($page_services))
-                                    <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}">
-                                        <a href="{{ route('services') }}">{{ strtoupper($page_services->title) }}</a>
+                                        <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}">
+                                            <a href="{{ route('services') }}">{{ strtoupper($page_services->title) }}</a>
 
-                                        <ul class="main-service-menu">
-                                            @foreach($service_subnavs as $service_subnav)
-                                                @if(isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                    <li class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
-                                                        <a href="{{ route('service.single', $service_subnav->slug) }}">
-                                                            {{ $service_subnav->short_title }}
-                                                        </a>
+                                            <ul class="main-service-menu">
+                                                @foreach($service_subnavs as $service_subnav)
+                                                    @if(isset($service_subnav->manu) && $service_subnav->manu == 1)
+                                                        <li
+                                                            class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
+                                                            <a href="{{ route('service.single', $service_subnav->slug) }}">
+                                                                {{ $service_subnav->short_title }}
+                                                            </a>
 
-                                                        @if($service_subnav->subservices->count() > 0)
-                                                            <ul class="submenu">
-                                                                @foreach($service_subnav->subservices as $sub)
-                                                                    <li><a href="{{ route('service.related-single', $sub->slug) }}">{{ $sub->title }}</a></li>
-                                                                @endforeach
-                                                            </ul>
-                                                        @endif
-                                                    </li>
-                                                @endif
-                                            @endforeach
-                                        </ul>
-                                    </li>
+                                                            @if($service_subnav->subservices->count() > 0)
+                                                                <ul class="submenu">
+                                                                    @foreach($service_subnav->subservices as $sub)
+                                                                        <li><a
+                                                                                href="{{ route('service.related-single', $sub->slug) }}">{{ $sub->short_title }}</a>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            @endif
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </li>
                                     @endif
 
 
-                                    
+
 
                                     <li class="{{ Request::is('technologies*') ? 'current' : '' }}"><a
                                             href="{{ route('technologies') }}">Technologies</a></li>
@@ -1080,7 +1084,7 @@
                                     @php
                                         $page_blog = \App\Models\PageSetup::page('blog');
                                     @endphp
-                                  
+
                                     @if(isset($page_blog))
                                         <li class="{{ Request::is('blogs*') ? 'current' : '' }}"><a
                                                 href="{{ route('blogs') }}">{{ $page_blog->title }}</a></li>
@@ -1159,9 +1163,9 @@
 
                                     @if(isset($page_about) || isset($page_faqs) || isset($page_contact))
                                         <li class="dropdown 
-                                                            {{ Request::is('about*') ? 'current' : '' }}
-                                                            {{ Request::is('faqs*') ? 'current' : '' }}
-                                                            {{ Request::is('contact*') ? 'current' : '' }}">
+                                                                {{ Request::is('about*') ? 'current' : '' }}
+                                                                {{ Request::is('faqs*') ? 'current' : '' }}
+                                                                {{ Request::is('contact*') ? 'current' : '' }}">
                                             <a href="">About Us<a>
                                                     <ul>
                                                         @if(isset($page_about))
@@ -1188,29 +1192,32 @@
                                     @endphp
 
                                     @if(isset($page_services))
-                                    <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}">
-                                        <a href="{{ route('services') }}">{{ strtoupper($page_services->title) }}</a>
+                                        <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}">
+                                            <a href="{{ route('services') }}">{{ strtoupper($page_services->title) }}</a>
 
-                                        <ul class="main-service-menu">
-                                            @foreach($service_subnavs as $service_subnav)
-                                                @if(isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                    <li class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
-                                                        <a href="{{ route('service.single', $service_subnav->slug) }}">
-                                                            {{ $service_subnav->short_title }}
-                                                        </a>
+                                            <ul class="main-service-menu">
+                                                @foreach($service_subnavs as $service_subnav)
+                                                    @if(isset($service_subnav->manu) && $service_subnav->manu == 1)
+                                                        <li
+                                                            class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
+                                                            <a href="{{ route('service.single', $service_subnav->slug) }}">
+                                                                {{ $service_subnav->short_title }}
+                                                            </a>
 
-                                                        @if($service_subnav->subservices->count() > 0)
-                                                            <ul class="submenu">
-                                                                @foreach($service_subnav->subservices as $sub)
-                                                                    <li><a href="{{ route('service.related-single', $sub->slug) }}">{{ $sub->title }}</a></li>
-                                                                @endforeach
-                                                            </ul>
-                                                        @endif
-                                                    </li>
-                                                @endif
-                                            @endforeach
-                                        </ul>
-                                    </li>
+                                                            @if($service_subnav->subservices->count() > 0)
+                                                                <ul class="submenu">
+                                                                    @foreach($service_subnav->subservices as $sub)
+                                                                        <li><a
+                                                                                href="{{ route('service.related-single', $sub->slug) }}">{{ $sub->title }}</a>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            @endif
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </li>
                                     @endif
                                     {{-- @if(isset($page_services))
                                     <li
@@ -1573,7 +1580,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                        web / images / social / whatsapp.png ') }}">', //Button Image
+                                            web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
