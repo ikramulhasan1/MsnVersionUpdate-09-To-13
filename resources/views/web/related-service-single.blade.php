@@ -795,23 +795,23 @@
                 <h2 style="font-weight: 800" class="section-title mb-4">Our Project Journey</h2>
                 <div class="journey-scroll py-3">
                     <div class="p-4 border rounded shadow-sm">
-                        <h5>01. Idea</h5>
+                        <h5 class="font-weight-bold">01. Idea</h5>
                         <p class="small text-muted">We begin by discussing your vision.</p>
                     </div>
                     <div class="p-4 border rounded shadow-sm">
-                        <h5>02. Design</h5>
+                        <h5 class="font-weight-bold">02. Design</h5>
                         <p class="small text-muted">Crafting layouts and user experiences.</p>
                     </div>
                     <div class="p-4 border rounded shadow-sm">
-                        <h5>03. Development</h5>
+                        <h5 class="font-weight-bold">03. Development</h5>
                         <p class="small text-muted">Coding and implementing your project.</p>
                     </div>
                     <div class="p-4 border rounded shadow-sm">
-                        <h5>04. Testing</h5>
+                        <h5 class="font-weight-bold">04. Testing</h5>
                         <p class="small text-muted">Ensuring everything works flawlessly.</p>
                     </div>
                     <div class="p-4 border rounded shadow-sm">
-                        <h5>05. Launch</h5>
+                        <h5 class="font-weight-bold">05. Launch</h5>
                         <p class="small text-muted">Deploy and celebrate success!</p>
                     </div>
                 </div>
