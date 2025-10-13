@@ -14,101 +14,101 @@
     @endif
 
     <script type="application/ld+json">
-            {
-              "@context": "http://schema.org",
-              "@type": "Product",
-              "name": "{{ $service->title }}",
-              "image": {
-                "@type": "ImageObject",
-                "url": "{{ asset('uploads/service/' . $service->image_path) }}",
-                "width": "100",
-                "height": "100"
-              },
+                {
+                  "@context": "http://schema.org",
+                  "@type": "Product",
+                  "name": "{{ $service->title }}",
+                  "image": {
+                    "@type": "ImageObject",
+                    "url": "{{ asset('uploads/service/' . $service->image_path) }}",
+                    "width": "100",
+                    "height": "100"
+                  },
 
-              "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
-              "url": "{{ route('service.related-single', $service->slug) }}",
-              "brand": {
-                "@type": "Brand",
-                "name": "MSN Softtech",
-                "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
-              },
-              "offers": {
-                "@type": "Offer",
-                "price": "{{ $service->price ?? '999' }}",
-                "priceCurrency": "USD",
-                "availability": "https://schema.org/InStock",
-                "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
-                "hasMerchantReturnPolicy": {
-                  "@type": "MerchantReturnPolicy",
-                  "applicableCountry": "US",
-                  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                  "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
-                  "returnShippingFeesAmount": {
-                    "@type": "MonetaryAmount",
-                    "value": "0.00",
-                    "currency": "USD"
+                  "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
+                  "url": "{{ route('service.related-single', $service->slug) }}",
+                  "brand": {
+                    "@type": "Brand",
+                    "name": "MSN Softtech",
+                    "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
                   },
-                  "merchantReturnDays": "30",
-                  "returnMethod": "https://schema.org/ReturnByMail",
-                  "returnFees": "FreeReturn"
-                },
-                "shippingDetails": {
-                  "@type": "OfferShippingDetails",
-                  "shippingRate": {
-                    "@type": "MonetaryAmount",
-                    "value": "0.00",
-                    "currency": "USD"
-                  },
-                  "deliveryTime": {
-                    "@type": "ShippingDeliveryTime",
-                    "businessDays": {
-                      "@type": "OpeningHoursSpecification",
-                      "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
-                      "https://schema.org/Sunday"]
+                  "offers": {
+                    "@type": "Offer",
+                    "price": "{{ $service->price ?? '999' }}",
+                    "priceCurrency": "USD",
+                    "availability": "https://schema.org/InStock",
+                    "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
+                    "hasMerchantReturnPolicy": {
+                      "@type": "MerchantReturnPolicy",
+                      "applicableCountry": "US",
+                      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                      "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
+                      "returnShippingFeesAmount": {
+                        "@type": "MonetaryAmount",
+                        "value": "0.00",
+                        "currency": "USD"
+                      },
+                      "merchantReturnDays": "30",
+                      "returnMethod": "https://schema.org/ReturnByMail",
+                      "returnFees": "FreeReturn"
                     },
-                    "handlingTime": {
-                      "@type": "QuantitativeValue",
-                      "minValue": 1,
-                      "maxValue": 2,
-                      "unitCode": "DAY"
-                    },
-                    "transitTime": {
-                      "@type": "QuantitativeValue",
-                      "minValue": 3,
-                      "maxValue": 5,
-                      "unitCode": "DAY"
+                    "shippingDetails": {
+                      "@type": "OfferShippingDetails",
+                      "shippingRate": {
+                        "@type": "MonetaryAmount",
+                        "value": "0.00",
+                        "currency": "USD"
+                      },
+                      "deliveryTime": {
+                        "@type": "ShippingDeliveryTime",
+                        "businessDays": {
+                          "@type": "OpeningHoursSpecification",
+                          "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
+                          "https://schema.org/Sunday"]
+                        },
+                        "handlingTime": {
+                          "@type": "QuantitativeValue",
+                          "minValue": 1,
+                          "maxValue": 2,
+                          "unitCode": "DAY"
+                        },
+                        "transitTime": {
+                          "@type": "QuantitativeValue",
+                          "minValue": 3,
+                          "maxValue": 5,
+                          "unitCode": "DAY"
+                        }
+                      },
+                      "shippingDestination": {
+                        "@type": "DefinedRegion",
+                        "addressCountry": "US"
+                      }
                     }
                   },
-                  "shippingDestination": {
-                    "@type": "DefinedRegion",
-                    "addressCountry": "US"
+                  "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "{{ $service->average_rating }}",
+                    "bestRating": "5",
+                    "worstRating": "1",
+                    "ratingCount": "{{ $service->review_count }}",
+                  },
+                  "review": {
+                    "@type": "Review",
+                    "author": {
+                      "@type": "Person",
+                      "name": "Joseph Garcia"
+                    },
+                    "datePublished": "{{ $service->created_at->format('Y-m-d') }}",
+                    "reviewRating": {
+                      "@type": "Rating",
+                      "ratingValue": "5",
+                      "bestRating": "5",
+                      "worstRating": "1"
+                    },
+                    "reviewBody": "MSN Softtech delivered an exceptional custom {{ $service->short_title }} solution that enhanced our online presence and improved performance."
                   }
                 }
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "{{ $service->average_rating }}",
-                "bestRating": "5",
-                "worstRating": "1",
-                "ratingCount": "{{ $service->review_count }}",
-              },
-              "review": {
-                "@type": "Review",
-                "author": {
-                  "@type": "Person",
-                  "name": "Joseph Garcia"
-                },
-                "datePublished": "{{ $service->created_at->format('Y-m-d') }}",
-                "reviewRating": {
-                  "@type": "Rating",
-                  "ratingValue": "5",
-                  "bestRating": "5",
-                  "worstRating": "1"
-                },
-                "reviewBody": "MSN Softtech delivered an exceptional custom {{ $service->short_title }} solution that enhanced our online presence and improved performance."
-              }
-            }
-            </script>
+                </script>
 
 
     <!-- JSON-LD markup generated by Google Structured Data Markup Helper. -->
@@ -145,10 +145,10 @@
 {{-- schema section --}}
 
 @section('content')
-<!-- FontAwesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-  <!-- intl-tel-input -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css"/>
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- intl-tel-input -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" />
 
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
@@ -336,137 +336,139 @@
 
         /* placeholder so markup with g-4 won't break layout */
 
-        
-    .iti.iti--allow-dropdown {
-      width: 100%;
-    }
-    .contact-wrapper {
-      width: 90%;
-      max-width: 1150px;
-      margin: 60px auto;
-      background: #fff;
-      border-radius: 4px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      display: flex;
-      flex-wrap: wrap;
-    }
 
-    /* Left Form Section */
-    .form-section {
-      flex: 1;
-      padding: 60px 50px;
-      background: #fff;
-    }
+        .iti.iti--allow-dropdown {
+            width: 100%;
+        }
 
-    .form-section h2 {
-      font-weight: 700;
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
+        .contact-wrapper {
+            width: 90%;
+            max-width: 1150px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+        }
 
-    .form-section p {
-      color: #6c757d;
-      font-size: 15px;
-      margin-bottom: 35px;
-    }
+        /* Left Form Section */
+        .form-section {
+            flex: 1;
+            padding: 60px 50px;
+            background: #fff;
+        }
 
-    .form-control {
-      border-radius: 4px;
-      height: 46px;
-      font-size: 14px;
-    }
+        .form-section h2 {
+            font-weight: 700;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
 
-    textarea.form-control {
-      height: auto;
-    }
+        .form-section p {
+            color: #6c757d;
+            font-size: 15px;
+            margin-bottom: 35px;
+        }
 
-    .btn-primary {
-      background-color: #6c4ef7;
-      border: none;
-      border-radius: 4px;
-      padding: 12px;
-      font-weight: 500;
-      transition: 0.3s;
-    }
+        .form-control {
+            border-radius: 4px;
+            height: 46px;
+            font-size: 14px;
+        }
 
-    .btn-primary:hover {
-      background-color: #5639d1;
-    }
+        textarea.form-control {
+            height: auto;
+        }
 
-    .form-check-label {
-      font-size: 14px;
-      color: #6c757d;
-    }
+        .btn-primary {
+            background-color: #6c4ef7;
+            border: none;
+            border-radius: 4px;
+            padding: 12px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
 
-    /* Right Image Section */
-    .image-section {
-      flex: 1;
-      background: url('https://images.unsplash.com/photo-1588702547919-26089e690ecc?auto=format&fit=crop&w=1000&q=80') center center/cover no-repeat;
-      position: relative;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      min-height: 650px;
-    }
+        .btn-primary:hover {
+            background-color: #5639d1;
+        }
 
-    .info-overlay {
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(40px);
-      border-radius: 6px;
-      color: #fff;
-      width: 90%;
-      margin-bottom: 40px;
-      padding: 30px 20px;
-      text-align: center;
-      /* display: flex; */
-      
-    }
+        .form-check-label {
+            font-size: 14px;
+            color: #6c757d;
+        }
 
-    .info-overlay .contact-box {
-      margin-bottom: 20px;
-    }
+        /* Right Image Section */
+        .image-section {
+            flex: 1;
+            background: url('https://images.unsplash.com/photo-1588702547919-26089e690ecc?auto=format&fit=crop&w=1000&q=80') center center/cover no-repeat;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            min-height: 650px;
+        }
 
-    .info-overlay .contact-box:last-child {
-      margin-bottom: 0;
-    }
+        .info-overlay {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(40px);
+            border-radius: 6px;
+            color: #fff;
+            width: 90%;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            text-align: center;
+            /* display: flex; */
 
-    .info-overlay .contact-box i {
-      font-size: 20px;
-      margin-bottom: 8px;
-      display: block;
-    }
+        }
 
-    .info-overlay h6 {
-      font-weight: 600;
-      margin-bottom: 5px;
-      font-size: 14px;
-    }
+        .info-overlay .contact-box {
+            margin-bottom: 20px;
+        }
 
-    .info-overlay p {
-      margin: 0;
-      font-size: 13px;
-      opacity: 0.9;
-    }
+        .info-overlay .contact-box:last-child {
+            margin-bottom: 0;
+        }
 
-    @media (max-width: 991px) {
-      .contact-wrapper {
-        flex-direction: column;
-      }
-      .image-section {
-        min-height: 300px;
-        order: -1;
-      }
-      .form-section {
-        padding: 40px 30px;
-      }
-      .info-overlay {
-        position: relative;
-        margin: 20px auto;
-      }
-    }
+        .info-overlay .contact-box i {
+            font-size: 20px;
+            margin-bottom: 8px;
+            display: block;
+        }
 
-    
+        .info-overlay h6 {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .info-overlay p {
+            margin: 0;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 991px) {
+            .contact-wrapper {
+                flex-direction: column;
+            }
+
+            .image-section {
+                min-height: 300px;
+                order: -1;
+            }
+
+            .form-section {
+                padding: 40px 30px;
+            }
+
+            .info-overlay {
+                position: relative;
+                margin: 20px auto;
+            }
+        }
     </style>
 
 
@@ -630,121 +632,123 @@
 
 
     <!-- INDUSTRIES SECTION -->
-<section class="container my-5">
-  <div class="text-center mb-4">
-    <h2 style="font-weight: 800; color: #052C58;" class="">Industries We Serve</h2>
-    <p class="text-muted">From eCommerce to SaaS and healthcare</p>
-  </div>
+    <section class="container my-5">
+        <div class="text-center mb-4">
+            <h2 style="font-weight: 800; color: #052C58;" class="">Industries We Serve</h2>
+            <p class="text-muted">From eCommerce to SaaS and healthcare</p>
+        </div>
 
-  <div class="row justify-content-center">
-    <div class="col-6 col-md-3 mb-3">
-      <div class="p-4 bg-white rounded shadow-sm text-center h-100">
-        <i class="bi bi-cart-check" style="font-size:2rem; color: #052C58;"></i>
-        <div class="mt-2 text-muted font-weight-bold">eCommerce</div>
-      </div>
-    </div>
-    <div class="col-6 col-md-3 mb-3">
-      <div class="p-4 bg-white rounded shadow-sm text-center h-100">
-        <i class="bi bi-bank" style="font-size:2rem; color: #052C58;"></i>
-        <div class="mt-2 text-muted font-weight-bold">Finance</div>
-      </div>
-    </div>
-    <div class="col-6 col-md-3 mb-3">
-      <div class="p-4 bg-white rounded shadow-sm text-center h-100">
-        <i class="bi bi-hospital" style="font-size:2rem; color: #052C58;"></i>
-        <div class="mt-2 text-muted font-weight-bold">Healthcare</div>
-      </div>
-    </div>
-    <div class="col-6 col-md-3 mb-3">
-      <div class="p-4 bg-white rounded shadow-sm text-center h-100">
-        <i class="bi bi-building" style="font-size:2rem; color: #052C58;"></i>
-        <div class="mt-2 text-muted font-weight-bold">Enterprise</div>
-      </div>
-    </div>
-  </div>
-</section>
+        <div class="row justify-content-center">
+            <div class="col-6 col-md-3 mb-3">
+                <div class="p-4 bg-white rounded shadow-sm text-center h-100">
+                    <i class="bi bi-cart-check" style="font-size:2rem; color: #052C58;"></i>
+                    <div class="mt-2 text-muted font-weight-bold">eCommerce</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+                <div class="p-4 bg-white rounded shadow-sm text-center h-100">
+                    <i class="bi bi-bank" style="font-size:2rem; color: #052C58;"></i>
+                    <div class="mt-2 text-muted font-weight-bold">Finance</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+                <div class="p-4 bg-white rounded shadow-sm text-center h-100">
+                    <i class="bi bi-hospital" style="font-size:2rem; color: #052C58;"></i>
+                    <div class="mt-2 text-muted font-weight-bold">Healthcare</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+                <div class="p-4 bg-white rounded shadow-sm text-center h-100">
+                    <i class="bi bi-building" style="font-size:2rem; color: #052C58;"></i>
+                    <div class="mt-2 text-muted font-weight-bold">Enterprise</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- STATS / ACHIEVEMENTS SECTION -->
-<section class="container my-5">
-  <div class="text-center mb-4">
-    <h2 style="font-weight: 800; color: #052C58;" class="">Achievements</h2>
-    <p class="text-muted font-weight-bold">Numbers that show our impact</p>
-  </div>
+    <!-- STATS / ACHIEVEMENTS SECTION -->
+    <section class="container my-5">
+        <div class="text-center mb-4">
+            <h2 style="font-weight: 800; color: #052C58;" class="">Achievements</h2>
+            <p class="text-muted font-weight-bold">Numbers that show our impact</p>
+        </div>
 
-  <div class="row text-center">
-    <div class="col-md-3 mb-4">
-      <div class="p-4 bg-white rounded shadow-sm">
-        <h2 style="color: #052C58;" class="font-weight-bold stat-number" data-target="250">0</h2>
-        <p class="mb-0 text-muted font-weight-bold">Projects Completed</p>
-      </div>
-    </div>
-    <div class="col-md-3 mb-4">
-      <div class="p-4 bg-white rounded shadow-sm">
-        <h2 style="color: #052C58;" class="font-weight-bold stat-number" data-target="120">0</h2>
-        <p class="mb-0 text-muted font-weight-bold">Happy Clients</p>
-      </div>
-    </div>
-    <div class="col-md-3 mb-4">
-      <div class="p-4 bg-white rounded shadow-sm">
-        <h2 style="color: #052C58;" class="font-weight-bold stat-number" data-target="6">0</h2>
-        <p class="mb-0 text-muted font-weight-bold">Years Experience</p>
-      </div>
-    </div>
-    <div class="col-md-3 mb-4">
-      <div class="p-4 bg-white rounded shadow-sm">
-        <h2 style="color: #052C58;" class="font-weight-bold stat-number" data-target="98">0</h2>
-        <p class="mb-0 text-muted font-weight-bold">Satisfaction (%)</p>
-      </div>
-    </div>
-  </div>
-</section>
+        <div class="row text-center">
+            <div class="col-md-3 mb-4">
+                <div class="p-4 bg-white rounded shadow-sm">
+                    <h2 style="color: #052C58;" class="font-weight-bold stat-number" data-target="250">0</h2>
+                    <p class="mb-0 text-muted font-weight-bold">Projects Completed</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="p-4 bg-white rounded shadow-sm">
+                    <h2 style="color: #052C58;" class="font-weight-bold stat-number" data-target="120">0</h2>
+                    <p class="mb-0 text-muted font-weight-bold">Happy Clients</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="p-4 bg-white rounded shadow-sm">
+                    <h2 style="color: #052C58;" class="font-weight-bold stat-number" data-target="6">0</h2>
+                    <p class="mb-0 text-muted font-weight-bold">Years Experience</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="p-4 bg-white rounded shadow-sm">
+                    <h2 style="color: #052C58;" class="font-weight-bold stat-number" data-target="98">0</h2>
+                    <p class="mb-0 text-muted font-weight-bold">Satisfaction (%)</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- COUNTER SCRIPT (works in Bootstrap 4) -->
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var counters = document.querySelectorAll('.stat-number');
-    counters.forEach(function (counter) {
-      var target = +counter.getAttribute('data-target');
-      var count = 0;
-      var increment = target / 100;
+    <!-- COUNTER SCRIPT (works in Bootstrap 4) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var counters = document.querySelectorAll('.stat-number');
+            counters.forEach(function (counter) {
+                var target = +counter.getAttribute('data-target');
+                var count = 0;
+                var increment = target / 100;
 
-      function updateCounter() {
-        count += increment;
-        if (count < target) {
-          counter.innerText = Math.ceil(count);
-          requestAnimationFrame(updateCounter);
-        } else {
-          counter.innerText = target;
+                function updateCounter() {
+                    count += increment;
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.innerText = target;
+                    }
+                }
+
+                updateCounter();
+            });
+        });
+    </script>
+
+    <!-- STYLING -->
+    <style>
+        /* section {
+        background-color: #f8f9fc;
+      } */
+
+        .stat-number {
+            font-size: 2.5rem;
         }
-      }
 
-      updateCounter();
-    });
-  });
-</script>
+        /* .shadow-sm:hover {
+        box-shadow: 0 0.75rem 1rem rgba(0, 123, 255, 0.15) !important;
+        transform: translateY(-3px);
+        transition: all 0.3s ease;
+      } */
+    </style>
 
-<!-- STYLING -->
-<style>
-  /* section {
-    background-color: #f8f9fc;
-  } */
-
-  .stat-number {
-    font-size: 2.5rem;
-  }
-
-  /* .shadow-sm:hover {
-    box-shadow: 0 0.75rem 1rem rgba(0, 123, 255, 0.15) !important;
-    transform: translateY(-3px);
-    transition: all 0.3s ease;
-  } */
-</style>
-
-<!-- BOOTSTRAP 4 + ICONS -->
-{{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"> --}}
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script> --}}
+    <!-- BOOTSTRAP 4 + ICONS -->
+    {{--
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"> --}}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    {{--
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script> --}}
 
 
     <!-- PORTFOLIO -->
@@ -756,7 +760,8 @@
 
             <div class="row">
                 <div class="col-md-4 mb-4">
-                    <div class="project-item position-relative overflow-hidden rounded shadow-sm" style="width: 350px; height:233px ">
+                    <div class="project-item position-relative overflow-hidden rounded shadow-sm"
+                        style="width: 350px; height:233px ">
                         <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=800&q=80"
                             class="img-fluid" alt="Project 1">
                         <div class="project-overlay">
@@ -766,7 +771,8 @@
                 </div>
 
                 <div class="col-md-4 mb-4">
-                    <div class="project-item position-relative overflow-hidden rounded shadow-sm" style="width: 350px; height:233px ">
+                    <div class="project-item position-relative overflow-hidden rounded shadow-sm"
+                        style="width: 350px; height:233px ">
                         <img src="https://images.unsplash.com/photo-1610563166150-b34df4f3bcd6?auto=format&fit=crop&w=800&q=80"
                             class="img-fluid" alt="Project 2">
                         <div class="project-overlay">
@@ -776,7 +782,8 @@
                 </div>
 
                 <div class="col-md-4 mb-4">
-                    <div class="project-item position-relative overflow-hidden rounded shadow-sm" style="width: 350px; height:233px ">
+                    <div class="project-item position-relative overflow-hidden rounded shadow-sm"
+                        style="width: 350px; height:233px ">
                         <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80"
                             class="img-fluid" alt="Project 3">
                         <div class="project-overlay">
@@ -933,86 +940,7 @@
             </div>
         </div>
     </section> --}}
-<div class="contact-wrapper">
-    <!-- Left: Contact Form -->
-    <div class="form-section">
-      <h2>We're here to help</h2>
-      <p>Our dedicated team is ready to support you.</p>
 
-      <form>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label>First name <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" placeholder="First name">
-          </div>
-          <div class="form-group col-md-6">
-            <label>Last name <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" placeholder="Last name">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Email <span class="text-danger">*</span></label>
-          <input type="email" class="form-control" placeholder="hi@metaballs.studio">
-        </div>
-
-        <div class="form-group">
-          <label>Phone number <span class="text-danger">*</span></label><br>
-          <input id="phone" type="tel" class="form-control" placeholder="(555) 000-0000">
-        </div>
-
-        <div class="form-group">
-          <label>Choose a topic <span class="text-danger">*</span></label>
-          <select class="form-control">
-            <option>Select from list</option>
-            <option>Support</option>
-            <option>Sales</option>
-            <option>General Inquiry</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>Message (optional)</label>
-          <textarea class="form-control" rows="3" placeholder="Share your message..."></textarea>
-        </div>
-
-        <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input" id="privacyCheck">
-          <label class="form-check-label" for="privacyCheck">
-            By checking this, you agree to our privacy policy.
-          </label>
-        </div>
-
-        <button type="submit" class="btn btn-primary btn-block">Send message</button>
-      </form>
-    </div>
-
-    <!-- Right: Image & Info -->
-    <div class="image-section">
-      <div class="info-overlay row g-5">
-        <div class="contact-box col-6">
-          <i class="fas fa-envelope"></i>
-          <h6>Email</h6>
-          <p class="text-white">info@metaballs.studio</p>
-        </div>
-        <div class="contact-box col-6">
-          <i class="fas fa-phone"></i>
-          <h6>Phone</h6>
-          <p class="text-white">+1 (800) 123-4567</p>
-        </div>
-        <div class="contact-box col-6">
-          <i class="fas fa-map-marker-alt"></i>
-          <h6>US Office</h6>
-          <p class="text-white">123 Metaballs Lane, Innovation City, TX 78901</p>
-        </div>
-        <div class="contact-box col-6">
-          <i class="fas fa-map-marker-alt"></i>
-          <h6>BD Office</h6>
-          <p class="text-white">7/53 Metaballs Lane, Modern City, Jhenaidah</p>
-        </div>
-      </div>
-    </div>
-  </div>
     <style>
         .project-item {
             transition: transform .4s ease;
@@ -1155,7 +1083,86 @@
             </div>
         </div>
     </section>
+    <div class="contact-wrapper">
+        <!-- Left: Contact Form -->
+        <div class="form-section">
+            <h2>We're here to help</h2>
+            <p>Our dedicated team is ready to support you.</p>
 
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>First name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="First name">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Last name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Last name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" placeholder="hi@metaballs.studio">
+                </div>
+
+                <div class="form-group">
+                    <label>Phone number <span class="text-danger">*</span></label><br>
+                    <input id="phone" type="tel" class="form-control" placeholder="(555) 000-0000">
+                </div>
+
+                <div class="form-group">
+                    <label>Choose a topic <span class="text-danger">*</span></label>
+                    <select class="form-control">
+                        <option>Select from list</option>
+                        <option>Support</option>
+                        <option>Sales</option>
+                        <option>General Inquiry</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Message (optional)</label>
+                    <textarea class="form-control" rows="3" placeholder="Share your message..."></textarea>
+                </div>
+
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="privacyCheck">
+                    <label class="form-check-label" for="privacyCheck">
+                        By checking this, you agree to our privacy policy.
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Send message</button>
+            </form>
+        </div>
+
+        <!-- Right: Image & Info -->
+        <div class="image-section">
+            <div class="info-overlay row g-5">
+                <div class="contact-box col-6">
+                    <i class="fas fa-envelope"></i>
+                    <h6>Email</h6>
+                    <p class="text-white">info@metaballs.studio</p>
+                </div>
+                <div class="contact-box col-6">
+                    <i class="fas fa-phone"></i>
+                    <h6>Phone</h6>
+                    <p class="text-white">+1 (800) 123-4567</p>
+                </div>
+                <div class="contact-box col-6">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h6>US Office</h6>
+                    <p class="text-white">123 Metaballs Lane, Innovation City, TX 78901</p>
+                </div>
+                <div class="contact-box col-6">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h6>BD Office</h6>
+                    <p class="text-white">7/53 Metaballs Lane, Modern City, Jhenaidah</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- CTA -->
     <section class="cta-section my-5 mx-3">
         <div class="container text-center">
@@ -1167,17 +1174,20 @@
 
 
     <!-- JS -->
-  {{-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> --}}
-  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script> --}}
-  {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> --}}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-  <script>
-    var input = document.querySelector("#phone");
-    window.intlTelInput(input, {
-      initialCountry: "us",
-      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-    });
-  </script>
+    {{--
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> --}}
+    {{--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script> --}}
+    {{--
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script>
+        var input = document.querySelector("#phone");
+        window.intlTelInput(input, {
+            initialCountry: "us",
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        });
+    </script>
 
 
     <!-- Scripts: jQuery, Popper, Bootstrap 4 -->
