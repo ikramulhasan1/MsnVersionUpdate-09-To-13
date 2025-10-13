@@ -425,7 +425,7 @@
                     <div class="col-md-3 mb-4">
                         <div class="process-step h-100">
                             <div style="color: #052C58" class="step-number display-4 font-weight-bold">01</div>
-                            <h5 class="mt-3">Planning</h5>
+                            <h5 class="mt-3 font-weight-bold">Planning</h5>
                             <p>Understanding your goals and outlining the roadmap to success.</p>
                         </div>
                     </div>
@@ -433,7 +433,7 @@
                     <div class="col-md-3 mb-4">
                         <div class="process-step h-100">
                             <div style="color: #052C58" class="step-number display-4 font-weight-bold">02</div>
-                            <h5 class="mt-3">Design</h5>
+                            <h5 class="mt-3 font-weight-bold">Design</h5>
                             <p>Creating wireframes and visual concepts that align with your brand.</p>
                         </div>
                     </div>
@@ -441,7 +441,7 @@
                     <div class="col-md-3 mb-4">
                         <div class="process-step h-100">
                             <div style="color: #052C58" class="step-number display-4 font-weight-bold">03</div>
-                            <h5 class="mt-3">Development</h5>
+                            <h5 class="mt-3 font-weight-bold">Development</h5>
                             <p>Coding with clean, scalable, and secure solutions using modern stacks.</p>
                         </div>
                     </div>
@@ -449,7 +449,7 @@
                     <div class="col-md-3 mb-4">
                         <div class="process-step h-100">
                             <div style="color: #052C58" class="step-number display-4 font-weight-bold">04</div>
-                            <h5 class="mt-3">Launch & Support</h5>
+                            <h5 class="mt-3 font-weight-bold">Launch & Support</h5>
                             <p>Testing, deployment, and continuous post-launch maintenance.</p>
                         </div>
                     </div>
@@ -822,7 +822,7 @@
         <section class="cta-section my-5 mx-3">
             <div class="container text-center">
                 <h2 class="font-weight-bold">Ready to Start Your Project?</h2>
-                <p class="lead mb-4">Let's bring your ideas to life with our expert web development solutions.</p>
+                <p class="lead mb-4 text-white">Let's bring your ideas to life with our expert web development solutions.</p>
                 <a href="mailto:support@msnsofttech.com" class="btn btn-light btn-lg">Contact Us</a>
             </div>
         </section>
