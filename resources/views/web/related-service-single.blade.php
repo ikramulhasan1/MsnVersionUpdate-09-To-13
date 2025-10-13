@@ -779,7 +779,7 @@
         </section>
 
         <!-- PROMISE SECTION -->
-        <section class="py-5 bg-primary text-white text-center">
+        <section class="py-5 text-white text-center" style="background-color: #052C58; color: #ffffff;">
             <div class="container">
                 <h2 class="font-weight-bold mb-3">Our Promise</h2>
                 <p class="mb-4 lead">We build websites that are fast, secure, SEO-friendly, and designed to convert visitors
