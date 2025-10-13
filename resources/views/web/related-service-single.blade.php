@@ -145,16 +145,9 @@
 {{-- schema section --}}
 
 @section('content')
-    <!doctype html>
-    <html lang="en">
-
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <title>Web Development Service | MSNSoftech</title>
 
         <!-- Bootstrap 4.1 CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> --}}
 
         <!-- Bootstrap Icons (works independently) -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -164,7 +157,7 @@
             body {
                 font-family: 'Poppins', sans-serif;
                 background-color: #f8f9fa;
-                color: #333;
+                color: #052C58;
             }
 
             /* HERO */
@@ -335,9 +328,7 @@
 
             /* placeholder so markup with g-4 won't break layout */
         </style>
-    </head>
-
-    <body>
+    
 
         <!-- HERO -->
         <section class="hero-section d-flex align-items-center justify-content-center text-center">
@@ -837,7 +828,7 @@
         <!-- Scripts: jQuery, Popper, Bootstrap 4 -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> --}}
 
         <!-- Optional: small UX scripts (smooth scroll for anchor links) -->
         <script>
@@ -852,8 +843,6 @@
                 }
             });
         </script>
-    </body>
-
-    </html>
+  
 
 @endsection
