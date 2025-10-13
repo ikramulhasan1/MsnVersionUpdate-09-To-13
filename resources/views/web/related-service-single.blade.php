@@ -425,7 +425,7 @@
         }
 
         .info-overlay .contact-box {
-            margin-bottom: 20px;
+            margin-bottom: 40px;
         }
 
         .info-overlay .contact-box:last-child {
