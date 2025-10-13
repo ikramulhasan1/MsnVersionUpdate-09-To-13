@@ -330,21 +330,6 @@
         }
 
         /* placeholder so markup with g-4 won't break layout */
-
-        /* Counters */
-        :root{
-      --primary:#0d6efd;
-      --muted:#6c757d;
-      --card-radius:14px;
-      --section-gap:4.5rem;
-      --max-width:1200px;
-    }
-    /* section { padding: var(--section-gap) 0; } */
-    .section-title{ font-weight:700; font-size:1.5rem; margin-bottom:0.3rem; color:#071133; }
-    .section-subtitle{ color:var(--muted); margin-bottom:1.5rem; }
-.container-narrow{ max-width: var(--max-width); margin: 0 auto; }
-    .stat-box{ background:#fff; padding:22px; border-radius:12px; box-shadow: 0 8px 30px rgba(12,38,79,0.05); }
-    .stat-number{ font-weight:700; font-size:2.2rem; color:var(--primary); }
     </style>
 
 
@@ -507,75 +492,123 @@
     </section>
 
 
-    <!-- INDUSTRIES -->
-    <section class="container">
-        <div class="text-center mb-4">
-            <h3 class="section-title">Industries We Serve</h3>
-            <p class="section-subtitle">From eCommerce to SaaS and healthcare</p>
-        </div>
+    <!-- INDUSTRIES SECTION -->
+<section class="container my-5">
+  <div class="text-center mb-4">
+    <h3 class="font-weight-bold text-primary">Industries We Serve</h3>
+    <p class="text-muted">From eCommerce to SaaS and healthcare</p>
+  </div>
 
-        <div class="row g-3 justify-content-center">
-            <div class="col-6 col-md-3" data-aos="zoom-in">
-                <div class="p-3 bg-white rounded-3 text-center">
-                    <i class="bi bi-cart-check fs-2 text-primary"></i>
-                    <div class="mt-2">eCommerce</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="60">
-                <div class="p-3 bg-white rounded-3 text-center">
-                    <i class="bi bi-bank fs-2 text-primary"></i>
-                    <div class="mt-2">Finance</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="120">
-                <div class="p-3 bg-white rounded-3 text-center">
-                    <i class="bi bi-hospital fs-2 text-primary"></i>
-                    <div class="mt-2">Healthcare</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="180">
-                <div class="p-3 bg-white rounded-3 text-center">
-                    <i class="bi bi-building fs-2 text-primary"></i>
-                    <div class="mt-2">Enterprise</div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <div class="row justify-content-center">
+    <div class="col-6 col-md-3 mb-3">
+      <div class="p-4 bg-white rounded shadow-sm text-center h-100">
+        <i class="bi bi-cart-check text-primary" style="font-size:2rem;"></i>
+        <div class="mt-2 font-weight-semibold">eCommerce</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <div class="p-4 bg-white rounded shadow-sm text-center h-100">
+        <i class="bi bi-bank text-primary" style="font-size:2rem;"></i>
+        <div class="mt-2 font-weight-semibold">Finance</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <div class="p-4 bg-white rounded shadow-sm text-center h-100">
+        <i class="bi bi-hospital text-primary" style="font-size:2rem;"></i>
+        <div class="mt-2 font-weight-semibold">Healthcare</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <div class="p-4 bg-white rounded shadow-sm text-center h-100">
+        <i class="bi bi-building text-primary" style="font-size:2rem;"></i>
+        <div class="mt-2 font-weight-semibold">Enterprise</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- STATS / COUNTERS -->
-    <section class="container">
-        <div class="text-center mb-4">
-            <h3 class="section-title">Achievements</h3>
-            <p class="section-subtitle">Numbers that show our impact</p>
-        </div>
+<!-- STATS / ACHIEVEMENTS SECTION -->
+<section class="container my-5">
+  <div class="text-center mb-4">
+    <h3 class="font-weight-bold text-primary">Achievements</h3>
+    <p class="text-muted">Numbers that show our impact</p>
+  </div>
 
-        <div class="row g-4">
-            <div class="col-md-3" data-aos="fade-up">
-                <div class="stat-box text-center">
-                    <div class="stat-number" data-target="250">0</div>
-                    <div class="small text-muted">Projects Completed</div>
-                </div>
-            </div>
-            <div class="col-md-3" data-aos="fade-up" data-aos-delay="80">
-                <div class="stat-box text-center">
-                    <div class="stat-number" data-target="120">0</div>
-                    <div class="small text-muted">Happy Clients</div>
-                </div>
-            </div>
-            <div class="col-md-3" data-aos="fade-up" data-aos-delay="160">
-                <div class="stat-box text-center">
-                    <div class="stat-number" data-target="6">0</div>
-                    <div class="small text-muted">Years Experience</div>
-                </div>
-            </div>
-            <div class="col-md-3" data-aos="fade-up" data-aos-delay="240">
-                <div class="stat-box text-center">
-                    <div class="stat-number" data-target="98">0</div>
-                    <div class="small text-muted">Satisfaction (%)</div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <div class="row text-center">
+    <div class="col-md-3 mb-4">
+      <div class="p-4 bg-white rounded shadow-sm">
+        <h2 class="text-primary font-weight-bold stat-number" data-target="250">0</h2>
+        <p class="mb-0 text-muted">Projects Completed</p>
+      </div>
+    </div>
+    <div class="col-md-3 mb-4">
+      <div class="p-4 bg-white rounded shadow-sm">
+        <h2 class="text-primary font-weight-bold stat-number" data-target="120">0</h2>
+        <p class="mb-0 text-muted">Happy Clients</p>
+      </div>
+    </div>
+    <div class="col-md-3 mb-4">
+      <div class="p-4 bg-white rounded shadow-sm">
+        <h2 class="text-primary font-weight-bold stat-number" data-target="6">0</h2>
+        <p class="mb-0 text-muted">Years Experience</p>
+      </div>
+    </div>
+    <div class="col-md-3 mb-4">
+      <div class="p-4 bg-white rounded shadow-sm">
+        <h2 class="text-primary font-weight-bold stat-number" data-target="98">0</h2>
+        <p class="mb-0 text-muted">Satisfaction (%)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COUNTER SCRIPT (works in Bootstrap 4) -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var counters = document.querySelectorAll('.stat-number');
+    counters.forEach(function (counter) {
+      var target = +counter.getAttribute('data-target');
+      var count = 0;
+      var increment = target / 100;
+
+      function updateCounter() {
+        count += increment;
+        if (count < target) {
+          counter.innerText = Math.ceil(count);
+          requestAnimationFrame(updateCounter);
+        } else {
+          counter.innerText = target;
+        }
+      }
+
+      updateCounter();
+    });
+  });
+</script>
+
+<!-- STYLING -->
+<style>
+  /* section {
+    background-color: #f8f9fc;
+  } */
+
+  .stat-number {
+    font-size: 2.5rem;
+  }
+
+  /* .shadow-sm:hover {
+    box-shadow: 0 0.75rem 1rem rgba(0, 123, 255, 0.15) !important;
+    transform: translateY(-3px);
+    transition: all 0.3s ease;
+  } */
+</style>
+
+<!-- BOOTSTRAP 4 + ICONS -->
+{{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"> --}}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script> --}}
+
 
     <!-- PORTFOLIO -->
     <section class="py-5 bg-light">
