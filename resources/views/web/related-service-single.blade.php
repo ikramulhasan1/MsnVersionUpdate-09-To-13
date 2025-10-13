@@ -403,7 +403,7 @@
         /* Right Image Section */
         .image-section {
             flex: 1;
-            background: url('https://images.unsplash.com/photo-1588702547919-26089e690ecc?auto=format&fit=crop&w=1000&q=80') center center/cover no-repeat;
+            background: url('https://images.unsplash.com/photo-1615840287214-7ff58936c4cf?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=387') center center/cover no-repeat;
             position: relative;
             display: flex;
             align-items: flex-end;
