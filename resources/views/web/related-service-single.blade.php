@@ -688,7 +688,7 @@
     </section>
 
     <!-- WHY CHOOSE US (cards repeated) -->
-    <section class="py-5">
+    {{-- <section class="py-5">
         <div class="container">
             <h2 style="font-weight: 800" class="section-title text-center">Why Choose MSNSoftech?</h2>
             <p class="section-subtitle text-center">Because we don’t just build websites — we build digital success.</p>
@@ -722,7 +722,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <!-- CASE STUDIES / RESULTS -->
     <section class="py-5 bg-light">
