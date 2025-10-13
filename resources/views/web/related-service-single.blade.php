@@ -503,25 +503,25 @@
     <div class="col-6 col-md-3 mb-3">
       <div class="p-4 bg-white rounded shadow-sm text-center h-100">
         <i class="bi bi-cart-check text-primary" style="font-size:2rem;"></i>
-        <div class="mt-2 font-weight-bold">eCommerce</div>
+        <div class="mt-2 text-muted font-weight-bold">eCommerce</div>
       </div>
     </div>
     <div class="col-6 col-md-3 mb-3">
       <div class="p-4 bg-white rounded shadow-sm text-center h-100">
         <i class="bi bi-bank text-primary" style="font-size:2rem;"></i>
-        <div class="mt-2 font-weight-bold">Finance</div>
+        <div class="mt-2 text-muted font-weight-bold">Finance</div>
       </div>
     </div>
     <div class="col-6 col-md-3 mb-3">
       <div class="p-4 bg-white rounded shadow-sm text-center h-100">
         <i class="bi bi-hospital text-primary" style="font-size:2rem;"></i>
-        <div class="mt-2 font-weight-bold">Healthcare</div>
+        <div class="mt-2 text-muted font-weight-bold">Healthcare</div>
       </div>
     </div>
     <div class="col-6 col-md-3 mb-3">
       <div class="p-4 bg-white rounded shadow-sm text-center h-100">
         <i class="bi bi-building text-primary" style="font-size:2rem;"></i>
-        <div class="mt-2 font-weight-bold">Enterprise</div>
+        <div class="mt-2 text-muted font-weight-bold">Enterprise</div>
       </div>
     </div>
   </div>
