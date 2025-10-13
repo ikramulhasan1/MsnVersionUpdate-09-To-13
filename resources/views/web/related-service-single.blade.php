@@ -145,7 +145,9 @@
 {{-- schema section --}}
 
 @section('content')
-
+ <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
         <!-- Bootstrap 4.1 CSS -->
         {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> --}}
 
@@ -366,7 +368,7 @@
         <!-- CORE FEATURES -->
         <section class="py-5 bg-light">
             <div class="container">
-                <h2 class="section-title text-bold">Our Core Features</h2>
+                <h2 style="font-weight: 700" class="section-title">Our Core Features</h2>
                 <p class="section-subtitle">Empowering your business with next-level web technology.</p>
 
                 <div class="row">
