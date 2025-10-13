@@ -14,101 +14,101 @@
     @endif
 
     <script type="application/ld+json">
-        {
-          "@context": "http://schema.org",
-          "@type": "Product",
-          "name": "{{ $service->title }}",
-          "image": {
-            "@type": "ImageObject",
-            "url": "{{ asset('uploads/service/' . $service->image_path) }}",
-            "width": "100",
-            "height": "100"
-          },
+            {
+              "@context": "http://schema.org",
+              "@type": "Product",
+              "name": "{{ $service->title }}",
+              "image": {
+                "@type": "ImageObject",
+                "url": "{{ asset('uploads/service/' . $service->image_path) }}",
+                "width": "100",
+                "height": "100"
+              },
 
-          "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
-          "url": "{{ route('service.related-single', $service->slug) }}",
-          "brand": {
-            "@type": "Brand",
-            "name": "MSN Softtech",
-            "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
-          },
-          "offers": {
-            "@type": "Offer",
-            "price": "{{ $service->price ?? '999' }}",
-            "priceCurrency": "USD",
-            "availability": "https://schema.org/InStock",
-            "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
-            "hasMerchantReturnPolicy": {
-              "@type": "MerchantReturnPolicy",
-              "applicableCountry": "US",
-              "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-              "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
-              "returnShippingFeesAmount": {
-                "@type": "MonetaryAmount",
-                "value": "0.00",
-                "currency": "USD"
+              "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
+              "url": "{{ route('service.related-single', $service->slug) }}",
+              "brand": {
+                "@type": "Brand",
+                "name": "MSN Softtech",
+                "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
               },
-              "merchantReturnDays": "30",
-              "returnMethod": "https://schema.org/ReturnByMail",
-              "returnFees": "FreeReturn"
-            },
-            "shippingDetails": {
-              "@type": "OfferShippingDetails",
-              "shippingRate": {
-                "@type": "MonetaryAmount",
-                "value": "0.00",
-                "currency": "USD"
-              },
-              "deliveryTime": {
-                "@type": "ShippingDeliveryTime",
-                "businessDays": {
-                  "@type": "OpeningHoursSpecification",
-                  "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
-                  "https://schema.org/Sunday"]
+              "offers": {
+                "@type": "Offer",
+                "price": "{{ $service->price ?? '999' }}",
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
+                "hasMerchantReturnPolicy": {
+                  "@type": "MerchantReturnPolicy",
+                  "applicableCountry": "US",
+                  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                  "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
+                  "returnShippingFeesAmount": {
+                    "@type": "MonetaryAmount",
+                    "value": "0.00",
+                    "currency": "USD"
+                  },
+                  "merchantReturnDays": "30",
+                  "returnMethod": "https://schema.org/ReturnByMail",
+                  "returnFees": "FreeReturn"
                 },
-                "handlingTime": {
-                  "@type": "QuantitativeValue",
-                  "minValue": 1,
-                  "maxValue": 2,
-                  "unitCode": "DAY"
-                },
-                "transitTime": {
-                  "@type": "QuantitativeValue",
-                  "minValue": 3,
-                  "maxValue": 5,
-                  "unitCode": "DAY"
+                "shippingDetails": {
+                  "@type": "OfferShippingDetails",
+                  "shippingRate": {
+                    "@type": "MonetaryAmount",
+                    "value": "0.00",
+                    "currency": "USD"
+                  },
+                  "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "businessDays": {
+                      "@type": "OpeningHoursSpecification",
+                      "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
+                      "https://schema.org/Sunday"]
+                    },
+                    "handlingTime": {
+                      "@type": "QuantitativeValue",
+                      "minValue": 1,
+                      "maxValue": 2,
+                      "unitCode": "DAY"
+                    },
+                    "transitTime": {
+                      "@type": "QuantitativeValue",
+                      "minValue": 3,
+                      "maxValue": 5,
+                      "unitCode": "DAY"
+                    }
+                  },
+                  "shippingDestination": {
+                    "@type": "DefinedRegion",
+                    "addressCountry": "US"
+                  }
                 }
               },
-              "shippingDestination": {
-                "@type": "DefinedRegion",
-                "addressCountry": "US"
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "{{ $service->average_rating }}",
+                "bestRating": "5",
+                "worstRating": "1",
+                "ratingCount": "{{ $service->review_count }}",
+              },
+              "review": {
+                "@type": "Review",
+                "author": {
+                  "@type": "Person",
+                  "name": "Joseph Garcia"
+                },
+                "datePublished": "{{ $service->created_at->format('Y-m-d') }}",
+                "reviewRating": {
+                  "@type": "Rating",
+                  "ratingValue": "5",
+                  "bestRating": "5",
+                  "worstRating": "1"
+                },
+                "reviewBody": "MSN Softtech delivered an exceptional custom {{ $service->short_title }} solution that enhanced our online presence and improved performance."
               }
             }
-          },
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "{{ $service->average_rating }}",
-            "bestRating": "5",
-            "worstRating": "1",
-            "ratingCount": "{{ $service->review_count }}",
-          },
-          "review": {
-            "@type": "Review",
-            "author": {
-              "@type": "Person",
-              "name": "Joseph Garcia"
-            },
-            "datePublished": "{{ $service->created_at->format('Y-m-d') }}",
-            "reviewRating": {
-              "@type": "Rating",
-              "ratingValue": "5",
-              "bestRating": "5",
-              "worstRating": "1"
-            },
-            "reviewBody": "MSN Softtech delivered an exceptional custom {{ $service->short_title }} solution that enhanced our online presence and improved performance."
-          }
-        }
-        </script>
+            </script>
 
 
     <!-- JSON-LD markup generated by Google Structured Data Markup Helper. -->
@@ -145,706 +145,785 @@
 {{-- schema section --}}
 
 @section('content')
- <link
+    <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-        <!-- Bootstrap 4.1 CSS -->
-        {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> --}}
+    <!-- Bootstrap 4.1 CSS -->
+    {{--
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> --}}
 
-        <!-- Bootstrap Icons (works independently) -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Bootstrap Icons (works independently) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-        <style>
-            /* Base */
-            body {
-                font-family: 'Poppins', sans-serif;
-                background-color: #f8f9fa;
-                color: #052C58;
-            }
+    <style>
+        /* Base */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #052C58;
+        }
 
-            /* HERO */
-            .hero-section {
-                background: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
-                color: #fff;
-                padding: 120px 0;
-                position: relative;
-            }
+        /* HERO */
+        .hero-section {
+            background: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+            color: #fff;
+            padding: 120px 0;
+            position: relative;
+        }
 
-            .hero-section::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.6);
-            }
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
 
-            .hero-content {
-                position: relative;
-                z-index: 2;
-            }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
 
-            /* Section titles */
-            .section-title {
-                text-align: center;
-                font-weight: 600;
-                margin-bottom: 1rem;
-            }
+        /* Section titles */
+        .section-title {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
 
-            .section-subtitle {
-                text-align: center;
-                color: #6c757d;
-                margin-bottom: 2.5rem;
-            }
+        .section-subtitle {
+            text-align: center;
+            color: #6c757d;
+            margin-bottom: 2.5rem;
+        }
 
-            /* Service details */
-            .service-detail img {
-                border-radius: 10px;
-            }
+        /* Service details */
+        .service-detail img {
+            border-radius: 10px;
+        }
 
-            .service-detail p {
-                line-height: 1.8;
-                color: #555;
-            }
+        .service-detail p {
+            line-height: 1.8;
+            color: #555;
+        }
 
-            /* Feature */
-            .feature-card {
-                background: #fff;
-                border-radius: 10px;
-                padding: 30px;
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-                text-align: center;
-                transition: all .3s ease;
-            }
+        /* Feature */
+        .feature-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all .3s ease;
+        }
 
-            .feature-card:hover {
-                transform: translateY(-8px);
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
 
-            .feature-card i {
-                font-size: 2rem;
-                color: #052C58;
-                margin-bottom: 15px;
-            }
+        .feature-card i {
+            font-size: 2rem;
+            color: #052C58;
+            margin-bottom: 15px;
+        }
 
-            /* Process */
-            .process-step {
-                background: #fff;
-                border-radius: 8px;
-                padding: 30px;
-                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-                transition: all .3s ease;
-            }
+        /* Process */
+        .process-step {
+            background: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all .3s ease;
+        }
 
-            .process-step:hover {
-                transform: translateY(-5px);
-            }
+        .process-step:hover {
+            transform: translateY(-5px);
+        }
 
-            /* Project / portfolio */
-            .project-item {
-                position: relative;
-                overflow: hidden;
-                border-radius: 10px;
-                transition: transform .4s ease;
-            }
+        /* Project / portfolio */
+        .project-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            transition: transform .4s ease;
+        }
 
-            .project-item img {
-                display: block;
-                width: 100%;
-                height: auto;
-            }
+        .project-item img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
 
-            .project-item:hover {
-                transform: scale(1.05);
-            }
+        .project-item:hover {
+            transform: scale(1.05);
+        }
 
-            .project-overlay {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.6);
-                opacity: 0;
-                transition: all .4s ease;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            transition: all .4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-            .project-item:hover .project-overlay {
-                opacity: 1;
-            }
+        .project-item:hover .project-overlay {
+            opacity: 1;
+        }
 
-            /* CTA */
-            .cta-section {
-                background: #052C58;
-                color: #fff;
-                padding: 60px 0;
-                text-align: center;
-                border-radius: 10px;
-            }
+        /* CTA */
+        .cta-section {
+            background: #052C58;
+            color: #fff;
+            padding: 60px 0;
+            text-align: center;
+            border-radius: 10px;
+        }
 
-            /* FAQ (Bootstrap 4) */
-            .faq-section .card-header {
-                background: #fff;
-                border-bottom: none;
-            }
+        /* FAQ (Bootstrap 4) */
+        .faq-section .card-header {
+            background: #fff;
+            border-bottom: none;
+        }
 
-            .faq-section .btn-link {
-                text-decoration: none;
-                font-weight: 500;
-                color: #052C58;
-            }
+        .faq-section .btn-link {
+            text-decoration: none;
+            font-weight: 500;
+            color: #052C58;
+        }
 
-            /* Testimonials small tweaks */
-            .testimonial {
-                background: #f8f9fa;
-                border-radius: 8px;
-                padding: 20px;
-            }
+        /* Testimonials small tweaks */
+        .testimonial {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+        }
 
-            /* Project journey scroller */
-            .journey-scroll {
-                display: flex;
-                overflow: auto;
-                -webkit-overflow-scrolling: touch;
-                gap: 1rem;
-            }
+        /* Project journey scroller */
+        .journey-scroll {
+            display: flex;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+            gap: 1rem;
+        }
 
-            .journey-scroll>div {
-                min-width: 250px;
-            }
+        .journey-scroll>div {
+            min-width: 250px;
+        }
 
-            /* Utility fixes for Bootstrap4 compatibility */
-            .mb-4 {
-                margin-bottom: 1.5rem !important;
-            }
+        /* Utility fixes for Bootstrap4 compatibility */
+        .mb-4 {
+            margin-bottom: 1.5rem !important;
+        }
 
-            .g-4 {
-                margin-left: 0;
-                margin-right: 0;
-            }
+        .g-4 {
+            margin-left: 0;
+            margin-right: 0;
+        }
 
-            /* placeholder so markup with g-4 won't break layout */
-        </style>
-    
+        /* placeholder so markup with g-4 won't break layout */
 
-        <!-- HERO -->
-        <section class="hero-section d-flex align-items-center justify-content-center text-center">
-            <div class="container hero-content">
-                <h1 class="display-4 font-weight-bold">Web Development Services</h1>
-                <p class="lead text-white">Building responsive, scalable, and secure web applications for your business success.</p>
-                <a href="#contact" style="background-color: #052C58; color: #ffffff;" class="btn btn-lg mt-3">Get Started</a>
+        /* Counters */
+    .stat-box{ background:#fff; padding:22px; border-radius:12px; box-shadow: 0 8px 30px rgba(12,38,79,0.05); }
+    .stat-number{ font-weight:700; font-size:2.2rem; color:var(--primary); }
+    </style>
+
+
+    <!-- HERO -->
+    <section class="hero-section d-flex align-items-center justify-content-center text-center">
+        <div class="container hero-content">
+            <h1 class="display-4 font-weight-bold">Web Development Services</h1>
+            <p class="lead text-white">Building responsive, scalable, and secure web applications for your business success.
+            </p>
+            <a href="#contact" style="background-color: #052C58; color: #ffffff;" class="btn btn-lg mt-3">Get Started</a>
+        </div>
+    </section>
+
+    <!-- SERVICE DETAILS -->
+    <section class="py-5 service-detail">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80"
+                        class="img-fluid" alt="Web Development">
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="font-weight-bold mb-3">Professional Web Development</h2>
+                    <p>At <strong>MSNSoftech</strong>, we specialize in building websites that not only look great but
+                        also perform exceptionally. Our experienced developers create dynamic, user-friendly websites
+                        using modern technologies like <strong>Laravel, React, Vue, and Node.js</strong>.</p>
+                    <ul class="list-unstyled mt-3">
+                        <li>✔️ Responsive and Mobile-friendly Design</li>
+                        <li>✔️ SEO Optimized Code</li>
+                        <li>✔️ Fast Loading and Secure</li>
+                        <li>✔️ CMS Integration and Maintenance</li>
+                    </ul>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- SERVICE DETAILS -->
-        <section class="py-5 service-detail">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-6 mb-4 mb-lg-0">
-                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80"
-                            class="img-fluid" alt="Web Development">
+    <!-- CORE FEATURES -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 style="font-weight: 800" class="section-title">Our Core Features</h2>
+            <p class="section-subtitle">Empowering your business with next-level web technology.</p>
+
+            <div class="row">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="feature-card h-100 text-center">
+                        <div class="icon-box mb-3">
+                            <i class="bi bi-lightning-charge"></i>
+                        </div>
+                        <h5 class="font-weight-bold">Fast Performance</h5>
+                        <p>We ensure your site loads blazing fast with optimized code and CDN support.</p>
                     </div>
-                    <div class="col-lg-6">
-                        <h2 class="font-weight-bold mb-3">Professional Web Development</h2>
-                        <p>At <strong>MSNSoftech</strong>, we specialize in building websites that not only look great but
-                            also perform exceptionally. Our experienced developers create dynamic, user-friendly websites
-                            using modern technologies like <strong>Laravel, React, Vue, and Node.js</strong>.</p>
-                        <ul class="list-unstyled mt-3">
-                            <li>✔️ Responsive and Mobile-friendly Design</li>
-                            <li>✔️ SEO Optimized Code</li>
-                            <li>✔️ Fast Loading and Secure</li>
-                            <li>✔️ CMS Integration and Maintenance</li>
-                        </ul>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="feature-card h-100 text-center">
+                        <div class="icon-box mb-3">
+                            <i class="bi bi-palette2"></i>
+                        </div>
+                        <h5 class="font-weight-bold">Creative Design</h5>
+                        <p>Modern, elegant designs that reflect your brand identity and attract users.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="feature-card h-100 text-center">
+                        <div class="icon-box mb-3">
+                            <i class="bi bi-gear-wide-connected"></i>
+                        </div>
+                        <h5 class="font-weight-bold">Custom Functionality</h5>
+                        <p>Tailored web apps, dashboards, and integrations for your business goals.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="feature-card h-100 text-center">
+                        <div class="icon-box mb-3">
+                            <i class="bi bi-globe2"></i>
+                        </div>
+                        <h5 class="font-weight-bold">SEO & Marketing Ready</h5>
+                        <p>Optimized for search engines and designed to convert visitors into clients.</p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- CORE FEATURES -->
-        <section class="py-5 bg-light">
-            <div class="container">
-                <h2 style="font-weight: 800" class="section-title">Our Core Features</h2>
-                <p class="section-subtitle">Empowering your business with next-level web technology.</p>
+    <!-- SERVICE PROCESS -->
+    <section class="py-5">
+        <div class="container">
+            <h2 style="font-weight: 800" class="section-title">Our Work Process</h2>
+            <p class="section-subtitle">We follow a streamlined workflow for perfect project delivery.</p>
 
-                <div class="row">
-                    <div class="col-md-3 col-sm-6 mb-4">
-                        <div class="feature-card h-100 text-center">
-                            <div class="icon-box mb-3">
-                                <i class="bi bi-lightning-charge"></i>
-                            </div>
-                            <h5 class="font-weight-bold">Fast Performance</h5>
-                            <p>We ensure your site loads blazing fast with optimized code and CDN support.</p>
-                        </div>
+            <div class="row text-center">
+                <div class="col-md-3 mb-4">
+                    <div class="process-step h-100">
+                        <div style="color: #052C58" class="step-number display-4 font-weight-bold">01</div>
+                        <h5 class="mt-3 font-weight-bold">Planning</h5>
+                        <p>Understanding your goals and outlining the roadmap to success.</p>
                     </div>
+                </div>
 
-                    <div class="col-md-3 col-sm-6 mb-4">
-                        <div class="feature-card h-100 text-center">
-                            <div class="icon-box mb-3">
-                                <i class="bi bi-palette2"></i>
-                            </div>
-                            <h5 class="font-weight-bold">Creative Design</h5>
-                            <p>Modern, elegant designs that reflect your brand identity and attract users.</p>
-                        </div>
+                <div class="col-md-3 mb-4">
+                    <div class="process-step h-100">
+                        <div style="color: #052C58" class="step-number display-4 font-weight-bold">02</div>
+                        <h5 class="mt-3 font-weight-bold">Design</h5>
+                        <p>Creating wireframes and visual concepts that align with your brand.</p>
                     </div>
+                </div>
 
-                    <div class="col-md-3 col-sm-6 mb-4">
-                        <div class="feature-card h-100 text-center">
-                            <div class="icon-box mb-3">
-                                <i class="bi bi-gear-wide-connected"></i>
-                            </div>
-                            <h5 class="font-weight-bold">Custom Functionality</h5>
-                            <p>Tailored web apps, dashboards, and integrations for your business goals.</p>
-                        </div>
+                <div class="col-md-3 mb-4">
+                    <div class="process-step h-100">
+                        <div style="color: #052C58" class="step-number display-4 font-weight-bold">03</div>
+                        <h5 class="mt-3 font-weight-bold">Development</h5>
+                        <p>Coding with clean, scalable, and secure solutions using modern stacks.</p>
                     </div>
+                </div>
 
-                    <div class="col-md-3 col-sm-6 mb-4">
-                        <div class="feature-card h-100 text-center">
-                            <div class="icon-box mb-3">
-                                <i class="bi bi-globe2"></i>
-                            </div>
-                            <h5 class="font-weight-bold">SEO & Marketing Ready</h5>
-                            <p>Optimized for search engines and designed to convert visitors into clients.</p>
-                        </div>
+                <div class="col-md-3 mb-4">
+                    <div class="process-step h-100">
+                        <div style="color: #052C58" class="step-number display-4 font-weight-bold">04</div>
+                        <h5 class="mt-3 font-weight-bold">Launch & Support</h5>
+                        <p>Testing, deployment, and continuous post-launch maintenance.</p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- SERVICE PROCESS -->
-        <section class="py-5">
-            <div class="container">
-                <h2 style="font-weight: 800" class="section-title">Our Work Process</h2>
-                <p class="section-subtitle">We follow a streamlined workflow for perfect project delivery.</p>
-
-                <div class="row text-center">
-                    <div class="col-md-3 mb-4">
-                        <div class="process-step h-100">
-                            <div style="color: #052C58" class="step-number display-4 font-weight-bold">01</div>
-                            <h5 class="mt-3 font-weight-bold">Planning</h5>
-                            <p>Understanding your goals and outlining the roadmap to success.</p>
-                        </div>
+    <!-- WHY CHOOSE US -->
+    <section class="py-5 bg-light">
+        <div class="container text-center">
+            <h2 style="font-weight: 800" class="section-title mb-4">Why Choose MSNSoftech?</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="p-4 border rounded h-100 shadow-sm">
+                        <i class="bi bi-lightning-charge-fill display-4 mb-3" style="color: #052C58"></i>
+                        <h5 class="font-weight-bold">Fast Delivery</h5>
+                        <p>We deliver high-quality websites quickly without compromising performance.</p>
                     </div>
+                </div>
 
-                    <div class="col-md-3 mb-4">
-                        <div class="process-step h-100">
-                            <div style="color: #052C58" class="step-number display-4 font-weight-bold">02</div>
-                            <h5 class="mt-3 font-weight-bold">Design</h5>
-                            <p>Creating wireframes and visual concepts that align with your brand.</p>
-                        </div>
+                <div class="col-md-4 mb-4">
+                    <div class="p-4 border rounded h-100 shadow-sm">
+                        <i style="color: #052C58" class="bi bi-award display-4 mb-3"></i>
+                        <h5 class="font-weight-bold">Experienced Team</h5>
+                        <p>Our experts have worked on 250+ projects globally.</p>
                     </div>
+                </div>
 
-                    <div class="col-md-3 mb-4">
-                        <div class="process-step h-100">
-                            <div style="color: #052C58" class="step-number display-4 font-weight-bold">03</div>
-                            <h5 class="mt-3 font-weight-bold">Development</h5>
-                            <p>Coding with clean, scalable, and secure solutions using modern stacks.</p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 mb-4">
-                        <div class="process-step h-100">
-                            <div style="color: #052C58" class="step-number display-4 font-weight-bold">04</div>
-                            <h5 class="mt-3 font-weight-bold">Launch & Support</h5>
-                            <p>Testing, deployment, and continuous post-launch maintenance.</p>
-                        </div>
+                <div class="col-md-4 mb-4">
+                    <div class="p-4 border rounded h-100 shadow-sm">
+                        <i style="color: #052C58" class="bi bi-people display-4 mb-3"></i>
+                        <h5 class="font-weight-bold">Customer-Centric</h5>
+                        <p>We listen carefully and tailor every solution to your business goals.</p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- WHY CHOOSE US -->
-        <section class="py-5 bg-light">
-            <div class="container text-center">
-                <h2 style="font-weight: 800" class="section-title mb-4">Why Choose MSNSoftech?</h2>
-                <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <div class="p-4 border rounded h-100 shadow-sm">
-                            <i class="bi bi-lightning-charge-fill display-4 mb-3" style="color: #052C58"></i>
-                            <h5 class="font-weight-bold">Fast Delivery</h5>
-                            <p>We deliver high-quality websites quickly without compromising performance.</p>
-                        </div>
-                    </div>
 
-                    <div class="col-md-4 mb-4">
-                        <div class="p-4 border rounded h-100 shadow-sm">
-                            <i style="color: #052C58" class="bi bi-award display-4 mb-3"></i>
-                            <h5 class="font-weight-bold">Experienced Team</h5>
-                            <p>Our experts have worked on 250+ projects globally.</p>
-                        </div>
-                    </div>
+    <!-- INDUSTRIES -->
+    <section class="container-narrow">
+        <div class="text-center mb-4">
+            <h3 class="section-title">Industries We Serve</h3>
+            <p class="section-subtitle">From eCommerce to SaaS and healthcare</p>
+        </div>
 
-                    <div class="col-md-4 mb-4">
-                        <div class="p-4 border rounded h-100 shadow-sm">
-                            <i  style="color: #052C58"class="bi bi-people display-4 mb-3"></i>
-                            <h5 class="font-weight-bold">Customer-Centric</h5>
-                            <p>We listen carefully and tailor every solution to your business goals.</p>
+        <div class="row g-3 justify-content-center">
+            <div class="col-6 col-md-3" data-aos="zoom-in">
+                <div class="p-3 bg-white rounded-3 text-center">
+                    <i class="bi bi-cart-check fs-2 text-primary"></i>
+                    <div class="mt-2">eCommerce</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="60">
+                <div class="p-3 bg-white rounded-3 text-center">
+                    <i class="bi bi-bank fs-2 text-primary"></i>
+                    <div class="mt-2">Finance</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="120">
+                <div class="p-3 bg-white rounded-3 text-center">
+                    <i class="bi bi-hospital fs-2 text-primary"></i>
+                    <div class="mt-2">Healthcare</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="180">
+                <div class="p-3 bg-white rounded-3 text-center">
+                    <i class="bi bi-building fs-2 text-primary"></i>
+                    <div class="mt-2">Enterprise</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS / COUNTERS -->
+    <section class="container-narrow">
+        <div class="text-center mb-4">
+            <h3 class="section-title">Achievements</h3>
+            <p class="section-subtitle">Numbers that show our impact</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-3" data-aos="fade-up">
+                <div class="stat-box text-center">
+                    <div class="stat-number" data-target="250">0</div>
+                    <div class="small text-muted">Projects Completed</div>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="80">
+                <div class="stat-box text-center">
+                    <div class="stat-number" data-target="120">0</div>
+                    <div class="small text-muted">Happy Clients</div>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="160">
+                <div class="stat-box text-center">
+                    <div class="stat-number" data-target="6">0</div>
+                    <div class="small text-muted">Years Experience</div>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="240">
+                <div class="stat-box text-center">
+                    <div class="stat-number" data-target="98">0</div>
+                    <div class="small text-muted">Satisfaction (%)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 style="font-weight: 800" class="section-title">Recent Projects</h2>
+            <p style="font-weight: 800" class="section-subtitle">Explore some of our successful work for clients around the
+                world.</p>
+
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="project-item position-relative overflow-hidden rounded shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=800&q=80"
+                            class="img-fluid" alt="Project 1">
+                        <div class="project-overlay">
+                            <h5 class="text-white font-weight-bold">E-Commerce Website</h5>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- PORTFOLIO -->
-        <section class="py-5 bg-light">
-            <div class="container">
-                <h2 style="font-weight: 800" class="section-title">Recent Projects</h2>
-                <p style="font-weight: 800" class="section-subtitle">Explore some of our successful work for clients around the world.</p>
-
-                <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <div class="project-item position-relative overflow-hidden rounded shadow-sm">
-                            <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=800&q=80"
-                                class="img-fluid" alt="Project 1">
-                            <div class="project-overlay">
-                                <h5 class="text-white font-weight-bold">E-Commerce Website</h5>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-4">
-                        <div class="project-item position-relative overflow-hidden rounded shadow-sm">
-                            <img src="https://images.unsplash.com/photo-1610563166150-b34df4f3bcd6?auto=format&fit=crop&w=800&q=80"
-                                class="img-fluid" alt="Project 2">
-                            <div class="project-overlay">
-                                <h5 class="text-white font-weight-bold">Portfolio & Branding</h5>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-4">
-                        <div class="project-item position-relative overflow-hidden rounded shadow-sm">
-                            <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80"
-                                class="img-fluid" alt="Project 3">
-                            <div class="project-overlay">
-                                <h5 class="text-white font-weight-bold">Business Landing Page</h5>
-                            </div>
+                <div class="col-md-4 mb-4">
+                    <div class="project-item position-relative overflow-hidden rounded shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1610563166150-b34df4f3bcd6?auto=format&fit=crop&w=800&q=80"
+                            class="img-fluid" alt="Project 2">
+                        <div class="project-overlay">
+                            <h5 class="text-white font-weight-bold">Portfolio & Branding</h5>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- TECHNOLOGIES -->
-        <section class="py-5 bg-light">
-            <div class="container text-center">
-                <h2 style="font-weight: 800" class="section-title">Technologies We Use</h2>
-                <p class="section-subtitle">We combine creativity and the latest tools to deliver high-quality solutions.
-                </p>
-
-                <div class="row justify-content-center align-items-center">
-                    <div class="col-4 col-md-2 mb-3">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
-                            class="img-fluid" alt="HTML5" style="max-height:70px;">
-                    </div>
-                    <div class="col-4 col-md-2 mb-3">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
-                            class="img-fluid" alt="CSS3" style="max-height:70px;">
-                    </div>
-                    <div class="col-4 col-md-2 mb-3">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg"
-                            class="img-fluid" alt="Bootstrap" style="max-height:70px;">
-                    </div>
-                    <div class="col-4 col-md-2 mb-3">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
-                            class="img-fluid" alt="JavaScript" style="max-height:70px;">
-                    </div>
-                    <div class="col-4 col-md-2 mb-3">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1969px-Laravel.svg.png"
-                            class="img-fluid" alt="Laravel" style="max-height:70px;">
-                    </div>
-                    <div class="col-4 col-md-2 mb-3">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
-                            class="img-fluid" alt="React" style="max-height:70px;">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- WHY CHOOSE US (cards repeated) -->
-        <section class="py-5">
-            <div class="container">
-                <h2 style="font-weight: 800" class="section-title text-center">Why Choose MSNSoftech?</h2>
-                <p class="section-subtitle text-center">Because we don’t just build websites — we build digital success.</p>
-
-                <div class="row mt-4">
-                    <div class="col-md-4 mb-4">
-                        <div class="card border-0 shadow-sm h-100 text-center p-4">
-                            <i class="bi bi-people display-4 mb-3" style="color: #052C58"></i>
-                            <h5 class="font-weight-bold">Experienced Team</h5>
-                            <p>Our developers and designers have years of hands-on experience in building web solutions for
-                                various industries.</p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-4">
-                        <div class="card border-0 shadow-sm h-100 text-center p-4">
-                            <i class="bi bi-speedometer display-4 mb-3" style="color: #052C58"></i>
-                            <h5 class="font-weight-bold">High Performance</h5>
-                            <p>Every website we create is optimized for speed, SEO, and seamless user experience across all
-                                devices.</p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-4">
-                        <div class="card border-0 shadow-sm h-100 text-center p-4">
-                            <i class="bi bi-shield-check display-4 mb-3" style="color: #052C58"></i>
-                            <h5 class="font-weight-bold">Reliable Support</h5>
-                            <p>We provide ongoing maintenance, technical support, and updates to keep your website secure
-                                and effective.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CASE STUDIES / RESULTS -->
-        <section class="py-5 bg-light">
-            <div class="container">
-                <h2 style="font-weight: 800" class="section-title text-center">Our Success Stories</h2>
-                <p class="section-subtitle text-center">See how we’ve helped clients achieve measurable results.</p>
-
-                <div class="row mt-4">
-                    <div class="col-md-4 mb-4">
-                        <div class="case-card bg-white shadow-sm rounded p-4 h-100">
-                            <h5 class="font-weight-bold mb-2">E-commerce Growth</h5>
-                            <p><strong>Result:</strong> +120% traffic in 3 months.</p>
-                            <p>We redesigned an online fashion store with a modern layout and optimized checkout, increasing
-                                conversions by 50%.</p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-4">
-                        <div class="case-card bg-white shadow-sm rounded p-4 h-100">
-                            <h5 class="font-weight-bold mb-2">Corporate Website Redesign</h5>
-                            <p><strong>Result:</strong> 2x more inquiries.</p>
-                            <p>For a SaaS client, we developed a clean and functional website that improved engagement and
-                                lead generation.</p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-4">
-                        <div class="case-card bg-white shadow-sm rounded p-4 h-100">
-                            <h5 class="font-weight-bold mb-2">Startup MVP Launch</h5>
-                            <p><strong>Result:</strong> Launched in 6 weeks.</p>
-                            <p>We built a scalable web app for a startup using React and Laravel — delivered on time and
-                                within budget.</p>
+                <div class="col-md-4 mb-4">
+                    <div class="project-item position-relative overflow-hidden rounded shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80"
+                            class="img-fluid" alt="Project 3">
+                        <div class="project-overlay">
+                            <h5 class="text-white font-weight-bold">Business Landing Page</h5>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- CONTACT -->
-        <section id="contact" class="py-5">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-6 mb-4 mb-lg-0">
-                        <h2 style="font-weight: 800" class=" mb-3">Let's Discuss Your Project</h2>
-                        <p>We’re here to turn your ideas into reality. Fill out the form, and our experts will get back to
-                            you within 24 hours.</p>
-                        <ul class="list-unstyled mt-3">
-                            <li><i class="bi bi-envelope" style="color: #052C58"></i> support@msnsofttech.com</li>
-                            <li><i class="bi bi-telephone" style="color: #052C58"></i> +880 1638-846367</li>
-                            <li><i class="bi bi-geo-alt" style="color: #052C58"></i> Comilla, Bangladesh</li>
-                        </ul>
+    <!-- TECHNOLOGIES -->
+    <section class="py-5 bg-light">
+        <div class="container text-center">
+            <h2 style="font-weight: 800" class="section-title">Technologies We Use</h2>
+            <p class="section-subtitle">We combine creativity and the latest tools to deliver high-quality solutions.
+            </p>
+
+            <div class="row justify-content-center align-items-center">
+                <div class="col-4 col-md-2 mb-3">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" class="img-fluid"
+                        alt="HTML5" style="max-height:70px;">
+                </div>
+                <div class="col-4 col-md-2 mb-3">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" class="img-fluid"
+                        alt="CSS3" style="max-height:70px;">
+                </div>
+                <div class="col-4 col-md-2 mb-3">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg"
+                        class="img-fluid" alt="Bootstrap" style="max-height:70px;">
+                </div>
+                <div class="col-4 col-md-2 mb-3">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                        class="img-fluid" alt="JavaScript" style="max-height:70px;">
+                </div>
+                <div class="col-4 col-md-2 mb-3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1969px-Laravel.svg.png"
+                        class="img-fluid" alt="Laravel" style="max-height:70px;">
+                </div>
+                <div class="col-4 col-md-2 mb-3">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" class="img-fluid"
+                        alt="React" style="max-height:70px;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US (cards repeated) -->
+    <section class="py-5">
+        <div class="container">
+            <h2 style="font-weight: 800" class="section-title text-center">Why Choose MSNSoftech?</h2>
+            <p class="section-subtitle text-center">Because we don’t just build websites — we build digital success.</p>
+
+            <div class="row mt-4">
+                <div class="col-md-4 mb-4">
+                    <div class="card border-0 shadow-sm h-100 text-center p-4">
+                        <i class="bi bi-people display-4 mb-3" style="color: #052C58"></i>
+                        <h5 class="font-weight-bold">Experienced Team</h5>
+                        <p>Our developers and designers have years of hands-on experience in building web solutions for
+                            various industries.</p>
                     </div>
+                </div>
 
-                    <div class="col-lg-6">
-                        <form class="p-4 bg-light rounded shadow-sm">
-                            <div class="form-group mb-3">
-                                <input type="text" class="form-control" placeholder="Your Name" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <input type="email" class="form-control" placeholder="Your Email" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <input type="text" class="form-control" placeholder="Service Type (e.g., Web Development)">
-                            </div>
-                            <div class="form-group mb-3">
-                                <textarea class="form-control" rows="4" placeholder="Project Details"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block">Send Message</button>
-                        </form>
+                <div class="col-md-4 mb-4">
+                    <div class="card border-0 shadow-sm h-100 text-center p-4">
+                        <i class="bi bi-speedometer display-4 mb-3" style="color: #052C58"></i>
+                        <h5 class="font-weight-bold">High Performance</h5>
+                        <p>Every website we create is optimized for speed, SEO, and seamless user experience across all
+                            devices.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card border-0 shadow-sm h-100 text-center p-4">
+                        <i class="bi bi-shield-check display-4 mb-3" style="color: #052C58"></i>
+                        <h5 class="font-weight-bold">Reliable Support</h5>
+                        <p>We provide ongoing maintenance, technical support, and updates to keep your website secure
+                            and effective.</p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <style>
-            .project-item {
-                transition: transform .4s ease;
-            }
+    <!-- CASE STUDIES / RESULTS -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 style="font-weight: 800" class="section-title text-center">Our Success Stories</h2>
+            <p class="section-subtitle text-center">See how we’ve helped clients achieve measurable results.</p>
 
-            .project-item:hover {
-                transform: scale(1.05);
-            }
-
-            .project-overlay {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.6);
-                opacity: 0;
-                transition: all .4s ease;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .project-item:hover .project-overlay {
-                opacity: 1;
-            }
-        </style>
-
-        <!-- TESTIMONIALS + FAQ -->
-        <section class="py-5">
-            <div class="container">
-                <div class="row align-items-center">
-                    <!-- TESTIMONIALS -->
-                    <div class="col-lg-6 mb-5 mb-lg-0">
-                        <h2 style="font-weight: 800" class="section-title">What Our Clients Say</h2>
-                        <div class="testimonial p-4 bg-light rounded shadow-sm mb-4">
-                            <p>“MSNSoftech transformed our online store into a fast, stunning platform that increased our
-                                sales by 60%!”</p>
-                            <h6 class="font-weight-bold mb-0">— Sarah Khan, CEO of ElegantWear</h6>
-                        </div>
-                        <div class="testimonial p-4 bg-light rounded shadow-sm">
-                            <p>“Their web development expertise is unmatched. Our company website is now modern, secure, and
-                                lightning-fast.”</p>
-                            <h6 class="font-weight-bold mb-0">— David Lee, Marketing Head at TechNova</h6>
-                        </div>
+            <div class="row mt-4">
+                <div class="col-md-4 mb-4">
+                    <div class="case-card bg-white shadow-sm rounded p-4 h-100">
+                        <h5 class="font-weight-bold mb-2">E-commerce Growth</h5>
+                        <p><strong>Result:</strong> +120% traffic in 3 months.</p>
+                        <p>We redesigned an online fashion store with a modern layout and optimized checkout, increasing
+                            conversions by 50%.</p>
                     </div>
+                </div>
 
-                    <!-- FAQ (Bootstrap 4 collapse) -->
-                    <div class="col-lg-6">
-                        <h2 style="font-weight: 800" class="section-title">Have Questions?</h2>
+                <div class="col-md-4 mb-4">
+                    <div class="case-card bg-white shadow-sm rounded p-4 h-100">
+                        <h5 class="font-weight-bold mb-2">Corporate Website Redesign</h5>
+                        <p><strong>Result:</strong> 2x more inquiries.</p>
+                        <p>For a SaaS client, we developed a clean and functional website that improved engagement and
+                            lead generation.</p>
+                    </div>
+                </div>
 
-                        <div id="accordionFaq" class="faq-section">
-                            <div class="card">
-                                <div class="card-header" id="faqHeading1">
-                                    <h5 class="mb-0">
-                                        <button class="btn btn-link" data-toggle="collapse" data-target="#faq1"
-                                            aria-expanded="true" aria-controls="faq1">
-                                            What technologies do you use for web development?
-                                        </button>
-                                    </h5>
-                                </div>
-
-                                <div id="faq1" class="collapse show" aria-labelledby="faqHeading1"
-                                    data-parent="#accordionFaq">
-                                    <div class="card-body">We use technologies like Laravel, React, Node.js, and WordPress
-                                        depending on your project needs.</div>
-                                </div>
-                            </div>
-
-                            <div class="card">
-                                <div class="card-header" id="faqHeading2">
-                                    <h5 class="mb-0">
-                                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#faq2"
-                                            aria-expanded="false" aria-controls="faq2">
-                                            Do you offer ongoing maintenance?
-                                        </button>
-                                    </h5>
-                                </div>
-                                <div id="faq2" class="collapse" aria-labelledby="faqHeading2" data-parent="#accordionFaq">
-                                    <div class="card-body">Absolutely! We provide website maintenance, updates, and
-                                        performance monitoring services.</div>
-                                </div>
-                            </div>
-
-                            <div class="card">
-                                <div class="card-header" id="faqHeading3">
-                                    <h5 class="mb-0">
-                                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#faq3"
-                                            aria-expanded="false" aria-controls="faq3">
-                                            Can you redesign my existing website?
-                                        </button>
-                                    </h5>
-                                </div>
-                                <div id="faq3" class="collapse" aria-labelledby="faqHeading3" data-parent="#accordionFaq">
-                                    <div class="card-body">Yes! We specialize in redesigning outdated sites into modern,
-                                        responsive, and fast platforms.</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.accordion -->
+                <div class="col-md-4 mb-4">
+                    <div class="case-card bg-white shadow-sm rounded p-4 h-100">
+                        <h5 class="font-weight-bold mb-2">Startup MVP Launch</h5>
+                        <p><strong>Result:</strong> Launched in 6 weeks.</p>
+                        <p>We built a scalable web app for a startup using React and Laravel — delivered on time and
+                            within budget.</p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- PROMISE SECTION -->
-        <section class="py-5 text-white text-center" style="background-color: #052C58;">
-            <div class="container">
-                <h2 class="font-weight-bold mb-3">Our Promise</h2>
-                <p class="mb-4 lead text-white">We build websites that are fast, secure, SEO-friendly, and designed to convert visitors
-                    into customers.</p>
-            </div>
-        </section>
+    <!-- CONTACT -->
+    <section id="contact" class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 style="font-weight: 800" class=" mb-3">Let's Discuss Your Project</h2>
+                    <p>We’re here to turn your ideas into reality. Fill out the form, and our experts will get back to
+                        you within 24 hours.</p>
+                    <ul class="list-unstyled mt-3">
+                        <li><i class="bi bi-envelope" style="color: #052C58"></i> support@msnsofttech.com</li>
+                        <li><i class="bi bi-telephone" style="color: #052C58"></i> +880 1638-846367</li>
+                        <li><i class="bi bi-geo-alt" style="color: #052C58"></i> Comilla, Bangladesh</li>
+                    </ul>
+                </div>
 
-        <!-- PROJECT JOURNEY SCROLLER -->
-        <section class="py-5 bg-white">
-            <div class="container text-center">
-                <h2 style="font-weight: 800" class="section-title mb-4">Our Project Journey</h2>
-                <div class="journey-scroll py-3">
-                    <div class="p-4 border rounded shadow-sm">
-                        <h5 class="font-weight-bold">01. Idea</h5>
-                        <p class="small text-muted">We begin by discussing your vision.</p>
-                    </div>
-                    <div class="p-4 border rounded shadow-sm">
-                        <h5 class="font-weight-bold">02. Design</h5>
-                        <p class="small text-muted">Crafting layouts and user experiences.</p>
-                    </div>
-                    <div class="p-4 border rounded shadow-sm">
-                        <h5 class="font-weight-bold">03. Development</h5>
-                        <p class="small text-muted">Coding and implementing your project.</p>
-                    </div>
-                    <div class="p-4 border rounded shadow-sm">
-                        <h5 class="font-weight-bold">04. Testing</h5>
-                        <p class="small text-muted">Ensuring everything works flawlessly.</p>
-                    </div>
-                    <div class="p-4 border rounded shadow-sm">
-                        <h5 class="font-weight-bold">05. Launch</h5>
-                        <p class="small text-muted">Deploy and celebrate success!</p>
-                    </div>
+                <div class="col-lg-6">
+                    <form class="p-4 bg-light rounded shadow-sm">
+                        <div class="form-group mb-3">
+                            <input type="text" class="form-control" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="email" class="form-control" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="text" class="form-control" placeholder="Service Type (e.g., Web Development)">
+                        </div>
+                        <div class="form-group mb-3">
+                            <textarea class="form-control" rows="4" placeholder="Project Details"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                    </form>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- CTA -->
-        <section class="cta-section my-5 mx-3">
-            <div class="container text-center">
-                <h2 class="font-weight-bold">Ready to Start Your Project?</h2>
-                <p class="lead mb-4 text-white">Let's bring your ideas to life with our expert web development solutions.</p>
-                <a href="mailto:support@msnsofttech.com" class="btn btn-light btn-lg">Contact Us</a>
+    <style>
+        .project-item {
+            transition: transform .4s ease;
+        }
+
+        .project-item:hover {
+            transform: scale(1.05);
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            transition: all .4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-item:hover .project-overlay {
+            opacity: 1;
+        }
+    </style>
+
+    <!-- TESTIMONIALS + FAQ -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- TESTIMONIALS -->
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h2 style="font-weight: 800" class="section-title">What Our Clients Say</h2>
+                    <div class="testimonial p-4 bg-light rounded shadow-sm mb-4">
+                        <p>“MSNSoftech transformed our online store into a fast, stunning platform that increased our
+                            sales by 60%!”</p>
+                        <h6 class="font-weight-bold mb-0">— Sarah Khan, CEO of ElegantWear</h6>
+                    </div>
+                    <div class="testimonial p-4 bg-light rounded shadow-sm">
+                        <p>“Their web development expertise is unmatched. Our company website is now modern, secure, and
+                            lightning-fast.”</p>
+                        <h6 class="font-weight-bold mb-0">— David Lee, Marketing Head at TechNova</h6>
+                    </div>
+                </div>
+
+                <!-- FAQ (Bootstrap 4 collapse) -->
+                <div class="col-lg-6">
+                    <h2 style="font-weight: 800" class="section-title">Have Questions?</h2>
+
+                    <div id="accordionFaq" class="faq-section">
+                        <div class="card">
+                            <div class="card-header" id="faqHeading1">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#faq1"
+                                        aria-expanded="true" aria-controls="faq1">
+                                        What technologies do you use for web development?
+                                    </button>
+                                </h5>
+                            </div>
+
+                            <div id="faq1" class="collapse show" aria-labelledby="faqHeading1" data-parent="#accordionFaq">
+                                <div class="card-body">We use technologies like Laravel, React, Node.js, and WordPress
+                                    depending on your project needs.</div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="faqHeading2">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#faq2"
+                                        aria-expanded="false" aria-controls="faq2">
+                                        Do you offer ongoing maintenance?
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="faq2" class="collapse" aria-labelledby="faqHeading2" data-parent="#accordionFaq">
+                                <div class="card-body">Absolutely! We provide website maintenance, updates, and
+                                    performance monitoring services.</div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="faqHeading3">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#faq3"
+                                        aria-expanded="false" aria-controls="faq3">
+                                        Can you redesign my existing website?
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="faq3" class="collapse" aria-labelledby="faqHeading3" data-parent="#accordionFaq">
+                                <div class="card-body">Yes! We specialize in redesigning outdated sites into modern,
+                                    responsive, and fast platforms.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.accordion -->
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Scripts: jQuery, Popper, Bootstrap 4 -->
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-        {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> --}}
+    <!-- PROMISE SECTION -->
+    <section class="py-5 text-white text-center" style="background-color: #052C58;">
+        <div class="container">
+            <h2 class="font-weight-bold mb-3">Our Promise</h2>
+            <p class="mb-4 lead text-white">We build websites that are fast, secure, SEO-friendly, and designed to convert
+                visitors
+                into customers.</p>
+        </div>
+    </section>
 
-        <!-- Optional: small UX scripts (smooth scroll for anchor links) -->
-        <script>
-            // Smooth scroll for anchor links
-            $(document).on('click', 'a[href^="#"]', function (e) {
-                var target = $(this.getAttribute('href'));
-                if (target.length) {
-                    e.preventDefault();
-                    $('html, body').stop().animate({
-                        scrollTop: target.offset().top - 20
-                    }, 600);
-                }
-            });
-        </script>
-  
+    <!-- PROJECT JOURNEY SCROLLER -->
+    <section class="py-5 bg-white">
+        <div class="container text-center">
+            <h2 style="font-weight: 800" class="section-title mb-4">Our Project Journey</h2>
+            <div class="journey-scroll py-3">
+                <div class="p-4 border rounded shadow-sm">
+                    <h5 class="font-weight-bold">01. Idea</h5>
+                    <p class="small text-muted">We begin by discussing your vision.</p>
+                </div>
+                <div class="p-4 border rounded shadow-sm">
+                    <h5 class="font-weight-bold">02. Design</h5>
+                    <p class="small text-muted">Crafting layouts and user experiences.</p>
+                </div>
+                <div class="p-4 border rounded shadow-sm">
+                    <h5 class="font-weight-bold">03. Development</h5>
+                    <p class="small text-muted">Coding and implementing your project.</p>
+                </div>
+                <div class="p-4 border rounded shadow-sm">
+                    <h5 class="font-weight-bold">04. Testing</h5>
+                    <p class="small text-muted">Ensuring everything works flawlessly.</p>
+                </div>
+                <div class="p-4 border rounded shadow-sm">
+                    <h5 class="font-weight-bold">05. Launch</h5>
+                    <p class="small text-muted">Deploy and celebrate success!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section my-5 mx-3">
+        <div class="container text-center">
+            <h2 class="font-weight-bold">Ready to Start Your Project?</h2>
+            <p class="lead mb-4 text-white">Let's bring your ideas to life with our expert web development solutions.</p>
+            <a href="mailto:support@msnsofttech.com" class="btn btn-light btn-lg">Contact Us</a>
+        </div>
+    </section>
+
+    <!-- Scripts: jQuery, Popper, Bootstrap 4 -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    {{--
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> --}}
+
+    <!-- Optional: small UX scripts (smooth scroll for anchor links) -->
+    <script>
+        // Smooth scroll for anchor links
+        $(document).on('click', 'a[href^="#"]', function (e) {
+            var target = $(this.getAttribute('href'));
+            if (target.length) {
+                e.preventDefault();
+                $('html, body').stop().animate({
+                    scrollTop: target.offset().top - 20
+                }, 600);
+            }
+        });
+    </script>
+
 
 @endsection
