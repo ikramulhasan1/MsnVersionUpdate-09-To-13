@@ -335,7 +335,7 @@
             <div class="container hero-content">
                 <h1 class="display-4 font-weight-bold">Web Development Services</h1>
                 <p class="lead">Building responsive, scalable, and secure web applications for your business success.</p>
-                <a href="#contact" class="btn btn-primary btn-lg mt-3">Get Started</a>
+                <a href="#contact" style="background-color: #052C58" class="btn btn-lg mt-3">Get Started</a>
             </div>
         </section>
 
@@ -422,7 +422,7 @@
                 <div class="row text-center">
                     <div class="col-md-3 mb-4">
                         <div class="process-step h-100">
-                            <div class="step-number display-4 text-primary font-weight-bold">01</div>
+                            <div style="color: #052C58" class="step-number display-4 font-weight-bold">01</div>
                             <h5 class="mt-3">Planning</h5>
                             <p>Understanding your goals and outlining the roadmap to success.</p>
                         </div>
@@ -430,7 +430,7 @@
 
                     <div class="col-md-3 mb-4">
                         <div class="process-step h-100">
-                            <div class="step-number display-4 text-primary font-weight-bold">02</div>
+                            <div style="color: #052C58" class="step-number display-4 font-weight-bold">02</div>
                             <h5 class="mt-3">Design</h5>
                             <p>Creating wireframes and visual concepts that align with your brand.</p>
                         </div>
@@ -438,7 +438,7 @@
 
                     <div class="col-md-3 mb-4">
                         <div class="process-step h-100">
-                            <div class="step-number display-4 text-primary font-weight-bold">03</div>
+                            <div style="color: #052C58" class="step-number display-4 font-weight-bold">03</div>
                             <h5 class="mt-3">Development</h5>
                             <p>Coding with clean, scalable, and secure solutions using modern stacks.</p>
                         </div>
@@ -446,7 +446,7 @@
 
                     <div class="col-md-3 mb-4">
                         <div class="process-step h-100">
-                            <div class="step-number display-4 text-primary font-weight-bold">04</div>
+                            <div style="color: #052C58" class="step-number display-4 font-weight-bold">04</div>
                             <h5 class="mt-3">Launch & Support</h5>
                             <p>Testing, deployment, and continuous post-launch maintenance.</p>
                         </div>
@@ -462,7 +462,7 @@
                 <div class="row">
                     <div class="col-md-4 mb-4">
                         <div class="p-4 border rounded h-100 shadow-sm">
-                            <i class="bi bi-lightning-charge-fill text-primary display-4 mb-3"></i>
+                            <i class="bi bi-lightning-charge-fill display-4 mb-3" style="color: #052C58"></i>
                             <h5 class="font-weight-bold">Fast Delivery</h5>
                             <p>We deliver high-quality websites quickly without compromising performance.</p>
                         </div>
@@ -470,7 +470,7 @@
 
                     <div class="col-md-4 mb-4">
                         <div class="p-4 border rounded h-100 shadow-sm">
-                            <i class="bi bi-award text-primary display-4 mb-3"></i>
+                            <i style="color: #052C58" class="bi bi-award display-4 mb-3"></i>
                             <h5 class="font-weight-bold">Experienced Team</h5>
                             <p>Our experts have worked on 250+ projects globally.</p>
                         </div>
@@ -478,7 +478,7 @@
 
                     <div class="col-md-4 mb-4">
                         <div class="p-4 border rounded h-100 shadow-sm">
-                            <i class="bi bi-people text-primary display-4 mb-3"></i>
+                            <i  style="color: #052C58"class="bi bi-people display-4 mb-3"></i>
                             <h5 class="font-weight-bold">Customer-Centric</h5>
                             <p>We listen carefully and tailor every solution to your business goals.</p>
                         </div>
@@ -572,7 +572,7 @@
                 <div class="row mt-4">
                     <div class="col-md-4 mb-4">
                         <div class="card border-0 shadow-sm h-100 text-center p-4">
-                            <i class="bi bi-people display-4 text-primary mb-3"></i>
+                            <i class="bi bi-people display-4 mb-3" style="color: #052C58"></i>
                             <h5 class="font-weight-bold">Experienced Team</h5>
                             <p>Our developers and designers have years of hands-on experience in building web solutions for
                                 various industries.</p>
@@ -581,7 +581,7 @@
 
                     <div class="col-md-4 mb-4">
                         <div class="card border-0 shadow-sm h-100 text-center p-4">
-                            <i class="bi bi-speedometer display-4 text-primary mb-3"></i>
+                            <i class="bi bi-speedometer display-4 mb-3" style="color: #052C58"></i>
                             <h5 class="font-weight-bold">High Performance</h5>
                             <p>Every website we create is optimized for speed, SEO, and seamless user experience across all
                                 devices.</p>
@@ -590,7 +590,7 @@
 
                     <div class="col-md-4 mb-4">
                         <div class="card border-0 shadow-sm h-100 text-center p-4">
-                            <i class="bi bi-shield-check display-4 text-primary mb-3"></i>
+                            <i class="bi bi-shield-check display-4 mb-3" style="color: #052C58"></i>
                             <h5 class="font-weight-bold">Reliable Support</h5>
                             <p>We provide ongoing maintenance, technical support, and updates to keep your website secure
                                 and effective.</p>
@@ -646,9 +646,9 @@
                         <p>We’re here to turn your ideas into reality. Fill out the form, and our experts will get back to
                             you within 24 hours.</p>
                         <ul class="list-unstyled mt-3">
-                            <li><i class="bi bi-envelope text-primary"></i> support@msnsofttech.com</li>
-                            <li><i class="bi bi-telephone text-primary"></i> +880 1638-846367</li>
-                            <li><i class="bi bi-geo-alt text-primary"></i> Comilla, Bangladesh</li>
+                            <li><i class="bi bi-envelope" style="color: #052C58"></i> support@msnsofttech.com</li>
+                            <li><i class="bi bi-telephone" style="color: #052C58"></i> +880 1638-846367</li>
+                            <li><i class="bi bi-geo-alt" style="color: #052C58"></i> Comilla, Bangladesh</li>
                         </ul>
                     </div>
 
