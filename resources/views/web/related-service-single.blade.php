@@ -352,7 +352,7 @@
                         class="img-fluid" alt="Web Development">
                 </div>
                 <div class="col-lg-6">
-                    <h2 class="font-weight-bold mb-3">Professional Web Development</h2>
+                    <h2 style="font-weight: 800" class=" mb-3">Professional Web Development</h2>
                     <p>At <strong>MSNSoftech</strong>, we specialize in building websites that not only look great but
                         also perform exceptionally. Our experienced developers create dynamic, user-friendly websites
                         using modern technologies like <strong>Laravel, React, Vue, and Node.js</strong>.</p>
