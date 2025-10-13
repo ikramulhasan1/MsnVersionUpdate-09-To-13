@@ -334,7 +334,7 @@
         <section class="hero-section d-flex align-items-center justify-content-center text-center">
             <div class="container hero-content">
                 <h1 class="display-4 font-weight-bold">Web Development Services</h1>
-                <p class="lead">Building responsive, scalable, and secure web applications for your business success.</p>
+                <p class="lead text-white">Building responsive, scalable, and secure web applications for your business success.</p>
                 <a href="#contact" style="background-color: #052C58; color: #ffffff;" class="btn btn-lg mt-3">Get Started</a>
             </div>
         </section>
@@ -366,7 +366,7 @@
         <!-- CORE FEATURES -->
         <section class="py-5 bg-light">
             <div class="container">
-                <h2 class="section-title">Our Core Features</h2>
+                <h2 style="font-weight: 600" class="section-title">Our Core Features</h2>
                 <p class="section-subtitle">Empowering your business with next-level web technology.</p>
 
                 <div class="row">
