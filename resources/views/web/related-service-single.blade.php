@@ -330,6 +330,136 @@
         }
 
         /* placeholder so markup with g-4 won't break layout */
+
+        
+    .iti.iti--allow-dropdown {
+      width: 100%;
+    }
+    .contact-wrapper {
+      width: 90%;
+      max-width: 1150px;
+      margin: 60px auto;
+      background: #fff;
+      border-radius: 4px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    /* Left Form Section */
+    .form-section {
+      flex: 1;
+      padding: 60px 50px;
+      background: #fff;
+    }
+
+    .form-section h2 {
+      font-weight: 700;
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .form-section p {
+      color: #6c757d;
+      font-size: 15px;
+      margin-bottom: 35px;
+    }
+
+    .form-control {
+      border-radius: 4px;
+      height: 46px;
+      font-size: 14px;
+    }
+
+    textarea.form-control {
+      height: auto;
+    }
+
+    .btn-primary {
+      background-color: #6c4ef7;
+      border: none;
+      border-radius: 4px;
+      padding: 12px;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .btn-primary:hover {
+      background-color: #5639d1;
+    }
+
+    .form-check-label {
+      font-size: 14px;
+      color: #6c757d;
+    }
+
+    /* Right Image Section */
+    .image-section {
+      flex: 1;
+      background: url('https://images.unsplash.com/photo-1588702547919-26089e690ecc?auto=format&fit=crop&w=1000&q=80') center center/cover no-repeat;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      min-height: 650px;
+    }
+
+    .info-overlay {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(40px);
+      border-radius: 6px;
+      color: #fff;
+      width: 90%;
+      margin-bottom: 40px;
+      padding: 30px 20px;
+      text-align: center;
+      /* display: flex; */
+      
+    }
+
+    .info-overlay .contact-box {
+      margin-bottom: 20px;
+    }
+
+    .info-overlay .contact-box:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-overlay .contact-box i {
+      font-size: 20px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .info-overlay h6 {
+      font-weight: 600;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .info-overlay p {
+      margin: 0;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 991px) {
+      .contact-wrapper {
+        flex-direction: column;
+      }
+      .image-section {
+        min-height: 300px;
+        order: -1;
+      }
+      .form-section {
+        padding: 40px 30px;
+      }
+      .info-overlay {
+        position: relative;
+        margin: 20px auto;
+      }
+    }
     </style>
 
 
@@ -762,7 +892,7 @@
     </section>
 
     <!-- CONTACT -->
-    <section id="contact" class="py-5">
+    {{-- <section id="contact" class="py-5">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
@@ -795,8 +925,87 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
+<div class="contact-wrapper">
+    <!-- Left: Contact Form -->
+    <div class="form-section">
+      <h2>We're here to help</h2>
+      <p>Our dedicated team is ready to support you.</p>
 
+      <form>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>First name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="First name">
+          </div>
+          <div class="form-group col-md-6">
+            <label>Last name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="Last name">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email <span class="text-danger">*</span></label>
+          <input type="email" class="form-control" placeholder="hi@metaballs.studio">
+        </div>
+
+        <div class="form-group">
+          <label>Phone number <span class="text-danger">*</span></label><br>
+          <input id="phone" type="tel" class="form-control" placeholder="(555) 000-0000">
+        </div>
+
+        <div class="form-group">
+          <label>Choose a topic <span class="text-danger">*</span></label>
+          <select class="form-control">
+            <option>Select from list</option>
+            <option>Support</option>
+            <option>Sales</option>
+            <option>General Inquiry</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Message (optional)</label>
+          <textarea class="form-control" rows="3" placeholder="Share your message..."></textarea>
+        </div>
+
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="privacyCheck">
+          <label class="form-check-label" for="privacyCheck">
+            By checking this, you agree to our privacy policy.
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Send message</button>
+      </form>
+    </div>
+
+    <!-- Right: Image & Info -->
+    <div class="image-section">
+      <div class="info-overlay row g-5">
+        <div class="contact-box col-6">
+          <i class="fas fa-envelope"></i>
+          <h6>Email</h6>
+          <p>info@metaballs.studio</p>
+        </div>
+        <div class="contact-box col-6">
+          <i class="fas fa-phone"></i>
+          <h6>Phone</h6>
+          <p>+1 (800) 123-4567</p>
+        </div>
+        <div class="contact-box col-6">
+          <i class="fas fa-map-marker-alt"></i>
+          <h6>US Office</h6>
+          <p>123 Metaballs Lane, Innovation City, TX 78901</p>
+        </div>
+        <div class="contact-box col-6">
+          <i class="fas fa-map-marker-alt"></i>
+          <h6>BD Office</h6>
+          <p>7/53 Metaballs Lane, Modern City, Jhenaidah</p>
+        </div>
+      </div>
+    </div>
+  </div>
     <style>
         .project-item {
             transition: transform .4s ease;
@@ -948,6 +1157,21 @@
             <a href="mailto:support@msnsofttech.com" class="btn btn-light btn-lg">Contact Us</a>
         </div>
     </section>
+
+
+    <!-- JS -->
+  {{-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> --}}
+  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script> --}}
+  {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> --}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+  <script>
+    var input = document.querySelector("#phone");
+    window.intlTelInput(input, {
+      initialCountry: "us",
+      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+  </script>
+
 
     <!-- Scripts: jQuery, Popper, Bootstrap 4 -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
