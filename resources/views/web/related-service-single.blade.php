@@ -779,10 +779,10 @@
         </section>
 
         <!-- PROMISE SECTION -->
-        <section class="py-5 text-white text-center" style="background-color: #052C58; color: #ffffff;">
+        <section class="py-5 text-white text-center" style="background-color: #052C58;">
             <div class="container">
                 <h2 class="font-weight-bold mb-3">Our Promise</h2>
-                <p class="mb-4 lead">We build websites that are fast, secure, SEO-friendly, and designed to convert visitors
+                <p class="mb-4 lead text-white">We build websites that are fast, secure, SEO-friendly, and designed to convert visitors
                     into customers.</p>
             </div>
         </section>
