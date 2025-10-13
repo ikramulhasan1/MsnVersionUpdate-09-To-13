@@ -495,7 +495,7 @@
     <!-- INDUSTRIES SECTION -->
 <section class="container my-5">
   <div class="text-center mb-4">
-    <h3 class="font-weight-bold text-primary">Industries We Serve</h3>
+    <h2 style="font-weight: 800; color: #052C58;" class="font-weight-bold text-primary">Industries We Serve</h2>
     <p class="text-muted">From eCommerce to SaaS and healthcare</p>
   </div>
 
@@ -503,25 +503,25 @@
     <div class="col-6 col-md-3 mb-3">
       <div class="p-4 bg-white rounded shadow-sm text-center h-100">
         <i class="bi bi-cart-check text-primary" style="font-size:2rem;"></i>
-        <div class="mt-2 font-weight-semibold">eCommerce</div>
+        <div class="mt-2 font-weight-bold">eCommerce</div>
       </div>
     </div>
     <div class="col-6 col-md-3 mb-3">
       <div class="p-4 bg-white rounded shadow-sm text-center h-100">
         <i class="bi bi-bank text-primary" style="font-size:2rem;"></i>
-        <div class="mt-2 font-weight-semibold">Finance</div>
+        <div class="mt-2 font-weight-bold">Finance</div>
       </div>
     </div>
     <div class="col-6 col-md-3 mb-3">
       <div class="p-4 bg-white rounded shadow-sm text-center h-100">
         <i class="bi bi-hospital text-primary" style="font-size:2rem;"></i>
-        <div class="mt-2 font-weight-semibold">Healthcare</div>
+        <div class="mt-2 font-weight-bold">Healthcare</div>
       </div>
     </div>
     <div class="col-6 col-md-3 mb-3">
       <div class="p-4 bg-white rounded shadow-sm text-center h-100">
         <i class="bi bi-building text-primary" style="font-size:2rem;"></i>
-        <div class="mt-2 font-weight-semibold">Enterprise</div>
+        <div class="mt-2 font-weight-bold">Enterprise</div>
       </div>
     </div>
   </div>
@@ -530,33 +530,33 @@
 <!-- STATS / ACHIEVEMENTS SECTION -->
 <section class="container my-5">
   <div class="text-center mb-4">
-    <h3 class="font-weight-bold text-primary">Achievements</h3>
-    <p class="text-muted">Numbers that show our impact</p>
+    <h2 style="font-weight: 800; color: #052C58;" class="font-weight-bold text-primary">Achievements</h2>
+    <p class="text-muted font-weight-bold">Numbers that show our impact</p>
   </div>
 
   <div class="row text-center">
     <div class="col-md-3 mb-4">
       <div class="p-4 bg-white rounded shadow-sm">
         <h2 class="text-primary font-weight-bold stat-number" data-target="250">0</h2>
-        <p class="mb-0 text-muted">Projects Completed</p>
+        <p class="mb-0 text-muted font-weight-bold">Projects Completed</p>
       </div>
     </div>
     <div class="col-md-3 mb-4">
       <div class="p-4 bg-white rounded shadow-sm">
         <h2 class="text-primary font-weight-bold stat-number" data-target="120">0</h2>
-        <p class="mb-0 text-muted">Happy Clients</p>
+        <p class="mb-0 text-muted font-weight-bold">Happy Clients</p>
       </div>
     </div>
     <div class="col-md-3 mb-4">
       <div class="p-4 bg-white rounded shadow-sm">
         <h2 class="text-primary font-weight-bold stat-number" data-target="6">0</h2>
-        <p class="mb-0 text-muted">Years Experience</p>
+        <p class="mb-0 text-muted font-weight-bold">Years Experience</p>
       </div>
     </div>
     <div class="col-md-3 mb-4">
       <div class="p-4 bg-white rounded shadow-sm">
         <h2 class="text-primary font-weight-bold stat-number" data-target="98">0</h2>
-        <p class="mb-0 text-muted">Satisfaction (%)</p>
+        <p class="mb-0 text-muted font-weight-bold">Satisfaction (%)</p>
       </div>
     </div>
   </div>
