@@ -366,7 +366,7 @@
         <!-- CORE FEATURES -->
         <section class="py-5 bg-light">
             <div class="container">
-                <h2 style="font-weight: 600" class="section-title">Our Core Features</h2>
+                <h2 style="font-weight: 700" class="section-title">Our Core Features</h2>
                 <p class="section-subtitle">Empowering your business with next-level web technology.</p>
 
                 <div class="row">
