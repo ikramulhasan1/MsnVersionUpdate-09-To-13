@@ -146,535 +146,899 @@
 {{-- schema section --}}
 
 @section('content')
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('web/css/extra-service-single.css') }}">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f8f9fa;
+    /* Banner */
+    /* * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    } */
+
+    .banner-container {
+      font-family: 'Inter', sans-serif !important;
+      background: linear-gradient(135deg, #042b47, #091c2a) !important;
+      color: #fff !important;
+      padding: 2rem !important;
     }
 
-    /* Hero Section */
-    .hero-section {
-      background: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
-      color: #fff;
-      padding: 120px 0;
+    .banner {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      justify-content: space-between !important;
+      align-items: flex-start !important;
+      gap: 2rem !important;
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+    }
+
+    .banner-left {
+      flex: 1 1 55% !important;
+    }
+
+    .banner-left h1 {
+      font-size: 3rem !important;
+      font-weight: 800 !important;
+      margin-bottom: 1rem !important;
+    }
+
+    .banner-left p {
+      font-size: 1.1rem !important;
+      line-height: 1.6 !important;
+      margin-bottom: 1.5rem !important;
+      color: #ddd !important;
+    }
+
+    .banner-reviews {
+      background: rgba(255, 255, 255, 0.05) !important;
+      padding: 1rem !important;
+      border-radius: 10px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 1rem !important;
+    }
+
+    .banner-reviews-title {
+      font-weight: 600 !important;
+      color: #ccc !important;
+    }
+
+    .banner-review-logos {
+      display: flex !important;
+      align-items: center !important;
+      gap: 2rem !important;
+      flex-wrap: wrap !important;
+    }
+
+    .banner-review-item {
+      text-align: center !important;
+    }
+
+    .banner-stars {
+      color: #052C58 !important;
+      font-size: 1.1rem !important;
+    }
+
+    .banner-right {
+      flex: 1 1 25% !important;
+      background: #092e45 !important;
+      border: 2px solid #2df3a5 !important;
+      border-radius: 12px !important;
+      padding: 1rem !important;
+      text-align: center !important;
+      position: relative !important;
+    }
+
+    .banner-right h2 {
+      font-size: 1.5rem !important;
+      font-weight: 700 !important;
+      margin-bottom: 1rem !important;
+      line-height: 1.4 !important;
+    }
+
+    .banner-right .banner-highlight {
+      color: #fff !important;
+      font-weight: 800 !important;
+    }
+
+    .banner-right button {
+      margin: 1.5rem 0 !important;
+      padding: 0.8rem 2rem !important;
+      background: #052C58 !important;
+      color: white !important;
+      border: none !important;
+      border-radius: 6px !important;
+      font-size: 1rem !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      transition: background 0.3s ease !important;
+    }
+
+    .banner-right button:hover {
+      background: #e14b00 !important;
+    }
+
+    .banner-right-box {
+      background: #0c3a59 !important;
+      padding: 1.5rem !important;
+      border-radius: 10px !important;
+      font-size: 1rem !important;
+      color: #c7d6e0 !important;
+    }
+
+    @media (max-width: 768px) {
+      .banner {
+        flex-direction: column !important;
+      }
+
+      .banner-left h1 {
+        font-size: 2.2rem !important;
+      }
+
+      .banner-right {
+        width: 100% !important;
+      }
+    }
+
+    .faq_container {
+      margin: auto !important;
+      margin-bottom: 30px !important;
+      margin-top: 30px !important;
+    }
+
+    /* process */
+    .process-section {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9fafc;
+      padding: 80px 15px;
+      /* padding-top: 50px !important;
+        padding-bottom: 50px !important; */
+    }
+
+    .process-section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .process-section-title h2 {
+      font-weight: 700;
+    }
+
+    .process-step-box {
+      background-color: #fff;
+      border: 1px solid #e1e1e1;
+      border-radius: 2px;
+      padding: 30px 20px;
+      height: 100%;
       position: relative;
-    }
-    .hero-section::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-    }
-    .hero-content {
-      position: relative;
-      z-index: 2;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      transition: all 0.5s ease;
     }
 
-    /* Section Titles */
-    .section-title {
-      text-align: center;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-    .section-subtitle {
-      text-align: center;
-      color: #6c757d;
-      margin-bottom: 3rem;
-    }
-
-    /* Service Details */
-    .service-detail img {
-      border-radius: 10px;
-    }
-    .service-detail p {
-      line-height: 1.8;
-      color: #555;
-    }
-
-    /* Features */
-    .feature-box {
-      background: #fff;
-      border-radius: 10px;
-      padding: 30px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.05);
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-    .feature-box:hover {
+    .process-step-box:hover {
       transform: translateY(-5px);
-      box-shadow: 0 0 25px rgba(0,0,0,0.1);
-    }
-    .feature-box i {
-      font-size: 2rem;
-      color: #007bff;
-      margin-bottom: 15px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     }
 
-    /* Pricing */
-    .pricing-card {
-      border-radius: 15px;
-      box-shadow: 0 0 25px rgba(0,0,0,0.05);
-      background: #fff;
-      transition: all 0.3s;
-    }
-    .pricing-card:hover {
-      transform: scale(1.03);
-    }
-
-    /* CTA */
-    .cta-section {
-      background: #007bff;
+    .process-step-number {
+      width: 35px;
+      height: 35px;
+      background-color: #052C58;
       color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 16px;
+      position: absolute;
+      top: -20px;
+      left: 20px;
+    }
+
+    .process-step-icon {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+    }
+
+    .process-step-heading {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .process-step-heading img {
+      margin-left: 0px;
+    }
+
+    .process-step-arrow {
+      position: absolute;
+      top: 50%;
+      right: -40px;
+      width: 40px;
+      height: 2px;
+      background: repeating-linear-gradient(to right,
+          #999,
+          #999 4px,
+          transparent 4px,
+          transparent 8px);
+      animation: moveArrow 1s linear infinite;
+    }
+
+    .process-step-arrow::after {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: -4px;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 6px solid #999;
+    }
+
+    @keyframes moveArrow {
+      0% {
+        background-position: 0;
+      }
+
+      100% {
+        background-position: 8px;
+      }
+    }
+
+    .process-btn-orange {
+      background-color: #052C58;
+      color: white;
+      padding: 12px 26px;
+      border-radius: 5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      border: none;
+    }
+
+    .process-btn-orange:hover {
+      background-color: #052C58;
+      color: white
+    }
+
+    @media (max-width: 991px) {
+      .process-step-arrow {
+        display: none;
+      }
+    }
+
+    .process-step-arrow.arrow-hidden {
+      display: none !important;
+    }
+
+    .arrow-down {
+      /* Customize this arrow to look like a vertical one */
+      transform: rotate(90deg);
+      /* or use a different SVG for down */
+      /* Add margin or position tweaks as needed */
+    }
+
+
+
+
+
+    .partner-section {
       padding: 60px 0;
-      text-align: center;
-      border-radius: 10px;
+      background-color: #F5F7F8;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    .faq-section .accordion-button:not(.collapsed) {
-      background-color: #007bff;
-      color: #fff;
+    .partner-section h2 {
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    /* .partner-logos img {
+        max-height: 60px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+        filter: grayscale(100%);
+      }
+
+      .partner-logos img:hover {
+        transform: scale(1.05);
+        filter: none;
+      } */
+
+    /* Custom 5-column layout for large screens */
+    @media (min-width: 992px) {
+      .col-lg-2-4 {
+        flex: 0 0 auto;
+        width: 19%;
+      }
+    }
+
+
+
+    /* model section */
+    .model-section {
+      background: linear-gradient(135deg, #01446e, #052a46);
+      font-family: 'Poppins', sans-serif;
+      color: white !important;
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+
+    .model-section-title {
+      text-align: center;
+      font-weight: 700;
+      font-size: 48px;
+      margin-bottom: 40px !important;
+      color: #ffffff;
+    }
+
+    .card-box {
+      background: #ffffff !important;
+      color: #052C58;
+      border-radius: 2px;
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease-in-out;
+      position: relative;
+    }
+
+    .card-box img {
+      height: 50px;
+    }
+
+    .card-box h3 {
+      margin-top: 20px;
+      font-weight: 700;
+      font-size: 31px;
+    }
+
+    .card-box p {
+      font-size: 15px;
+      margin: 15px 0 25px;
+    }
+
+    .btn-orange {
+      background-color: #052C58;
+      color: white !important;
+      border: none;
+      font-weight: 600;
+      padding: 10px 16px;
+    }
+
+    .btn-orange:hover {
+      background-color: #052C58;
+    }
+
+    .btn-link-custom {
+      color: #007bff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .btn-link-custom:hover {
+      text-decoration: underline;
+    }
+
+    .highlight-card {
+      border-bottom: 4px solid #28a745;
+    }
+
+    .highlight-card2 {
+      border-bottom: 4px solid #4492DC;
+    }
+
+    .helper-section {
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .helper-section h4 {
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
+
+    .helper-section p {
+      font-size: 16px;
+      color: #ffffff;
+    }
+
+    .helper-radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .helper-radio-group input[type="radio"] {
+      display: none;
+    }
+
+    .helper-radio-group label {
+      background-color: transparent;
+      border: 1px solid #28a745;
+      border-radius: 5px;
+      padding: 10px 20px;
+      color: #28a745;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .helper-radio-group input[type="radio"]:checked+label {
+      background-color: #28a745;
+      color: white !important;
+    }
+
+    .share-btn {
+      background-color: #052C58;
+      border: none;
+      color: white !important;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 12px 28px;
+    }
+
+    .share-btn:hover {
+      background-color: #052C58;
+    }
+
+    .radio-wrap {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+    }
+
+    .radio-wrap input[type="radio"] {
+      accent-color: #28a745;
+      transform: scale(1.2);
     }
   </style>
-
-  <!-- Hero Section -->
-  <section class="hero-section d-flex align-items-center justify-content-center text-center">
-    <div class="container hero-content">
-      <h1 class="display-4 fw-bold">Web Development Services</h1>
-      <p class="lead">Building responsive, scalable, and secure web applications for your business success.</p>
-      <a href="#contact" class="btn btn-primary btn-lg mt-3">Get Started</a>
-    </div>
-  </section>
-
-  <!-- Service Details -->
-  <section class="py-5 service-detail">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-6">
-          <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80" class="img-fluid" alt="Web Development">
+  <!--Page Title-->
+  {{-- <section class="page-title"> --}}
+    {{-- <div class="container">
+      <div class="inner-container clearfix">
+        <div class="title-box">
+          <h1 style="font-size: 36px">{{ $service->title }}</h1>
         </div>
-        <div class="col-lg-6">
-          <h2 class="fw-bold mb-3">Professional Web Development</h2>
-          <p>At <strong>MSNSoftech</strong>, we specialize in building websites that not only look great but also perform exceptionally. Our experienced developers create dynamic, user-friendly websites using modern technologies like <strong>Laravel, React, Vue, and Node.js</strong>.</p>
-          <ul class="list-unstyled mt-3">
-            <li>✔️ Responsive and Mobile-friendly Design</li>
-            <li>✔️ SEO Optimized Code</li>
-            <li>✔️ Fast Loading and Secure</li>
-            <li>✔️ CMS Integration and Maintenance</li>
+        <div class="bread-crumb">
+          <ul>
+            <li>{{ __('navbar.service-detail') }}</li>
+            <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
           </ul>
         </div>
       </div>
+    </div> --}}
+    <div class="banner-container">
+      <div class="banner">
+        <div class="banner-left">
+          <h1 style="color: white">{{ $service->title }}</h1>
+          {{-- <p>Service Detail</p> --}}
+          <div class="banner-reviews mt-5" style="margin-bottom: 10px ">
+            <img style="border-radius: 5px;height: 300px; width:100%; "
+              src="{{ asset('uploads/service/' . $service->image_path) }}" alt="{{ $service->title }}" />
+            {{-- <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
+            <div class="banner-review-logos">
+              <div class="banner-review-item">
+                <div style="color: white">Clutch</div>
+                <div class="banner-stars">★★★★★</div>
+              </div>
+              <div class="banner-review-item">
+                <div style="color: white">GoodFirms</div>
+                <div class="banner-stars">★★★★★</div>
+              </div>
+              <div class="banner-review-item">
+                <div style="color: white">G2</div>
+                <div class="banner-stars">★★★★★</div>
+              </div>
+              <div class="banner-review-item">
+                <div style="color: white">Google</div>
+                <div class="banner-stars">★★★★★</div>
+              </div>
+            </div> --}}
+          </div>
+        </div>
+
+        <div class="banner-right">
+          <h2 style="color: #ffffff!important;">
+            Hire <span class="banner-highlight">Project-based</span> and <br>
+            <span class="banner-highlight">Dedicated Teams</span> from a<br>
+            <span class="banner-highlight">Top-rated IT Company</span>.
+          </h2>
+          <button id="open-modal">Discuss Your Requirements →</button>
+          <div style="color: white; text-align: left;" class="banner-right-box">
+            <strong style="color: white">Have a Project in Mind? Let’s Build It Right.</strong><br>
+            Share your requirements, and our expert team will get back to you within 24 hours with a personalized
+            consultation. You’ll get:<br>
+            {{-- <ul>
+              <li style="color: white">✅ A detailed project strategy</li>
+              <li style="color: white">✅ Clear timelines and cost estimates</li>
+              <li style="color: white">✅ Technology recommendations</li>
+              <li style="color: white">✅ Scalable solutions tailored to your needs</li>
+            </ul><br> --}}
+          </div>
+        </div>
+      </div>
+
     </div>
-  </section>
+    {{--
+  </section> --}}
+  <!--End Page Title-->
 
- <!-- Core Features Section -->
-<section class="py-5 bg-light">
-  <div class="container">
-    <h2 class="section-title">Our Core Features</h2>
-    <p class="section-subtitle">Empowering your business with next-level web technology.</p>
-    <div class="row g-4">
-      <div class="col-md-3 col-sm-6">
-        <div class="feature-card text-center p-4 shadow-sm h-100 rounded">
-          <div class="icon-box mb-3">
-            <i class="bi bi-lightning-charge display-5 text-primary"></i>
+  @if(isset($service))
+    <!--Sidebar Page Container-->
+    <div style="background-color: #ffffff" class="sidebar-page-container">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+            <aside class="sidebar services-sidebar">
+              @if ($service->industries->count() > 0)
+                <div style="background-color: #F9FAFC" class="sidebar-widget sidebar-blog-category p-4 mb-4">
+                  <h5 class="mb-3 text-center" style="font-weight: 700">Industries We Serve</h5>
+                  <ul class="">
+                    @foreach($service->industries as $industry)
+                      <div class="d-flex align-items-center mb-2">
+                        <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; "
+                          src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
+                        <li style="font-size: 16px; color: {{ $industry->link ? '#28a745' : '#333333' }};">
+                          @if($industry->link)
+                            <a target="_blank" style="font-size: 16px; color: #28a745;"
+                              href="{{ $industry->link }}">{{ $industry->title }}</a>
+                          @else
+                            {{ $industry->title }}
+                          @endif
+                        </li>
+                      </div>
+                    @endforeach
+                  </ul>
+                </div>
+              @endif
+              @if ($service->whywes->count() > 0)
+                <div style="background-color: #F9FAFC" class="sidebar-widget sidebar-blog-category p-4 mb-4">
+                  <h5 class="mb-3 text-center" style="font-weight: 700">Why Choose MSN Softtech</h5>
+                  <ul class="">
+                    @foreach($service->whywes as $we)
+                      <div class="d-flex align-items-center mb-2">
+                        <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; "
+                          src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
+                        <li style="font-size: 16px; color: {{ $we->link ? '#28a745' : '#333333' }};">
+                          @if($we->link)
+                            <a target="_blank" style="font-size: 16px; color: #28a745;"
+                              href="{{ $we->link }}">{{ $we->title }}</a>
+                          @else
+                            {{ $we->title }}
+                          @endif
+                        </li>
+                      </div>
+                    @endforeach
+                  </ul>
+                </div>
+              @endif
+            </aside>
           </div>
-          <h5 class="fw-bold">Fast Performance</h5>
-          <p>We ensure your site loads blazing fast with optimized code and CDN support.</p>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="feature-card text-center p-4 shadow-sm h-100 rounded">
-          <div class="icon-box mb-3">
-            <i class="bi bi-palette2 display-5 text-primary"></i>
-          </div>
-          <h5 class="fw-bold">Creative Design</h5>
-          <p>Modern, elegant designs that reflect your brand identity and attract users.</p>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="feature-card text-center p-4 shadow-sm h-100 rounded">
-          <div class="icon-box mb-3">
-            <i class="bi bi-gear-wide-connected display-5 text-primary"></i>
-          </div>
-          <h5 class="fw-bold">Custom Functionality</h5>
-          <p>Tailored web apps, dashboards, and integrations for your business goals.</p>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="feature-card text-center p-4 shadow-sm h-100 rounded">
-          <div class="icon-box mb-3">
-            <i class="bi bi-globe2 display-5 text-primary"></i>
-          </div>
-          <h5 class="fw-bold">SEO & Marketing Ready</h5>
-          <p>Optimized for search engines and designed to convert visitors into clients.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<style>
-  .feature-card {
-    background: #fff;
-    transition: all 0.3s ease;
-  }
-  .feature-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  }
-</style>
+          <!--Content Side-->
+          <div class="content-side col-lg-8 col-md-12 col-sm-12 mb-3">
+            <div class="service-detail">
+              <div class="inner-box">
+                {{-- <div class="image-box">
+                  <div class="single-item-">
+                    <figure class="image"><img style="border-radius: 5px;"
+                        src="{{ asset('uploads/service/'.$service->image_path) }}" alt="{{ $service->title }}" /></figure>
+                  </div>
 
-<!-- Service Process Section -->
-<section class="py-5">
-  <div class="container">
-    <h2 class="section-title">Our Work Process</h2>
-    <p class="section-subtitle">We follow a streamlined workflow for perfect project delivery.</p>
-    <div class="row text-center gy-4">
-      <div class="col-md-3">
-        <div class="process-step p-4 rounded bg-white shadow-sm h-100">
-          <div class="step-number display-6 text-primary fw-bold">01</div>
-          <h5 class="mt-3">Planning</h5>
-          <p>Understanding your goals and outlining the roadmap to success.</p>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="process-step p-4 rounded bg-white shadow-sm h-100">
-          <div class="step-number display-6 text-primary fw-bold">02</div>
-          <h5 class="mt-3">Design</h5>
-          <p>Creating wireframes and visual concepts that align with your brand.</p>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="process-step p-4 rounded bg-white shadow-sm h-100">
-          <div class="step-number display-6 text-primary fw-bold">03</div>
-          <h5 class="mt-3">Development</h5>
-          <p>Coding with clean, scalable, and secure solutions using modern stacks.</p>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="process-step p-4 rounded bg-white shadow-sm h-100">
-          <div class="step-number display-6 text-primary fw-bold">04</div>
-          <h5 class="mt-3">Launch & Support</h5>
-          <p>Testing, deployment, and continuous post-launch maintenance.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="py-5 bg-light">
-  <div class="container text-center">
-    <h2 class="section-title mb-4">Why Choose MSNSoftech?</h2>
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="p-4 border rounded h-100 shadow-sm">
-          <i class="bi bi-lightning-charge-fill text-primary display-5 mb-3"></i>
-          <h5 class="fw-bold">Fast Delivery</h5>
-          <p>We deliver high-quality websites quickly without compromising performance.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="p-4 border rounded h-100 shadow-sm">
-          <i class="bi bi-award text-primary display-5 mb-3"></i>
-          <h5 class="fw-bold">Experienced Team</h5>
-          <p>Our experts have worked on 250+ projects globally.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="p-4 border rounded h-100 shadow-sm">
-          <i class="bi bi-people text-primary display-5 mb-3"></i>
-          <h5 class="fw-bold">Customer-Centric</h5>
-          <p>We listen carefully and tailor every solution to your business goals.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+                  <div class="single-item-">
+                    <picture>
+                      <source type="image/webp" srcset="{{ asset('uploads/service/'.$service->image_path.'.webp') }}">
+                      <img style="border-radius: 5px;" src="{{ asset('uploads/service/'.$service->image_path) }}"
+                        alt="{{ $service->title }}" />
+                    </picture>
+                  </div>
 
-<!-- Portfolio Preview Section -->
-<section class="py-5 bg-light">
-  <div class="container">
-    <h2 class="section-title">Recent Projects</h2>
-    <p class="section-subtitle">Explore some of our successful work for clients around the world.</p>
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="project-item position-relative overflow-hidden rounded shadow-sm">
-          <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=800&q=80" class="img-fluid" alt="Project 1">
-          <div class="project-overlay d-flex align-items-center justify-content-center">
-            <h5 class="text-white fw-bold">E-Commerce Website</h5>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="project-item position-relative overflow-hidden rounded shadow-sm">
-          <img src="https://images.unsplash.com/photo-1610563166150-b34df4f3bcd6?auto=format&fit=crop&w=800&q=80" class="img-fluid" alt="Project 2">
-          <div class="project-overlay d-flex align-items-center justify-content-center">
-            <h5 class="text-white fw-bold">Portfolio & Branding</h5>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="project-item position-relative overflow-hidden rounded shadow-sm">
-          <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80" class="img-fluid" alt="Project 3">
-          <div class="project-overlay d-flex align-items-center justify-content-center">
-            <h5 class="text-white fw-bold">Business Landing Page</h5>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Technologies We Use -->
-<section class="py-5 bg-light">
-  <div class="container text-center">
-    <h2 class="section-title">Technologies We Use</h2>
-    <p class="section-subtitle">We combine creativity and the latest tools to deliver high-quality solutions.</p>
-    <div class="row justify-content-center align-items-center g-4">
-      <div class="col-4 col-md-2">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" class="img-fluid" alt="HTML5" style="max-height:70px;">
-      </div>
-      <div class="col-4 col-md-2">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" class="img-fluid" alt="CSS3" style="max-height:70px;">
-      </div>
-      <div class="col-4 col-md-2">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" class="img-fluid" alt="Bootstrap" style="max-height:70px;">
-      </div>
-      <div class="col-4 col-md-2">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" class="img-fluid" alt="JavaScript" style="max-height:70px;">
-      </div>
-      <div class="col-4 col-md-2">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1969px-Laravel.svg.png" class="img-fluid" alt="Laravel" style="max-height:70px;">
-      </div>
-      <div class="col-4 col-md-2">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" class="img-fluid" alt="React" style="max-height:70px;">
-      </div>
-    </div>
-  </div>
-</section>
+                </div> --}}
+                <h2 style="font-size: 32px; color: black; font-weight: 700;" class="mb-4">{{ $service->short_title }}</h2>
 
-<!-- Why Choose Us -->
-<section class="py-5">
-  <div class="container">
-    <h2 class="section-title text-center">Why Choose MSNSoftech?</h2>
-    <p class="section-subtitle text-center">Because we don’t just build websites — we build digital success.</p>
-    <div class="row g-4 mt-4">
-      <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100 text-center p-4">
-          <i class="bi bi-people display-5 text-primary mb-3"></i>
-          <h5 class="fw-bold">Experienced Team</h5>
-          <p>Our developers and designers have years of hands-on experience in building web solutions for various industries.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100 text-center p-4">
-          <i class="bi bi-speedometer display-5 text-primary mb-3"></i>
-          <h5 class="fw-bold">High Performance</h5>
-          <p>Every website we create is optimized for speed, SEO, and seamless user experience across all devices.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100 text-center p-4">
-          <i class="bi bi-shield-check display-5 text-primary mb-3"></i>
-          <h5 class="fw-bold">Reliable Support</h5>
-          <p>We provide ongoing maintenance, technical support, and updates to keep your website secure and effective.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+                <div id="processedContent" class="text description">
 
-<!-- Case Studies / Results -->
-<section class="py-5 bg-light">
-  <div class="container">
-    <h2 class="section-title text-center">Our Success Stories</h2>
-    <p class="section-subtitle text-center">See how we’ve helped clients achieve measurable results.</p>
-    <div class="row g-4 mt-4">
-      <div class="col-md-4">
-        <div class="case-card bg-white shadow-sm rounded p-4 h-100">
-          <h5 class="fw-bold mb-2">E-commerce Growth</h5>
-          <p><strong>Result:</strong> +120% traffic in 3 months.</p>
-          <p>We redesigned an online fashion store with a modern layout and optimized checkout, increasing conversions by 50%.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="case-card bg-white shadow-sm rounded p-4 h-100">
-          <h5 class="fw-bold mb-2">Corporate Website Redesign</h5>
-          <p><strong>Result:</strong> 2x more inquiries.</p>
-          <p>For a SaaS client, we developed a clean and functional website that improved engagement and lead generation.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="case-card bg-white shadow-sm rounded p-4 h-100">
-          <h5 class="fw-bold mb-2">Startup MVP Launch</h5>
-          <p><strong>Result:</strong> Launched in 6 weeks.</p>
-          <p>We built a scalable web app for a startup using React and Laravel — delivered on time and within budget.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Contact / Get Quote -->
-<section id="contact" class="py-5">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-6 mb-4 mb-lg-0">
-        <h2 class="fw-bold mb-3">Let's Discuss Your Project</h2>
-        <p>We’re here to turn your ideas into reality. Fill out the form, and our experts will get back to you within 24 hours.</p>
-        <ul class="list-unstyled mt-3">
-          <li><i class="bi bi-envelope text-primary"></i> support@msnsofttech.com</li>
-          <li><i class="bi bi-telephone text-primary"></i> +880 1638-846367</li>
-          <li><i class="bi bi-geo-alt text-primary"></i> Comilla, Bangladesh</li>
-        </ul>
-      </div>
-      <div class="col-lg-6">
-        <form class="p-4 bg-light rounded shadow-sm">
-          <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Your Name" required>
-          </div>
-          <div class="mb-3">
-            <input type="email" class="form-control" placeholder="Your Email" required>
-          </div>
-          <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Service Type (e.g., Web Development)">
-          </div>
-          <div class="mb-3">
-            <textarea class="form-control" rows="4" placeholder="Project Details"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary w-100">Send Message</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-  .project-item {
-    transition: transform 0.4s ease;
-  }
-  .project-item:hover {
-    transform: scale(1.05);
-  }
-  .project-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    opacity: 0;
-    transition: all 0.4s ease;
-  }
-  .project-item:hover .project-overlay {
-    opacity: 1;
-  }
-</style>
-
-<!-- Testimonials + FAQ Section -->
-<section class="py-5">
-  <div class="container">
-    <div class="row align-items-center">
-      <!-- Testimonials -->
-      <div class="col-lg-6 mb-5 mb-lg-0">
-        <h2 class="section-title">What Our Clients Say</h2>
-        <div class="testimonial p-4 bg-light rounded shadow-sm mb-4">
-          <p>“MSNSoftech transformed our online store into a fast, stunning platform that increased our sales by 60%!”</p>
-          <h6 class="fw-bold mb-0">— Sarah Khan, CEO of ElegantWear</h6>
-        </div>
-        <div class="testimonial p-4 bg-light rounded shadow-sm">
-          <p>“Their web development expertise is unmatched. Our company website is now modern, secure, and lightning-fast.”</p>
-          <h6 class="fw-bold mb-0">— David Lee, Marketing Head at TechNova</h6>
-        </div>
-      </div>
-
-
-      <!-- FAQ -->
-      <div class="col-lg-6">
-        <h2 class="section-title">Have Questions?</h2>
-        <div class="accordion" id="faqNew">
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#newFaq1">
-                What technologies do you use for web development?
-              </button>
-            </h2>
-            <div id="newFaq1" class="accordion-collapse collapse show" data-bs-parent="#faqNew">
-              <div class="accordion-body">
-                We use technologies like Laravel, React, Node.js, and WordPress depending on your project needs.
+                  {!! $service->description !!}
+                  {{-- {!! str_replace('? <b>', '✅', $service->description) !!} --}}
+                    {{-- {!! preg_replace('/\?{1,2} <b>/', '✅', $service->description) !!} --}}
+                </div>
               </div>
             </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#newFaq2">
-                Do you offer ongoing maintenance?
-              </button>
-            </h2>
-            <div id="newFaq2" class="accordion-collapse collapse" data-bs-parent="#faqNew">
-              <div class="accordion-body">
-                Absolutely! We provide website maintenance, updates, and performance monitoring services.
+
+            @php
+              $page_quote = \App\Models\PageSetup::page('get-quote');
+              $page_contact = \App\Models\PageSetup::page('contact-us');
+            @endphp
+            @if(isset($page_quote))
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="circle-container">
+                  <!-- Get A Quote Button -->
+                  <a href="{{ route('get-quote') }}" target="_blank" class="circle-button">
+                    <img src="https://cdn-icons-png.flaticon.com/128/18572/18572275.png" alt="Get A Quote">
+                  </a>
+
+                  <!-- WhatsApp Button -->
+                  <a rel="noopener noreferrer" href="https://wa.link/vkb4au" target="_blank" class="circle-button">
+                    <img src="https://cdn-icons-png.flaticon.com/128/733/733585.png" alt="WhatsApp">
+                  </a>
+
+                  <!-- Email Button -->
+                  <a href="mailto:{{$setting->email_one}}?subject=Inquiry&body=Hello, I need your services."
+                    class="circle-button">
+                    <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" alt="Email">
+                  </a>
+                </div>
+                <div class="">
+                  @include('web.layouts.googlemeet')
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#newFaq3">
-                Can you redesign my existing website?
-              </button>
-            </h2>
-            <div id="newFaq3" class="accordion-collapse collapse" data-bs-parent="#faqNew">
-              <div class="accordion-body">
-                Yes! We specialize in redesigning outdated sites into modern, responsive, and fast platforms.
-              </div>
-            </div>
+            @elseif(isset($page_contact))
+              <a href="{{ route('contact') }}" class="theme-btn btn-style-four mt-3">{{ __('common.get_start') }}</a>
+            @endif
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="py-5 bg-primary text-white text-center">
-  <div class="container">
-    <h2 class="fw-bold mb-3">Our Promise</h2>
-    <p class="mb-4 fs-5">We build websites that are fast, secure, SEO-friendly, and designed to convert visitors into customers.</p>
-  </div>
-</section>
-<section class="py-5 bg-white">
-  <div class="container text-center">
-    <h2 class="section-title mb-4">Our Project Journey</h2>
-    <div class="d-flex overflow-auto gap-4 justify-content-start py-3">
-      <div class="p-4 border rounded shadow-sm flex-shrink-0" style="min-width:250px;">
-        <h5>01. Idea</h5>
-        <p class="small text-muted">We begin by discussing your vision.</p>
-      </div>
-      <div class="p-4 border rounded shadow-sm flex-shrink-0" style="min-width:250px;">
-        <h5>02. Design</h5>
-        <p class="small text-muted">Crafting layouts and user experiences.</p>
-      </div>
-      <div class="p-4 border rounded shadow-sm flex-shrink-0" style="min-width:250px;">
-        <h5>03. Development</h5>
-        <p class="small text-muted">Coding and implementing your project.</p>
-      </div>
-      <div class="p-4 border rounded shadow-sm flex-shrink-0" style="min-width:250px;">
-        <h5>04. Testing</h5>
-        <p class="small text-muted">Ensuring everything works flawlessly.</p>
-      </div>
-      <div class="p-4 border rounded shadow-sm flex-shrink-0" style="min-width:250px;">
-        <h5>05. Launch</h5>
-        <p class="small text-muted">Deploy and celebrate success!</p>
-      </div>
-    </div>
-  </div>
-</section>
 
-  <!-- CTA Section -->
-  <section class="cta-section my-5 mx-3">
-    <div class="container">
-      <h2 class="fw-bold">Ready to Start Your Project?</h2>
-      <p class="lead mb-4">Let's bring your ideas to life with our expert web development solutions.</p>
-      <a href="mailto:support@msnsofttech.com" class="btn btn-light btn-lg">Contact Us</a>
-    </div>
-  </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        @if ($service->processworks->count() > 0)
+          {{-- process-section --}}
+          <section class="">
+            <div class="container">
+              <div class="process-section-title">
+                <h2 style="padding-bottom: 30px !important">Our Application Development Process</h2>
+                {{-- <p class="text-muted">From research to testing, we ensure your design is intuitive, user-focused, and
+                  aligned with your goals.</p> --}}
+              </div>
+
+              <!-- First Row -->
+              <div class="row g-4 mb-4">
+                @foreach ($service->processworks as $key => $process)
+                  <div class="col-md-4 mb-4">
+                    <div class="process-step-box">
+                      <div class="process-step-number">{{ $key + 1 }}</div>
+                      <div class="process-step-heading" style="font-size: 20px; color: #333333;">
+                        <img style="width: 50px; height: 50px;" src="{{ asset('uploads/process/' . $process->image_path) }}"
+                          class="process-step-icon" alt="">
+                        {{ $process->title }}
+                      </div>
+                      <p style="font-size: 16px; color: #333333;">{{ $process->description }}</p>
+
+                      {{-- Show arrow after every item except the last one --}}
+                      @php
+                        $totalSteps = count($service->processworks);
+                        $showArrow = ($key != $totalSteps - 1); // hide arrow for last step
+                      @endphp
+
+                      <div class="process-step-arrow d-none d-md-block 
+                                {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
+                      </div>
+                    </div>
+                  </div>
+                @endforeach
+              </div>
+
+              <!-- CTA -->
+              <div class="text-center mt-5">
+                <a href="https://msnsofttech.com/get-quote" class="btn process-btn-orange">Get in Touch With Us →</a>
+              </div>
+            </div>
+          </section>
+        @endif
+
+
+        {{-- <section class="model-section">
+          <div class="container py-5">
+            <div class="model-section-title">
+              Engagement Models for Our <br><br>
+              UI UX Design Services
+            </div>
+
+            <div class="row g-4">
+              <div class="col-md-4">
+                <div class="card-box h-100 highlight-card2">
+
+                  <img src="https://img.icons8.com/ios-filled/50/4a90e2/groups.png" alt="Managed Team">
+                  <h3>Managed Team</h3>
+                  <p>Your product, our dedicated team. From concept to completion, we handle it all.</p>
+                  <a href="#" class="btn btn-orange w-100 mb-2">Contact Us For Details →</a><br>
+                  <a href="#" class="btn-link-custom">Know More</a>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card-box h-100 highlight-card">
+
+                  <img src="https://img.icons8.com/ios-filled/50/4a90e2/developer.png" alt="Staff Augmentation">
+                  <h3>Staff Augmentation</h3>
+                  <p>Need extra hands? Our experts seamlessly join your team, providing the skills you need, when you need
+                    them.</p>
+                  <a href="#" class="btn btn-orange w-100 mb-2">Contact Us For Details →</a><br>
+                  <a href="#" class="btn-link-custom">Know More</a>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card-box h-100 highlight-card2">
+
+                  <img src="https://img.icons8.com/ios-filled/50/4a90e2/price-tag.png" alt="Fixed Cost">
+                  <h3>Fixed Cost</h3>
+                  <p>Upfront price, guaranteed delivery. Your project completed on time and within budget.</p>
+                  <a href="#" class="btn btn-orange w-100 mb-2">Share Your Requirements →</a><br>
+                  <a href="#" class="btn-link-custom">Know More</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="helper-section">
+              <h4>Still Not Sure? Let Us Help You</h4>
+              <p>Pick your business needs:</p>
+              <div class="helper-radio-group">
+                <input type="radio" name="businessNeed" id="scopeReq">
+                <label for="scopeReq">Scope My Requirements</label>
+
+                <input type="radio" name="businessNeed" id="rfi">
+                <label for="rfi">I Have an RFI/RFP</label>
+
+                <input type="radio" name="businessNeed" id="takeover">
+                <label for="takeover">Existing Project Takeover</label>
+
+                <input type="radio" name="businessNeed" id="taskHelp">
+                <label for="taskHelp">Get Help With a Task</label>
+              </div>
+              <button class="share-btn">Share Your Requirements →</button>
+            </div>
+          </div>
+        </section> --}}
+
+
+        @if ($service->faqs->count() > 0)
+          <section class="">
+            <div class="faq_container">
+              <div class="faq-section-title">
+                <h3 style="font-weight: 700">FAQ</h3>
+              </div>
+
+              <div class="faq-accordion">
+                <!-- Step 1 -->
+                @foreach ($service->faqs as $key => $item)
+                  <div class="faq-accordion-item">
+                    <div class="faq-accordion-header">
+                      <div class="faq-accordion-title">
+                        <span class="faq-step-badge">{{ $key + 1 }}</span>
+                        {{ $item->title }}
+                      </div>
+                      <span class="faq-arrow">🔄</span>
+                    </div>
+                    <div class="faq-accordion-body">
+                      <p>{{ $item->description }}</p>
+                    </div>
+                  </div>
+                @endforeach
+              </div>
+            </div>
+          </section>
+        @endif
+        {{-- @if(count($clients) > 0)
+        <section class="partner-section">
+          <div class="container">
+            <h2>Enterprises & Tech Companies Worldwide Trust Us</h2>
+            <div class="row gap-2 justify-content-center text-center partner-logos align-items-center">
+              @foreach($clients as $client)
+              <div
+                class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1"
+                style="height: 90px;">
+                <img src="{{ asset('uploads/client/'.$client->image_path) }}" alt="{{ $client->title }}"
+                  class="img-fluid my-1" />
+              </div>
+              @endforeach
+            </div>
+          </div>
+        </section>
+        @endif --}}
+        {{-- @if ($service->subservices->count() > 0)
+        <div class="mx-5 mt-5">
+
+          <h4 class="mb-4" style="font-weight: 700; text-align: center;">Related Services</h4>
+          <div class="row ml-2 g-1 owl-carousel owl-theme">
+
+            @foreach ($service->subservices as $key => $item)
+
+            <div class="card" style="width: 100% !important;">
+              <img src="{{ asset('uploads/service/'.$item->image_path) }}" alt="{{ $item->title }}" class="card-img-top">
+              <div class="card-body">
+                <h6 style="font-weight: 700" class="card-title"><a class="cardlink"
+                    href="{{ route('service.related-single',$item->slug) }}">{{ $item->title }}</a></h6>
+              </div>
+            </div>
+
+            @endforeach
+
+          </div>
+
+        </div>
+        @endif --}}
+      </div>
+    </div>
+  @endif
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Get the description content
+      let descriptionContent = document.querySelector('.text.description').innerHTML;
+
+      // Find the index of the first occurrence of the word "hidden"
+      let index = descriptionContent.toLowerCase().indexOf("hidden");
+
+      if (index !== -1) {
+        // Show content before the word "hidden"
+        let visibleContent = descriptionContent.substring(0, index);
+        document.getElementById("processedContent").innerHTML = visibleContent;
+
+        // Hide content after the word "hidden"
+        let hiddenContent = descriptionContent.substring(index);
+        document.getElementById("processedContent").innerHTML += "<span class='hidden'>" + hiddenContent + "</span>";
+      } else {
+        // If the word "hidden" is not found, show the entire content
+        document.getElementById("processedContent").innerHTML = descriptionContent;
+      }
+    });
+  </script>
+  <!-- ✅ jQuery -->
+  @section('scriptjs')
+    <script>
+      $(document).ready(function () {
+        $('.owl-carousel').owlCarousel({
+          loop: false,
+          margin: 10,
+          nav: true,
+          dots: true,
+          lazyLoad: true,
+          autoplay: true,
+          autoplayTimeout: 3000,
+          responsive: {
+            0: {
+              items: 1
+            },
+            400: {
+              items: 2
+            },
+            800: {
+              items: 3
+            },
+            1200: {
+              items: 4
+            }
+          }
+        });
+      });
+
+
+
+      // faq
+      const headers = document.querySelectorAll('.faq-accordion-header');
+
+      headers.forEach(header => {
+        header.addEventListener('click', () => {
+          const body = header.nextElementSibling;
+          const isOpen = body.classList.contains('open');
+
+          // Close all
+          document.querySelectorAll('.faq-accordion-body').forEach(b => b.classList.remove('open'));
+          document.querySelectorAll('.faq-accordion-header').forEach(h => h.classList.remove('active'));
+
+          // Toggle this one
+          if (!isOpen) {
+            body.classList.add('open');
+            header.classList.add('active');
+          }
+        });
+      });
+
+    </script>
+  @endsection
 
 @endsection
