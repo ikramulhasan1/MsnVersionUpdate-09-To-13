@@ -460,7 +460,7 @@
         <!-- WHY CHOOSE US -->
         <section class="py-5 bg-light">
             <div class="container text-center">
-                <h2 class="section-title mb-4">Why Choose MSNSoftech?</h2>
+                <h2 style="font-weight: 800" class="section-title mb-4">Why Choose MSNSoftech?</h2>
                 <div class="row">
                     <div class="col-md-4 mb-4">
                         <div class="p-4 border rounded h-100 shadow-sm">
@@ -605,7 +605,7 @@
         <!-- CASE STUDIES / RESULTS -->
         <section class="py-5 bg-light">
             <div class="container">
-                <h2 class="section-title text-center">Our Success Stories</h2>
+                <h2 style="font-weight: 800" class="section-title text-center">Our Success Stories</h2>
                 <p class="section-subtitle text-center">See how we’ve helped clients achieve measurable results.</p>
 
                 <div class="row mt-4">
@@ -644,7 +644,7 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6 mb-4 mb-lg-0">
-                        <h2 style="font-weight: 800" class="font-weight-bold mb-3">Let's Discuss Your Project</h2>
+                        <h2 style="font-weight: 800" class=" mb-3">Let's Discuss Your Project</h2>
                         <p>We’re here to turn your ideas into reality. Fill out the form, and our experts will get back to
                             you within 24 hours.</p>
                         <ul class="list-unstyled mt-3">
@@ -709,7 +709,7 @@
                 <div class="row align-items-center">
                     <!-- TESTIMONIALS -->
                     <div class="col-lg-6 mb-5 mb-lg-0">
-                        <h2 class="section-title">What Our Clients Say</h2>
+                        <h2 style="font-weight: 800" class="section-title">What Our Clients Say</h2>
                         <div class="testimonial p-4 bg-light rounded shadow-sm mb-4">
                             <p>“MSNSoftech transformed our online store into a fast, stunning platform that increased our
                                 sales by 60%!”</p>
