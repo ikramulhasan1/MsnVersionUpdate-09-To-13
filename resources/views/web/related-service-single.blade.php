@@ -418,7 +418,7 @@
         <!-- SERVICE PROCESS -->
         <section class="py-5">
             <div class="container">
-                <h2 class="section-title">Our Work Process</h2>
+                <h2 style="font-weight: 800" class="section-title">Our Work Process</h2>
                 <p class="section-subtitle">We follow a streamlined workflow for perfect project delivery.</p>
 
                 <div class="row text-center">
@@ -492,8 +492,8 @@
         <!-- PORTFOLIO -->
         <section class="py-5 bg-light">
             <div class="container">
-                <h2 class="section-title">Recent Projects</h2>
-                <p class="section-subtitle">Explore some of our successful work for clients around the world.</p>
+                <h2 style="font-weight: 800" class="section-title">Recent Projects</h2>
+                <p style="font-weight: 800" class="section-subtitle">Explore some of our successful work for clients around the world.</p>
 
                 <div class="row">
                     <div class="col-md-4 mb-4">
@@ -532,7 +532,7 @@
         <!-- TECHNOLOGIES -->
         <section class="py-5 bg-light">
             <div class="container text-center">
-                <h2 class="section-title">Technologies We Use</h2>
+                <h2 style="font-weight: 800" class="section-title">Technologies We Use</h2>
                 <p class="section-subtitle">We combine creativity and the latest tools to deliver high-quality solutions.
                 </p>
 
@@ -568,7 +568,7 @@
         <!-- WHY CHOOSE US (cards repeated) -->
         <section class="py-5">
             <div class="container">
-                <h2 class="section-title text-center">Why Choose MSNSoftech?</h2>
+                <h2 style="font-weight: 800" class="section-title text-center">Why Choose MSNSoftech?</h2>
                 <p class="section-subtitle text-center">Because we don’t just build websites — we build digital success.</p>
 
                 <div class="row mt-4">
@@ -644,7 +644,7 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6 mb-4 mb-lg-0">
-                        <h2 class="font-weight-bold mb-3">Let's Discuss Your Project</h2>
+                        <h2 style="font-weight: 800" class="font-weight-bold mb-3">Let's Discuss Your Project</h2>
                         <p>We’re here to turn your ideas into reality. Fill out the form, and our experts will get back to
                             you within 24 hours.</p>
                         <ul class="list-unstyled mt-3">
@@ -724,7 +724,7 @@
 
                     <!-- FAQ (Bootstrap 4 collapse) -->
                     <div class="col-lg-6">
-                        <h2 class="section-title">Have Questions?</h2>
+                        <h2 style="font-weight: 800" class="section-title">Have Questions?</h2>
 
                         <div id="accordionFaq" class="faq-section">
                             <div class="card">
@@ -792,7 +792,7 @@
         <!-- PROJECT JOURNEY SCROLLER -->
         <section class="py-5 bg-white">
             <div class="container text-center">
-                <h2 class="section-title mb-4">Our Project Journey</h2>
+                <h2 style="font-weight: 800" class="section-title mb-4">Our Project Journey</h2>
                 <div class="journey-scroll py-3">
                     <div class="p-4 border rounded shadow-sm">
                         <h5>01. Idea</h5>
