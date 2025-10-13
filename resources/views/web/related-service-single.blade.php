@@ -223,7 +223,7 @@
 
             .feature-card i {
                 font-size: 2rem;
-                color: #007bff;
+                color: #052C58;
                 margin-bottom: 15px;
             }
 
@@ -278,7 +278,7 @@
 
             /* CTA */
             .cta-section {
-                background: #007bff;
+                background: #052C58;
                 color: #fff;
                 padding: 60px 0;
                 text-align: center;
@@ -294,7 +294,7 @@
             .faq-section .btn-link {
                 text-decoration: none;
                 font-weight: 500;
-                color: #007bff;
+                color: #052C58;
             }
 
             /* Testimonials small tweaks */
@@ -335,7 +335,7 @@
             <div class="container hero-content">
                 <h1 class="display-4 font-weight-bold">Web Development Services</h1>
                 <p class="lead">Building responsive, scalable, and secure web applications for your business success.</p>
-                <a href="#contact" style="background-color: #052C58" class="btn btn-lg mt-3">Get Started</a>
+                <a href="#contact" style="background-color: #052C58; color: #ffffff;" class="btn btn-lg mt-3">Get Started</a>
             </div>
         </section>
 
