@@ -347,7 +347,7 @@
             margin: 60px auto;
             background: #fff;
             border-radius: 4px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            /* box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); */
             overflow: hidden;
             display: flex;
             flex-wrap: wrap;
