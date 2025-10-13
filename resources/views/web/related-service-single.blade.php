@@ -149,7 +149,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <!-- intl-tel-input -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css"/>
-  
+
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
@@ -993,22 +993,22 @@
         <div class="contact-box col-6">
           <i class="fas fa-envelope"></i>
           <h6>Email</h6>
-          <p>info@metaballs.studio</p>
+          <p class="text-white">info@metaballs.studio</p>
         </div>
         <div class="contact-box col-6">
           <i class="fas fa-phone"></i>
           <h6>Phone</h6>
-          <p>+1 (800) 123-4567</p>
+          <p class="text-white">+1 (800) 123-4567</p>
         </div>
         <div class="contact-box col-6">
           <i class="fas fa-map-marker-alt"></i>
           <h6>US Office</h6>
-          <p>123 Metaballs Lane, Innovation City, TX 78901</p>
+          <p class="text-white">123 Metaballs Lane, Innovation City, TX 78901</p>
         </div>
         <div class="contact-box col-6">
           <i class="fas fa-map-marker-alt"></i>
           <h6>BD Office</h6>
-          <p>7/53 Metaballs Lane, Modern City, Jhenaidah</p>
+          <p class="text-white">7/53 Metaballs Lane, Modern City, Jhenaidah</p>
         </div>
       </div>
     </div>
