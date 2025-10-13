@@ -332,6 +332,17 @@
         /* placeholder so markup with g-4 won't break layout */
 
         /* Counters */
+        :root{
+      --primary:#0d6efd;
+      --muted:#6c757d;
+      --card-radius:14px;
+      --section-gap:4.5rem;
+      --max-width:1200px;
+    }
+    section { padding: var(--section-gap) 0; }
+    .section-title{ font-weight:700; font-size:1.5rem; margin-bottom:0.3rem; color:#071133; }
+    .section-subtitle{ color:var(--muted); margin-bottom:1.5rem; }
+.container-narrow{ max-width: var(--max-width); margin: 0 auto; }
     .stat-box{ background:#fff; padding:22px; border-radius:12px; box-shadow: 0 8px 30px rgba(12,38,79,0.05); }
     .stat-number{ font-weight:700; font-size:2.2rem; color:var(--primary); }
     </style>
