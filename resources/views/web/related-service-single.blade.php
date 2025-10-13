@@ -537,25 +537,25 @@
   <div class="row text-center">
     <div class="col-md-3 mb-4">
       <div class="p-4 bg-white rounded shadow-sm">
-        <h2 style="color: #052C58;" class="text-primary font-weight-bold stat-number" data-target="250">0</h2>
+        <h2 style="color: #052C58;" class="font-weight-bold stat-number" data-target="250">0</h2>
         <p class="mb-0 text-muted font-weight-bold">Projects Completed</p>
       </div>
     </div>
     <div class="col-md-3 mb-4">
       <div class="p-4 bg-white rounded shadow-sm">
-        <h2 style="color: #052C58;" class="text-primary font-weight-bold stat-number" data-target="120">0</h2>
+        <h2 style="color: #052C58;" class="font-weight-bold stat-number" data-target="120">0</h2>
         <p class="mb-0 text-muted font-weight-bold">Happy Clients</p>
       </div>
     </div>
     <div class="col-md-3 mb-4">
       <div class="p-4 bg-white rounded shadow-sm">
-        <h2 style="color: #052C58;" class="text-primary font-weight-bold stat-number" data-target="6">0</h2>
+        <h2 style="color: #052C58;" class="font-weight-bold stat-number" data-target="6">0</h2>
         <p class="mb-0 text-muted font-weight-bold">Years Experience</p>
       </div>
     </div>
     <div class="col-md-3 mb-4">
       <div class="p-4 bg-white rounded shadow-sm">
-        <h2 style="color: #052C58;" class="text-primary font-weight-bold stat-number" data-target="98">0</h2>
+        <h2 style="color: #052C58;" class="font-weight-bold stat-number" data-target="98">0</h2>
         <p class="mb-0 text-muted font-weight-bold">Satisfaction (%)</p>
       </div>
     </div>
