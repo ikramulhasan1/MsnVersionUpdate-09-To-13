@@ -339,7 +339,7 @@
       --section-gap:4.5rem;
       --max-width:1200px;
     }
-    section { padding: var(--section-gap) 0; }
+    /* section { padding: var(--section-gap) 0; } */
     .section-title{ font-weight:700; font-size:1.5rem; margin-bottom:0.3rem; color:#071133; }
     .section-subtitle{ color:var(--muted); margin-bottom:1.5rem; }
 .container-narrow{ max-width: var(--max-width); margin: 0 auto; }
@@ -508,7 +508,7 @@
 
 
     <!-- INDUSTRIES -->
-    <section class="container-narrow">
+    <section class="container">
         <div class="text-center mb-4">
             <h3 class="section-title">Industries We Serve</h3>
             <p class="section-subtitle">From eCommerce to SaaS and healthcare</p>
@@ -543,7 +543,7 @@
     </section>
 
     <!-- STATS / COUNTERS -->
-    <section class="container-narrow">
+    <section class="container">
         <div class="text-center mb-4">
             <h3 class="section-title">Achievements</h3>
             <p class="section-subtitle">Numbers that show our impact</p>
