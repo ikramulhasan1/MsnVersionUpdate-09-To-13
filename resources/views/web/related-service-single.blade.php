@@ -618,8 +618,8 @@
                 world.</p>
 
             <div class="row">
-                {{-- <div class="col-md-4 mb-4">
-                    <div class="project-item position-relative overflow-hidden rounded shadow-sm">
+                <div class="col-md-4 mb-4">
+                    <div class="project-item position-relative overflow-hidden rounded shadow-sm" style="width: 350px; height:233px ">
                         <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=800&q=80"
                             class="img-fluid" alt="Project 1">
                         <div class="project-overlay">
@@ -629,35 +629,17 @@
                 </div>
 
                 <div class="col-md-4 mb-4">
-                    <div class="project-item position-relative overflow-hidden rounded shadow-sm">
+                    <div class="project-item position-relative overflow-hidden rounded shadow-sm" style="width: 350px; height:233px ">
                         <img src="https://images.unsplash.com/photo-1610563166150-b34df4f3bcd6?auto=format&fit=crop&w=800&q=80"
                             class="img-fluid" alt="Project 2">
                         <div class="project-overlay">
                             <h5 class="text-white font-weight-bold">Portfolio & Branding</h5>
                         </div>
                     </div>
-                </div> --}}
+                </div>
 
                 <div class="col-md-4 mb-4">
-                    <div class="project-item position-relative overflow-hidden rounded shadow-sm">
-                        <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=800&q=80"
-                            class="img-fluid" alt="Project 3">
-                        <div class="project-overlay">
-                            <h5 class="text-white font-weight-bold">Business Landing Page</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="project-item position-relative overflow-hidden rounded shadow-sm">
-                        <img src="https://images.unsplash.com/photo-1610563166150-b34df4f3bcd6?auto=format&fit=crop&w=800&q=80"
-                            class="img-fluid" alt="Project 3">
-                        <div class="project-overlay">
-                            <h5 class="text-white font-weight-bold">Business Landing Page</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="project-item position-relative overflow-hidden rounded shadow-sm">
+                    <div class="project-item position-relative overflow-hidden rounded shadow-sm" style="width: 350px; height:233px ">
                         <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80"
                             class="img-fluid" alt="Project 3">
                         <div class="project-overlay">
