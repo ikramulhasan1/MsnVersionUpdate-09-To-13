@@ -495,7 +495,7 @@
     <!-- INDUSTRIES SECTION -->
 <section class="container my-5">
   <div class="text-center mb-4">
-    <h2 style="font-weight: 800; color: #052C58;" class="font-weight-bold section-title text-center">Industries We Serve</h2>
+    <h2 style="font-weight: 800; color: #052C58;" class="font-weight-bold">Industries We Serve</h2>
     <p class="text-muted">From eCommerce to SaaS and healthcare</p>
   </div>
 
@@ -530,7 +530,7 @@
 <!-- STATS / ACHIEVEMENTS SECTION -->
 <section class="container my-5">
   <div class="text-center mb-4">
-    <h2 style="font-weight: 800; color: #052C58;" class="font-weight-bold section-title text-center">Achievements</h2>
+    <h2 style="font-weight: 800; color: #052C58;" class="font-weight-bold">Achievements</h2>
     <p class="text-muted font-weight-bold">Numbers that show our impact</p>
   </div>
 
