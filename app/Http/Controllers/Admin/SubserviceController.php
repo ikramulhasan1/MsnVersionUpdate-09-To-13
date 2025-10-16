@@ -36,8 +36,13 @@ class SubserviceController extends Controller
 
     public function create()
     {
+        $data['title'] = $this->title;
+        $data['route'] = $this->route;
+        $data['view'] = $this->view;
+        $data['path'] = $this->path;
+        
         $services = Service::orderBy('id', 'asc')->get();
-        return view('admin.subservices.create', compact('services'));
+        return view($this->view . '.create', compact('services', 'data'));
     }
 
 
@@ -258,7 +263,7 @@ class SubserviceController extends Controller
         $data['route'] = $this->route;
         $data['view'] = $this->view;
         $data['path'] = $this->path;
-        
+
         $data['subservice'] = $subservice;
         $data['services'] = Service::orderBy('id', 'asc')->get();
         return view('admin.subservices.edit', $data);

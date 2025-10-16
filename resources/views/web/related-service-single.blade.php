@@ -1056,7 +1056,7 @@
     </section>
 
     <!-- PROJECT JOURNEY SCROLLER -->
-    <section class="py-5 bg-white">
+    {{-- <section class="py-5 bg-white">
         <div class="container text-center">
             <h2 style="font-weight: 800" class="section-title mb-4">Our Project Journey</h2>
             <div class="journey-scroll py-3">
@@ -1082,7 +1082,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <div class="contact-wrapper">
         <!-- Left: Contact Form -->
         <div class="form-section">
