@@ -30,7 +30,7 @@ class SubserviceController extends Controller
         $data['path'] = $this->path;
 
         $data['rows'] = Subservice::with('service')->orderBy('id', 'asc')->get();
-        return view('admin.subservices.index', $data);
+        return view($this->view . '.index', $data);
     }
 
 
