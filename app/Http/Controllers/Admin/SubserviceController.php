@@ -16,7 +16,7 @@ class SubserviceController extends Controller
     public function __construct()
     {
         // Module Data
-        $this->title = trans_choice('dashboard.subservices', 1);
+        $this->title = trans_choice('dashboard.subservices', 2);
         $this->route = 'admin.subservices';
         $this->view = 'admin.subservices';
         $this->path = 'subservices';
