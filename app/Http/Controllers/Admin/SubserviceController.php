@@ -254,7 +254,11 @@ class SubserviceController extends Controller
 
     public function edit(Subservice $subservice)
     {
+        $data['title'] = $this->title;
+        $data['route'] = $this->route;
+        $data['view'] = $this->view;
         $data['path'] = $this->path;
+        
         $data['subservice'] = $subservice;
         $data['services'] = Service::orderBy('id', 'asc')->get();
         return view('admin.subservices.edit', $data);
