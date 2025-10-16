@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-{{-- @section('title', $title) --}}
+@section('title', $title)
 @section('content')
 
 <!-- Start Content-->
@@ -7,7 +7,7 @@
 
     <!-- start page title -->
     <!-- Include page breadcrumb -->
-    {{-- @include('admin.inc.breadcrumb') --}}
+    @include('admin.inc.breadcrumb')
     <!-- end page title -->
 
 
