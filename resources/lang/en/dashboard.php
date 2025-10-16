@@ -1,6 +1,6 @@
 <?php
 
-return array (
+return array(
   'welcome' => 'Welcome !',
   'hello' => 'Hello',
   'home' => 'Home',
