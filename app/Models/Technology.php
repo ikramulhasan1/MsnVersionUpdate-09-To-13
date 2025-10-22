@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Service;
 use App\Models\CaseStudy;
+use App\Models\Subservice;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -20,4 +21,10 @@ class Technology extends Model
     {
         return $this->belongsToMany(CaseStudy::class);
     }
+
+    public function subservices()
+    {
+        return $this->belongsToMany(Subservice::class, 'subservice_technology');
+    }
+
 }

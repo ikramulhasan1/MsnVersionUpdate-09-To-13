@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Service;
+use App\Models\Subservice;
 use Illuminate\Database\Eloquent\Model;
 
 class Portfolio extends Model
@@ -14,6 +16,10 @@ class Portfolio extends Model
     protected $fillable = [
         'title', 'slug', 'description', 'image_path', 'video_id', 'link', 'status',
     ];
+    public function subservices()
+    {
+        return $this->belongsToMany(Subservice::class, 'portfolio_subservice');
+    }
 
     public function categories()
     {

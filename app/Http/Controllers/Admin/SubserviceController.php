@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use File;
+use Image;
+use Toastr;
 use App\Models\Service;
+use App\Models\Portfolio;
+use App\Models\Subservice;
+use App\Models\Technology;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Subservice;
-use Illuminate\Support\Str;
-use Toastr;
-use Image;
-use File;
 
 class SubserviceController extends Controller
 {
@@ -40,9 +42,11 @@ class SubserviceController extends Controller
         $data['route'] = $this->route;
         $data['view'] = $this->view;
         $data['path'] = $this->path;
-        
-        $services = Service::orderBy('id', 'asc')->get();
-        return view($this->view . '.create', compact('services', 'data'));
+
+        $data['allTechnologies'] = Technology::all();
+        $data['allPortfolios'] = Portfolio::all();
+        $data['services'] = Service::orderBy('id', 'asc')->get();
+        return view($this->view . '.create', $data);
     }
 
 
@@ -142,10 +146,10 @@ class SubserviceController extends Controller
 
     public function store(Request $request)
     {
-        // Field Validation
+        // ✅ Validate all fields
         $request->validate([
-            'title' => 'required|max:191|unique:services,title',
-            'short_title' => 'required|max:30|unique:services,short_title',
+            'title' => 'required|max:191|unique:subservices,title',
+            'short_title' => 'required|max:30|unique:subservices,short_title',
             'meta_title' => 'required|max:70',
             'keywords' => 'required',
             'price' => 'required',
@@ -156,36 +160,43 @@ class SubserviceController extends Controller
             'short_desc' => 'required',
             'description' => 'required',
             'image' => 'required|image',
+            'technologies' => 'nullable|array',
+            'technologies.*' => 'exists:technologies,id',
+            'portfolios' => 'nullable|array',
+            'portfolios.*' => 'exists:portfolios,id',
         ]);
 
-        // Image upload, fit, and convert to WebP
+        /**
+         * ==========================
+         * 🔹 IMAGE UPLOAD (Main Thumbnail)
+         * ==========================
+         */
         if ($request->hasFile('image')) {
-            // Upload New Image
-            $filenameWithExt = $request->file('image')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $filename = pathinfo($request->file('image')->getClientOriginalName(), PATHINFO_FILENAME);
             $fileNameToStore = $filename . '_' . time() . '.webp';
 
-            // Create Folder Location
             $path = public_path('uploads/' . $this->path . '/');
             if (!File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
-            // Resize, Crop, and Convert to WebP
-            $thumbnailpath = $path . $fileNameToStore;
+            // Resize and convert to WebP
             Image::make($request->file('image')->getRealPath())
                 ->fit(800, 500, function ($constraint) {
                     $constraint->upsize();
                 })
-                ->encode('webp', 90)  // Encode to WebP format with 90% quality
-                ->save($thumbnailpath);
+                ->encode('webp', 90)
+                ->save($path . $fileNameToStore);
         } else {
-            $fileNameToStore = 'noimage.jpg'; // Default image
+            $fileNameToStore = 'noimage.webp';
         }
 
-        // Get content with media file
+        /**
+         * ==========================
+         * 🔹 HANDLE HTML CONTENT IMAGES
+         * ==========================
+         */
         $content = $request->input('description');
-
         $dom = new \DomDocument();
         libxml_use_internal_errors(true);
         $dom->encoding = 'utf-8';
@@ -197,10 +208,9 @@ class SubserviceController extends Controller
 
             if (preg_match('/data:image/', $src)) {
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-                $mimetype = $groups['mime'];
                 $filename = uniqid() . '_' . time();
-
                 $path = public_path('uploads/media/');
+
                 if (!File::exists($path)) {
                     File::makeDirectory($path, 0777, true, true);
                 }
@@ -214,34 +224,110 @@ class SubserviceController extends Controller
                     ->encode('webp', 90)
                     ->save(public_path($filepath));
 
-                $new_src = asset($filepath);
-                $img->removeAttribute('src');
-                $img->setAttribute('src', $new_src);
+                $img->setAttribute('src', asset($filepath));
             }
         }
 
-        // Insert Data
-        $service = new Subservice;
-        $service->title = $request->title;
-        $service->service_id = $request->service_id;
-        $service->keywords = $request->keywords;
-        $service->price = $request->price;
-        $service->starting_price = $request->starting_price;
-        $service->priceCurrency = $request->priceCurrency;
-        $service->average_rating = $request->average_rating;
-        $service->review_count = $request->review_count;
-        $service->short_title = $request->short_title;
-        $service->meta_title = $request->meta_title;
-        $service->slug = Str::slug(strtolower($request->slug), '-');
-        $service->short_desc = $request->short_desc;
-        $service->description = $dom->saveHTML();
-        $service->image_path = $fileNameToStore;
-        $service->manu = $request->manu;
-        $service->save();
+        /**
+         * ==========================
+         * 🔹 CREATE NEW SUBSERVICE
+         * ==========================
+         */
+        $subservice = new Subservice();
+        $subservice->title = $request->title;
+        $subservice->service_id = $request->service_id;
+        $subservice->keywords = $request->keywords;
+        $subservice->price = $request->price;
+        $subservice->starting_price = $request->starting_price;
+        $subservice->priceCurrency = $request->priceCurrency;
+        $subservice->average_rating = $request->average_rating;
+        $subservice->review_count = $request->review_count;
+        $subservice->short_title = $request->short_title;
+        $subservice->meta_title = $request->meta_title;
+        $subservice->slug = Str::slug(strtolower($request->slug), '-');
+        $subservice->short_desc = $request->short_desc;
+        $subservice->description = $dom->saveHTML();
+        $subservice->image_path = $fileNameToStore;
+        $subservice->status = $request->status ?? 1;
+        $subservice->manu = $request->manu;
+
+        /**
+         * ==========================
+         * 🔹 BANNER SECTION
+         * ==========================
+         */
+        $bannerSteps = [];
+        if ($request->has('banner')) {
+            foreach ($request->banner as $index => $banner) {
+                $bannerImageName = null;
+
+                if ($request->hasFile("banner.$index.banner_image")) {
+                    $file = $request->file("banner.$index.banner_image");
+                    $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $bannerImageName = $filename . '_' . time() . '.webp';
+
+                    $path = public_path('uploads/banner/');
+                    if (!File::exists($path)) {
+                        File::makeDirectory($path, 0777, true, true);
+                    }
+
+                    Image::make($file->getRealPath())
+                        ->encode('webp', 90)
+                        ->save($path . $bannerImageName);
+                }
+
+                $bannerSteps[] = [
+                    'title' => $banner['title'] ?? '',
+                    'sub_title' => $banner['sub_title'] ?? '',
+                    'banner_image' => $bannerImageName ?? '',
+                ];
+            }
+        }
+        $subservice->banner_steps = json_encode($bannerSteps);
+
+        /**
+         * ==========================
+         * 🔹 OTHER JSON SECTIONS
+         * ==========================
+         */
+        $sections = [
+            'features_steps' => 'features',
+            'process_steps' => 'process',
+            'why_we_steps' => 'why_we',
+            'industries_steps' => 'industry',
+            'achievements_steps' => 'achievement',
+            'success_stories_steps' => 'story',
+            'clients_say_steps' => 'client',
+            'faq_steps' => 'faq',
+            'our_promise' => 'item',
+            'cta_steps' => 'cta',
+        ];
+
+        foreach ($sections as $jsonKey => $inputName) {
+            $steps = [];
+            if ($request->has($inputName)) {
+                foreach ($request->$inputName as $data) {
+                    $steps[] = $data;
+                }
+            }
+            $subservice->$jsonKey = json_encode($steps);
+        }
+
+        // ✅ Save the Subservice first
+        $subservice->save();
+
+        /**
+         * ==========================
+         * 🔹 SYNC RELATIONS (Pivot)
+         * ==========================
+         */
+        $subservice->technologies()->sync($request->technologies ?? []);
+        $subservice->portfolios()->sync($request->portfolios ?? []);
 
         Toastr::success(__('dashboard.created_successfully'), __('dashboard.success'));
         return redirect()->route('admin.subservices.index');
     }
+
 
     public function show(Subservice $subservice)
     {
@@ -266,6 +352,9 @@ class SubserviceController extends Controller
 
         $data['subservice'] = $subservice;
         $data['services'] = Service::orderBy('id', 'asc')->get();
+        $data['allTechnologies'] = Technology::all();
+        $data['allPortfolios'] = Portfolio::all();
+
         return view('admin.subservices.edit', $data);
     }
 
@@ -386,6 +475,10 @@ class SubserviceController extends Controller
             'short_desc' => 'required',
             'description' => 'required',
             'image' => 'nullable|image',
+            'technologies' => 'nullable|array',
+            'technologies.*' => 'exists:technologies,id',
+            'portfolios' => 'nullable|array',
+            'portfolios.*' => 'exists:portfolios,id',
         ]);
 
         // image upload, fit and store inside public folder 
@@ -471,6 +564,217 @@ class SubserviceController extends Controller
         $subservice->image_path = $fileNameToStore;
         $subservice->status = $request->status;
         $subservice->manu = $request->manu;
+
+
+        $bannerSteps = [];
+
+        // Decode old banner steps (so we can access previous image paths)
+        $oldBannerSteps = json_decode($subservice->banner_steps ?? '[]', true);
+
+        if ($request->has('banner')) {
+            foreach ($request->banner as $index => $banner) {
+                $bannerImageName = $banner['banner_image_old'] ?? ($oldBannerSteps[$index]['banner_image'] ?? null);
+
+                // Check if new file uploaded
+                if ($request->hasFile("banner.$index.banner_image")) {
+                    $file = $request->file("banner.$index.banner_image");
+                    $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $bannerImageName = $filename . '_' . time() . '.webp';
+
+                    $path = public_path('uploads/banner/');
+                    if (!File::exists($path)) {
+                        File::makeDirectory($path, 0777, true, true);
+                    }
+
+                    // Delete old image if exists
+                    if (!empty($oldBannerSteps[$index]['banner_image'])) {
+                        $oldPath = $path . $oldBannerSteps[$index]['banner_image'];
+                        if (File::exists($oldPath)) {
+                            File::delete($oldPath);
+                        }
+                    }
+
+                    // Save new image
+                    Image::make($file->getRealPath())
+                        ->encode('webp', 90)
+                        ->save($path . $bannerImageName);
+                }
+
+                $bannerSteps[] = [
+                    'title' => $banner['title'] ?? '',
+                    'sub_title' => $banner['sub_title'] ?? '',
+                    'banner_image' => $bannerImageName ?? '',
+                ];
+            }
+        }
+
+        // Store as JSON or let Eloquent cast handle it
+        $subservice->banner_steps = json_encode($bannerSteps);
+
+        /**
+         * ==========================
+         * 🔹 CORE FEATURES SECTION
+         * ==========================
+         */
+        $featuresSteps = [];
+        if ($request->has('features')) {
+            foreach ($request->features as $feature) {
+                $featuresSteps[] = [
+                    'icon_class' => $feature['icon_class'] ?? '',
+                    'title' => $feature['title'] ?? '',
+                    'bottom_text' => $feature['bottom_text'] ?? '',
+                ];
+            }
+        }
+        $subservice->features_steps = json_encode($featuresSteps);
+
+        /**
+         * ==========================
+         * 🔹 WORK PROCESS SECTION
+         * ==========================
+         */
+        $processSteps = [];
+        if ($request->has('process')) {
+            foreach ($request->process as $step) {
+                $processSteps[] = [
+                    'title' => $step['title'] ?? '',
+                    'bottom_text' => $step['bottom_text'] ?? '',
+                ];
+            }
+        }
+        $subservice->process_steps = json_encode($processSteps);
+
+        /**
+         * ==========================
+         * 🔹 WHY CHOOSE US SECTION
+         * ==========================
+         */
+        $whyWeSteps = [];
+        if ($request->has('why_we')) {
+            foreach ($request->why_we as $why) {
+                $whyWeSteps[] = [
+                    'icon_class' => $why['icon_class'] ?? '',
+                    'title' => $why['title'] ?? '',
+                    'bottom_text' => $why['bottom_text'] ?? '',
+                ];
+            }
+        }
+        $subservice->why_we_steps = json_encode($whyWeSteps);
+
+        /**
+         * ==========================
+         * 🔹 INDUSTRIES SECTION
+         * ==========================
+         */
+        $industriesSteps = [];
+        if ($request->has('industry')) {
+            foreach ($request->industry as $industry) {
+                $industriesSteps[] = [
+                    'icon_class' => $industry['icon_class'] ?? '',
+                    'title' => $industry['title'] ?? '',
+                ];
+            }
+        }
+        $subservice->industries_steps = json_encode($industriesSteps);
+
+        /**
+         * ==========================
+         * 🔹 ACHIEVEMENTS SECTION
+         * ==========================
+         */
+        $achievementsSteps = [];
+        if ($request->has('achievement')) {
+            foreach ($request->achievement as $achievement) {
+                $achievementsSteps[] = [
+                    'count_number' => $achievement['count_number'] ?? '',
+                    'title' => $achievement['title'] ?? '',
+                ];
+            }
+        }
+        $subservice->achievements_steps = json_encode($achievementsSteps);
+
+        /**
+         * ==========================
+         * 🔹 SUCCESS STORIES SECTION
+         * ==========================
+         */
+        $successStoriesSteps = [];
+        if ($request->has('story')) {
+            foreach ($request->story as $story) {
+                $successStoriesSteps[] = [
+                    'title' => $story['title'] ?? '',
+                    'bottom_text' => $story['bottom_text'] ?? '',
+                ];
+            }
+        }
+        $subservice->success_stories_steps = json_encode($successStoriesSteps);
+
+        /**
+         * ==========================
+         * 🔹 CLIENTS SAY SECTION
+         * ==========================
+         */
+        $clientsSaySteps = [];
+        if ($request->has('client')) {
+            foreach ($request->client as $client) {
+                $clientsSaySteps[] = [
+                    'title' => $client['title'] ?? '',
+                    'meassage' => $client['meassage'] ?? '',
+                ];
+            }
+        }
+        $subservice->clients_say_steps = json_encode($clientsSaySteps);
+
+        /**
+         * ==========================
+         * 🔹 FAQ SECTION
+         * ==========================
+         */
+        $faqSteps = [];
+        if ($request->has('faq')) {
+            foreach ($request->faq as $faq) {
+                $faqSteps[] = [
+                    'question' => $faq['question'] ?? '',
+                    'answer' => $faq['answer'] ?? '',
+                ];
+            }
+        }
+        $subservice->faq_steps = json_encode($faqSteps);
+
+        /**
+         * ==========================
+         * 🔹 OUR PROMISE SECTION
+         * ==========================
+         */
+        $promiseSteps = [];
+        if ($request->has('item')) {
+            foreach ($request->item as $promise) {
+                $promiseSteps[] = [
+                    'bottom_text' => $promise['bottom_text'] ?? '',
+                ];
+            }
+        }
+        $subservice->our_promise = json_encode($promiseSteps);
+
+        /**
+         * ==========================
+         * 🔹 CALL TO ACTION SECTION
+         * ==========================
+         */
+        $ctaSteps = [];
+        if ($request->has('cta')) {
+            foreach ($request->cta as $cta) {
+                $ctaSteps[] = [
+                    'bottom_text' => $cta['bottom_text'] ?? '',
+                ];
+            }
+        }
+        $subservice->cta_steps = json_encode($ctaSteps);
+
+        // 🔹 SYNC TECHNOLOGIES
+        $subservice->technologies()->sync($request->technologies ?? []);
+        // 🔹 SYNC PORTFOLIOS
+        $subservice->portfolios()->sync($request->portfolios ?? []);
         $subservice->save();
 
         Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
