@@ -17,7 +17,7 @@
     $ctaSteps = $ctaSteps ?? [];
 @endphp
 
-<!-- Start Content-->
+<!-- Start Content -->
 <div class="container-fluid">
 
     <!-- start page title -->
