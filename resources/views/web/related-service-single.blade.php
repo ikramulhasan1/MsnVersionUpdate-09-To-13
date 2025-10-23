@@ -14,101 +14,101 @@
     @endif
 
     <script type="application/ld+json">
-                {
-                  "@context": "http://schema.org",
-                  "@type": "Product",
-                  "name": "{{ $service->title }}",
-                  "image": {
-                    "@type": "ImageObject",
-                    "url": "{{ asset('uploads/service/' . $service->image_path) }}",
-                    "width": "100",
-                    "height": "100"
-                  },
+                        {
+                          "@context": "http://schema.org",
+                          "@type": "Product",
+                          "name": "{{ $service->title }}",
+                          "image": {
+                            "@type": "ImageObject",
+                            "url": "{{ asset('uploads/service/' . $service->image_path) }}",
+                            "width": "100",
+                            "height": "100"
+                          },
 
-                  "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
-                  "url": "{{ route('service.related-single', $service->slug) }}",
-                  "brand": {
-                    "@type": "Brand",
-                    "name": "MSN Softtech",
-                    "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
-                  },
-                  "offers": {
-                    "@type": "Offer",
-                    "price": "{{ $service->price ?? '999' }}",
-                    "priceCurrency": "USD",
-                    "availability": "https://schema.org/InStock",
-                    "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
-                    "hasMerchantReturnPolicy": {
-                      "@type": "MerchantReturnPolicy",
-                      "applicableCountry": "US",
-                      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                      "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
-                      "returnShippingFeesAmount": {
-                        "@type": "MonetaryAmount",
-                        "value": "0.00",
-                        "currency": "USD"
-                      },
-                      "merchantReturnDays": "30",
-                      "returnMethod": "https://schema.org/ReturnByMail",
-                      "returnFees": "FreeReturn"
-                    },
-                    "shippingDetails": {
-                      "@type": "OfferShippingDetails",
-                      "shippingRate": {
-                        "@type": "MonetaryAmount",
-                        "value": "0.00",
-                        "currency": "USD"
-                      },
-                      "deliveryTime": {
-                        "@type": "ShippingDeliveryTime",
-                        "businessDays": {
-                          "@type": "OpeningHoursSpecification",
-                          "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
-                          "https://schema.org/Sunday"]
-                        },
-                        "handlingTime": {
-                          "@type": "QuantitativeValue",
-                          "minValue": 1,
-                          "maxValue": 2,
-                          "unitCode": "DAY"
-                        },
-                        "transitTime": {
-                          "@type": "QuantitativeValue",
-                          "minValue": 3,
-                          "maxValue": 5,
-                          "unitCode": "DAY"
+                          "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
+                          "url": "{{ route('service.related-single', $service->slug) }}",
+                          "brand": {
+                            "@type": "Brand",
+                            "name": "MSN Softtech",
+                            "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
+                          },
+                          "offers": {
+                            "@type": "Offer",
+                            "price": "{{ $service->price ?? '999' }}",
+                            "priceCurrency": "USD",
+                            "availability": "https://schema.org/InStock",
+                            "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
+                            "hasMerchantReturnPolicy": {
+                              "@type": "MerchantReturnPolicy",
+                              "applicableCountry": "US",
+                              "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                              "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
+                              "returnShippingFeesAmount": {
+                                "@type": "MonetaryAmount",
+                                "value": "0.00",
+                                "currency": "USD"
+                              },
+                              "merchantReturnDays": "30",
+                              "returnMethod": "https://schema.org/ReturnByMail",
+                              "returnFees": "FreeReturn"
+                            },
+                            "shippingDetails": {
+                              "@type": "OfferShippingDetails",
+                              "shippingRate": {
+                                "@type": "MonetaryAmount",
+                                "value": "0.00",
+                                "currency": "USD"
+                              },
+                              "deliveryTime": {
+                                "@type": "ShippingDeliveryTime",
+                                "businessDays": {
+                                  "@type": "OpeningHoursSpecification",
+                                  "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
+                                  "https://schema.org/Sunday"]
+                                },
+                                "handlingTime": {
+                                  "@type": "QuantitativeValue",
+                                  "minValue": 1,
+                                  "maxValue": 2,
+                                  "unitCode": "DAY"
+                                },
+                                "transitTime": {
+                                  "@type": "QuantitativeValue",
+                                  "minValue": 3,
+                                  "maxValue": 5,
+                                  "unitCode": "DAY"
+                                }
+                              },
+                              "shippingDestination": {
+                                "@type": "DefinedRegion",
+                                "addressCountry": "US"
+                              }
+                            }
+                          },
+                          "aggregateRating": {
+                            "@type": "AggregateRating",
+                            "ratingValue": "{{ $service->average_rating }}",
+                            "bestRating": "5",
+                            "worstRating": "1",
+                            "ratingCount": "{{ $service->review_count }}",
+                          },
+                          "review": {
+                            "@type": "Review",
+                            "author": {
+                              "@type": "Person",
+                              "name": "Joseph Garcia"
+                            },
+                            "datePublished": "{{ $service->created_at->format('Y-m-d') }}",
+                            "reviewRating": {
+                              "@type": "Rating",
+                              "ratingValue": "5",
+                              "bestRating": "5",
+                              "worstRating": "1"
+                            },
+                            "reviewBody": "MSN Softtech delivered an exceptional custom {{ $service->short_title }} solution that enhanced our online presence and improved performance."
+                          }
                         }
-                      },
-                      "shippingDestination": {
-                        "@type": "DefinedRegion",
-                        "addressCountry": "US"
-                      }
-                    }
-                  },
-                  "aggregateRating": {
-                    "@type": "AggregateRating",
-                    "ratingValue": "{{ $service->average_rating }}",
-                    "bestRating": "5",
-                    "worstRating": "1",
-                    "ratingCount": "{{ $service->review_count }}",
-                  },
-                  "review": {
-                    "@type": "Review",
-                    "author": {
-                      "@type": "Person",
-                      "name": "Joseph Garcia"
-                    },
-                    "datePublished": "{{ $service->created_at->format('Y-m-d') }}",
-                    "reviewRating": {
-                      "@type": "Rating",
-                      "ratingValue": "5",
-                      "bestRating": "5",
-                      "worstRating": "1"
-                    },
-                    "reviewBody": "MSN Softtech delivered an exceptional custom {{ $service->short_title }} solution that enhanced our online presence and improved performance."
-                  }
-                }
-                </script>
+                        </script>
 
 
     <!-- JSON-LD markup generated by Google Structured Data Markup Helper. -->
@@ -473,15 +473,19 @@
 
 
     <!-- HERO -->
-    <section class="hero-section d-flex align-items-center justify-content-center text-center">
-        <div class="container hero-content">
-            <h1 class="display-4 font-weight-bold">Web Development Services</h1>
-            <p class="lead text-white">Building responsive, scalable, and secure web applications for your business success.
-            </p>
-            <a href="#contact" style="background-color: #052C58; color: #ffffff;" class="btn btn-lg mt-3">Get Started</a>
-        </div>
-    </section>
-
+    @php
+        $services = json_decode($service->banner_steps, true); // true না দিলে object হবে
+    @endphp
+    @foreach ($services as $item)
+        <section class="hero-section d-flex align-items-center justify-content-center text-center">
+            <div class="container hero-content">
+                <h1 class="display-4 font-weight-bold">{{ $item->title }}</h1>
+                <p class="lead text-white">
+                </p>
+                <a href="#contact" style="background-color: #052C58; color: #ffffff;" class="btn btn-lg mt-3">Get Started</a>
+            </div>
+        </section>
+    @endforeach
     <!-- SERVICE DETAILS -->
     <section class="py-5 service-detail">
         <div class="container">
@@ -728,18 +732,18 @@
     <!-- STYLING -->
     <style>
         /* section {
-        background-color: #f8f9fc;
-      } */
+                background-color: #f8f9fc;
+              } */
 
         .stat-number {
             font-size: 2.5rem;
         }
 
         /* .shadow-sm:hover {
-        box-shadow: 0 0.75rem 1rem rgba(0, 123, 255, 0.15) !important;
-        transform: translateY(-3px);
-        transition: all 0.3s ease;
-      } */
+                box-shadow: 0 0.75rem 1rem rgba(0, 123, 255, 0.15) !important;
+                transform: translateY(-3px);
+                transition: all 0.3s ease;
+              } */
     </style>
 
     <!-- BOOTSTRAP 4 + ICONS -->
