@@ -716,9 +716,11 @@
 
     <!-- TECHNOLOGIES -->
     @if ($service->technologies->isNotEmpty())
-        <section class="py-5 bg-light">
-            <div class="container text-center">
-                <h2 style="font-weight: 800" class="section-title">Technologies We Use</h2>
+        
+    
+    <section class="py-5 bg-light">
+        <div class="container text-center">
+            <h2 style="font-weight: 800" class="section-title">Technologies We Use</h2>
             <p class="section-subtitle">We combine creativity and the latest tools to deliver high-quality solutions.
             </p>
 
@@ -732,7 +734,7 @@
             </div>
         </div>
     </section>
-
+@endif
     <!-- CASE STUDIES / RESULTS -->
     <section class="py-5 bg-light">
         <div class="container">
