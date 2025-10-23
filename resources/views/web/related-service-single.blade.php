@@ -544,37 +544,16 @@
             <p class="section-subtitle">We follow a streamlined workflow for perfect project delivery.</p>
 
             <div class="row text-center">
-                <div class="col-md-3 mb-4">
-                    <div class="process-step h-100">
-                        <div style="color: #052C58" class="step-number display-4 font-weight-bold">01</div>
-                        <h5 class="mt-3 font-weight-bold">Planning</h5>
-                        <p>Understanding your goals and outlining the roadmap to success.</p>
+                @foreach ($process as $key => $item)
+                    <div class="col-md-3 mb-4">
+                        <div class="process-step h-100">
+                            <div style="color: #052C58" class="step-number display-4 font-weight-bold">{{ $key + 1 }}</div>
+                            <h5 class="mt-3 font-weight-bold">{{ $item['title'] }}</h5>
+                            <p>{{ $item['bottom_text'] }}</p>
+                        </div>
                     </div>
-                </div>
-
-                <div class="col-md-3 mb-4">
-                    <div class="process-step h-100">
-                        <div style="color: #052C58" class="step-number display-4 font-weight-bold">02</div>
-                        <h5 class="mt-3 font-weight-bold">Design</h5>
-                        <p>Creating wireframes and visual concepts that align with your brand.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-3 mb-4">
-                    <div class="process-step h-100">
-                        <div style="color: #052C58" class="step-number display-4 font-weight-bold">03</div>
-                        <h5 class="mt-3 font-weight-bold">Development</h5>
-                        <p>Coding with clean, scalable, and secure solutions using modern stacks.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-3 mb-4">
-                    <div class="process-step h-100">
-                        <div style="color: #052C58" class="step-number display-4 font-weight-bold">04</div>
-                        <h5 class="mt-3 font-weight-bold">Launch & Support</h5>
-                        <p>Testing, deployment, and continuous post-launch maintenance.</p>
-                    </div>
-                </div>
+                @endforeach
+                
             </div>
         </div>
     </section>
