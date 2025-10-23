@@ -715,8 +715,6 @@
     </section>
 
     <!-- TECHNOLOGIES -->
-    @if ($service->technologies->isNotEmpty())
-        
     
     <section class="py-5 bg-light">
         <div class="container text-center">
@@ -734,7 +732,7 @@
             </div>
         </div>
     </section>
-@endif
+
     <!-- CASE STUDIES / RESULTS -->
     <section class="py-5 bg-light">
         <div class="container">
