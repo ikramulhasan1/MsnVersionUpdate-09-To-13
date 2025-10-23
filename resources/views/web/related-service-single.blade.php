@@ -672,7 +672,7 @@
                             <img src="{{ asset('uploads/portfolio/' . $portfolio->image_path) }}"
                                 class="img-fluid" alt="{{ $portfolio->title }}">
                             <div class="project-overlay">
-                                <a href="{{ route('portfolio.single', $portfolio->slug) }}" class="text-white font-weight-bold">{{ $portfolio->title }}</a>
+                                <h5><a href="{{ route('portfolio.single', $portfolio->slug) }}" class="text-white font-weight-bold">{{ $portfolio->title }}</a></h5>
                             </div>
                         </div>
                     </div>
