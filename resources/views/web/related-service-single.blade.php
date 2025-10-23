@@ -586,30 +586,15 @@
         </div>
 
         <div class="row justify-content-center">
-            <div class="col-6 col-md-3 mb-3">
-                <div class="p-4 bg-white rounded shadow-sm text-center h-100">
-                    <i class="bi bi-cart-check" style="font-size:2rem; color: #052C58;"></i>
-                    <div class="mt-2 text-muted font-weight-bold">eCommerce</div>
+            @foreach ($industries as $item)
+                <div class="col-6 col-md-3 mb-3">
+                    <div class="p-4 bg-white rounded shadow-sm text-center h-100">
+                        <i class="{{ $item['icon_class'] }}" style="font-size:2rem; color: #052C58;"></i>
+                        <div class="mt-2 text-muted font-weight-bold">{{ $item['title'] }}</div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-6 col-md-3 mb-3">
-                <div class="p-4 bg-white rounded shadow-sm text-center h-100">
-                    <i class="bi bi-bank" style="font-size:2rem; color: #052C58;"></i>
-                    <div class="mt-2 text-muted font-weight-bold">Finance</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3 mb-3">
-                <div class="p-4 bg-white rounded shadow-sm text-center h-100">
-                    <i class="bi bi-hospital" style="font-size:2rem; color: #052C58;"></i>
-                    <div class="mt-2 text-muted font-weight-bold">Healthcare</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3 mb-3">
-                <div class="p-4 bg-white rounded shadow-sm text-center h-100">
-                    <i class="bi bi-building" style="font-size:2rem; color: #052C58;"></i>
-                    <div class="mt-2 text-muted font-weight-bold">Enterprise</div>
-                </div>
-            </div>
+            @endforeach
+            
         </div>
     </section>
 
