@@ -657,9 +657,10 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
     <!-- PORTFOLIO -->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <h2 style="font-weight: 800" class="section-title">Recent Projects</h2>
+    @if (!empty($service->portfolios) && count($service->portfolios) > 0)
+        <section class="py-5 bg-light">
+            <div class="container">
+                <h2 style="font-weight: 800" class="section-title">Recent Projects</h2>
             <p style="font-weight: 800" class="section-subtitle">Explore some of our successful work for clients around the
                 world.</p>
 
@@ -680,7 +681,7 @@
             </div>
         </div>
     </section>
-
+    @endif
     <!-- TECHNOLOGIES -->
     @if (!empty($service->technologies) && count($service->technologies) > 0)
         <section class="py-5 bg-light">
