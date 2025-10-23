@@ -58,7 +58,7 @@ class ServiceController extends Controller
     public function related($slug)
     {
         // Service                                
-        $data['service'] = Subservice::where('slug', $slug)
+        $data['service'] = Subservice::with('portfolios','technologies')->where('slug', $slug)
             ->where('status', '1')
             ->firstOrFail();
 
