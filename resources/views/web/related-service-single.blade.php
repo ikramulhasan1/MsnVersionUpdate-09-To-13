@@ -14,101 +14,101 @@
     @endif
 
     <script type="application/ld+json">
-                        {
-                          "@context": "http://schema.org",
-                          "@type": "Product",
-                          "name": "{{ $service->title }}",
-                          "image": {
-                            "@type": "ImageObject",
-                            "url": "{{ asset('uploads/service/' . $service->image_path) }}",
-                            "width": "100",
-                            "height": "100"
-                          },
+                                {
+                                  "@context": "http://schema.org",
+                                  "@type": "Product",
+                                  "name": "{{ $service->title }}",
+                                  "image": {
+                                    "@type": "ImageObject",
+                                    "url": "{{ asset('uploads/service/' . $service->image_path) }}",
+                                    "width": "100",
+                                    "height": "100"
+                                  },
 
-                          "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
-                          "url": "{{ route('service.related-single', $service->slug) }}",
-                          "brand": {
-                            "@type": "Brand",
-                            "name": "MSN Softtech",
-                            "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
-                          },
-                          "offers": {
-                            "@type": "Offer",
-                            "price": "{{ $service->price ?? '999' }}",
-                            "priceCurrency": "USD",
-                            "availability": "https://schema.org/InStock",
-                            "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
-                            "hasMerchantReturnPolicy": {
-                              "@type": "MerchantReturnPolicy",
-                              "applicableCountry": "US",
-                              "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                              "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
-                              "returnShippingFeesAmount": {
-                                "@type": "MonetaryAmount",
-                                "value": "0.00",
-                                "currency": "USD"
-                              },
-                              "merchantReturnDays": "30",
-                              "returnMethod": "https://schema.org/ReturnByMail",
-                              "returnFees": "FreeReturn"
-                            },
-                            "shippingDetails": {
-                              "@type": "OfferShippingDetails",
-                              "shippingRate": {
-                                "@type": "MonetaryAmount",
-                                "value": "0.00",
-                                "currency": "USD"
-                              },
-                              "deliveryTime": {
-                                "@type": "ShippingDeliveryTime",
-                                "businessDays": {
-                                  "@type": "OpeningHoursSpecification",
-                                  "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
-                                  "https://schema.org/Sunday"]
-                                },
-                                "handlingTime": {
-                                  "@type": "QuantitativeValue",
-                                  "minValue": 1,
-                                  "maxValue": 2,
-                                  "unitCode": "DAY"
-                                },
-                                "transitTime": {
-                                  "@type": "QuantitativeValue",
-                                  "minValue": 3,
-                                  "maxValue": 5,
-                                  "unitCode": "DAY"
+                                  "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
+                                  "url": "{{ route('service.related-single', $service->slug) }}",
+                                  "brand": {
+                                    "@type": "Brand",
+                                    "name": "MSN Softtech",
+                                    "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
+                                  },
+                                  "offers": {
+                                    "@type": "Offer",
+                                    "price": "{{ $service->price ?? '999' }}",
+                                    "priceCurrency": "USD",
+                                    "availability": "https://schema.org/InStock",
+                                    "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
+                                    "hasMerchantReturnPolicy": {
+                                      "@type": "MerchantReturnPolicy",
+                                      "applicableCountry": "US",
+                                      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                                      "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
+                                      "returnShippingFeesAmount": {
+                                        "@type": "MonetaryAmount",
+                                        "value": "0.00",
+                                        "currency": "USD"
+                                      },
+                                      "merchantReturnDays": "30",
+                                      "returnMethod": "https://schema.org/ReturnByMail",
+                                      "returnFees": "FreeReturn"
+                                    },
+                                    "shippingDetails": {
+                                      "@type": "OfferShippingDetails",
+                                      "shippingRate": {
+                                        "@type": "MonetaryAmount",
+                                        "value": "0.00",
+                                        "currency": "USD"
+                                      },
+                                      "deliveryTime": {
+                                        "@type": "ShippingDeliveryTime",
+                                        "businessDays": {
+                                          "@type": "OpeningHoursSpecification",
+                                          "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
+                                          "https://schema.org/Sunday"]
+                                        },
+                                        "handlingTime": {
+                                          "@type": "QuantitativeValue",
+                                          "minValue": 1,
+                                          "maxValue": 2,
+                                          "unitCode": "DAY"
+                                        },
+                                        "transitTime": {
+                                          "@type": "QuantitativeValue",
+                                          "minValue": 3,
+                                          "maxValue": 5,
+                                          "unitCode": "DAY"
+                                        }
+                                      },
+                                      "shippingDestination": {
+                                        "@type": "DefinedRegion",
+                                        "addressCountry": "US"
+                                      }
+                                    }
+                                  },
+                                  "aggregateRating": {
+                                    "@type": "AggregateRating",
+                                    "ratingValue": "{{ $service->average_rating }}",
+                                    "bestRating": "5",
+                                    "worstRating": "1",
+                                    "ratingCount": "{{ $service->review_count }}",
+                                  },
+                                  "review": {
+                                    "@type": "Review",
+                                    "author": {
+                                      "@type": "Person",
+                                      "name": "Joseph Garcia"
+                                    },
+                                    "datePublished": "{{ $service->created_at->format('Y-m-d') }}",
+                                    "reviewRating": {
+                                      "@type": "Rating",
+                                      "ratingValue": "5",
+                                      "bestRating": "5",
+                                      "worstRating": "1"
+                                    },
+                                    "reviewBody": "MSN Softtech delivered an exceptional custom {{ $service->short_title }} solution that enhanced our online presence and improved performance."
+                                  }
                                 }
-                              },
-                              "shippingDestination": {
-                                "@type": "DefinedRegion",
-                                "addressCountry": "US"
-                              }
-                            }
-                          },
-                          "aggregateRating": {
-                            "@type": "AggregateRating",
-                            "ratingValue": "{{ $service->average_rating }}",
-                            "bestRating": "5",
-                            "worstRating": "1",
-                            "ratingCount": "{{ $service->review_count }}",
-                          },
-                          "review": {
-                            "@type": "Review",
-                            "author": {
-                              "@type": "Person",
-                              "name": "Joseph Garcia"
-                            },
-                            "datePublished": "{{ $service->created_at->format('Y-m-d') }}",
-                            "reviewRating": {
-                              "@type": "Rating",
-                              "ratingValue": "5",
-                              "bestRating": "5",
-                              "worstRating": "1"
-                            },
-                            "reviewBody": "MSN Softtech delivered an exceptional custom {{ $service->short_title }} solution that enhanced our online presence and improved performance."
-                          }
-                        }
-                        </script>
+                                </script>
 
 
     <!-- JSON-LD markup generated by Google Structured Data Markup Helper. -->
@@ -172,9 +172,9 @@
         /* HERO */
         .hero-section {
             /* background: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
-            color: #fff;
-            padding: 120px 0;
-            position: relative; */
+                    color: #fff;
+                    padding: 120px 0;
+                    position: relative; */
         }
 
         .hero-section::before {
@@ -475,21 +475,22 @@
 
     <!-- HERO -->
     @php
-    $banners = json_decode($service->banner_steps ?? '[]', true);
-    $features = json_decode($service->features_steps ?? '[]', true);
-    $process = json_decode($service->process_steps ?? '[]', true);
-    $why_we = json_decode($service->why_we_steps ?? '[]', true);
-    $industries = json_decode($service->industries_steps ?? '[]', true);
-    $achievements = json_decode($service->achievements_steps ?? '[]', true);
-    $success_stories = json_decode($service->success_stories_steps ?? '[]', true);
-    $clients_say = json_decode($service->clients_say_steps ?? '[]', true);
-    $faq = json_decode($service->faq_steps ?? '[]', true);
-    $our_promise = json_decode($service->our_promise ?? '[]', true);
-    $cta = json_decode($service->cta_steps ?? '[]', true);
+        $banners = json_decode($service->banner_steps ?? '[]', true);
+        $features = json_decode($service->features_steps ?? '[]', true);
+        $process = json_decode($service->process_steps ?? '[]', true);
+        $why_we = json_decode($service->why_we_steps ?? '[]', true);
+        $industries = json_decode($service->industries_steps ?? '[]', true);
+        $achievements = json_decode($service->achievements_steps ?? '[]', true);
+        $success_stories = json_decode($service->success_stories_steps ?? '[]', true);
+        $clients_say = json_decode($service->clients_say_steps ?? '[]', true);
+        $faq = json_decode($service->faq_steps ?? '[]', true);
+        $our_promise = json_decode($service->our_promise ?? '[]', true);
+        $cta = json_decode($service->cta_steps ?? '[]', true);
     @endphp
-    
+
     @foreach ($banners as $item)
-        <section class="hero-section d-flex align-items-center justify-content-center text-center" style="background: url('{{ asset('uploads/banner/' . $item['banner_image'] ?? 'default.jpg') }}') center/cover no-repeat; color: #fff; padding: 120px 0; position: relative;">
+        <section class="hero-section d-flex align-items-center justify-content-center text-center"
+            style="background: url('{{ asset('uploads/banner/' . $item['banner_image'] ?? 'default.jpg') }}') center/cover no-repeat; color: #fff; padding: 120px 0; position: relative;">
             <div class="container hero-content">
                 <h1 class="display-4 font-weight-bold">{{ $item['title'] }}</h1>
                 <p class="lead text-white">{{ $item['sub_title'] }}</p>
@@ -502,13 +503,13 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="{{ asset('uploads/subservices/' . $service->image_path ?? 'default.jpg') }}"
-                        class="img-fluid" alt="Web Development">
+                    <img src="{{ asset('uploads/subservices/' . $service->image_path ?? 'default.jpg') }}" class="img-fluid"
+                        alt="Web Development">
                 </div>
                 <div class="col-lg-6">
                     <h2 style="font-weight: 800" class=" mb-3">{{ $service->title }}</h2>
                     <p>{!! $service->description !!}</p>
-                    
+
                 </div>
             </div>
         </div>
@@ -532,7 +533,7 @@
                         </div>
                     </div>
                 @endforeach
-                
+
             </div>
         </div>
     </section>
@@ -553,7 +554,7 @@
                         </div>
                     </div>
                 @endforeach
-                
+
             </div>
         </div>
     </section>
@@ -572,7 +573,7 @@
                         </div>
                     </div>
                 @endforeach
-                
+
             </div>
         </div>
     </section>
@@ -594,7 +595,7 @@
                     </div>
                 </div>
             @endforeach
-            
+
         </div>
     </section>
 
@@ -609,12 +610,13 @@
             @foreach ($achievements as $item)
                 <div class="col-md-3 mb-4">
                     <div class="p-4 bg-white rounded shadow-sm">
-                        <h2 style="color: #052C58;" class="font-weight-bold stat-number" data-target="{{ $item['count_number'] }}">0</h2>
+                        <h2 style="color: #052C58;" class="font-weight-bold stat-number"
+                            data-target="{{ $item['count_number'] }}">0</h2>
                         <p class="mb-0 text-muted font-weight-bold">{{ $item['title'] }}</p>
                     </div>
                 </div>
             @endforeach
-            
+
         </div>
     </section>
 
@@ -645,18 +647,18 @@
     <!-- STYLING -->
     <style>
         /* section {
-                background-color: #f8f9fc;
-              } */
+                        background-color: #f8f9fc;
+                      } */
 
         .stat-number {
             font-size: 2.5rem;
         }
 
         /* .shadow-sm:hover {
-                box-shadow: 0 0.75rem 1rem rgba(0, 123, 255, 0.15) !important;
-                transform: translateY(-3px);
-                transition: all 0.3s ease;
-              } */
+                        box-shadow: 0 0.75rem 1rem rgba(0, 123, 255, 0.15) !important;
+                        transform: translateY(-3px);
+                        transition: all 0.3s ease;
+                      } */
     </style>
 
     <!-- BOOTSTRAP 4 + ICONS -->
@@ -763,7 +765,7 @@
                         </div>
                     </div>
                 @endforeach
-                
+
             </div>
         </div>
     </section>
@@ -804,39 +806,42 @@
                 <div class="col-lg-6 mb-5 mb-lg-0">
                     <h2 style="font-weight: 800" class="section-title">What Our Clients Say</h2>
                     @foreach ($clients_say as $item)
-                    <div class="testimonial p-4 bg-light rounded shadow-sm mb-4">
-                        <p>“{{ $item['meassage'] }}”</p>
-                        <h6 class="font-weight-bold mb-0">— {{ $item['title'] }}</h6>
-                    </div>
+                        <div class="testimonial p-4 bg-light rounded shadow-sm mb-4">
+                            <p>“{{ $item['meassage'] }}”</p>
+                            <h6 class="font-weight-bold mb-0">— {{ $item['title'] }}</h6>
+                        </div>
                     @endforeach
-                    
+
                 </div>
 
                 <!-- FAQ (Bootstrap 4 collapse) -->
-                <div class="col-lg-6">
-                    <h2 style="font-weight: 800" class="section-title">Have Questions?</h2>
+                @if (!empty($faq))
+                    <div class="col-lg-6">
+                        <h2 style="font-weight: 800" class="section-title">Have Questions?</h2>
 
-                    <div id="accordionFaq" class="faq-section">
-                        @foreach ($faq as $key => $item)
-                        <div class="card">
-                            <div class="card-header" id="faqHeading{{ $key }}">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link" data-toggle="collapse" data-target="#faq{{ $key }}"
-                                        aria-expanded="true" aria-controls="faq{{ $key }}">
-                                        {{ $item['question'] }}
-                                    </button>
-                                </h5>
+                        <div id="accordionFaq" class="faq-section">
+                            @foreach ($faq as $key => $item)
+                                <div class="card">
+                                    <div class="card-header" id="faqHeading{{ $key }}">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" data-toggle="collapse" data-target="#faq{{ $key }}"
+                                                aria-expanded="true" aria-controls="faq{{ $key }}">
+                                                {{ $item['question'] }}
+                                            </button>
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div id="faq{{ $key }}" class="collapse {{ $loop->first ? 'show' : '' }}"
+                                    aria-labelledby="faqHeading{{ $key }}" data-parent="#accordionFaq">
+                                    <div class="card-body">{{ $item['answer'] }}</div>
+                            @endforeach
+
                             </div>
+                            <!-- /.accordion -->
                         </div>
-                        <div id="faq{{ $key }}" class="collapse {{ $loop->first ? 'show' : '' }}" aria-labelledby="faqHeading{{ $key }}" data-parent="#accordionFaq">
-                            <div class="card-body">{{ $item['answer'] }}</div>
-                        @endforeach
-                        
                     </div>
-                    <!-- /.accordion -->
-                </div>
+                @endif
             </div>
-        </div>
     </section>
 
     <!-- PROMISE SECTION -->
