@@ -547,7 +547,7 @@
                 @foreach ($process as $key => $item)
                     <div class="col-md-3 mb-4">
                         <div class="process-step h-100">
-                            <div style="color: #052C58" class="step-number display-4 font-weight-bold">{{ $key + 1 }}</div>
+                            <div style="color: #052C58" class="step-number display-4 font-weight-bold">0{{ $key + 1 }}</div>
                             <h5 class="mt-3 font-weight-bold">{{ $item['title'] }}</h5>
                             <p>{{ $item['bottom_text'] }}</p>
                         </div>
