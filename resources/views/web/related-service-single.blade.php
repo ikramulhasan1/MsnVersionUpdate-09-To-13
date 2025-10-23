@@ -563,29 +563,16 @@
         <div class="container text-center">
             <h2 style="font-weight: 800" class="section-title mb-4">Why Choose MSNSoftech?</h2>
             <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="p-4 border rounded h-100 shadow-sm">
-                        <i class="bi bi-lightning-charge-fill display-4 mb-3" style="color: #052C58"></i>
-                        <h5 class="font-weight-bold">Fast Delivery</h5>
-                        <p>We deliver high-quality websites quickly without compromising performance.</p>
+                @foreach ($why_we as $item)
+                    <div class="col-md-4 mb-4">
+                        <div class="p-4 border rounded h-100 shadow-sm">
+                            <i class="{{ $item['icon_class'] }} display-4 mb-3" style="color: #052C58"></i>
+                            <h5 class="font-weight-bold">{{ $item['title'] }}</h5>
+                            <p>{{ $item['bottom_text'] }}</p>
+                        </div>
                     </div>
-                </div>
-
-                <div class="col-md-4 mb-4">
-                    <div class="p-4 border rounded h-100 shadow-sm">
-                        <i style="color: #052C58" class="bi bi-award display-4 mb-3"></i>
-                        <h5 class="font-weight-bold">Experienced Team</h5>
-                        <p>Our experts have worked on 250+ projects globally.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-4 mb-4">
-                    <div class="p-4 border rounded h-100 shadow-sm">
-                        <i style="color: #052C58" class="bi bi-people display-4 mb-3"></i>
-                        <h5 class="font-weight-bold">Customer-Centric</h5>
-                        <p>We listen carefully and tailor every solution to your business goals.</p>
-                    </div>
-                </div>
+                @endforeach
+                
             </div>
         </div>
     </section>
