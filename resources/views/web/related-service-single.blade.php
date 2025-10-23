@@ -803,16 +803,13 @@
                 <!-- TESTIMONIALS -->
                 <div class="col-lg-6 mb-5 mb-lg-0">
                     <h2 style="font-weight: 800" class="section-title">What Our Clients Say</h2>
+                    @foreach ($clients_say as $item)
                     <div class="testimonial p-4 bg-light rounded shadow-sm mb-4">
-                        <p>“MSNSoftech transformed our online store into a fast, stunning platform that increased our
-                            sales by 60%!”</p>
-                        <h6 class="font-weight-bold mb-0">— Sarah Khan, CEO of ElegantWear</h6>
+                        <p>“{{ $item['meassage'] }}”</p>
+                        <h6 class="font-weight-bold mb-0">— {{ $item['title'] }}</h6>
                     </div>
-                    <div class="testimonial p-4 bg-light rounded shadow-sm">
-                        <p>“Their web development expertise is unmatched. Our company website is now modern, secure, and
-                            lightning-fast.”</p>
-                        <h6 class="font-weight-bold mb-0">— David Lee, Marketing Head at TechNova</h6>
-                    </div>
+                    @endforeach
+                    
                 </div>
 
                 <!-- FAQ (Bootstrap 4 collapse) -->
@@ -820,51 +817,21 @@
                     <h2 style="font-weight: 800" class="section-title">Have Questions?</h2>
 
                     <div id="accordionFaq" class="faq-section">
+                        @foreach ($faq as $key => $item)
                         <div class="card">
-                            <div class="card-header" id="faqHeading1">
+                            <div class="card-header" id="faqHeading{{ $key }}">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-link" data-toggle="collapse" data-target="#faq1"
-                                        aria-expanded="true" aria-controls="faq1">
-                                        What technologies do you use for web development?
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#faq{{ $key }}"
+                                        aria-expanded="true" aria-controls="faq{{ $key }}">
+                                        {{ $item['question'] }}
                                     </button>
                                 </h5>
                             </div>
-
-                            <div id="faq1" class="collapse show" aria-labelledby="faqHeading1" data-parent="#accordionFaq">
-                                <div class="card-body">We use technologies like Laravel, React, Node.js, and WordPress
-                                    depending on your project needs.</div>
-                            </div>
                         </div>
-
-                        <div class="card">
-                            <div class="card-header" id="faqHeading2">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#faq2"
-                                        aria-expanded="false" aria-controls="faq2">
-                                        Do you offer ongoing maintenance?
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="faq2" class="collapse" aria-labelledby="faqHeading2" data-parent="#accordionFaq">
-                                <div class="card-body">Absolutely! We provide website maintenance, updates, and
-                                    performance monitoring services.</div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header" id="faqHeading3">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#faq3"
-                                        aria-expanded="false" aria-controls="faq3">
-                                        Can you redesign my existing website?
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="faq3" class="collapse" aria-labelledby="faqHeading3" data-parent="#accordionFaq">
-                                <div class="card-body">Yes! We specialize in redesigning outdated sites into modern,
-                                    responsive, and fast platforms.</div>
-                            </div>
-                        </div>
+                        <div id="faq{{ $key }}" class="collapse {{ $loop->first ? 'show' : '' }}" aria-labelledby="faqHeading{{ $key }}" data-parent="#accordionFaq">
+                            <div class="card-body">{{ $item['answer'] }}</div>
+                        @endforeach
+                        
                     </div>
                     <!-- /.accordion -->
                 </div>
