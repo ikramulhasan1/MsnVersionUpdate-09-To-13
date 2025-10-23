@@ -748,43 +748,6 @@
         </div>
     </section>
 
-    <!-- WHY CHOOSE US (cards repeated) -->
-    {{-- <section class="py-5">
-        <div class="container">
-            <h2 style="font-weight: 800" class="section-title text-center">Why Choose MSNSoftech?</h2>
-            <p class="section-subtitle text-center">Because we don’t just build websites — we build digital success.</p>
-
-            <div class="row mt-4">
-                <div class="col-md-4 mb-4">
-                    <div class="card border-0 shadow-sm h-100 text-center p-4">
-                        <i class="bi bi-people display-4 mb-3" style="color: #052C58"></i>
-                        <h5 class="font-weight-bold">Experienced Team</h5>
-                        <p>Our developers and designers have years of hands-on experience in building web solutions for
-                            various industries.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-4 mb-4">
-                    <div class="card border-0 shadow-sm h-100 text-center p-4">
-                        <i class="bi bi-speedometer display-4 mb-3" style="color: #052C58"></i>
-                        <h5 class="font-weight-bold">High Performance</h5>
-                        <p>Every website we create is optimized for speed, SEO, and seamless user experience across all
-                            devices.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-4 mb-4">
-                    <div class="card border-0 shadow-sm h-100 text-center p-4">
-                        <i class="bi bi-shield-check display-4 mb-3" style="color: #052C58"></i>
-                        <h5 class="font-weight-bold">Reliable Support</h5>
-                        <p>We provide ongoing maintenance, technical support, and updates to keep your website secure
-                            and effective.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> --}}
-
     <!-- CASE STUDIES / RESULTS -->
     <section class="py-5 bg-light">
         <div class="container">
@@ -792,71 +755,18 @@
             <p class="section-subtitle text-center">See how we’ve helped clients achieve measurable results.</p>
 
             <div class="row mt-4">
-                <div class="col-md-4 mb-4">
-                    <div class="case-card bg-white shadow-sm rounded p-4 h-100">
-                        <h5 class="font-weight-bold mb-2">E-commerce Growth</h5>
-                        <p><strong>Result:</strong> +120% traffic in 3 months.</p>
-                        <p>We redesigned an online fashion store with a modern layout and optimized checkout, increasing
-                            conversions by 50%.</p>
+                @foreach ($success_stories as $item)
+                    <div class="col-md-4 mb-4">
+                        <div class="case-card bg-white shadow-sm rounded p-4 h-100">
+                            <h5 class="font-weight-bold mb-2">{{ $item['title'] }}</h5>
+                            <p>{{ $item['bottom_text'] }}</p>
+                        </div>
                     </div>
-                </div>
-
-                <div class="col-md-4 mb-4">
-                    <div class="case-card bg-white shadow-sm rounded p-4 h-100">
-                        <h5 class="font-weight-bold mb-2">Corporate Website Redesign</h5>
-                        <p><strong>Result:</strong> 2x more inquiries.</p>
-                        <p>For a SaaS client, we developed a clean and functional website that improved engagement and
-                            lead generation.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-4 mb-4">
-                    <div class="case-card bg-white shadow-sm rounded p-4 h-100">
-                        <h5 class="font-weight-bold mb-2">Startup MVP Launch</h5>
-                        <p><strong>Result:</strong> Launched in 6 weeks.</p>
-                        <p>We built a scalable web app for a startup using React and Laravel — delivered on time and
-                            within budget.</p>
-                    </div>
-                </div>
+                @endforeach
+                
             </div>
         </div>
     </section>
-
-    <!-- CONTACT -->
-    {{-- <section id="contact" class="py-5">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 mb-4 mb-lg-0">
-                    <h2 style="font-weight: 800" class=" mb-3">Let's Discuss Your Project</h2>
-                    <p>We’re here to turn your ideas into reality. Fill out the form, and our experts will get back to
-                        you within 24 hours.</p>
-                    <ul class="list-unstyled mt-3">
-                        <li><i class="bi bi-envelope" style="color: #052C58"></i> support@msnsofttech.com</li>
-                        <li><i class="bi bi-telephone" style="color: #052C58"></i> +880 1638-846367</li>
-                        <li><i class="bi bi-geo-alt" style="color: #052C58"></i> Comilla, Bangladesh</li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-6">
-                    <form class="p-4 bg-light rounded shadow-sm">
-                        <div class="form-group mb-3">
-                            <input type="text" class="form-control" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group mb-3">
-                            <input type="email" class="form-control" placeholder="Your Email" required>
-                        </div>
-                        <div class="form-group mb-3">
-                            <input type="text" class="form-control" placeholder="Service Type (e.g., Web Development)">
-                        </div>
-                        <div class="form-group mb-3">
-                            <textarea class="form-control" rows="4" placeholder="Project Details"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section> --}}
 
     <style>
         .project-item {
