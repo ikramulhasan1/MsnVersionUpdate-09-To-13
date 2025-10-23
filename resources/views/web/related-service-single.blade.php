@@ -646,29 +646,15 @@
 
     <!-- STYLING -->
     <style>
-        /* section {
-                                background-color: #f8f9fc;
-                              } */
+      
 
         .stat-number {
             font-size: 2.5rem;
         }
 
-        /* .shadow-sm:hover {
-                                box-shadow: 0 0.75rem 1rem rgba(0, 123, 255, 0.15) !important;
-                                transform: translateY(-3px);
-                                transition: all 0.3s ease;
-                              } */
     </style>
 
-    <!-- BOOTSTRAP 4 + ICONS -->
-    {{--
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"> --}}
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    {{--
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script> --}}
-
 
     <!-- PORTFOLIO -->
     <section class="py-5 bg-light">
@@ -678,38 +664,19 @@
                 world.</p>
 
             <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="project-item position-relative overflow-hidden rounded shadow-sm"
-                        style="width: 350px; height:233px ">
-                        <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=800&q=80"
-                            class="img-fluid" alt="Project 1">
-                        <div class="project-overlay">
-                            <h5 class="text-white font-weight-bold">E-Commerce Website</h5>
+                @foreach ($service->portfolios as $portfolio)
+                    <div class="col-md-4 mb-4">
+                        <div class="project-item position-relative overflow-hidden rounded shadow-sm"
+                            style="width: 350px; height:233px ">
+                            <img src="{{ asset('uploads/portfolio/' . $portfolio->image_path) }}"
+                                class="img-fluid" alt="{{ $portfolio->title }}">
+                            <div class="project-overlay">
+                                <h5 class="text-white font-weight-bold">{{ $portfolio->title }}</h5>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-md-4 mb-4">
-                    <div class="project-item position-relative overflow-hidden rounded shadow-sm"
-                        style="width: 350px; height:233px ">
-                        <img src="https://images.unsplash.com/photo-1610563166150-b34df4f3bcd6?auto=format&fit=crop&w=800&q=80"
-                            class="img-fluid" alt="Project 2">
-                        <div class="project-overlay">
-                            <h5 class="text-white font-weight-bold">Portfolio & Branding</h5>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 mb-4">
-                    <div class="project-item position-relative overflow-hidden rounded shadow-sm"
-                        style="width: 350px; height:233px ">
-                        <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80"
-                            class="img-fluid" alt="Project 3">
-                        <div class="project-overlay">
-                            <h5 class="text-white font-weight-bold">Business Landing Page</h5>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+                
             </div>
         </div>
     </section>
