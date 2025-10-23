@@ -845,43 +845,15 @@
     </section>
 
     <!-- PROMISE SECTION -->
-    <section class="py-5 text-white text-center" style="background-color: #052C58;">
-        <div class="container">
-            <h2 class="font-weight-bold mb-3">Our Promise</h2>
-            <p class="mb-4 lead text-white">We build websites that are fast, secure, SEO-friendly, and designed to convert
-                visitors
-                into customers.</p>
-        </div>
-    </section>
-
-    <!-- PROJECT JOURNEY SCROLLER -->
-    {{-- <section class="py-5 bg-white">
-        <div class="container text-center">
-            <h2 style="font-weight: 800" class="section-title mb-4">Our Project Journey</h2>
-            <div class="journey-scroll py-3">
-                <div class="p-4 border rounded shadow-sm">
-                    <h5 class="font-weight-bold">01. Idea</h5>
-                    <p class="small text-muted">We begin by discussing your vision.</p>
-                </div>
-                <div class="p-4 border rounded shadow-sm">
-                    <h5 class="font-weight-bold">02. Design</h5>
-                    <p class="small text-muted">Crafting layouts and user experiences.</p>
-                </div>
-                <div class="p-4 border rounded shadow-sm">
-                    <h5 class="font-weight-bold">03. Development</h5>
-                    <p class="small text-muted">Coding and implementing your project.</p>
-                </div>
-                <div class="p-4 border rounded shadow-sm">
-                    <h5 class="font-weight-bold">04. Testing</h5>
-                    <p class="small text-muted">Ensuring everything works flawlessly.</p>
-                </div>
-                <div class="p-4 border rounded shadow-sm">
-                    <h5 class="font-weight-bold">05. Launch</h5>
-                    <p class="small text-muted">Deploy and celebrate success!</p>
-                </div>
+    @foreach ($our_promise as $item)
+        <section class="py-5 text-white text-center" style="background-color: #052C58;">
+            <div class="container">
+                <h2 class="font-weight-bold mb-3">Our Promise</h2>
+                <p class="mb-4 lead text-white">{{ $item['bottom_text'] }}</p>
             </div>
-        </div>
-    </section> --}}
+        </section>
+    @endforeach
+    
     <div id="contact" class="contact-wrapper">
         <!-- Left: Contact Form -->
         <div class="form-section">
@@ -963,22 +935,17 @@
         </div>
     </div>
     <!-- CTA -->
-    <section class="cta-section my-5 mx-3">
-        <div class="container text-center">
-            <h2 class="font-weight-bold">Ready to Start Your Project?</h2>
-            <p class="lead mb-4 text-white">Let's bring your ideas to life with our expert web development solutions.</p>
-            <a href="mailto:support@msnsofttech.com" class="btn btn-light btn-lg">Contact Us</a>
-        </div>
-    </section>
+    @foreach ($cta as $item)
+        <section class="cta-section my-5 mx-3">
+            <div class="container text-center">
+                <h2 class="font-weight-bold">Ready to Start Your Project?</h2>
+                <p class="lead mb-4 text-white">{{ $item['bottom_text'] }}</p>
+                <a href="mailto:support@msnsofttech.com" class="btn btn-light btn-lg">Contact Us</a>
+            </div>
+        </section>
+    @endforeach
 
 
-    <!-- JS -->
-    {{--
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> --}}
-    {{--
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script> --}}
-    {{--
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <script>
         var input = document.querySelector("#phone");
