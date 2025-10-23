@@ -1089,7 +1089,7 @@
             </div>
         </div>
     </section> --}}
-    <div class="contact-wrapper">
+    <div id="contact" class="contact-wrapper">
         <!-- Left: Contact Form -->
         <div class="form-section">
             <h2>We're here to help</h2>
