@@ -940,7 +940,7 @@
             <div class="container text-center">
                 <h2 class="font-weight-bold">Ready to Start Your Project?</h2>
                 <p class="lead mb-4 text-white">{{ $item['bottom_text'] }}</p>
-                <a href="mailto:support@msnsofttech.com" class="btn btn-light btn-lg">Contact Us</a>
+                <a href="#contact" class="btn btn-light btn-lg">Contact Us</a>
             </div>
         </section>
     @endforeach
