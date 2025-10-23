@@ -478,7 +478,7 @@
     $services = json_decode($service->banner_steps ?? '[]', true);
     @endphp
     @foreach ($services as $item)
-    @dd($item['banner_image'])
+    @dd($item)
         <section class="hero-section d-flex align-items-center justify-content-center text-center" style="background: url('{{ asset('uploads/banner/' . $item['banner_image'] ?? 'default.jpg') }}') center/cover no-repeat; color: #fff; padding: 120px 0; position: relative;">
             <div class="container hero-content">
                 <h1 class="display-4 font-weight-bold">{{ $item['title'] }}</h1>
