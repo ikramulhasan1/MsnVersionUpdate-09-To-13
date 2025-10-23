@@ -521,45 +521,18 @@
             <p class="section-subtitle">Empowering your business with next-level web technology.</p>
 
             <div class="row">
-                <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="feature-card h-100 text-center">
-                        <div class="icon-box mb-3">
-                            <i class="bi bi-lightning-charge"></i>
+                @foreach ($features as $item)
+                    <div class="col-md-3 col-sm-6 mb-4">
+                        <div class="feature-card h-100 text-center">
+                            <div class="icon-box mb-3">
+                                <i class="{{ $item['icon_class'] }}"></i>
+                            </div>
+                            <h5 class="font-weight-bold">{{ $item['title'] }}</h5>
+                            <p>{{ $item['bottom_text'] }}</p>
                         </div>
-                        <h5 class="font-weight-bold">Fast Performance</h5>
-                        <p>We ensure your site loads blazing fast with optimized code and CDN support.</p>
                     </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="feature-card h-100 text-center">
-                        <div class="icon-box mb-3">
-                            <i class="bi bi-palette2"></i>
-                        </div>
-                        <h5 class="font-weight-bold">Creative Design</h5>
-                        <p>Modern, elegant designs that reflect your brand identity and attract users.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="feature-card h-100 text-center">
-                        <div class="icon-box mb-3">
-                            <i class="bi bi-gear-wide-connected"></i>
-                        </div>
-                        <h5 class="font-weight-bold">Custom Functionality</h5>
-                        <p>Tailored web apps, dashboards, and integrations for your business goals.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="feature-card h-100 text-center">
-                        <div class="icon-box mb-3">
-                            <i class="bi bi-globe2"></i>
-                        </div>
-                        <h5 class="font-weight-bold">SEO & Marketing Ready</h5>
-                        <p>Optimized for search engines and designed to convert visitors into clients.</p>
-                    </div>
-                </div>
+                @endforeach
+                
             </div>
         </div>
     </section>
