@@ -478,7 +478,7 @@
     <!-- HERO -->
     
     @foreach ($services as $item)
-        <section class="hero-section d-flex align-items-center justify-content-center text-center" style="background: url('{{ asset('uploads/banner/' . ($item['banner_image'] ?? 'default.jpg')) }}') center/cover no-repeat; color: #fff; padding: 120px 0; position: relative;">
+        <section class="hero-section d-flex align-items-center justify-content-center text-center" style="background: url('{{ asset('uploads/banner/' . $item['banner_image'] ?? 'default.jpg') }}') center/cover no-repeat; color: #fff; padding: 120px 0; position: relative;">
             <div class="container hero-content">
                 <h1 class="display-4 font-weight-bold">{{ $item['title'] }}</h1>
                 <p class="lead text-white">{{ $item['sub_title'] }}</p>
