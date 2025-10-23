@@ -502,7 +502,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="{{ asset('uploads/' . $this->path . $service->image_path ?? 'default.jpg') }}"
+                    <img src="{{ asset('uploads/subservices/' . $service->image_path ?? 'default.jpg') }}"
                         class="img-fluid" alt="Web Development">
                 </div>
                 <div class="col-lg-6">
