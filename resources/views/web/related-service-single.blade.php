@@ -145,6 +145,9 @@
 {{-- schema section --}}
 
 @section('content')
+@php
+    $services = json_decode($service->banner_steps ?? '[]', true);
+    @endphp
     <!-- FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <!-- intl-tel-input -->
@@ -473,15 +476,12 @@
 
 
     <!-- HERO -->
-    @php
-        $services = json_decode($service->banner_steps, true); // true না দিলে object হবে
-    @endphp
+    
     @foreach ($services as $item)
-        <section class="hero-section d-flex align-items-center justify-content-center text-center">
+        <section class="hero-section d-flex align-items-center justify-content-center text-center" style="background: url('{{ $item->banner_image ?? '' }}') center/cover no-repeat; color: #fff; padding: 120px 0; position: relative;">
             <div class="container hero-content">
-                <h1 class="display-4 font-weight-bold">{{ $item->title }}</h1>
-                <p class="lead text-white">
-                </p>
+                <h1 class="display-4 font-weight-bold">{{ $item['title'] }}</h1>
+                <p class="lead text-white">{{ $item['sub_title'] }}</p>
                 <a href="#contact" style="background-color: #052C58; color: #ffffff;" class="btn btn-lg mt-3">Get Started</a>
             </div>
         </section>
