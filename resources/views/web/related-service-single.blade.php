@@ -475,11 +475,20 @@
 
     <!-- HERO -->
     @php
-    $services = json_decode($service->banner_steps ?? '[]', true);
+    $banners = json_decode($service->banner_steps ?? '[]', true);
+    $features = json_decode($service->features_steps ?? '[]', true);
+    $process = json_decode($service->process_steps ?? '[]', true);
+    $why_we = json_decode($service->why_we_steps ?? '[]', true);
+    $industries = json_decode($service->industries_steps ?? '[]', true);
+    $achievements = json_decode($service->achievements_steps ?? '[]', true);
+    $success_stories = json_decode($service->success_stories_steps ?? '[]', true);
+    $clients_say = json_decode($service->clients_say_steps ?? '[]', true);
+    $faq = json_decode($service->faq_steps ?? '[]', true);
+    $our_promise = json_decode($service->our_promise ?? '[]', true);
+    $cta = json_decode($service->cta_steps ?? '[]', true);
     @endphp
     
-    @foreach ($services as $item)
-    
+    @foreach ($banners as $item)
         <section class="hero-section d-flex align-items-center justify-content-center text-center" style="background: url('{{ asset('uploads/banner/' . $item['banner_image'] ?? 'default.jpg') }}') center/cover no-repeat; color: #fff; padding: 120px 0; position: relative;">
             <div class="container hero-content">
                 <h1 class="display-4 font-weight-bold">{{ $item['title'] }}</h1>
@@ -493,20 +502,13 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80"
+                    <img src="{{ asset('uploads/' . $this->path . $service->image_path ?? 'default.jpg') }}"
                         class="img-fluid" alt="Web Development">
                 </div>
                 <div class="col-lg-6">
-                    <h2 style="font-weight: 800" class=" mb-3">Professional Web Development</h2>
-                    <p>At <strong>MSNSoftech</strong>, we specialize in building websites that not only look great but
-                        also perform exceptionally. Our experienced developers create dynamic, user-friendly websites
-                        using modern technologies like <strong>Laravel, React, Vue, and Node.js</strong>.</p>
-                    <ul class="list-unstyled mt-3">
-                        <li>✔️ Responsive and Mobile-friendly Design</li>
-                        <li>✔️ SEO Optimized Code</li>
-                        <li>✔️ Fast Loading and Secure</li>
-                        <li>✔️ CMS Integration and Maintenance</li>
-                    </ul>
+                    <h2 style="font-weight: 800" class=" mb-3">{{ $service->title }}</h2>
+                    <p>{!! $service->description !!}</p>
+                    
                 </div>
             </div>
         </div>
