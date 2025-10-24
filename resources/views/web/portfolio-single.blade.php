@@ -82,7 +82,7 @@
       <p class="lead mb-0">{{ $portfolio->sub_title }}</p>
     </div>
   </section>
-@dd($portfolio->technologies)
+@dd($portfolio)
   <!-- Project Info -->
   <section class="project-info py-5">
     <div class="container">
