@@ -113,15 +113,11 @@
   <section class="portfolio-gallery py-5 bg-light">
     <div class="container">
       <div class="row">
-        <div class="col-md-4 mb-4">
-          <img src="https://images.unsplash.com/photo-1585247226801-bc613c441316?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2ViJTIwZGV2ZWxvcG1lbnR8ZW58MHwyfDB8fHwy&auto=format&fit=crop&q=60&w=600" class="img-fluid rounded shadow-sm" alt="Project Image 1">
-        </div>
-        <div class="col-md-4 mb-4">
-          <img src="https://images.unsplash.com/photo-1516131206008-dd041a9764fd?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8d2ViJTIwZGV2ZWxvcG1lbnR8ZW58MHwyfDB8fHwy&auto=format&fit=crop&q=60&w=600" class="img-fluid rounded shadow-sm" alt="Project Image 2">
-        </div>
-        <div class="col-md-4 mb-4">
-          <img src="https://images.unsplash.com/photo-1493020258366-be3ead1b3027?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHdlYiUyMGRldmVsb3BtZW50fGVufDB8MnwwfHx8Mg%3D%3D&auto=format&fit=crop&q=60&w=600" class="img-fluid rounded shadow-sm" alt="Project Image 3">
-        </div>
+        @foreach ($screenshotImage as $item)
+          <div class="col-md-4 mb-4">
+            <img style="width: 350px; height: 350px;" src="{{ asset('uploads/screenshot/' . $item['screenshot_image']) }}" class="img-fluid rounded shadow-sm" alt="Project Screenshot">
+          </div>
+        @endforeach
       </div>
     </div>
   </section>
