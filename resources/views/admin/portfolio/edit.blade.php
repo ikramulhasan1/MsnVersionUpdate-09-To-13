@@ -105,9 +105,9 @@
                             <div class="row screenshot-row">
 
                                 @php
-                                    $screenshotSteps = is_string($row->screenshot)
-                                        ? json_decode($row->screenshot)
-                                        : $row->screenshot;
+                                    $screenshots = is_array($row->screenshot)
+        ? $row->screenshot
+        : (json_decode($row->screenshot, true) ?? []);
                                 @endphp
 
                                 @foreach ($screenshotSteps ?? [] as $key => $screenshot_step)
@@ -246,7 +246,7 @@
         });
 
         
-        let screenshotIndex = {{ count($row->screenshot ?? []) }};
+let screenshotIndex = {{ count($screenshots) }};
 
         // Render all category options as string
 
