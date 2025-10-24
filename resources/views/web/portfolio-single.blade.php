@@ -144,7 +144,7 @@
   <section class="cta-section text-center text-white py-5">
     <div class="container">
       <h2 class="font-weight-bold mb-3">Have a Project in Mind?</h2>
-      <p class="mb-4">Let’s collaborate and build your next web project together.</p>
+      <p class="mb-4" style="font-size: 16px; color: white;" >Let’s collaborate and build your next web project together.</p>
       <a href="#" class="btn btn-light btn-lg px-4">Contact Us</a>
     </div>
   </section>
