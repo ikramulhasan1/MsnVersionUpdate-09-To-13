@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('portfolio_subservice', function (Blueprint $table) {
+        Schema::create('portfolio_technology', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('portfolio_id')->constrained()->onDelete('cascade');
-            $table->unsignedBigInteger('subservice_id')->constrained()->onDelete('cascade');
+            $table->foreignId('portfolio_id')->constrained()->onDelete('cascade');
+            $table->foreignId('technology_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('portfolio_subservice');
+        Schema::dropIfExists('portfolio_technology');
     }
 };

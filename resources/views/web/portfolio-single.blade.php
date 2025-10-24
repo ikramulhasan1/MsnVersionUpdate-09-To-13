@@ -45,267 +45,120 @@
 
 @section('content')
     <style>
-        table {
-            width: px;
-        }
+        
+.navbar-brand {
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+}
 
-        table,
-        table th,
-        table td {
-            border: solid;
-        }
+.portfolio-hero {
+  height: 70vh;
+  background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+              url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8d2ViJTIwZGV2ZWxvcG1lbnR8ZW58MHwwfDB8fHwy&auto=format&fit=crop&q=60&w=600') center/cover no-repeat;
+}
 
-        table th,
-        table td {
-            border: solid;
-        }
+.project-info h6 {
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
 
-        table th>ol>li,
-        table td>ul>li,
-        table th>ul>li,
-        table td>ol>li {
-            list-style: initial !important;
-            margin-left: 20px;
+.project-info p {
+  font-size: 1rem;
+}
 
-        }
+.project-description ul li {
+  margin-bottom: 10px;
+}
 
-        .marker {
-            background-color: yellow;
-        }
-
-        /* </p><table border="1" cellpadding="1" cellspacing="1" style="width:500px">  */
-
-        .description>ul>li {
-            margin-left: 30px !important;
-            list-style: initial;
-            font-size: 16px !important;
-        }
-
-        .description>ol>li {
-            margin-left: 30px !important;
-            all: revert;
-            font-size: 16px !important;
-        }
-
-        .description>ul>li>ul>li {
-            margin-left: 10px !important;
-            list-style: initial;
-            font-size: 16px !important;
-        }
-
-        .description>ol>li>ol>li {
-            margin-left: 10px !important;
-            all: revert;
-            font-size: 16px !important;
-        }
-
-        .description>ol>li>ul>li {
-            margin-left: 10px !important;
-            list-style: initial;
-            font-size: 16px !important;
-        }
-
-        .description>ul>li>ol>li {
-            margin-left: 10px !important;
-            all: revert;
-            font-size: 16px !important;
-        }
-
-        .description>p>a {
-            color: blue;
-            font-weight: bold;
-            text-decoration: underline;
-        }
-
-        .description>p {
-            font-size: 18px !important;
-        }
-
-
-
-
-        /* Hero Section */
-        .about-hero-section {
-            /* background: linear-gradient(135deg, rgba(106, 17, 203, 0.9), rgba(37, 117, 252, 0.9)), url('//images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover; */
-            background-color: #052C58;
-            height: 40vh;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .about-hero-section h1 {
-            font-size: 60px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .about-hero-section p {
-            font-size: 22px;
-            max-width: 700px;
-            margin: 0 auto;
-            opacity: 0.9;
-        }
-
-        .portfolio-btn{
-            background-color: #052C58 !important;
-            color: white !important;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-        }
+.cta-section {
+  background: linear-gradient(135deg, #007bff, #004a9f);
+}
     </style>
-    <!--Page Title-->
-    {{-- <section class="page-title">
-        <div class="container">
-            <div class="inner-container clearfix">
-                <div class="title-box">
-                    <h1>{{ $portfolio->title }}</h1>
-                </div>
-                <div class="bread-crumb">
-                    <ul>
-                        <li>{{ __('navbar.portfolio-detail') }}</li>
-                        <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
-                    </ul>
-                </div>
-            </div>
+   
+  <!-- Hero -->
+  <section class="portfolio-hero d-flex align-items-center text-center text-white">
+    <div class="container">
+      <h1 class="display-4 font-weight-bold mb-3">E-Commerce Website</h1>
+      <p class="lead mb-0">Crafted by MSN Softtech — A complete Laravel eCommerce solution.</p>
+    </div>
+  </section>
+
+  <!-- Project Info -->
+  <section class="project-info py-5">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-3 mb-3 mb-md-0">
+          <h6 class="text-muted text-uppercase">Client</h6>
+          <p class="font-weight-medium mb-0">FashionHut Ltd.</p>
         </div>
-    </section> --}}
-
-    <section class="about-hero-section" data-aos="fade">
-        <div class="container">
-            <h1>{{ $portfolio->title }}</h1>
-            <!-- <p>Building the Future of Technology and Business Innovation Together.</p> -->
+        <div class="col-md-3 mb-3 mb-md-0">
+          <h6 class="text-muted text-uppercase">Category</h6>
+          <p class="font-weight-medium mb-0">E-Commerce</p>
         </div>
-    </section>
-    <section class="page-title p-0" style="background-color: black;">
-        <div class="container d-flex" style="height: 40px; align-items: center; justify-content: flex-end;">
-            <div class="inner-container clearfix">
-                {{-- <div class="title-box">
-                    <h1>{{ __('navbar.contact') }}</h1>
-                </div> --}}
-                <div class="bread-crumb">
-                    <ul class="p-0">
-                        <li>{{ __('navbar.portfolio-detail') }}</li>
-                        <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
-                    </ul>
-                </div>
-            </div>
+        <div class="col-md-3 mb-3 mb-md-0">
+          <h6 class="text-muted text-uppercase">Technologies</h6>
+          <p class="font-weight-medium mb-0">Laravel, Bootstrap 4, MySQL</p>
         </div>
-    </section>
-    <!--End Page Title-->
+        <div class="col-md-3">
+          <h6 class="text-muted text-uppercase">Date</h6>
+          <p class="font-weight-medium mb-0">August 2025</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    @if(isset($portfolio))
-        <!--Portfolio Detail Section-->
-        <section class="project-details-section">
-            <div class="project-detail">
-                <div class="container">
-                    <!-- Upper Box -->
-                    <div class="upper-box">
-                        <div class="row project-tabs clearfix">
-                            <div class="content-column col-lg-8 col-md-12 col-sm-12">
-                                <figure class="image"><a href="{{ asset('uploads/portfolio/' . $portfolio->image_path) }}"
-                                        class="lightbox-image" data-fancybox="images"><img
-                                            src="{{ asset('uploads/portfolio/' . $portfolio->image_path) }}"
-                                            alt="{{ $portfolio->title }}"></a></figure>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="my-4">
-                        <div class="row d-flex justify-content-between content-column col-lg-8 col-md-12 col-sm-12">
-                            @if (!empty($portfolio->link))
-                                <div class="mb-3">
-                                    <a class="portfolio-btn" target="_blank" href="{{ $portfolio->link }}">Web view
-                                        {{-- <img
-                                            style="width:100%; height: 100%; box-shadow: 10px 10px 8px #888888;"
-                                            src="{{ asset('uploads/portfolio/view/Frontend.png') }}" alt="Frontend view"> --}}
-                                        </a>
-                                </div>
-                            @endif
-                            @if (!empty($portfolio->link2))
-                                <div class="mb-3">
-                                    <a class="portfolio-btn" target="_blank" href="{{ $portfolio->link2 }}">Admin dashboard
-                                        {{-- <img
-                                            style="width:100%; height: 100%; box-shadow: 10px 10px 8px #888888;"
-                                            src="{{ asset('uploads/portfolio/view/Admin.png') }}" alt="Admin view"> --}}
-                                        </a>
-                                </div>
-                            @endif
-                            @if (!empty($portfolio->link3))
-                                <div class="mb-3">
-                                    <a class="portfolio-btn" target="_blank" href="{{ $portfolio->link3 }}">User dashboard
-                                        {{-- <img
-                                            style="width:100%; height: 100%; box-shadow: 10px 10px 8px #888888;"
-                                            src="{{ asset('uploads/portfolio/view/User.png') }}" alt="Admin view"> --}}
-                                        </a>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
+  <!-- Gallery -->
+  <section class="portfolio-gallery py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <img src="https://images.unsplash.com/photo-1585247226801-bc613c441316?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2ViJTIwZGV2ZWxvcG1lbnR8ZW58MHwyfDB8fHwy&auto=format&fit=crop&q=60&w=600" class="img-fluid rounded shadow-sm" alt="Project Image 1">
+        </div>
+        <div class="col-md-4 mb-4">
+          <img src="https://images.unsplash.com/photo-1516131206008-dd041a9764fd?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8d2ViJTIwZGV2ZWxvcG1lbnR8ZW58MHwyfDB8fHwy&auto=format&fit=crop&q=60&w=600" class="img-fluid rounded shadow-sm" alt="Project Image 2">
+        </div>
+        <div class="col-md-4 mb-4">
+          <img src="https://images.unsplash.com/photo-1493020258366-be3ead1b3027?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHdlYiUyMGRldmVsb3BtZW50fGVufDB8MnwwfHx8Mg%3D%3D&auto=format&fit=crop&q=60&w=600" class="img-fluid rounded shadow-sm" alt="Project Image 3">
+        </div>
+      </div>
+    </div>
+  </section>
 
-                    <!--Lower Content-->
-                    <div class="lower-content">
-                        <div class="row clearfix">
+  <!-- Description -->
+  <section class="project-description py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <img src="https://media.istockphoto.com/id/2212360504/photo/holographic-ui-ux-display-icons-of-ux-ui-designer-creative-planning-data-visualization-web.webp?a=1&b=1&s=612x612&w=0&k=20&c=tglFI9NeJVQNtibp78qcgjGBPkX43btcoxkLc1RN2_o=" class="img-fluid rounded shadow" alt="Main Project Image">
+        </div>
+        <div class="col-lg-6">
+          <h3 class="font-weight-bold mb-3">Project Overview</h3>
+          <p class="text-muted">
+            MSN Softtech created a custom-built e-commerce platform that’s fully optimized for conversions and scalability.
+            The project includes admin controls, advanced filtering, and seamless payment gateways.
+          </p>
+          <ul class="list-unstyled">
+            <li>✔ Responsive design</li>
+            <li>✔ Secure authentication</li>
+            <li>✔ Dynamic product management</li>
+            <li>✔ Admin analytics dashboard</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
-                            <!--Content Column-->
-                            <div class="content-column col-lg-8 col-md-12 col-sm-12">
-                                <div class="inner-column">
-                                    <h2>{{ $portfolio->title }}</h2>
-                                    {{-- <div class="description">
-
-                                        {!! $portfolio->description !!}
-                                    </div> --}}
-                                    @php
-                                        $modifiedDescription = preg_replace_callback(
-                                            '/<a\s+[^>]*href=["\']((?!mailto:)[^"\']+)["\'][^>]*>.*?<\/a>/i',
-                                            function ($matches) {
-                                                $url = $matches[1];
-                                                return '<a href="' . $url . '" target="_blank" style="font-weight: 700; color: #0d00ff;" rel="noopener noreferrer">Visit Now</a>';
-                                            },
-                                            $portfolio->description
-                                        );
-                                    @endphp
-
-                                    <div class="description">
-                                        {!! $modifiedDescription !!}
-                                    </div>
+  <!-- CTA -->
+  <section class="cta-section text-center text-white py-5">
+    <div class="container">
+      <h2 class="font-weight-bold mb-3">Have a Project in Mind?</h2>
+      <p class="mb-4">Let’s collaborate and build your next web project together.</p>
+      <a href="#" class="btn btn-light btn-lg px-4">Contact Us</a>
+    </div>
+  </section>
 
 
-
-
-                                    @if(!empty($portfolio->video_id))
-                                        <div class="embed-responsive embed-responsive-16by9">
-                                            <iframe class="embed-responsive-item"
-                                                src="https://www.youtube.com/embed/{{ $portfolio->video_id }}?rel=0"
-                                                allowfullscreen></iframe>
-                                        </div>
-                                    @endif
-                                </div>
-
-                                @php
-                                    $page_quote = \App\Models\PageSetup::page('get-quote');
-                                    $page_contact = \App\Models\PageSetup::page('contact-us');
-                                @endphp
-                                @if(isset($page_quote))
-                                    <a style="background-color: #052C58 !important;" href="{{ route('get-quote') }}"
-                                        class="theme-btn btn-style-four mt-3">{{ __('navbar.get_quote') }}</a>
-                                @elseif(isset($page_contact))
-                                    <a style="background-color: #052C58 !important;" href="{{ route('contact') }}"
-                                        class="theme-btn btn-style-four mt-3">{{ __('common.get_start') }}</a>
-                                @endif
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--End Portfolio Details-->
-    @endif
-
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 @endsection
