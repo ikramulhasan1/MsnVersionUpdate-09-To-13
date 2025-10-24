@@ -14,101 +14,101 @@
     @endif
 
     <script type="application/ld+json">
-                                        {
-                                          "@context": "http://schema.org",
-                                          "@type": "Product",
-                                          "name": "{{ $service->title }}",
-                                          "image": {
-                                            "@type": "ImageObject",
-                                            "url": "{{ asset('uploads/service/' . $service->image_path) }}",
-                                            "width": "100",
-                                            "height": "100"
-                                          },
+                                            {
+                                              "@context": "http://schema.org",
+                                              "@type": "Product",
+                                              "name": "{{ $service->title }}",
+                                              "image": {
+                                                "@type": "ImageObject",
+                                                "url": "{{ asset('uploads/service/' . $service->image_path) }}",
+                                                "width": "100",
+                                                "height": "100"
+                                              },
 
-                                          "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
-                                          "url": "{{ route('service.related-single', $service->slug) }}",
-                                          "brand": {
-                                            "@type": "Brand",
-                                            "name": "MSN Softtech",
-                                            "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
-                                          },
-                                          "offers": {
-                                            "@type": "Offer",
-                                            "price": "{{ $service->price ?? '999' }}",
-                                            "priceCurrency": "USD",
-                                            "availability": "https://schema.org/InStock",
-                                            "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
-                                            "hasMerchantReturnPolicy": {
-                                              "@type": "MerchantReturnPolicy",
-                                              "applicableCountry": "US",
-                                              "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                                              "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
-                                              "returnShippingFeesAmount": {
-                                                "@type": "MonetaryAmount",
-                                                "value": "0.00",
-                                                "currency": "USD"
+                                              "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
+                                              "url": "{{ route('service.related-single', $service->slug) }}",
+                                              "brand": {
+                                                "@type": "Brand",
+                                                "name": "MSN Softtech",
+                                                "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
                                               },
-                                              "merchantReturnDays": "30",
-                                              "returnMethod": "https://schema.org/ReturnByMail",
-                                              "returnFees": "FreeReturn"
-                                            },
-                                            "shippingDetails": {
-                                              "@type": "OfferShippingDetails",
-                                              "shippingRate": {
-                                                "@type": "MonetaryAmount",
-                                                "value": "0.00",
-                                                "currency": "USD"
-                                              },
-                                              "deliveryTime": {
-                                                "@type": "ShippingDeliveryTime",
-                                                "businessDays": {
-                                                  "@type": "OpeningHoursSpecification",
-                                                  "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
-                                                  "https://schema.org/Sunday"]
+                                              "offers": {
+                                                "@type": "Offer",
+                                                "price": "{{ $service->price ?? '999' }}",
+                                                "priceCurrency": "USD",
+                                                "availability": "https://schema.org/InStock",
+                                                "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
+                                                "hasMerchantReturnPolicy": {
+                                                  "@type": "MerchantReturnPolicy",
+                                                  "applicableCountry": "US",
+                                                  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                                                  "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
+                                                  "returnShippingFeesAmount": {
+                                                    "@type": "MonetaryAmount",
+                                                    "value": "0.00",
+                                                    "currency": "USD"
+                                                  },
+                                                  "merchantReturnDays": "30",
+                                                  "returnMethod": "https://schema.org/ReturnByMail",
+                                                  "returnFees": "FreeReturn"
                                                 },
-                                                "handlingTime": {
-                                                  "@type": "QuantitativeValue",
-                                                  "minValue": 1,
-                                                  "maxValue": 2,
-                                                  "unitCode": "DAY"
-                                                },
-                                                "transitTime": {
-                                                  "@type": "QuantitativeValue",
-                                                  "minValue": 3,
-                                                  "maxValue": 5,
-                                                  "unitCode": "DAY"
+                                                "shippingDetails": {
+                                                  "@type": "OfferShippingDetails",
+                                                  "shippingRate": {
+                                                    "@type": "MonetaryAmount",
+                                                    "value": "0.00",
+                                                    "currency": "USD"
+                                                  },
+                                                  "deliveryTime": {
+                                                    "@type": "ShippingDeliveryTime",
+                                                    "businessDays": {
+                                                      "@type": "OpeningHoursSpecification",
+                                                      "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
+                                                      "https://schema.org/Sunday"]
+                                                    },
+                                                    "handlingTime": {
+                                                      "@type": "QuantitativeValue",
+                                                      "minValue": 1,
+                                                      "maxValue": 2,
+                                                      "unitCode": "DAY"
+                                                    },
+                                                    "transitTime": {
+                                                      "@type": "QuantitativeValue",
+                                                      "minValue": 3,
+                                                      "maxValue": 5,
+                                                      "unitCode": "DAY"
+                                                    }
+                                                  },
+                                                  "shippingDestination": {
+                                                    "@type": "DefinedRegion",
+                                                    "addressCountry": "US"
+                                                  }
                                                 }
                                               },
-                                              "shippingDestination": {
-                                                "@type": "DefinedRegion",
-                                                "addressCountry": "US"
+                                              "aggregateRating": {
+                                                "@type": "AggregateRating",
+                                                "ratingValue": "{{ $service->average_rating }}",
+                                                "bestRating": "5",
+                                                "worstRating": "1",
+                                                "ratingCount": "{{ $service->review_count }}",
+                                              },
+                                              "review": {
+                                                "@type": "Review",
+                                                "author": {
+                                                  "@type": "Person",
+                                                  "name": "Joseph Garcia"
+                                                },
+                                                "datePublished": "{{ $service->created_at->format('Y-m-d') }}",
+                                                "reviewRating": {
+                                                  "@type": "Rating",
+                                                  "ratingValue": "5",
+                                                  "bestRating": "5",
+                                                  "worstRating": "1"
+                                                },
+                                                "reviewBody": "MSN Softtech delivered an exceptional custom {{ $service->short_title }} solution that enhanced our online presence and improved performance."
                                               }
                                             }
-                                          },
-                                          "aggregateRating": {
-                                            "@type": "AggregateRating",
-                                            "ratingValue": "{{ $service->average_rating }}",
-                                            "bestRating": "5",
-                                            "worstRating": "1",
-                                            "ratingCount": "{{ $service->review_count }}",
-                                          },
-                                          "review": {
-                                            "@type": "Review",
-                                            "author": {
-                                              "@type": "Person",
-                                              "name": "Joseph Garcia"
-                                            },
-                                            "datePublished": "{{ $service->created_at->format('Y-m-d') }}",
-                                            "reviewRating": {
-                                              "@type": "Rating",
-                                              "ratingValue": "5",
-                                              "bestRating": "5",
-                                              "worstRating": "1"
-                                            },
-                                            "reviewBody": "MSN Softtech delivered an exceptional custom {{ $service->short_title }} solution that enhanced our online presence and improved performance."
-                                          }
-                                        }
-                                        </script>
+                                            </script>
 
 
     <!-- JSON-LD markup generated by Google Structured Data Markup Helper. -->
@@ -172,9 +172,9 @@
         /* HERO */
         .hero-section {
             /* background: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
-                            color: #fff;
-                            padding: 120px 0;
-                            position: relative; */
+                                color: #fff;
+                                padding: 120px 0;
+                                position: relative; */
         }
 
         .hero-section::before {
@@ -646,12 +646,9 @@
 
     <!-- STYLING -->
     <style>
-      
-
         .stat-number {
             font-size: 2.5rem;
         }
-
     </style>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -661,26 +658,27 @@
         <section class="py-5 bg-light">
             <div class="container">
                 <h2 style="font-weight: 800" class="section-title">Recent Projects</h2>
-            <p style="font-weight: 800" class="section-subtitle">Explore some of our successful work for clients around the
-                world.</p>
+                <p style="font-weight: 800" class="section-subtitle">Explore some of our successful work for clients around the
+                    world.</p>
 
-            <div class="row">
-                @foreach ($service->portfolios as $portfolio)
-                    <div class="col-md-4 mb-4">
-                        <div class="project-item position-relative overflow-hidden rounded shadow-sm"
-                            style="width: 350px; height:233px ">
-                            <img src="{{ asset('uploads/portfolio/' . $portfolio->image_path) }}"
-                                class="img-fluid" alt="{{ $portfolio->title }}">
-                            <div class="project-overlay">
-                                <h5><a href="{{ route('portfolio.single', $portfolio->slug) }}" class="text-white font-weight-bold">{{ $portfolio->title }}</a></h5>
+                <div class="row">
+                    @foreach ($service->portfolios as $portfolio)
+                        <div class="col-md-4 mb-4">
+                            <div class="project-item position-relative overflow-hidden rounded shadow-sm"
+                                style="width: 350px; height:233px ">
+                                <img src="{{ asset('uploads/portfolio/' . $portfolio->image_path) }}" class="img-fluid"
+                                    alt="{{ $portfolio->title }}">
+                                <div class="project-overlay">
+                                    <h5><a href="{{ route('portfolio.single', $portfolio->slug) }}"
+                                            class="text-white font-weight-bold">{{ $portfolio->title }}</a></h5>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-                
+                    @endforeach
+
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
     @endif
     <!-- TECHNOLOGIES -->
     @if (!empty($service->technologies) && count($service->technologies) > 0)
