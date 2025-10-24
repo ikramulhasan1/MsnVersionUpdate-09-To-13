@@ -93,7 +93,7 @@
         </div>
         <div class="col-md-3 mb-3 mb-md-0">
           <h6 class="text-muted text-uppercase">Category</h6>
-          <p class="font-weight-medium mb-0">{{ $portfolio->category }}</p>
+          <p class="font-weight-medium mb-0">{{ $portfolio->categories->pluck('title')->join(', ') }}</p>
         </div>
         <div class="col-md-3 mb-3 mb-md-0">
           <h6 class="text-muted text-uppercase">Technologies</h6>
