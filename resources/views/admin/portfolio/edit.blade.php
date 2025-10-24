@@ -43,7 +43,7 @@
                             <div class="form-group">
                                 <label for="subtitle">Sub {{ __('dashboard.sub_title') }} <span>*</span></label>
                                 <input type="text" class="form-control" name="sub_title" id="subtitle"
-                                    value="{{ old('sub_title') }}" required>
+                                    value="{{ $row->sub_title }}" required>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.sub_title') }}
@@ -53,7 +53,7 @@
                                 <div class="form-group col-lg-6 col-md-6 col-12">
                                     <label for="client">{{ __('dashboard.client') }} <span>*</span></label>
                                     <input type="text" class="form-control" name="client" id="client"
-                                        value="{{ old('client') }}" required>
+                                        value="{{ $row->client }}" required>
 
                                     <div class="invalid-feedback">
                                         {{ __('dashboard.please_provide') }} {{ __('dashboard.client') }}
@@ -62,7 +62,7 @@
                                 <div class="form-group col-lg-6 col-md-6 col-12">
                                     <label for="date">{{ __('dashboard.date') }} <span>*</span></label>
                                     <input type="date" class="form-control" name="date" id="date"
-                                        value="{{ old('date') }}" required>
+                                        value="{{ $row->date }}" required>
 
                                     <div class="invalid-feedback">
                                         {{ __('dashboard.please_provide') }} {{ __('dashboard.date') }}
@@ -106,11 +106,11 @@
 
                                 @php
                                     $screenshots = is_array($row->screenshot)
-        ? $row->screenshot
-        : (json_decode($row->screenshot, true) ?? []);
+                                    ? $row->screenshot
+                                    : (json_decode($row->screenshot, true) ?? []);
                                 @endphp
 
-                                @foreach ($screenshotSteps ?? [] as $key => $screenshot_step)
+                                @foreach ($screenshots ?? [] as $key => $screenshot_step)
                                     <div class="form-group col-10 screenshot-group mb-2 row">
                                         <div class="col-1">
                                             {{ $key + 1 }}.
@@ -121,7 +121,7 @@
                                                 <input type="file" class="form-control mb-1 mr-3 w-75"
                                                     name="screenshot[{{ $key }}][screenshot_image]">
                                                 <img style="width: 40px; height: 40px;"
-                                                    src="{{ asset('uploads/screenshot/' . $screenshot_step->screenshot_image) }}"
+                                                    src="{{ asset('uploads/screenshot/' . $screenshot_step['screenshot_image']) }}"
                                                     class="process-step-icon" alt="">
                                             </div>
                                         </div>
