@@ -78,8 +78,8 @@
   <!-- Hero -->
   <section class="portfolio-hero d-flex align-items-center text-center text-white">
     <div class="container">
-      <h1 class="display-4 font-weight-bold mb-3">E-Commerce Website</h1>
-      <p class="lead mb-0">Crafted by MSN Softtech — A complete Laravel eCommerce solution.</p>
+      <h1 class="display-4 font-weight-bold mb-3">{{ $portfolio->title }}</h1>
+      <p class="lead mb-0">{{ $portfolio->sub_title }}</p>
     </div>
   </section>
 
@@ -89,19 +89,19 @@
       <div class="row text-center">
         <div class="col-md-3 mb-3 mb-md-0">
           <h6 class="text-muted text-uppercase">Client</h6>
-          <p class="font-weight-medium mb-0">FashionHut Ltd.</p>
+          <p class="font-weight-medium mb-0">{{ $portfolio->client }}</p>
         </div>
         <div class="col-md-3 mb-3 mb-md-0">
           <h6 class="text-muted text-uppercase">Category</h6>
-          <p class="font-weight-medium mb-0">E-Commerce</p>
+          <p class="font-weight-medium mb-0">{{ $portfolio->category }}</p>
         </div>
         <div class="col-md-3 mb-3 mb-md-0">
           <h6 class="text-muted text-uppercase">Technologies</h6>
-          <p class="font-weight-medium mb-0">Laravel, Bootstrap 4, MySQL</p>
+          <p class="font-weight-medium mb-0">{{ implode(', ', $portfolio->technologies->pluck('title')->toArray()) }}</p>
         </div>
         <div class="col-md-3">
           <h6 class="text-muted text-uppercase">Date</h6>
-          <p class="font-weight-medium mb-0">August 2025</p>
+          <p class="font-weight-medium mb-0">{{ $portfolio->date }}</p>
         </div>
       </div>
     </div>
@@ -134,15 +134,9 @@
         <div class="col-lg-6">
           <h3 class="font-weight-bold mb-3">Project Overview</h3>
           <p class="text-muted">
-            MSN Softtech created a custom-built e-commerce platform that’s fully optimized for conversions and scalability.
-            The project includes admin controls, advanced filtering, and seamless payment gateways.
+            {!! $portfolio->description !!}
           </p>
-          <ul class="list-unstyled">
-            <li>✔ Responsive design</li>
-            <li>✔ Secure authentication</li>
-            <li>✔ Dynamic product management</li>
-            <li>✔ Admin analytics dashboard</li>
-          </ul>
+          
         </div>
       </div>
     </div>
