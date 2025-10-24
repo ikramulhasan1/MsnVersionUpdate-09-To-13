@@ -115,7 +115,7 @@
       <div class="row">
         @foreach ($screenshotImage as $item)
           <div class="col-md-4 mb-4">
-            <img style="width: 350px; height: 350px;" src="{{ asset('uploads/screenshot/' . $item['screenshot_image']) }}" class="img-fluid rounded shadow-sm" alt="Project Screenshot">
+            <img style="width: 350px; height: 300px;" src="{{ asset('uploads/screenshot/' . $item['screenshot_image']) }}" class="img-fluid rounded shadow-sm" alt="Project Screenshot">
           </div>
         @endforeach
       </div>
