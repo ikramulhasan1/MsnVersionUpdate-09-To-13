@@ -2,570 +2,612 @@
 @section('title', $title)
 @section('content')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
-@php
-    // Prevent undefined variable errors for Create page
-    $bannerSteps = $bannerSteps ?? [];
-    $features = $features ?? [];
-    $process_steps = $process_steps ?? [];
-    $whyWeSteps = $whyWeSteps ?? [];
-    $industriesSteps = $industriesSteps ?? [];
-    $achievementsSteps = $achievementsSteps ?? [];
-    $successStoriesSteps = $successStoriesSteps ?? [];
-    $clientsSaySteps = $clientsSaySteps ?? [];
-    $faqSteps = $faqSteps ?? [];
-    $ourPromise = $ourPromise ?? [];
-    $ctaSteps = $ctaSteps ?? [];
-@endphp
+    @php
+        // Prevent undefined variable errors for Create page
+        $bannerSteps = $bannerSteps ?? [];
+        $features = $features ?? [];
+        $process_steps = $process_steps ?? [];
+        $whyWeSteps = $whyWeSteps ?? [];
+        $industriesSteps = $industriesSteps ?? [];
+        $achievementsSteps = $achievementsSteps ?? [];
+        $successStoriesSteps = $successStoriesSteps ?? [];
+        $clientsSaySteps = $clientsSaySteps ?? [];
+        $faqSteps = $faqSteps ?? [];
+        $ourPromise = $ourPromise ?? [];
+        $ctaSteps = $ctaSteps ?? [];
+    @endphp
 
-<!-- Start Content -->
-<div class="container-fluid">
+    <!-- Start Content -->
+    <div class="container-fluid">
 
-    <!-- start page title -->
-    <!-- Include page breadcrumb -->
-    @include('admin.inc.breadcrumb')
-    <!-- end page title -->
+        <!-- start page title -->
+        <!-- Include page breadcrumb -->
+        @include('admin.inc.breadcrumb')
+        <!-- end page title -->
 
 
-    <div class="row">
-        <div class="col-12">
-            <a href="{{ route('admin.subservices.index') }}" class="btn btn-info">{{ __('dashboard.back') }}</a>
+        <div class="row">
+            <div class="col-12">
+                <a href="{{ route('admin.subservices.index') }}" class="btn btn-info">{{ __('dashboard.back') }}</a>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-12 col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    {{-- <h4 class="header-title">{{ __('dashboard.add') }} {{ $title }}</h4> --}}
-                </div>
-                <form class="needs-validation" novalidate action="{{ route('admin.subservices.store') }}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="status">{{ __('dashboard.select_status') }}</label>
-                            <select class="wide" name="service_id" id="status" data-plugin="customselect">
-                                @foreach ($services as $service)
-                                <option value="{{$service->id}}">{{$service->title }}</option>
+        <div class="row">
+            <div class="col-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        {{-- <h4 class="header-title">{{ __('dashboard.add') }} {{ $title }}</h4> --}}
+                    </div>
+                    <form class="needs-validation" novalidate action="{{ route('admin.subservices.store') }}" method="post"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="status">{{ __('dashboard.select_status') }}</label>
+                                <select class="wide" name="service_id" id="status" data-plugin="customselect">
+                                    @foreach ($services as $service)
+                                        <option value="{{ $service->id }}">{{ $service->title }}</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+                            <!-- Form Start -->
+                            <div class="form-group">
+                                <label for="title">{{ __('dashboard.title') }} <span>*</span></label>
+                                <input type="text" class="form-control" name="title" id="title"
+                                    value="{{ old('title') }}" required>
+
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.title') }}
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="slug">{{ __('dashboard.slug') }} <span>* [Write a unique
+                                            slug]</span></label>
+                                    <input type="text" class="form-control" name="slug" id="slug"
+                                        value="{{ old('slug') }}" required>
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.slug') }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="short_title">{{ __('dashboard.short_title') }} <span>*</span></label>
+                                    <input type="text" class="form-control" name="short_title" id="short_title"
+                                        value="{{ old('short_title') }}" required>
+
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.short_title') }}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
+                                <textarea class="form-control" name="description" id="editor1" rows="8" required>{{ old('description') }}</textarea>
+
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
+                                </div>
+                            </div>
+                            {{-- --}}
+                            <hr>
+                            <h3>Banner Section</h3>
+                            <div class="row banner-row">
+
+                                @foreach ($bannerSteps ?? [] as $key => $banner_step)
+                                    <div class="form-group col-10 banner-group mb-2 row">
+                                        <div class="col-1">
+                                            {{ $key + 1 }}.
+                                        </div>
+                                        <div class="col-11">
+                                            <input type="text" class="form-control mb-1"
+                                                name="banner[{{ $key }}][title]"
+                                                placeholder="{{ $key + 1 }}. Title">
+                                            <input type="text" class="form-control mb-1"
+                                                name="banner[{{ $key }}][sub_title]"
+                                                placeholder="{{ $key + 1 }}. Sub title">
+                                            <div class="d-flex">
+                                                <input type="file" class="form-control mb-1 mr-3 w-75"
+                                                    name="banner[{{ $key }}][banner_image]">
+                                                <img style="width: 40px; height: 40px;"
+                                                    src="{{ asset('uploads/banner/' . $banner_step->banner_image) }}"
+                                                    class="process-step-icon" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
-                                
-                            </select>
-                        </div>
-                        <!-- Form Start -->
-                        <div class="form-group">
-                            <label for="title">{{ __('dashboard.title') }} <span>*</span></label>
-                            <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}" required>
 
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.title') }}
-                            </div>
-                        </div>
-                        
-
-                        <div class="row">                        
-                            <div class="form-group col-6">
-                                <label for="slug">{{ __('dashboard.slug') }} <span>* [Write a unique slug]</span></label>
-                                <input type="text" class="form-control" name="slug" id="slug" value="{{ old('slug') }}" required>
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.slug') }}
+                                <div class="form-group col-2">
+                                    <button class="btn btn-success" type="button"
+                                        onclick="addBanner()">{{ __('dashboard.add_work_process') }}</button>
                                 </div>
+                                <br><br>
                             </div>
-                            <div class="form-group col-6">
-                                <label for="short_title">{{ __('dashboard.short_title') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="short_title" id="short_title" value="{{ old('short_title') }}" required>
-    
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.short_title') }}
-                                </div>
+                            <div class="form-group mb-4">
+                                <label for="technologies"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Technologies</label>
+                                <select name="technologies[]" id="technologies" multiple>
+                                    @foreach ($allTechnologies as $tech)
+                                        <option value="{{ $tech->id }}">
+                                            {{ $tech->title }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
-                        </div>
-                        
-
-                        <div class="form-group">
-                            <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
-                            <textarea class="form-control" name="description" id="editor1" rows="8" required>{{ old('description') }}</textarea>
-
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
+                            <div class="form-group mb-4">
+                                <label for="portfolios"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Portfolios</label>
+                                <select name="portfolios[]" id="portfolios" multiple>
+                                    @foreach ($allPortfolios as $portfolio)
+                                        <option value="{{ $portfolio->id }}">
+                                            {{ $portfolio->title }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
-                        </div>
-                        {{-- --}}
-                                <hr>
-                                <h3>Banner Section</h3>
-                                <div class="row banner-row">
 
-                                    @foreach ($bannerSteps ?? [] as $key => $banner_step)
-                                        <div class="form-group col-10 banner-group mb-2 row">
+
+                            <hr>
+                            <h3>Core Features</h3>
+                            <div class="row features-row">
+
+                                @if (!empty($features) && is_array($features))
+                                    @foreach ($features as $key => $feature)
+                                        <div class="form-group col-10 features-group mb-2 row">
                                             <div class="col-1">
                                                 {{ $key + 1 }}.
                                             </div>
                                             <div class="col-11">
-                                                <input type="text" class="form-control mb-1" name="banner[{{ $key }}][title]"
-                                                     placeholder="{{ $key + 1 }}. Title">
                                                 <input type="text" class="form-control mb-1"
-                                                    name="banner[{{ $key }}][sub_title]" 
-                                                    placeholder="{{ $key + 1 }}. Sub title">
-                                                <div class="d-flex">
-                                                    <input type="file" class="form-control mb-1 mr-3 w-75"
-                                                        name="banner[{{ $key }}][banner_image]">
-                                                    <img style="width: 40px; height: 40px;"
-                                                        src="{{ asset('uploads/banner/' . $banner_step->banner_image) }}"
-                                                        class="process-step-icon" alt="">
-                                                </div>
+                                                    name="features[{{ $key }}][icon_class]"
+                                                    value="{{ $feature['icon_class'] }}"
+                                                    placeholder="{{ $key + 1 }}. Icon Class">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="features[{{ $key }}][title]"
+                                                    value="{{ $feature['title'] }}"
+                                                    placeholder="{{ $key + 1 }}. Title">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="features[{{ $key }}][bottom_text]"
+                                                    value="{{ $feature['bottom_text'] }}"
+                                                    placeholder="{{ $key + 1 }}. Bottom Text">
                                             </div>
                                         </div>
                                     @endforeach
-
-                                    <div class="form-group col-2">
-                                        <button class="btn btn-success" type="button"
-                                            onclick="addBanner()">{{ __('dashboard.add_work_process') }}</button>
-                                    </div>
-                                    <br><br>
+                                @endif
+                                <div class="form-group col-2">
+                                    <button class="btn btn-success" type="button"
+                                        onclick="addFeatures()">{{ __('dashboard.add_another_FAQ') }}</button>
                                 </div>
-                                <div class="form-group mb-4">
-                                    <label for="technologies"
-                                        class="block text-sm font-medium text-gray-700 mb-1">Technologies</label>
-                                    <select name="technologies[]" id="technologies" multiple>
-                                        @foreach($allTechnologies as $tech)
-                                            <option value="{{ $tech->id }}">
-                                                {{ $tech->title }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label for="portfolios"
-                                        class="block text-sm font-medium text-gray-700 mb-1">Portfolios</label>
-                                    <select name="portfolios[]" id="portfolios" multiple>
-                                        @foreach($allPortfolios as $portfolio)
-                                            <option value="{{ $portfolio->id }}">
-                                                {{ $portfolio->title }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-
-                                <hr>
-                                <h3>Core Features</h3>
-                                <div class="row features-row">
-                                   
-                                    @if (!empty($features) && is_array($features))
-                                        @foreach ($features as $key => $feature)
-                                            <div class="form-group col-10 features-group mb-2 row">
-                                                <div class="col-1">
-                                                    {{ $key + 1 }}.
-                                                </div>
-                                                <div class="col-11">
-                                                    <input type="text" class="form-control mb-1"
-                                                        name="features[{{ $key }}][icon_class]" value="{{ $feature['icon_class'] }}"
-                                                        placeholder="{{ $key + 1 }}. Icon Class">
-                                                    <input type="text" class="form-control mb-1" name="features[{{ $key }}][title]"
-                                                        value="{{ $feature['title'] }}" placeholder="{{ $key + 1 }}. Title">
-                                                    <input type="text" class="form-control mb-1"
-                                                        name="features[{{ $key }}][bottom_text]"
-                                                        value="{{ $feature['bottom_text'] }}"
-                                                        placeholder="{{ $key + 1 }}. Bottom Text">
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                    <div class="form-group col-2">
-                                        <button class="btn btn-success" type="button"
-                                            onclick="addFeatures()">{{ __('dashboard.add_another_FAQ') }}</button>
-                                    </div>
-                                    <br><br>
-                                </div>
-
-                                <hr>
-                                <h3>Work Process</h3>
-                                <div class="row process-row">
-                                    
-                                    @if (!empty($process_steps) && is_array($process_steps))
-                                        @foreach ($process_steps as $key => $step)
-                                            <div class="form-group col-10 process-group mb-2 row">
-                                                <div class="col-1">
-                                                    {{ $key + 1 }}.
-                                                </div>
-                                                <div class="col-11">
-                                                    <input type="text" class="form-control mb-1" name="process[{{ $key }}][title]"
-                                                        value="{{ $step['title'] }}" placeholder="{{ $key + 1 }}. Title">
-                                                    <input type="text" class="form-control mb-1"
-                                                        name="process[{{ $key }}][bottom_text]" value="{{ $step['bottom_text'] }}"
-                                                        placeholder="{{ $key + 1 }}. Bottom Text">
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                    <div class="form-group col-2">
-                                        <button class="btn btn-success" type="button"
-                                            onclick="addProcess()">{{ __('dashboard.add_another_FAQ') }}</button>
-                                    </div>
-                                    <br><br>
-                                </div>
-
-                                <hr>
-                                <h3>Why Choose Us</h3>
-                                <div class="row WhyWe-row">
-                                   
-                                    @if (!empty($whyWeSteps) && is_array($whyWeSteps))
-                                        @foreach ($whyWeSteps as $key => $why)
-                                            <div class="form-group col-10 WhyWe-group mb-2 row">
-                                                <div class="col-1">
-                                                    {{ $key + 1 }}.
-                                                </div>
-                                                <div class="col-11">
-                                                    <input type="text" class="form-control mb-1"
-                                                        name="why_we[{{ $key }}][icon_class]" value="{{ $why['icon_class'] }}"
-                                                        placeholder="{{ $key + 1 }}. Icon Class">
-                                                    <input type="text" class="form-control mb-1" name="why_we[{{ $key }}][title]"
-                                                        value="{{ $why['title'] }}" placeholder="{{ $key + 1 }}. Title">
-                                                    <input type="text" class="form-control mb-1"
-                                                        name="why_we[{{ $key }}][bottom_text]" value="{{ $why['bottom_text'] }}"
-                                                        placeholder="{{ $key + 1 }}. Bottom Text">
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                    <div class="form-group col-2">
-                                        <button class="btn btn-success" type="button"
-                                            onclick="addWhyWe()">{{ __('dashboard.add_another_FAQ') }}</button>
-                                    </div>
-                                    <br><br>
-                                </div>
-                                <hr>
-                                <h3>Industries We Serve</h3>
-                                <div class="row industries-row">
-                                   
-                                    @if (!empty($industriesSteps) && is_array($industriesSteps))
-                                        @foreach ($industriesSteps as $key => $industry)
-                                            <div class="form-group col-10 industry-group mb-2 row">
-                                                <div class="col-1">
-                                                    {{ $key + 1 }}.
-                                                </div>
-                                                <div class="col-11">
-                                                    <input type="text" class="form-control mb-1"
-                                                        name="industry[{{ $key }}][icon_class]"
-                                                        value="{{ $industry['icon_class'] }}"
-                                                        placeholder="{{ $key + 1 }}. Icon Class">
-                                                    <input type="text" class="form-control mb-1" name="industry[{{ $key }}][title]"
-                                                        value="{{ $industry['title'] }}" placeholder="{{ $key + 1 }}. Title">
-
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                    <div class="form-group col-2">
-                                        <button class="btn btn-success" type="button"
-                                            onclick="addIndustries()">{{ __('dashboard.add_another_FAQ') }}</button>
-                                    </div>
-                                    <br><br>
-                                </div>
-                                <hr>
-                                <h3>Achievements</h3>
-                                <div class="row achievement-row">
-                                    
-                                    @if (!empty($achievementsSteps) && is_array($achievementsSteps))
-                                        @foreach ($achievementsSteps as $key => $achievement)
-                                            <div class="form-group col-10 achievement-group mb-2 row">
-                                                <div class="col-1">
-                                                    {{ $key + 1 }}.
-                                                </div>
-                                                <div class="col-11">
-                                                    <input type="text" class="form-control mb-1"
-                                                        name="achievement[{{ $key }}][count_number]"
-                                                        value="{{ $achievement['count_number'] }}"
-                                                        placeholder="{{ $key + 1 }}. Count Number">
-                                                    <input type="text" class="form-control mb-1"
-                                                        name="achievement[{{ $key }}][title]" value="{{ $achievement['title'] }}"
-                                                        placeholder="{{ $key + 1 }}. Title">
-
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                    <div class="form-group col-2">
-                                        <button class="btn btn-success" type="button"
-                                            onclick="addAchievements()">{{ __('dashboard.add_another_FAQ') }}</button>
-                                    </div>
-                                    <br><br>
-                                </div>
-                                <hr>
-                                <h3>Success Stories</h3>
-                                <div class="row success-stories-row">
-                                    
-                                    @if (!empty($successStoriesSteps) && is_array($successStoriesSteps))
-                                        @foreach ($successStoriesSteps as $key => $story)
-                                            <div class="form-group col-10 SuccessStories-group mb-2 row">
-                                                <div class="col-1">
-                                                    {{ $key + 1 }}.
-                                                </div>
-                                                <div class="col-11">
-                                                    <input type="text" class="form-control mb-1" name="story[{{ $key }}][title]"
-                                                        value="{{ $story['title'] }}" placeholder="{{ $key + 1 }}. Title">
-                                                    <input type="text" class="form-control mb-1"
-                                                        name="story[{{ $key }}][bottom_text]" value="{{ $story['bottom_text'] }}"
-                                                        placeholder="{{ $key + 1 }}. Bottom Text">
-
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                    <div class="form-group col-2">
-                                        <button class="btn btn-success" type="button"
-                                            onclick="addSuccessStories()">{{ __('dashboard.add_another_FAQ') }}</button>
-                                    </div>
-                                    <br><br>
-                                </div>
-                                <hr>
-                                <h3>Clients Say</h3>
-                                <div class="row clients-say-row">
-                                    
-                                    @if (!empty($clientsSaySteps) && is_array($clientsSaySteps))
-                                        @foreach ($clientsSaySteps as $key => $client)
-                                            <div class="form-group col-10 clients-group mb-2 row">
-                                                <div class="col-1">
-                                                    {{ $key + 1 }}.
-                                                </div>
-                                                <div class="col-11">
-                                                    <input type="text" class="form-control mb-1" name="client[{{ $key }}][title]"
-                                                        value="{{ $client['title'] }}" placeholder="{{ $key + 1 }}. Title">
-                                                    <input type="text" class="form-control mb-1" name="client[{{ $key }}][meassage]"
-                                                        value="{{ $client['meassage'] }}" placeholder="{{ $key + 1 }}. Meassage">
-
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                    <div class="form-group col-2">
-                                        <button class="btn btn-success" type="button"
-                                            onclick="addClientsSay()">{{ __('dashboard.add_another_FAQ') }}</button>
-                                    </div>
-                                    <br><br>
-                                </div>
-
-                                <hr>
-                                <h3>FAQs</h3>
-                                <div class="row faq-row">
-                                   
-                                    @if (!empty($faqSteps) && is_array($faqSteps))
-                                        @foreach ($faqSteps as $key => $faq)
-                                            <div class="form-group col-10 faq-group mb-2 row">
-                                                <div class="col-1">
-                                                    {{ $key + 1 }}.
-                                                </div>
-                                                <div class="col-11">
-                                                    <input type="text" class="form-control mb-1" name="faq[{{ $key }}][question]"
-                                                        value="{{ $faq['question'] }}" placeholder="{{ $key + 1 }}. Question">
-                                                    <input type="text" class="form-control mb-1" name="faq[{{ $key }}][answer]"
-                                                        value="{{ $faq['answer'] }}" placeholder="{{ $key + 1 }}. Answer">
-
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                    <div class="form-group col-2">
-                                        <button class="btn btn-success" type="button"
-                                            onclick="addFaqStep()">{{ __('dashboard.add_another_FAQ') }}</button>
-                                    </div>
-                                    <br><br>
-                                </div>
-                                <hr>
-                                <h3>Our Promise</h3>
-                                <div class="row promise-row">
-                                    
-                                    @if (!empty($ourPromise) && is_array($ourPromise))
-                                        @foreach ($ourPromise as $key => $item)
-                                            <div class="form-group col-10 promise-group mb-2 row">
-                                                <div class="col-1">
-                                                    {{ $key + 1 }}.
-                                                </div>
-                                                <div class="col-11">
-                                                    <input type="text" class="form-control mb-1"
-                                                        name="item[{{ $key }}][bottom_text]" value="{{ $item['bottom_text'] }}"
-                                                        placeholder="{{ $key + 1 }}. Bottom Text">
-
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                    <div class="form-group col-2">
-                                        <button class="btn btn-success" type="button"
-                                            onclick="addPromiseStep()">{{ __('dashboard.add_another_FAQ') }}</button>
-                                    </div>
-                                    <br><br>
-                                </div>
-                                <hr>
-                                <h3>Call to Action</h3>
-                                <div class="row cta-row">
-                                    
-                                    @if (!empty($ctaSteps) && is_array($ctaSteps))
-                                        @foreach ($ctaSteps as $key => $cta)
-                                            <div class="form-group col-10 cta-group mb-2 row">
-                                                <div class="col-1">
-                                                    {{ $key + 1 }}.
-                                                </div>
-                                                <div class="col-11">
-                                                    <input type="text" class="form-control mb-1" name="cta[{{ $key }}][bottom_text]"
-                                                        value="{{ $cta['bottom_text'] }}" placeholder="{{ $key + 1 }}. Bottom Text">
-
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                    <div class="form-group col-2">
-                                        <button class="btn btn-success" type="button"
-                                            onclick="addCtaStep()">{{ __('dashboard.add_another_FAQ') }}</button>
-                                    </div>
-                                    <br><br>
-                                </div>
-
-                        <div class="form-group">
-                            <label for="meta_title">{{ __('dashboard.meta_title') }} <span>*</span></label>
-                            <input type="text" class="form-control" name="meta_title" id="meta_title" value="{{ old('meta_title') }}" required>
-
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_title') }}
+                                <br><br>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="short_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
-                            <textarea class="form-control" name="short_desc" id="editor" rows="4" required>{{ old('short_desc') }}</textarea>
 
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_description') }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="keywords">{{ __('dashboard.meta_keywords') }} <span>*</span></label>
-                            <input type="text" class="form-control tagin" data-tagin-separator=" " name="keywords" value="{{ old('keywords') }}" required>
+                            <hr>
+                            <h3>Work Process</h3>
+                            <div class="row process-row">
 
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
+                                @if (!empty($process_steps) && is_array($process_steps))
+                                    @foreach ($process_steps as $key => $step)
+                                        <div class="form-group col-10 process-group mb-2 row">
+                                            <div class="col-1">
+                                                {{ $key + 1 }}.
+                                            </div>
+                                            <div class="col-11">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="process[{{ $key }}][title]"
+                                                    value="{{ $step['title'] }}"
+                                                    placeholder="{{ $key + 1 }}. Title">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="process[{{ $key }}][bottom_text]"
+                                                    value="{{ $step['bottom_text'] }}"
+                                                    placeholder="{{ $key + 1 }}. Bottom Text">
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                <div class="form-group col-2">
+                                    <button class="btn btn-success" type="button"
+                                        onclick="addProcess()">{{ __('dashboard.add_another_FAQ') }}</button>
+                                </div>
+                                <br><br>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="image">{{ __('dashboard.thumbnail') }} <span>*</span> <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
-                            <input type="file" class="form-control" name="image" id="image" required>
 
-                            <div class="invalid-feedback">
-                                {{ __('dashboard.please_provide') }} {{ __('dashboard.thumbnail') }}
+                            <hr>
+                            <h3>Why Choose Us</h3>
+                            <div class="row WhyWe-row">
+
+                                @if (!empty($whyWeSteps) && is_array($whyWeSteps))
+                                    @foreach ($whyWeSteps as $key => $why)
+                                        <div class="form-group col-10 WhyWe-group mb-2 row">
+                                            <div class="col-1">
+                                                {{ $key + 1 }}.
+                                            </div>
+                                            <div class="col-11">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="why_we[{{ $key }}][icon_class]"
+                                                    value="{{ $why['icon_class'] }}"
+                                                    placeholder="{{ $key + 1 }}. Icon Class">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="why_we[{{ $key }}][title]"
+                                                    value="{{ $why['title'] }}"
+                                                    placeholder="{{ $key + 1 }}. Title">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="why_we[{{ $key }}][bottom_text]"
+                                                    value="{{ $why['bottom_text'] }}"
+                                                    placeholder="{{ $key + 1 }}. Bottom Text">
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                <div class="form-group col-2">
+                                    <button class="btn btn-success" type="button"
+                                        onclick="addWhyWe()">{{ __('dashboard.add_another_FAQ') }}</button>
+                                </div>
+                                <br><br>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col">
-                                <label for="price">{{ __('dashboard.price') }} <span>* </span></label>
-                                <input type="number" class="form-control" name="price" id="price" value="499" required>
+                            <hr>
+                            <h3>Industries We Serve</h3>
+                            <div class="row industries-row">
+
+                                @if (!empty($industriesSteps) && is_array($industriesSteps))
+                                    @foreach ($industriesSteps as $key => $industry)
+                                        <div class="form-group col-10 industry-group mb-2 row">
+                                            <div class="col-1">
+                                                {{ $key + 1 }}.
+                                            </div>
+                                            <div class="col-11">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="industry[{{ $key }}][icon_class]"
+                                                    value="{{ $industry['icon_class'] }}"
+                                                    placeholder="{{ $key + 1 }}. Icon Class">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="industry[{{ $key }}][title]"
+                                                    value="{{ $industry['title'] }}"
+                                                    placeholder="{{ $key + 1 }}. Title">
+
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                <div class="form-group col-2">
+                                    <button class="btn btn-success" type="button"
+                                        onclick="addIndustries()">{{ __('dashboard.add_another_FAQ') }}</button>
+                                </div>
+                                <br><br>
+                            </div>
+                            <hr>
+                            <h3>Achievements</h3>
+                            <div class="row achievement-row">
+
+                                @if (!empty($achievementsSteps) && is_array($achievementsSteps))
+                                    @foreach ($achievementsSteps as $key => $achievement)
+                                        <div class="form-group col-10 achievement-group mb-2 row">
+                                            <div class="col-1">
+                                                {{ $key + 1 }}.
+                                            </div>
+                                            <div class="col-11">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="achievement[{{ $key }}][count_number]"
+                                                    value="{{ $achievement['count_number'] }}"
+                                                    placeholder="{{ $key + 1 }}. Count Number">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="achievement[{{ $key }}][title]"
+                                                    value="{{ $achievement['title'] }}"
+                                                    placeholder="{{ $key + 1 }}. Title">
+
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                <div class="form-group col-2">
+                                    <button class="btn btn-success" type="button"
+                                        onclick="addAchievements()">{{ __('dashboard.add_another_FAQ') }}</button>
+                                </div>
+                                <br><br>
+                            </div>
+                            <hr>
+                            <h3>Success Stories</h3>
+                            <div class="row success-stories-row">
+
+                                @if (!empty($successStoriesSteps) && is_array($successStoriesSteps))
+                                    @foreach ($successStoriesSteps as $key => $story)
+                                        <div class="form-group col-10 SuccessStories-group mb-2 row">
+                                            <div class="col-1">
+                                                {{ $key + 1 }}.
+                                            </div>
+                                            <div class="col-11">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="story[{{ $key }}][title]"
+                                                    value="{{ $story['title'] }}"
+                                                    placeholder="{{ $key + 1 }}. Title">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="story[{{ $key }}][bottom_text]"
+                                                    value="{{ $story['bottom_text'] }}"
+                                                    placeholder="{{ $key + 1 }}. Bottom Text">
+
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                <div class="form-group col-2">
+                                    <button class="btn btn-success" type="button"
+                                        onclick="addSuccessStories()">{{ __('dashboard.add_another_FAQ') }}</button>
+                                </div>
+                                <br><br>
+                            </div>
+                            <hr>
+                            <h3>Clients Say</h3>
+                            <div class="row clients-say-row">
+
+                                @if (!empty($clientsSaySteps) && is_array($clientsSaySteps))
+                                    @foreach ($clientsSaySteps as $key => $client)
+                                        <div class="form-group col-10 clients-group mb-2 row">
+                                            <div class="col-1">
+                                                {{ $key + 1 }}.
+                                            </div>
+                                            <div class="col-11">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="client[{{ $key }}][title]"
+                                                    value="{{ $client['title'] }}"
+                                                    placeholder="{{ $key + 1 }}. Title">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="client[{{ $key }}][meassage]"
+                                                    value="{{ $client['meassage'] }}"
+                                                    placeholder="{{ $key + 1 }}. Meassage">
+
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                <div class="form-group col-2">
+                                    <button class="btn btn-success" type="button"
+                                        onclick="addClientsSay()">{{ __('dashboard.add_another_FAQ') }}</button>
+                                </div>
+                                <br><br>
+                            </div>
+
+                            <hr>
+                            <h3>FAQs</h3>
+                            <div class="row faq-row">
+
+                                @if (!empty($faqSteps) && is_array($faqSteps))
+                                    @foreach ($faqSteps as $key => $faq)
+                                        <div class="form-group col-10 faq-group mb-2 row">
+                                            <div class="col-1">
+                                                {{ $key + 1 }}.
+                                            </div>
+                                            <div class="col-11">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="faq[{{ $key }}][question]"
+                                                    value="{{ $faq['question'] }}"
+                                                    placeholder="{{ $key + 1 }}. Question">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="faq[{{ $key }}][answer]"
+                                                    value="{{ $faq['answer'] }}"
+                                                    placeholder="{{ $key + 1 }}. Answer">
+
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                <div class="form-group col-2">
+                                    <button class="btn btn-success" type="button"
+                                        onclick="addFaqStep()">{{ __('dashboard.add_another_FAQ') }}</button>
+                                </div>
+                                <br><br>
+                            </div>
+                            <hr>
+                            <h3>Our Promise</h3>
+                            <div class="row promise-row">
+
+                                @if (!empty($ourPromise) && is_array($ourPromise))
+                                    @foreach ($ourPromise as $key => $item)
+                                        <div class="form-group col-10 promise-group mb-2 row">
+                                            <div class="col-1">
+                                                {{ $key + 1 }}.
+                                            </div>
+                                            <div class="col-11">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="item[{{ $key }}][bottom_text]"
+                                                    value="{{ $item['bottom_text'] }}"
+                                                    placeholder="{{ $key + 1 }}. Bottom Text">
+
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                <div class="form-group col-2">
+                                    <button class="btn btn-success" type="button"
+                                        onclick="addPromiseStep()">{{ __('dashboard.add_another_FAQ') }}</button>
+                                </div>
+                                <br><br>
+                            </div>
+                            <hr>
+                            <h3>Call to Action</h3>
+                            <div class="row cta-row">
+
+                                @if (!empty($ctaSteps) && is_array($ctaSteps))
+                                    @foreach ($ctaSteps as $key => $cta)
+                                        <div class="form-group col-10 cta-group mb-2 row">
+                                            <div class="col-1">
+                                                {{ $key + 1 }}.
+                                            </div>
+                                            <div class="col-11">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="cta[{{ $key }}][bottom_text]"
+                                                    value="{{ $cta['bottom_text'] }}"
+                                                    placeholder="{{ $key + 1 }}. Bottom Text">
+
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                <div class="form-group col-2">
+                                    <button class="btn btn-success" type="button"
+                                        onclick="addCtaStep()">{{ __('dashboard.add_another_FAQ') }}</button>
+                                </div>
+                                <br><br>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="meta_title">{{ __('dashboard.meta_title') }} <span>*</span></label>
+                                <input type="text" class="form-control" name="meta_title" id="meta_title"
+                                    value="{{ old('meta_title') }}" required>
+
                                 <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.price') }}
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_title') }}
                                 </div>
                             </div>
-                            <div class="form-group col">
-                                <label for="starting_price">{{ __('dashboard.starting_price') }} <span>*</span></label>
-                                <input type="number" class="form-control" name="starting_price" id="starting_price" value="499" required>
-    
+                            <div class="form-group">
+                                <label for="short_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
+                                <textarea class="form-control" name="short_desc" id="editor" rows="4" required>{{ old('short_desc') }}</textarea>
+
                                 <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.starting_price') }}
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_description') }}
                                 </div>
                             </div>
-                            <div class="form-group col">
-                                <label for="review_count">{{ __('dashboard.review_count') }} <span>*</span></label>
-                                <input type="number" class="form-control" name="review_count" id="review_count" value="150" required>
-    
+                            <div class="form-group">
+                                <label for="keywords">{{ __('dashboard.meta_keywords') }} <span>*</span></label>
+                                <input type="text" class="form-control tagin" data-tagin-separator=" "
+                                    name="keywords" value="{{ old('keywords') }}" required>
+
                                 <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.review_count') }}
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
                                 </div>
                             </div>
-                            <div class="form-group col">
-                                <label for="priceCurrency">{{ __('dashboard.priceCurrency') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="priceCurrency" id="priceCurrency" value="USD" required>
-    
+                            <div class="form-group">
+                                <label for="image">{{ __('dashboard.thumbnail') }} <span>*</span>
+                                    <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
+                                <input type="file" class="form-control" name="image" id="image" required>
+
                                 <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.priceCurrency') }}
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.thumbnail') }}
                                 </div>
                             </div>
-                            <div class="form-group col">
-                                <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="average_rating" id="average_rating" value="4.9" required>
-    
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.average_rating') }}
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="price">{{ __('dashboard.price') }} <span>* </span></label>
+                                    <input type="number" class="form-control" name="price" id="price"
+                                        value="499" required>
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.price') }}
+                                    </div>
                                 </div>
+                                <div class="form-group col">
+                                    <label for="starting_price">{{ __('dashboard.starting_price') }}
+                                        <span>*</span></label>
+                                    <input type="number" class="form-control" name="starting_price" id="starting_price"
+                                        value="499" required>
+
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.starting_price') }}
+                                    </div>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="review_count">{{ __('dashboard.review_count') }} <span>*</span></label>
+                                    <input type="number" class="form-control" name="review_count" id="review_count"
+                                        value="150" required>
+
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.review_count') }}
+                                    </div>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="priceCurrency">{{ __('dashboard.priceCurrency') }} <span>*</span></label>
+                                    <input type="text" class="form-control" name="priceCurrency" id="priceCurrency"
+                                        value="USD" required>
+
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.priceCurrency') }}
+                                    </div>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="average_rating">{{ __('dashboard.average_rating') }}
+                                        <span>*</span></label>
+                                    <input type="text" class="form-control" name="average_rating" id="average_rating"
+                                        value="4.9" required>
+
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.average_rating') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Form End -->
+                            <div class="form-group">
+                                <label for="manu">Manu</label>
+                                <select class="wide" name="manu" id="manu" data-plugin="customselect">
+                                    <option value="0">Hidden</option>
+                                    <option value="1">Show</option>
+                                </select>
+                            </div>
+                            <!-- Form End -->
+                        </div>
+                        <div class="card-footer">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">{{ __('dashboard.save') }}</button>
                             </div>
                         </div>
-                        <!-- Form End -->
-                        <div class="form-group">
-                            <label for="manu">Manu</label>
-                            <select class="wide" name="manu" id="manu" data-plugin="customselect">
-                                <option value="0" >Hidden</option>
-                                <option value="1" >Show</option>
-                            </select>
-                        </div>
-                        <!-- Form End -->
-                    </div>
-                    <div class="card-footer">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">{{ __('dashboard.save') }}</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div><!-- end col-->
-    </div>
-    <!-- end row-->
+                    </form>
+                </div>
+            </div><!-- end col-->
+        </div>
+        <!-- end row-->
 
 
-</div> <!-- container -->
-<!-- End Content-->
+    </div> <!-- container -->
+    <!-- End Content-->
 
-<script>
-    
-document.addEventListener("DOMContentLoaded", function () {
-        const taginInputs = document.querySelectorAll(".tagin");
-        taginInputs.forEach(input => new Tagin(input, {
-            separator: ',',
-            duplicate: false,      // Prevent duplicate tags in the frontend
-            enter: true,           
-            maxTags: 100            
-        }));
-    });
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const taginInputs = document.querySelectorAll(".tagin");
+            taginInputs.forEach(input => new Tagin(input, {
+                separator: ',',
+                duplicate: false, // Prevent duplicate tags in the frontend
+                enter: true,
+                maxTags: 100
+            }));
+        });
 
 
 
-    CKEDITOR.replace('editor', {
-        on: {
-            instanceReady: function(ev) {
-                this.dataProcessor.writer.setRules('strong', {
-                    indent: false,
-                    breakBeforeOpen: false,
-                    breakAfterOpen: false,
-                    breakBeforeClose: false,
-                    breakAfterClose: false
-                });
-            }
-        },
-        coreStyles_bold: {
-            element: 'b',
-            overrides: 'strong'
-        } // Converts <strong> to <b>
-    });
-    CKEDITOR.replace('editor1', {
-        on: {
-            instanceReady: function(ev) {
-                this.dataProcessor.writer.setRules('strong', {
-                    indent: false,
-                    breakBeforeOpen: false,
-                    breakAfterOpen: false,
-                    breakBeforeClose: false,
-                    breakAfterClose: false
-                });
-            }
-        },
-        coreStyles_bold: {
-            element: 'b',
-            overrides: 'strong'
-        } // Converts <strong> to <b>
-    });
-let bannerIndex = {{ count($subservice->bannerSteps ?? []) }};
+        CKEDITOR.replace('editor', {
+            on: {
+                instanceReady: function(ev) {
+                    this.dataProcessor.writer.setRules('strong', {
+                        indent: false,
+                        breakBeforeOpen: false,
+                        breakAfterOpen: false,
+                        breakBeforeClose: false,
+                        breakAfterClose: false
+                    });
+                }
+            },
+            coreStyles_bold: {
+                element: 'b',
+                overrides: 'strong'
+            } // Converts <strong> to <b>
+        });
+        CKEDITOR.replace('editor1', {
+            on: {
+                instanceReady: function(ev) {
+                    this.dataProcessor.writer.setRules('strong', {
+                        indent: false,
+                        breakBeforeOpen: false,
+                        breakAfterOpen: false,
+                        breakBeforeClose: false,
+                        breakAfterClose: false
+                    });
+                }
+            },
+            coreStyles_bold: {
+                element: 'b',
+                overrides: 'strong'
+            } // Converts <strong> to <b>
+        });
+        let bannerIndex = {{ count($subservice->bannerSteps ?? []) }};
 
         // Render all category options as string
 
@@ -943,21 +985,20 @@ let bannerIndex = {{ count($subservice->bannerSteps ?? []) }};
                 row.remove();
             }
         }
-
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const technologiesSelect = document.getElementById('technologies');
             new Choices(technologiesSelect, {
-                removeItemButton: true,    // show "x" to remove selected items
+                removeItemButton: true, // show "x" to remove selected items
                 placeholder: true,
                 placeholderValue: 'Select technologies',
                 searchPlaceholderValue: 'Search technologies...',
-                shouldSort: false          // optional: keeps original order
+                shouldSort: false // optional: keeps original order
             });
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             new Choices('#portfolios', {
                 removeItemButton: true,
                 placeholder: true,
@@ -966,7 +1007,6 @@ let bannerIndex = {{ count($subservice->bannerSteps ?? []) }};
                 shouldSort: false
             });
         });
-
     </script>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 @endsection

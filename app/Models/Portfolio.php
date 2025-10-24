@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Service;
 use App\Models\Subservice;
+use App\Models\Technology;
 use Illuminate\Database\Eloquent\Model;
 
 class Portfolio extends Model
@@ -13,9 +14,7 @@ class Portfolio extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'title', 'slug', 'description', 'image_path', 'video_id', 'link', 'status',
-    ];
+    protected $guarded = [];
     public function subservices()
     {
         return $this->belongsToMany(Subservice::class, 'portfolio_subservice');
@@ -24,5 +23,9 @@ class Portfolio extends Model
     public function categories()
     {
         return $this->belongsToMany(PortfolioCategory::class, 'portfolio_category');
+    }
+    public function technologies()
+    {
+        return $this->belongsToMany(Technology::class);
     }
 }

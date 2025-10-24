@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\PortfolioCategory;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use App\Models\Portfolio;
-use Toastr;
-use Image;
 use File;
+use Image;
+use Toastr;
+use App\Models\Portfolio;
+use App\Models\Technology;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\PortfolioCategory;
+use App\Http\Controllers\Controller;
 
 class PortfolioController extends Controller
 {
@@ -56,6 +57,8 @@ class PortfolioController extends Controller
         $data['title'] = $this->title;
         $data['route'] = $this->route;
         $data['view'] = $this->view;
+        $data['allTechnologies'] = Technology::all();
+
 
         $data['categories'] = PortfolioCategory::where('status', '1')->get();
 
@@ -77,6 +80,8 @@ class PortfolioController extends Controller
             'description' => 'required',
             'image' => 'required|image',
             'video_id' => 'nullable|max:100',
+            'technologies' => 'nullable|array',
+            'technologies.*' => 'exists:technologies,id',
         ]);
 
 
@@ -90,7 +95,7 @@ class PortfolioController extends Controller
 
             //Crete Folder Location
             $path = public_path('uploads/' . $this->path . '/');
-            if (! File::exists($path)) {
+            if (!File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
@@ -126,7 +131,7 @@ class PortfolioController extends Controller
 
                 //Crete Folder Location
                 $path = public_path('uploads/media/');
-                if (! File::exists($path)) {
+                if (!File::exists($path)) {
                     File::makeDirectory($path, 0777, true, true);
                 }
 
@@ -156,9 +161,56 @@ class PortfolioController extends Controller
         // $portfolio->description = $dom->saveHTML();
         $portfolio->image_path = $fileNameToStore;
         $portfolio->video_id = $request->video_id;
+        $portfolio->sub_title = $request->sub_title;
+        $portfolio->client = $request->client;
+        $portfolio->date = $request->date;
         $portfolio->link = $request->link;
         $portfolio->link2 = $request->link2;
         $portfolio->link3 = $request->link3;
+
+        $screenshotSteps = [];
+
+        // Decode old banner steps (so we can access previous image paths)
+        $oldBannerSteps = json_decode($portfolio->screenshot ?? '[]', true);
+
+        if ($request->has('screenshot')) {
+            foreach ($request->screenshot as $index => $banner) {
+                $bannerImageName = $banner['screenshot_image_old'] ?? ($oldBannerSteps[$index]['screenshot_image'] ?? null);
+
+                // Check if new file uploaded
+                if ($request->hasFile("screenshot.$index.screenshot_image")) {
+                    $file = $request->file("screenshot.$index.screenshot_image");
+                    $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $bannerImageName = $filename . '_' . time() . '.webp';
+
+                    $path = public_path('uploads/screenshot/');
+                    if (!File::exists($path)) {
+                        File::makeDirectory($path, 0777, true, true);
+                    }
+
+                    // Delete old image if exists
+                    if (!empty($oldBannerSteps[$index]['screenshot_image'])) {
+                        $oldPath = $path . $oldBannerSteps[$index]['screenshot_image'];
+                        if (File::exists($oldPath)) {
+                            File::delete($oldPath);
+                        }
+                    }
+
+                    // Save new image
+                    Image::make($file->getRealPath())
+                        ->encode('webp', 90)
+                        ->save($path . $bannerImageName);
+                }
+
+                $screenshotSteps[] = [
+                    'screenshot_image' => $bannerImageName ?? '',
+                ];
+            }
+        }
+
+        // Store as JSON or let Eloquent cast handle it
+        $portfolio->screenshot = json_encode($screenshotSteps);
+        $portfolio->technologies()->sync($request->technologies ?? []);
         $portfolio->save();
 
         // Attach
@@ -202,6 +254,7 @@ class PortfolioController extends Controller
         $data['route'] = $this->route;
         $data['view'] = $this->view;
         $data['path'] = $this->path;
+        $data['allTechnologies'] = Technology::all();
 
         $data['row'] = $portfolio;
         $data['categories'] = PortfolioCategory::where('status', '1')->get();
@@ -225,6 +278,8 @@ class PortfolioController extends Controller
             'description' => 'required',
             'image' => 'nullable|image',
             'video_id' => 'nullable|max:100',
+            'technologies' => 'nullable|array',
+            'technologies.*' => 'exists:technologies,id',
         ]);
 
 
@@ -244,7 +299,7 @@ class PortfolioController extends Controller
 
             //Crete Folder Location
             $path = public_path('uploads/' . $this->path . '/');
-            if (! File::exists($path)) {
+            if (!File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
@@ -281,7 +336,7 @@ class PortfolioController extends Controller
 
                 //Crete Folder Location
                 $path = public_path('uploads/media/');
-                if (! File::exists($path)) {
+                if (!File::exists($path)) {
                     File::makeDirectory($path, 0777, true, true);
                 }
 
@@ -309,11 +364,59 @@ class PortfolioController extends Controller
         $portfolio->description = $request->description;
         // $portfolio->description = $dom->saveHTML();
         $portfolio->image_path = $fileNameToStore;
+        $portfolio->sub_title = $request->sub_title;
+        $portfolio->client = $request->client;
+        $portfolio->date = $request->date;
         $portfolio->video_id = $request->video_id;
         $portfolio->link = $request->link;
         $portfolio->link2 = $request->link2;
         $portfolio->link3 = $request->link3;
         $portfolio->status = $request->status;
+
+
+        $screenshotSteps = [];
+
+        // Decode old banner steps (so we can access previous image paths)
+        $oldBannerSteps = json_decode($portfolio->screenshot ?? '[]', true);
+
+        if ($request->has('screenshot')) {
+            foreach ($request->screenshot as $index => $banner) {
+                $bannerImageName = $banner['screenshot_image_old'] ?? ($oldBannerSteps[$index]['screenshot_image'] ?? null);
+
+                // Check if new file uploaded
+                if ($request->hasFile("screenshot.$index.screenshot_image")) {
+                    $file = $request->file("screenshot.$index.screenshot_image");
+                    $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $bannerImageName = $filename . '_' . time() . '.webp';
+
+                    $path = public_path('uploads/screenshot/');
+                    if (!File::exists($path)) {
+                        File::makeDirectory($path, 0777, true, true);
+                    }
+
+                    // Delete old image if exists
+                    if (!empty($oldBannerSteps[$index]['screenshot_image'])) {
+                        $oldPath = $path . $oldBannerSteps[$index]['screenshot_image'];
+                        if (File::exists($oldPath)) {
+                            File::delete($oldPath);
+                        }
+                    }
+
+                    // Save new image
+                    Image::make($file->getRealPath())
+                        ->encode('webp', 90)
+                        ->save($path . $bannerImageName);
+                }
+
+                $screenshotSteps[] = [
+                    'screenshot_image' => $bannerImageName ?? '',
+                ];
+            }
+        }
+
+        // Store as JSON or let Eloquent cast handle it
+        $portfolio->screenshot = json_encode($screenshotSteps);
+        $portfolio->technologies()->sync($request->technologies ?? []);
         $portfolio->save();
 
         // Attach Update
