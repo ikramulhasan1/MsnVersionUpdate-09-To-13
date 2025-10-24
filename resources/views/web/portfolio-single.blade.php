@@ -97,7 +97,7 @@
         </div>
         <div class="col-md-3 mb-3 mb-md-0">
           <h6 class="text-muted text-uppercase">Technologies</h6>
-          <p class="font-weight-medium mb-0">{{ implode(', ', $portfolio->technologies->pluck('title')->toArray()) }}</p>
+          <p class="font-weight-medium mb-0">{{ $portfolio->technologies->pluck('title')->join(', ') }}</p>
         </div>
         <div class="col-md-3">
           <h6 class="text-muted text-uppercase">Date</h6>

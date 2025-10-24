@@ -27,7 +27,7 @@ class PortfolioController extends Controller
     public function show($slug)
     {
         // Portfolio                                
-        $data['portfolio'] = Portfolio::with('categories')->where('slug', $slug)
+        $data['portfolio'] = Portfolio::with('categories','technologies')->where('slug', $slug)
             ->where('status', '1')
             ->firstOrFail();
 
