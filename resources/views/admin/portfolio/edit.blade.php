@@ -106,8 +106,8 @@
 
                                 @php
                                     $screenshots = is_array($row->screenshot)
-                                    ? $row->screenshot
-                                    : (json_decode($row->screenshot, true) ?? []);
+                                        ? $row->screenshot
+                                        : json_decode($row->screenshot, true) ?? [];
                                 @endphp
 
                                 @foreach ($screenshots ?? [] as $key => $screenshot_step)
@@ -116,7 +116,7 @@
                                             {{ $key + 1 }}.
                                         </div>
                                         <div class="col-11">
-                                            
+
                                             <div class="d-flex">
                                                 <input type="file" class="form-control mb-1 mr-3 w-75"
                                                     name="screenshot[{{ $key }}][screenshot_image]">
@@ -129,8 +129,8 @@
                                 @endforeach
 
                                 <div class="form-group col-2">
-                                    <button class="btn btn-success" type="button"
-                                        onclick="addScreenshot()">Add Screenshot</button>
+                                    <button class="btn btn-success" type="button" onclick="addScreenshot()">Add
+                                        Screenshot</button>
                                 </div>
                                 <br><br>
                             </div>
@@ -146,8 +146,12 @@
                             <div class="form-group">
                                 <label for="image">{{ __('dashboard.thumbnail') }}
                                     <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
-                                <input type="file" class="form-control" name="image" id="image">
-
+                                <div class="d-flex">
+                                    <input type="file" class="form-control" name="image" id="image">
+                                    <img style="width: 40px; height: 40px;"
+                                        src="{{ asset('uploads/portfolio/' . $row->image_path) }}"
+                                        class="process-step-icon" alt="">
+                                </div>
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.thumbnail') }}
                                 </div>
@@ -155,9 +159,12 @@
                             <div class="form-group">
                                 <label for="overview_image">{{ __('dashboard.overview_image') }} <span>*</span>
                                     <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
+                                    <div class="d-flex">
                                 <input type="file" class="form-control" name="overview_image" id="overview_image"
                                     required>
-
+                                <img style="width: 40px; height: 40px;"
+                                        src="{{ asset('uploads/overview_image/' . $row->overview_image) }}"
+                                        class="process-step-icon" alt=""></div>
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.overview_image') }}
                                 </div>
@@ -245,8 +252,8 @@
             } // Converts <strong> to <b>
         });
 
-        
-let screenshotIndex = {{ count($screenshots) }};
+
+        let screenshotIndex = {{ count($screenshots) }};
 
         // Render all category options as string
 
@@ -279,7 +286,7 @@ let screenshotIndex = {{ count($screenshots) }};
             });
         });
     </script>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
 @endsection
