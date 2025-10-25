@@ -51,11 +51,11 @@
   letter-spacing: 0.5px;
 }
 
-.portfolio-hero {
+/* .portfolio-hero {
   height: 70vh;
   background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
               url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8d2ViJTIwZGV2ZWxvcG1lbnR8ZW58MHwwfDB8fHwy&auto=format&fit=crop&q=60&w=600') center/cover no-repeat;
-}
+} */
 
 .project-info h6 {
   font-size: 0.85rem;
@@ -75,13 +75,16 @@
 }
     </style>
    
-  <!-- Hero -->
-  <section class="portfolio-hero d-flex align-items-center text-center text-white">
+<!-- Hero -->
+<section class="portfolio-hero d-flex align-items-center text-center text-white"
+    style="height: 70vh; background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+            url('{{ asset('uploads/portfolio/' . $portfolio->image_path) }}') center/cover no-repeat;">
     <div class="container">
-      <h1 class="display-4 font-weight-bold mb-3">{{ $portfolio->title }}</h1>
-      <p class="lead mb-0">{{ $portfolio->sub_title }}</p>
+        <h1 class="display-4 font-weight-bold mb-3">{{ $portfolio->title }}</h1>
+        <p class="lead mb-0">{{ $portfolio->sub_title }}</p>
     </div>
-  </section>
+</section>
+
 
   <!-- Project Info -->
   <section class="project-info py-5">
