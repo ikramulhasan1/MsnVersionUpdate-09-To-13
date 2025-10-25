@@ -130,7 +130,7 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-6 mb-4 mb-lg-0">
-          <img src="{{ asset('uploads/overview_image/' . $portfolio->overview_image) }}" class="img-fluid rounded shadow" alt="Main Project Image">
+          <img src="{{ asset('uploads/overview_image/' . $portfolio->overview_image) }}" class="img-fluid rounded shadow" alt="{{ $portfolio->title }}">
         </div>
         <div class="col-lg-6">
           <h3 class="font-weight-bold mb-3">Project Overview</h3>
@@ -148,7 +148,7 @@
     <div class="container">
       <h2 class="font-weight-bold mb-3">Have a Project in Mind?</h2>
       <p class="mb-4" style="font-size: 16px; color: white;" >Let’s collaborate and build your next web project together.</p>
-      <a href="#" class="btn btn-light btn-lg px-4">Contact Us</a>
+      <a href="{{ route('contact') }}" class="btn btn-light btn-lg px-4">Contact Us</a>
     </div>
   </section>
 
