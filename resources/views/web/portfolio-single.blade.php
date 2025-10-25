@@ -130,7 +130,7 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-6 mb-4 mb-lg-0">
-          <img src="https://media.istockphoto.com/id/2212360504/photo/holographic-ui-ux-display-icons-of-ux-ui-designer-creative-planning-data-visualization-web.webp?a=1&b=1&s=612x612&w=0&k=20&c=tglFI9NeJVQNtibp78qcgjGBPkX43btcoxkLc1RN2_o=" class="img-fluid rounded shadow" alt="Main Project Image">
+          <img src="{{ asset('uploads/overview_image/' . $portfolio->overview_image) }}" class="img-fluid rounded shadow" alt="Main Project Image">
         </div>
         <div class="col-lg-6">
           <h3 class="font-weight-bold mb-3">Project Overview</h3>
