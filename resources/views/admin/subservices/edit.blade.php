@@ -129,7 +129,7 @@
                                     <select name="technologies[]" id="technologies" multiple>
                                         @foreach($allTechnologies as $tech)
                                             <option value="{{ $tech->id }}" {{ in_array($tech->id, $subservice->technologies->pluck('id')->toArray()) ? 'selected' : '' }}>
-                                                {{ $tech->title }}
+                                                {{ $tech->short_title }}
                                             </option>
                                         @endforeach
                                     </select>

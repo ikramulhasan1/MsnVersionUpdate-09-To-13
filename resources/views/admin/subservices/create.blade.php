@@ -133,7 +133,7 @@
                                 <select name="technologies[]" id="technologies" multiple>
                                     @foreach ($allTechnologies as $tech)
                                         <option value="{{ $tech->id }}">
-                                            {{ $tech->title }}
+                                            {{ $tech->short_title }}
                                         </option>
                                     @endforeach
                                 </select>
