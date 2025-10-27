@@ -765,31 +765,36 @@
 
                 <!-- FAQ (Bootstrap 4 collapse) -->
                 @if (!empty($faq))
-                    <div class="col-lg-6">
-                        <h2 style="font-weight: 800" class="section-title">Have Questions?</h2>
+    <div class="col-lg-6">
+        <h2 style="font-weight: 800" class="section-title">Have Questions?</h2>
+        <div id="accordionFaq" class="faq-section">
+            @foreach ($faq as $key => $item)
+                <div class="card">
+                    <div class="card-header" id="faqHeading{{ $key }}">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse"
+                                data-target="#faq{{ $key }}"
+                                aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
+                                aria-controls="faq{{ $key }}">
+                                {{ $item['question'] }}
+                            </button>
+                        </h5>
+                    </div>
 
-                        <div id="accordionFaq" class="faq-section">
-                            @foreach ($faq as $key => $item)
-                                <div class="card">
-                                    <div class="card-header" id="faqHeading{{ $key }}">
-                                        <h5 class="mb-0">
-                                            <button class="btn btn-link" data-toggle="collapse" data-target="#faq{{ $key }}"
-                                                aria-expanded="true" aria-controls="faq{{ $key }}">
-                                                {{ $item['question'] }}
-                                            </button>
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div id="faq{{ $key }}" class="collapse {{ $loop->first ? 'show' : '' }}"
-                                    aria-labelledby="faqHeading{{ $key }}" data-parent="#accordionFaq">
-                                    <div class="card-body">{{ $item['answer'] }}</div>
-                            @endforeach
-
-                            </div>
-                            <!-- /.accordion -->
+                    <div id="faq{{ $key }}"
+                        class="collapse {{ $loop->first ? 'show' : '' }}"
+                        aria-labelledby="faqHeading{{ $key }}"
+                        data-parent="#accordionFaq">
+                        <div class="card-body">
+                            {!! $item['answer'] !!}
                         </div>
                     </div>
-                @endif
+                </div>
+            @endforeach
+        </div> <!-- /.accordion -->
+    </div>
+@endif
+
             </div>
     </section>
 
