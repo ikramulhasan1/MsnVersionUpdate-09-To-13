@@ -59,6 +59,18 @@
                             </div>
 
                             <hr>
+                            {{-- toggle section --}}
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label>Toggle Title <span>*</span></label>
+                                    <input type="text" name="toggle_title" class="form-control" value="{{ old('toggle_title') }}" required>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label>Toggle Sub Title <span>*</span></label>
+                                    <input type="text" name="toggle_sub_title" class="form-control"
+                                        value="{{ old('toggle_sub_title') }}" required>
+                                </div>
+                            </div>
 
                             {{-- Main Image --}}
                             <div class="row">
