@@ -756,7 +756,7 @@
                     <h2 style="font-weight: 800" class="section-title">What Our Clients Say</h2>
                     @foreach ($clients_say as $item)
                         <div class="testimonial p-4 bg-light rounded shadow-sm mb-4">
-                            <p>“{{ $item['meassage'] }}”</p>
+                            <p>{{ $item['meassage'] }}</p>
                             <h6 class="font-weight-bold mb-0">— {{ $item['title'] }}</h6>
                         </div>
                     @endforeach
