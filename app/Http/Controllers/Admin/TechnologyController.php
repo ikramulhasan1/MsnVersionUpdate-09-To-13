@@ -156,6 +156,8 @@ class TechnologyController extends Controller
         $service->service_id = $request->service_id;
         $service->keywords = $request->keywords;
         $service->price = $request->price;
+        $service->toggle_title = $request->toggle_title;
+        $service->toggle_sub_title = $request->toggle_sub_title;
         $service->starting_price = $request->starting_price;
         $service->priceCurrency = $request->priceCurrency;
         $service->average_rating = $request->average_rating;
@@ -378,6 +380,8 @@ class TechnologyController extends Controller
             'service_id' => $request->service_id,
             'keywords' => $request->keywords,
             'price' => $request->price,
+            'toggle_title' => $request->toggle_title,
+            'toggle_sub_title' => $request->toggle_sub_title,
             'starting_price' => $request->starting_price,
             'priceCurrency' => $request->priceCurrency,
             'average_rating' => $request->average_rating,
