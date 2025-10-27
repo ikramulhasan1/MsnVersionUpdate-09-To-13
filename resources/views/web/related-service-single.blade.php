@@ -690,10 +690,10 @@
 
                 <div class="row justify-content-center align-items-center">
                     @foreach ($service->technologies as $technology)
-                        <div class="col-4 col-md-2 mb-3">
+                        <a href="{{ route('service.technology', $technology->slug) }}" class="col-4 col-md-2 mb-3">
                             <img src="{{ asset('uploads/technology/' . $technology->logo_path) }}" class="img-fluid"
                                 title="{{ $technology->title }}" alt="{{ $technology->title }}" style="max-height:70px;">
-                        </div>
+                        </a>
                     @endforeach
                 </div>
             </div>
