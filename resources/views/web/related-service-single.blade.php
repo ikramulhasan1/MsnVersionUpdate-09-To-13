@@ -924,6 +924,32 @@
             }
         });
     </script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const counters = document.querySelectorAll('.stat-number');
+
+    counters.forEach(counter => {
+        const targetText = counter.getAttribute('data-target');
+        const numericValue = parseFloat(targetText.replace(/[^\d.]/g, '')) || 0;
+        const suffix = targetText.replace(/[0-9.]/g, '');
+        let current = 0;
+        const duration = 2000;
+        const increment = numericValue / (duration / 16);
+
+        function updateCounter() {
+            current += increment;
+            if (current < numericValue) {
+                counter.textContent = Math.floor(current) + suffix;
+                requestAnimationFrame(updateCounter);
+            } else {
+                counter.textContent = targetText;
+            }
+        }
+
+        updateCounter();
+    });
+});
+</script>
 
 
 @endsection
