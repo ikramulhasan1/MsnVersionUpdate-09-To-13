@@ -85,7 +85,7 @@
     </div>
 </section>
 
-@dd($row)
+
   <!-- Project Info -->
   <section class="project-info py-5">
     <div class="container">
