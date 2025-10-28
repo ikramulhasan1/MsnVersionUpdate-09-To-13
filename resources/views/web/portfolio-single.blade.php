@@ -81,7 +81,7 @@
             url('{{ asset('uploads/portfolio/' . $portfolio->image_path) }}') center/cover no-repeat;">
     <div class="container">
         <h1 class="display-4 font-weight-bold mb-3">{{ $portfolio->title }}</h1>
-        <p class="lead mb-0 text-white font-weight-bold">{{ $portfolio->sub_title }}</p>
+        <p class="lead mb-0 text-white ">{{ $portfolio->sub_title }}</p>
     </div>
 </section>
 
