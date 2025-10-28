@@ -8,6 +8,9 @@ return [
         // ['name' => 'C#', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg', 'url' => ''],
         // ['name' => 'C++', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg', 'url' => ''],
         ['name' => 'PHP', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg', 'url' => ''],
+        ['name' => 'MySQL', 'icon' => '//1000logos.net/wp-content/uploads/2020/08/MySQL-Logo.png', 'url' => 'https://msnsofttech.com/technology/mysql-database-development'],
+        ['name' => 'AJAX', 'icon' => '//encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY7dFUrudN8BrNXu2WTtxZAdtVzaaI7q4bnw&s', 'url' => 'https://msnsofttech.com/technology/ajax-development'],
+        ['name' => 'AWS', 'icon' => '//upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/1280px-Amazon_Web_Services_Logo.svg.png', 'url' => 'https://msnsofttech.com/technology/aws-cloud-services'],
         // ['name' => 'Ruby', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/ruby/ruby-original.svg', 'url' => ''],
         // ['name' => 'Kotlin', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg', 'url' => ''],
         // ['name' => 'Swift', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg', 'url' => ''],
@@ -54,8 +57,8 @@ return [
     ],
     'E-Commerce Solutions' => [
         ['name' => 'BigCommerce', 'icon' => '//www.code-mage.com/media/06/72/22/1595065961/bigcommerce-platform-logo.svg', 'url' => ''],
-        ['name' => 'Shopify', 'icon' => '//www.realisable.co.uk/wp-content/themes/realisable/images/logos/shopify.svg', 'url' => ''],
+        ['name' => 'Shopify', 'icon' => '//www.realisable.co.uk/wp-content/themes/realisable/images/logos/shopify.svg', 'url' => 'https://msnsofttech.com/technology/shopify-development'],
         ['name' => 'WooCommerce', 'icon' => '//connectif.ai/wp-content/uploads/2023/07/woocommerce.png', 'url' => 'https://msnsofttech.com/technology/woocommerce-development'],
-        ['name' => 'Wix', 'icon' => '//upload.wikimedia.org/wikipedia/commons/thumb/7/76/Wix.com_website_logo.svg/1280px-Wix.com_website_logo.svg.png', 'url' => ''],
+        ['name' => 'Wix', 'icon' => '//upload.wikimedia.org/wikipedia/commons/thumb/7/76/Wix.com_website_logo.svg/1280px-Wix.com_website_logo.svg.png', 'url' => 'https://msnsofttech.com/technology/wix-website-development'],
     ],
 ];
