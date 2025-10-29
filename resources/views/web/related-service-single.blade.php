@@ -481,7 +481,7 @@
 .description-content ul li {
   position: relative;
   padding-left: 30px; /* space for image */
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 
 .description-content ul li::before {
