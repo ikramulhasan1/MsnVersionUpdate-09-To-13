@@ -507,7 +507,7 @@
   counter-increment: item;
   position: relative;
   padding-left: 35px;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 
 .description-content ol li::before {
