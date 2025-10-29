@@ -76,7 +76,7 @@
                     <hr/>
 
                     @if(isset($row->message))
-                    <p><span class="text-highlight">{{ __('dashboard.note') }}: </span> {!! strip_tags($row->message, '<p><a><b><i><u><strong><br><ul><ol><li><del><ins><sup><sub><pre>') !!}</p>
+                    <p><span class="text-highlight">{{ __('dashboard.description') }}: </span> {!! strip_tags($row->message, '<p><a><b><i><u><strong><br><ul><ol><li><del><ins><sup><sub><pre>') !!}</p>
                     <hr/>
                     @endif
                 </div>
