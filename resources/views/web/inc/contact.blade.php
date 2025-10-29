@@ -13,15 +13,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    /* body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 30px;
-    } */
 
     .contact-container {
       background: #ffffff;
@@ -303,6 +294,7 @@
         <input type="hidden" id="distance_time" name="distance_time">
         <input type="hidden" id="distance_km" name="distance_km">
 
+        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
         <button type="submit" class="btn btn-primary mt-3">Book a Meeting</button>
       </form>
     </div>
@@ -402,6 +394,14 @@
     });
 
   </script>
+<script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}"></script>
+<script>
+grecaptcha.ready(function() {
+  grecaptcha.execute("{{ env('RECAPTCHA_SITE_KEY') }}", {action: "submit"}).then(function(token) {
+    document.getElementById('g-recaptcha-response').value = token;
+  });
+});
+</script>
 
 </body>
 

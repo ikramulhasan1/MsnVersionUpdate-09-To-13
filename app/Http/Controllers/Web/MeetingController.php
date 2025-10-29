@@ -5,6 +5,7 @@ use Log;
 use App\Models\Meeting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
 
 class MeetingController extends Controller
 {
@@ -20,8 +21,24 @@ class MeetingController extends Controller
 
     public function store(Request $request)
     {
-         // Validate the incoming data
-         $validated = $request->validate([
+        $recaptchaResponse = $request->input('g-recaptcha-response');
+
+        $verify = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => env('RECAPTCHA_SECRET_KEY'),
+            'response' => $recaptchaResponse,
+            'remoteip' => $request->ip(),
+        ]);
+
+        $googleResponse = $verify->json();
+
+        if (!$googleResponse['success'] || $googleResponse['score'] < 0.5) {
+            return response()->json([
+                'message' => 'reCAPTCHA verification failed. Please try again.',
+            ], 422);
+        }
+
+        // Validate the incoming data
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'phone' => 'required|string|max:20',
@@ -35,9 +52,9 @@ class MeetingController extends Controller
             'distance_km' => 'nullable|string',
             'distance_time' => 'nullable|string',
         ]);
-    
+
         // Log the validated data
-        Log::info($validated);  
+        Log::info($validated);
 
         // Check for duplicate meeting
         $exists = Meeting::where('email', $request->email)
@@ -60,7 +77,7 @@ class MeetingController extends Controller
             'meeting' => $meeting
         ]);
     }
-    
+
     public function show(Meeting $meeting)
     {
         //

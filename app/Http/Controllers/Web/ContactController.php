@@ -22,7 +22,7 @@ class ContactController extends Controller
     {
         // Clients
         $data['clients'] = Client::where('status', '1')->orderBy('id', 'desc')->take(10)->get();
-        return view('web.contact',$data);
+        return view('web.contact', $data);
     }
 
     /**
@@ -35,7 +35,7 @@ class ContactController extends Controller
     {
         $setting = Setting::where('status', '1')->first();
 
-        if(isset($setting)){
+        if (isset($setting)) {
 
             $sendTo = $setting->contact_mail;
             $appName = $setting->title;
@@ -50,7 +50,7 @@ class ContactController extends Controller
 
             // Store Data
             Contact::create($request->all());
-            
+
 
             // Passing data to email template
             $data['name'] = $request->name;
@@ -66,10 +66,9 @@ class ContactController extends Controller
             // Send Mail
             Mail::to($sendTo)->send(new ContactMail($data));
 
-            
+
             Session::flash('success', __('email.send_successfully'));
-        }
-        else{
+        } else {
             Session::flash('error', __('email.receiver_not_found'));
         }
 
