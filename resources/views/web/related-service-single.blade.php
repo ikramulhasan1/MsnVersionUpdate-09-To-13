@@ -481,7 +481,7 @@
 .description-content ul li {
   position: relative;
   padding-left: 30px; /* space for image */
-  margin-bottom: 5px;
+  margin-bottom: 0px;
 }
 
 .description-content ul li::before {
@@ -507,7 +507,7 @@
   counter-increment: item;
   position: relative;
   padding-left: 35px;
-  margin-bottom: 5px;
+  margin-bottom: 0px;
 }
 
 .description-content ol li::before {
