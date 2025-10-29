@@ -2,128 +2,128 @@
 @php
     $header = \App\Models\PageSetup::page('related-service');
 @endphp
-@if(isset($header))
+@if (isset($header))
 
-@section('title', content: $service->title)
+    @section('title', content: $service->title)
 
-@section('top_meta_tags')
-    @if(isset($service->short_desc))
-        <meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
-    @else
-        <meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
-    @endif
+    @section('top_meta_tags')
+        @if (isset($service->short_desc))
+            <meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
+        @else
+            <meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
+        @endif
 
-    <script type="application/ld+json">
-                                            {
-                                              "@context": "http://schema.org",
-                                              "@type": "Product",
-                                              "name": "{{ $service->title }}",
-                                              "image": {
-                                                "@type": "ImageObject",
-                                                "url": "{{ asset('uploads/service/' . $service->image_path) }}",
-                                                "width": "100",
-                                                "height": "100"
-                                              },
-
-                                              "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
-                                              "url": "{{ route('service.related-single', $service->slug) }}",
-                                              "brand": {
-                                                "@type": "Brand",
-                                                "name": "MSN Softtech",
-                                                "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
-                                              },
-                                              "offers": {
-                                                "@type": "Offer",
-                                                "price": "{{ $service->price ?? '999' }}",
-                                                "priceCurrency": "USD",
-                                                "availability": "https://schema.org/InStock",
-                                                "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
-                                                "hasMerchantReturnPolicy": {
-                                                  "@type": "MerchantReturnPolicy",
-                                                  "applicableCountry": "US",
-                                                  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                                                  "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
-                                                  "returnShippingFeesAmount": {
-                                                    "@type": "MonetaryAmount",
-                                                    "value": "0.00",
-                                                    "currency": "USD"
+        <script type="application/ld+json">
+                                                {
+                                                  "@context": "http://schema.org",
+                                                  "@type": "Product",
+                                                  "name": "{{ $service->title }}",
+                                                  "image": {
+                                                    "@type": "ImageObject",
+                                                    "url": "{{ asset('uploads/service/' . $service->image_path) }}",
+                                                    "width": "100",
+                                                    "height": "100"
                                                   },
-                                                  "merchantReturnDays": "30",
-                                                  "returnMethod": "https://schema.org/ReturnByMail",
-                                                  "returnFees": "FreeReturn"
-                                                },
-                                                "shippingDetails": {
-                                                  "@type": "OfferShippingDetails",
-                                                  "shippingRate": {
-                                                    "@type": "MonetaryAmount",
-                                                    "value": "0.00",
-                                                    "currency": "USD"
+
+                                                  "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
+                                                  "url": "{{ route('service.related-single', $service->slug) }}",
+                                                  "brand": {
+                                                    "@type": "Brand",
+                                                    "name": "MSN Softtech",
+                                                    "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
                                                   },
-                                                  "deliveryTime": {
-                                                    "@type": "ShippingDeliveryTime",
-                                                    "businessDays": {
-                                                      "@type": "OpeningHoursSpecification",
-                                                      "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
-                                                      "https://schema.org/Sunday"]
+                                                  "offers": {
+                                                    "@type": "Offer",
+                                                    "price": "{{ $service->price ?? '999' }}",
+                                                    "priceCurrency": "USD",
+                                                    "availability": "https://schema.org/InStock",
+                                                    "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
+                                                    "hasMerchantReturnPolicy": {
+                                                      "@type": "MerchantReturnPolicy",
+                                                      "applicableCountry": "US",
+                                                      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                                                      "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
+                                                      "returnShippingFeesAmount": {
+                                                        "@type": "MonetaryAmount",
+                                                        "value": "0.00",
+                                                        "currency": "USD"
+                                                      },
+                                                      "merchantReturnDays": "30",
+                                                      "returnMethod": "https://schema.org/ReturnByMail",
+                                                      "returnFees": "FreeReturn"
                                                     },
-                                                    "handlingTime": {
-                                                      "@type": "QuantitativeValue",
-                                                      "minValue": 1,
-                                                      "maxValue": 2,
-                                                      "unitCode": "DAY"
-                                                    },
-                                                    "transitTime": {
-                                                      "@type": "QuantitativeValue",
-                                                      "minValue": 3,
-                                                      "maxValue": 5,
-                                                      "unitCode": "DAY"
+                                                    "shippingDetails": {
+                                                      "@type": "OfferShippingDetails",
+                                                      "shippingRate": {
+                                                        "@type": "MonetaryAmount",
+                                                        "value": "0.00",
+                                                        "currency": "USD"
+                                                      },
+                                                      "deliveryTime": {
+                                                        "@type": "ShippingDeliveryTime",
+                                                        "businessDays": {
+                                                          "@type": "OpeningHoursSpecification",
+                                                          "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
+                                                          "https://schema.org/Sunday"]
+                                                        },
+                                                        "handlingTime": {
+                                                          "@type": "QuantitativeValue",
+                                                          "minValue": 1,
+                                                          "maxValue": 2,
+                                                          "unitCode": "DAY"
+                                                        },
+                                                        "transitTime": {
+                                                          "@type": "QuantitativeValue",
+                                                          "minValue": 3,
+                                                          "maxValue": 5,
+                                                          "unitCode": "DAY"
+                                                        }
+                                                      },
+                                                      "shippingDestination": {
+                                                        "@type": "DefinedRegion",
+                                                        "addressCountry": "US"
+                                                      }
                                                     }
                                                   },
-                                                  "shippingDestination": {
-                                                    "@type": "DefinedRegion",
-                                                    "addressCountry": "US"
+                                                  "aggregateRating": {
+                                                    "@type": "AggregateRating",
+                                                    "ratingValue": "{{ $service->average_rating }}",
+                                                    "bestRating": "5",
+                                                    "worstRating": "1",
+                                                    "ratingCount": "{{ $service->review_count }}",
+                                                  },
+                                                  "review": {
+                                                    "@type": "Review",
+                                                    "author": {
+                                                      "@type": "Person",
+                                                      "name": "Joseph Garcia"
+                                                    },
+                                                    "datePublished": "{{ $service->created_at->format('Y-m-d') }}",
+                                                    "reviewRating": {
+                                                      "@type": "Rating",
+                                                      "ratingValue": "5",
+                                                      "bestRating": "5",
+                                                      "worstRating": "1"
+                                                    },
+                                                    "reviewBody": "MSN Softtech delivered an exceptional custom {{ $service->short_title }} solution that enhanced our online presence and improved performance."
                                                   }
                                                 }
-                                              },
-                                              "aggregateRating": {
-                                                "@type": "AggregateRating",
-                                                "ratingValue": "{{ $service->average_rating }}",
-                                                "bestRating": "5",
-                                                "worstRating": "1",
-                                                "ratingCount": "{{ $service->review_count }}",
-                                              },
-                                              "review": {
-                                                "@type": "Review",
-                                                "author": {
-                                                  "@type": "Person",
-                                                  "name": "Joseph Garcia"
-                                                },
-                                                "datePublished": "{{ $service->created_at->format('Y-m-d') }}",
-                                                "reviewRating": {
-                                                  "@type": "Rating",
-                                                  "ratingValue": "5",
-                                                  "bestRating": "5",
-                                                  "worstRating": "1"
-                                                },
-                                                "reviewBody": "MSN Softtech delivered an exceptional custom {{ $service->short_title }} solution that enhanced our online presence and improved performance."
-                                              }
-                                            }
-                                            </script>
+                                                </script>
 
 
-    <!-- JSON-LD markup generated by Google Structured Data Markup Helper. -->
+        <!-- JSON-LD markup generated by Google Structured Data Markup Helper. -->
 
-    @if(isset($header->meta_keywords))
-        <meta name="keywords" content="{!! strip_tags($header->meta_keywords) !!}">
-    @else
-        <meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
-    @endif
-@endsection
+        @if (isset($header->meta_keywords))
+            <meta name="keywords" content="{!! strip_tags($header->meta_keywords) !!}">
+        @else
+            <meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
+        @endif
+    @endsection
 
 @endif
 
 @section('social_meta_tags')
-    @if(isset($setting))
+    @if (isset($setting))
         <meta property="og:type" content="website">
         <meta property='og:site_name' content="{{ $setting->title }}" />
         <meta property='og:title' content="{{ $service->title }}" />
@@ -172,9 +172,9 @@
         /* HERO */
         .hero-section {
             /* background: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
-                                color: #fff;
-                                padding: 120px 0;
-                                position: relative; */
+                                        color: #fff;
+                                        padding: 120px 0;
+                                        position: relative; */
         }
 
         .hero-section::before {
@@ -494,7 +494,8 @@
             <div class="container hero-content">
                 <h1 class="display-4 font-weight-bold">{{ $item['title'] }}</h1>
                 <p class="lead text-white">{{ $item['sub_title'] }}</p>
-                <a href="#contact" style="background-color: #052C58; color: #ffffff;" class="btn btn-lg mt-3">Get Started</a>
+                <a href="#contact" style="background-color: #052C58; color: #ffffff;" class="btn btn-lg mt-3">Get
+                    Started</a>
             </div>
         </section>
     @endforeach
@@ -503,8 +504,8 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="{{ asset('uploads/subservices/' . $service->image_path ?? 'default.jpg') }}" class="img-fluid"
-                        alt="Web Development">
+                    <img src="{{ asset('uploads/subservices/' . $service->image_path ?? 'default.jpg') }}"
+                        class="img-fluid" alt="Web Development">
                 </div>
                 <div class="col-lg-6">
                     <h2 style="font-weight: 800" class=" mb-3">{{ $service->title }}</h2>
@@ -548,7 +549,8 @@
                 @foreach ($process as $key => $item)
                     <div class="col-md-3 mb-4">
                         <div class="process-step h-100">
-                            <div style="color: #052C58" class="step-number display-4 font-weight-bold">0{{ $key + 1 }}</div>
+                            <div style="color: #052C58" class="step-number display-4 font-weight-bold">0{{ $key + 1 }}
+                            </div>
                             <h5 class="mt-3 font-weight-bold">{{ $item['title'] }}</h5>
                             <p>{{ $item['bottom_text'] }}</p>
                         </div>
@@ -622,9 +624,9 @@
 
     <!-- COUNTER SCRIPT (works in Bootstrap 4) -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             var counters = document.querySelectorAll('.stat-number');
-            counters.forEach(function (counter) {
+            counters.forEach(function(counter) {
                 var target = +counter.getAttribute('data-target');
                 var count = 0;
                 var increment = target / 100;
@@ -658,7 +660,8 @@
         <section class="py-5 bg-light">
             <div class="container">
                 <h2 style="font-weight: 800" class="section-title">Recent Projects</h2>
-                <p style="font-weight: 800" class="section-subtitle">Explore some of our successful work for clients around the
+                <p style="font-weight: 800" class="section-subtitle">Explore some of our successful work for clients
+                    around the
                     world.</p>
 
                 <div class="row">
@@ -692,7 +695,8 @@
                     @foreach ($service->technologies as $technology)
                         <a href="{{ route('service.technology', $technology->slug) }}" class="col-4 col-md-2 mb-3">
                             <img src="{{ asset('uploads/technology/' . $technology->logo_path) }}" class="img-fluid"
-                                title="{{ $technology->title }}" alt="{{ $technology->title }}" style="max-height:70px;">
+                                title="{{ $technology->title }}" alt="{{ $technology->title }}"
+                                style="max-height:70px;">
                         </a>
                     @endforeach
                 </div>
@@ -765,35 +769,33 @@
 
                 <!-- FAQ (Bootstrap 4 collapse) -->
                 @if (!empty($faq))
-    <div class="col-lg-6">
-        <h2 style="font-weight: 800" class="section-title">Have Questions?</h2>
-        <div id="accordionFaq" class="faq-section">
-            @foreach ($faq as $key => $item)
-                <div class="card">
-                    <div class="card-header" id="faqHeading{{ $key }}">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link" data-toggle="collapse"
-                                data-target="#faq{{ $key }}"
-                                aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
-                                aria-controls="faq{{ $key }}">
-                                {{ $item['question'] }}
-                            </button>
-                        </h5>
-                    </div>
+                    <div class="col-lg-6">
+                        <h2 style="font-weight: 800" class="section-title">Have Questions?</h2>
+                        <div id="accordionFaq" class="faq-section">
+                            @foreach ($faq as $key => $item)
+                                <div class="card">
+                                    <div class="card-header" id="faqHeading{{ $key }}">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" data-toggle="collapse"
+                                                data-target="#faq{{ $key }}"
+                                                aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
+                                                aria-controls="faq{{ $key }}">
+                                                {{ $item['question'] }}
+                                            </button>
+                                        </h5>
+                                    </div>
 
-                    <div id="faq{{ $key }}"
-                        class="collapse {{ $loop->first ? 'show' : '' }}"
-                        aria-labelledby="faqHeading{{ $key }}"
-                        data-parent="#accordionFaq">
-                        <div class="card-body">
-                            {!! $item['answer'] !!}
-                        </div>
+                                    <div id="faq{{ $key }}" class="collapse {{ $loop->first ? 'show' : '' }}"
+                                        aria-labelledby="faqHeading{{ $key }}" data-parent="#accordionFaq">
+                                        <div class="card-body">
+                                            {!! $item['answer'] !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div> <!-- /.accordion -->
                     </div>
-                </div>
-            @endforeach
-        </div> <!-- /.accordion -->
-    </div>
-@endif
+                @endif
 
             </div>
     </section>
@@ -814,41 +816,49 @@
             <h2>We're here to help</h2>
             <p>Our dedicated team is ready to support you.</p>
 
-            <form>
+            <form method="post" action="{{ route('get-quote.store') }}" enctype="multipart/form-data"
+                accept-charset="utf-8">
+                @csrf
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label>First name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" placeholder="First name">
+                        <label>Full name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="name"
+                            placeholder="{{ __('form.your_name') }}" value="{{ old('name') }}" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Last name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" placeholder="Last name">
+                        <label>Company<span class="text-danger">(optional)</span></label>
+                        <input type="text" class="form-control" name="company"
+                            placeholder="{{ __('form.company') }}" value="{{ old('company') }}">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Email <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" placeholder="hi@metaballs.studio">
+                    <input type="email" class="form-control" name="email"
+                        placeholder="{{ __('form.email_address') }}" value="{{ old('email') }}" required>
                 </div>
 
                 <div class="form-group">
                     <label>Phone number <span class="text-danger">*</span></label><br>
-                    <input id="phone" type="tel" class="form-control" placeholder="(555) 000-0000">
+                    <input id="phone" type="tel" class="form-control" name="phone"
+                        placeholder="{{ __('form.phone_no') }}" value="{{ old('phone') }}" required>
                 </div>
 
                 <div class="form-group">
                     <label>Choose a topic <span class="text-danger">*</span></label>
-                    <select class="form-control">
-                        <option>Select from list</option>
-                        <option>Support</option>
-                        <option>Sales</option>
-                        <option>General Inquiry</option>
+                    <select name="services[]" class="form-control">
+                        @foreach ($services as $service)
+                            @if (!empty($service->short_title))
+                                <option @if(old('services') == $service->id) selected @endif id="service-{{ $service->id }}" value="{{ $service->id }}">{{ $service->short_title }}</option>
+                            @else
+                            @endif
+                        @endforeach
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label>Message (optional)</label>
-                    <textarea class="form-control" rows="3" placeholder="Share your message..."></textarea>
+                    <textarea class="form-control" rows="3" name="message" placeholder="{{ __('form.your_massage') }}" required>{{ old('message') }}</textarea>
                 </div>
 
                 <div class="form-group form-check">
@@ -857,7 +867,10 @@
                         By checking this, you agree to our privacy policy.
                     </label>
                 </div>
-
+                <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+                @if ($errors->has('captcha'))
+                    <p class="text-danger">{{ $errors->first('captcha') }}</p>
+                @endif
                 <button type="submit" class="btn btn-primary btn-block">Send message</button>
             </form>
         </div>
@@ -919,7 +932,7 @@
     <!-- Optional: small UX scripts (smooth scroll for anchor links) -->
     <script>
         // Smooth scroll for anchor links
-        $(document).on('click', 'a[href^="#"]', function (e) {
+        $(document).on('click', 'a[href^="#"]', function(e) {
             var target = $(this.getAttribute('href'));
             if (target.length) {
                 e.preventDefault();
@@ -929,32 +942,32 @@
             }
         });
     </script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const counters = document.querySelectorAll('.stat-number');
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const counters = document.querySelectorAll('.stat-number');
 
-    counters.forEach(counter => {
-        const targetText = counter.getAttribute('data-target');
-        const numericValue = parseFloat(targetText.replace(/[^\d.]/g, '')) || 0;
-        const suffix = targetText.replace(/[0-9.]/g, '');
-        let current = 0;
-        const duration = 2000;
-        const increment = numericValue / (duration / 16);
+            counters.forEach(counter => {
+                const targetText = counter.getAttribute('data-target');
+                const numericValue = parseFloat(targetText.replace(/[^\d.]/g, '')) || 0;
+                const suffix = targetText.replace(/[0-9.]/g, '');
+                let current = 0;
+                const duration = 2000;
+                const increment = numericValue / (duration / 16);
 
-        function updateCounter() {
-            current += increment;
-            if (current < numericValue) {
-                counter.textContent = Math.floor(current) + suffix;
-                requestAnimationFrame(updateCounter);
-            } else {
-                counter.textContent = targetText;
-            }
-        }
+                function updateCounter() {
+                    current += increment;
+                    if (current < numericValue) {
+                        counter.textContent = Math.floor(current) + suffix;
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = targetText;
+                    }
+                }
 
-        updateCounter();
-    });
-});
-</script>
+                updateCounter();
+            });
+        });
+    </script>
 
 
 @endsection
