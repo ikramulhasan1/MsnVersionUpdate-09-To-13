@@ -71,7 +71,7 @@
                         <span class="badge badge-primary badge-pill">{{ $service->title }}</span>
                     @endforeach
                     <hr/>
-                    <p><span class="text-highlight">{{ __('dashboard.subservice') }}: </span></p>
+                    <p><span class="text-highlight">Sub Service: </span></p>
                         <span class="badge badge-primary badge-pill">{{ $row->sub_service }}</span>
                     <hr/>
 
