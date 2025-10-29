@@ -861,12 +861,12 @@
                     <textarea class="form-control" rows="3" name="message" placeholder="{{ __('form.your_massage') }}" required>{{ old('message') }}</textarea>
                 </div>
 
-                <div class="form-group form-check">
+                {{-- <div class="form-group form-check">
                     <input type="checkbox" class="form-check-input" id="privacyCheck">
                     <label class="form-check-label" for="privacyCheck">
                         By checking this, you agree to our privacy policy.
                     </label>
-                </div>
+                </div> --}}
                 <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
                 @if ($errors->has('captcha'))
                     <p class="text-danger">{{ $errors->first('captcha') }}</p>
