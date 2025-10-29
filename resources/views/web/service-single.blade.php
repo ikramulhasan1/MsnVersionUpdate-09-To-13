@@ -685,7 +685,7 @@
                     @foreach($service->industries as $industry)
                       <div class="d-flex align-items-center mb-2">
                         <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; "
-                          src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
+                          src="{{ asset('uploads/case-study/check2.png') }}" alt="" srcset="">
                         <li style="font-size: 16px; color: {{ $industry->link ? '#28a745' : '#333333' }};">
                           @if($industry->link)
                             <a target="_blank" style="font-size: 16px; color: #28a745;"
@@ -706,7 +706,7 @@
                     @foreach($service->whywes as $we)
                       <div class="d-flex align-items-center mb-2">
                         <img style="width: 20px; height: 20px; margin: 0px; margin-right: 8px; "
-                          src="{{ asset('uploads/industry/checkmark.png') }}" alt="" srcset="">
+                          src="{{ asset('uploads/case-study/check2.png') }}" alt="" srcset="">
                         <li style="font-size: 16px; color: {{ $we->link ? '#28a745' : '#333333' }};">
                           @if($we->link)
                             <a target="_blank" style="font-size: 16px; color: #28a745;"
@@ -804,8 +804,8 @@
                     <div class="process-step-box">
                       <div class="process-step-number">{{ $key + 1 }}</div>
                       <div class="process-step-heading" style="font-size: 20px; color: #333333;">
-                        <img style="width: 50px; height: 50px;" src="{{ asset('uploads/process/' . $process->image_path) }}"
-                          class="process-step-icon" alt="">
+                        {{-- <img style="width: 50px; height: 50px;" src="{{ asset('uploads/process/' . $process->image_path) }}"
+                          class="process-step-icon" alt=""> --}}
                         {{ $process->title }}
                       </div>
                       <p style="font-size: 16px; color: #333333;">{{ $process->description }}</p>
