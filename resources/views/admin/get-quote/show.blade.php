@@ -71,6 +71,9 @@
                         <span class="badge badge-primary badge-pill">{{ $service->title }}</span>
                     @endforeach
                     <hr/>
+                    <p><span class="text-highlight">{{ __('dashboard.subservice') }}: </span></p>
+                        <span class="badge badge-primary badge-pill">{{ $row->sub_service }}</span>
+                    <hr/>
 
                     @if(isset($row->message))
                     <p><span class="text-highlight">{{ __('dashboard.note') }}: </span> {!! strip_tags($row->message, '<p><a><b><i><u><strong><br><ul><ol><li><del><ins><sup><sub><pre>') !!}</p>
