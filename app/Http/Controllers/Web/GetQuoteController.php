@@ -102,6 +102,7 @@ class GetQuoteController extends Controller
         $quote->name = $request->name;
         $quote->email = $request->email;
         $quote->phone = $request->phone;
+        $quote->sub_service = $request->sub_service;
         $quote->address = $request->address;
         $quote->city = $request->city;
         $quote->company = $request->company;

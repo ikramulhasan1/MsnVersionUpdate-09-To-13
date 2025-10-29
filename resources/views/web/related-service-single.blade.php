@@ -858,6 +858,8 @@
                 </div>
                 <input type="text" class="form-control" name="services[]" 
                             value="{{ $service->service_id }}" hidden>
+                <input type="text" class="form-control" name="sub_service" 
+                            value="{{ $service->short_title }}" hidden>
                 {{-- <div class="form-group">
                     <label>Choose a topic <span class="text-danger">*</span></label>
                     <select name="services[]" class="form-control" required>
