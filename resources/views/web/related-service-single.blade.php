@@ -845,6 +845,17 @@
                             placeholder="{{ __('form.phone_no') }}" value="{{ old('phone') }}" required>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Address <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="address" placeholder="{{ __('form.address') }}"
+                            value="{{ old('address') }}" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>City <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="city" placeholder="{{ __('form.city') }}" value="{{ old('city') }}" required>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label>Choose a topic <span class="text-danger">*</span></label>
                     <select name="services[]" class="form-control" required>
