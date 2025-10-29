@@ -750,7 +750,7 @@
             opacity: 1;
         }
     </style>
-@dd($service)
+
     <!-- TESTIMONIALS + FAQ -->
     <section class="py-5">
         <div class="container">
