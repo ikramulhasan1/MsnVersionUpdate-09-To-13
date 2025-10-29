@@ -57,8 +57,7 @@ class GetQuoteController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'address' => 'required',
-            'city' => 'required',
+           
             'message' => 'required',
             'g-recaptcha-response' => 'required', // ✅ NEW
             'file_path' => 'nullable|file|mimes:jpg,jpeg,png,gif,svg,webp,pdf,doc,docx,txt,zip,rar,csv,xls,xlsx,ppt,pptx,mp3,avi,mp4,mpeg,3gp|max:50000',
