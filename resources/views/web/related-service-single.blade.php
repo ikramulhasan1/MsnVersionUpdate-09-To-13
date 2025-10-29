@@ -856,7 +856,9 @@
                         <input type="text" class="form-control" name="city" placeholder="{{ __('form.city') }}" value="{{ old('city') }}" required>
                     </div>
                 </div>
-                <div class="form-group">
+                <input type="text" class="form-control" name="services[]" 
+                            value="{{ $service->service_id }}" hidden>
+                {{-- <div class="form-group">
                     <label>Choose a topic <span class="text-danger">*</span></label>
                     <select name="services[]" class="form-control" required>
                         @foreach ($all_service as $service)
@@ -866,7 +868,7 @@
                             @endif
                         @endforeach
                     </select>
-                </div>
+                </div> --}}
 
                 <div class="form-group">
                     <label>Message <span class="text-danger">*</span></label>
