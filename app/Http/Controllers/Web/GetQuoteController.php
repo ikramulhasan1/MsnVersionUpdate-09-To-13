@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
-use App\Models\EmailTemplate;
-use App\Mail\NotifyCustomer;
-use Illuminate\Http\Request;
-use App\Models\WorkProcess;
-use App\Mail\NotifyAdmin;
-use App\Models\GetQuote;
-use App\Models\Service;
-use App\Models\Setting;
-use Session;
 use File;
 use Mail;
+use Session;
+use App\Models\Service;
+use App\Models\Setting;
+use App\Models\GetQuote;
+use App\Mail\NotifyAdmin;
+use App\Models\WorkProcess;
+use App\Mail\NotifyCustomer;
+use Illuminate\Http\Request;
+use App\Models\EmailTemplate;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
 
 class GetQuoteController extends Controller
 {
@@ -24,7 +25,7 @@ class GetQuoteController extends Controller
      */
     public function index(Request $request)
     {
-         // Retrieve the selected service from session
+        // Retrieve the selected service from session
         $data['work_model'] = $request->session()->get('work_model');
         $data['work_scope'] = $request->session()->get('work_scope');
 
@@ -59,9 +60,22 @@ class GetQuoteController extends Controller
             'address' => 'required',
             'city' => 'required',
             'message' => 'required',
+            'g-recaptcha-response' => 'required', // ✅ NEW
             'file_path' => 'nullable|file|mimes:jpg,jpeg,png,gif,svg,webp,pdf,doc,docx,txt,zip,rar,csv,xls,xlsx,ppt,pptx,mp3,avi,mp4,mpeg,3gp|max:50000',
         ]);
 
+        // ✅ Verify Google reCAPTCHA
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => config('services.recaptcha.secret_key'),
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => $request->ip(),
+        ]);
+
+        $recaptcha = $response->json();
+
+        if (empty($recaptcha['success']) || $recaptcha['success'] !== true) {
+            return back()->withErrors(['captcha' => 'reCAPTCHA verification failed. Please try again.'])->withInput();
+        }
 
         // file upload, fit and store inside public folder 
         if ($request->hasFile('file_path')) {
@@ -73,7 +87,7 @@ class GetQuoteController extends Controller
 
             //Crete Folder Location
             $path = public_path('uploads/quote/');
-            if (! File::exists($path)) {
+            if (!File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
