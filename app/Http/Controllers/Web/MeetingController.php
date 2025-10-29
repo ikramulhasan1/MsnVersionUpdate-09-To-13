@@ -21,21 +21,21 @@ class MeetingController extends Controller
 
     public function store(Request $request)
     {
-        $recaptchaResponse = $request->input('g-recaptcha-response');
+        // ✅ Verify reCAPTCHA first
+    $recaptchaResponse = $request->input('g-recaptcha-response');
+    $verify = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        'secret' => env('RECAPTCHA_SECRET_KEY'),
+        'response' => $recaptchaResponse,
+        'remoteip' => $request->ip(),
+    ]);
 
-        $verify = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => env('RECAPTCHA_SECRET_KEY'),
-            'response' => $recaptchaResponse,
-            'remoteip' => $request->ip(),
-        ]);
+    $responseBody = $verify->json();
 
-        $googleResponse = $verify->json();
-
-        if (!$googleResponse['success'] || $googleResponse['score'] < 0.5) {
-            return response()->json([
-                'message' => 'reCAPTCHA verification failed. Please try again.',
-            ], 422);
-        }
+    if (!$responseBody['success']) {
+        return response()->json([
+            'message' => 'reCAPTCHA verification failed. Please try again.'
+        ], 422);
+    }
 
         // Validate the incoming data
         $validated = $request->validate([

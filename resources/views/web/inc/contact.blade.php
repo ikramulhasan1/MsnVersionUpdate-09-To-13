@@ -294,7 +294,7 @@
         <input type="hidden" id="distance_time" name="distance_time">
         <input type="hidden" id="distance_km" name="distance_km">
 
-        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+<div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
         <button type="submit" class="btn btn-primary mt-3">Book a Meeting</button>
       </form>
     </div>
@@ -394,14 +394,8 @@
     });
 
   </script>
-<script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}"></script>
-<script>
-grecaptcha.ready(function() {
-  grecaptcha.execute("{{ env('RECAPTCHA_SITE_KEY') }}", {action: "submit"}).then(function(token) {
-    document.getElementById('g-recaptcha-response').value = token;
-  });
-});
-</script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 
 </body>
 
