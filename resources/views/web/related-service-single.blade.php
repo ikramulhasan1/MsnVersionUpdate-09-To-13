@@ -832,19 +832,19 @@
                     </div>
                 </div>
 
-                <div class="row">
-                <div class="form-group col-lg-6 col-md-6 col-12">
-                    <label>Email <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" name="email"
-                        placeholder="{{ __('form.email_address') }}" value="{{ old('email') }}" required>
-                </div>
+                <div class="form-row">
+                    <div class="form-group col-lg-6 col-md-6 col-12">
+                        <label>Email <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" name="email"
+                            placeholder="{{ __('form.email_address') }}" value="{{ old('email') }}" required>
+                    </div>
 
-                <div class="form-group col-lg-6 col-md-6 col-12">
-                    <label>Phone number <span class="text-danger">*</span></label><br>
-                    <input id="phone" type="tel" class="form-control" name="phone"
-                        placeholder="{{ __('form.phone_no') }}" value="{{ old('phone') }}" required>
+                    <div class="form-group col-lg-6 col-md-6 col-12">
+                        <label>Phone number <span class="text-danger">*</span></label><br>
+                        <input id="phone" type="tel" class="form-control" name="phone"
+                            placeholder="{{ __('form.phone_no') }}" value="{{ old('phone') }}" required>
+                    </div>
                 </div>
-</div>
                 <div class="form-group">
                     <label>Choose a topic <span class="text-danger">*</span></label>
                     <select name="services[]" class="form-control" required>
