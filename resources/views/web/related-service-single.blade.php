@@ -846,7 +846,7 @@
 
                 <div class="form-group">
                     <label>Choose a topic <span class="text-danger">*</span></label>
-                    <select name="services[]" class="form-control">
+                    <select name="services[]" class="form-control" required>
                         @foreach ($all_service as $service)
                             @if (!empty($service->short_title))
                                 <option @if(old('services') == $service->id) selected @endif id="service-{{ $service->id }}" value="{{ $service->id }}">{{ $service->short_title }}</option>
@@ -857,7 +857,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Message (optional)</label>
+                    <label>Message <span class="text-danger">*</span></label>
                     <textarea class="form-control" rows="3" name="message" placeholder="{{ __('form.your_massage') }}" required>{{ old('message') }}</textarea>
                 </div>
 
