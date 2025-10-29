@@ -491,7 +491,7 @@
   top: 4px;
   width: 20px;
   height: 20px;
-  background-image: url('{{ asset("images/bullet-icon.png") }}');
+  background-image: url('{{ asset('uploads/case-study/check2.png') }}');
   background-size: contain;
   background-repeat: no-repeat;
 }
