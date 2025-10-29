@@ -847,7 +847,7 @@
                 <div class="form-group">
                     <label>Choose a topic <span class="text-danger">*</span></label>
                     <select name="services[]" class="form-control">
-                        @foreach ($services as $service)
+                        @foreach ($all_service as $service)
                             @if (!empty($service->short_title))
                                 <option @if(old('services') == $service->id) selected @endif id="service-{{ $service->id }}" value="{{ $service->id }}">{{ $service->short_title }}</option>
                             @else

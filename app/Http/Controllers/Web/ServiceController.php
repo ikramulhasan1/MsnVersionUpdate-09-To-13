@@ -61,6 +61,7 @@ class ServiceController extends Controller
         $data['service'] = Subservice::with('portfolios','technologies')->where('slug', $slug)
             ->where('status', '1')
             ->firstOrFail();
+        $data['all_service'] = Service::get();
 
         // Service Lists                                
         $data['service_lists'] = Subservice::where('status', '1')
