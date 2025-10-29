@@ -486,7 +486,6 @@
 
 .description-content ul li::before {
   content: "";
-  margin-top: 10px;
   position: absolute;
   left: 0;
   top: 4px;
