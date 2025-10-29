@@ -629,7 +629,7 @@ $header = \App\Models\PageSetup::page('get-quote');
       </div>
       @endif
 
-      {{-- <form class="quote-form" method="post" action="{{ route('get-quote.store') }}" enctype="multipart/form-data" accept-charset="utf-8">
+      <form class="quote-form" method="post" action="{{ route('get-quote.store') }}" enctype="multipart/form-data" accept-charset="utf-8">
         @csrf
         <input type="hidden" name="work_model" value="{{ $work_model }}">
         <input type="hidden" name="work_scope" value="{{ $work_scope }}">
@@ -663,7 +663,7 @@ $header = \App\Models\PageSetup::page('get-quote');
         <textarea class="quote-textarea" name="message" placeholder="{{ __('form.your_massage') }}" required>{{ old('message') }}</textarea>
         <input class="quote-input" type="file" name="file_path" value="{{ old('file_path') }}" id="file_path">
         <button class="quote-submit-btn" type="submit" name="submit-form">SUBMIT NOW</button>
-      </form> --}}
+      </form>
     </div>
 </section>
 @endif
