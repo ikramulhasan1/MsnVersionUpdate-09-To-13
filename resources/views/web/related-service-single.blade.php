@@ -557,7 +557,7 @@
                 </div>
                 <div class="col-lg-6">
                     <h2 style="font-weight: 800" class=" mb-3">{{ $service->title }}</h2>
-                    <p>{!! $service->description !!}</p>
+                    <p class="description-content">{!! $service->description !!}</p>
 
                 </div>
             </div>
