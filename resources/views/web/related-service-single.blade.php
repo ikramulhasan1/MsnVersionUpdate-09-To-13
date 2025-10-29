@@ -470,6 +470,54 @@
                 margin: 20px auto;
             }
         }
+
+
+        .description-content ul {
+  list-style: none; /* remove default bullets */
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.description-content ul li {
+  position: relative;
+  padding-left: 30px; /* space for image */
+  margin-bottom: 8px;
+}
+
+.description-content ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 20px;
+  height: 20px;
+  background-image: url('{{ asset("images/bullet-icon.png") }}');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* For ordered lists */
+.description-content ol {
+  list-style: none;
+  counter-reset: item;
+  padding-left: 0;
+}
+
+.description-content ol li {
+  counter-increment: item;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 8px;
+}
+
+.description-content ol li::before {
+  content: counter(item) ".";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: bold;
+  color: #052C58; /* adjust color */
+}
     </style>
 
 
