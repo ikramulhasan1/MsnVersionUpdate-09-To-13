@@ -1491,57 +1491,12 @@
           </a>
           
         @endforeach
-        {{-- <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/fullstack-icon.png" alt="Full-stack" loading="lazy">
-          <p class="tech-title">Full-stack</p>
-        </a>
-
-        <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/frontend-icon.svg" loading="lazy" alt="Frontend">
-          <p class="tech-title">Frontend</p>
-        </a>
-        <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/backend-icon.svg" loading="lazy" alt="Backend">
-          <p class="tech-title">Backend</p>
-        </a>
-        <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/mobile-icon.svg" loading="lazy" alt="Mobile">
-          <p class="tech-title">Apps Dev</p>
-        </a>
-        <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/shopify-icon.svg" loading="lazy" alt="Shopify">
-          <p class="tech-title">Shopify</p>
-        </a>
         
-        <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/wordpress-icon.svg" loading="lazy" alt="WordPress">
-          <p class="tech-title">WordPress</p>
-        </a>
-        <a href="#" class="tech-card">
-          <img src="//upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png"
-            alt="VueJS" loading="lazy">
-          <p class="tech-title">VueJS</p>
-        </a>
-        
-        <a href="#" class="tech-card">
-          <img src="//upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1154px-Laravel.svg.png" alt="Laravel" loading="lazy">
-          <p class="tech-title">Laravel</p>
-        </a>
-        
-        <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/php-icon.svg" alt="PHP" loading="lazy">
-          <p class="tech-title">PHP</p>
-        </a>
-       
-        <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/qa-icon.svg" alt="QA" loading="lazy">
-          <p class="tech-title">QA</p>
-        </a> --}}
       </div>
 
       <div class="tech-buttons mt-5">
-        <a href="#" class="btn btn-custom-orange">Get A Quote →</a>
-        <a href="#" class="btn btn-custom-outline">See All Technologies →</a>
+        <a href="{{ route('get-quote') }}" class="btn btn-custom-orange">Get A Quote →</a>
+        <a href="{{ route('technologies') }}" class="btn btn-custom-outline">See All Technologies →</a>
       </div>
     </div>
   </section>
