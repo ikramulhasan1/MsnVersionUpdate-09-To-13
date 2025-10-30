@@ -1129,7 +1129,7 @@
             We Build <span>Digital Experiences</span> That Grow Businesses
           </h1>
           <p>
-            Empower your brand with creative design, smart development, and growth-driven strategies tailored for success.
+            {!! $slider->description !!}
           </p>
           <a href="#" class="btn btn-primary px-4 py-2 me-2">Get Started</a>
           <a href="#" class="btn btn-outline-light px-4 py-2">Learn More</a>
