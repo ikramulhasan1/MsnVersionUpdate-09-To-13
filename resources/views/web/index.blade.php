@@ -1138,7 +1138,7 @@
                         center/cover no-repeat;" class="hero-section d-flex align-items-center">
         <div class="container hero-content">
           <div class="row align-items-center">
-            <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
+            <div class="col-lg-8 col-md-12 mb-4 mb-lg-0">
               <h1 class="mb-3">{!! $slider->title !!}</h1>
               <p>
                 {!! $slider->description !!}
@@ -1146,7 +1146,7 @@
               <a href="#" class="btn btn-primary px-4 py-2 me-2">Get Started</a>
               <a href="#" class="btn btn-outline-light px-4 py-2">Learn More</a>
             </div>
-            <div class="col-lg-6 text-center text-lg-end">
+            <div class="col-lg-4 text-center text-lg-end">
               <!-- <img src="https://media.istockphoto.com/id/2193065392/photo/young-business-professionals-collaborating-in-a-modern-meeting-room.jpg?s=1024x1024&w=is&k=20&c=kEERak83iER3k1MUxHZyJKC_Vrdl7YSjh6Y80KWupbg="
                      alt="Digital Agency Illustration"
                      class="img-fluid hero-image"> -->
