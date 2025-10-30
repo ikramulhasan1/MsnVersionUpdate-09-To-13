@@ -942,6 +942,85 @@
 
    }
   
+
+
+  /*  */
+    .hero-section {
+      background: linear-gradient(rgba(5, 44, 88, 0.85), rgba(5, 44, 88, 0.85)),
+                  url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1920&q=80')
+                  center/cover no-repeat;
+      color: #fff;
+      padding: 130px 0;
+      position: relative;
+    }
+
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(5, 44, 88, 0.3);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-section h1 {
+      font-size: 3rem;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+
+    .hero-section h1 span {
+      color: #0d6efd;
+    }
+
+    .hero-section p {
+      font-size: 1.1rem;
+      color: #e2e2e2;
+      margin-bottom: 30px;
+    }
+
+    .hero-section .btn {
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
+      border-radius: 50px;
+    }
+
+    .hero-section .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .hero-image {
+      max-width: 90%;
+      animation: float 4s ease-in-out infinite;
+      z-index: 2;
+      position: relative;
+    }
+
+    /* Floating animation for the right image */
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 991px) {
+      .hero-section {
+        text-align: center;
+        padding: 100px 20px;
+      }
+      .hero-section h1 {
+        font-size: 2.2rem;
+      }
+      .hero-section .btn {
+        margin-bottom: 10px;
+      }
+    }
 </style>
 {{-- schema --}}
 @section('schema_markup')
@@ -986,99 +1065,8 @@
 @section('content')
   <link rel="stylesheet" href="{{ asset('web/css/extra-index.css') }}">
   @if(count($sliders) > 0)
-    <!-- Bnner Section -->
-    <section class="banner-section">
-      {{-- <div class="carousel-wrap">
-        <div class="owl-carousel owl-theme">
-          @foreach($sliders as $slider)
-          <div class="item"
-            style="justify-content: space-around; background-image: url({{ asset('uploads/slider/'.$slider->image_path) }});">
-            <div class="row w-100">
-              <div class="col-md-8 item-content">
-                <div class="">
-                  <h1 class="">{{ $slider->title }}</h1>
-                  <p>{!! $slider->description !!}</p>
-
-                  @php
-                  $page_contact = \App\Models\PageSetup::page('contact-us');
-                  @endphp
-                  @if(isset($page_contact))
-                  <a style="margin-top: 10px; position: relative; top: 150px; " href="{{ route('contact') }}" class="btn">{{
-                    __('common.contact_us') }}</a>
-                  @endif
-
-                  @if(isset($slider->link))
-                  <a style="margin-top: 10px; position: relative; top: 150px;" href="{{ $slider->link }}" target="_blank"
-                    class="btn">{{ __('common.services') }}</a>
-                  @endif
-
-                </div>
-              </div>
-              <div class="col-md-4 d-flex align-items-center justify-content-center short-item">
-                <button class="btn">Discover</button>
-              </div>
-            </div>
-          </div>
-          @endforeach
-        </div>
-      </div> --}}
-
-
-      {{-- <div class="carousel-wrap">
-        <div class="owl-carousel owl-theme">
-          @foreach($sliders as $slider)
-          <div class="item p-0" style="position: relative;">
-
-            @if($slider->video_url)
-            <div class="video-slide" style="position: relative; padding-top: 56.25%; height: 0; overflow: hidden;">
-              <iframe src="https://www.youtube.com/embed/{{ $slider->video_id }}?autoplay=1&mute=1&controls=1&rel=0"
-                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-              </iframe>
-            </div>
-            @else
-            <div class="image-slide" style="
-                                background-image: url('{{ asset('uploads/slider/'.$slider->image_path) }}');
-                                background-size: cover;
-                                background-position: center;
-                                height: 600px;
-                                width: 100%;
-                              ">
-            </div>
-            @endif
-
-            <div class="slide-overlay-content" style="
-                              position: absolute;
-                              top: 0%;
-                              left: 0%;
-                              height: 600px;
-                              z-index: 10;
-                              color: white;
-                              background: rgba(0, 0, 0, 0.4);
-                              padding: 20px;
-                              border-radius: 0px;
-                            ">
-
-              <h1>{{ $slider->title }}</h1>
-              <p style="color: white !important">{!! $slider->description !!}</p>
-
-              @php $page_contact = \App\Models\PageSetup::page('contact-us'); @endphp
-              @if(isset($page_contact))
-              <a href="{{ route('contact') }}" class="btn btn-light mt-3">{{ __('common.contact_us') }}</a>
-              @endif
-
-              @if(isset($slider->link))
-              <a href="{{ $slider->link }}" target="_blank" class="btn btn-outline-light mt-2">{{ __('common.services')
-                }}</a>
-              @endif
-
-            </div>
-
-          </div>
-          @endforeach
-        </div>
-      </div> --}}
-
+    {{-- <section class="banner-section">
+     
       <div class="carousel-wrap">
         <div class="owl-carousel owl-theme">
           @foreach($sliders as $slider)
@@ -1093,7 +1081,6 @@
               style="position: relative; max-height: 450px !important; {{ $style }}"
               @if($slider->media_type === 'video' && $slider->video_id) data-video-id="{{ $slider->video_id }}" @endif>
 
-              {{-- Background YouTube Video --}}
               @if($slider->media_type === 'video' && $slider->video_id)
                 <div class="video-embed" style="position: absolute; inset: 0; z-index: 0; overflow: hidden;">
                   <iframe width="100%" height="100%"
@@ -1105,44 +1092,52 @@
                 </div>
               @endif
 
-              {{-- Foreground Content --}}
               <div class="row row-item-content position-relative" style="z-index: 2; ">
                 <div class="col-md-12 item-content">
                   <div>
                     <h1 class="slider-img-title">{{ $slider->title }}</h1>
-                    {{-- <p>{!! $slider->description !!}</p> --}}
-
                     @php
                       $page_contact = \App\Models\PageSetup::page('contact-us');
                     @endphp
-
-                    {{-- @if(isset($page_contact))
-                    <a href="{{ route('contact') }}" class="btn" style="margin-top: 10px; position: relative; top: 150px;">
-                      {{ __('common.contact_us') }}
-                    </a>
-                    @endif --}}
+                    @if(isset($page_contact))
                     <button id="open-modal" class=" googleMeetBtn" style="position: relative; top: 50px;">Discuss Your
                       Requirements →</button>
-
-                    {{-- @if(isset($slider->link))
-                    <a href="{{ $slider->link }}" class="btn" target="_blank"
-                      style="margin-top: 10px; position: relative; top: 150px;">
-                      {{ __('common.services') }}
                     </a>
-                    @endif --}}
+                    @endif 
                   </div>
                 </div>
 
-                {{-- <div class="col-md-4 d-flex align-items-center justify-content-center short-item">
-                  <button class="btn">Discover</button>
-                </div> --}}
+                
               </div>
             </div>
           @endforeach
         </div>
       </div>
 
-    </section>
+    </section> --}}
+
+
+      <section class="hero-section d-flex align-items-center">
+    <div class="container hero-content">
+      <div class="row align-items-center">
+        <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
+          <h1 class="mb-3">
+            We Build <span>Digital Experiences</span> That Grow Businesses
+          </h1>
+          <p>
+            Empower your brand with creative design, smart development, and growth-driven strategies tailored for success.
+          </p>
+          <a href="#" class="btn btn-primary px-4 py-2 me-2">Get Started</a>
+          <a href="#" class="btn btn-outline-light px-4 py-2">Learn More</a>
+        </div>
+        <div class="col-lg-6 text-center text-lg-end">
+          <!-- <img src="https://media.istockphoto.com/id/2193065392/photo/young-business-professionals-collaborating-in-a-modern-meeting-room.jpg?s=1024x1024&w=is&k=20&c=kEERak83iER3k1MUxHZyJKC_Vrdl7YSjh6Y80KWupbg="
+               alt="Digital Agency Illustration"
+               class="img-fluid hero-image"> -->
+        </div>
+      </div>
+    </div>
+  </section>
     <!-- End Bnner Section -->
   @endif
 
