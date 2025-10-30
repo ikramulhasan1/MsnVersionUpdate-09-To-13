@@ -1143,8 +1143,8 @@
               <p>
                 {!! $slider->description !!}
               </p>
-              <a href="#" class="btn btn-primary px-4 py-2 me-2">Get Started</a>
-              <a href="#" class="btn btn-outline-light px-4 py-2">Learn More</a>
+              <a href="{{ route('get-quote') }}" class="btn btn-primary px-4 py-2 me-2">Get Started</a>
+              <a href="{{ route('services') }}" class="btn btn-outline-light px-4 py-2">WHAT WE OFFER</a>
             </div>
             <div class="col-lg-4 text-center text-lg-end">
               <!-- <img src="https://media.istockphoto.com/id/2193065392/photo/young-business-professionals-collaborating-in-a-modern-meeting-room.jpg?s=1024x1024&w=is&k=20&c=kEERak83iER3k1MUxHZyJKC_Vrdl7YSjh6Y80KWupbg="
