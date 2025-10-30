@@ -14,101 +14,101 @@
   @endif
   {{--
   <script type="application/ld+json">
-      {
-        "@context": "http://schema.org",
-        "@type": "Product",
-        "name": "{{ $technology->meta_title }}",
-        "image": {
-          "@type": "ImageObject",
-          "url": "{{ asset('uploads/service/'.$technology->image_path) }}",
-          "width": "100",
-          "height": "100"
-        },
+        {
+          "@context": "http://schema.org",
+          "@type": "Product",
+          "name": "{{ $technology->meta_title }}",
+          "image": {
+            "@type": "ImageObject",
+            "url": "{{ asset('uploads/service/'.$technology->image_path) }}",
+            "width": "100",
+            "height": "100"
+          },
 
-        "description": "{{ Str::limit(strip_tags($technology->description), 500, '...') }}",
-        "url": "{{ route('service.technology', $technology->slug) }}",
-        "brand": {
-          "@type": "Brand",
-          "name": "MSN Softtech",
-          "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": "{{ $technology->price ?? '999' }}",
-          "priceCurrency": "USD",
-          "availability": "https://schema.org/InStock",
-          "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
-          "hasMerchantReturnPolicy": {
-            "@type": "MerchantReturnPolicy",
-            "applicableCountry": "US",
-            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-            "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
-            "returnShippingFeesAmount": {
-              "@type": "MonetaryAmount",
-              "value": "0.00",
-              "currency": "USD"
-            },
-            "merchantReturnDays": "30",
-            "returnMethod": "https://schema.org/ReturnByMail",
-            "returnFees": "FreeReturn"
+          "description": "{{ Str::limit(strip_tags($technology->description), 500, '...') }}",
+          "url": "{{ route('service.technology', $technology->slug) }}",
+          "brand": {
+            "@type": "Brand",
+            "name": "MSN Softtech",
+            "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
           },
-          "shippingDetails": {
-            "@type": "OfferShippingDetails",
-            "shippingRate": {
-              "@type": "MonetaryAmount",
-              "value": "0.00",
-              "currency": "USD"
+          "offers": {
+            "@type": "Offer",
+            "price": "{{ $technology->price ?? '999' }}",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
+            "hasMerchantReturnPolicy": {
+              "@type": "MerchantReturnPolicy",
+              "applicableCountry": "US",
+              "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+              "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
+              "returnShippingFeesAmount": {
+                "@type": "MonetaryAmount",
+                "value": "0.00",
+                "currency": "USD"
+              },
+              "merchantReturnDays": "30",
+              "returnMethod": "https://schema.org/ReturnByMail",
+              "returnFees": "FreeReturn"
             },
-            "deliveryTime": {
-              "@type": "ShippingDeliveryTime",
-              "businessDays": {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
-                "https://schema.org/Sunday"]
+            "shippingDetails": {
+              "@type": "OfferShippingDetails",
+              "shippingRate": {
+                "@type": "MonetaryAmount",
+                "value": "0.00",
+                "currency": "USD"
               },
-              "handlingTime": {
-                "@type": "QuantitativeValue",
-                "minValue": 1,
-                "maxValue": 2,
-                "unitCode": "DAY"
+              "deliveryTime": {
+                "@type": "ShippingDeliveryTime",
+                "businessDays": {
+                  "@type": "OpeningHoursSpecification",
+                  "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
+                  "https://schema.org/Sunday"]
+                },
+                "handlingTime": {
+                  "@type": "QuantitativeValue",
+                  "minValue": 1,
+                  "maxValue": 2,
+                  "unitCode": "DAY"
+                },
+                "transitTime": {
+                  "@type": "QuantitativeValue",
+                  "minValue": 3,
+                  "maxValue": 5,
+                  "unitCode": "DAY"
+                }
               },
-              "transitTime": {
-                "@type": "QuantitativeValue",
-                "minValue": 3,
-                "maxValue": 5,
-                "unitCode": "DAY"
+              "shippingDestination": {
+                "@type": "DefinedRegion",
+                "addressCountry": "US"
               }
-            },
-            "shippingDestination": {
-              "@type": "DefinedRegion",
-              "addressCountry": "US"
             }
-          }
-        },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "{{ $technology->average_rating }}",
-          "bestRating": "5",
-          "worstRating": "1",
-          "ratingCount": "{{ $technology->review_count }}"
-        },
-        "review": {
-          "@type": "Review",
-          "author": {
-            "@type": "Person",
-            "name": "Joseph Garcia"
           },
-          "datePublished": "{{ $technology->created_at->format('Y-m-d') }}",
-          "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": "5",
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "{{ $technology->average_rating }}",
             "bestRating": "5",
-            "worstRating": "1"
+            "worstRating": "1",
+            "ratingCount": "{{ $technology->review_count }}"
           },
-          "reviewBody": "MSN Softtech delivered an exceptional custom {{ $technology->short_title }} solution that enhanced our online presence and improved performance."
+          "review": {
+            "@type": "Review",
+            "author": {
+              "@type": "Person",
+              "name": "Joseph Garcia"
+            },
+            "datePublished": "{{ $technology->created_at->format('Y-m-d') }}",
+            "reviewRating": {
+              "@type": "Rating",
+              "ratingValue": "5",
+              "bestRating": "5",
+              "worstRating": "1"
+            },
+            "reviewBody": "MSN Softtech delivered an exceptional custom {{ $technology->short_title }} solution that enhanced our online presence and improved performance."
+          }
         }
-      }
-      </script> --}}
+        </script> --}}
 
 
   <!-- JSON-LD markup generated by Google Structured Data Markup Helper. -->
@@ -1201,7 +1201,7 @@
       <div class="row justify-content-center">
         <!-- <div class="col-lg-4">
 
-          </div> -->
+            </div> -->
 
         <div class="col-lg-12">
           <div class="row">

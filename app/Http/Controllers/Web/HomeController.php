@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
-use App\Models\PortfolioCategory;
-use App\Models\EmailTemplate;
-use Illuminate\Http\Request;
-use App\Models\WorkProcess;
-use App\Models\Testimonial;
-use App\Models\Subscriber;
-use App\Mail\Subscription;
-use App\Models\Portfolio;
-use App\Models\Article;
-use App\Models\Service;
-use App\Models\Counter;
-use App\Models\Setting;
+use Mail;
+use App\Models\Page;
+use App\Models\About;
+use App\Models\Client;
 use App\Models\Member;
 use App\Models\Slider;
-use App\Models\Client;
-use App\Models\About;
-use App\Models\Page;
-use Mail;
+use App\Models\Article;
+use App\Models\Counter;
+use App\Models\Service;
+use App\Models\Setting;
+use App\Models\Portfolio;
+use App\Mail\Subscription;
+use App\Models\Subscriber;
+use App\Models\Technology;
+use App\Models\Testimonial;
+use App\Models\WorkProcess;
+use Illuminate\Http\Request;
+use App\Models\EmailTemplate;
+use App\Models\PortfolioCategory;
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
@@ -85,6 +86,10 @@ class HomeController extends Controller
         // Clients
         $data['clients'] = Client::where('status', '1')
                             ->orderBy('id', 'desc')->take(10)
+                            ->get();
+
+        $data['technologies'] = Technology::where('status', '1')
+                            ->orderBy('id', 'asc')
                             ->get();
 
         return view('web.index', $data);

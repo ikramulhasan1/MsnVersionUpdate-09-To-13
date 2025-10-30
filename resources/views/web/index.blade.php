@@ -1483,20 +1483,19 @@
       <p class="section-subtitle">30+ Team of Experts Skilled in 10+ Cutting-Edge Technologies</p>
 
       <div class="d-flex flex-wrap justify-content-center">
-        <!-- Tech cards -->
+        @foreach ($technologies as $technology)
+          <a href="#" class="tech-card">
+            <img src="{{ asset('uploads/technology/' . $technology->image_path) }}" alt="{{ $technology->short_title }}"
+              loading="lazy">
+            <p class="tech-title">{{ $technology->short_title }}</p>
+          </a>
+          
+        @endforeach
         {{-- <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/web-icon.svg" alt="Web">
-          <p class="tech-title">Web</p>
-        </a> --}}
-        <a href="#" class="tech-card">
           <img src="//www.capitalnumbers.com/images/pool-icon-home/fullstack-icon.png" alt="Full-stack" loading="lazy">
           <p class="tech-title">Full-stack</p>
         </a>
 
-        {{-- <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/cloud-icon.svg" alt="Cloud">
-          <p class="tech-title">Cloud</p>
-        </a> --}}
         <a href="#" class="tech-card">
           <img src="//www.capitalnumbers.com/images/pool-icon-home/frontend-icon.svg" loading="lazy" alt="Frontend">
           <p class="tech-title">Frontend</p>
@@ -1513,10 +1512,7 @@
           <img src="//www.capitalnumbers.com/images/pool-icon-home/shopify-icon.svg" loading="lazy" alt="Shopify">
           <p class="tech-title">Shopify</p>
         </a>
-        {{-- <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/react-icon.svg" alt="ReactJS">
-          <p class="tech-title">ReactJS</p>
-        </a> --}}
+        
         <a href="#" class="tech-card">
           <img src="//www.capitalnumbers.com/images/pool-icon-home/wordpress-icon.svg" loading="lazy" alt="WordPress">
           <p class="tech-title">WordPress</p>
@@ -1526,66 +1522,21 @@
             alt="VueJS" loading="lazy">
           <p class="tech-title">VueJS</p>
         </a>
-        {{-- <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/bi-icon.svg" alt="BI">
-          <p class="tech-title">BI</p>
-        </a> --}}
-        {{-- <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/java-icon.svg" alt="Java">
-          <p class="tech-title">Java</p>
-        </a> --}}
-        {{-- <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/dotnet-icon.svg" alt=".NET">
-          <p class="tech-title">.NET</p>
-        </a> --}}
-        {{-- <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/python-icon.svg" alt="Python">
-          <p class="tech-title">Python</p>
-        </a> --}}
+        
         <a href="#" class="tech-card">
           <img src="//upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1154px-Laravel.svg.png" alt="Laravel" loading="lazy">
           <p class="tech-title">Laravel</p>
         </a>
-        {{-- <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/ai-icon.svg" alt="AI/ML">
-          <p class="tech-title">AI/ML</p>
-        </a> --}}
-        {{-- <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/open-ai-icon.svg" alt="Open AI">
-          <p class="tech-title">Open AI</p>
-        </a> --}}
-        {{-- <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/data-engineering-icon.svg" alt="Data Engineering">
-          <p class="tech-title">Data Engineering</p>
-        </a> --}}
-        {{-- <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/new_nav_icon/skill/aws.svg" alt="AWS">
-          <p class="tech-title">AWS</p>
-        </a> --}}
-        {{-- <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/megento-icon.svg" alt="Magento">
-          <p class="tech-title">Magento</p>
-        </a> --}}
-        {{-- <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/flutter-icon.svg" alt="Flutter">
-          <p class="tech-title">Flutter</p>
-        </a> --}}
+        
         <a href="#" class="tech-card">
           <img src="//www.capitalnumbers.com/images/pool-icon-home/php-icon.svg" alt="PHP" loading="lazy">
           <p class="tech-title">PHP</p>
         </a>
-        {{-- <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/vr-icon.svg" alt="AR/VR">
-          <p class="tech-title">AR/VR</p>
-        </a> --}}
-        {{-- <a href="#" class="tech-card">
-          <img src="//www.capitalnumbers.com/images/pool-icon-home/blockchain-icon.svg" alt="Blockchain">
-          <p class="tech-title">Blockchain</p>
-        </a> --}}
+       
         <a href="#" class="tech-card">
           <img src="//www.capitalnumbers.com/images/pool-icon-home/qa-icon.svg" alt="QA" loading="lazy">
           <p class="tech-title">QA</p>
-        </a>
+        </a> --}}
       </div>
 
       <div class="tech-buttons mt-5">
