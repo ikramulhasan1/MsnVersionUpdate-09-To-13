@@ -1139,7 +1139,7 @@
         <div class="container hero-content">
           <div class="row align-items-center">
             <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
-              <h1 class="mb-3">{{ $slider->title }}</h1>
+              <h1 class="mb-3">{!! $slider->title !!}</h1>
               <p>
                 {!! $slider->description !!}
               </p>
