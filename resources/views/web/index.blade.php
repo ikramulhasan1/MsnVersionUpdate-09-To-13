@@ -917,17 +917,21 @@
   .owl-next {
     display: none !important;
   }
-  .top-banner-img{ 
+
+  .top-banner-img {
     justify-content: space-start;
   }
+
   @media (max-width: 575.98px) {
-    .top-banner-img{ 
+    .top-banner-img {
       justify-content: center;
     }
-    .legend-p{
+
+    .legend-p {
       margin-top: 50px;
     }
-    .slider-img-title{
+
+    .slider-img-title {
       font-size: 24px !important;
     }
 
@@ -940,125 +944,137 @@
       justify-content: center;
     }
 
-   }
-  
+  }
+
 
 
   /*  */
-    .hero-section {
-      /* background: linear-gradient(rgba(5, 44, 88, 0.85), rgba(5, 44, 88, 0.85)),
+  .hero-section {
+    /* background: linear-gradient(rgba(5, 44, 88, 0.85), rgba(5, 44, 88, 0.85)),
                   url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1920&q=80')
                   center/cover no-repeat; */
-      color: #fff;
-      padding: 130px 0;
-      position: relative;
+    color: #fff;
+    padding: 130px 0;
+    position: relative;
+  }
+
+  .hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(5, 44, 88, 0.3);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-section h1 {
+    font-size: 3rem;
+    line-height: 1.3;
+    font-weight: 700;
+  }
+
+  .hero-section h1 span {
+    color: #0d6efd;
+  }
+
+  .hero-section p {
+    font-size: 1.1rem;
+    color: #e2e2e2;
+    margin-bottom: 30px;
+  }
+
+  .hero-section .btn {
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    border-radius: 50px;
+  }
+
+  .hero-section .btn:hover {
+    transform: translateY(-3px);
+  }
+
+  .hero-image {
+    max-width: 90%;
+    animation: float 4s ease-in-out infinite;
+    z-index: 2;
+    position: relative;
+  }
+
+  /* Floating animation for the right image */
+  @keyframes float {
+    0% {
+      transform: translateY(0);
     }
 
-    .hero-section::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(5, 44, 88, 0.3);
+    50% {
+      transform: translateY(-10px);
     }
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 991px) {
+    .hero-section {
+      text-align: center;
+      padding: 100px 20px;
     }
 
     .hero-section h1 {
-      font-size: 3rem;
-      line-height: 1.3;
-      font-weight: 700;
-    }
-
-    .hero-section h1 span {
-      color: #0d6efd;
-    }
-
-    .hero-section p {
-      font-size: 1.1rem;
-      color: #e2e2e2;
-      margin-bottom: 30px;
+      font-size: 2.2rem;
     }
 
     .hero-section .btn {
-      font-weight: 600;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      transition: all 0.3s ease;
-      border-radius: 50px;
+      margin-bottom: 10px;
     }
-
-    .hero-section .btn:hover {
-      transform: translateY(-3px);
-    }
-
-    .hero-image {
-      max-width: 90%;
-      animation: float 4s ease-in-out infinite;
-      z-index: 2;
-      position: relative;
-    }
-
-    /* Floating animation for the right image */
-    @keyframes float {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
-    }
-
-    /* ===== Responsive ===== */
-    @media (max-width: 991px) {
-      .hero-section {
-        text-align: center;
-        padding: 100px 20px;
-      }
-      .hero-section h1 {
-        font-size: 2.2rem;
-      }
-      .hero-section .btn {
-        margin-bottom: 10px;
-      }
-    }
+  }
 </style>
 {{-- schema --}}
 @section('schema_markup')
   <script type="application/ld+json">
-      {
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          "name": "{{ $setting->title }}",
-          "url": "{{ route('home') }}",
-          "description": "{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}",
-          "publisher": {
-              "@type": "Organization",
-              "name": "MSN Softtech",
-              "logo": {
-                  "@type": "ImageObject",
-                  "url": "{{ asset('/uploads/setting/' . $setting->logo_path) }}"
-              }
-          },
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "{{ $setting->title }}",
+            "url": "{{ route('home') }}",
+            "description": "{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}",
+            "publisher": {
+                "@type": "Organization",
+                "name": "MSN Softtech",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "{{ asset('/uploads/setting/' . $setting->logo_path) }}"
+                }
+            },
 
-          "mainEntity": {
-              "@type": "LocalBusiness",
-              "name": "MSN Softtech",
-              "url": "{{ route('home') }}",
-              "logo": "{{ asset('/uploads/setting/' . $setting->logo_path) }}",
-              "description": "{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}",
+            "mainEntity": {
+                "@type": "LocalBusiness",
+                "name": "MSN Softtech",
+                "url": "{{ route('home') }}",
+                "logo": "{{ asset('/uploads/setting/' . $setting->logo_path) }}",
+                "description": "{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}",
 
-              "contactPoint": {
-                  "@type": "ContactPoint",
-                  "telephone": "{{ $setting->phone_two }}",
-                  "contactType": "customer service"
-              },
-              "areaServed": {
-                  "@type": "Country",
-                  "name": "United States"
-              }
-          }
-      }
-      </script>
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "telephone": "{{ $setting->phone_two }}",
+                    "contactType": "customer service"
+                },
+                "areaServed": {
+                    "@type": "Country",
+                    "name": "United States"
+                }
+            }
+        }
+        </script>
 @endsection
 
 
@@ -1066,83 +1082,79 @@
   <link rel="stylesheet" href="{{ asset('web/css/extra-index.css') }}">
   @if(count($sliders) > 0)
     {{-- <section class="banner-section">
-     
+
       <div class="carousel-wrap">
         <div class="owl-carousel owl-theme">
           @foreach($sliders as $slider)
-            @php
-              $style = '';
-              if ($slider->media_type === 'image' && $slider->image_path) {
-                $style = "background-image: url('" . asset('uploads/slider/' . $slider->image_path) . "'); background-size: cover; background-position: center; height: 450px; !important;";
-              }
-            @endphp
+          @php
+          $style = '';
+          if ($slider->media_type === 'image' && $slider->image_path) {
+          $style = "background-image: url('" . asset('uploads/slider/' . $slider->image_path) . "'); background-size: cover;
+          background-position: center; height: 450px; !important;";
+          }
+          @endphp
 
-            <div class="item top-banner-img"
-              style="position: relative; max-height: 450px !important; {{ $style }}"
-              @if($slider->media_type === 'video' && $slider->video_id) data-video-id="{{ $slider->video_id }}" @endif>
+          <div class="item top-banner-img" style="position: relative; max-height: 450px !important; {{ $style }}"
+            @if($slider->media_type === 'video' && $slider->video_id) data-video-id="{{ $slider->video_id }}" @endif>
 
-              @if($slider->media_type === 'video' && $slider->video_id)
-                <div class="video-embed" style="position: absolute; inset: 0; z-index: 0; overflow: hidden;">
-                  <iframe width="100%" height="100%"
-                    src="https://www.youtube.com/embed/{{ $slider->video_id }}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&playlist={{ $slider->video_id }}&modestbranding=1&rel=0"
-                    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
-                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; z-index: 0;">
-                  </iframe>
+            @if($slider->media_type === 'video' && $slider->video_id)
+            <div class="video-embed" style="position: absolute; inset: 0; z-index: 0; overflow: hidden;">
+              <iframe width="100%" height="100%"
+                src="https://www.youtube.com/embed/{{ $slider->video_id }}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&playlist={{ $slider->video_id }}&modestbranding=1&rel=0"
+                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; z-index: 0;">
+              </iframe>
 
-                </div>
-              @endif
-
-              <div class="row row-item-content position-relative" style="z-index: 2; ">
-                <div class="col-md-12 item-content">
-                  <div>
-                    <h1 class="slider-img-title">{{ $slider->title }}</h1>
-                    @php
-                      $page_contact = \App\Models\PageSetup::page('contact-us');
-                    @endphp
-                    @if(isset($page_contact))
-                    <button id="open-modal" class=" googleMeetBtn" style="position: relative; top: 50px;">Discuss Your
-                      Requirements →</button>
-                    </a>
-                    @endif 
-                  </div>
-                </div>
-
-                
-              </div>
             </div>
+            @endif
+
+            <div class="row row-item-content position-relative" style="z-index: 2; ">
+              <div class="col-md-12 item-content">
+                <div>
+                  <h1 class="slider-img-title">{{ $slider->title }}</h1>
+                  @php
+                  $page_contact = \App\Models\PageSetup::page('contact-us');
+                  @endphp
+                  @if(isset($page_contact))
+                  <button id="open-modal" class=" googleMeetBtn" style="position: relative; top: 50px;">Discuss Your
+                    Requirements →</button>
+                  </a>
+                  @endif
+                </div>
+              </div>
+
+
+            </div>
+          </div>
           @endforeach
         </div>
       </div>
 
     </section> --}}
 
-@foreach($sliders as $slider)
-  
-
+    @foreach($sliders as $slider)
       <section style="background: linear-gradient(rgba(5, 44, 88, 0.85), rgba(5, 44, 88, 0.85)),
-                  url('{{ asset('uploads/slider/' . $slider->image_path) }}')
-                  center/cover no-repeat;" class="hero-section d-flex align-items-center">
-    <div class="container hero-content">
-      <div class="row align-items-center">
-        <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
-          <h1 class="mb-3">
-            We Build <span>Digital Experiences</span> That Grow Businesses
-          </h1>
-          <p>
-            {!! $slider->description !!}
-          </p>
-          <a href="#" class="btn btn-primary px-4 py-2 me-2">Get Started</a>
-          <a href="#" class="btn btn-outline-light px-4 py-2">Learn More</a>
+                        url('{{ asset('uploads/slider/' . $slider->image_path) }}')
+                        center/cover no-repeat;" class="hero-section d-flex align-items-center">
+        <div class="container hero-content">
+          <div class="row align-items-center">
+            <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
+              <h1 class="mb-3">{{ $slider->title }}</h1>
+              <p>
+                {!! $slider->description !!}
+              </p>
+              <a href="#" class="btn btn-primary px-4 py-2 me-2">Get Started</a>
+              <a href="#" class="btn btn-outline-light px-4 py-2">Learn More</a>
+            </div>
+            <div class="col-lg-6 text-center text-lg-end">
+              <!-- <img src="https://media.istockphoto.com/id/2193065392/photo/young-business-professionals-collaborating-in-a-modern-meeting-room.jpg?s=1024x1024&w=is&k=20&c=kEERak83iER3k1MUxHZyJKC_Vrdl7YSjh6Y80KWupbg="
+                     alt="Digital Agency Illustration"
+                     class="img-fluid hero-image"> -->
+            </div>
+          </div>
         </div>
-        <div class="col-lg-6 text-center text-lg-end">
-          <!-- <img src="https://media.istockphoto.com/id/2193065392/photo/young-business-professionals-collaborating-in-a-modern-meeting-room.jpg?s=1024x1024&w=is&k=20&c=kEERak83iER3k1MUxHZyJKC_Vrdl7YSjh6Y80KWupbg="
-               alt="Digital Agency Illustration"
-               class="img-fluid hero-image"> -->
-        </div>
-      </div>
-    </div>
-  </section>
-  @endforeach
+      </section>
+    @endforeach
     <!-- End Bnner Section -->
   @endif
 
@@ -1151,7 +1163,7 @@
     <!-- About Section -->
     <section style="background-color: #ffffff" class="our-mission-section">
       <div class="container">
-        
+
         @if(count($counters) > 0)
           <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 clearfix fun-fact-section">
@@ -1403,7 +1415,8 @@
             {{-- <div class=""> --}}
               <legend>Need a Different Approach?</legend>
               <p class="legend-p">Explore More Ways We Can Help.</p>
-            {{-- </div> --}}
+              {{--
+            </div> --}}
 
             <div class="radio-options">
               <div>
@@ -1453,7 +1466,8 @@
               <div class="service-block wow fadeInDown">
                 <div class="inner-box">
                   <div class="image-box">
-                    <figure><img src="{{ asset('uploads/service/' . $service->image_path) }}" alt="{{ $service->title }}" loading="lazy" />
+                    <figure><img src="{{ asset('uploads/service/' . $service->image_path) }}" alt="{{ $service->title }}"
+                        loading="lazy" />
                     </figure>
                     <div class="overlay-box"><a
                         href="{{ route('service.single', $service->slug) }}">{{ __('common.read_more') }}</a></div>
@@ -1485,13 +1499,13 @@
       <div class="d-flex flex-wrap justify-content-center">
         @foreach ($technologies as $technology)
           <a href="{{ route('service.technology', $technology->slug) }}" class="tech-card">
-            <img src="{{ asset('uploads/technology/'.$technology->logo_path) }}" alt="{{ $technology->short_title }}"
+            <img src="{{ asset('uploads/technology/' . $technology->logo_path) }}" alt="{{ $technology->short_title }}"
               loading="lazy">
             <p class="tech-title">{{ $technology->short_title }}</p>
           </a>
-          
+
         @endforeach
-        
+
       </div>
 
       <div class="tech-buttons mt-5">
@@ -1699,7 +1713,8 @@
                   $showArrow = ($key != $totalSteps - 1); // hide arrow for last step
                 @endphp
 
-                <div class="process-step-arrow d-none d-md-block {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
+                <div
+                  class="process-step-arrow d-none d-md-block {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
                 </div>
               </div>
             </div>
@@ -1777,21 +1792,21 @@
 
 
   {{-- @if(count($clients) > 0)
-    <section class="partner-section">
-      <div class="container">
-        <h2>Enterprises & Tech Companies Worldwide Trust Us</h2>
-        <div class="row gap-2 justify-content-center text-center partner-logos align-items-center">
-          @foreach($clients as $client)
-            <div
-              class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1"
-              style="height: 90px;">
-              <img src="{{ asset('uploads/client/' . $client->image_path) }}" alt="{{ $client->title }}"
-                class="img-fluid my-1" />
-            </div>
-          @endforeach
+  <section class="partner-section">
+    <div class="container">
+      <h2>Enterprises & Tech Companies Worldwide Trust Us</h2>
+      <div class="row gap-2 justify-content-center text-center partner-logos align-items-center">
+        @foreach($clients as $client)
+        <div
+          class="col-6 col-sm-4 col-md-2 col-lg-2-4 bg-white px-3 py-0 d-flex align-items-center justify-content-center m-1"
+          style="height: 90px;">
+          <img src="{{ asset('uploads/client/' . $client->image_path) }}" alt="{{ $client->title }}"
+            class="img-fluid my-1" />
         </div>
+        @endforeach
       </div>
-    </section>
+    </div>
+  </section>
   @endif --}}
 
   <section class="latest-blogs py-5">
