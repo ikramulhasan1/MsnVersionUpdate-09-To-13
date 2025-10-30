@@ -946,9 +946,9 @@
 
   /*  */
     .hero-section {
-      background: linear-gradient(rgba(5, 44, 88, 0.85), rgba(5, 44, 88, 0.85)),
+      /* background: linear-gradient(rgba(5, 44, 88, 0.85), rgba(5, 44, 88, 0.85)),
                   url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1920&q=80')
-                  center/cover no-repeat;
+                  center/cover no-repeat; */
       color: #fff;
       padding: 130px 0;
       position: relative;
@@ -1116,8 +1116,12 @@
 
     </section> --}}
 
+@foreach($sliders as $slider)
+  
 
-      <section class="hero-section d-flex align-items-center">
+      <section style="background: linear-gradient(rgba(5, 44, 88, 0.85), rgba(5, 44, 88, 0.85)),
+                  url('{{ asset('uploads/slider/' . $slider->image_path) }}')
+                  center/cover no-repeat;" class="hero-section d-flex align-items-center">
     <div class="container hero-content">
       <div class="row align-items-center">
         <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
@@ -1138,6 +1142,7 @@
       </div>
     </div>
   </section>
+  @endforeach
     <!-- End Bnner Section -->
   @endif
 
