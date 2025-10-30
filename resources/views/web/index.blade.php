@@ -1484,8 +1484,8 @@
 
       <div class="d-flex flex-wrap justify-content-center">
         @foreach ($technologies as $technology)
-          <a href="#" class="tech-card">
-            <img src="{{ asset('uploads/technology/' . $technology->image_path) }}" alt="{{ $technology->short_title }}"
+          <a href="{{ route('service.technology', $technology->slug) }}" class="tech-card">
+            <img src="{{ asset('uploads/technology/'.$technology->logo_path) }}" alt="{{ $technology->short_title }}"
               loading="lazy">
             <p class="tech-title">{{ $technology->short_title }}</p>
           </a>
