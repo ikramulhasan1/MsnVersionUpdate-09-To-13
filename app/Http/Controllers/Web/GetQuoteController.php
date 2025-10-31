@@ -51,7 +51,7 @@ class GetQuoteController extends Controller
         return redirect()->route('get-quote');
     }
     public function upload(Request $request)
-    {
+    { dd($request->all());
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $filenameWithExt = $file->getClientOriginalName();
