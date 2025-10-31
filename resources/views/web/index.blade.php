@@ -1767,7 +1767,7 @@
       <div id="case-owl-carousel" class="owl-carousel owl-theme">
 
         <!-- Slide 1 -->
-        @foreach ($case_studies as $case_study)
+        @foreach ($case_studies->technologies as $case_study)
         <div class="case-studies-item"
           style="background-image: url('{{ asset('uploads/case-study/'.$case_study->image_path) }}');">
           <div class="case-studies-content">

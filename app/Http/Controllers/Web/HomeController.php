@@ -92,7 +92,7 @@ class HomeController extends Controller
         $data['technologies'] = Technology::where('status', '1')
                             ->orderBy('id', 'asc')
                             ->get();
-        $data['case_studies'] = CaseStudy::where('status', '1')
+        $data['case_studies'] = CaseStudy::with('technologies')->where('status', '1')
                             ->orderBy('id', 'desc')
                             ->get();
 
