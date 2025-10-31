@@ -1077,7 +1077,6 @@
             </script>
 @endsection
 
-
 @section('content')
   <link rel="stylesheet" href="{{ asset('web/css/extra-index.css') }}">
   @if(count($sliders) > 0)
