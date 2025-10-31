@@ -112,8 +112,8 @@ class GetQuoteController extends Controller
 
         // ✅ 5. Handle multiple uploaded files from Dropzone
         // These are filenames sent from Dropzone via hidden inputs
-$uploadedFiles = json_decode($request->uploaded_files, true);
-$quote->file_path = !empty($uploadedFiles) ? json_encode($uploadedFiles) : null;
+$uploadedFiles = $request->uploaded_files ?? []; // default to empty array if none
+$quote->file_path = !empty($uploadedFiles) ? implode(',', $uploadedFiles) : null;
 
         // ✅ 6. Save quote
         $quote->save();
