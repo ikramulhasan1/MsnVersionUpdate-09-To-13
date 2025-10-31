@@ -504,7 +504,7 @@
   @endphp
   @if(isset($section_getquote))
     <section class="quoteFormSection">
-      <div class="quote-container text-center">
+      <div class="text-center">
         <h2 style="font-weight: 800" class="mb-3">{{ $section_getquote->title }}</h2>
         <div class="text description mb-4 text-center">{!! $section_getquote->description !!}</div>
 
