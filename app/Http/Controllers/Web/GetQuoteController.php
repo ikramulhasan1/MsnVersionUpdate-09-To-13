@@ -50,7 +50,27 @@ class GetQuoteController extends Controller
         $request->session()->put('work_scope', $request->work_scope);
         return redirect()->route('get-quote');
     }
+    public function upload(Request $request)
+    {
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $filenameWithExt = $file->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $file->getClientOriginalExtension();
+            $fileNameToStore = Str::slug($filename) . '_' . time() . '.' . $extension;
 
+            $path = public_path('uploads/quote/');
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0777, true, true);
+            }
+
+            $file->move($path, $fileNameToStore);
+
+            return response()->json(['file_name' => $fileNameToStore]);
+        }
+
+        return response()->json(['error' => 'No file uploaded'], 400);
+    }
     public function store(Request $request)
     {
         // ✅ 1. Validate form fields
@@ -151,25 +171,5 @@ class GetQuoteController extends Controller
         return redirect()->back();
     }
 
-    public function upload(Request $request)
-    {
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $filenameWithExt = $file->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension = $file->getClientOriginalExtension();
-            $fileNameToStore = Str::slug($filename) . '_' . time() . '.' . $extension;
 
-            $path = public_path('uploads/quote/');
-            if (!File::exists($path)) {
-                File::makeDirectory($path, 0777, true, true);
-            }
-
-            $file->move($path, $fileNameToStore);
-
-            return response()->json(['file_name' => $fileNameToStore]);
-        }
-
-        return response()->json(['error' => 'No file uploaded'], 400);
-    }
 }
