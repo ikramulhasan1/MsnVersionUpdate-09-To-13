@@ -1179,7 +1179,7 @@
           <img src="{{ asset('uploads/technology/' . $technology->logo_path) }}" alt="Vue Logo">
         </div>
         <h3>Get <span style="color:#f15a29">Teams</span> or Fixed-Cost Solutions from a Global Partner.</h3>
-        <a href="#" class="orange-btn">Discuss Your Requirements →</a>
+        <a href="{{ route('get-quote') }}" class="orange-btn">Discuss Your Requirements →</a>
         <div class="blue-box">
           <h4>Ready to bring your project to life?</h4>
           <p>
