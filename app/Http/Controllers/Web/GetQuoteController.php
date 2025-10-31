@@ -54,23 +54,13 @@ class GetQuoteController extends Controller
 {
     if ($request->hasFile('file')) {
         $file = $request->file('file');
-        $filenameWithExt = $file->getClientOriginalName();
-        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-        $extension = $file->getClientOriginalExtension();
-        $fileNameToStore = Str::slug($filename) . '_' . time() . '.' . $extension;
-
-        $path = public_path('uploads/quote/');
-        if (!File::exists($path)) {
-            File::makeDirectory($path, 0777, true, true);
-        }
-
-        $file->move($path, $fileNameToStore);
-
-        return response()->json(['file_name' => $fileNameToStore]);
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('uploads/quote'), $fileName);
+        return response()->json(['file_name' => $fileName]);
     }
-
     return response()->json(['error' => 'No file uploaded'], 400);
 }
+
 
     public function store(Request $request)
     { dd($request->all());

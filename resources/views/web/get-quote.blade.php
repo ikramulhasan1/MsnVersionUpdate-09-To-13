@@ -478,7 +478,6 @@
       color: #fff;
     }
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" />
 
   <section class="about-hero-section" data-aos="fade">
     <div class="container">
@@ -606,7 +605,7 @@
           <!-- ✅ Dropzone upload area -->
           <div class="form-group">
             <label>Upload Files</label>
-            <div class="dropzone" id="quoteDropzone"></div>
+    <div id="quoteDropzone" class="dropzone border border-2 border-secondary rounded p-4 bg-light"></div>
           </div>
           <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
           @if ($errors->has('captcha'))
@@ -732,49 +731,57 @@
     });
   </script>
   <!-- ✅ Dropzone JS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
   Dropzone.autoDiscover = false;
 
-  const quoteDropzone = new Dropzone("#quoteDropzone", {
+  // Initialize only once
+  const dzElem = document.getElementById("quoteDropzone");
+  if (!dzElem) {
+    console.error("Dropzone element not found!");
+    return;
+  }
+
+  const quoteDropzone = new Dropzone(dzElem, {
     url: "{{ route('quote.upload') }}", // Temporary upload route
     paramName: "file",
     maxFilesize: 20, // MB
-    acceptedFiles: ".jpg,.jpeg,.png,.gif,.svg,.webp,.pdf,.doc,.docx,.txt,.zip,.rar,.csv,.xls,.xlsx,.ppt,.pptx,.mp3,.avi,.mp4,.mpeg,.3gp",
+    acceptedFiles:
+      ".jpg,.jpeg,.png,.gif,.svg,.webp,.pdf,.doc,.docx,.txt,.zip,.rar,.csv,.xls,.xlsx,.ppt,.pptx,.mp3,.avi,.mp4,.mpeg,.3gp",
     addRemoveLinks: true,
-    parallelUploads: 5,
-    uploadMultiple: false,
+    dictDefaultMessage: "Drag and drop files here or click to upload",
     headers: {
-      'X-CSRF-TOKEN': "{{ csrf_token() }}"
+      "X-CSRF-TOKEN": "{{ csrf_token() }}",
     },
 
     success: function (file, response) {
       if (response.file_name) {
-        // Create hidden input for each uploaded file
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'uploaded_files[]';
-        input.value = response.file_name;
-        document.querySelector('#quoteForm').appendChild(input);
-        file._hiddenInput = input; // store reference for later
+        const hiddenInput = document.createElement("input");
+        hiddenInput.type = "hidden";
+        hiddenInput.name = "uploaded_files[]";
+        hiddenInput.value = response.file_name;
+        document.querySelector("#quoteForm").appendChild(hiddenInput);
+        file._hiddenInput = hiddenInput;
       }
     },
 
     removedfile: function (file) {
-      // Remove the file preview from Dropzone
       if (file.previewElement) file.previewElement.remove();
-      // Remove the hidden input associated with it
       if (file._hiddenInput) file._hiddenInput.remove();
     },
 
     error: function (file, response) {
-      console.error('Upload error:', response);
-      alert('Error uploading file. Please try again.');
-    }
+      console.error("Dropzone error:", response);
+      alert("File upload failed!");
+    },
   });
+
+  console.log("✅ Dropzone initialized");
 });
 </script>
+
 
 @endsection

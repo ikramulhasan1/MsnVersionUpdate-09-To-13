@@ -55,7 +55,6 @@
     <!-- ✅ Owl Carousel CSS -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css">
 
    <style>
         .poppins-regular {
@@ -1645,7 +1644,6 @@
     </script>
     @yield('scriptjs')
       <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
 
 </body>
 
