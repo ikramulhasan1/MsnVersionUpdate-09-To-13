@@ -53,17 +53,18 @@ class GetQuoteController extends Controller
 
     public function store(Request $request)
     {
-        // Field Validation
+        // ✅ 1. Validate form fields
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-           
-            'message' => 'required',
-            'g-recaptcha-response' => 'required', // ✅ NEW
-            'file_path' => 'nullable|file|mimes:jpg,jpeg,png,gif,svg,webp,pdf,doc,docx,txt,zip,rar,csv,xls,xlsx,ppt,pptx,mp3,avi,mp4,mpeg,3gp|max:50000',
+            'name' => 'required|string|max:191',
+            'email' => 'required|email|max:191',
+            'phone' => 'nullable|string|max:30',
+            'message' => 'required|string',
+            'g-recaptcha-response' => 'required',
+            'uploaded_files' => 'nullable|array',
+            'uploaded_files.*' => 'string',
         ]);
 
-        // ✅ Verify Google reCAPTCHA
+        // ✅ 2. Verify Google reCAPTCHA
         $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
             'secret' => config('services.recaptcha.secret_key'),
             'response' => $request->input('g-recaptcha-response'),
@@ -71,104 +72,104 @@ class GetQuoteController extends Controller
         ]);
 
         $recaptcha = $response->json();
-
         if (empty($recaptcha['success']) || $recaptcha['success'] !== true) {
             return back()->withErrors(['captcha' => 'reCAPTCHA verification failed. Please try again.'])->withInput();
         }
 
-        // file upload, fit and store inside public folder 
-        if ($request->hasFile('file_path')) {
-            //Upload New Image
-            $filenameWithExt = $request->file('file_path')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension = $request->file('file_path')->getClientOriginalExtension();
-            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+        // ✅ 3. Create new Quote record
+        $quote = new GetQuote();
+        $quote->name = $request->name;
+        $quote->email = $request->email;
+        $quote->phone = $request->phone;
+        $quote->address = $request->address;
+        $quote->city = $request->city;
+        $quote->company = $request->company;
+        $quote->prefer_contact = $request->prefer_contact;
+        $quote->message = $request->message;
+        $quote->work_model = $request->work_model;
+        $quote->work_scope = $request->work_scope;
+        $quote->pre_delivery_time = $request->pre_delivery_time;
+        $quote->where_find = $request->where_find;
+        $quote->quantity = $request->quantity ?? null;
+        $quote->website = $request->website ?? null;
 
-            //Crete Folder Location
+        // ✅ 4. Handle Subservices
+        if (!empty($request->sub_service)) {
+            $quote->sub_service = implode(',', $request->sub_service);
+        }
+
+        // ✅ 5. Handle multiple uploaded files from Dropzone
+        // These are filenames sent from Dropzone via hidden inputs
+        $uploadedFiles = $request->input('uploaded_files', []);
+        $quote->file_path = json_encode($uploadedFiles);
+
+        // ✅ 6. Save quote
+        $quote->save();
+
+        // ✅ 7. Attach selected services (Many-to-Many)
+        if (is_array($request->services) && count($request->services) > 0) {
+            $quote->services()->attach($request->services);
+        }
+
+        // ✅ 8. Send emails (Customer + Admin)
+        $template = EmailTemplate::where('slug', 'quote-placed')->first();
+        $setting = Setting::where('status', '1')->first();
+
+        if ($template && $setting) {
+            $data = [
+                'row' => $quote,
+                'id_type' => __('email.quote_id'),
+                'order_id' => $quote->id,
+                'subject' => $template->title,
+                'email' => $quote->email,
+                'from' => $setting->contact_mail,
+                'sender' => $setting->title,
+                'message' => $template->description,
+            ];
+            Mail::to($data['email'])->send(new NotifyCustomer($data));
+        }
+
+        if ($template && $setting) {
+            $data = [
+                'row' => $quote,
+                'id_type' => __('email.quote_id'),
+                'order_id' => $quote->id,
+                'subject' => __('email.new_quote_request'),
+                'email' => $setting->contact_mail,
+                'from' => 'support@msnsofttech.com',
+                'sender' => $quote->name,
+                'message' => $template->description,
+            ];
+            Mail::to($data['email'])->send(new NotifyAdmin($data));
+        }
+
+        // ✅ 9. Clear session
+        $request->session()->forget(['work_model', 'work_scope']);
+
+        // ✅ 10. Success message
+        Session::flash('success', __('email.quote_submitted'));
+        return redirect()->back();
+    }
+
+    public function upload(Request $request)
+    {
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $filenameWithExt = $file->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $file->getClientOriginalExtension();
+            $fileNameToStore = Str::slug($filename) . '_' . time() . '.' . $extension;
+
             $path = public_path('uploads/quote/');
             if (!File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
-            // Move File inside public/uploads/ folder
-            $file = $request->file('file_path')->move($path, $fileNameToStore);
-        } else {
-            $fileNameToStore = NULL;
+            $file->move($path, $fileNameToStore);
+
+            return response()->json(['file_name' => $fileNameToStore]);
         }
 
-
-        // Insert Quote
-        $quote = new GetQuote();
-        $quote->name = $request->name;
-        $quote->email = $request->email;
-        $quote->phone = $request->phone;
-        $quote->sub_service = implode(',', $request->sub_service);
-        $quote->address = $request->address;
-        $quote->city = $request->city;
-        $quote->company = $request->company;
-        $quote->website = $request->website;
-        $quote->prefer_contact = $request->prefer_contact;
-        $quote->quantity = $request->quantity;
-        $quote->message = $request->message;
-        $quote->work_model = $request->work_model;
-        $quote->work_scope = $request->work_scope;
-        $quote->file_path = $fileNameToStore;
-        $quote->pre_delivery_time = $request->pre_delivery_time;
-        $quote->where_find = $request->where_find;
-        $quote->save();
-
-        // Clear session
-        $request->session()->forget('work_model');
-        $request->session()->forget('work_scope');
-        // Polymorphic Services Store
-        if (is_array($request->services) == 1) {
-            foreach ($request->services as $service_id) {
-
-                $quote->services()->attach([$service_id]);
-            }
-        }
-
-        $template = EmailTemplate::where('slug', 'quote-placed')->first();
-        $setting = Setting::where('status', '1')->first();
-
-        if (isset($template) && isset($setting)) {
-
-            // Passing data to email template
-            $data['row'] = $quote;
-            $data['id_type'] = __('email.quote_id');
-            $data['order_id'] = $quote->id;
-
-            // Mail Information
-            $data['subject'] = $template->title;
-            $data['email'] = $quote->email;
-            $data['from'] = $setting->contact_mail;
-            $data['sender'] = $setting->title;
-            $data['message'] = $template->description;
-
-            // Send Mail
-            Mail::to($data['email'])->send(new NotifyCustomer($data));
-        }
-
-        if (isset($template) && isset($setting)) {
-
-            // Passing data to email template
-            $data['row'] = $quote;
-            $data['id_type'] = __('email.quote_id');
-            $data['order_id'] = $quote->id;
-
-            // Mail Information
-            $data['subject'] = __('email.new_quote_request');
-            $data['email'] = $setting->contact_mail;
-            $data['from'] = 'support@msnsofttech.com';
-            $data['sender'] = $quote->name;
-            $data['message'] = $template->description;
-
-            // Send Mail
-            Mail::to($data['email'])->send(new NotifyAdmin($data));
-        }
-
-        Session::flash('success', __('email.quote_submitted'));
-
-        return redirect()->back();
+        return response()->json(['error' => 'No file uploaded'], 400);
     }
 }
