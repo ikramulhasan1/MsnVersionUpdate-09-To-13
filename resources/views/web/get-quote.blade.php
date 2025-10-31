@@ -401,81 +401,82 @@
 
 
     /*  */
-    .quote-services {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      position: relative;
-    }
+ .quote-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  position: relative;
+}
 
-    .service-item {
-      position: relative;
-    }
+.service-item {
+  position: relative;
+  z-index: 1;
+}
 
-    .service-label {
-      display: inline-block;
-      padding: 10px 18px;
-      border-radius: 25px;
-      background-color: #f0f0f0;
-      color: #333;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+.service-label {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 25px;
+  background-color: #f0f0f0;
+  color: #333;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
-    .service-checkbox:checked+.service-label {
-      background-color: #052C58;
-      color: #fff;
-    }
+.service-checkbox:checked + .service-label {
+  background-color: #052C58;
+  color: #fff;
+}
 
-    /* Updated subservices style — makes dropdown-like panel */
-    .subservices {
-      display: none;
-      flex-wrap: wrap;
-      gap: 8px;
-      position: absolute;
-      top: 110%;
-      left: 0;
-      width: max-content;
-      min-width: 280px;
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      z-index: 20;
-    }
+/* Subservices dropdown */
+.subservices {
+  display: none;
+  flex-wrap: wrap;
+  gap: 8px;
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: max-content;
+  min-width: 280px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
 
-    .subservice-item {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      padding: 6px 10px;
-      border: 1px solid #ddd;
-      border-radius: 15px;
-      background-color: #fafafa;
-      transition: all 0.3s;
-    }
+.subservice-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  background-color: #fafafa;
+  transition: all 0.3s;
+}
 
-    .subservice-item:hover {
-      background-color: #e8f0fe;
-    }
+.subservice-item:hover {
+  background-color: #e8f0fe;
+}
 
-    .subservice-item label {
-      border-radius: 20px;
-      background: #f9f9f9;
-      padding: 6px 12px;
-      cursor: pointer;
-    }
+.subservice-item label {
+  border-radius: 20px;
+  background: #f9f9f9;
+  padding: 6px 12px;
+  cursor: pointer;
+}
 
-    .subservice-item input[type="checkbox"] {
-      display: none;
-    }
+.subservice-item input[type="checkbox"] {
+  display: none;
+}
 
-    .subservice-item input[type="checkbox"]:checked+label {
-      background: #052C58;
-      color: #fff;
-    }
+.subservice-item input[type="checkbox"]:checked + label {
+  background: #052C58;
+  color: #fff;
+}
   </style>
   <section class="about-hero-section" data-aos="fade">
     <div class="container">
@@ -542,70 +543,61 @@
           </div>
         @endif
 
-        <form class="quote-form" method="post" action="{{ route('get-quote.store') }}" enctype="multipart/form-data"
-          accept-charset="utf-8">
-          @csrf
-          <input type="hidden" name="work_model" value="{{ $work_model }}">
-          <input type="hidden" name="work_scope" value="{{ $work_scope }}">
 
-          <input class="quote-input" type="text" name="name" placeholder="{{ __('form.your_name') }}"
-            value="{{ old('name') }}" required>
-          <input class="quote-input" type="email" name="email" placeholder="{{ __('form.email_address') }}"
-            value="{{ old('email') }}" required>
-          <input class="quote-input" type="tel" name="phone" placeholder="{{ __('form.phone_no') }}"
-            value="{{ old('phone') }}" required>
-          <input class="quote-input" type="text" name="company" placeholder="{{ __('form.company') }}"
-            value="{{ old('company') }}">
-          <input class="quote-input" type="text" name="address" placeholder="{{ __('form.address') }}"
-            value="{{ old('address') }}" required>
-          <input class="quote-input" type="text" name="city" placeholder="{{ __('form.city') }}" value="{{ old('city') }}"
-            required>
+<form class="quote-form" method="post" action="{{ route('get-quote.store') }}" enctype="multipart/form-data" accept-charset="utf-8">
+  @csrf
+  <input type="hidden" name="work_model" value="{{ $work_model }}">
+  <input type="hidden" name="work_scope" value="{{ $work_scope }}">
 
-          <h6 style="text-align: left !important" for="prefer_contact">{{ __('form.prefer_contact') }}</h6>
-          <div class="quote-radio-group">
+  <input class="quote-input" type="text" name="name" placeholder="{{ __('form.your_name') }}" value="{{ old('name') }}" required>
+  <input class="quote-input" type="email" name="email" placeholder="{{ __('form.email_address') }}" value="{{ old('email') }}" required>
+  <input class="quote-input" type="tel" name="phone" placeholder="{{ __('form.phone_no') }}" value="{{ old('phone') }}" required>
+  <input class="quote-input" type="text" name="company" placeholder="{{ __('form.company') }}" value="{{ old('company') }}">
+  <input class="quote-input" type="text" name="address" placeholder="{{ __('form.address') }}" value="{{ old('address') }}" required>
+  <input class="quote-input" type="text" name="city" placeholder="{{ __('form.city') }}" value="{{ old('city') }}" required>
 
-            <label class="d-flex align-items-center"><input class="quote-input" type="radio" name="prefer_contact" value="1"
-                id="pre_email" @if(old('prefer_contact') == '1') checked @else checked @endif required>Email </label>
-            <label class="d-flex align-items-center"><input class="quote-input" type="radio" name="prefer_contact" value="2"
-                id="pre_phone" @if(old('prefer_contact') == '2') checked @endif required>Phone </label>
-          </div>
+  <h6 style="text-align: left !important" for="prefer_contact">{{ __('form.prefer_contact') }}</h6>
+  <div class="quote-radio-group">
+    <label class="d-flex align-items-center">
+      <input class="quote-input" type="radio" name="prefer_contact" value="1" id="pre_email" @if(old('prefer_contact') == '1') checked @else checked @endif required>Email 
+    </label>
+    <label class="d-flex align-items-center">
+      <input class="quote-input" type="radio" name="prefer_contact" value="2" id="pre_phone" @if(old('prefer_contact') == '2') checked @endif required>Phone 
+    </label>
+  </div>
 
-          <h6 style="text-align: left !important">{{ __('form.services') }}</h6>
+  <h6 style="text-align: left !important">{{ __('form.services') }}</h6>
 
-          <div class="quote-services">
-            @foreach($services as $service)
-              <div class="service-item position-relative">
-                <input type="checkbox" class="quote-input service-checkbox d-none" name="services[]"
-                  value="{{ $service->id }}" id="service-{{ $service->id }}">
-                <label class="service-label" for="service-{{ $service->id }}">{{ $service->short_title }}</label>
+  <div class="quote-services">
+    @foreach($services as $service)
+      <div class="service-item position-relative">
+        <input type="checkbox" class="quote-input service-checkbox d-none" name="services[]" value="{{ $service->id }}" id="service-{{ $service->id }}">
+        <label class="service-label" for="service-{{ $service->id }}">{{ $service->short_title }}</label>
 
-                @if($service->subservices && $service->subservices->count() > 0)
-                  <div class="subservices shadow-sm" id="subservices-{{ $service->id }}">
-                    @foreach($service->subservices as $sub)
-                      <div class="subservice-item">
-                        <input type="checkbox" name="sub_service[]" value="{{ $sub->short_title }}" id="sub-{{ $sub->id }}">
-                        <label for="sub-{{ $sub->id }}">{{ $sub->short_title }}</label>
-                      </div>
-                    @endforeach
-                  </div>
-                @endif
+        @if($service->subservices && $service->subservices->count() > 0)
+          <div class="subservices shadow-sm" id="subservices-{{ $service->id }}">
+            @foreach($service->subservices as $sub)
+              <div class="subservice-item">
+                <input type="checkbox" name="sub_service[]" value="{{ $sub->short_title }}" id="sub-{{ $sub->id }}">
+                <label for="sub-{{ $sub->id }}">{{ $sub->short_title }}</label>
               </div>
             @endforeach
           </div>
+        @endif
+      </div>
+    @endforeach
+  </div>
 
+  <textarea class="quote-textarea" name="message" placeholder="{{ __('form.your_massage') }}" required>{{ old('message') }}</textarea>
+  <input class="quote-input" type="file" name="file_path" value="{{ old('file_path') }}" id="file_path">
 
+  <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+  @if ($errors->has('captcha'))
+    <p class="text-danger">{{ $errors->first('captcha') }}</p>
+  @endif
+  <button class="quote-submit-btn" type="submit" name="submit-form">SUBMIT NOW</button>
+</form>
 
-
-          <textarea class="quote-textarea" name="message" placeholder="{{ __('form.your_massage') }}"
-            required>{{ old('message') }}</textarea>
-          <input class="quote-input" type="file" name="file_path" value="{{ old('file_path') }}" id="file_path">
-
-          <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
-          @if ($errors->has('captcha'))
-            <p class="text-danger">{{ $errors->first('captcha') }}</p>
-          @endif
-          <button class="quote-submit-btn" type="submit" name="submit-form">SUBMIT NOW</button>
-        </form>
       </div>
     </section>
   @endif
@@ -668,20 +660,44 @@
   <script src="https://www.google.com/recaptcha/api.js" async defer></script> --}}
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <script>
-    $(document).ready(function () {
-      $('.service-checkbox').on('change', function () {
-        let serviceId = $(this).val();
-        let subDiv = $('#subservices-' + serviceId);
+<script>
+$(document).ready(function () {
 
-        if ($(this).is(':checked')) {
-          subDiv.stop(true, true).slideDown(300);
-        } else {
-          subDiv.stop(true, true).slideUp(300);
-          subDiv.find('input[type="checkbox"]').prop('checked', false);
-        }
-      });
-    });
-  </script>
+  // Toggle subservice visibility when main service is checked/unchecked
+  $('.service-checkbox').on('change', function () {
+    let serviceId = $(this).val();
+    let subDiv = $('#subservices-' + serviceId);
 
+    if ($(this).is(':checked')) {
+      subDiv.stop(true, true).slideDown(300);
+    } else {
+      subDiv.stop(true, true).slideUp(300);
+      subDiv.find('input[type="checkbox"]').prop('checked', false);
+    }
+  });
+
+  // Collapse parent when all subservices are unchecked
+  $(document).on('change', '.subservice-item input[type="checkbox"]', function () {
+    let parentService = $(this).closest('.service-item');
+    let parentCheckbox = parentService.find('.service-checkbox');
+    let subDiv = parentService.find('.subservices');
+
+    if (parentService.find('.subservice-item input:checked').length > 0) {
+      parentCheckbox.prop('checked', true);
+    } else {
+      parentCheckbox.prop('checked', false);
+      subDiv.stop(true, true).slideUp(300);
+    }
+  });
+
+  // Optional: Close open dropdowns when clicking outside
+  $(document).on('click', function (e) {
+    if (!$(e.target).closest('.service-item').length) {
+      $('.service-checkbox').prop('checked', false);
+      $('.subservices').slideUp(200);
+      $('.subservice-item input[type="checkbox"]').prop('checked', false);
+    }
+  });
+});
+</script>
 @endsection
