@@ -489,7 +489,7 @@
             <label class="d-flex align-items-center"><input class="quote-input" type="radio" name="prefer_contact" value="2"
                 id="pre_phone" @if(old('prefer_contact') == '2') checked @endif required>Phone </label>
           </div>
-
+@dd($services)
           <h6 style="text-align: left !important">{{ __('form.services') }}</h6>
           <div class="quote-services">
             @foreach($services as $service)

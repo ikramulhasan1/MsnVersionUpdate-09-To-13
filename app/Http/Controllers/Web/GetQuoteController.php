@@ -30,7 +30,7 @@ class GetQuoteController extends Controller
         $data['work_scope'] = $request->session()->get('work_scope');
 
         // Services                                
-        $data['services'] = Service::where('status', '1')
+        $data['services'] = Service::with('subservices')->where('status', '1')
             ->orderBy('id', 'asc')
             ->get();
 
