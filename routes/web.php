@@ -71,6 +71,7 @@ Route::middleware(['XSS', 'redirect'])->namespace('Web')->group(function () {
     Route::get('/get-quote', 'GetQuoteController@index')->name('get-quote');
     Route::post('/get-quote', 'GetQuoteController@store')->name('get-quote.store');
     Route::post('/go-to-quote', [GetQuoteController::class, 'storeSelection'])->name('goToQuotePage');
+    Route::post('/quote-upload', [GetQuoteController::class, 'upload'])->name('quote.upload');
 
     // Subscribe Route
     Route::post('/subscribe', 'HomeController@subscribe')->name('subscribe');
@@ -112,7 +113,6 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
     Route::post('quote-action/{id}/{action}', 'GetQuoteController@action')->name('get-quote.action');
     Route::get('quote-invoice/{id}/{action}', 'GetQuoteController@invoice')->name('get-quote.invoice');
     Route::post('quote-invoice', 'GetQuoteController@invoiceStore')->name('get-quote.invoice.store');
-    Route::post('/quote-upload', [GetQuoteController::class, 'upload'])->name('quote.upload');
 
     // Invoice Routes
     Route::resource('invoice', 'InvoiceController');
