@@ -72,7 +72,7 @@ class GetQuoteController extends Controller
         return response()->json(['error' => 'No file uploaded'], 400);
     }
     public function store(Request $request)
-    {dd($request->all());
+    {
         // ✅ 1. Validate form fields
         $request->validate([
             'name' => 'required|string|max:191',
@@ -121,7 +121,7 @@ class GetQuoteController extends Controller
         // ✅ 5. Handle multiple uploaded files from Dropzone
         // These are filenames sent from Dropzone via hidden inputs
         $uploadedFiles = $request->input('uploaded_files', []);
-        $quote->file_path = json_encode($uploadedFiles);
+        $quote->file_path = !empty($uploadedFiles) ? json_encode($uploadedFiles) : null;
 
         // ✅ 6. Save quote
         $quote->save();

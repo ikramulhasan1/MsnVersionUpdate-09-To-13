@@ -89,7 +89,7 @@
       background-color: #f9fafc;
       padding: 80px 15px;
       /* padding-top: 50px !important;
-                  padding-bottom: 50px !important; */
+                    padding-bottom: 50px !important; */
     }
 
     .process-section-title {
@@ -605,8 +605,8 @@
           {{-- <input class="quote-input" type="file" name="file_path" value="{{ old('file_path') }}" id="file_path"> --}}
           <!-- ✅ Dropzone upload area -->
           <div class="form-group">
-              <label>Upload Files</label>
-              <div class="dropzone" id="quoteDropzone"></div>
+            <label>Upload Files</label>
+            <div class="dropzone" id="quoteDropzone"></div>
           </div>
           <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
           @if ($errors->has('captcha'))
@@ -658,7 +658,7 @@
 
                 <div
                   class="process-step-arrow d-none d-md-block 
-                                                            {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
+                                                                  {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
                 </div>
               </div>
             </div>
@@ -733,32 +733,38 @@
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
 
-<script>
-Dropzone.autoDiscover = false;
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+  Dropzone.autoDiscover = false;
 
-const quoteDropzone = new Dropzone("#quoteDropzone", {
-    url: "{{ route('quote.upload') }}", // Temporary upload route
-    paramName: "file", // The name used in the request
+  const quoteDropzone = new Dropzone("#quoteDropzone", {
+    url: "{{ route('quote.upload') }}",
+    paramName: "file",
     maxFilesize: 20, // MB
     acceptedFiles: ".jpg,.jpeg,.png,.gif,.svg,.webp,.pdf,.doc,.docx,.txt,.zip,.rar,.csv,.xls,.xlsx,.ppt,.pptx,.mp3,.avi,.mp4,.mpeg,.3gp",
     addRemoveLinks: true,
     parallelUploads: 5,
     uploadMultiple: false,
     headers: {
-        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+      'X-CSRF-TOKEN': "{{ csrf_token() }}"
     },
     success: function (file, response) {
-        // Add hidden input for each uploaded file
-        let hidden = document.createElement('input');
-        hidden.type = 'hidden';
-        hidden.name = 'uploaded_files[]';
-        hidden.value = response.file_name;
-        document.querySelector('form').appendChild(hidden);
+      if (response.file_name) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'uploaded_files[]';
+        input.value = response.file_name;
+        document.querySelector('#quoteForm').appendChild(input);
+        file._hiddenInput = input; // track input for removal
+      }
     },
     removedfile: function (file) {
-        file.previewElement.remove();
+      if (file._hiddenInput) file._hiddenInput.remove(); // remove hidden input
+      if (file.previewElement) file.previewElement.remove();
     }
+  });
 });
-</script>
+
+  </script>
 
 @endsection
