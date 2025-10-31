@@ -16,7 +16,7 @@
                 <a href="{{ route($route . '.index') }}" class="btn btn-info">{{ __('dashboard.back') }}</a>
             </div>
         </div>
-
+@dd($row)
         <div class="row">
             <div class="col-12 col-lg-8">
                 <div class="card">
@@ -56,17 +56,16 @@
                                     <td>{{ __('dashboard.city') }}</td>
                                     <td>: {{ $row->city }}</td>
                                 </tr>
-                                @if(is_file(public_path('uploads/quote/' . $row->file_path)))
-<tr>
-    <td>{{ __('dashboard.quote_files') }}</td>
-    <td>: 
-        <a href="{{ route('get-quote.download', $row->file_path) }}" class="btn btn-sm btn-primary">
-            {{ __('dashboard.download') }}
-        </a>
-    </td>
-</tr>
-@endif
-
+                                
+                                @if(is_file('uploads/quote/' . $row->file_path))
+                                    <tr>
+                                        <td>{{ __('dashboard.quote_files') }}</td>
+                                        <td>: <a href="{{ asset('uploads/quote/' . $row->file_path) }}" target="_blank"
+                                                download><span
+                                                    class="btn btn-sm btn-primary">{{ __('dashboard.download') }}</span></a>
+                                        </td>
+                                    </tr>
+                                @endif
                             </table>
                         </div>
 
