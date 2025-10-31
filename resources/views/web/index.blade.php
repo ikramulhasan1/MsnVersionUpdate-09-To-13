@@ -1767,22 +1767,20 @@
       <div id="case-owl-carousel" class="owl-carousel owl-theme">
 
         <!-- Slide 1 -->
+        @foreach ($case_studies as $case_study)
         <div class="case-studies-item"
-          style="background-image: url('https://www.websitesinaflash.com/wp-content/uploads/2022/06/Pro-Theme-Website-1200x799.jpg');">
+          style="background-image: url('{{ asset('uploads/case-study/'.$case_study->image_path) }}');">
           <div class="case-studies-content">
-            <h1>From Vision to Launch: Custom Web Development for a Growing Startup</h1>
+            <h1>{{ $case->main_title }}</h1>
             <div class="case-studies-tech-tags">
-              <span>Node.js</span>
-              <span>Ionic</span>
-              <span>iOS</span>
-              <span>Android</span>
+              <span>{{ $case->tech_stack }}</span>
             </div>
             <a href="#" class="read-more-btn">View Case Study ➔</a>
           </div>
         </div>
-
+        @endforeach
         <!-- Slide 2 -->
-        <div class="case-studies-item"
+        {{-- <div class="case-studies-item"
           style="background-image: url('https://media.licdn.com/dms/image/v2/D4E12AQEa4pDRMW7YxA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721072399995?e=2147483647&v=beta&t=6U7MgUOmoSmUucaC4WAmZ7rtczUwnxqoUH6bOV_Wbak');">
           <div class="case-studies-content">
             <h1>Revolutionizing Online Shopping Experience with AI</h1>
@@ -1794,10 +1792,10 @@
             </div>
             <a href="#" class="read-more-btn">View Case Study ➔</a>
           </div>
-        </div>
+        </div> --}}
 
         <!-- Slide 3 -->
-        <div class="case-studies-item"
+        {{-- <div class="case-studies-item"
           style="background-image: url('https://media.licdn.com/dms/image/v2/D5612AQG1CwDBj2sjsg/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1697532231304?e=2147483647&v=beta&t=uGstB5a4NDkGaNmXEhRizNmLKfU5Eab36YAiIeYI1eo');">
           <div class="case-studies-content">
             <h1>Scalable & Secure: Building a Laravel-Powered Enterprise Platform</h1>
@@ -1809,7 +1807,7 @@
             </div>
             <a href="#" class="read-more-btn">View Case Study ➔</a>
           </div>
-        </div>
+        </div> --}}
 
       </div>
     </div>

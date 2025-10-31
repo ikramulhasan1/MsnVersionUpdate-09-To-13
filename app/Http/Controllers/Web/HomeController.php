@@ -12,6 +12,7 @@ use App\Models\Article;
 use App\Models\Counter;
 use App\Models\Service;
 use App\Models\Setting;
+use App\Models\CaseStudy;
 use App\Models\Portfolio;
 use App\Mail\Subscription;
 use App\Models\Subscriber;
@@ -90,6 +91,9 @@ class HomeController extends Controller
 
         $data['technologies'] = Technology::where('status', '1')
                             ->orderBy('id', 'asc')
+                            ->get();
+        $data['case_studies'] = CaseStudy::where('status', '1')
+                            ->orderBy('id', 'desc')
                             ->get();
 
         return view('web.index', $data);
