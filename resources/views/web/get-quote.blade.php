@@ -89,7 +89,7 @@
       background-color: #f9fafc;
       padding: 80px 15px;
       /* padding-top: 50px !important;
-              padding-bottom: 50px !important; */
+                padding-bottom: 50px !important; */
     }
 
     .process-section-title {
@@ -401,82 +401,81 @@
 
 
     /*  */
-  .quote-services {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  position: relative;
-}
+    .quote-services {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      position: relative;
+    }
 
-.service-item {
-  position: relative;
-}
+    .service-item {
+      position: relative;
+    }
 
-.service-label {
-  display: inline-block;
-  padding: 10px 18px;
-  border-radius: 25px;
-  background-color: #f0f0f0;
-  color: #333;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+    .service-label {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 25px;
+      background-color: #f0f0f0;
+      color: #333;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
 
-.service-checkbox:checked + .service-label {
-  background-color: #052C58;
-  color: #fff;
-}
+    .service-checkbox:checked+.service-label {
+      background-color: #052C58;
+      color: #fff;
+    }
 
-/* Updated subservices style — makes dropdown-like panel */
-.subservices {
-  display: none;
-  flex-wrap: wrap;
-  gap: 8px;
-  position: absolute;
-  top: 110%;
-  left: 0;
-  width: max-content;
-  min-width: 280px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  z-index: 20;
-}
+    /* Updated subservices style — makes dropdown-like panel */
+    .subservices {
+      display: none;
+      flex-wrap: wrap;
+      gap: 8px;
+      position: absolute;
+      top: 110%;
+      left: 0;
+      width: max-content;
+      min-width: 280px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      z-index: 20;
+    }
 
-.subservice-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 6px 10px;
-  border: 1px solid #ddd;
-  border-radius: 15px;
-  background-color: #fafafa;
-  transition: all 0.3s;
-}
+    .subservice-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 10px;
+      border: 1px solid #ddd;
+      border-radius: 15px;
+      background-color: #fafafa;
+      transition: all 0.3s;
+    }
 
-.subservice-item:hover {
-  background-color: #e8f0fe;
-}
+    .subservice-item:hover {
+      background-color: #e8f0fe;
+    }
 
-.subservice-item label {
-  border-radius: 20px;
-  background: #f9f9f9;
-  padding: 6px 12px;
-  cursor: pointer;
-}
+    .subservice-item label {
+      border-radius: 20px;
+      background: #f9f9f9;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
 
-.subservice-item input[type="checkbox"] {
-  display: none;
-}
+    .subservice-item input[type="checkbox"] {
+      display: none;
+    }
 
-.subservice-item input[type="checkbox"]:checked + label {
-  background: #052C58;
-  color: #fff;
-}
-
+    .subservice-item input[type="checkbox"]:checked+label {
+      background: #052C58;
+      color: #fff;
+    }
   </style>
   <section class="about-hero-section" data-aos="fade">
     <div class="container">
@@ -573,29 +572,26 @@
 
           <h6 style="text-align: left !important">{{ __('form.services') }}</h6>
 
-<div class="quote-services">
-  @foreach($services as $service)
-    <div class="service-item position-relative">
-      <input type="checkbox" 
-             class="quote-input service-checkbox d-none" 
-             name="services[]" 
-             value="{{ $service->id }}" 
-             id="service-{{ $service->id }}">
-      <label class="service-label" for="service-{{ $service->id }}">{{ $service->short_title }}</label>
+          <div class="quote-services">
+            @foreach($services as $service)
+              <div class="service-item position-relative">
+                <input type="checkbox" class="quote-input service-checkbox d-none" name="services[]"
+                  value="{{ $service->id }}" id="service-{{ $service->id }}">
+                <label class="service-label" for="service-{{ $service->id }}">{{ $service->short_title }}</label>
 
-      @if($service->subservices && $service->subservices->count() > 0)
-        <div class="subservices shadow-sm" id="subservices-{{ $service->id }}">
-          @foreach($service->subservices as $sub)
-            <div class="subservice-item">
-              <input type="checkbox" name="subservices[]" value="{{ $sub->id }}" id="sub-{{ $sub->id }}">
-              <label for="sub-{{ $sub->id }}">{{ $sub->title }}</label>
-            </div>
-          @endforeach
-        </div>
-      @endif
-    </div>
-  @endforeach
-</div>
+                @if($service->subservices && $service->subservices->count() > 0)
+                  <div class="subservices shadow-sm" id="subservices-{{ $service->id }}">
+                    @foreach($service->subservices as $sub)
+                      <div class="subservice-item">
+                        <input type="checkbox" name="sub_service[]" value="{{ $sub->short_title }}" id="sub-{{ $sub->id }}">
+                        <label for="sub-{{ $sub->id }}">{{ $sub->short_title }}</label>
+                      </div>
+                    @endforeach
+                  </div>
+                @endif
+              </div>
+            @endforeach
+          </div>
 
 
 
@@ -652,7 +648,7 @@
                 @endphp
 
                 <div class="process-step-arrow d-none d-md-block 
-                                                {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
+                                                      {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
                 </div>
               </div>
             </div>
@@ -672,20 +668,20 @@
   <script src="https://www.google.com/recaptcha/api.js" async defer></script> --}}
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-$(document).ready(function() {
-    $('.service-checkbox').on('change', function() {
+  <script>
+    $(document).ready(function () {
+      $('.service-checkbox').on('change', function () {
         let serviceId = $(this).val();
         let subDiv = $('#subservices-' + serviceId);
 
         if ($(this).is(':checked')) {
-            subDiv.stop(true, true).slideDown(300);
+          subDiv.stop(true, true).slideDown(300);
         } else {
-            subDiv.stop(true, true).slideUp(300);
-            subDiv.find('input[type="checkbox"]').prop('checked', false);
+          subDiv.stop(true, true).slideUp(300);
+          subDiv.find('input[type="checkbox"]').prop('checked', false);
         }
+      });
     });
-});
-</script>
+  </script>
 
 @endsection
