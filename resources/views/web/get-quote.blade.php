@@ -396,6 +396,76 @@
       margin: 0 auto;
       opacity: 0.9;
     }
+
+
+
+
+    /*  */
+    .quote-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.service-item {
+  position: relative;
+}
+
+.service-label {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 25px;
+  background-color: #f0f0f0;
+  color: #333;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.service-checkbox:checked + .service-label {
+  background-color: #052C58;
+  color: #fff;
+}
+
+.subservices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.subservice-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  background-color: #fafafa;
+  transition: all 0.3s;
+}
+
+.subservice-item:hover {
+  background-color: #e8f0fe;
+}
+
+
+.subservice-item label {
+  border-radius: 20px;
+  background: #f9f9f9;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.subservice-item input[type="checkbox"] {
+  display: none;
+}
+
+.subservice-item input[type="checkbox"]:checked + label {
+  background: #052C58;
+  color: #fff;
+}
+
   </style>
   <section class="about-hero-section" data-aos="fade">
     <div class="container">
@@ -492,27 +562,32 @@
 
           <h6 style="text-align: left !important">{{ __('form.services') }}</h6>
 
-          <div class="quote-services">
-            @foreach($services as $service)
-              <div class="service-block mb-3">
-                <input type="checkbox" class="quote-input service-checkbox" name="services[]" value="{{ $service->id }}"
-                  id="service-{{ $service->id }}">
-                <label for="service-{{ $service->id }}">{{ $service->short_title }}</label>
+<div class="quote-services d-flex flex-wrap gap-3">
+  @foreach($services as $service)
+    <div class="service-item">
+      <input type="checkbox" 
+             class="quote-input service-checkbox d-none" 
+             name="services[]" 
+             value="{{ $service->id }}" 
+             id="service-{{ $service->id }}">
+      <label class="service-label" for="service-{{ $service->id }}">{{ $service->short_title }}</label>
 
-                @if($service->subservices && $service->subservices->count() > 0)
-                  <div class="subservices mt-2 ms-4" id="subservices-{{ $service->id }}" style="display:none;">
-                    @foreach($service->subservices as $sub)
-                      <div>
-                        <input type="checkbox" name="subservices[]" value="{{ $sub->id }}" id="sub-{{ $sub->id }}"
-                          class="subservice-input">
-                        <label for="sub-{{ $sub->id }}">{{ $sub->title }}</label>
-                      </div>
-                    @endforeach
-                  </div>
-                @endif
-              </div>
-            @endforeach
-          </div>
+      @if($service->subservices && $service->subservices->count() > 0)
+        <div class="subservices mt-3 ms-4" id="subservices-{{ $service->id }}" style="display:none;">
+          @foreach($service->subservices as $sub)
+            <div class="subservice-item">
+              <input type="checkbox" 
+                     name="subservices[]" 
+                     value="{{ $sub->id }}" 
+                     id="sub-{{ $sub->id }}">
+              <label for="sub-{{ $sub->id }}">{{ $sub->title }}</label>
+            </div>
+          @endforeach
+        </div>
+      @endif
+    </div>
+  @endforeach
+</div>
 
 
 
@@ -603,6 +678,5 @@ $(document).ready(function() {
     });
 });
 </script>
-
 
 @endsection
