@@ -605,9 +605,9 @@
           {{-- <input class="quote-input" type="file" name="file_path" value="{{ old('file_path') }}" id="file_path"> --}}
           <!-- ✅ Dropzone upload area -->
           <div class="form-group">
-            <label>Upload Files</label>
-            <div class="dropzone" id="quoteDropzone"></div>
-          </div>
+    <label>Upload Files</label>
+    <div class="dropzone" id="quoteDropzone"></div>
+  </div>
           <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
           @if ($errors->has('captcha'))
             <p class="text-danger">{{ $errors->first('captcha') }}</p>
@@ -731,40 +731,51 @@
       });
     });
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    Dropzone.autoDiscover = false;
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-  Dropzone.autoDiscover = false;
+    const quoteDropzone = new Dropzone("#quoteDropzone", {
+      url: "{{ route('quote.upload') }}", // Upload route
+      paramName: "file",
+      maxFilesize: 20, // MB
+      acceptedFiles: ".jpg,.jpeg,.png,.gif,.svg,.webp,.pdf,.doc,.docx,.txt,.zip,.rar,.csv,.xls,.xlsx,.ppt,.pptx,.mp3,.avi,.mp4,.mpeg,.3gp",
+      addRemoveLinks: true,
+      parallelUploads: 5,
+      uploadMultiple: false,
+      headers: {
+        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+      },
 
-  const quoteDropzone = new Dropzone("#quoteDropzone", {
-    url: "{{ route('quote.upload') }}",
-    paramName: "file",
-    maxFilesize: 20, // MB
-    acceptedFiles: ".jpg,.jpeg,.png,.gif,.svg,.webp,.pdf,.doc,.docx,.txt,.zip,.rar,.csv,.xls,.xlsx,.ppt,.pptx,.mp3,.avi,.mp4,.mpeg,.3gp",
-    addRemoveLinks: true,
-    parallelUploads: 5,
-    uploadMultiple: false,
-    headers: {
-      'X-CSRF-TOKEN': "{{ csrf_token() }}"
-    },
-    success: function (file, response) {
-      if (response.file_name) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'uploaded_files[]';
-        input.value = response.file_name;
-        document.querySelector('#quoteForm').appendChild(input);
-        file._hiddenInput = input; // track input for removal
+      success: function (file, response) {
+        if (response.file_name) {
+          // Create hidden input for each uploaded file
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = 'uploaded_files[]';
+          input.value = response.file_name;
+          document.querySelector('#quoteForm').appendChild(input);
+
+          // Keep reference to remove it later
+          file._hiddenInput = input;
+        }
+      },
+
+      removedfile: function (file) {
+        // Remove file preview
+        if (file.previewElement) file.previewElement.remove();
+
+        // Remove hidden input if exists
+        if (file._hiddenInput) file._hiddenInput.remove();
+      },
+
+      error: function (file, response) {
+        console.error('Upload error:', response);
+        alert('Error uploading file. Please try again.');
       }
-    },
-    removedfile: function (file) {
-      if (file._hiddenInput) file._hiddenInput.remove(); // remove hidden input
-      if (file.previewElement) file.previewElement.remove();
-    }
+    });
   });
-});
-
-  </script>
+</script>
 
 @endsection

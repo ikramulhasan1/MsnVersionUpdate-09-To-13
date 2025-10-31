@@ -51,26 +51,27 @@ class GetQuoteController extends Controller
         return redirect()->route('get-quote');
     }
     public function upload(Request $request)
-    {
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $filenameWithExt = $file->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension = $file->getClientOriginalExtension();
-            $fileNameToStore = Str::slug($filename) . '_' . time() . '.' . $extension;
+{
+    if ($request->hasFile('file')) {
+        $file = $request->file('file');
+        $filenameWithExt = $file->getClientOriginalName();
+        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        $extension = $file->getClientOriginalExtension();
+        $fileNameToStore = Str::slug($filename) . '_' . time() . '.' . $extension;
 
-            $path = public_path('uploads/quote/');
-            if (!File::exists($path)) {
-                File::makeDirectory($path, 0777, true, true);
-            }
-
-            $file->move($path, $fileNameToStore);
-
-            return response()->json(['file_name' => $fileNameToStore]);
+        $path = public_path('uploads/quote/');
+        if (!File::exists($path)) {
+            File::makeDirectory($path, 0777, true, true);
         }
 
-        return response()->json(['error' => 'No file uploaded'], 400);
+        $file->move($path, $fileNameToStore);
+
+        return response()->json(['file_name' => $fileNameToStore]);
     }
+
+    return response()->json(['error' => 'No file uploaded'], 400);
+}
+
     public function store(Request $request)
     { dd($request->all());
         // ✅ 1. Validate form fields
@@ -120,8 +121,8 @@ class GetQuoteController extends Controller
 
         // ✅ 5. Handle multiple uploaded files from Dropzone
         // These are filenames sent from Dropzone via hidden inputs
-        $uploadedFiles = $request->input('uploaded_files', []);
-        $quote->file_path = !empty($uploadedFiles) ? json_encode($uploadedFiles) : null;
+$uploadedFiles = $request->input('uploaded_files', []);
+$quote->file_path = !empty($uploadedFiles) ? json_encode($uploadedFiles) : null;
 
         // ✅ 6. Save quote
         $quote->save();
