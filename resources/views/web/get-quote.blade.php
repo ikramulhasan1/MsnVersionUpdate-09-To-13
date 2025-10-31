@@ -401,10 +401,11 @@
 
 
     /*  */
-    .quote-services {
+  .quote-services {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  position: relative;
 }
 
 .service-item {
@@ -427,11 +428,22 @@
   color: #fff;
 }
 
+/* Updated subservices style — makes dropdown-like panel */
 .subservices {
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 8px;
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: max-content;
+  min-width: 280px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 20;
 }
 
 .subservice-item {
@@ -448,7 +460,6 @@
 .subservice-item:hover {
   background-color: #e8f0fe;
 }
-
 
 .subservice-item label {
   border-radius: 20px;
@@ -562,9 +573,9 @@
 
           <h6 style="text-align: left !important">{{ __('form.services') }}</h6>
 
-<div class="quote-services d-flex flex-wrap gap-3">
+<div class="quote-services">
   @foreach($services as $service)
-    <div class="service-item">
+    <div class="service-item position-relative">
       <input type="checkbox" 
              class="quote-input service-checkbox d-none" 
              name="services[]" 
@@ -573,13 +584,10 @@
       <label class="service-label" for="service-{{ $service->id }}">{{ $service->short_title }}</label>
 
       @if($service->subservices && $service->subservices->count() > 0)
-        <div class="subservices mt-3 ms-4" id="subservices-{{ $service->id }}" style="display:none;">
+        <div class="subservices shadow-sm" id="subservices-{{ $service->id }}">
           @foreach($service->subservices as $sub)
             <div class="subservice-item">
-              <input type="checkbox" 
-                     name="subservices[]" 
-                     value="{{ $sub->id }}" 
-                     id="sub-{{ $sub->id }}">
+              <input type="checkbox" name="subservices[]" value="{{ $sub->id }}" id="sub-{{ $sub->id }}">
               <label for="sub-{{ $sub->id }}">{{ $sub->title }}</label>
             </div>
           @endforeach
@@ -588,6 +596,7 @@
     </div>
   @endforeach
 </div>
+
 
 
 
