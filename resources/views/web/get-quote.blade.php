@@ -489,22 +489,35 @@
             <label class="d-flex align-items-center"><input class="quote-input" type="radio" name="prefer_contact" value="2"
                 id="pre_phone" @if(old('prefer_contact') == '2') checked @endif required>Phone </label>
           </div>
-@dd($services)
-          <h6 style="text-align: left !important">{{ __('form.services') }}</h6>
-          <div class="quote-services">
-            @foreach($services as $service)
-              @if (!empty($service->short_title))
-                <input class="quote-input" type="checkbox" name="services[]" value="{{ $service->id }}"
-                  @if(old('services') == $service->id) checked @endif id="service-{{ $service->id }}"><label
-                  for="service-{{ $service->id }}">{{ $service->short_title }}</label>
-              @else
-                <input class="quote-input" type="checkbox" name="services[]" value="{{ $service->id }}"
-                  @if(old('services') == $service->id) checked @endif id="service-{{ $service->id }}"><label
-                  for="service-{{ $service->id }}">{{ $service->short_title }}</label>
-              @endif
-            @endforeach
 
-          </div>
+          <h6 style="text-align: left !important">{{ __('form.services') }}</h6>
+<div class="quote-services">
+  @foreach($services as $service)
+    <div class="service-block mb-2">
+      <input class="quote-input service-checkbox" 
+             type="checkbox" 
+             name="services[]" 
+             value="{{ $service->id }}" 
+             id="service-{{ $service->id }}">
+      <label for="service-{{ $service->id }}">{{ $service->short_title }}</label>
+
+      <!-- Subservices container -->
+      @if($service->subservices->count() > 0)
+        <div class="subservices mt-2 ms-4" id="subservices-{{ $service->id }}" style="display: none;">
+          @foreach($service->subservices as $sub)
+            <input type="checkbox" 
+                   name="subservices[]" 
+                   value="{{ $sub->id }}" 
+                   id="sub-{{ $sub->id }}" 
+                   class="subservice-input">
+            <label for="sub-{{ $sub->id }}">{{ $sub->title }}</label><br>
+          @endforeach
+        </div>
+      @endif
+    </div>
+  @endforeach
+</div>
+
 
           <textarea class="quote-textarea" name="message" placeholder="{{ __('form.your_massage') }}"
             required>{{ old('message') }}</textarea>
@@ -575,5 +588,20 @@
   @endif
 
   {{-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> --}}
+<script>
+$(document).ready(function() {
+    $('.service-checkbox').on('change', function() {
+        let serviceId = $(this).val();
+        let subservicesDiv = $('#subservices-' + serviceId);
+
+        if ($(this).is(':checked')) {
+            subservicesDiv.slideDown(300);
+        } else {
+            subservicesDiv.slideUp(300);
+            subservicesDiv.find('input[type="checkbox"]').prop('checked', false);
+        }
+    });
+});
+</script>
 
 @endsection
