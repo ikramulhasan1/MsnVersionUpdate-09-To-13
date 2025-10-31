@@ -605,8 +605,10 @@
           <!-- ✅ Dropzone upload area -->
           <div class="form-group">
             <label>Upload Files</label>
-    <div id="quoteDropzone" class="dropzone border border-2 border-secondary rounded p-4 bg-light"></div>
+            <div id="quoteDropzone" class="dropzone border border-2 border-secondary rounded p-4 bg-light"></div>
           </div>
+              <input type="hidden" name="uploaded_files[]" id="uploaded_files">
+
           <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
           @if ($errors->has('captcha'))
             <p class="text-danger">{{ $errors->first('captcha') }}</p>
@@ -733,7 +735,7 @@
   <!-- ✅ Dropzone JS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
 
-<script>
+{{-- <script>
 document.addEventListener("DOMContentLoaded", function () {
   Dropzone.autoDiscover = false;
 
@@ -779,6 +781,53 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   console.log("✅ Dropzone initialized");
+});
+</script> --}}
+<form id="quoteForm" action="{{ route('quote.store') }}" method="POST">
+    @csrf
+    <!-- your other form fields -->
+    <div class="form-group">
+        <label>Upload Files</label>
+        <div id="file-dropzone" class="dropzone"></div>
+    </div>
+
+    <!-- Hidden input to collect uploaded filenames -->
+    <input type="hidden" name="uploaded_files[]" id="uploaded_files">
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+Dropzone.autoDiscover = false;
+
+let uploadedFiles = []; // store file names returned from Laravel
+
+const quoteDropzone = new Dropzone("#file-dropzone", {
+    url: "{{ route('quote.upload') }}", // Laravel upload route
+    paramName: "file", // matches $request->file('file')
+    maxFilesize: 10, // MB
+    addRemoveLinks: true,
+    acceptedFiles: ".jpg,.png,.pdf,.doc,.docx,.zip",
+
+    headers: {
+        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+    },
+
+    success: function(file, response) {
+        if (response.file_name) {
+            uploadedFiles.push(response.file_name);
+            // update hidden input field
+            document.getElementById('uploaded_files').value = JSON.stringify(uploadedFiles);
+        }
+    },
+
+    removedfile: function(file) {
+        // remove file preview
+        file.previewElement.remove();
+        // optionally remove file name from hidden input
+        uploadedFiles = uploadedFiles.filter(name => name !== file.name);
+        document.getElementById('uploaded_files').value = JSON.stringify(uploadedFiles);
+    }
 });
 </script>
 
