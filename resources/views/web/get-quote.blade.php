@@ -662,7 +662,7 @@
 <script>
 $(document).ready(function () {
 
-  // Toggle subservice visibility when main service clicked
+  // Toggle subservice visibility when main service label is clicked
   $('.service-label').on('click', function (e) {
     e.preventDefault();
 
@@ -670,15 +670,22 @@ $(document).ready(function () {
     let checkbox = parent.find('.service-checkbox');
     let subDiv = parent.find('.subservices');
 
-    // Toggle parent checkbox
-    checkbox.prop('checked', !checkbox.prop('checked'));
+    // If service has subservices
+    if (subDiv.length > 0) {
+      // Always keep service checked
+      if (!checkbox.is(':checked')) {
+        checkbox.prop('checked', true);
+      }
 
-    // Show or hide subservice list
-    if (checkbox.is(':checked')) {
-      subDiv.stop(true, true).slideDown(300);
+      // Just toggle visibility of the dropdown
+      if (subDiv.is(':visible')) {
+        subDiv.stop(true, true).slideUp(300); // minimize
+      } else {
+        subDiv.stop(true, true).slideDown(300); // open
+      }
     } else {
-      // Only hide, do NOT deselect subservices
-      subDiv.stop(true, true).slideUp(300);
+      // No subservices → toggle checkbox normally
+      checkbox.prop('checked', !checkbox.prop('checked'));
     }
   });
 
@@ -692,12 +699,13 @@ $(document).ready(function () {
     if (parentService.find('.subservice-item input:checked').length > 0) {
       parentCheckbox.prop('checked', true);
     } else {
+      // Optional: Uncheck parent only if all subservices unchecked
       parentCheckbox.prop('checked', false);
       subDiv.stop(true, true).slideUp(300);
     }
   });
 
-  // Optional: Click outside to close subservices visually (keep selections)
+  // Optional: click outside to hide all subservice lists (keep selections)
   $(document).on('click', function (e) {
     if (!$(e.target).closest('.service-item').length) {
       $('.subservices').slideUp(200);
@@ -705,4 +713,5 @@ $(document).ready(function () {
   });
 });
 </script>
+
 @endsection
