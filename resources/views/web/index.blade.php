@@ -1756,7 +1756,7 @@
     </section>
   @endif
 
-
+@dd($case_studies)
   {{-- case study --}}
   <section class="case-studies-section">
 
@@ -1765,7 +1765,7 @@
       <div class="case-studies-badge">Case Studies</div>
 
       <div id="case-owl-carousel" class="owl-carousel owl-theme">
-@dd($case_studies)
+
         <!-- Slide 1 -->
         @foreach ($case_studies as $case_study)
         <div class="case-studies-item"
