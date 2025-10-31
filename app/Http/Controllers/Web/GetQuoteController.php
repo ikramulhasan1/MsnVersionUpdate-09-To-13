@@ -51,7 +51,7 @@ class GetQuoteController extends Controller
         return redirect()->route('get-quote');
     }
     public function upload(Request $request)
-    { dd($request->all());
+    {
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $filenameWithExt = $file->getClientOriginalName();
@@ -72,7 +72,7 @@ class GetQuoteController extends Controller
         return response()->json(['error' => 'No file uploaded'], 400);
     }
     public function store(Request $request)
-    {
+    {dd($request->all());
         // ✅ 1. Validate form fields
         $request->validate([
             'name' => 'required|string|max:191',
