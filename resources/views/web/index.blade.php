@@ -1171,7 +1171,7 @@
       <!-- Right: Illustration/Image -->
       <div class="col-lg-6 text-center">
         <img src="{{ asset('uploads/slider/' . $slider->image_path) }}" 
-             class="img-fluid rounded" style="height: 460px"
+             class="img-fluid rounded" style="height: 400px"
              alt="Digital Agency Illustration">
       </div>
     </div>
