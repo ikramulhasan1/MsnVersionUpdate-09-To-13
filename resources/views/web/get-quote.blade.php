@@ -478,6 +478,8 @@
       color: #fff;
     }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css">
+
   <section class="about-hero-section" data-aos="fade">
     <div class="container">
       <h1>{{ __('Quote') }}</h1>
@@ -729,6 +731,8 @@
       });
     });
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+
 <script>
 Dropzone.autoDiscover = false;
 
