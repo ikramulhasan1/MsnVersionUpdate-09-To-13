@@ -739,7 +739,7 @@ Dropzone.autoDiscover = false;
 const quoteDropzone = new Dropzone("#quoteDropzone", {
     url: "{{ route('quote.upload') }}", // Temporary upload route
     paramName: "file", // The name used in the request
-    maxFilesize: 50, // MB
+    maxFilesize: 20, // MB
     acceptedFiles: ".jpg,.jpeg,.png,.gif,.svg,.webp,.pdf,.doc,.docx,.txt,.zip,.rar,.csv,.xls,.xlsx,.ppt,.pptx,.mp3,.avi,.mp4,.mpeg,.3gp",
     addRemoveLinks: true,
     parallelUploads: 5,
