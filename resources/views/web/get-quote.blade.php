@@ -89,7 +89,7 @@
       background-color: #f9fafc;
       padding: 80px 15px;
       /* padding-top: 50px !important;
-            padding-bottom: 50px !important; */
+              padding-bottom: 50px !important; */
     }
 
     .process-section-title {
@@ -368,7 +368,7 @@
       }
     }
   </style>
-  
+
   <style>
     /* Hero Section */
     .about-hero-section {
@@ -491,32 +491,29 @@
           </div>
 
           <h6 style="text-align: left !important">{{ __('form.services') }}</h6>
-<div class="quote-services">
-  @foreach($services as $service)
-    <div class="service-block mb-2">
-      <input class="quote-input service-checkbox" 
-             type="checkbox" 
-             name="services[]" 
-             value="{{ $service->id }}" 
-             id="service-{{ $service->id }}">
-      <label for="service-{{ $service->id }}">{{ $service->short_title }}</label>
 
-      <!-- Subservices container -->
-      @if($service->subservices->count() > 0)
-        <div class="subservices mt-2 ms-4" id="subservices-{{ $service->id }}" style="display: none;">
-          @foreach($service->subservices as $sub)
-            <input type="checkbox" 
-                   name="subservices[]" 
-                   value="{{ $sub->id }}" 
-                   id="sub-{{ $sub->id }}" 
-                   class="subservice-input">
-            <label for="sub-{{ $sub->id }}">{{ $sub->title }}</label><br>
-          @endforeach
-        </div>
-      @endif
-    </div>
-  @endforeach
-</div>
+          <div class="quote-services">
+            @foreach($services as $service)
+              <div class="service-block mb-3">
+                <input type="checkbox" class="quote-input service-checkbox" name="services[]" value="{{ $service->id }}"
+                  id="service-{{ $service->id }}">
+                <label for="service-{{ $service->id }}">{{ $service->short_title }}</label>
+
+                @if($service->subservices && $service->subservices->count() > 0)
+                  <div class="subservices mt-2 ms-4" id="subservices-{{ $service->id }}" style="display:none;">
+                    @foreach($service->subservices as $sub)
+                      <div>
+                        <input type="checkbox" name="subservices[]" value="{{ $sub->id }}" id="sub-{{ $sub->id }}"
+                          class="subservice-input">
+                        <label for="sub-{{ $sub->id }}">{{ $sub->title }}</label>
+                      </div>
+                    @endforeach
+                  </div>
+                @endif
+              </div>
+            @endforeach
+          </div>
+
 
 
           <textarea class="quote-textarea" name="message" placeholder="{{ __('form.your_massage') }}"
@@ -571,7 +568,7 @@
                 @endphp
 
                 <div class="process-step-arrow d-none d-md-block 
-                                          {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
+                                                {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
                 </div>
               </div>
             </div>
@@ -587,21 +584,25 @@
     </section>
   @endif
 
-  {{-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> --}}
+  {{--
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script> --}}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
 $(document).ready(function() {
     $('.service-checkbox').on('change', function() {
         let serviceId = $(this).val();
-        let subservicesDiv = $('#subservices-' + serviceId);
+        let subDiv = $('#subservices-' + serviceId);
 
         if ($(this).is(':checked')) {
-            subservicesDiv.slideDown(300);
+            subDiv.stop(true, true).slideDown(300);
         } else {
-            subservicesDiv.slideUp(300);
-            subservicesDiv.find('input[type="checkbox"]').prop('checked', false);
+            subDiv.stop(true, true).slideUp(300);
+            subDiv.find('input[type="checkbox"]').prop('checked', false);
         }
     });
 });
 </script>
+
 
 @endsection
