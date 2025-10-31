@@ -758,16 +758,20 @@ document.addEventListener("DOMContentLoaded", function () {
       "X-CSRF-TOKEN": "{{ csrf_token() }}",
     },
 
-    success: function (file, response) {
-      if (response.file_name) {
-        const hiddenInput = document.createElement("input");
-        hiddenInput.type = "hidden";
-        hiddenInput.name = "uploaded_files[]";
-        hiddenInput.value = response.file_name;
-        document.querySelector("#quoteForm").appendChild(hiddenInput);
-        file._hiddenInput = hiddenInput;
-      }
-    },
+    success: function(file, response) {
+    if(response.file_name) {
+        file.uploaded_name = response.file_name; // store for deletion later
+
+        let hidden = document.createElement('input');
+        hidden.type = 'hidden';
+        hidden.name = 'uploaded_files[]';
+        hidden.value = response.file_name;
+        document.querySelector('form').appendChild(hidden);
+    } else {
+        alert('File upload failed.');
+    }
+}
+
 
     removedfile: function (file) {
       if (file.previewElement) file.previewElement.remove();

@@ -50,16 +50,19 @@ class GetQuoteController extends Controller
         $request->session()->put('work_scope', $request->work_scope);
         return redirect()->route('get-quote');
     }
-    public function upload(Request $request)
+public function upload(Request $request)
 {
     if ($request->hasFile('file')) {
         $file = $request->file('file');
-        $fileName = time() . '_' . $file->getClientOriginalName();
-        $file->move(public_path('uploads/quote'), $fileName);
-        return response()->json(['file_name' => $fileName]);
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('uploads/quote'), $filename);
+
+        return response()->json(['file_name' => $filename]); // MUST return file_name
     }
-    return response()->json(['error' => 'No file uploaded'], 400);
+
+    return response()->json(['file_name' => '']); // fallback if no file
 }
+
 
 
 
