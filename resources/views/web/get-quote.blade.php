@@ -401,7 +401,7 @@
 
 
     /*  */
- .quote-services {
+.quote-services {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
@@ -659,29 +659,36 @@
   {{--
   <script src="https://www.google.com/recaptcha/api.js" async defer></script> --}}
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
 $(document).ready(function () {
 
-  // Toggle subservice visibility when main service is checked/unchecked
-  $('.service-checkbox').on('change', function () {
-    let serviceId = $(this).val();
-    let subDiv = $('#subservices-' + serviceId);
+  // Toggle subservice visibility when main service clicked
+  $('.service-label').on('click', function (e) {
+    e.preventDefault();
 
-    if ($(this).is(':checked')) {
+    let parent = $(this).closest('.service-item');
+    let checkbox = parent.find('.service-checkbox');
+    let subDiv = parent.find('.subservices');
+
+    // Toggle parent checkbox
+    checkbox.prop('checked', !checkbox.prop('checked'));
+
+    // Show or hide subservice list
+    if (checkbox.is(':checked')) {
       subDiv.stop(true, true).slideDown(300);
     } else {
+      // Only hide, do NOT deselect subservices
       subDiv.stop(true, true).slideUp(300);
-      subDiv.find('input[type="checkbox"]').prop('checked', false);
     }
   });
 
-  // Collapse parent when all subservices are unchecked
+  // Handle subservice checkbox changes
   $(document).on('change', '.subservice-item input[type="checkbox"]', function () {
     let parentService = $(this).closest('.service-item');
     let parentCheckbox = parentService.find('.service-checkbox');
     let subDiv = parentService.find('.subservices');
 
+    // Keep parent checked if any subservice is checked
     if (parentService.find('.subservice-item input:checked').length > 0) {
       parentCheckbox.prop('checked', true);
     } else {
@@ -690,12 +697,10 @@ $(document).ready(function () {
     }
   });
 
-  // Optional: Close open dropdowns when clicking outside
+  // Optional: Click outside to close subservices visually (keep selections)
   $(document).on('click', function (e) {
     if (!$(e.target).closest('.service-item').length) {
-      $('.service-checkbox').prop('checked', false);
       $('.subservices').slideUp(200);
-      $('.subservice-item input[type="checkbox"]').prop('checked', false);
     }
   });
 });
