@@ -735,7 +735,7 @@
   <!-- ✅ Dropzone JS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
 
-{{-- <script>
+<script>
 document.addEventListener("DOMContentLoaded", function () {
   Dropzone.autoDiscover = false;
 
@@ -782,9 +782,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   console.log("✅ Dropzone initialized");
 });
-</script> --}}
+</script>
 
-<script>
+{{-- <script>
 Dropzone.autoDiscover = false;
 
 let uploadedFiles = []; // store file names returned from Laravel
@@ -816,7 +816,7 @@ const quoteDropzone = new Dropzone("#file-dropzone", {
         document.getElementById('uploaded_files').value = JSON.stringify(uploadedFiles);
     }
 });
-</script>
+</script> --}}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
 
