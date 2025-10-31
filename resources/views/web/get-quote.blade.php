@@ -607,7 +607,7 @@
             <label>Upload Files</label>
             <div id="quoteDropzone" class="dropzone border border-2 border-secondary rounded p-4 bg-light"></div>
           </div>
-              <input type="hidden" name="uploaded_files[]" id="uploaded_files">
+    <input type="hidden" name="uploaded_files[]" id="uploaded_files">
 
           <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
           @if ($errors->has('captcha'))
@@ -783,19 +783,6 @@ document.addEventListener("DOMContentLoaded", function () {
   console.log("✅ Dropzone initialized");
 });
 </script> --}}
-<form id="quoteForm" action="{{ route('quote.store') }}" method="POST">
-    @csrf
-    <!-- your other form fields -->
-    <div class="form-group">
-        <label>Upload Files</label>
-        <div id="file-dropzone" class="dropzone"></div>
-    </div>
-
-    <!-- Hidden input to collect uploaded filenames -->
-    <input type="hidden" name="uploaded_files[]" id="uploaded_files">
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
 
 <script>
 Dropzone.autoDiscover = false;
