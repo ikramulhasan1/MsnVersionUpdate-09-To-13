@@ -89,7 +89,7 @@
       background-color: #f9fafc;
       padding: 80px 15px;
       /* padding-top: 50px !important;
-                    padding-bottom: 50px !important; */
+                      padding-bottom: 50px !important; */
     }
 
     .process-section-title {
@@ -478,7 +478,7 @@
       color: #fff;
     }
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" />
 
   <section class="about-hero-section" data-aos="fade">
     <div class="container">
@@ -605,9 +605,9 @@
           {{-- <input class="quote-input" type="file" name="file_path" value="{{ old('file_path') }}" id="file_path"> --}}
           <!-- ✅ Dropzone upload area -->
           <div class="form-group">
-    <label>Upload Files</label>
-    <div class="dropzone" id="quoteDropzone"></div>
-  </div>
+            <label>Upload Files</label>
+            <div class="dropzone" id="quoteDropzone"></div>
+          </div>
           <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
           @if ($errors->has('captcha'))
             <p class="text-danger">{{ $errors->first('captcha') }}</p>
@@ -658,7 +658,7 @@
 
                 <div
                   class="process-step-arrow d-none d-md-block 
-                                                                  {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
+                                                                        {{ $showArrow ? ($key == 2 ? 'arrow-down' : '') : 'arrow-hidden' }}">
                 </div>
               </div>
             </div>
@@ -731,51 +731,50 @@
       });
     });
   </script>
+  <!-- ✅ Dropzone JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    Dropzone.autoDiscover = false;
+document.addEventListener('DOMContentLoaded', function () {
+  Dropzone.autoDiscover = false;
 
-    const quoteDropzone = new Dropzone("#quoteDropzone", {
-      url: "{{ route('quote.upload') }}", // Upload route
-      paramName: "file",
-      maxFilesize: 20, // MB
-      acceptedFiles: ".jpg,.jpeg,.png,.gif,.svg,.webp,.pdf,.doc,.docx,.txt,.zip,.rar,.csv,.xls,.xlsx,.ppt,.pptx,.mp3,.avi,.mp4,.mpeg,.3gp",
-      addRemoveLinks: true,
-      parallelUploads: 5,
-      uploadMultiple: false,
-      headers: {
-        'X-CSRF-TOKEN': "{{ csrf_token() }}"
-      },
+  const quoteDropzone = new Dropzone("#quoteDropzone", {
+    url: "{{ route('quote.upload') }}", // Temporary upload route
+    paramName: "file",
+    maxFilesize: 20, // MB
+    acceptedFiles: ".jpg,.jpeg,.png,.gif,.svg,.webp,.pdf,.doc,.docx,.txt,.zip,.rar,.csv,.xls,.xlsx,.ppt,.pptx,.mp3,.avi,.mp4,.mpeg,.3gp",
+    addRemoveLinks: true,
+    parallelUploads: 5,
+    uploadMultiple: false,
+    headers: {
+      'X-CSRF-TOKEN': "{{ csrf_token() }}"
+    },
 
-      success: function (file, response) {
-        if (response.file_name) {
-          // Create hidden input for each uploaded file
-          const input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = 'uploaded_files[]';
-          input.value = response.file_name;
-          document.querySelector('#quoteForm').appendChild(input);
-
-          // Keep reference to remove it later
-          file._hiddenInput = input;
-        }
-      },
-
-      removedfile: function (file) {
-        // Remove file preview
-        if (file.previewElement) file.previewElement.remove();
-
-        // Remove hidden input if exists
-        if (file._hiddenInput) file._hiddenInput.remove();
-      },
-
-      error: function (file, response) {
-        console.error('Upload error:', response);
-        alert('Error uploading file. Please try again.');
+    success: function (file, response) {
+      if (response.file_name) {
+        // Create hidden input for each uploaded file
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'uploaded_files[]';
+        input.value = response.file_name;
+        document.querySelector('#quoteForm').appendChild(input);
+        file._hiddenInput = input; // store reference for later
       }
-    });
+    },
+
+    removedfile: function (file) {
+      // Remove the file preview from Dropzone
+      if (file.previewElement) file.previewElement.remove();
+      // Remove the hidden input associated with it
+      if (file._hiddenInput) file._hiddenInput.remove();
+    },
+
+    error: function (file, response) {
+      console.error('Upload error:', response);
+      alert('Error uploading file. Please try again.');
+    }
   });
+});
 </script>
 
 @endsection
