@@ -1146,7 +1146,7 @@
     <div class="row align-items-center">
       <!-- Left: Headline + Description + CTA -->
       <div class="col-lg-6 mb-5 mb-lg-0">
-        <h1 class="display-4 font-weight-bold" style="color: #052C58">{!! $slider->title !!}</h1>
+        <h1 class="display-4 font-weight-bolder" style="color: #052C58">{!! $slider->title !!}</h1>
         <p class="lead mt-3">{!! $slider->description !!}</p>
         <a href="{{ route('get-quote') }}" class="btn btn-primary mr-2 mt-3">Get Started</a>
         <a href="{{ route('services') }}" class="btn btn-outline-secondary mt-3">Our Services</a>
