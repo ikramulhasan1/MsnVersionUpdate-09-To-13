@@ -112,7 +112,7 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
     Route::post('quote-action/{id}/{action}', 'GetQuoteController@action')->name('get-quote.action');
     Route::get('quote-invoice/{id}/{action}', 'GetQuoteController@invoice')->name('get-quote.invoice');
     Route::post('quote-invoice', 'GetQuoteController@invoiceStore')->name('get-quote.invoice.store');
-    Route::post('/quote-upload', 'GetQuoteController@upload')->name('quote.upload');
+    Route::post('/quote-upload', [GetQuoteController::class, 'upload'])->name('quote.upload');
 
     // Invoice Routes
     Route::resource('invoice', 'InvoiceController');
