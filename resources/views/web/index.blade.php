@@ -1110,81 +1110,73 @@
 
 
     <style>
-      .hero-modern {
-        padding-top: 100px;
-        padding-bottom: 80px;
-      }
-
-      .hero-modern h1 span {
-        color: #0d6efd;
-      }
-
-      .hero-modern .btn {
-        border-radius: 50px;
-        padding: 12px 30px;
-        font-weight: 600;
-      }
-
-      .hero-modern .btn-outline-secondary {
-        color: #052C58;
-        border-color: #052C58;
-      }
-
-      .hero-modern .btn-outline-secondary:hover {
-        background-color: #052C58;
-        color: #fff;
-      }
-
-      .hero-modern i {
-        display: block;
-      }
-
-      .hero-modern .flex-fill {
-        min-width: 120px;
-      }
-
-      @media(max-width: 992px) {
-        .hero-modern .d-flex {
-          justify-content: center;
-        }
-      }
+  .hero-modern {
+      padding-top: 100px;
+      padding-bottom: 80px;
+    }
+    .hero-modern h1 span {
+      color: #0d6efd;
+    }
+    .hero-modern .btn {
+      border-radius: 50px;
+      padding: 12px 30px;
+      font-weight: 600;
+    }
+    .hero-modern .btn-outline-secondary {
+      color: #052C58;
+      border-color: #052C58;
+    }
+    .hero-modern .btn-outline-secondary:hover {
+      background-color: #052C58;
+      color: #fff;
+    }
+    .hero-modern i {
+      display: block;
+    }
+    .hero-modern .flex-fill {
+      min-width: 120px;
+    }
+    @media(max-width: 992px){
+      .hero-modern .d-flex { justify-content: center; }
+    }
     </style>
     @foreach($sliders as $slider)
-    <section class="hero-modern py-5">
-      <div class="container">
-        <div class="row align-items-center">
-          <!-- Left: Headline + Description + CTA -->
-          <div class="col-lg-6">
-            <h1 class="display-4 fw-bold">{!! $slider->title !!}</h1>
-            <p class="lead mt-3">{!! $slider->description !!}</p>
-            <a href="{{ route('get-quote') }}" class="btn btn-primary me-2 mt-3">Get Started</a>
-            <a href="{{ route('services') }}" class="btn btn-outline-secondary mt-3">Our Services</a>
+<section class="hero-modern py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Left: Headline + Description + CTA -->
+      <div class="col-lg-6 mb-5 mb-lg-0">
+        <h1 class="display-4 font-weight-bold">{!! $slider->title !!}</h1>
+        <p class="lead mt-3">{!! $slider->description !!}</p>
+        <a href="{{ route('get-quote') }}" class="btn btn-primary mr-2 mt-3">Get Started</a>
+        <a href="{{ route('services') }}" class="btn btn-outline-secondary mt-3">Our Services</a>
 
-            <!-- Service Highlights -->
-            <div class="d-flex flex-wrap mt-5 gap-3">
-              <div class="p-3 border rounded text-center flex-fill">
-                <i class="bi bi-browser-chrome fs-3 text-primary"></i>
-                <h6 class="mt-2">Web Development</h6>
-              </div>
-              <div class="p-3 border rounded text-center flex-fill">
-                <i class="bi bi-phone fs-3 text-primary"></i>
-                <h6 class="mt-2">Mobile Apps</h6>
-              </div>
-              <div class="p-3 border rounded text-center flex-fill">
-                <i class="bi bi-bar-chart fs-3 text-primary"></i>
-                <h6 class="mt-2">Digital Marketing</h6>
-              </div>
-            </div>
+        <!-- Service Highlights -->
+        <div class="d-flex flex-wrap mt-5">
+          <div class="p-3 border rounded text-center flex-fill mx-2 mb-3">
+            <i class="bi bi-browser-chrome display-4 text-primary"></i>
+            <h6 class="mt-2">Web Development</h6>
           </div>
-
-          <!-- Right: Illustration/Image -->
-          <div class="col-lg-6 text-center">
-            <img src="{{ asset('uploads/slider/' . $slider->image_path) }}" class="img-fluid rounded"
-              alt="Digital Agency Illustration">
+          <div class="p-3 border rounded text-center flex-fill mx-2 mb-3">
+            <i class="bi bi-phone display-4 text-primary"></i>
+            <h6 class="mt-2">Mobile Apps</h6>
+          </div>
+          <div class="p-3 border rounded text-center flex-fill mx-2 mb-3">
+            <i class="bi bi-bar-chart display-4 text-primary"></i>
+            <h6 class="mt-2">Digital Marketing</h6>
           </div>
         </div>
       </div>
-    </section>
+
+      <!-- Right: Illustration/Image -->
+      <div class="col-lg-6 text-center">
+        <img src="{{ asset('uploads/slider/' . $slider->image_path) }}" 
+             class="img-fluid rounded" 
+             alt="Digital Agency Illustration">
+      </div>
+    </div>
+  </div>
+</section>
 @endforeach
   @endif
 
