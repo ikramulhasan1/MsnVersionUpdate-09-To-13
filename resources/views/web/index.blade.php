@@ -1771,9 +1771,9 @@
         <div class="case-studies-item"
           style="background-image: url('{{ asset('uploads/case-study/'.$case_study->image_path) }}');">
           <div class="case-studies-content">
-            <h1>{{ $case->main_title }}</h1>
+            <h1>{{ $case_study->main_title }}</h1>
             <div class="case-studies-tech-tags">
-              <span>{{ $case->tech_stack }}</span>
+              <span>{{ $case_study->tech_stack }}</span>
             </div>
             <a href="#" class="read-more-btn">View Case Study ➔</a>
           </div>
