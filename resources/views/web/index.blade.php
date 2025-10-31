@@ -1756,7 +1756,6 @@
     </section>
   @endif
 
-@dd($case_studies)
   {{-- case study --}}
   <section class="case-studies-section">
 
@@ -1773,9 +1772,11 @@
           <div class="case-studies-content">
             <h1>{{ $case_study->main_title }}</h1>
             <div class="case-studies-tech-tags">
-              <span>{{ $case_study->tech_stack }}</span>
+              @foreach ($case_study->technologies as $technology)
+                <span>{{ $technology->short_title }}</span>
+              @endforeach
             </div>
-            <a href="#" class="read-more-btn">View Case Study ➔</a>
+            <a href="{{ route('case-study.single', $case_study->slug) }}" class="read-more-btn">View Case Study ➔</a>
           </div>
         </div>
         @endforeach
