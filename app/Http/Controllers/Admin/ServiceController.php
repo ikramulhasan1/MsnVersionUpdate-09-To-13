@@ -95,7 +95,7 @@ class ServiceController extends Controller
             // Resize, Convert to WebP, and Save
             $thumbnailpath = $path . $fileNameToStore;
             Image::make($request->file('image')->getRealPath())
-                ->fit(800, 500, function ($constraint) {
+                ->fit(732, 300, function ($constraint) {
                     $constraint->upsize();
                 })
                 ->encode('webp', 90) // Encode as WebP with 90% quality
