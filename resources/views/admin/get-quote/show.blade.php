@@ -57,7 +57,6 @@
                                     <td>: {{ $row->city }}</td>
                                 </tr>
                                 
-@dd( $row->file_path)
                                 @if(is_file('uploads/quote/' . $row->file_path))
                                     <tr>
                                         <td>{{ __('dashboard.quote_files') }}</td>
@@ -66,6 +65,7 @@
                                                 download><span
                                                     class="btn btn-sm btn-primary">{{ __('dashboard.download') }}</span></a> --}}
                                                 @foreach(explode(',', $row->file_path) as $file)
+                                                    @dd($file)
                                                     <a href="{{ asset('uploads/quote/' . $file) }}" target="_blank"><span
                                                     class="btn btn-sm btn-primary">{{ $file }}.{{ __('dashboard.download') }}</span></a><br>
                                                 @endforeach
