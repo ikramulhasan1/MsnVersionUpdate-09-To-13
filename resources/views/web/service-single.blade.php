@@ -651,12 +651,12 @@
           <div style="color: white; text-align: left;" class="banner-right-box">
             <strong style="color: white">Have a Project in Mind? Let’s Build It Right.</strong><br>
             Share your details, and our team will respond within 24 hours with a tailored consultation.<br>
-            <ul>
-              {{-- <li style="color: white">✅ A detailed project strategy</li> --}}
+            {{-- <ul>
+              <li style="color: white">✅ A detailed project strategy</li>
               <li style="color: white">✅ Clear timelines and cost estimates</li>
               <li style="color: white">✅ Technology recommendations</li>
-              {{-- <li style="color: white">✅ Scalable solutions tailored to your needs</li> --}}
-            </ul><br>
+              <li style="color: white">✅ Scalable solutions tailored to your needs</li>
+            </ul><br> --}}
           </div>
         </div>
       </div>
