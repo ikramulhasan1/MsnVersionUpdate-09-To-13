@@ -618,7 +618,7 @@
     <div class="banner-container">
       <div class="banner">
         <div class="banner-left">
-          <h1 style="color: white">{{ $service->title }}</h1>
+          <h1 class="text-center" style="color: white">{{ $service->title }}</h1>
           {{-- <p>Service Detail</p> --}}
           <div class="banner-reviews mt-5" style="margin-bottom: 10px ">
             <img style="border-radius: 5px;height: 300px; width:100%; "
