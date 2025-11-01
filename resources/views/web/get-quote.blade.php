@@ -734,7 +734,6 @@
   <!-- ✅ Dropzone JS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   Dropzone.autoDiscover = false;
