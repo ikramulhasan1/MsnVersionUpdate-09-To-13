@@ -64,7 +64,7 @@ class GetQuoteController extends Controller
 
 
     public function store(Request $request)
-    { dd($request->all());
+    { 
         // ✅ 1. Validate form fields
         $request->validate([
             'name' => 'required|string|max:191',
