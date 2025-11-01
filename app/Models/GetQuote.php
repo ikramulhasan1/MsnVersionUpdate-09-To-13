@@ -11,11 +11,11 @@ class GetQuote extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'phone', 'work_model', 'work_scope', 'address', 'city', 'company', 'website', 'prefer_contact', 'quantity', 'message', 'file_path', 'pre_delivery_time', 'where_find', 'amount', 'invoice_time', 'mail_status', 'status',
-    ];
+    // protected $fillable = [
+    //     'name', 'email', 'phone', 'work_model', 'work_scope', 'address', 'city', 'company', 'website', 'prefer_contact', 'quantity', 'message', 'file_path', 'pre_delivery_time', 'where_find', 'amount', 'invoice_time', 'mail_status', 'status',
+    // ];
 
-
+    protected $guarded = [];
     // Polymorphic relations
     public function services()
     {

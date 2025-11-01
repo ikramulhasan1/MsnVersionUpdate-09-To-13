@@ -545,7 +545,7 @@
         @endif
 
 
-        <form class="quote-form" method="post" action="{{ route('get-quote.store') }}" enctype="multipart/form-data"
+        <form id="quoteForm" method="post" action="{{ route('get-quote.store') }}" enctype="multipart/form-data"
           accept-charset="utf-8">
           @csrf
           <input type="hidden" name="work_model" value="{{ $work_model }}">
@@ -607,7 +607,6 @@
             <label>Upload Files</label>
             <div id="quoteDropzone" class="dropzone border border-2 border-secondary rounded p-4 bg-light"></div>
           </div>
-    <input type="hidden" name="uploaded_files[]" id="uploaded_files">
 
           <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
           @if ($errors->has('captcha'))
@@ -735,11 +734,11 @@
   <!-- ✅ Dropzone JS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   Dropzone.autoDiscover = false;
 
-  // Initialize only once
   const dzElem = document.getElementById("quoteDropzone");
   if (!dzElem) {
     console.error("Dropzone element not found!");
@@ -747,7 +746,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const quoteDropzone = new Dropzone(dzElem, {
-    url: "{{ route('quote.upload') }}", // Temporary upload route
+    url: "{{ route('quote.upload') }}",
     paramName: "file",
     maxFilesize: 20, // MB
     acceptedFiles:
@@ -760,11 +759,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     success: function (file, response) {
       if (response.file_name) {
+        // Create a hidden input for this uploaded file
         const hiddenInput = document.createElement("input");
         hiddenInput.type = "hidden";
         hiddenInput.name = "uploaded_files[]";
         hiddenInput.value = response.file_name;
+
+        // Append it to the main form
         document.querySelector("#quoteForm").appendChild(hiddenInput);
+
+        // Store reference to remove later if needed
         file._hiddenInput = hiddenInput;
       }
     },
@@ -780,7 +784,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   });
 
-  console.log("✅ Dropzone initialized");
+  console.log("✅ Dropzone initialized successfully");
 });
 </script>
 
