@@ -647,9 +647,9 @@
 
         <div class="banner-right">
           <h2 style="color: #ffffff!important;">
-            Hire <span class="banner-highlight">Project-based</span> and <br>
-            <span class="banner-highlight">Dedicated Teams</span> from a<br>
-            <span class="banner-highlight">Top-rated IT Company</span>.
+            Hire Project-based and <br>
+            Dedicated Teams from a<br>
+            Top-rated IT Company.
           </h2>
           <button id="open-modal">Discuss Your Requirements →</button>
           <div style="color: white; text-align: left;" class="banner-right-box">
