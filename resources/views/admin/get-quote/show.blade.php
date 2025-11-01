@@ -68,7 +68,7 @@
                                                 @foreach(explode(',', $row->file_path) as $file)
                                                     
                                                     <a href="{{ asset('uploads/quote/' . $file) }}" target="_blank"><span
-                                                    class="btn btn-sm btn-primary">{{ $file }}.{{ __('dashboard.download') }}</span></a><br>
+                                                    class="btn btn-sm btn-primary">{{ $file }}</span></a><br>
                                                 @endforeach
                                         </td>
                                         
