@@ -646,7 +646,7 @@
         </div>
 
         <div class="banner-right">
-          <h5 class="font-bold " style="color: #ffffff!important;">
+          <h5 class="font-weight-bold" style="color: #ffffff!important;">
             Hire Project-based and <br>
             Dedicated Teams from a<br>
             Top-rated IT Company.
