@@ -60,7 +60,7 @@
                                 {{-- @if(is_file('uploads/quote/' . $row->file_path)) --}}
                                     <tr>
                                         <td>{{ __('dashboard.quote_files') }}</td>
-                                        <td>: 
+                                        <td class="row">: 
                                             {{-- <a href="{{ asset('uploads/quote/' . $row->file_path) }}" target="_blank"
                                                 download><span
                                                     class="btn btn-sm btn-primary">{{ __('dashboard.download') }}</span></a> --}}
