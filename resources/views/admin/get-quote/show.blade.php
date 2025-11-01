@@ -64,7 +64,7 @@
                                             {{-- <a href="{{ asset('uploads/quote/' . $row->file_path) }}" target="_blank"
                                                 download><span
                                                     class="btn btn-sm btn-primary">{{ __('dashboard.download') }}</span></a> --}}
-                                                    @dd($row->file_path)
+                                                    
                                                 @foreach(explode(',', $row->file_path) as $file)
                                                     
                                                     <a href="{{ asset('uploads/quote/' . $file) }}" target="_blank"><span
