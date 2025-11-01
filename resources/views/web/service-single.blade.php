@@ -620,29 +620,12 @@
         <div class="banner-left">
           <h1 style="color: white">{{ $service->title }}</h1>
           {{-- <p>Service Detail</p> --}}
-          <div class="banner-reviews mt-5" style="margin-bottom: 10px ">
-            <img style="border-radius: 5px;height: 300px; width:100%; "
-              src="{{ asset('uploads/service/' . $service->image_path) }}" alt="{{ $service->title }}" />
-            <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
-            <div class="banner-review-logos">
-              <div class="banner-review-item">
-                <div style="color: white">Clutch</div>
-                <div class="banner-stars">★★★★★</div>
-              </div>
-              <div class="banner-review-item">
-                <div style="color: white">GoodFirms</div>
-                <div class="banner-stars">★★★★★</div>
-              </div>
-              <div class="banner-review-item">
-                <div style="color: white">G2</div>
-                <div class="banner-stars">★★★★★</div>
-              </div>
-              <div class="banner-review-item">
-                <div style="color: white">Google</div>
-                <div class="banner-stars">★★★★★</div>
-              </div>
-            </div>
+          <div class="banner-reviews mt-5" style="margin-bottom: 10px;">
+            <img style="border-radius: 5px; height: 300px; width: 100%; object-fit: contain; background-color: #f8f8f8;" 
+              src="{{ asset('uploads/service/' . $service->image_path) }}" alt="{{ $service->title }}" 
+            />
           </div>
+
         </div>
 
         <div class="banner-right">
