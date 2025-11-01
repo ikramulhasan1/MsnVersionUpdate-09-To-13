@@ -623,7 +623,7 @@
           <div class="banner-reviews mt-5" style="margin-bottom: 10px ">
             <img style="border-radius: 5px;height: 300px; width:100%; "
               src="{{ asset('uploads/service/' . $service->image_path) }}" alt="{{ $service->title }}" />
-            {{-- <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
+            <div class="banner-reviews-title">300+ Glowing 5-Star Reviews</div>
             <div class="banner-review-logos">
               <div class="banner-review-item">
                 <div style="color: white">Clutch</div>
@@ -641,7 +641,7 @@
                 <div style="color: white">Google</div>
                 <div class="banner-stars">★★★★★</div>
               </div>
-            </div> --}}
+            </div>
           </div>
         </div>
 
