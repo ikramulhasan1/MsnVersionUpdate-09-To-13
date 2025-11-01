@@ -57,13 +57,20 @@
                                     <td>: {{ $row->city }}</td>
                                 </tr>
                                 
+
                                 @if(is_file('uploads/quote/' . $row->file_path))
                                     <tr>
                                         <td>{{ __('dashboard.quote_files') }}</td>
-                                        <td>: <a href="{{ asset('uploads/quote/' . $row->file_path) }}" target="_blank"
+                                        <td>: 
+                                            {{-- <a href="{{ asset('uploads/quote/' . $row->file_path) }}" target="_blank"
                                                 download><span
-                                                    class="btn btn-sm btn-primary">{{ __('dashboard.download') }}</span></a>
+                                                    class="btn btn-sm btn-primary">{{ __('dashboard.download') }}</span></a> --}}
+                                                @foreach(explode(',', $row->file_path) as $file)
+                                                    <a href="{{ asset('uploads/quote/' . $file) }}" target="_blank"><span
+                                                    class="btn btn-sm btn-primary">{{ $file }}.{{ __('dashboard.download') }}</span></a><br>
+                                                @endforeach
                                         </td>
+                                        
                                     </tr>
                                 @endif
                             </table>
