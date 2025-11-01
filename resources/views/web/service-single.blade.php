@@ -620,12 +620,10 @@
         <div class="banner-left">
           <h1 style="color: white">{{ $service->title }}</h1>
           {{-- <p>Service Detail</p> --}}
-          <div class="banner-reviews mt-5" style="margin-bottom: 10px;">
-            <img style="border-radius: 5px; height: 300px; width: 100%; object-fit: contain; background-color: #f8f8f8;" 
-              src="{{ asset('uploads/service/' . $service->image_path) }}" alt="{{ $service->title }}" 
-            />
+          <div class="banner-reviews mt-5" style="margin-bottom: 10px ">
+            <img style="border-radius: 5px;height: 300px; width:100%; "
+              src="{{ asset('uploads/service/' . $service->image_path) }}" alt="{{ $service->title }}" />
           </div>
-
         </div>
 
         <div class="banner-right">
