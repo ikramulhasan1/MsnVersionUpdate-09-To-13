@@ -255,7 +255,7 @@
     }
 
     .banner-right button:hover {
-      background: #e14b00 !important;
+      background: #052C58 !important;
     }
 
     .banner-right-box {
