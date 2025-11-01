@@ -57,7 +57,7 @@
                                     <td>: {{ $row->city }}</td>
                                 </tr>
                                 
-
+@dd( $row->file_path)
                                 @if(is_file('uploads/quote/' . $row->file_path))
                                     <tr>
                                         <td>{{ __('dashboard.quote_files') }}</td>
