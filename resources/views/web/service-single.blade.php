@@ -647,8 +647,8 @@
 
         <div class="banner-right">
           <h5 class="font-weight-bold" style="color: #ffffff!important;">
-            Hire Project-based and <br>
-            Dedicated Teams from a<br>
+            Hire Project-based and 
+            Dedicated Teams <br>from a
             Top-rated IT Company.
           </h5>
           <button id="open-modal">Discuss Your Requirements →</button>
