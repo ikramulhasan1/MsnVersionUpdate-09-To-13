@@ -545,75 +545,72 @@
         @endif
 
 
-        <form id="quoteForm" method="post" action="{{ route('get-quote.store') }}" enctype="multipart/form-data"
-          accept-charset="utf-8">
-          @csrf
-          <input type="hidden" name="work_model" value="{{ $work_model }}">
-          <input type="hidden" name="work_scope" value="{{ $work_scope }}">
+        <form id="quoteForm" class="quote-form" method="post" action="{{ route('get-quote.store') }}" enctype="multipart/form-data" accept-charset="utf-8">
+    @csrf
+    <input type="hidden" name="work_model" value="{{ $work_model }}">
+    <input type="hidden" name="work_scope" value="{{ $work_scope }}">
 
-          <input class="quote-input" type="text" name="name" placeholder="{{ __('form.your_name') }}"
-            value="{{ old('name') }}" required>
-          <input class="quote-input" type="email" name="email" placeholder="{{ __('form.email_address') }}"
-            value="{{ old('email') }}" required>
-          <input class="quote-input" type="tel" name="phone" placeholder="{{ __('form.phone_no') }}"
-            value="{{ old('phone') }}" required>
-          <input class="quote-input" type="text" name="company" placeholder="{{ __('form.company') }}"
-            value="{{ old('company') }}">
-          <input class="quote-input" type="text" name="address" placeholder="{{ __('form.address') }}"
-            value="{{ old('address') }}" required>
-          <input class="quote-input" type="text" name="city" placeholder="{{ __('form.city') }}" value="{{ old('city') }}"
-            required>
+    <!-- Name, Email, Phone -->
+    <input class="quote-input" type="text" name="name" placeholder="{{ __('form.your_name') }}" value="{{ old('name') }}" required>
+    <input class="quote-input" type="email" name="email" placeholder="{{ __('form.email_address') }}" value="{{ old('email') }}" required>
+    <input class="quote-input" type="tel" name="phone" placeholder="{{ __('form.phone_no') }}" value="{{ old('phone') }}" required>
 
-          <h6 style="text-align: left !important" for="prefer_contact">{{ __('form.prefer_contact') }}</h6>
-          <div class="quote-radio-group">
-            <label class="d-flex align-items-center">
-              <input class="quote-input" type="radio" name="prefer_contact" value="1" id="pre_email"
-                @if(old('prefer_contact') == '1') checked @else checked @endif required>Email
-            </label>
-            <label class="d-flex align-items-center">
-              <input class="quote-input" type="radio" name="prefer_contact" value="2" id="pre_phone"
-                @if(old('prefer_contact') == '2') checked @endif required>Phone
-            </label>
-          </div>
+    <!-- Company, Address, City -->
+    <input class="quote-input" type="text" name="company" placeholder="{{ __('form.company') }}" value="{{ old('company') }}">
+    <input class="quote-input" type="text" name="address" placeholder="{{ __('form.address') }}" value="{{ old('address') }}" required>
+    <input class="quote-input" type="text" name="city" placeholder="{{ __('form.city') }}" value="{{ old('city') }}" required>
 
-          <h6 style="text-align: left !important">{{ __('form.services') }}</h6>
+    <!-- Prefer Contact -->
+    <h6 style="text-align: left !important" for="prefer_contact">{{ __('form.prefer_contact') }}</h6>
+    <div class="quote-radio-group">
+        <label class="d-flex align-items-center">
+            <input class="quote-input" type="radio" name="prefer_contact" value="1" id="pre_email" @if(old('prefer_contact') == '1') checked @else checked @endif required>Email
+        </label>
+        <label class="d-flex align-items-center">
+            <input class="quote-input" type="radio" name="prefer_contact" value="2" id="pre_phone" @if(old('prefer_contact') == '2') checked @endif required>Phone
+        </label>
+    </div>
 
-          <div class="quote-services">
-            @foreach($services as $service)
-              <div class="service-item position-relative">
-                <input type="checkbox" class="quote-input service-checkbox d-none" name="services[]"
-                  value="{{ $service->id }}" id="service-{{ $service->id }}">
-                <label class="service-label" for="service-{{ $service->id }}">{{ $service->short_title }}</label>
+    <!-- Services -->
+    <h6 style="text-align: left !important">{{ __('form.services') }}</h6>
+    <div class="quote-services">
+        @foreach($services as $service)
+        <div class="service-item position-relative">
+            <input type="checkbox" class="quote-input service-checkbox d-none" name="services[]" value="{{ $service->id }}" id="service-{{ $service->id }}">
+            <label class="service-label" for="service-{{ $service->id }}">{{ $service->short_title }}</label>
 
-                @if($service->subservices && $service->subservices->count() > 0)
-                  <div class="subservices shadow-sm" id="subservices-{{ $service->id }}">
-                    @foreach($service->subservices as $sub)
-                      <div class="subservice-item">
-                        <input type="checkbox" name="sub_service[]" value="{{ $sub->short_title }}" id="sub-{{ $sub->id }}">
-                        <label for="sub-{{ $sub->id }}">{{ $sub->short_title }}</label>
-                      </div>
-                    @endforeach
-                  </div>
-                @endif
-              </div>
-            @endforeach
-          </div>
+            @if($service->subservices && $service->subservices->count() > 0)
+            <div class="subservices shadow-sm" id="subservices-{{ $service->id }}">
+                @foreach($service->subservices as $sub)
+                <div class="subservice-item">
+                    <input type="checkbox" name="sub_service[]" value="{{ $sub->short_title }}" id="sub-{{ $sub->id }}">
+                    <label for="sub-{{ $sub->id }}">{{ $sub->short_title }}</label>
+                </div>
+                @endforeach
+            </div>
+            @endif
+        </div>
+        @endforeach
+    </div>
 
-          <textarea class="quote-textarea" name="message" placeholder="{{ __('form.your_massage') }}"
-            required>{{ old('message') }}</textarea>
-          {{-- <input class="quote-input" type="file" name="file_path" value="{{ old('file_path') }}" id="file_path"> --}}
-          <!-- ✅ Dropzone upload area -->
-          <div class="form-group">
-            <label>Upload Files</label>
-            <div id="quoteDropzone" class="dropzone border border-2 border-secondary rounded p-4 bg-light"></div>
-          </div>
+    <!-- Message -->
+    <textarea class="quote-textarea" name="message" placeholder="{{ __('form.your_massage') }}" required>{{ old('message') }}</textarea>
 
-          <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
-          @if ($errors->has('captcha'))
-            <p class="text-danger">{{ $errors->first('captcha') }}</p>
-          @endif
-          <button class="quote-submit-btn" type="submit" name="submit-form">SUBMIT NOW</button>
-        </form>
+    <!-- ✅ Dropzone Upload -->
+    <div class="form-group">
+        <label>Upload Files</label>
+        <div id="quoteDropzone" class="dropzone border border-2 border-secondary rounded p-4 bg-light"></div>
+    </div>
+
+    <!-- Google reCAPTCHA -->
+    <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+    @if ($errors->has('captcha'))
+        <p class="text-danger">{{ $errors->first('captcha') }}</p>
+    @endif
+
+    <button class="quote-submit-btn" type="submit" name="submit-form">SUBMIT NOW</button>
+</form>
+
 
       </div>
     </section>
