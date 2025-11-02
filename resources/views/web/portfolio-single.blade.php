@@ -137,7 +137,7 @@
           <p class="text-muted">
             {!! $portfolio->description !!}
           </p>
-          
+          <a href="{{ $portfolio->link }}" class="btn btn-primary">View All Projects</a>
         </div>
       </div>
     </div>
