@@ -147,7 +147,7 @@
 
                             <div class="form-group">
                                 <label for="image">{{ __('dashboard.thumbnail') }}
-                                    <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
+                                    <span>{{ __('dashboard.image_size', ['height' => 390, 'width' => 1270]) }}</span></label>
                                 <div class="d-flex">
                                     <input type="file" class="form-control" name="image" id="image">
                                     <img style="width: 40px; height: 40px;"

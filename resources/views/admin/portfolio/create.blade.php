@@ -140,7 +140,7 @@
 
                             <div class="form-group">
                                 <label for="image">{{ __('dashboard.thumbnail') }} <span>*</span>
-                                    <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
+                                    <span>{{ __('dashboard.image_size', ['height' => 390, 'width' => 1270]) }}</span></label>
                                 <input type="file" class="form-control" name="image" id="image" required>
 
                                 <div class="invalid-feedback">
