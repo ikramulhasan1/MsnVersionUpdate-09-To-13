@@ -124,7 +124,55 @@
       </div>
     </div>
   </section>
+<style>
+  .visit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #007bff, #00b4d8);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
 
+.visit-btn .arrow {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.visit-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.4s ease;
+}
+
+.visit-btn:hover::before {
+  left: 100%;
+}
+
+.visit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+}
+
+.visit-btn:hover .arrow {
+  transform: translateX(5px);
+}
+
+</style>
   <!-- Description -->
   <section class="project-description py-5">
     <div class="container">
@@ -137,7 +185,12 @@
           <p class="text-muted">
             {!! $portfolio->description !!}
           </p>
-          <a href="{{ $portfolio->link }}" class="btn btn-primary my-3">View All Projects</a>
+<a href="{{ $portfolio->link }}" target="_blank" class="visit-btn">
+  <span>Visit Now</span>
+  <svg class="arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7" />
+  </svg>
+</a>
         </div>
       </div>
     </div>
