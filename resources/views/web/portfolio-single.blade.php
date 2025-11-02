@@ -144,7 +144,7 @@
 }
 
 .btn-smart:hover {
-  background-color: #0b5ed7;
+  background-color: #a6b6ce;
   border-color: #0a58ca;
   box-shadow: 0 4px 16px rgba(13, 110, 253, 0.3);
   transform: translateY(-2px);
