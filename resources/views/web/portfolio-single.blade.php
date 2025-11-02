@@ -125,38 +125,25 @@
     </div>
   </section>
 <style>
-.btn-glass {
+.btn-border-anim {
   position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 32px;
-  border-radius: 50px;
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.15);
+  padding: 14px 36px;
   color: #fff;
-  text-decoration: none;
   font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid transparent;
+  background: linear-gradient(#111, #111) padding-box,
+              linear-gradient(90deg, #ff4d6d, #00bbf9) border-box;
+  border-radius: 50px;
   transition: all 0.4s ease;
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
 }
 
-.btn-glass:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 6px 25px rgba(0, 195, 255, 0.5);
-}
-
-.btn-glass .arrow {
-  width: 20px;
-  height: 20px;
-  stroke: #fff;
-  transition: transform 0.3s ease;
-}
-
-.btn-glass:hover .arrow {
-  transform: translateX(8px);
+.btn-border-anim:hover {
+  background: linear-gradient(90deg, #ff4d6d, #00bbf9);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(0, 187, 249, 0.5);
+  transform: translateY(-3px);
 }
 
 </style>
@@ -172,11 +159,8 @@
           <p class="text-muted">
             {!! $portfolio->description !!}
           </p>
-<a href="{{ $portfolio->link }}" target="_blank" class="btn-glass">
-  <span>Visit Now</span>
-  <svg xmlns="http://www.w3.org/2000/svg" class="arrow" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7" />
-  </svg>
+<a href="{{ $portfolio->link }}" target="_blank" class="btn-border-anim">
+  Visit Now
 </a>
 
         </div>
