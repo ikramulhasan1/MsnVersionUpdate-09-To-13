@@ -181,7 +181,9 @@
 .btn-smart:hover::after {
   left: 100%;
 }
-
+.overview-content p {
+  font-size: 16px !important;
+}
 </style>
   <!-- Description -->
   <section class="project-description py-5">
@@ -192,7 +194,7 @@
         </div>
         <div class="col-lg-6">
           <h3 class="font-weight-bold mb-3">Project Overview</h3>
-          <div class="" style="font-size: 16px !important;">
+          <div class="overview-content">
             {!! $portfolio->description !!}
           </div>
           @if (!empty($portfolio->link))
