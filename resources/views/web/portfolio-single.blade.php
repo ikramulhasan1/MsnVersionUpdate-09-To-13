@@ -144,9 +144,10 @@
 }
 
 .btn-smart:hover {
-  background-color: #a6b6ce;
+  background-color: #0b5ed7;
   border-color: #0a58ca;
   box-shadow: 0 4px 16px rgba(13, 110, 253, 0.3);
+  color: #ffffff;
   transform: translateY(-2px);
 }
 
