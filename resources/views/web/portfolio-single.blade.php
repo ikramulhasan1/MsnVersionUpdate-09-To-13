@@ -192,9 +192,9 @@
         </div>
         <div class="col-lg-6">
           <h3 class="font-weight-bold mb-3">Project Overview</h3>
-          <p class="text-muted" style="font-size: 16px">
+          <div class="" style="font-size: 16px !important;">
             {!! $portfolio->description !!}
-          </p>
+          </div>
           @if (!empty($portfolio->link))
             <a href="{{ $portfolio->link }}" target="_blank" class="btn-smart my-3">
             <span>Visit Now</span>
