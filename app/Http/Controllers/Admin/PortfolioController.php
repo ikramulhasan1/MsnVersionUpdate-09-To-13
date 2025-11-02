@@ -222,7 +222,8 @@ class PortfolioController extends Controller
         $data['view'] = $this->view;
         $data['path'] = $this->path;
         $data['allTechnologies'] = Technology::all();
-
+        // ✅ Get selected technology IDs
+        $data['selectedTechnologies'] = $portfolio->technologies->pluck('id')->toArray();
         $data['row'] = $portfolio;
         $data['categories'] = PortfolioCategory::where('status', '1')->get();
 

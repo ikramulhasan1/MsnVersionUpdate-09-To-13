@@ -90,13 +90,15 @@
                                 <div class="form-group mb-4 col-lg-6 col-md-6 col-12">
                                     <label for="technologies"
                                         class="block text-sm font-medium text-gray-700 mb-1">Technologies</label>
-                                    <select name="technologies[]" id="technologies" multiple>
+                                    <select name="technologies[]" id="technologies" multiple class="form-control">
                                         @foreach ($allTechnologies as $tech)
-                                            <option value="{{ $tech->id }}">
+                                            <option value="{{ $tech->id }}" 
+                                                @if(!empty($selectedTechnologies) && in_array($tech->id, $selectedTechnologies)) selected @endif>
                                                 {{ $tech->short_title }}
                                             </option>
                                         @endforeach
                                     </select>
+
                                 </div>
                             </div>
                             {{-- --}}
