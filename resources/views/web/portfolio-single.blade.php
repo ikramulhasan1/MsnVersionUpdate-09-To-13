@@ -195,14 +195,14 @@
           <p class="text-muted">
             {!! $portfolio->description !!}
           </p>
-<a href="{{ $portfolio->link }}" target="_blank" class="btn-smart">
-  <span>Visit Now</span>
-  <svg xmlns="http://www.w3.org/2000/svg" class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7" />
-  </svg>
-</a>
-
-
+          @if (!empty($portfolio->link))
+            <a href="{{ $portfolio->link }}" target="_blank" class="btn-smart my-3">
+            <span>Visit Now</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7" />
+            </svg>
+          </a>
+          @endif
 
         </div>
       </div>
