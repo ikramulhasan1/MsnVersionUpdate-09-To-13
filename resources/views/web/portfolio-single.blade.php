@@ -125,25 +125,41 @@
     </div>
   </section>
 <style>
-.btn-border-anim {
-  position: relative;
-  padding: 14px 36px;
+.btn-modern {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 26px;
+  background-color: #007bff;
   color: #fff;
   font-weight: 600;
-  text-transform: uppercase;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
   text-decoration: none;
-  border: 2px solid transparent;
-  background: linear-gradient(#111, #111) padding-box,
-              linear-gradient(90deg, #ff4d6d, #00bbf9) border-box;
-  border-radius: 50px;
-  transition: all 0.4s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(0, 123, 255, 0.2);
 }
 
-.btn-border-anim:hover {
-  background: linear-gradient(90deg, #ff4d6d, #00bbf9);
-  color: #fff;
-  box-shadow: 0 0 15px rgba(0, 187, 249, 0.5);
-  transform: translateY(-3px);
+.btn-modern:hover {
+  background-color: #0056d2;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.3);
+}
+
+.btn-modern:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
+}
+
+.btn-modern .arrow {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease;
+}
+
+.btn-modern:hover .arrow {
+  transform: translateX(4px);
 }
 
 </style>
@@ -159,9 +175,13 @@
           <p class="text-muted">
             {!! $portfolio->description !!}
           </p>
-<a href="{{ $portfolio->link }}" target="_blank" class="btn-border-anim">
+<a href="{{ $portfolio->link }}" target="_blank" class="btn-modern">
   Visit Now
+  <svg xmlns="http://www.w3.org/2000/svg" class="arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7" />
+  </svg>
 </a>
+
 
         </div>
       </div>
