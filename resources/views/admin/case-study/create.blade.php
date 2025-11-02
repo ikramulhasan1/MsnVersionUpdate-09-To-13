@@ -157,6 +157,8 @@
                                     <option value="UI/UX Design">UI/UX Design</option>
                                     <option value="Responsive Web Design">Responsive Web Design</option>
                                     <option value="SEO Optimization">SEO Optimization</option>
+                                    <option value="Shopify Development">Shopify Development</option>
+                                    <option value="Performance Optimization">Performance Optimization</option>
                                     <option value="Laravel">Laravel</option>
                                     <option value="Vue.js">Vue.js</option>
                                     <option value="React">React</option>

@@ -172,6 +172,10 @@
                                         Responsive Web Design</option>
                                     <option value="SEO Optimization" {{ in_array('SEO Optimization', $selectedTechs) ? 'selected' : '' }}>
                                         SEO Optimization</option>
+                                    <option value="Shopify Development" {{ in_array('Shopify Development', $selectedTechs) ? 'selected' : '' }}>
+                                        Shopify Development</option>
+                                    <option value="Performance Optimization" {{ in_array('Performance Optimization', $selectedTechs) ? 'selected' : '' }}>
+                                        Performance Optimization</option>
                                     <option value="Vue.js" {{ in_array('Vue.js', $selectedTechs) ? 'selected' : '' }}>Vue.js
                                     </option>
                                     <option value="UI/UX Design" {{ in_array('UI/UX Design', $selectedTechs) ? 'selected' : '' }}>UI/UX Design
