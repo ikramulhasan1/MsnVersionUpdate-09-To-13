@@ -165,7 +165,7 @@
 
 .visit-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+  box-shadow: gold 0 6px 20px rgba(0, 123, 255, 0.4);
 }
 
 .visit-btn:hover .arrow {
@@ -185,12 +185,12 @@
           <p class="text-muted">
             {!! $portfolio->description !!}
           </p>
-<a href="{{ $portfolio->link }}" target="_blank" class="visit-btn">
-  <span>Visit Now</span>
-  <svg class="arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7" />
-  </svg>
-</a>
+          <a href="{{ $portfolio->link }}" target="_blank" class="visit-btn">
+            <span>Visit Now</span>
+            <svg class="arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7" />
+            </svg>
+          </a>
         </div>
       </div>
     </div>
