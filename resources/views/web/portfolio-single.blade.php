@@ -125,51 +125,37 @@
     </div>
   </section>
 <style>
-  .visit-btn {
+.btn-neon {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: linear-gradient(135deg, #007bff, #00b4d8);
+  padding: 14px 30px;
   color: #fff;
-  padding: 12px 24px;
-  border-radius: 50px;
-  text-decoration: none;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
-  position: relative;
+  font-size: 17px;
+  text-decoration: none;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #ff006e, #8338ec, #3a86ff);
+  background-size: 200%;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 20px rgba(131, 56, 236, 0.6);
   overflow: hidden;
 }
 
-.visit-btn .arrow {
-  width: 20px;
-  height: 20px;
+.btn-neon:hover {
+  background-position: right;
+  box-shadow: 0 0 25px rgba(255, 0, 110, 0.7),
+              0 0 45px rgba(58, 134, 255, 0.5);
+  transform: translateY(-3px);
+}
+
+.btn-neon i {
   transition: transform 0.3s ease;
 }
 
-.visit-btn::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.2);
-  transition: all 0.4s ease;
-}
-
-.visit-btn:hover::before {
-  left: 100%;
-}
-
-.visit-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: gold 0 6px 20px rgba(0, 123, 255, 0.4);
-}
-
-.visit-btn:hover .arrow {
-  transform: translateX(5px);
+.btn-neon:hover i {
+  transform: translateX(6px);
 }
 
 </style>
@@ -185,12 +171,11 @@
           <p class="text-muted">
             {!! $portfolio->description !!}
           </p>
-          <a href="{{ $portfolio->link }}" target="_blank" class="visit-btn">
-            <span>Visit Now</span>
-            <svg class="arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7" />
-            </svg>
-          </a>
+          <a href="{{ $portfolio->link }}" target="_blank" class="btn-neon">
+  <span>Visit Now</span>
+  <i class="fas fa-arrow-right"></i>
+</a>
+
         </div>
       </div>
     </div>
