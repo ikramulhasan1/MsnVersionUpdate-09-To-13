@@ -151,6 +151,12 @@
                                 <select id="tech_stack" name="tech_stack[]" multiple class="form-control"
                                     placeholder="Select tech stack...">
                                     <option value="PHP">PHP</option>
+                                    <option value="WordPress Development">WordPress Development</option>
+                                    <option value="MySQL">MySQL</option>
+                                    <option value="Bootstrap">Bootstrap</option>
+                                    <option value="UI/UX Design">UI/UX Design</option>
+                                    <option value="Responsive Web Design">Responsive Web Design</option>
+                                    <option value="SEO Optimization">SEO Optimization</option>
                                     <option value="Laravel">Laravel</option>
                                     <option value="Vue.js">Vue.js</option>
                                     <option value="React">React</option>

@@ -162,7 +162,19 @@
                                     <option value="PHP" {{ in_array('PHP', $selectedTechs) ? 'selected' : '' }}>PHP</option>
                                     <option value="Laravel" {{ in_array('Laravel', $selectedTechs) ? 'selected' : '' }}>
                                         Laravel</option>
+                                    <option value="WordPress Development" {{ in_array('WordPress Development', $selectedTechs) ? 'selected' : '' }}>
+                                        WordPress Development</option>
+                                    <option value="MySQL" {{ in_array('MySQL', $selectedTechs) ? 'selected' : '' }}>
+                                        MySQL</option>
+                                    <option value="Bootstrap" {{ in_array('Bootstrap', $selectedTechs) ? 'selected' : '' }}>
+                                        Bootstrap</option>
+                                    <option value="Responsive Web Design" {{ in_array('Responsive Web Design', $selectedTechs) ? 'selected' : '' }}>
+                                        Responsive Web Design</option>
+                                    <option value="SEO Optimization" {{ in_array('SEO Optimization', $selectedTechs) ? 'selected' : '' }}>
+                                        SEO Optimization</option>
                                     <option value="Vue.js" {{ in_array('Vue.js', $selectedTechs) ? 'selected' : '' }}>Vue.js
+                                    </option>
+                                    <option value="UI/UX Design" {{ in_array('UI/UX Design', $selectedTechs) ? 'selected' : '' }}>UI/UX Design
                                     </option>
                                     <option value="React" {{ in_array('React', $selectedTechs) ? 'selected' : '' }}>React
                                     </option>
