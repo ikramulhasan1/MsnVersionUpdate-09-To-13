@@ -125,41 +125,60 @@
     </div>
   </section>
 <style>
-.btn-modern {
+.btn-smart {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 26px;
-  background-color: #007bff;
+  gap: 10px;
+  padding: 12px 28px;
+  border-radius: 10px;
+  background-color: #0d6efd;
   color: #fff;
-  font-weight: 600;
   font-size: 16px;
-  border: none;
-  border-radius: 8px;
+  font-weight: 600;
   text-decoration: none;
+  letter-spacing: 0.3px;
+  border: 1px solid transparent;
   transition: all 0.3s ease;
-  box-shadow: 0 3px 10px rgba(0, 123, 255, 0.2);
+  position: relative;
+  overflow: hidden;
 }
 
-.btn-modern:hover {
-  background-color: #0056d2;
+.btn-smart:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+  box-shadow: 0 4px 16px rgba(13, 110, 253, 0.3);
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.3);
 }
 
-.btn-modern:active {
+.btn-smart:active {
   transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
+  box-shadow: 0 2px 8px rgba(13, 110, 253, 0.2);
 }
 
-.btn-modern .arrow {
+.btn-smart .arrow {
   width: 18px;
   height: 18px;
+  stroke: #fff;
   transition: transform 0.3s ease;
 }
 
-.btn-modern:hover .arrow {
-  transform: translateX(4px);
+.btn-smart:hover .arrow {
+  transform: translateX(5px);
+}
+
+.btn-smart::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  transition: left 0.4s ease;
+}
+
+.btn-smart:hover::after {
+  left: 100%;
 }
 
 </style>
@@ -175,12 +194,13 @@
           <p class="text-muted">
             {!! $portfolio->description !!}
           </p>
-<a href="{{ $portfolio->link }}" target="_blank" class="btn-modern">
-  Visit Now
-  <svg xmlns="http://www.w3.org/2000/svg" class="arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+<a href="{{ $portfolio->link }}" target="_blank" class="btn-smart">
+  <span>Visit Now</span>
+  <svg xmlns="http://www.w3.org/2000/svg" class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7" />
   </svg>
 </a>
+
 
 
         </div>
