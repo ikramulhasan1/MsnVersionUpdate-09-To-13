@@ -125,37 +125,38 @@
     </div>
   </section>
 <style>
-.btn-neon {
+.btn-glass {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 14px 30px;
-  color: #fff;
-  font-weight: 600;
-  font-size: 17px;
-  text-decoration: none;
+  padding: 14px 32px;
   border-radius: 50px;
-  background: linear-gradient(90deg, #ff006e, #8338ec, #3a86ff);
-  background-size: 200%;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.25);
   transition: all 0.4s ease;
-  box-shadow: 0 0 20px rgba(131, 56, 236, 0.6);
-  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
 }
 
-.btn-neon:hover {
-  background-position: right;
-  box-shadow: 0 0 25px rgba(255, 0, 110, 0.7),
-              0 0 45px rgba(58, 134, 255, 0.5);
-  transform: translateY(-3px);
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 6px 25px rgba(0, 195, 255, 0.5);
 }
 
-.btn-neon i {
+.btn-glass .arrow {
+  width: 20px;
+  height: 20px;
+  stroke: #fff;
   transition: transform 0.3s ease;
 }
 
-.btn-neon:hover i {
-  transform: translateX(6px);
+.btn-glass:hover .arrow {
+  transform: translateX(8px);
 }
 
 </style>
@@ -171,9 +172,11 @@
           <p class="text-muted">
             {!! $portfolio->description !!}
           </p>
-          <a href="{{ $portfolio->link }}" target="_blank" class="btn-neon">
+<a href="{{ $portfolio->link }}" target="_blank" class="btn-glass">
   <span>Visit Now</span>
-  <i class="fas fa-arrow-right"></i>
+  <svg xmlns="http://www.w3.org/2000/svg" class="arrow" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7" />
+  </svg>
 </a>
 
         </div>
