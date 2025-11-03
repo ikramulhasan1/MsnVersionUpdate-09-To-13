@@ -101,7 +101,7 @@
                                 </div>
                             </div>
                             <hr>
-                            <h3>Banner Section</h3>
+                            <h3>Screenshot Section</h3>
                             <div class="row banner-row">
 
                                 @foreach ($screenshotImage ?? [] as $key => $screenshot_step)
