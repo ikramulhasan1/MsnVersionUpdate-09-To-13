@@ -359,7 +359,7 @@ $section_portfolio = \App\Models\Section::section('portfolio');
                                     {{ $category->slug }} 
                                 @endforeach">
                     <div class="portfolio-card">
-                        <img src="{{ asset('uploads/portfolio/'.$portfolio->image_path) }}" alt="{{ $portfolio->title }}" class="img-fluid">
+                        <img src="{{ asset('uploads/overview_image/' . $portfolio->overview_image) }}" alt="{{ $portfolio->title }}" class="img-fluid">
                         <div class="portfolio-overlay">
                             <h5><a class="text-white" href="{{ route('portfolio.single', $portfolio->slug) }}">{{ $portfolio->title }}</a></h5>
                         </div>
