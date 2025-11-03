@@ -1570,7 +1570,7 @@
                 {{ $category->slug }} 
               @endforeach">
                 <div class="portfolio-card">
-                  <img src="{{ asset('uploads/portfolio/' . $portfolio->image_path) }}" alt="{{ $portfolio->title }}"
+                  <img src="{{ asset('uploads/overview_image/' . $portfolio->overview_image) }}" alt="{{ $portfolio->title }}"
                     class="img-fluid" loading="lazy">
                   <div class="portfolio-overlay">
                     <h5><a class="text-white"
