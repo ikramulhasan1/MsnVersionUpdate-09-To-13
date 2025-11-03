@@ -126,6 +126,9 @@ class PortfolioController extends Controller
             }
 
             Image::make($file->getRealPath())
+                ->fit(800, 500, function ($constraint) {
+                    $constraint->upsize();
+                })
                 ->encode('webp', 90)
                 ->save($path . $overviewImageName);
         }
@@ -338,6 +341,9 @@ class PortfolioController extends Controller
 
             // Save new overview image
             Image::make($file->getRealPath())
+                ->fit(800, 500, function ($constraint) {
+                        $constraint->upsize();
+                    })
                 ->encode('webp', 90)
                 ->save($path . $overviewImageName);
 
