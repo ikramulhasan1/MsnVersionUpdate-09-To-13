@@ -46,8 +46,8 @@
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>
-                                    @if(is_file('uploads/'.$path.'/'.$row->image_path))
-                                    <img src="{{ asset('uploads/'.$path.'/'.$row->image_path) }}" class="img-fluid" alt="{{$row->title}}">
+                                    @if(is_file('uploads/overview_image/' . $row->overview_image))
+                                    <img src="{{ asset('uploads/overview_image/' . $row->overview_image) }}" class="img-fluid" alt="{{$row->title}}">
                                     @endif
                                 </td>
                                 <td>{!! str_limit(strip_tags($row->title), 50, ' ...') !!}</td>
