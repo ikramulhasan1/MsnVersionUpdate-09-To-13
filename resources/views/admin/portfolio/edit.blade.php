@@ -160,7 +160,7 @@
                                 @endif
                                 <div class="form-group col-2">
                                     <button class="btn btn-success" type="button"
-                                        onclick="addFaq()">{{ __('dashboard.add_another_FAQ') }}</button>
+                                        onclick="addFaq()">{{ __('Results & Impact') }}</button>
                                 </div>
                                 <br><br>
                             </div>
