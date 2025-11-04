@@ -136,6 +136,32 @@
                                 </div>
                                 <br><br>
                             </div>
+                            <h3>FAQs</h3>
+                            <div class="row faq-row">
+                                @php
+                                    $faqs = json_decode($row->faq_steps, true);
+                                @endphp
+                                @if(!empty($faqs) && is_array($faqs))
+                                    @foreach ($faqs as $key => $faq)
+                                        <div class="form-group col-10 faq-group mb-2 row">
+                                            <div class="col-1">
+                                                {{ $key + 1 }}.
+                                            </div>
+                                            <div class="col-11">
+                                                <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][title]"
+                                                    value="{{ $faq['title'] }}" placeholder="{{ $key + 1 }}. Question">
+                                                <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][description]"
+                                                    value="{{ $faq['description'] }}" placeholder="{{ $key + 1 }}. Answer">
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                <div class="form-group col-2">
+                                    <button class="btn btn-success" type="button"
+                                        onclick="addFaq()">{{ __('dashboard.add_another_FAQ') }}</button>
+                                </div>
+                                <br><br>
+                            </div>
                             <div class="form-group">
                                 <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
                                 <textarea class="form-control" name="description" id="editor" rows="8" required>{{ $row->description }}</textarea>
@@ -287,6 +313,32 @@
                 shouldSort: false // optional: keeps original order
             });
         });
+
+
+
+        // Initial index count
+        let faqIndex = {{ count($row->faqs) }};
+
+        // Render all category options as string
+        const categoryOptions = `{!! collect($faqCategories)->map(fn($c) => "<option value='{$c->id}'>{$c->name}</option>")->implode('') !!}`;
+
+        function addFaq() {
+            const wrapper = document.querySelector('.faq-row');
+
+            const group = document.createElement('div');
+            group.classList.add('form-group', 'faq-group', 'col-10', 'mb-2');
+            group.innerHTML = `
+                    <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question">
+                    <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer">
+                `;
+
+            // Insert before the last column (button)
+            const buttonContainer = wrapper.querySelector('.col-2');
+            wrapper.insertBefore(group, buttonContainer);
+
+            faqIndex++;
+        }
+
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>

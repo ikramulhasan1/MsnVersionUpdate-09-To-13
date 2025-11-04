@@ -129,7 +129,7 @@
                                 <br><br>
                             </div>
                             <hr>
-                            <h3>FAQs</h3>
+                            <h3>Results & Impact:</h3>
                             <div class="row">
 
                                 <div id="faq-wrapper" class="form-group col-9 faq-group mb-2">

@@ -383,9 +383,9 @@
             const group = document.createElement('div');
             group.classList.add('form-group', 'faq-group', 'col-10', 'mb-2');
             group.innerHTML = `
-                <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question">
-                <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer">
-            `;
+                    <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question">
+                    <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer">
+                `;
 
             // Insert before the last column (button)
             const buttonContainer = wrapper.querySelector('.col-2');
@@ -406,10 +406,10 @@
             const processGroup = document.createElement('div');
             processGroup.classList.add('form-group', 'faq-group', 'col-10', 'mb-2');
             processGroup.innerHTML = `
-                <input type="text" class="form-control mb-1" name="workprocess[${processIndex}][title]" placeholder="${processIndex + 1}. Title">
-                <input type="text" class="form-control mb-1" name="workprocess[${processIndex}][description]" placeholder="${processIndex + 1}. Description">
-                <input type="file" class="form-control mb-1" name="workprocess[${processIndex}][process_image]">
-            `;
+                    <input type="text" class="form-control mb-1" name="workprocess[${processIndex}][title]" placeholder="${processIndex + 1}. Title">
+                    <input type="text" class="form-control mb-1" name="workprocess[${processIndex}][description]" placeholder="${processIndex + 1}. Description">
+                    <input type="file" class="form-control mb-1" name="workprocess[${processIndex}][process_image]">
+                `;
 
             // Insert before the last column (button)
             const processButtonContainer = processWrapper.querySelector('.col-2');
@@ -428,9 +428,9 @@
             const industryGroup = document.createElement('div');
             industryGroup.classList.add('form-group', 'industry-group', 'col-10', 'mb-2');
             industryGroup.innerHTML = `
-                <input type="text" class="form-control mb-1" name="industries[${industryIndex}][title]" placeholder="${industryIndex + 1}. Title">
-                <input type="text" class="form-control mb-1" name="industries[${industryIndex}][link]" placeholder="${industryIndex + 1}. Link">
-            `;
+                    <input type="text" class="form-control mb-1" name="industries[${industryIndex}][title]" placeholder="${industryIndex + 1}. Title">
+                    <input type="text" class="form-control mb-1" name="industries[${industryIndex}][link]" placeholder="${industryIndex + 1}. Link">
+                `;
 
             // Insert before the last column (button)
             const industryButtonContainer = industryWrapper.querySelector('.col-2');
@@ -482,9 +482,9 @@
             const whywesGroup = document.createElement('div');
             whywesGroup.classList.add('form-group', 'whywes-group', 'col-10', 'mb-2');
             whywesGroup.innerHTML = `
-                <input type="text" class="form-control mb-1" name="whywes[${whywesIndex}][title]" placeholder="${whywesIndex + 1}. Title">
-                <input type="text" class="form-control mb-1" name="whywes[${whywesIndex}][link]" placeholder="${whywesIndex + 1}. Link">
-            `;
+                    <input type="text" class="form-control mb-1" name="whywes[${whywesIndex}][title]" placeholder="${whywesIndex + 1}. Title">
+                    <input type="text" class="form-control mb-1" name="whywes[${whywesIndex}][link]" placeholder="${whywesIndex + 1}. Link">
+                `;
 
             // Insert before the last column (button)
             const whywesButtonContainer = whywesWrapper.querySelector('.col-2');
