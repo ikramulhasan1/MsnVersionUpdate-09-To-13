@@ -138,11 +138,12 @@
                             </div>
                             <h3>Results & Impact:</h3>
                             <div class="row faq-row">
+                               
                                 @php
-                                    $faqs = json_decode($row->results_steps, true);
+                                    $resultsSteps = json_decode($row->results_steps ?? '[]', true);
                                 @endphp
-                                @if(!empty($faqs) && is_array($faqs))
-                                    @foreach ($faqs as $key => $faq)
+                                @if(!empty($resultsSteps) && is_array($resultsSteps))
+                                    @foreach ($resultsSteps as $key => $faq)
                                         <div class="form-group col-10 faq-group mb-2 row">
                                             <div class="col-1">
                                                 {{ $key + 1 }}.
@@ -319,7 +320,7 @@
 
 
         // Initial index count
-        let faqIndex = {{ count($row->results_steps ?? []) }};
+    let faqIndex = {{ count($resultsSteps ?? []) }};
 
        
         function addFaq() {
