@@ -319,7 +319,7 @@
 
 
         // Initial index count
-        let faqIndex = {{ count($row->results_steps) }};
+        let faqIndex = {{ count($row->results_steps ?? []) }};
 
         // Render all category options as string
         const categoryOptions = `{!! collect($faqCategories)->map(fn($c) => "<option value='{$c->id}'>{$c->name}</option>")->implode('') !!}`;
