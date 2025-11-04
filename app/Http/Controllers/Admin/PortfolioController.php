@@ -177,6 +177,19 @@ class PortfolioController extends Controller
         $portfolio->link3 = $request->link3;
         $portfolio->screenshot = json_encode($screenshotSteps);
 
+        $faqSteps = [];
+        if ($request->icon) {
+            foreach ($request->icon as $index => $faq) {
+                // ফাইনাল array তে push করি
+                $faqSteps[] = [
+                    'icon_class' => $faq['icon_class'] ?? '',
+                    'title' => $faq['title'] ?? '',
+                    'description' => $faq['description'] ?? '',
+                ];
+            }
+        }
+        // Save array as JSON
+        $portfolio->results_steps = json_encode($faqSteps);
         $portfolio->save();
 
         // ---------------------------
@@ -410,6 +423,19 @@ class PortfolioController extends Controller
 
         $portfolio->technologies()->sync($request->technologies ?? []);
         $portfolio->categories()->sync($request->categories);
+
+        $faqSteps = [];
+
+        foreach ($request->icon as $index => $faq) {
+            $faqSteps[] = [
+                'icon_class' => $faq['icon_class'] ?? '',
+                'title' => $faq['title'] ?? '',
+                'description' => $faq['description'] ?? '',
+            ];
+        }
+
+        // Save array as JSON
+        $portfolio->results_steps = json_encode($faqSteps);
         $portfolio->save();
 
         Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
