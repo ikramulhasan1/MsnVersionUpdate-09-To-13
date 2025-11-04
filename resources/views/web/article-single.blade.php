@@ -1193,10 +1193,10 @@
                   class="rounded-circle m-0 mr-3" style="width: 30px; height: 30px; object-fit: cover; object-position: center;"> --}}
 
               <div class="d-flex justify-content-between align-items-center w-100">
-                <div class="">
+                {{-- <div class="">
                   <h6 class="mb-0 fw-bold"><strong>MSN Softtech</strong></h6>
                   <small style="font-size: 18px">Admin</small>
-                </div>
+                </div> --}}
                 <div style="z-index: 1000 !important;">
                   <div>
                     <button id="open-modal" class="button google-meet-button"
