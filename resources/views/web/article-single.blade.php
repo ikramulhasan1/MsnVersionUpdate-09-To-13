@@ -1189,7 +1189,7 @@
 
             <!-- Author Box -->
             <div class="d-flex align-items-center p-3 bg-white rounded border mb-5 shadow-sm">
-              <img style="width: 50px; height: 50px;"
+              <img style="width: 30px; height: 30px;"
                 src="{{ asset('/uploads/setting/' . $setting->logo_path) }}"
                 class="rounded-circle m-0 mr-3" alt="Author">
               <div class="d-flex justify-content-between align-items-center w-100">
