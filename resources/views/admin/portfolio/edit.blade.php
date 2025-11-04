@@ -136,10 +136,10 @@
                                 </div>
                                 <br><br>
                             </div>
-                            <h3>FAQs</h3>
+                            <h3>Results & Impact:</h3>
                             <div class="row faq-row">
                                 @php
-                                    $faqs = json_decode($row->faq_steps, true);
+                                    $faqs = json_decode($row->results_steps, true);
                                 @endphp
                                 @if(!empty($faqs) && is_array($faqs))
                                     @foreach ($faqs as $key => $faq)
@@ -148,9 +148,11 @@
                                                 {{ $key + 1 }}.
                                             </div>
                                             <div class="col-11">
-                                                <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][title]"
-                                                    value="{{ $faq['title'] }}" placeholder="{{ $key + 1 }}. Question">
-                                                <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][description]"
+                                                <input type="text" class="form-control mb-1" name="icon[{{ $key }}][icon_class]"
+                                                    value="{{ $faq['icon_class'] }}" placeholder="{{ $key + 1 }}. Icon Class">
+                                                <input type="text" class="form-control mb-1" name="icon[{{ $key }}][title]"
+                                                    value="{{ $faq['title'] }}" placeholder="{{ $key + 1 }}. Title">
+                                                <input type="text" class="form-control mb-1" name="icon[{{ $key }}][description]"
                                                     value="{{ $faq['description'] }}" placeholder="{{ $key + 1 }}. Answer">
                                             </div>
                                         </div>
@@ -328,8 +330,9 @@
             const group = document.createElement('div');
             group.classList.add('form-group', 'faq-group', 'col-10', 'mb-2');
             group.innerHTML = `
-                    <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][title]" placeholder="${faqIndex + 1}. Question">
-                    <input type="text" class="form-control mb-1" name="faqs[${faqIndex}][description]" placeholder="${faqIndex + 1}. Answer">
+                    <input type="text" class="form-control mb-1" name="icon[${faqIndex}][icon_class]" placeholder="${faqIndex + 1}. Icon Class">
+                    <input type="text" class="form-control mb-1" name="icon[${faqIndex}][title]" placeholder="${faqIndex + 1}. Title">
+                    <input type="text" class="form-control mb-1" name="icon[${faqIndex}][description]" placeholder="${faqIndex + 1}. Description">
                 `;
 
             // Insert before the last column (button)
