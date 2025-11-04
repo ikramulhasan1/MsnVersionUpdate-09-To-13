@@ -316,41 +316,7 @@
         </div>
     </div>
 
-    {{-- Awords section --}}
-    <section class="awords-section mt-5">
-        <header class="awords-section-header">Recent Awards & Certifications</header>
-
-        <div class="awards-container">
-            {{-- <div class="award">
-                <img src="https://www.capitalnumbers.com/images/new-skill-section/ft-award-2024.svg" alt="Award 1">
-            </div> --}}
-            <div class="award">
-                <img src="https://www.capitalnumbers.com/images/common/clutch-global-2024.png" alt="Award 2">
-            </div>
-            {{-- <div class="award">
-                <img src="https://www.capitalnumbers.com/images/common/btb-2024.svg" alt="Award 3">
-            </div> --}}
-            <div class="award">
-                <img src="https://www.capitalnumbers.com/images/common/clutch-champion-2024.png" alt="Award 4">
-            </div>
-            {{-- <div class="award">
-                <img src="https://www.capitalnumbers.com//images/common/soc2-logo.svg" alt="Award 5">
-            </div>
-            <div class="award">
-                <img src="https://www.capitalnumbers.com/images/common/eba-logo-new.svg" alt="Award 6">
-            </div>
-            <div class="award">
-                <img src="https://www.capitalnumbers.com/images/common/times-business-award-white.svg" alt="Award 7">
-            </div>
-            <div class="award">
-                <img src="https://www.capitalnumbers.com/images/common/new-award-9.svg" alt="Award 8">
-            </div>
-            <div class="award">
-                <img src="https://www.capitalnumbers.com/images/common/new-award-11.svg" alt="Award 9">
-            </div> --}}
-        </div>
-
-    </section>
+    
     <!-- Blog Loading Script -->
     <script>
         const blogData = @json($articles->skip(1)->values()); // Skips the first blog (already featured)
