@@ -283,9 +283,8 @@
             <div class="row align-items-center">
                 <div class="col-md-5 pl-4 mt-4 featured-blog-extra">
                     <div class="author-info mb-2">
-                        <img class="ml-0" style="width: 30px; height: 30px;"
-                            src="{{ asset('/uploads/setting/' . $setting->logo_path) }}"
-                            alt="author">
+                        <img src="{{ asset('/uploads/setting/' . $setting->logo_path) }}" alt="Author"
+                  class="rounded-circle m-0 mr-3" style="width: 30px; height: 30px; object-fit: cover; object-position: center;">
                         <div><strong>MSN Softtech</strong></div>
                     </div>
                     <h3><strong>{{ $articles[0]->title }}</strong></h3>
