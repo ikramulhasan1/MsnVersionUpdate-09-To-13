@@ -1194,7 +1194,7 @@
                 class="rounded-circle m-0 mr-3" alt="Author">
               <div class="d-flex justify-content-between align-items-center w-100">
                 <div class="">
-                  <h6 class="mb-0 fw-bold"><strong>Ikramul Hasan</strong></h6>
+                  <h6 class="mb-0 fw-bold"><strong>MSN Softtech</strong></h6>
                   <small style="font-size: 18px">Admin</small>
                 </div>
                 <div style="z-index: 1000 !important;">
