@@ -185,6 +185,11 @@
   font-size: 16px !important;
 }
 
+
+
+
+
+
     .results-impact {
       background-color: #ffffff;
       color: #111;
@@ -265,7 +270,7 @@
 
     /* Hover effect */
     .impact-card:hover {
-      transform: translateY(-8px);
+      transform: translateY(0px);
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.07);
       background: #ffffff;
     }
