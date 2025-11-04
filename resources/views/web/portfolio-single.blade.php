@@ -276,11 +276,11 @@
     }
 
     /* Simple fade animation */
-    .impact-card {
+    /* .impact-card {
       opacity: 0;
-      transform: translateY(0px);
+      transform: translateY(20px);
       animation: fadeUp 0.8s ease forwards;
-    }
+    } */
 
     .impact-card:nth-child(1) { animation-delay: 0.2s; }
     .impact-card:nth-child(2) { animation-delay: 0.4s; }
