@@ -22,100 +22,100 @@
 
 
   <script type="application/ld+json">
-          {
-            "@context": "http://schema.org",
-            "@type": "Product",
-            "name": "{{ $article->meta_title }}",
-            "image": {
-              "@type": "ImageObject",
-              "url": "{{ asset('uploads/article/' . $article->image_path) }}",
-              "width": "1200",
-              "height": "630"
-            },
-            "description": "{{ Str::limit(strip_tags($article->description), 500, '...') }}",
-            "url": "{{ route('blog.single', $article->slug) }}",
-            "brand": {
-              "@type": "Brand",
-              "name": "MSN Softtech",
-              "logo": "https://cdn-icons-png.flaticon.com/128/732/732200.png"
-            },
-            "offers": {
-              "@type": "Offer",
-              "price": "999",
-              "priceCurrency": "USD",
-              "availability": "https://schema.org/InStock",
-              "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
-              "hasMerchantReturnPolicy": {
-                "@type": "MerchantReturnPolicy",
-                "applicableCountry": "US",
-                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
-                "returnShippingFeesAmount": {
-                  "@type": "MonetaryAmount",
-                  "value": "0.00",
-                  "currency": "USD"
+              {
+                "@context": "http://schema.org",
+                "@type": "Product",
+                "name": "{{ $article->meta_title }}",
+                "image": {
+                  "@type": "ImageObject",
+                  "url": "{{ asset('uploads/article/' . $article->image_path) }}",
+                  "width": "1200",
+                  "height": "630"
                 },
-                "merchantReturnDays": "30",
-                "returnMethod": "https://schema.org/ReturnByMail",
-                "returnFees": "FreeReturn"
-              },
-              "shippingDetails": {
-                "@type": "OfferShippingDetails",
-                "shippingRate": {
-                  "@type": "MonetaryAmount",
-                  "value": "0.00",
-                  "currency": "USD"
+                "description": "{{ Str::limit(strip_tags($article->description), 500, '...') }}",
+                "url": "{{ route('blog.single', $article->slug) }}",
+                "brand": {
+                  "@type": "Brand",
+                  "name": "MSN Softtech",
+                  "logo": "https://cdn-icons-png.flaticon.com/128/732/732200.png"
                 },
-                "deliveryTime": {
-                  "@type": "ShippingDeliveryTime",
-                  "businessDays": {
-                    "@type": "OpeningHoursSpecification",
-                    "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
-                    "https://schema.org/Sunday"]
+                "offers": {
+                  "@type": "Offer",
+                  "price": "999",
+                  "priceCurrency": "USD",
+                  "availability": "https://schema.org/InStock",
+                  "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
+                  "hasMerchantReturnPolicy": {
+                    "@type": "MerchantReturnPolicy",
+                    "applicableCountry": "US",
+                    "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                    "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
+                    "returnShippingFeesAmount": {
+                      "@type": "MonetaryAmount",
+                      "value": "0.00",
+                      "currency": "USD"
+                    },
+                    "merchantReturnDays": "30",
+                    "returnMethod": "https://schema.org/ReturnByMail",
+                    "returnFees": "FreeReturn"
                   },
-                  "handlingTime": {
-                    "@type": "QuantitativeValue",
-                    "minValue": 1,
-                    "maxValue": 2,
-                    "unitCode": "DAY"
-                  },
-                  "transitTime": {
-                    "@type": "QuantitativeValue",
-                    "minValue": 3,
-                    "maxValue": 5,
-                    "unitCode": "DAY"
+                  "shippingDetails": {
+                    "@type": "OfferShippingDetails",
+                    "shippingRate": {
+                      "@type": "MonetaryAmount",
+                      "value": "0.00",
+                      "currency": "USD"
+                    },
+                    "deliveryTime": {
+                      "@type": "ShippingDeliveryTime",
+                      "businessDays": {
+                        "@type": "OpeningHoursSpecification",
+                        "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
+                        "https://schema.org/Sunday"]
+                      },
+                      "handlingTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 1,
+                        "maxValue": 2,
+                        "unitCode": "DAY"
+                      },
+                      "transitTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 3,
+                        "maxValue": 5,
+                        "unitCode": "DAY"
+                      }
+                    },
+                    "shippingDestination": {
+                      "@type": "DefinedRegion",
+                      "addressCountry": "US"
+                    }
                   }
                 },
-                "shippingDestination": {
-                  "@type": "DefinedRegion",
-                  "addressCountry": "US"
+                "aggregateRating": {
+                  "@type": "AggregateRating",
+                  "ratingValue": "4.9",
+                  "bestRating": "5",
+                  "worstRating": "1",
+                  "ratingCount": "417"
+                },
+                "review": {
+                  "@type": "Review",
+                  "author": {
+                    "@type": "Person",
+                    "name": "Charles Wilson"
+                  },
+                  "datePublished": "{{ $article->created_at->format('Y-m-d') }}",
+                  "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5",
+                    "worstRating": "1"
+                  },
+                  "reviewBody": "MSN Softtech delivered an exceptional custom {{ $article->service_title }} solution that enhanced our online presence and improved performance."
                 }
               }
-            },
-            "aggregateRating": {
-              "@type": "AggregateRating",
-              "ratingValue": "4.9",
-              "bestRating": "5",
-              "worstRating": "1",
-              "ratingCount": "417"
-            },
-            "review": {
-              "@type": "Review",
-              "author": {
-                "@type": "Person",
-                "name": "Charles Wilson"
-              },
-              "datePublished": "{{ $article->created_at->format('Y-m-d') }}",
-              "reviewRating": {
-                "@type": "Rating",
-                "ratingValue": "5",
-                "bestRating": "5",
-                "worstRating": "1"
-              },
-              "reviewBody": "MSN Softtech delivered an exceptional custom {{ $article->service_title }} solution that enhanced our online presence and improved performance."
-            }
-          }
-      </script>
+          </script>
 
 @endsection
 
@@ -994,7 +994,7 @@
     .about-content p {
       font-size: 17px;
       /* margin-top: 2px; 
-      margin-bottom: 2px;  */
+          margin-bottom: 2px;  */
       color: #000000;
       /* heading color */
     }
@@ -1007,7 +1007,7 @@
       border: 1px solid #111111;
       /* border color */
       /* margin-top: 2px; 
-      margin-bottom: 2px;  */
+          margin-bottom: 2px;  */
       color: #222222;
       /* heading color */
     }
@@ -1190,7 +1190,7 @@
             <!-- Author Box -->
             <div class="d-flex align-items-center p-3 bg-white rounded border mb-5 shadow-sm">
               <img style="width: 80px; height: 80px;"
-                src="https://media.licdn.com/dms/image/v2/D5603AQH-I8hrGgl2sw/profile-displayphoto-shrink_400_400/B56ZSYezwrGsAg-/0/1737725001194?e=1751500800&v=beta&t=Tv_CyfSmY0Tdycx0F0HFJ50ysKX6Yb-h8AXp8YA4qEw"
+                src="{{ asset('/uploads/setting/' . $setting->logo_path) }}"
                 class="rounded-circle m-0 mr-3" alt="Author">
               <div class="d-flex justify-content-between align-items-center w-100">
                 <div class="">
@@ -1334,7 +1334,8 @@
             <form>
               <input type="text" class="form-control mb-3" placeholder="Enter your first name">
               <input type="email" class="form-control mb-3" placeholder="Enter your email">
-              <button style="background-color: #052C58 !important" type="submit" class="btn btn-success w-100">Subscribe</button>
+              <button style="background-color: #052C58 !important" type="submit"
+                class="btn btn-success w-100">Subscribe</button>
             </form>
           </div>
           <!-- Ad Banner -->
