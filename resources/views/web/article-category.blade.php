@@ -283,7 +283,7 @@
             <div class="row align-items-center">
                 <div class="col-md-5 pl-4 mt-4 featured-blog-extra">
                     <div class="author-info mb-2">
-                        <img class="ml-0"
+                        <img class="ml-0" style="width: 80px; height: 80px;"
                             src="{{ asset('/uploads/setting/' . $setting->logo_path) }}"
                             alt="author">
                         <div><strong>MSN Softtech</strong></div>
