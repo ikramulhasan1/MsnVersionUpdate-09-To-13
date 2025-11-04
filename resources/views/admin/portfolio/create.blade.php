@@ -128,6 +128,30 @@
                                 </div>
                                 <br><br>
                             </div>
+                            <hr>
+                            <h3>FAQs</h3>
+                            <div class="row">
+
+                                <div id="faq-wrapper" class="form-group col-9 faq-group mb-2">
+                                    {{-- <label for="average_rating">{{ __('dashboard.average_rating') }}
+                                        <span>*</span></label> --}}
+                                    <input type="text" class="form-control mb-1" name="icon[0][icon_class]"
+                                        placeholder="0. Icon Class">
+                                    <input type="text" class="form-control mb-1" name="icon[0][title]"
+                                        placeholder="0. Title">
+                                    <input type="text" class="form-control mb-1" name="icon[0][description]"
+                                        placeholder="0. Description">
+
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.faq') }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <button class="btn btn-success" type="button"
+                                        onclick="addFaq()">{{ __('dashboard.add_another_FAQ') }}</button>
+                                </div>
+                                <br><br>
+                            </div>
                             <div class="form-group">
                                 <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
                                 <textarea class="form-control" name="description" id="editor" rows="8"
@@ -259,6 +283,24 @@
                 shouldSort: false // optional: keeps original order
             });
         });
+
+
+        // FAQs Section
+        let faqIndex = 1;
+
+        function addFaq() {
+            const wrapper = document.querySelector('.faq-group').parentNode;
+            const group = document.createElement('div');
+            group.classList.add('form-group', 'faq-group', 'col-9', 'mb-2');
+            group.innerHTML = `
+                ${faqIndex + 1}. 
+                <input type="text" class="form-control mb-1" name="icon[${faqIndex}][icon_class]" placeholder="${faqIndex + 1}. Icon Class">
+                <input type="text" class="form-control mb-1" name="icon[${faqIndex}][title]" placeholder="${faqIndex + 1}. Title">
+                <input type="text" class="form-control mb-1" name="icon[${faqIndex}][description]" placeholder="${faqIndex + 1}. Description">           
+            `;
+            wrapper.appendChild(group);
+            faqIndex++;
+        }
     </script>
         <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
