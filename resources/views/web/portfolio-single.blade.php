@@ -270,7 +270,7 @@
 
     /* Hover effect */
     .impact-card:hover {
-      transform: translateY(0px);
+      transform: translateY(-8px);
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.07);
       background: #ffffff;
     }
@@ -278,7 +278,7 @@
     /* Simple fade animation */
     .impact-card {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(0px);
       animation: fadeUp 0.8s ease forwards;
     }
 
