@@ -184,6 +184,110 @@
 .overview-content p {
   font-size: 16px !important;
 }
+
+    .results-impact {
+      background-color: #ffffff;
+      color: #111;
+      padding: 90px 0;
+      position: relative;
+    }
+
+    .results-impact .section-heading {
+      text-align: center;
+      margin-bottom: 70px;
+    }
+
+    .results-impact .section-heading h2 {
+      font-weight: 700;
+      font-size: 2.3rem;
+      letter-spacing: -0.5px;
+      color: #0a0a0a;
+      margin-bottom: 10px;
+    }
+
+    .results-impact .section-heading p {
+      color: #6c757d;
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .impact-card {
+      background: #f9fafc;
+      border-radius: 12px;
+      padding: 2.2rem 1.8rem;
+      border: 1px solid #eaeaea;
+      transition: all 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .impact-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(120deg, #007bff, #00b4d8);
+      opacity: 0.05;
+      transition: width 0.4s ease;
+      z-index: 0;
+    }
+
+    .impact-card:hover::after {
+      width: 100%;
+    }
+
+    .impact-icon {
+      font-size: 2rem;
+      color: #007bff;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .impact-card h5 {
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 0.6rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .impact-card p {
+      color: #666;
+      font-size: 0.97rem;
+      margin-bottom: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hover effect */
+    .impact-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.07);
+      background: #ffffff;
+    }
+
+    /* Simple fade animation */
+    .impact-card {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    .impact-card:nth-child(1) { animation-delay: 0.2s; }
+    .impact-card:nth-child(2) { animation-delay: 0.4s; }
+    .impact-card:nth-child(3) { animation-delay: 0.6s; }
+    .impact-card:nth-child(4) { animation-delay: 0.8s; }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 </style>
   <!-- Description -->
   <section class="project-description py-5">
@@ -217,6 +321,41 @@
       <h2 class="font-weight-bold mb-3">Have a Project in Mind?</h2>
       <p class="mb-4" style="font-size: 16px; color: white;" >Let’s collaborate and build your next web project together.</p>
       <a href="{{ route('contact') }}" class="btn btn-light btn-lg px-4">Contact Us</a>
+    </div>
+  </section>
+
+  <section class="results-impact">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Results & Impact</h2>
+        <p>Real outcomes that reflect our focus on performance, design, and scalability.</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="impact-card h-100 text-center">
+            <div class="impact-icon"><i class="fas fa-chart-line"></i></div>
+            <h5>+40% Increase in Sales</h5>
+            <p>Improved conversion rates through strategic UX enhancements and fast checkout design.</p>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+          <div class="impact-card h-100 text-center">
+            <div class="impact-icon"><i class="fas fa-users"></i></div>
+            <h5>25% Higher Engagement</h5>
+            <p>Enhanced brand loyalty and return visits by refining content flow and visual identity.</p>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+          <div class="impact-card h-100 text-center">
+            <div class="impact-icon"><i class="fas fa-tachometer-alt"></i></div>
+            <h5>Faster Load Times</h5>
+            <p>Optimized performance and responsiveness, resulting in smoother user experiences.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
