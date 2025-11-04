@@ -426,12 +426,14 @@ class PortfolioController extends Controller
 
         $faqSteps = [];
 
-        foreach ($request->icon as $index => $faq) {
-            $faqSteps[] = [
-                'icon_class' => $faq['icon_class'] ?? '',
-                'title' => $faq['title'] ?? '',
-                'description' => $faq['description'] ?? '',
-            ];
+        if (is_array($request->icon)) {
+            foreach ($request->icon as $index => $faq) {
+                $faqSteps[] = [
+                    'icon_class' => $faq['icon_class'] ?? '',
+                    'title' => $faq['title'] ?? '',
+                    'description' => $faq['description'] ?? '',
+                ];
+            }
         }
 
         // Save array as JSON
