@@ -348,7 +348,7 @@
             </div>
           </div>
         @endforeach
-        {{-- <div class="col-md-4 mb-4">
+        <div class="col-md-4 mb-4">
           <div class="impact-card h-100 text-center">
             <div class="impact-icon"><i class="fas fa-chart-line"></i></div>
             <h5>+40% Increase in Sales</h5>
@@ -370,7 +370,7 @@
             <h5>Faster Load Times</h5>
             <p>Optimized performance and responsiveness, resulting in smoother user experiences.</p>
           </div>
-        </div> --}}
+        </div>
       </div>
     </div>
   </section>
