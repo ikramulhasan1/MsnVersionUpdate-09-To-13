@@ -71,7 +71,7 @@
 }
 
 .cta-section {
-  background: linear-gradient(135deg, #007bff, #004a9f);
+  /* background: linear-gradient(135deg, #007bff, #004a9f); */
 }
     </style>
    
@@ -321,7 +321,7 @@
   </section>
 
   <!-- CTA -->
-  <section class="cta-section text-center text-white py-5">
+  <section style="background-color: #052C58" class="cta-section text-center text-white py-5">
     <div class="container">
       <h2 class="font-weight-bold mb-3">Have a Project in Mind?</h2>
       <p class="mb-4" style="font-size: 16px; color: white;" >Let’s collaborate and build your next web project together.</p>
