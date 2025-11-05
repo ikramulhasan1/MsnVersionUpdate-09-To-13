@@ -329,7 +329,7 @@
     </div>
   </section>
     @php
-      $results_steps = json_decode($portfolio->results_steps, true); // true না দিলে object হবে
+      $results_steps = json_decode($portfolio->results_steps ?? '[]', true) ?? [] // true না দিলে object হবে
     @endphp
   <section class="results-impact">
     <div class="container">
