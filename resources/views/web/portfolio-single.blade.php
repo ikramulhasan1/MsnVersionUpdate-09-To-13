@@ -246,7 +246,7 @@
 
     .impact-icon {
       font-size: 2rem;
-      color: #007bff;
+      color: #052C58;
       margin-bottom: 1rem;
       position: relative;
       z-index: 1;
