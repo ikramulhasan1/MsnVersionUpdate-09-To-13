@@ -315,7 +315,9 @@ class TechnologyController extends Controller
             if (!$fileNameToStore) {
                 $fileNameToStore = $filename . '_' . time() . '.webp';
                 Image::make($file->getRealPath())
-                    ->fit(780, 400, fn($constraint) => $constraint->upsize())
+                    ->fit(780, 400, function ($constraint) {
+                        $constraint->upsize();
+                    })
                     ->encode('webp', 90)
                     ->save($path . $fileNameToStore);
             }
@@ -339,7 +341,10 @@ class TechnologyController extends Controller
             if (!$logoFileNameToStore) {
                 $logoFileNameToStore = $filename . '_' . time() . '.webp';
                 Image::make($file->getRealPath())
-                    ->resize(200, null, fn($constraint) => $constraint->aspectRatio()->upsize())
+                    ->resize(200, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    })
                     ->encode('webp', 90)
                     ->save($path . $logoFileNameToStore);
             }
@@ -366,7 +371,10 @@ class TechnologyController extends Controller
 
                 $filepath = "/uploads/media/$filename.webp";
                 Image::make($src)
-                    ->resize(780, 400, fn($constraint) => $constraint->aspectRatio()->upsize())
+                    ->resize(780, 400, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    })
                     ->encode('webp', 90)
                     ->save(public_path($filepath));
 
