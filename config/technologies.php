@@ -3,7 +3,11 @@ return [
     'general' => [
         // ['name' => 'Python', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg', 'url' => ''],
         // ['name' => 'Java', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg', 'url' => ''],
+<<<<<<< HEAD
         ['name' => 'Bootstrap', 'icon' => '//upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/2560px-Bootstrap_logo.svg.png', 'url' => 'https://msnsofttech.com/technology/bootstrap-development'],
+=======
+        ['name' => 'Bootstrap', 'icon' => '//camo.githubusercontent.com/fe1e9d8cbdd20505a54428b4123e6fda9cecaa50c05ec15e239b9738e1f19320/68747470733a2f2f676574626f6f7473747261702e636f6d2f646f63732f352e322f6173736574732f6272616e642f626f6f7473747261702d6c6f676f2d736861646f772e706e67', 'url' => 'https://msnsofttech.com/technology/bootstrap-development'],
+>>>>>>> e734773df (msn 2.0 theme change)
         ['name' => 'JavaScript', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg', 'url' => ''],
         // ['name' => 'C#', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg', 'url' => ''],
         // ['name' => 'C++', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg', 'url' => ''],
@@ -48,11 +52,19 @@ return [
 
     // Laravel Ecosystem
     'laravel' => [
+<<<<<<< HEAD
         ['name' => 'Laravel', 'icon' => '//upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1154px-Laravel.svg.png', 'url' => 'https://msnsofttech.com/technology/laravel-development'],
         // ['name' => 'Symfony', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/symfony/symfony-original.svg', 'url' => ''],
     ],
     'Content Management Systems' => [
         ['name' => 'WordPress', 'icon' => '//upload.wikimedia.org/wikipedia/commons/thumb/0/09/Wordpress-Logo.svg/2048px-Wordpress-Logo.svg.png', 'url' => 'https://msnsofttech.com/technology/wordpress-development'],
+=======
+        ['name' => 'Laravel', 'icon' => '//cdn.worldvectorlogo.com/logos/laravel-3.svg', 'url' => 'https://msnsofttech.com/technology/laravel-development'],
+        // ['name' => 'Symfony', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/symfony/symfony-original.svg', 'url' => ''],
+    ],
+    'Content Management Systems' => [
+        ['name' => 'WordPress', 'icon' => '//cdn-icons-png.flaticon.com/512/174/174881.png', 'url' => 'https://msnsofttech.com/technology/wordpress-development'],
+>>>>>>> e734773df (msn 2.0 theme change)
         // ['name' => 'Symfony', 'icon' => '//cdn.jsdelivr.net/gh/devicons/devicon/icons/symfony/symfony-original.svg', 'url' => ''],
     ],
     'E-Commerce Solutions' => [

@@ -1,0 +1,895 @@
+/* =====================================================================
+   MSN SOFTTECH — "BLUEPRINT" DESIGN SYSTEM  (v2 — full replacement)
+   One shared stylesheet for every page. Load once in web.layouts.master
+   <head>, after Bootstrap:
+     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="{{ asset('web/css/msn-theme.css') }}">
+
+   DESIGN NOTES (for future edits)
+   --------------------------------
+   Concept: an engineering blueprint / build-log. This is a company that
+   builds software — so the system borrows from technical drafting and
+   terminal output rather than marketing-brochure polish: registration
+   crosshairs at section corners (the marks a draftsman uses to align a
+   page), a monospace "§ 0X" coordinate tag instead of a decorative
+   eyebrow pill, and a live-scrolling build-log strip in the hero.
+   Straight edges everywhere — nothing is clipped or cut on the diagonal.
+   Ink-navy is the resting color of the page; amber is struck like a
+   highlighter, only where a decision or action lives; cyan is rarer
+   still, reserved for data/status. Cards are flat rectangles that
+   answer with a left accent bar on hover, not a floating shadow.
+   ===================================================================== */
+
+:root{
+  /* ---- color ---- */
+  --bp-white:       #FFFFFF;
+  --bp-paper:       #F4F5F7;   /* cool light grey, page wash */
+  --bp-wash:        #FBF8F2;   /* warm alternating-section wash, barely-there amber tint */
+  --bp-wash-line:   #ECE6D8;   /* hairline that sits correctly on --bp-wash */
+  --bp-ink:         #0B0E14;   /* near-black navy, dark sections */
+  --bp-ink-2:       #141926;   /* raised panel on dark */
+  --bp-ink-3:       #1B2131;   /* one step lighter still, for hover states on dark */
+  --bp-shadow-soft: 0 1px 2px rgba(11,14,20,.04), 0 12px 28px rgba(11,14,20,.07);
+  --bp-shadow-lift: 0 2px 4px rgba(11,14,20,.05), 0 22px 46px rgba(11,14,20,.12);
+  --bp-glow-amber:  radial-gradient(circle at 30% 20%, rgba(245,166,35,.14), transparent 60%);
+  --bp-text:        #10131A;
+  --bp-text-soft:   #4A4F5E;
+  --bp-muted:       #83899B;
+  --bp-line:        #DDE0E6;
+  --bp-line-strong: #C6CAD4;
+  --bp-line-dark:   rgba(255,255,255,.14);
+  --bp-line-dark-2: rgba(255,255,255,.08);
+
+  --bp-amber:       #F5A623;   /* signal amber — primary accent */
+  --bp-amber-deep:  #C9860F;   /* pressed / hover */
+  --bp-amber-wash:  #FDF3E1;   /* amber-tinted chip bg on light */
+  --bp-cyan:        #33C7BD;   /* secondary — data / status only */
+  --bp-red-status:  #E5484D;   /* status/error dot only, not decorative */
+
+  --bp-radius:      2px;       /* nearly square — this system stays rectilinear */
+  --bp-ease:        cubic-bezier(.16,.84,.44,1);
+
+  /* ---- type ---- */
+  --bp-font-display: 'Space Grotesk', 'IBM Plex Sans', sans-serif;
+  --bp-font-body:    'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --bp-font-mono:    'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* =====================================================================
+   RESET / BASE
+   ===================================================================== */
+.msn-scope, #msn-nav, #msn-footer{
+  font-family: var(--bp-font-body);
+  color: var(--bp-text);
+  background: var(--bp-paper);
+  -webkit-font-smoothing: antialiased;
+}
+.msn-scope *, #msn-nav *, #msn-footer *{ box-sizing: border-box; }
+.msn-scope img{ max-width:100%; }
+.msn-scope a{ text-decoration:none; color:inherit; }
+body{ background: var(--bp-paper) !important; }
+
+.msn-scope section.msn-section,
+.msn-scope section{ background: var(--bp-paper); }
+
+/* =====================================================================
+   TYPE SCALE
+   ===================================================================== */
+.msn-scope h1,.msn-scope h2,.msn-scope h3,.msn-scope h4,.msn-scope h5{
+  font-family: var(--bp-font-display);
+  color: var(--bp-text);
+  margin:0;
+  letter-spacing:-.015em;
+  font-weight:700;
+}
+
+/* =====================================================================
+   SIGNATURE — coordinate tag (replaces the old eyebrow pill)
+   A monospace "§" reference mark + label, flanked by a hairline rule.
+   Reads like a drawing-sheet index, not a badge.
+   ===================================================================== */
+.msn-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-family: var(--bp-font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color: var(--bp-amber-deep);
+  background:none;
+  padding:0;
+  border:none;
+  border-radius:0;
+}
+.msn-eyebrow::before{
+  content:"§";
+  font-family: var(--bp-font-mono);
+  font-weight:600;
+  font-size:13px;
+  color: var(--bp-amber);
+  border:1px solid currentColor;
+  color: var(--bp-amber);
+  width:20px;height:20px;
+  display:flex;align-items:center;justify-content:center;
+  flex:0 0 auto;
+}
+.msn-eyebrow-on-dark{ color:#F5D9A0; }
+.msn-eyebrow-on-dark::before{ color: var(--bp-amber); }
+
+/* =====================================================================
+   SECTION SCAFFOLDING — every major block gets registration crosshairs
+   at its corners, echoing a drafting sheet's alignment marks.
+   ===================================================================== */
+.msn-section{ padding: clamp(64px,8vw,116px) 0; position:relative; }
+.msn-section-head{ max-width:640px; margin-bottom:48px; }
+.msn-section-head.msn-center{ margin-left:auto; margin-right:auto; text-align:center; }
+.msn-section-head h2{
+  font-size:clamp(28px,4vw,46px);
+  font-weight:700;
+  line-height:1.1;
+  margin-top:16px;
+}
+.msn-section-head p,
+.msn-section-head .description{
+  color: var(--bp-muted);
+  font-size:16px;
+  line-height:1.7;
+  margin-top:16px;
+}
+
+/* Registration crosshair — used on .bp-frame containers */
+.bp-frame{ position:relative; }
+.bp-frame::before,
+.bp-frame::after,
+.bp-frame > .bp-crosshair::before,
+.bp-frame > .bp-crosshair::after{ content:none; }
+.bp-crosshair{
+  position:absolute; width:14px; height:14px; pointer-events:none; z-index:2;
+}
+.bp-crosshair::before,.bp-crosshair::after{
+  content:"";
+  position:absolute;
+  background: var(--bp-line-strong);
+}
+.bp-crosshair::before{ top:6px; left:0; width:14px; height:1px; }
+.bp-crosshair::after{ top:0; left:6px; width:1px; height:14px; }
+.bp-crosshair.tl{ top:-7px; left:-7px; }
+.bp-crosshair.tr{ top:-7px; right:-7px; }
+.bp-crosshair.bl{ bottom:-7px; left:-7px; }
+.bp-crosshair.br{ bottom:-7px; right:-7px; }
+.bp-crosshair.on-dark::before,.bp-crosshair.on-dark::after{ background: var(--bp-line-dark); }
+
+/* =====================================================================
+   CARDS — flat rectangles, hairline border, amber bar sweeps in on hover
+   ===================================================================== */
+.msn-card{
+  background: var(--bp-white);
+  border:1px solid var(--bp-line);
+  border-radius: var(--bp-radius);
+  border-left:3px solid var(--bp-line);
+  box-shadow: var(--bp-shadow-soft);
+  transition: border-left-color .3s var(--bp-ease), border-color .3s var(--bp-ease), box-shadow .3s var(--bp-ease), transform .3s var(--bp-ease);
+}
+.msn-card:hover{ border-left-color: var(--bp-amber); box-shadow: var(--bp-shadow-lift); transform: translateY(-3px); }
+
+/* Section-head decorative glow — call with .msn-section-head.has-glow */
+.msn-section-head{ position:relative; }
+.msn-section-head.has-glow::before{
+  content:"";
+  position:absolute; top:-40px; left:50%; transform:translateX(-50%);
+  width:520px; height:280px;
+  background: var(--bp-glow-amber);
+  pointer-events:none; z-index:0;
+}
+.msn-section-head.has-glow > *{ position:relative; z-index:1; }
+
+/* =====================================================================
+   BUTTONS — rectangular, monospace label, underline fills on hover
+   ===================================================================== */
+.msn-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  font-family: var(--bp-font-mono);
+  font-weight:600;
+  font-size:13px;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  padding:15px 30px;
+  border-radius: var(--bp-radius);
+  border:1px solid transparent;
+  cursor:pointer;
+  position:relative;
+  transition: background-color .2s var(--bp-ease), color .2s var(--bp-ease), border-color .2s var(--bp-ease);
+  white-space:nowrap;
+}
+.msn-btn-primary{ background: var(--bp-amber); color:var(--bp-ink); border-color:var(--bp-amber); box-shadow:0 10px 24px rgba(245,166,35,.22); }
+.msn-btn-primary:hover{ background: var(--bp-amber-deep); border-color:var(--bp-amber-deep); color:#fff; box-shadow:0 14px 30px rgba(201,134,15,.3); transform:translateY(-1px); }
+.msn-btn-outline{ background:transparent; color:var(--bp-text); border-color: var(--bp-line-strong); }
+.msn-btn-outline:hover{ border-color: var(--bp-text); background: var(--bp-text); color:#fff; }
+.msn-btn-ghost-light{ background:transparent; color:#fff; border-color:rgba(255,255,255,.4); }
+.msn-btn-ghost-light:hover{ background:rgba(255,255,255,.1); border-color:#fff; color:#fff; }
+.msn-btn-sm{ padding:11px 20px; font-size:12px; }
+
+/* =====================================================================
+   SCROLL REVEAL
+   ===================================================================== */
+.msn-reveal{
+  opacity:0;
+  transform: translateY(16px);
+  transition: opacity .6s var(--bp-ease), transform .6s var(--bp-ease);
+}
+.msn-reveal.is-visible{ opacity:1; transform:none; }
+@media (prefers-reduced-motion: reduce){
+  .msn-reveal{ opacity:1; transform:none; transition:none; }
+}
+
+/* =====================================================================
+   NAVBAR — see msn-navbar-fix section further down in this file for the
+   active, working rules. This old block stays commented out for
+   reference only.
+   ===================================================================== */
+/* #msn-nav{
+  position:sticky; top:0; z-index:1000;
+  background: rgba(11,14,20,.94);
+  backdrop-filter: saturate(160%) blur(10px);
+  border-bottom:1px solid var(--bp-line-dark);
+}
+.msn-nav-row{
+  max-width:1280px; margin:0 auto; padding:0 24px;
+  display:flex; align-items:center; justify-content:space-between;
+  height:76px;
+}
+.msn-nav-logo img{ height:32px; display:block; filter:brightness(0) invert(1); }
+.msn-nav-links{
+  display:flex; align-items:center; gap:2px;
+  list-style:none; margin:0; padding:0;
+}
+.msn-nav-links > li > a{
+  display:flex; align-items:center; gap:6px;
+  font-family: var(--bp-font-mono);
+  font-size:12px; font-weight:500;
+  letter-spacing:.05em; text-transform:uppercase;
+  color: rgba(255,255,255,.7);
+  padding:10px 15px;
+  border-radius: var(--bp-radius);
+  transition: color .2s var(--bp-ease), background-color .2s var(--bp-ease);
+  position:relative;
+}
+.msn-nav-links > li > a:hover{ color: var(--bp-amber); background: rgba(245,166,35,.08); }
+.msn-nav-links > li.has-drop{ position:relative; }
+.msn-nav-links svg.msn-chev{ width:10px;height:10px; transition:transform .2s var(--bp-ease); }
+.msn-nav-links > li.has-drop:hover svg.msn-chev{ transform:rotate(180deg); }
+.msn-dropdown{
+  position:absolute; top:100%; left:0;
+  min-width:230px;
+  background:var(--bp-ink-2); border:1px solid var(--bp-line-dark);
+  border-radius: var(--bp-radius);
+  box-shadow:0 24px 50px rgba(0,0,0,.35);
+  padding:8px;
+  opacity:0; visibility:hidden; transform:translateY(6px);
+  transition: all .2s var(--bp-ease);
+}
+.msn-nav-links > li.has-drop:hover .msn-dropdown{ opacity:1; visibility:visible; transform:none; }
+.msn-dropdown a{
+  display:block; padding:10px 12px; font-size:13.5px; font-weight:500;
+  color: rgba(255,255,255,.75); border-radius:2px; font-family:var(--bp-font-body);
+  text-transform:none; letter-spacing:0;
+}
+.msn-dropdown a:hover{ background: rgba(245,166,35,.1); color: var(--bp-amber); }
+.msn-nav-actions{ display:flex; align-items:center; gap:14px; }
+.msn-nav-phone{
+  font-family: var(--bp-font-mono); font-size:12.5px; font-weight:500; color:rgba(255,255,255,.7);
+  display:flex; align-items:center; gap:8px;
+}
+.msn-nav-phone svg{ width:14px;height:14px; color:var(--bp-amber); }
+.msn-burger{
+  display:none; width:38px; height:38px; border-radius:var(--bp-radius);
+  border:1px solid var(--bp-line-dark); background:transparent;
+  align-items:center; justify-content:center; cursor:pointer;
+  flex-direction:column; gap:4px;
+}
+.msn-burger span{ width:16px; height:1.5px; background:#fff; display:block; transition:.25s var(--bp-ease); }
+.msn-burger.is-active span:nth-child(1){ transform:translateY(5.5px) rotate(45deg); }
+.msn-burger.is-active span:nth-child(2){ opacity:0; }
+.msn-burger.is-active span:nth-child(3){ transform:translateY(-5.5px) rotate(-45deg); }
+
+@media (max-width:991px){
+  .msn-nav-links, .msn-nav-phone{ display:none; }
+  .msn-burger{ display:flex; }
+  .msn-mobile-panel{
+    position:fixed; inset:76px 0 0 0; z-index:999;
+    background:var(--bp-ink); padding:20px 24px 40px;
+    transform:translateX(100%); transition:transform .3s var(--bp-ease);
+    overflow-y:auto;
+  }
+  .msn-mobile-panel.is-open{ transform:none; }
+  .msn-mobile-panel ul{ list-style:none; margin:0; padding:0; }
+  .msn-mobile-panel > ul > li{ border-bottom:1px solid var(--bp-line-dark); }
+  .msn-mobile-panel a{
+    display:block; padding:16px 4px; font-weight:600; font-size:16px; color:#fff;
+    font-family:var(--bp-font-display);
+  }
+  .msn-mobile-panel .msn-mobile-sub{ padding-left:14px; display:none; }
+  .msn-mobile-panel .msn-mobile-sub a{ font-family:var(--bp-font-body); font-size:14.5px; font-weight:500; color:rgba(255,255,255,.6); padding:11px 4px; }
+  .msn-mobile-panel li.has-drop.is-open .msn-mobile-sub{ display:block; }
+  .msn-mobile-panel .msn-btn{ width:100%; margin-top:16px; }
+} */
+
+/* =====================================================================
+   msn-navbar-fix.css
+   Fixes:
+   1) Mobile panel was visible on desktop -> now hidden by default and
+      only enabled inside the mobile media query.
+   2) Mobile panel didn't fully open -> now a fixed full-height, full
+      width slide-in panel with its own scroll, so content is never
+      clipped no matter how long the menu gets.
+   3) Adds a two-level mega menu for "Services": left column = main
+      services, right column = sub-services of whichever main service
+      is hovered/focused.
+   4) Fully responsive: desktop (>=992px) mega menu + inline links,
+      mobile (<992px) slide-in panel with accordions.
+   5) (v2) Mega menu no longer closes while moving the mouse from the
+      trigger into the panel — the gap is now built with padding on the
+      hoverable element instead of margin/position offset, so there's
+      no dead zone.
+   6) (v2) The right-hand sub-service list is a CSS multi-column layout —
+      if it has too many items for one column, it automatically
+      continues into a 2nd (or 3rd) column instead of getting cut off.
+   ===================================================================== */
+
+:root{
+  --msn-nav-bg: rgba(13, 15, 23, 0.86);
+  --msn-nav-bg-solid: #0d0f17;
+  --msn-nav-border: rgba(255,255,255,0.08);
+  --msn-nav-text: #e7e8ee;
+  --msn-nav-muted: #9aa1ae;
+  --msn-nav-accent: #f5a623;
+  --msn-nav-accent-ink: #14151d;
+  --msn-nav-radius: 10px;
+  --msn-nav-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Consolas, monospace;
+  --msn-nav-height: 76px;
+}
+
+/* ---------------------------------------------------------------------
+   Base bar
+   --------------------------------------------------------------------- */
+#msn-nav{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  background: var(--msn-nav-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--msn-nav-border);
+  font-family: var(--msn-nav-mono);
+}
+
+#msn-nav .msn-nav-row{
+  max-width: 1320px;
+  margin: 0 auto;
+  height: var(--msn-nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 24px;
+}
+
+#msn-nav .msn-nav-logo img{
+  height: 30px;
+  width: auto;
+  display: block;
+}
+
+/* ---------------------------------------------------------------------
+   Desktop links
+   --------------------------------------------------------------------- */
+#msn-nav .msn-nav-links{
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#msn-nav .msn-nav-links > li{
+  position: relative;
+}
+
+#msn-nav .msn-nav-links > li > a{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--msn-nav-text);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color .15s ease;
+}
+
+#msn-nav .msn-nav-links > li > a:hover{
+  color: var(--msn-nav-accent);
+}
+
+#msn-nav .msn-chev{
+  width: 14px;
+  height: 14px;
+  transition: transform .18s ease;
+}
+
+#msn-nav .has-drop:hover .msn-chev,
+#msn-nav .has-drop:focus-within .msn-chev{
+  transform: rotate(180deg);
+}
+
+/* ---------------------------------------------------------------------
+   Actions (phone / CTA / burger)
+   --------------------------------------------------------------------- */
+#msn-nav .msn-nav-actions{
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+#msn-nav .msn-nav-phone{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--msn-nav-text);
+  font-size: 13px;
+  text-decoration: none;
+}
+#msn-nav .msn-nav-phone svg{ width: 18px; height: 18px; color: var(--msn-nav-accent); }
+
+#msn-nav .msn-btn-primary{
+  background: var(--msn-nav-accent);
+  color: var(--msn-nav-accent-ink);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  white-space: nowrap;
+}
+
+/* Hamburger: hidden on desktop, shown on mobile (see media query) */
+#msn-nav .msn-burger{
+  display: none;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  z-index: 1201;
+}
+#msn-nav .msn-burger span{
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--msn-nav-text);
+  transition: transform .25s ease, opacity .2s ease;
+}
+#msn-nav .msn-burger.is-active span:nth-child(1){ transform: translateY(8px) rotate(45deg); }
+#msn-nav .msn-burger.is-active span:nth-child(2){ opacity: 0; }
+#msn-nav .msn-burger.is-active span:nth-child(3){ transform: translateY(-8px) rotate(-45deg); }
+
+/* =======================================================================
+   MEGA MENU (desktop, Services)
+
+   IMPORTANT: the outer .msn-dropdown.msn-mega owns the *visual gap* to
+   the trigger via padding-top (not margin/position offset). Padding is
+   still inside the element's own box, so the cursor travelling through
+   that gap is still "over" a descendant of li.has-drop and :hover never
+   breaks. The actual visible card (bg/border/shadow) lives on the inner
+   .msn-mega-inner wrapper instead, and slides in with a transform. This
+   is what was causing the menu to close before the mouse reached it.
+   ======================================================================= */
+#msn-nav .msn-dropdown.msn-mega{
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 760px;
+  max-width: min(760px, 92vw);
+  padding-top: 18px; /* the visual gap — still hoverable */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .18s ease, visibility .18s;
+  z-index: 1100;
+}
+
+#msn-nav .has-drop:hover > .msn-dropdown.msn-mega,
+#msn-nav .has-drop:focus-within > .msn-dropdown.msn-mega,
+#msn-nav .msn-dropdown.msn-mega.is-open{
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+#msn-nav .msn-mega-inner{
+  display: flex;
+  background: var(--msn-nav-bg-solid);
+  border: 1px solid var(--msn-nav-border);
+  border-radius: var(--msn-nav-radius);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.45);
+  overflow: hidden;
+  transform: translateY(-6px);
+  transition: transform .18s ease;
+}
+
+#msn-nav .has-drop:hover > .msn-dropdown.msn-mega .msn-mega-inner,
+#msn-nav .has-drop:focus-within > .msn-dropdown.msn-mega .msn-mega-inner,
+#msn-nav .msn-dropdown.msn-mega.is-open .msn-mega-inner{
+  transform: translateY(0);
+}
+
+#msn-nav .msn-mega-left{
+  width: 40%;
+  flex: 0 0 40%;
+  padding: 14px;
+  border-right: 1px solid var(--msn-nav-border);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+#msn-nav .msn-mega-item{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  color: var(--msn-nav-text);
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+}
+
+#msn-nav .msn-mega-item svg{
+  width: 14px;
+  height: 14px;
+  opacity: .5;
+  transform: rotate(-90deg);
+  flex-shrink: 0;
+}
+
+#msn-nav .msn-mega-item:hover,
+#msn-nav .msn-mega-item:focus,
+#msn-nav .msn-mega-item.is-active{
+  background: rgba(245,166,35,0.12);
+  color: var(--msn-nav-accent);
+}
+
+#msn-nav .msn-mega-right{
+  width: 60%;
+  flex: 1 1 auto;
+  padding: 16px 18px;
+  position: relative;
+  min-width: 0;
+}
+
+#msn-nav .msn-mega-panel{
+  display: none;
+  animation: msnMegaFade .15s ease;
+}
+#msn-nav .msn-mega-panel.is-active{ display: block; }
+
+@keyframes msnMegaFade{
+  from{ opacity: 0; transform: translateX(4px); }
+  to{ opacity: 1; transform: translateX(0); }
+}
+
+#msn-nav .msn-mega-panel-title{
+  display: block;
+  font-size: 11px;
+  color: var(--msn-nav-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 6px 10px 12px;
+}
+
+/* Multi-column list: if the sub-service list is too tall for one column,
+   it automatically continues in a 2nd (or 3rd, ...) column instead of
+   being cut off or forcing the menu taller than the viewport. */
+#msn-nav .msn-mega-panel-links{
+  column-width: 190px;
+  column-gap: 6px;
+  max-height: 280px;
+}
+
+#msn-nav .msn-mega-panel a{
+  padding: 10px 10px;
+  border-radius: 8px;
+  color: var(--msn-nav-text);
+  text-decoration: none;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+}
+#msn-nav .msn-mega-panel a:hover{
+  background: rgba(255,255,255,0.06);
+  color: var(--msn-nav-accent);
+}
+#msn-nav .msn-mega-panel a small{
+  color: var(--msn-nav-muted);
+  font-size: 11px;
+}
+
+/* =======================================================================
+   MOBILE PANEL — hidden entirely on desktop (fix for the bug in the
+   screenshot), full-height slide-in panel on mobile.
+   ======================================================================= */
+#msn-nav .msn-mobile-panel,
+#msn-nav .msn-mobile-backdrop{
+  display: none !important;
+}
+
+/* =======================================================================
+   RESPONSIVE BREAKPOINT — < 992px = mobile
+   ======================================================================= */
+@media (max-width: 991.98px){
+
+  #msn-nav .msn-nav-links{ display: none; }
+  #msn-nav .msn-nav-phone{ display: none; }
+  #msn-nav .msn-burger{ display: flex; }
+
+  #msn-nav .msn-nav-row{ padding: 0 16px; height: 64px; }
+  #msn-nav .msn-btn-primary.msn-btn-sm{
+    padding: 9px 14px;
+    font-size: 11px;
+  }
+
+  /* Backdrop */
+  #msn-nav .msn-mobile-backdrop{
+    display: block !important;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .25s ease, visibility .25s ease;
+    z-index: 1190;
+  }
+  #msn-nav .msn-mobile-backdrop.is-open{
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Slide-in panel: fixed + full height so content can never be cut off,
+     it scrolls internally instead. */
+  #msn-nav .msn-mobile-panel{
+    display: flex !important;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100dvh;
+    width: min(86vw, 380px);
+    background: var(--msn-nav-bg-solid);
+    border-left: 1px solid var(--msn-nav-border);
+    box-shadow: -24px 0 48px rgba(0,0,0,0.4);
+    transform: translateX(100%);
+    transition: transform .3s ease;
+    z-index: 1200;
+    overflow: hidden;
+  }
+  #msn-nav .msn-mobile-panel.is-open{
+    transform: translateX(0);
+  }
+
+  #msn-nav .msn-mobile-panel-inner{
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 88px 22px 24px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 20px;
+  }
+
+  #msn-nav .msn-mobile-nav-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #msn-nav .msn-mobile-nav-list > li{
+    border-bottom: 1px solid var(--msn-nav-border);
+  }
+
+  #msn-nav .msn-mobile-nav-list > li > a,
+  #msn-nav .msn-mobile-toggle{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px 4px;
+    color: var(--msn-nav-text);
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: transparent;
+    border: none;
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  #msn-nav .msn-mobile-toggle .msn-chev{
+    width: 16px; height: 16px;
+    transition: transform .2s ease;
+  }
+  #msn-nav li.is-open > .msn-mobile-toggle .msn-chev{
+    transform: rotate(180deg);
+  }
+
+  /* Level 1 submenu (All Services / Technologies / Portfolio + service groups) */
+  #msn-nav .msn-mobile-sub{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .3s ease;
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+  }
+  #msn-nav li.is-open > .msn-mobile-sub{
+    max-height: 2000px;
+    padding-bottom: 10px;
+  }
+
+  #msn-nav .msn-mobile-sub > a{
+    padding: 10px 4px;
+    color: var(--msn-nav-muted);
+    text-decoration: none;
+    font-size: 13px;
+    text-transform: none;
+  }
+
+  /* Level 2: main service -> its sub-services, accordion inside accordion */
+  #msn-nav .msn-mobile-service-group{
+    border-top: 1px dashed var(--msn-nav-border);
+  }
+  #msn-nav .msn-mobile-service-toggle{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 4px;
+    background: transparent;
+    border: none;
+    color: var(--msn-nav-text);
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  #msn-nav .msn-mobile-service-toggle svg{
+    width: 14px; height: 14px;
+    transition: transform .2s ease;
+  }
+  #msn-nav .msn-mobile-service-group.is-open .msn-mobile-service-toggle svg{
+    transform: rotate(180deg);
+  }
+  #msn-nav .msn-mobile-service-children{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .3s ease;
+    display: flex;
+    flex-direction: column;
+    padding-left: 12px;
+  }
+  #msn-nav .msn-mobile-service-group.is-open .msn-mobile-service-children{
+    max-height: 800px;
+    padding-bottom: 8px;
+  }
+  #msn-nav .msn-mobile-service-children a{
+    padding: 8px 4px;
+    color: var(--msn-nav-muted);
+    text-decoration: none;
+    font-size: 12.5px;
+  }
+  #msn-nav .msn-mobile-service-children a:hover{ color: var(--msn-nav-accent); }
+
+  #msn-nav .msn-mobile-panel .msn-btn-primary{
+    margin-top: auto;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Lock page scroll while the panel is open (JS toggles this on <body>) */
+  body.msn-nav-open{ overflow: hidden; }
+}
+
+@media (min-width: 992px){
+  /* Belt-and-braces: never let the mobile panel affect desktop layout */
+  #msn-nav .msn-mobile-panel{ display: none !important; }
+}
+
+
+/* =====================================================================
+   FOOTER
+   ===================================================================== */
+#msn-footer{ background: var(--bp-ink); color:rgba(255,255,255,.7); }
+.msn-footer-cta{
+  background: var(--bp-ink-2);
+  border-top:1px solid var(--bp-line-dark);
+  border-bottom:1px solid var(--bp-line-dark);
+  padding: 70px 0 90px;
+  text-align:center;
+}
+.msn-footer-cta h3{
+  color:#fff; font-size:clamp(26px,3.6vw,42px); font-weight:700; max-width:680px; margin:16px auto 0;
+  font-family:var(--bp-font-display);
+}
+.msn-footer-cta p{ color:rgba(255,255,255,.55); max-width:520px; margin:16px auto 0; font-size:15px; }
+.msn-footer-cta .msn-btn{ margin-top:30px; }
+
+.msn-footer-main{ padding:70px 0 40px; }
+.msn-footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:40px; }
+.msn-footer-brand img{ height:30px; filter:brightness(0) invert(1); }
+.msn-footer-brand p{ color:rgba(255,255,255,.5); font-size:14.5px; line-height:1.75; margin-top:16px; max-width:280px; }
+.msn-footer-social{ display:flex; gap:10px; margin-top:22px; }
+.msn-footer-social a{
+  width:34px;height:34px; border-radius:var(--bp-radius); border:1px solid var(--bp-line-dark);
+  display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.7);
+  transition: all .2s var(--bp-ease);
+}
+.msn-footer-social a:hover{ background:var(--bp-amber); border-color:var(--bp-amber); color:var(--bp-ink); }
+.msn-footer-col h6{
+  font-family:var(--bp-font-mono); font-size:11.5px; font-weight:500; letter-spacing:.1em;
+  text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:18px;
+}
+.msn-footer-col ul{ list-style:none; margin:0; padding:0; }
+.msn-footer-col li{ margin-bottom:13px; }
+.msn-footer-col a{ color:rgba(255,255,255,.65); font-size:14.5px; font-weight:400; transition:color .2s var(--bp-ease); }
+.msn-footer-col a:hover{ color:var(--bp-amber); }
+.msn-footer-contact li{ display:flex; gap:10px; color:rgba(255,255,255,.65); font-size:14.5px; align-items:flex-start; }
+.msn-footer-contact svg{ width:15px;height:15px; color:var(--bp-amber); margin-top:2px; flex:0 0 auto; }
+.msn-footer-bottom{
+  border-top:1px solid var(--bp-line-dark);
+  padding:24px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+}
+.msn-footer-bottom p{ color:rgba(255,255,255,.4); font-size:12.5px; margin:0; font-family:var(--bp-font-mono); }
+.msn-footer-legal{ display:flex; gap:22px; list-style:none; margin:0; padding:0; }
+.msn-footer-legal a{ color:rgba(255,255,255,.4); font-size:12.5px; }
+.msn-footer-legal a:hover{ color:var(--bp-amber); }
+
+@media (max-width:991px){
+  .msn-footer-grid{ grid-template-columns:1fr 1fr; }
+}
+@media (max-width:575px){
+  .msn-footer-grid{ grid-template-columns:1fr; }
+  .msn-footer-bottom{ flex-direction:column; align-items:flex-start; }
+}
