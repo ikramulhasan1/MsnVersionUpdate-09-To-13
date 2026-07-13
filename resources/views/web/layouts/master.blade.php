@@ -1,1650 +1,402 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
+<html lang="en">
 <head>
-    <!-- Meta Tags -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-
-    @if(isset($setting))
-        <!-- App Title -->
-        <title>@yield('title') | {{ $setting->title }}</title>
-
-        <!-- App favicon -->
-        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('/uploads/setting/' . $setting->favicon_path) }}"
-            type="image/x-icon">
-        <link rel="shortcut icon" href="{{ asset('/uploads/setting/' . $setting->favicon_path) }}" type="image/x-icon">
-
-        {{-- google search console --}}
-        <meta name="google-site-verification" content="40_D4AP8vh4ObjZrTZwcJvieoEEvUaOw4pmPTVX0t74" />
-        @yield('top_meta_tags')
-    @endif
-
-    {{-- schema_markup --}}
-    @yield('schema_markup')
-
-    @if(empty($setting))
-        <!-- App Title -->
-        <title>@yield('title')</title>
-    @endif
-
-
-    <!-- Social Meta Tags -->
-    <link rel="canonical" href="{{ request()->url() }}">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @yield('top_meta_tags')
     @yield('social_meta_tags')
+    <title>@yield('title')</title>
+    <link rel="stylesheet" href="{{ asset('web/css/msn-theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('web/css/contact.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css" integrity="sha512-t7Few9xlddEmgd3oKZQahkNI4dS6l80+eGEzFQiqtyVYdvcSG2D3Iub77R20BdotfRPA9caaRkg1tyaJiPmO0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Stylesheets -->
-    <link href="{{ asset('web/css/bootstrap.css') }}" rel="stylesheet">
-    @if($livechat->status == 1)
-        <link href="{{ asset('web/css/floating-wpp.min.css') }}" rel="stylesheet">
-    @endif
-    <link href="{{ asset('web/css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('web/css/responsive.css') }}" rel="stylesheet">
-
-
-    <link rel="preload" href="//fonts.googleapis.com">
-    <link rel="preload" href="//fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
-
-    <!-- ✅ Owl Carousel CSS -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-
-    <style>
-        .poppins-regular {
-            font-family: "Poppins", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-        }
-
-        .poppins-medium {
-            font-family: "Poppins", sans-serif;
-            font-weight: 500;
-            font-style: normal;
-        }
-
-        .poppins-semibold {
-            font-family: "Poppins", sans-serif;
-            font-weight: 600;
-            font-style: normal;
-        }
-
-        .poppins-regular-italic {
-            font-family: "Poppins", sans-serif;
-            font-weight: 400;
-            font-style: italic;
-        }
-
-        .poppins-medium-italic {
-            font-family: "Poppins", sans-serif;
-            font-weight: 500;
-            font-style: italic;
-        }
-
-        .poppins-semibold-italic {
-            font-family: "Poppins", sans-serif;
-            font-weight: 600;
-            font-style: italic;
-        }
-
-
-        * {
-            font-family: 'Poppins';
-        }
-
-
-
-
-        /* Base Mega Menu Styling */
-        .mega-menu {
-            /* position: relative; */
-        }
-
-        .mega-menu-trigger {
-            /* position: relative; */
-            /* display: inline-block; */
-        }
-
-        .mega-menu-link {
-            padding-top: 15px;
-            display: inline-block;
-            color: #222222;
-            font-size: 16px;
-            /* text-decoration: none; */
-            font-weight: 500;
-        }
-
-        .mega-menu-link:hover {
-            color: red !important;
-        }
-
-        .mega-menu-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            /* right: 50%; */
-            left: -350%;
-            width: 900px;
-            padding: 20px;
-            background: #fff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            display: none;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        .mega-menu-content2 {
-            display: none;
-            position: absolute;
-            top: 100%;
-            /* right: 50%; */
-            right: -450%;
-            width: 900px;
-            padding: 20px;
-            background: #fff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            display: none;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        /* Show the menu on hover of the link */
-        .mega-menu-trigger:hover .mega-menu-content {
-            display: grid;
-        }
-
-        .mega-menu-trigger:hover .mega-menu-content2 {
-            display: grid;
-        }
-
-        .mega-links:hover {
-            color: #ffffff !important;
-            background-color: #000000;
-            padding: 7px;
-        }
-
-        .mega-menu-column h4 {
-            font-size: 1rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #111;
-        }
-
-        .mega-menu-column ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .mega-menu-column ul li {
-            margin-bottom: 8px;
-        }
-
-        .mega-menu-column ul li a {
-            color: #555;
-            text-decoration: none;
-            font-size: 0.95rem;
-        }
-
-        .mega-menu-column ul li a:hover {
-            color: #007BFF;
-        }
-
-
-        .mega-menu-column .service-item {
-            display: flex;
-            align-items: center;
-        }
-
-        .mega-menu-column .service-item img {
-            margin-right: 10px;
-            /* Space between image and title */
-        }
-
-        .mega-menu-column .mega-links {
-            font-size: 14px;
-            /* Adjust size as necessary */
-            text-decoration: none;
-        }
-    </style>
-    <!-- Custom Style -->
-    @if(isset($setting->custom_css))
-        <style type="text/css">
-            {
-                ! ! strip_tags($setting->custom_css) ! !
-            }
-
-            .page-title .bread-crumb {
-                background: black !important;
-            }
-        </style>
-    @endif
-
-    <style>
-        /* Floating WhatsApp Button */
-        .whatsapp-button {
-            position: fixed;
-            bottom: 15px;
-            right: 15px;
-            z-index: 1000;
-            width: 50px;
-            height: 50px;
-            background-color: #25d366;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease-in-out;
-            animation: bounce 3s infinite;
-        }
-
-        .whatsapp-button img {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        /* Hover Effects */
-        .whatsapp-button:hover {
-            background-color: #1ebe5d;
-            transform: scale(1.1);
-            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .whatsapp-button:hover img {
-            transform: rotate(10deg);
-        }
-
-        /* Bounce Animation */
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-25px);
-            }
-        }
-
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .whatsapp-button {
-                width: 45px;
-                height: 45px;
-                bottom: 10px;
-                right: 10px;
-            }
-
-            .whatsapp-button img {
-                width: 30px;
-                height: 30px;
-            }
-        }
-
-
-
-        /* footer section */
-        .custom-footer {
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            background-color: #0B2447;
-            color: #ffffff !important;
-        }
-
-        .custom-footer {
-            background: radial-gradient(circle at top left, #1A3C63, #0B2447);
-            padding: 60px 0 30px;
-        }
-
-        .custom-footer-section h5 {
-            font-weight: 700;
-            font-size: 20px;
-            margin-bottom: 25px;
-            position: relative;
-            color: #ffffff !important;
-        }
-
-        .custom-footer-section h5::after {
-            content: '';
-            width: 40px;
-            height: 3px;
-            background: #32CD32;
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-        }
-
-        .custom-footer-section ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .custom-footer-section ul li {
-            margin-bottom: 15px;
-        }
-
-        .custom-footer-section ul li a {
-            text-decoration: none;
-            color: #e0e0e0;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-
-        .custom-footer-section ul li a:hover {
-            color: #32CD32;
-        }
-
-        .custom-footer-divider {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin: 50px 0 20px;
-        }
-
-        .custom-footer-bottom {
-            text-align: left;
-            color: #aaa;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .custom-footer-bottom p a {
-            color: #ffffff
-        }
-
-        .custom-footer-social-icons {
-            margin-top: 20px;
-        }
-
-        .custom-footer-social-icons a {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
-            margin: 0 5px;
-            text-align: center;
-            border-radius: 50%;
-            font-size: 20px;
-            background: #fff;
-            color: #000;
-            transition: 0.3s;
-        }
-
-        .custom-footer-social-icons a:hover {
-            transform: scale(1.1);
-        }
-
-        .custom-footer-social-icons a.whatsapp {
-            background: #32CD32;
-            color: #fff;
-        }
-
-        .custom-footer-social-icons a.facebook {
-            background: #1877f2;
-            color: #fff;
-        }
-
-        .custom-footer-social-icons a.twitter {
-            background: #000;
-            color: #fff;
-        }
-
-        .custom-footer-social-icons a.linkedin {
-            background: #0a66c2;
-            color: #fff;
-        }
-
-        .custom-footer-social-icons a.youtube {
-            background: #ff0000;
-            color: #fff;
-        }
-
-        .custom-footer-social-icons a.instagram {
-            background: #E1306C;
-            color: #fff;
-        }
-
-        .custom-footer-social-icons a.behance {
-            background: #1769ff;
-            color: #fff;
-        }
-
-        .custom-footer-social-icons a.pinterest {
-            background: #e60023;
-            color: #fff;
-        }
-
-
-
-
-
-        /* Base dropdown */
-        .header-lower .dropdown {
-            position: relative;
-        }
-
-        .header-lower .dropdown>a {
-            color: #222;
-            font-weight: 600;
-            padding: 10px 15px;
-            display: inline-block;
-            text-transform: uppercase;
-        }
-
-        .header-lower .dropdown>a:hover {
-            color: #007bff;
-        }
-
-        /* Level 1 submenu */
-        .main-service-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: #fff;
-            min-width: 220px;
-            list-style: none;
-            padding: 10px 0;
-            margin: 0;
-            border-radius: 2px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(0px);
-            transition: all 0.25s ease;
-            z-index: 99;
-        }
-
-        /* Level 2 submenu */
-        .main-service-menu .submenu {
-            position: absolute;
-            top: 0;
-            left: 100%;
-            background: #fff;
-            min-width: 220px;
-            list-style: none;
-            padding: 10px 0;
-            margin: 0;
-            border-radius: 2px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateX(10px);
-            transition: all 0.25s ease;
-            z-index: 100;
-        }
-
-        /* Hover logic */
-        .header-lower .dropdown:hover>.main-service-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .main-service-menu li:hover>.submenu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(0);
-        }
-
-        /* Menu item styles */
-        .main-service-menu li,
-        .submenu li {
-            position: relative;
-        }
-
-        .main-service-menu a,
-        .submenu a {
-            display: block;
-            color: #333;
-            font-size: 15px;
-            font-weight: 500;
-            padding: 8px 18px;
-            text-decoration: none;
-            transition: background 0.2s, color 0.2s;
-        }
-
-        .main-service-menu a:hover,
-        .submenu a:hover {
-            background: #f8f9fa;
-            color: #007bff;
-        }
-
-        /* Optional arrow indicators */
-        .main-service-menu li:has(.submenu)>a::after {
-            content: "▸";
-            position: absolute;
-            right: 14px;
-            font-size: 13px;
-            color: #888;
-        }
-
-        /* Fix submenu overlap for smaller screens */
-        @media (max-width: 991px) {
-
-            .main-service-menu,
-            .submenu {
-                position: static;
-                box-shadow: none;
-                opacity: 1;
-                visibility: visible;
-                transform: none;
-            }
-
-            .main-service-menu a,
-            .submenu a {
-                padding-left: 25px;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    {{-- google analytics --}}
-    <!-- Google tag (gtag.js) -->
-    <script async src="//www.googletagmanager.com/gtag/js?id=G-FQTTGFBMBE"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-FQTTGFBMBE');
-    </script>
-    <link href="//cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
-</head>
-
+  </head>
 <body>
 
-    <div class="page-wrapper">
-        <!-- Preloader -->
-        <div class="preloader"></div>
-
-        <!-- Main Header-->
-        <header class="main-header header-style-one">
-
-            @if(isset($setting->email_one) || isset($social))
-                <!--Header Top-->
-                <div class="header-top">
-                    <div class="container">
-                        <div class="clearfix">
-                            <!--Top Left-->
-                            <div class="top-left clearfix">
-                                <ul class="links clearfix">
-                                    @if(isset($setting->email_one))
-                                        <li><span class="text-white mr-2 fa-solid fa-envelope"></span>{{ $setting->email_one }}
-                                        </li>
-                                    @endif
-
-                                </ul>
-                            </div>
-
-                            <!--Top Right-->
-                            <div class="top-right pull-right">
-                                <ul class="social-links clearfix">
-                                    @if(isset($social->facebook))
-                                        <li><a href="{{ $social->facebook }}" target="_blank"><span
-                                                    class="icon fab fa-facebook-f"></span></a></li>
-                                    @endif
-                                    @if(isset($social->twitter))
-                                        <li><a href="{{ $social->twitter }}" target="_blank"><span
-                                                    class="icon fab fa-twitter"></span></a></li>
-                                    @endif
-                                    @if(isset($social->instagram))
-                                        <li><a href="{{ $social->instagram }}" target="_blank"><span
-                                                    class="icon fab fa-instagram"></span></a></li>
-                                    @endif
-                                    @if(isset($social->linkedin))
-                                        <li><a href="{{ $social->linkedin }}" target="_blank"><span
-                                                    class="icon fab fa-linkedin-in"></span></a></li>
-                                    @endif
-                                    @if(isset($social->pinterest))
-                                        <li><a href="{{ $social->pinterest }}" target="_blank"><span
-                                                    class="icon fab fa-pinterest"></span></a></li>
-                                    @endif
-                                    @if(isset($social->youtube))
-                                        <li><a href="{{ $social->youtube }}" target="_blank"><span
-                                                    class="icon fab fa-youtube"></span></a></li>
-                                    @endif
-                                    @if(isset($social->skype))
-                                        <li><a href="skype:{{ $social->skype }}?chat" target="_blank"><span
-                                                    class="icon fab fa-skype"></span></a></li>
-                                    @endif
-                                    @if(isset($social->whatsapp))
-                                        <li><a rel="noopener noreferrer"
-                                                href="//wa.me/{{ str_replace(' ', '', $social->whatsapp) }}"
-                                                target="_blank"><span class="icon fab fa-whatsapp"></span></a></li>
-                                    @endif
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
-            <!--Header-Upper-->
-            {{-- <div class="header-upper">
-                <div class="container">
-                    <div class="clearfix">
-                        <div class="nav-inner">
-                            @if(isset($setting))
-                            <div class="pull-left logo-box">
-                                <div class="logo"><a href="{{ route('home') }}"><img
-                                            src="{{ asset('/uploads/setting/'.$setting->logo_path) }}" alt="Logo"></a>
-                                </div>
-                            </div>
-                            @endif
-
-                            <div class="pull-right upper-right clearfix">
-
-                                <!--Info Box-->
-                                @if(isset($setting->office_hours))
-                                <div class="upper-column info-box">
-                                    <div class="icon-box"><span class="flaticon-clock"></span></div>
-                                    <ul>
-                                        <li><strong>{{ __('contact.office_time') }}:</strong></li>
-                                        <li>{!! strip_tags($setting->office_hours) !!}</li>
-                                    </ul>
-                                </div>
-                                @endif
-
-                                @if(isset($setting->phone_one))
-                                <!--Info Box-->
-                                <div class="upper-column info-box">
-                                    <div class="icon-box"><span class="flaticon-phone-call"></span></div>
-                                    <ul>
-                                        <li><strong>{{ __('contact.phone') }}:</strong></li>
-                                        <li>{{ $setting->phone_one }}</li>
-                                    </ul>
-                                </div>
-                                @endif
-
-                                @if(isset($setting->email_one))
-                                <!--Info Box-->
-                                <div class="upper-column info-box">
-                                    <div class="icon-box"><span class="flaticon-email"></span></div>
-                                    <ul>
-                                        <li><strong>{{ __('contact.email') }}:</strong></li>
-                                        <li>{{ $setting->email_one }}</li>
-                                    </ul>
-                                </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-            <!--End Header Upper-->
-
-            <!--Header Lower-->
-            {{-- <div class="header-lower">
-
-                <div class="container">
-                    <div class="nav-outer clearfix">
-
-                        <!-- Main Menu -->
-                        <nav class="main-menu navbar-expand-md">
-                            <div class="navbar-header">
-                                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                    aria-expanded="false" aria-label="Toggle navigation">
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
-                            </div>
-
-
-                            <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
-                                <ul class="navigation clearfix">
-                                    @php
-                                    $page_home = \App\Models\PageSetup::page('home');
-                                    @endphp
-                                    @if(isset($page_home))
-                                    <li class="{{ Request::path() == '/' ? 'current' : '' }}"><a
-                                            href="{{ route('home') }}">{{ $page_home->title }}</a></li>
-                                    @endif
-
-                                    @php
-                                    $page_about = \App\Models\PageSetup::page('about-us');
-                                    $page_faqs = \App\Models\PageSetup::page('faqs');
-                                    $page_contact = \App\Models\PageSetup::page('contact-us');
-                                    @endphp
-
-                                    @if(isset($page_about) || isset($page_faqs) || isset($page_contact))
-                                    <li class="dropdown 
-                                    {{ Request::is('about*') ? 'current' : '' }}
-                                    {{ Request::is('faqs*') ? 'current' : '' }}
-                                    {{ Request::is('contact*') ? 'current' : '' }}
-                                    "><a href="">Company</a>
-                                        <ul>
-                                            @if(isset($page_about))
-                                            <li class="{{ Request::is('about*') ? 'current' : '' }}"><a
-                                                    href="{{ route('about') }}">{{ $page_about->title }}</a></li>
-                                            @endif
-
-                                            @if(isset($page_faqs))
-                                            <li class="{{ Request::is('faqs*') ? 'current' : '' }}"><a
-                                                    href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
-                                            @endif
-
-                                            @if(isset($page_contact))
-                                            <li class="{{ Request::path() == 'contact' ? 'current' : '' }}"><a
-                                                    href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
-                                            @endif
-
-                                        </ul>
-                                    </li>
-                                    @endif
-
-
-                                    @php
-                                    $page_services = \App\Models\PageSetup::page('services');
-                                    $related_services = \App\Models\PageSetup::page('related-service');
-                                    $technology_services = \App\Models\PageSetup::page('technology');
-                                    @endphp
-                                    @if(isset($page_services))
-                                    <li
-                                        class="dropdown mega-menu {{ Request::is('service*') ? 'current' : '' }} {{ Request::is('related-service*') ? 'current' : '' }} {{ Request::is('technology*') ? 'current' : '' }}">
-                                        <div class="mega-menu-trigger">
-                                            <a href="{{ route('services') }}" class="mega-menu-link">{{
-                                                strtoupper($page_services->title) }}</a>
-
-                                            <div class="mega-menu-content">
-                                                <div class="mega-menu-column">
-                                                    <h4>Our Services</h4>
-                                                    <ul>
-                                                        @foreach($service_subnavs as $service_subnav)
-                                                        @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                        <li
-                                                            class="{{ Request::is('service/'.$service_subnav->slug) ? 'current' : '' }}">
-                                                            <a class="mega-links"
-                                                                href="{{ route('service.single', $service_subnav->slug) }}">{{
-                                                                $service_subnav->short_title }}</a>
-                                                        </li>
-                                                        @endif
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                                <div class="mega-menu-column">
-                                                    <h4>Related Services</h4>
-                                                    <ul>
-                                                        @foreach($related_service_subnavs as $service_subnav)
-                                                        <li
-                                                            class="{{ Request::is('related-service/'.$service_subnav->slug) ? 'current' : '' }}">
-                                                            <a class="mega-links"
-                                                                href="{{ route('service.related-single', $service_subnav->slug) }}">{{
-                                                                $service_subnav->title }}</a>
-                                                        </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                                <div class="mega-menu-column">
-                                                    <h4>Technology Services</h4>
-                                                    <ul>
-                                                        @foreach($technologies as $service_subnav)
-                                                        <li
-                                                            class="{{ Request::is('technology/'.$service_subnav->slug) ? 'current' : '' }}">
-                                                            <div class="service-item">
-                                                                <img class="ml-0" width="30"
-                                                                    src="{{ asset('uploads/service/'.$service_subnav->logo_path) }}"
-                                                                    alt="{{ $service_subnav->title }}" srcset=""> <a
-                                                                    class="mega-links"
-                                                                    href="{{ route('service.technology', $service_subnav->slug) }}">{{
-                                                                    $service_subnav->short_title }}</a>
-                                                            </div>
-                                                        </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </li>
-                                    @endif
-
-
-                                    @php
-                                    $page_portfolio = \App\Models\PageSetup::page('portfolio');
-                                    @endphp
-                                    @if(isset($page_portfolio))
-                                    <li class="{{ Request::is('portfolio*') ? 'current' : '' }}"><a
-                                            href="{{ route('portfolios') }}">{{ $page_portfolio->title }}</a></li>
-                                    @endif
-
-                                    @php
-                                    $page_pricing = \App\Models\PageSetup::page('pricing');
-                                    @endphp
-                                    @if(isset($page_pricing))
-                                    <!-- <li class="{{ Request::is('pricing*') ? 'current' : '' }}"><a href="{{ route('pricing') }}">{{ $page_pricing->title }}</a></li> -->
-                                    @endif
-
-
-
-                                    <!-- route('page.single', $page->slug) -->
-                                    @php
-                                    // Fetch only pages with 'casestudy' type
-                                    $all_pages = \App\Models\Page::where('type', 'casestudy')->get();
-
-                                    // Check if the current page is a 'casestudy'
-                                    $isCurrentCasestudy = $all_pages->contains('slug', request()->segment(2));
-                                    @endphp
-
-                                    @if($all_pages->count())
-                                    <li class="dropdown {{ $isCurrentCasestudy ? 'current' : '' }}">
-                                        <a href="">{{ __('Case Study') }}</a>
-                                        <ul>
-                                            @foreach($all_pages as $page)
-                                            <li class="{{ Request::is('page/'.$page->slug) ? 'current' : '' }}">
-                                                <a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
-                                            </li>
-                                            @endforeach
-                                        </ul>
-                                    </li>
-                                    @endif
-
-                                    @php
-                                    // Fetch only 'resources' type pages
-                                    $re_page = \App\Models\Page::where('type', 'resources')->get();
-
-                                    // Check if the current page belongs to 'resources'
-                                    $isCurrentResource = $re_page->contains('slug', request()->segment(2));
-                                    @endphp
-
-                                    @if($re_page->count())
-                                    <li class="dropdown {{ $isCurrentResource ? 'current' : '' }}">
-                                        <a href="">{{ __('Resources') }}</a>
-                                        <ul>
-                                            @foreach($re_page as $page)
-                                            <li class="{{ Request::is('page/'.$page->slug) ? 'current' : '' }}">
-                                                <a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
-                                            </li>
-                                            @endforeach
-                                        </ul>
-                                    </li>
-                                    @endif
-
-
-
-                                    @php
-                                    $page_blog = \App\Models\PageSetup::page('blog');
-                                    @endphp
-                                    @if(isset($page_blog))
-                                    <li class="dropdown {{ Request::is('blog*') ? 'current' : '' }}"><a
-                                            href="{{ route('blogs') }}">{{ $page_blog->title }}</a>
-                                        <ul>
-                                            @foreach($article_subnavs as $article_subnav)
-                                            <li
-                                                class="{{ Request::is('blogs/'.$article_subnav->slug) ? 'current' : '' }}">
-                                                <a href="{{ route('blog.category', $article_subnav->slug) }}">{{
-                                                    $article_subnav->title }}</a>
-                                            </li>
-                                            @endforeach
-                                        </ul>
-                                    </li>
-                                    @endif
-
-
-                                </ul>
-                            </div>
-                        </nav>
-                        <!-- Main Menu End-->
-
-                        <div class="outer-box clearfix">
-                            @php
-                            $page_quote = \App\Models\PageSetup::page('get-quote');
-                            @endphp
-                            @if(isset($page_quote))
-                            <div class="advisor-box {{ Request::is('get-quote*') ? 'current' : '' }}">
-                                <a href="{{ route('get-quote') }}" class="theme-btn advisor-btn">{{ $page_quote->title
-                                    }}</a>
-                            </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-            <div class="header-lower" style="border: 0px solid">
-                <div class="mx-1 clearfix">
-                    @if(isset($setting))
-                        <!--Logo-->
-                        <div class="logo pull-left">
-                            <a href="{{ route('home') }}" class="img-responsive"><img style="width:120px!important;"
-                                    class="m-0 mt-2" src="{{ asset('/uploads/setting/' . $setting->logo_path) }}"
-                                    alt="Logo"></a>
-                        </div>
-                    @endif
-
-                    <!--Right Col-->
-                    <div class="right-col pull-right">
-                        <!-- Main Menu -->
-                        <nav class="main-menu  navbar-expand-md">
-                            <div class="navbar-header">
-                                <button style="background-color:black; border:solid black" class="navbar-toggler"
-                                    type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
-                                    aria-controls="navbarSupportedContent1" aria-expanded="false"
-                                    aria-label="Toggle navigation">
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
-                            </div>
-
-                            <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent1">
-                                <ul class="navigation clearfix">
-                                    @php
-                                        $page_home = \App\Models\PageSetup::page('home');
-                                    @endphp
-                                    @if(isset($page_home))
-                                        <li class="{{ Request::path() == '/' ? 'current' : '' }}"><a
-                                                href="{{ route('home') }}">{{ $page_home->title }}</a></li>
-                                    @endif
-
-
-                                    @php
-                                        $page_about = \App\Models\PageSetup::page('about-us');
-                                        $page_faqs = \App\Models\PageSetup::page('faqs');
-                                        $page_contact = \App\Models\PageSetup::page('contact-us');
-
-                                    @endphp
-
-                                    @if(isset($page_about) || isset($page_faqs) || isset($page_contact))
-                                        <li class="dropdown 
-                                                                    {{ Request::is('about*') ? 'current' : '' }}
-                                                                    {{ Request::is('faqs*') ? 'current' : '' }}
-                                                                    {{ Request::is('contact*') ? 'current' : '' }}">
-                                            <a href="">About Us<a>
-                                                    <ul>
-                                                        @if(isset($page_about))
-                                                            <li class="{{ Request::is('about*') ? 'current' : '' }}"> <a
-                                                                    href="{{ route('about') }}">{{ $page_about->title }}</a>
-                                                            </li>
-                                                        @endif
-                                                        @if(isset($page_faqs))
-                                                            <li class="{{ Request::is('faqs*') ? 'current' : '' }}"><a
-                                                                    href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
-                                                        @endif
-                                                        @if(isset($page_contact))
-                                                            <li class="{{ Request::is('contact') ? 'current' : '' }}"><a
-                                                                    href="{{ route('contact') }}">{{ $page_contact->title }}</a>
-                                                            </li>
-                                                        @endif
-                                                    </ul>
-                                        </li>
-                                    @endif
-
-                                    @php
-                                        $page_services = \App\Models\PageSetup::page('services');
-                                        $related_services = \App\Models\PageSetup::page('related-service');
-                                    @endphp
-
-                                    @if(isset($page_services))
-                                        <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}">
-                                            <a href="{{ route('services') }}">{{ strtoupper($page_services->title) }}</a>
-
-                                            <ul class="main-service-menu">
-                                                @foreach($service_subnavs as $service_subnav)
-                                                    @if(isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                        <li
-                                                            class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
-                                                            <a href="{{ route('service.single', $service_subnav->slug) }}">
-                                                                {{ $service_subnav->short_title }}
-                                                            </a>
-
-                                                            @if($service_subnav->subservices->count() > 0)
-                                                                <ul class="submenu">
-                                                                    @foreach($service_subnav->subservices as $sub)
-                                                                        <li><a
-                                                                                href="{{ route('service.related-single', $sub->slug) }}">{{ $sub->short_title }}</a>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            @endif
-                                                        </li>
-                                                    @endif
-                                                @endforeach
-                                            </ul>
-                                        </li>
-                                    @endif
-
-
-
-
-                                    <li class="{{ Request::is('technologies*') ? 'current' : '' }}"><a
-                                            href="{{ route('technologies') }}">Technologies</a></li>
-
-                                    @php
-                                        $page_portfolio = \App\Models\PageSetup::page('portfolio');
-                                    @endphp
-                                    @if(isset($page_portfolio))
-                                        <li class="{{ Request::is('portfolio*') ? 'current' : '' }}"><a
-                                                href="{{ route('portfolios') }}">{{ $page_portfolio->title }}</a></li>
-                                    @endif
-
-                                    @php
-                                        $page_pricing = \App\Models\PageSetup::page('pricing');
-                                    @endphp
-                                    @if(isset($page_pricing))
-                                        <!-- <li class="{{ Request::is('pricing*') ? 'current' : '' }}"><a href="{{ route('pricing') }}">{{ $page_pricing->title }}</a></li> -->
-                                    @endif
-
-                                    <!-- route('page.single', $page->slug) -->
-                                    @php
-                                        // Fetch only pages with 'casestudy' type
-                                        $all_pages = \App\Models\Page::where('type', 'casestudy')->get();
-
-                                        // Check if the current page is a 'casestudy'
-                                        $isCurrentCasestudy = $all_pages->contains('slug', request()->segment(2));
-                                    @endphp
-
-                                    @if($all_pages->count())
-                                        <li class="dropdown {{ $isCurrentCasestudy ? 'current' : '' }}">
-                                            <a href="">{{ __('Case Study') }}</a>
-                                            <ul>
-                                                @foreach($all_pages as $page)
-                                                    <li class="{{ Request::is('page/' . $page->slug) ? 'current' : '' }}">
-                                                        <a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </li>
-                                    @endif
-
-                                    @php
-                                        // Fetch only 'resources' type pages
-                                        $re_page = \App\Models\Page::where('type', 'resources')->get();
-
-                                        // Check if the current page belongs to 'resources'
-                                        $isCurrentResource = $re_page->contains('slug', request()->segment(2));
-                                    @endphp
-
-                                    @if($re_page->count())
-                                        <li class="dropdown {{ $isCurrentResource ? 'current' : '' }}">
-                                            <a href="">{{ __('Resources') }}</a>
-                                            <ul>
-                                                @foreach($re_page as $page)
-                                                    <li class="{{ Request::is('page/' . $page->slug) ? 'current' : '' }}">
-                                                        <a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </li>
-                                    @endif
-
-                                    @php
-                                        $page_blog = \App\Models\PageSetup::page('blog');
-                                    @endphp
-
-                                    @if(isset($page_blog))
-                                        <li class="{{ Request::is('blogs*') ? 'current' : '' }}"><a
-                                                href="{{ route('blogs') }}">{{ $page_blog->title }}</a></li>
-                                    @endif
-
-                                    @php
-                                        $page_casestudy = \App\Models\PageSetup::page('case-studies');
-                                    @endphp
-                                    @if(isset($page_casestudy))
-                                        <li class="{{ Request::is('case*') ? 'current' : '' }}"><a
-                                                href="{{ route(name: 'case') }}">{{ $page_casestudy->title }}</a></li>
-                                    @endif
-
-
-                                    @php
-                                        $page_quote = \App\Models\PageSetup::page('get-quote');
-                                    @endphp
-                                    @if(isset($page_quote))
-                                        <li style="background-color: red"
-                                            class="advisor-box px-1 {{ Request::is('get-quote*') ? 'current' : '' }}">
-                                            <a class="text-white "
-                                                href="{{ route('get-quote') }}">{{ $page_quote->title }}</a>
-                                        </li>
-                                    @endif
-                                </ul>
-                            </div>
-                        </nav><!-- Main Menu End-->
-                    </div>
-
-                </div>
+@php
+  $servicesMenu = $servicesMenu ?? [
+      [
+          'name' => 'Web Development',
+          'slug' => 'web-development',
+          'blurb' => 'Custom sites & platforms',
+          'children' => [
+              ['name' => 'Custom Web Applications', 'slug' => 'custom-web-applications'],
+              ['name' => 'E-commerce Development', 'slug' => 'ecommerce-development'],
+              ['name' => 'CMS & Headless CMS', 'slug' => 'cms-development'],
+              ['name' => 'API Integration', 'slug' => 'api-integration'],
+              ['name' => 'Progressive Web Apps', 'slug' => 'progressive-web-apps'],
+              ['name' => 'Website Maintenance', 'slug' => 'website-maintenance'],
+              ['name' => 'Performance Optimization', 'slug' => 'performance-optimization'],
+              ['name' => 'Third-Party Integrations', 'slug' => 'third-party-integrations'],
+          ],
+      ],
+      [
+          'name' => 'Mobile App Development',
+          'slug' => 'mobile-app-development',
+          'blurb' => 'iOS, Android & cross-platform',
+          'children' => [
+              ['name' => 'iOS App Development', 'slug' => 'ios-app-development'],
+              ['name' => 'Android App Development', 'slug' => 'android-app-development'],
+              ['name' => 'Cross-platform (Flutter / RN)', 'slug' => 'cross-platform-apps'],
+          ],
+      ],
+      [
+          'name' => 'UI/UX Design',
+          'slug' => 'ui-ux-design',
+          'blurb' => 'Research-led product design',
+          'children' => [
+              ['name' => 'Product Design', 'slug' => 'product-design'],
+              ['name' => 'Wireframing & Prototyping', 'slug' => 'wireframing-prototyping'],
+              ['name' => 'Design Systems', 'slug' => 'design-systems'],
+          ],
+      ],
+      [
+          'name' => 'Cloud & DevOps',
+          'slug' => 'cloud-devops',
+          'blurb' => 'Ship faster, run reliably',
+          'children' => [
+              ['name' => 'Cloud Migration', 'slug' => 'cloud-migration'],
+              ['name' => 'CI/CD Pipelines', 'slug' => 'ci-cd-pipelines'],
+              ['name' => 'Infrastructure Management', 'slug' => 'infrastructure-management'],
+          ],
+      ],
+      [
+          'name' => 'Digital Marketing',
+          'slug' => 'digital-marketing',
+          'blurb' => 'Grow the right way',
+          'children' => [
+              ['name' => 'SEO', 'slug' => 'seo'],
+              ['name' => 'Social Media Marketing', 'slug' => 'social-media-marketing'],
+              ['name' => 'Content Strategy', 'slug' => 'content-strategy'],
+          ],
+      ],
+  ];
+@endphp
+
+<nav id="msn-nav">
+  <div class="msn-nav-row">
+    <a href="{{ route('home') }}" class="msn-nav-logo">
+      <img src="{{ asset('/uploads/setting/' . ($setting->logo_path ?? '')) }}" alt="{{ $setting->title ?? 'MSN Softtech' }}">
+    </a>
+
+    <ul class="msn-nav-links">
+      <li><a href="{{ route('home') }}">Home</a></li>
+      <li><a href="{{ route('about') ?? '#' }}">About</a></li>
+
+      <li class="has-drop">
+        <a href="{{ route('services') }}">
+          Services
+          <svg class="msn-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+
+        {{-- MEGA MENU --}}
+        <div class="msn-dropdown msn-mega" data-mega>
+          <div class="msn-mega-inner">
+            <div class="msn-mega-left">
+              @foreach($servicesMenu as $i => $service)
+                <button
+                  type="button"
+                  class="msn-mega-item{{ $i === 0 ? ' is-active' : '' }}"
+                  data-panel-target="panel-{{ $service['slug'] }}"
+                >
+                  {{ $service['name'] }}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+              @endforeach
+              <a href="{{ route('services') }}" class="msn-mega-item" style="margin-top:8px;border-top:1px solid var(--msn-nav-border);border-radius:0;padding-top:14px;color:var(--msn-nav-accent);">
+                View all services →
+              </a>
             </div>
-            <!--End Header Lower-->
 
-            <!--Sticky Header-->
-            <div style="height: 60px" class="sticky-header">
-                <div class="mx-1 clearfix">
-                    @if(isset($setting))
-                        <!--Logo-->
-                        <div class="logo pull-left">
-                            <a href="{{ route('home') }}" class="img-responsive"><img
-                                    src="{{ asset('/uploads/setting/' . $setting->logo_path) }}" alt="Logo"></a>
-                        </div>
-                    @endif
-
-                    <!--Right Col-->
-                    <div class="right-col pull-right">
-                        <!-- Main Menu -->
-                        <nav class="main-menu  navbar-expand-md">
-                            <div class="navbar-header">
-                                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                                    data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1"
-                                    aria-expanded="false" aria-label="Toggle navigation">
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
-                            </div>
-
-                            <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent1">
-                                <ul class="navigation clearfix">
-                                    @php
-                                        $page_home = \App\Models\PageSetup::page('home');
-                                    @endphp
-                                    @if(isset($page_home))
-                                        <li class="{{ Request::path() == '/' ? 'current' : '' }}"><a
-                                                href="{{ route('home') }}">{{ $page_home->title }}</a></li>
-                                    @endif
-
-
-                                    @php
-                                        $page_about = \App\Models\PageSetup::page('about-us');
-                                        $page_faqs = \App\Models\PageSetup::page('faqs');
-                                        $page_contact = \App\Models\PageSetup::page('contact-us');
-
-                                    @endphp
-
-                                    @if(isset($page_about) || isset($page_faqs) || isset($page_contact))
-                                        <li class="dropdown 
-                                                                    {{ Request::is('about*') ? 'current' : '' }}
-                                                                    {{ Request::is('faqs*') ? 'current' : '' }}
-                                                                    {{ Request::is('contact*') ? 'current' : '' }}">
-                                            <a href="">About Us<a>
-                                                    <ul>
-                                                        @if(isset($page_about))
-                                                            <li class="{{ Request::is('about*') ? 'current' : '' }}"> <a
-                                                                    href="{{ route('about') }}">{{ $page_about->title }}</a>
-                                                            </li>
-                                                        @endif
-                                                        @if(isset($page_faqs))
-                                                            <li class="{{ Request::is('faqs*') ? 'current' : '' }}"><a
-                                                                    href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
-                                                        @endif
-                                                        @if(isset($page_contact))
-                                                            <li class="{{ Request::is('contact') ? 'current' : '' }}"><a
-                                                                    href="{{ route('contact') }}">{{ $page_contact->title }}</a>
-                                                            </li>
-                                                        @endif
-                                                    </ul>
-                                        </li>
-                                    @endif
-
-                                    @php
-                                        $page_services = \App\Models\PageSetup::page('services');
-                                        $related_services = \App\Models\PageSetup::page('related-service');
-                                    @endphp
-
-                                    @if(isset($page_services))
-                                        <li class="dropdown {{ Request::is('service*') ? 'current' : '' }}">
-                                            <a href="{{ route('services') }}">{{ strtoupper($page_services->title) }}</a>
-
-                                            <ul class="main-service-menu">
-                                                @foreach($service_subnavs as $service_subnav)
-                                                    @if(isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                        <li
-                                                            class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
-                                                            <a href="{{ route('service.single', $service_subnav->slug) }}">
-                                                                {{ $service_subnav->short_title }}
-                                                            </a>
-
-                                                            @if($service_subnav->subservices->count() > 0)
-                                                                <ul class="submenu">
-                                                                    @foreach($service_subnav->subservices as $sub)
-                                                                        <li><a
-                                                                                href="{{ route('service.related-single', $sub->slug) }}">{{ $sub->title }}</a>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            @endif
-                                                        </li>
-                                                    @endif
-                                                @endforeach
-                                            </ul>
-                                        </li>
-                                    @endif
-                                    {{-- @if(isset($page_services))
-                                    <li
-                                        class="dropdown mega-menu {{ Request::is('service*') ? 'current' : '' }} {{ Request::is('related-service*') ? 'current' : '' }}">
-                                        <div class="mega-menu-trigger">
-                                            <a href="{{ route('services') }}" class="mega-menu-link">{{
-                                                strtoupper($page_services->title) }}</a>
-
-                                            <div class="mega-menu-content2">
-                                                <div class="mega-menu-column">
-                                                    <h4>Our Services</h4>
-                                                    <ul>
-                                                        @foreach($service_subnavs as $service_subnav)
-                                                        @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
-                                                        <li
-                                                            class="{{ Request::is('service/' . $service_subnav->slug) ? 'current' : '' }}">
-                                                            <a class="mega-links"
-                                                                href="{{ route('service.single', $service_subnav->slug) }}">{{
-                                                                $service_subnav->short_title }}</a>
-                                                        </li>
-                                                        @endif
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                                <div class="mega-menu-column">
-                                                    <h4>Related Services</h4>
-                                                    <ul>
-                                                        @foreach($related_service_subnavs as $service_subnav)
-                                                        <li
-                                                            class="{{ Request::is('related-service/' . $service_subnav->slug) ? 'current' : '' }}">
-                                                            <a class="mega-links"
-                                                                href="{{ route('service.related-single', $service_subnav->slug) }}">{{
-                                                                $service_subnav->title }}</a>
-                                                        </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                                <div class="mega-menu-column">
-                                                    <h4>Technology Services</h4>
-                                                    <ul>
-                                                        @foreach($technologies as $service_subnav)
-                                                        <li
-                                                            class="{{ Request::is('technology/' . $service_subnav->slug) ? 'current' : '' }}">
-                                                            <div class="service-item">
-                                                                <img class="ml-0" width="30"
-                                                                    src="{{ asset('uploads/service/' . $service_subnav->logo_path) }}"
-                                                                    alt="{{ $service_subnav->title }}" srcset=""> <a
-                                                                    class="mega-links"
-                                                                    href="{{ route('service.technology', $service_subnav->slug) }}">{{
-                                                                    $service_subnav->short_title }}</a>
-                                                            </div>
-                                                        </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    @endif --}}
-                                    <li class="{{ Request::is('technologies*') ? 'current' : '' }}"><a
-                                            href="{{ route('technologies') }}">Technologies</a></li>
-                                    @php
-                                        $page_portfolio = \App\Models\PageSetup::page('portfolio');
-                                    @endphp
-                                    @if(isset($page_portfolio))
-                                        <li class="{{ Request::is('portfolio*') ? 'current' : '' }}"><a
-                                                href="{{ route('portfolios') }}">{{ $page_portfolio->title }}</a></li>
-                                    @endif
-
-                                    @php
-                                        $page_pricing = \App\Models\PageSetup::page('pricing');
-                                    @endphp
-                                    @if(isset($page_pricing))
-                                        <!-- <li class="{{ Request::is('pricing*') ? 'current' : '' }}"><a href="{{ route('pricing') }}">{{ $page_pricing->title }}</a></li> -->
-                                    @endif
-
-                                    <!-- route('page.single', $page->slug) -->
-                                    @php
-                                        // Fetch only pages with 'casestudy' type
-                                        $all_pages = \App\Models\Page::where('type', 'casestudy')->get();
-
-                                        // Check if the current page is a 'casestudy'
-                                        $isCurrentCasestudy = $all_pages->contains('slug', request()->segment(2));
-                                    @endphp
-
-                                    @if($all_pages->count())
-                                        <li class="dropdown {{ $isCurrentCasestudy ? 'current' : '' }}">
-                                            <a href="">{{ __('Case Study') }}</a>
-                                            <ul>
-                                                @foreach($all_pages as $page)
-                                                    <li class="{{ Request::is('page/' . $page->slug) ? 'current' : '' }}">
-                                                        <a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </li>
-                                    @endif
-
-                                    @php
-                                        // Fetch only 'resources' type pages
-                                        $re_page = \App\Models\Page::where('type', 'resources')->get();
-
-                                        // Check if the current page belongs to 'resources'
-                                        $isCurrentResource = $re_page->contains('slug', request()->segment(2));
-                                    @endphp
-
-                                    @if($re_page->count())
-                                        <li class="dropdown {{ $isCurrentResource ? 'current' : '' }}">
-                                            <a href="">{{ __('Resources') }}</a>
-                                            <ul>
-                                                @foreach($re_page as $page)
-                                                    <li class="{{ Request::is('page/' . $page->slug) ? 'current' : '' }}">
-                                                        <a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </li>
-                                    @endif
-
-                                    @php
-                                        $page_blog = \App\Models\PageSetup::page('blog');
-                                    @endphp
-                                    {{-- @if(isset($page_blog))
-                                    <li class="dropdown {{ Request::is('blog*') ? 'current' : '' }}"><a
-                                            href="{{ route('blogs') }}">{{ $page_blog->title }}</a>
-                                        <ul>
-                                            @foreach($article_subnavs as $article_subnav)
-                                            <li
-                                                class="{{ Request::is('blogs/'.$article_subnav->slug) ? 'current' : '' }}">
-                                                <a href="{{ route('blog.category', $article_subnav->slug) }}">{{
-                                                    $article_subnav->title }}</a>
-                                            </li>
-                                            @endforeach
-                                        </ul>
-                                    </li>
-                                    @endif --}}
-                                    @if(isset($page_blog))
-                                        <li class="{{ Request::is('blogs*') ? 'current' : '' }}"><a
-                                                href="{{ route('blogs') }}">{{ $page_blog->title }}</a></li>
-                                    @endif
-
-                                    @php
-                                        $page_casestudy = \App\Models\PageSetup::page('case-studies');
-                                    @endphp
-                                    @if(isset($page_casestudy))
-                                        <li class="{{ Request::is('case*') ? 'current' : '' }}"><a
-                                                href="{{ route(name: 'case') }}">{{ $page_casestudy->title }}</a></li>
-                                    @endif
-
-
-                                    @php
-                                        $page_quote = \App\Models\PageSetup::page('get-quote');
-                                    @endphp
-                                    @if(isset($page_quote))
-                                        <li class="advisor-box {{ Request::is('get-quote*') ? 'current' : '' }}">
-                                            <a href="{{ route('get-quote') }}">{{ $page_quote->title }}</a>
-                                        </li>
-                                    @endif
-                                </ul>
-                            </div>
-                        </nav><!-- Main Menu End-->
-                    </div>
-
+            <div class="msn-mega-right">
+              @foreach($servicesMenu as $i => $service)
+                <div class="msn-mega-panel{{ $i === 0 ? ' is-active' : '' }}" id="panel-{{ $service['slug'] }}">
+                  <span class="msn-mega-panel-title">{{ $service['name'] }} — {{ $service['blurb'] }}</span>
+                  <div class="msn-mega-panel-links">
+                    @foreach($service['children'] as $child)
+                      <a href="{{ route('services') }}#{{ $child['slug'] }}">{{ $child['name'] }}</a>
+                    @endforeach
+                  </div>
                 </div>
+              @endforeach
             </div>
-            <!--End Sticky Header-->
-
-        </header>
-        <!--End Main Header -->
-
-        <!--  -->
-        <!-- Content Start -->
-        @yield('content')
-        <!-- Content End -->
-
-
-        @php
-            $section_subscribe = \App\Models\Section::section('subscribe');
-        @endphp
-        @if(isset($section_subscribe))
-            <!--Subscribe Section-->
-            <section class="subscribe-section">
-                <div class="container">
-                    <div class="row clearfix">
-                        <!--Form Column-->
-                        <div class="title-column col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                            <h2>{{ $section_subscribe->title }}</h2>
-                            <div class="text">{!! $section_subscribe->description !!}</div>
-                            <div class="icon-box">
-                                <span class="icon flaticon-mail"></span>
-                            </div>
-                        </div>
-                        <!--Form Column-->
-                        <div class="form-column col-lg-6 col-md-12 col-sm-12">
-                            <div class="inner-column">
-                                <div class="subscribe-form">
-                                    <form method="post" action="{{ route('subscribe') }}">
-                                        @csrf
-                                        <div class="form-group">
-                                            <input type="email" name="email" value=""
-                                                placeholder="{{ __('contact.email_address') }}" required>
-                                            <button type="submit" class="theme-btn "><i
-                                                    class="fab fa-telegram-plane text-white fa-2x"></i></button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!--End Subscribe Section-->
-        @endif
-
-        <!-- Main custom-Footer -->
-        <footer class="custom-footer">
-            <div class="container">
-                <div class="row text-left">
-
-                    <div class="col-md-3 custom-footer-section mb-4">
-                        <h5>Company</h5>
-                        <ul>
-                            <li><a href="{{ route('about') }}">About Us</a></li>
-                            {{-- <li><a href="#">Careers</a></li>
-                            <li><a href="#">Giving Back</a></li>
-                            <li><a href="#">Referral Program</a></li> --}}
-                        </ul>
-                    </div>
-
-                    <div class="col-md-3 custom-footer-section mb-4">
-                        <h5>Services</h5>
-                        <ul>
-                            <li><a href="{{ route('services') }}">Services</a></li>
-                            <li><a href="{{ route('technologies') }}">Technologies</a></li>
-                            {{-- <li><a href="#">How We Work</a></li> --}}
-                        </ul>
-                    </div>
-
-                    <div class="col-md-3 custom-footer-section mb-4">
-                        <h5>Insights</h5>
-                        <ul>
-                            <li><a href="{{ route('blogs') }}">Blog</a></li>
-                            <li><a href="{{ route('case') }}">Case Studies</a></li>
-                            {{-- <li><a href="#">Sitemap</a></li> --}}
-                        </ul>
-                    </div>
-
-                    @if(count($pages) > 0)
-                        <div class="col-md-3 custom-footer-section mb-4">
-                            <h5>Policies</h5>
-                            <ul>
-                                @foreach($pages as $key => $page)
-                                    @if (isset($page->type) && $page->type == 'footer')
-                                        <li><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></li>
-                                    @endif
-                                @endforeach
-                                {{-- <li><a href="#">Privacy Policy</a></li> --}}
-                                {{-- <li><a href="#">Cookie Policy</a></li>
-                                <li><a href="#">Refund Policy</a></li> --}}
-                                {{-- <li><a href="#">Disclaimer</a></li> --}}
-                            </ul>
-                        </div>
-                    @endif
-                </div>
-
-                <div class="custom-footer-divider"></div>
-
-                <div class="d-flex justify-content-between align-items-center">
-                    @if(isset($setting))
-                        <div class="custom-footer-bottom mt-3">
-                            <p style="color: #ffffff;">Copyright &copy; 2023 –
-                                {!! strip_tags($setting->footer_text, '<p><a><b><i><u><strong>') !!}
-                            </p>
-                        </div>
-                    @endif
-                    <div class="text-center">
-                        <div class="custom-footer-social-icons">
-                            @if(isset($social->facebook))
-                                <a class="facebook d-flex justify-content-center align-items-center"
-                                    href="{{ $social->facebook }}" target="_blank"><i class="bi bi-facebook"></i></a>
-                            @endif
-                            @if(isset($social->twitter))
-                                <a class="twitter d-flex justify-content-center align-items-center"
-                                    href="{{ $social->twitter }}" target="_blank"><i class="bi bi-twitter-x"></i></a>
-                            @endif
-                            @if(isset($social->instagram))
-                                <a class="instagram d-flex justify-content-center align-items-center"
-                                    href="{{ $social->instagram }}" target="_blank"><i class="bi bi-instagram"></i></a>
-                            @endif
-                            @if(isset($social->linkedin))
-                                <a class="linkedin d-flex justify-content-center align-items-center"
-                                    href="{{ $social->linkedin }}" target="_blank"><i class="bi bi-linkedin"></i></a>
-                            @endif
-                            @if(isset($social->pinterest))
-                                <a class="pinterest d-flex justify-content-center align-items-center"
-                                    href="{{ $social->pinterest }}" target="_blank"><i class="bi bi-pinterest"></i></a>
-                            @endif
-                            @if(isset($social->youtube))
-                                <a class="youtube d-flex justify-content-center align-items-center"
-                                    href="{{ $social->youtube }}" target="_blank"><i class="bi bi-youtube"></i></a>
-                            @endif
-                            @if(isset($social->skype))
-                                <a href="skype:{{ $social->skype }}?chat" target="_blank"><i class="bi bi-skype"></i></a>
-                            @endif
-                            @if(isset($social->whatsapp))
-                                <a rel="noopener noreferrer"
-                                    class="whatsapp d-flex justify-content-center align-items-center"
-                                    href="//wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><i
-                                        class="bi bi-whatsapp"></i></a>
-                            @endif
-
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-        </footer>
-
-
-
-    </div>
-
-    <!--Scroll to top-->
-    <div style="background-color: #1ebe5d" class="scroll-to-top scroll-to-target" data-target="html"><span
-            class="fas fa-angle-double-up"></span></div>
-
-    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
-    <!-- ✅ Owl Carousel JS -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" defer></script>
-    <script src="{{ asset('web/js/jquery.js') }}" defer></script>
-    <script src="{{ asset('web/js/popper.min.js') }}" defer></script>
-    <script src="{{ asset('web/js/bootstrap.min.js') }}" defer></script>
-    <script src="{{ asset('web/js/jquery.fancybox.js') }}" defer></script>
-    <script src="{{ asset('web/js/owl.js') }}" defer></script>
-    <script src="{{ asset('web/js/wow.js') }}" defer></script>
-    <script src="{{ asset('web/js/appear.js') }}" defer></script>
-    <script src="{{ asset('web/js/isotope.js') }}" defer></script>
-    <script src="{{ asset('web/js/jquery.mCustomScrollbar.concat.min.js') }}" defer></script>
-    <script src="{{ asset('web/js/jquery-ui.js') }}" defer></script>
-    <script type="module" src="{{ asset('web/js/mixitup.js') }}" defer></script>
-    @if($livechat->status == 1)
-        <script src="{{ asset('web/js/floating-wpp.min.js') }}" defer></script>
-    @endif
-    <script src="{{ asset('web/js/script.js') }}" defer></script>
-
-
-    @if($livechat->status == 1)
-        <!--Div where the WhatsApp will be rendered-->
-        <div id="whatspp_live"></div>
-
-        <script type="text/javascript">
-            (function ($) {
-                "use strict";
-                $('#whatspp_live').floatingWhatsApp({
-                    phone: '{{ $livechat->whatsapp_no }}', //WhatsApp Business phone number International format
-                    headerTitle: '{{ $livechat->whatsapp_title }}', //Popup Title
-                    popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
-                    showPopup: true, //Enables popup display
-                    buttonImage: '<img src="{{ asset('
-                                                web / images / social / whatsapp.png ') }}">', //Button Image
-                    headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
-                    backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
-                    position: "right"
-                });
-            })(jQuery);
-        </script>
-    @endif
-
-
-    @if($livechat->status == 0)
-        <!-- Load Facebook SDK for JavaScript -->
-        <div id="fb-root"></div>
-        <script type="text/javascript">
-            (function ($) {
-                "use strict";
-
-                window.fbAsyncInit = function () {
-                    FB.init({
-                        xfbml: true,
-                        version: 'v8.0'
-                    });
-                };
-
-                (function (d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) return;
-                    js = d.createElement(s);
-                    js.id = id;
-                    js.src = '//connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-                    fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));
-
-            })(jQuery);
-        </script>
-
-        <!-- Your Chat Plugin code -->
-        <div class="fb-customerchat" attribution=setup_tool page_id="{{ $livechat->facebook_id }}"
-            theme_color="{{ $livechat->facebook_color }}" logged_in_greeting="{{ $livechat->facebook_greeting_in }}"
-            logged_out_greeting="{{ $livechat->facebook_greeting_out }}">
+          </div>
         </div>
-    @endif
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let waButton = document.createElement("div");
-            waButton.innerHTML = `
-            
-                <a rel="noopener noreferrer" href="//wa.link/lnuvjw" target="_blank" class="whatsapp-button">
-                    <img src="//upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-                </a>
-            `;
-            document.body.appendChild(waButton);
-        });
-    </script>
-    <script>
-        document.querySelectorAll('a').forEach(link => {
-            if (!link.hasAttribute('href') && link.innerHTML.trim() === '') {
-                link.style.display = 'none';
-            }
-        });
-    </script>
-    @yield('scriptjs')
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+      </li>
 
+      <li><a href="{{ route('portfolios') }}">Work</a></li>
+      <li><a href="{{ route('blogs') }}">Blog</a></li>
+      <li><a href="{{ route('contact') ?? '#' }}">Contact</a></li>
+    </ul>
+
+    <div class="msn-nav-actions">
+      <a href="tel:{{ $setting->phone_two ?? '' }}" class="msn-nav-phone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        {{ $setting->phone_two ?? '' }}
+      </a>
+      <a href="{{ route('get-quote') }}" class="msn-btn msn-btn-primary msn-btn-sm">Get a Quote</a>
+      <button type="button" class="msn-burger" id="msnBurger" aria-label="Toggle menu" aria-expanded="false" aria-controls="msnMobilePanel">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  {{-- Backdrop (mobile only) --}}
+  <div class="msn-mobile-backdrop" id="msnMobileBackdrop"></div>
+
+  {{-- Slide-in mobile panel (mobile only, hidden entirely on desktop) --}}
+  <div class="msn-mobile-panel" id="msnMobilePanel">
+    <div class="msn-mobile-panel-inner">
+      <ul class="msn-mobile-nav-list">
+        <li><a href="{{ route('home') }}">Home</a></li>
+        <li><a href="{{ route('about') ?? '#' }}">About</a></li>
+
+        <li class="has-drop">
+          <button type="button" class="msn-mobile-toggle" aria-expanded="false">
+            Services
+            <svg class="msn-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="msn-mobile-sub">
+            <a href="{{ route('services') }}">All Services</a>
+            <a href="{{ route('technologies') }}">Technologies</a>
+            <a href="{{ route('portfolios') }}">Portfolio</a>
+
+            @foreach($servicesMenu as $service)
+              <div class="msn-mobile-service-group">
+                <button type="button" class="msn-mobile-service-toggle">
+                  {{ $service['name'] }}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="msn-mobile-service-children">
+                  @foreach($service['children'] as $child)
+                    <a href="{{ route('services') }}#{{ $child['slug'] }}">{{ $child['name'] }}</a>
+                  @endforeach
+                </div>
+              </div>
+            @endforeach
+          </div>
+        </li>
+
+        <li><a href="{{ route('portfolios') }}">Work</a></li>
+        <li><a href="{{ route('blogs') }}">Blog</a></li>
+        <li><a href="{{ route('contact') ?? '#' }}">Contact</a></li>
+      </ul>
+      <a href="{{ route('get-quote') }}" class="msn-btn msn-btn-primary">Get a Quote →</a>
+    </div>
+  </div>
+</nav>
+
+@yield('content')
+
+
+{{-- =====================================================================
+     FOOTER — web/inc/footer.blade.php (unchanged)
+     ===================================================================== --}}
+<footer id="msn-footer">
+
+  <div class="msn-footer-cta">
+    <div class="container">
+      <span class="msn-eyebrow msn-eyebrow-on-dark">Let's Talk</span>
+      <h3>Have a project in mind? Let's build it right the first time.</h3>
+      <p>Tell us what you're trying to ship — we'll reply with a clear scope, timeline and a real quote, not a sales pitch.</p>
+      <a href="{{ route('get-quote') }}" class="msn-btn msn-btn-primary">Start a Project →</a>
+    </div>
+  </div>
+
+  <div class="msn-footer-main">
+    <div class="container">
+      <div class="msn-footer-grid">
+
+        <div class="msn-footer-brand">
+          <img src="{{ asset('/uploads/setting/' . ($setting->logo_path ?? '')) }}" alt="{{ $setting->title ?? 'MSN Softtech' }}">
+          <p>{!! str_limit(strip_tags($setting->description ?? ''), 150, ' ...') !!}</p>
+          <div class="msn-footer-social">
+            @if(isset($setting->facebook))
+              <a href="{{ $setting->facebook }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            @endif
+            @if(isset($setting->twitter))
+              <a href="{{ $setting->twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
+            @endif
+            @if(isset($setting->linkedin))
+              <a href="{{ $setting->linkedin }}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            @endif
+            @if(isset($setting->instagram))
+              <a href="{{ $setting->instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+            @endif
+          </div>
+        </div>
+
+        <div class="msn-footer-col">
+          <h6>Company</h6>
+          <ul>
+            <li><a href="{{ route('about') ?? '#' }}">About Us</a></li>
+            <li><a href="{{ route('portfolios') }}">Portfolio</a></li>
+            <li><a href="{{ route('blogs') }}">Blog</a></li>
+            <li><a href="{{ route('contact') ?? '#' }}">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="msn-footer-col">
+          <h6>Services</h6>
+          <ul>
+            <li><a href="{{ route('services') }}">Web Development</a></li>
+            <li><a href="{{ route('technologies') }}">Technologies</a></li>
+            <li><a href="{{ route('get-quote') }}">Get a Quote</a></li>
+          </ul>
+        </div>
+
+        <div class="msn-footer-col">
+          <h6>Contact</h6>
+          <ul class="msn-footer-contact">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>{{ $setting->phone_two ?? '' }}</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+              <span>{{ $setting->email ?? '' }}</span>
+            </li>
+            @if(isset($setting->address))
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>{{ $setting->address }}</span>
+              </li>
+            @endif
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="msn-footer-bottom">
+      <p>© {{ date('Y') }} {{ $setting->title ?? 'MSN Softtech' }}. All rights reserved.</p>
+      <ul class="msn-footer-legal">
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Site-wide .msn-reveal scroll animation */
+  (function(){
+    if(!('IntersectionObserver' in window)){
+      document.querySelectorAll('.msn-reveal').forEach(function(el){ el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.msn-reveal').forEach(function(el){ io.observe(el); });
+  })();
+</script>
+
+<script>
+
+  (function(){
+    var burger   = document.getElementById('msnBurger');
+    var panel    = document.getElementById('msnMobilePanel');
+    var backdrop = document.getElementById('msnMobileBackdrop');
+    var body     = document.body;
+
+    function openMobile(){
+      burger.classList.add('is-active');
+      burger.setAttribute('aria-expanded', 'true');
+      panel.classList.add('is-open');
+      backdrop.classList.add('is-open');
+      body.classList.add('msn-nav-open');
+    }
+    function closeMobile(){
+      burger.classList.remove('is-active');
+      burger.setAttribute('aria-expanded', 'false');
+      panel.classList.remove('is-open');
+      backdrop.classList.remove('is-open');
+      body.classList.remove('msn-nav-open');
+    }
+
+    if(burger && panel && backdrop){
+      burger.addEventListener('click', function(){
+        panel.classList.contains('is-open') ? closeMobile() : openMobile();
+      });
+      backdrop.addEventListener('click', closeMobile);
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape') closeMobile();
+      });
+      window.addEventListener('resize', function(){
+        if(window.innerWidth >= 992) closeMobile();
+      });
+    }
+
+    // Mobile: Services accordion (level 1)
+    document.querySelectorAll('.msn-mobile-toggle').forEach(function(t){
+      t.addEventListener('click', function(){
+        var li = t.closest('li');
+        var expanding = !li.classList.contains('is-open');
+        li.classList.toggle('is-open', expanding);
+        t.setAttribute('aria-expanded', expanding ? 'true' : 'false');
+      });
+    });
+
+    // Mobile: per-service accordion (level 2)
+    document.querySelectorAll('.msn-mobile-service-toggle').forEach(function(t){
+      t.addEventListener('click', function(){
+        t.closest('.msn-mobile-service-group').classList.toggle('is-open');
+      });
+    });
+
+    // Desktop: mega menu panel switching
+    document.querySelectorAll('[data-mega]').forEach(function(mega){
+      var items  = mega.querySelectorAll('.msn-mega-item[data-panel-target]');
+      var panels = mega.querySelectorAll('.msn-mega-panel');
+
+      function activate(targetId){
+        items.forEach(function(i){
+          i.classList.toggle('is-active', i.dataset.panelTarget === targetId);
+        });
+        panels.forEach(function(p){
+          p.classList.toggle('is-active', p.id === targetId);
+        });
+      }
+
+      items.forEach(function(item){
+        item.addEventListener('mouseenter', function(){ activate(item.dataset.panelTarget); });
+        item.addEventListener('focus', function(){ activate(item.dataset.panelTarget); });
+        item.addEventListener('click', function(e){ e.preventDefault(); activate(item.dataset.panelTarget); });
+      });
+    });
+
+    // Touch devices: tapping "Services" toggles the mega menu open/closed
+    var servicesTrigger = document.querySelector('#msn-nav .has-drop > a[href*="service"]');
+    if(servicesTrigger){
+      servicesTrigger.addEventListener('click', function(e){
+        if(window.matchMedia('(hover: none)').matches){
+          var mega = servicesTrigger.parentElement.querySelector('.msn-dropdown.msn-mega');
+          if(mega && !mega.classList.contains('is-open')){
+            e.preventDefault();
+            document.querySelectorAll('.msn-dropdown.msn-mega.is-open').forEach(function(m){ m.classList.remove('is-open'); });
+            mega.classList.add('is-open');
+          }
+        }
+      });
+      document.addEventListener('click', function(e){
+        if(!servicesTrigger.parentElement.contains(e.target)){
+          document.querySelectorAll('.msn-dropdown.msn-mega.is-open').forEach(function(m){ m.classList.remove('is-open'); });
+        }
+      });
+    }
+  })();
+</script>
+@yield('scriptjs')
 </body>
-
 </html>
