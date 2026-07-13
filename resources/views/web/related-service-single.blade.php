@@ -947,19 +947,6 @@
                 <div class="contact-box col-6">
                     <i class="fas fa-envelope"></i>
                     <h6>Email</h6>
-<<<<<<< HEAD
-                    <p class="text-white">info@metaballs.studio</p>
-                </div>
-                <div class="contact-box col-6">
-                    <i class="fas fa-phone"></i>
-                    <h6>Phone</h6>
-                    <p class="text-white">+1 (800) 123-4567</p>
-                </div>
-                <div class="contact-box col-6">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <h6>US Office</h6>
-                    <p class="text-white">123 Metaballs Lane, Innovation City, TX 78901</p>
-=======
                     <p class="text-white">support@msnsofttech.com</p>
                 </div>
                 <!--<div class="contact-box col-6">-->
@@ -971,16 +958,11 @@
                     <i class="fas fa-map-marker-alt"></i>
                     <h6>US Office</h6>
                     <p class="text-white">3319 hans ave #E Kenner LA, 70065 USA</p>
->>>>>>> e734773df (msn 2.0 theme change)
                 </div>
                 <div class="contact-box col-6">
                     <i class="fas fa-map-marker-alt"></i>
                     <h6>BD Office</h6>
-<<<<<<< HEAD
-                    <p class="text-white">7/53 Metaballs Lane, Modern City, Jhenaidah</p>
-=======
                     <p class="text-white">73/59 Chandpur shuvopur, Cumilla 3500</p>
->>>>>>> e734773df (msn 2.0 theme change)
                 </div>
             </div>
         </div>
