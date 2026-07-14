@@ -138,7 +138,7 @@
 
     <i class="bi bi-whatsapp whatsapp-icon"></i>
 
-    {{ $setting->phone_two ?? '' }}
+    {{-- {{ $setting->phone_two ?? '' }} --}}
 </a>
 
     <a href="{{ route('get-quote') }}" class="msn-btn msn-btn-primary msn-btn-sm">
