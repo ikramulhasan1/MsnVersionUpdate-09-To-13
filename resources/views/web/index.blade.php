@@ -900,7 +900,7 @@
 .msn-live-tracker .btn-light:hover{border-color:var(--ink);}
 .msn-live-tracker section{padding:clamp(76px,10vw,120px) 0;}
 .msn-live-tracker /* ============ SECTION HEAD ============ */
-.tracker-section{background:var(--bp-wash);border-top:1px solid var(--bp-wash-line);border-bottom:1px solid var(--bp-wash-line);}
+.tracker-section{background:var();border-top:1px solid var(--bp-wash-line);border-bottom:1px solid var(--bp-wash-line);}
 .msn-live-tracker .tracker-head{
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(280px,400px);

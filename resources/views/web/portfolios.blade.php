@@ -150,7 +150,7 @@ $header = \App\Models\PageSetup::page('portfolio');
     #works-page .spotlight-section{border-bottom:1px solid var(--line);background:linear-gradient(180deg,#ffffff,var(--soft));}
     #works-page .spotlight-card{
       display:grid;grid-template-columns:1.05fr 1fr;gap:0;
-      border:1px solid var(--line);border-radius:28px;overflow:hidden;background:var(--white);
+      border:1px solid var(--line);border-radius:0px;overflow:hidden;background:var(--white);
       box-shadow:0 30px 80px rgba(15,14,13,.08);
     }
     #works-page .spotlight-visual{position:relative;background:var(--soft);padding:36px 36px 0;display:flex;align-items:flex-end;overflow:hidden;}
@@ -181,7 +181,7 @@ $header = \App\Models\PageSetup::page('portfolio');
     #works-page .works-grid-section{border-bottom:1px solid var(--line);}
     #works-page .works-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
     #works-page .work-card{
-      display:block;border:1px solid var(--line);border-radius:20px;background:var(--white);overflow:hidden;
+      display:block;border:1px solid var(--line);border-radius:0px;background:var(--white);overflow:hidden;
       transition:transform .32s var(--ease),box-shadow .32s var(--ease);
     }
     #works-page .work-card:hover{transform:translateY(-6px);box-shadow:0 26px 60px rgba(15,14,13,.1);}
@@ -208,7 +208,7 @@ $header = \App\Models\PageSetup::page('portfolio');
     /* ============ CTA (demo template — no matching Laravel data) ============ */
     #works-page .works-cta{padding:clamp(56px,8vw,92px) 0;text-align:center;}
     #works-page .works-cta-box{
-      max-width:900px;margin:0 auto;padding:clamp(28px,5vw,54px);border:1px solid var(--line);border-radius:28px;
+      max-width:900px;margin:0 auto;padding:clamp(28px,5vw,54px);border:1px solid var(--line);border-radius:0px;
       background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(247,245,243,.96)),radial-gradient(circle at 14% 0%,rgba(226,35,26,.14),transparent 34%);
       box-shadow:0 26px 80px rgba(15,14,13,.09);
     }

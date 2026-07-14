@@ -160,7 +160,7 @@
     --ink:#071a2b;
     --ink-2:#0d2946;
     --ink-3:#123457;
-    --paper:#f6f4ee;
+    --paper:#FCFDFF;
     --card:#ffffff;
     --mint:#2be7a6;
     --amber:#f2a93b;
