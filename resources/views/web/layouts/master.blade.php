@@ -105,7 +105,7 @@
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
                 </button>
               @endforeach
-              <a href="{{ route('services') }}" class="msn-mega-item" style="margin-top:8px;border-top:1px solid var(--msn-nav-border);border-radius:0;padding-top:14px;color:var(--msn-nav-accent);">
+              <a href="{{ route('services') }}" class="msn-mega-item" style="margin-top:8px;border-top:1px solid var(--msn-nav-border);border-radius:0;padding-top:14px;color:black;">
                 View all services →
               </a>
             </div>
@@ -132,15 +132,23 @@
     </ul>
 
     <div class="msn-nav-actions">
-      <a href="tel:{{ $setting->phone_two ?? '' }}" class="msn-nav-phone">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        {{ $setting->phone_two ?? '' }}
-      </a>
-      <a href="{{ route('get-quote') }}" class="msn-btn msn-btn-primary msn-btn-sm">Get a Quote</a>
-      <button type="button" class="msn-burger" id="msnBurger" aria-label="Toggle menu" aria-expanded="false" aria-controls="msnMobilePanel">
+    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $setting->phone_two ?? '') }}"
+   target="_blank"
+   class="msn-nav-phone">
+
+    <i class="bi bi-whatsapp whatsapp-icon"></i>
+
+    {{ $setting->phone_two ?? '' }}
+</a>
+
+    <a href="{{ route('get-quote') }}" class="msn-btn msn-btn-primary msn-btn-sm">
+        Get a Quote
+    </a>
+
+    <button type="button" class="msn-burger" id="msnBurger" aria-label="Toggle menu" aria-expanded="false" aria-controls="msnMobilePanel">
         <span></span><span></span><span></span>
-      </button>
-    </div>
+    </button>
+</div>
   </div>
 
   {{-- Backdrop (mobile only) --}}

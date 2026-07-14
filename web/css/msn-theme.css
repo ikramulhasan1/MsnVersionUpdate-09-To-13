@@ -343,7 +343,7 @@ body{ background: var(--bp-paper) !important; }
 
 :root{
   --msn-nav-bg: rgba(13, 15, 23, 0.86);
-  --msn-nav-bg-solid: #0d0f17;
+  --msn-nav-bg-solid: #ffffff;
   --msn-nav-border: rgba(255,255,255,0.08);
   --msn-nav-text: #e7e8ee;
   --msn-nav-muted: #9aa1ae;
@@ -448,6 +448,10 @@ body{ background: var(--bp-paper) !important; }
   color: var(--msn-nav-text);
   font-size: 13px;
   text-decoration: none;
+}
+.whatsapp-icon{
+    font-size: 42px;
+    color: #25D366;
 }
 #msn-nav .msn-nav-phone svg{ width: 18px; height: 18px; color: var(--msn-nav-accent); }
 
@@ -559,7 +563,7 @@ body{ background: var(--bp-paper) !important; }
   gap: 8px;
   padding: 12px 14px;
   border-radius: 8px;
-  color: var(--msn-nav-text);
+  color: black;
   text-decoration: none;
   font-size: 13px;
   letter-spacing: 0.02em;
@@ -582,8 +586,8 @@ body{ background: var(--bp-paper) !important; }
 #msn-nav .msn-mega-item:hover,
 #msn-nav .msn-mega-item:focus,
 #msn-nav .msn-mega-item.is-active{
-  background: rgba(245,166,35,0.12);
-  color: var(--msn-nav-accent);
+  background-color: #D8F0EF;
+  color: black;
 }
 
 #msn-nav .msn-mega-right{
@@ -608,7 +612,7 @@ body{ background: var(--bp-paper) !important; }
 #msn-nav .msn-mega-panel-title{
   display: block;
   font-size: 11px;
-  color: var(--msn-nav-muted);
+  color: black;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   padding: 6px 10px 12px;
@@ -626,7 +630,7 @@ body{ background: var(--bp-paper) !important; }
 #msn-nav .msn-mega-panel a{
   padding: 10px 10px;
   border-radius: 8px;
-  color: var(--msn-nav-text);
+  color: black;
   text-decoration: none;
   font-size: 13px;
   display: flex;
@@ -640,7 +644,7 @@ body{ background: var(--bp-paper) !important; }
   color: var(--msn-nav-accent);
 }
 #msn-nav .msn-mega-panel a small{
-  color: var(--msn-nav-muted);
+  color: black;
   font-size: 11px;
 }
 
@@ -771,7 +775,7 @@ body{ background: var(--bp-paper) !important; }
 
   #msn-nav .msn-mobile-sub > a{
     padding: 10px 4px;
-    color: var(--msn-nav-muted);
+    color: black;
     text-decoration: none;
     font-size: 13px;
     text-transform: none;
@@ -816,7 +820,7 @@ body{ background: var(--bp-paper) !important; }
   }
   #msn-nav .msn-mobile-service-children a{
     padding: 8px 4px;
-    color: var(--msn-nav-muted);
+    color: black;
     text-decoration: none;
     font-size: 12.5px;
   }
