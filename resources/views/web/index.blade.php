@@ -547,6 +547,7 @@
   font-weight:700;padding:10px 20px;font-size:12px;z-index:20;
   font-family:var(--bp-font-mono);text-transform:uppercase;letter-spacing:.06em;
 }
+
 .hp-case-section .owl-dots{position:absolute!important;bottom:28px!important;left:40px!important;z-index:15!important;text-align:left!important;}
 .hp-case-section .owl-dots .owl-dot span{width:20px!important;height:2px!important;background:rgba(255,255,255,.35)!important;border-radius:0;display:block;}
 .hp-case-section .owl-dots .owl-dot.active span{background:var(--bp-amber)!important;}
