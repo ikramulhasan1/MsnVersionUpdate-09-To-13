@@ -40,8 +40,8 @@
   --bp-line-dark:   rgba(255,255,255,.14);
   --bp-line-dark-2: rgba(255,255,255,.08);
 
-  --bp-amber:       #14B8A6;   /* signal amber — primary accent */
-  --bp-amber-deep:  #115E59;   /* pressed / hover */
+  --bp-amber:       #145DE5;   /* signal amber — primary accent */
+  --bp-amber-deep:  #145DE5;   /* pressed / hover */
   --bp-amber-wash:  #FDF3E1;   /* amber-tinted chip bg on light */
   --bp-cyan:        #33C7BD;   /* secondary — data / status only */
   --bp-red-status:  #E5484D;   /* status/error dot only, not decorative */
