@@ -450,7 +450,7 @@ body{ background: var(--bp-paper) !important; }
   text-decoration: none;
 }
 .whatsapp-icon{
-    font-size: 52px;
+    font-size: 42px;
     color: #25D366;
 }
 #msn-nav .msn-nav-phone svg{ width: 18px; height: 18px; color: var(--msn-nav-accent); }
