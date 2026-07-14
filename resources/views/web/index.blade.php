@@ -77,11 +77,8 @@
   overflow:hidden;
 }
 .hp-hero::before{
-  /* faint drafting grid, ambient only */
-  content:"";
-  position:absolute; inset:0;
   background-image:
-    radial-gradient(circle at 82% 0%, rgba(245,166,35,.16), transparent 45%),
+    radial-gradient(circle at 82% 0%, rgba(59,130,246,.16), transparent 45%),  /* আগে rgba(245,166,35,.16) */
     linear-gradient(var(--bp-line-dark-2) 1px, transparent 1px),
     linear-gradient(90deg, var(--bp-line-dark-2) 1px, transparent 1px);
   background-size: 100% 100%, 64px 64px, 64px 64px;
@@ -280,9 +277,8 @@
   border-left-color:var(--bp-amber);
   box-shadow:var(--bp-shadow-lift);
   transform:translateY(-3px);
-  background-image: linear-gradient(to bottom right, #1E293C, #324054);
+  background-image: linear-gradient(to bottom right, var(--bp-ink), var(--bp-ink-3));  /* আগে hardcoded #1E293C, #324054 */
 }
-
 .hp-service-index{
   font-family:var(--bp-font-mono);
   font-size:12.5px;
@@ -547,8 +543,8 @@
   text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.75);
 }
 .hp-case-badge{
-  position:absolute;top:28px;left:40px;background:var(--bp-amber);color:var(--bp-ink);font-weight:700;
-  padding:10px 20px;font-size:12px;z-index:20;
+  position:absolute;top:28px;left:40px;background:var(--bp-amber);color:#fff;   /* আগে var(--bp-ink) */
+  font-weight:700;padding:10px 20px;font-size:12px;z-index:20;
   font-family:var(--bp-font-mono);text-transform:uppercase;letter-spacing:.06em;
 }
 .hp-case-section .owl-dots{position:absolute!important;bottom:28px!important;left:40px!important;z-index:15!important;text-align:left!important;}
