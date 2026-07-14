@@ -116,7 +116,7 @@ class ArticleController extends Controller
                     font-weight: 700;
                     margin-bottom: 10px; 
                     text-transform: uppercase;
-                    color: #FFD700 !important;  
+                    color: #00FFD0 !important;  
                     letter-spacing: 1px;
                 '>" . htmlspecialchars($article->service_title) . "</h2>
     

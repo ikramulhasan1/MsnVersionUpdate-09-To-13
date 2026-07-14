@@ -158,9 +158,9 @@
     --bp-navy-900:#080C16;
     --bp-navy-800:#0C1424;
     --bp-navy-700:#122036;
-    --bp-teal:#00893B;
-    --bp-teal-light:#12C46B;
-    --bp-orange:#F5A623;
+    --bp-teal:#17C9A8;
+    --bp-teal-light:#17C9A8;
+    --bp-orange:#17C9A8;
     --bp-ink:#1B1F27;
     --bp-muted:#66707E;
     --bp-paper:#F4F6FA;

@@ -89,8 +89,8 @@ $header = \App\Models\PageSetup::page('portfolio');
       --line:#e2ded9;
       --muted:#5b564f;
       --faint:#9a948b;
-      --accent:#e2231a;
-      --accent-2:#a3150d;
+      --accent:#17C9A8;
+      --accent-2:#10131A;
       --green:#1F9D6B;
       --radius:20px;
       --ease:cubic-bezier(.22,1,.36,1);
@@ -103,7 +103,7 @@ $header = \App\Models\PageSetup::page('portfolio');
     #works-page h1,#works-page h2,#works-page h3,#works-page h4{font-family:"Space Grotesk",system-ui,sans-serif;line-height:1.05;}
     #works-page p{color:var(--muted);line-height:1.75;}
     #works-page .mono{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;}
-    #works-page .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 16px 8px 13px;border-radius:999px;background:rgba(226,35,26,.08);color:var(--accent-2);font-size:13px;font-weight:700;}
+    #works-page .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 16px 8px 13px;border-radius:999px;background:#D7F2F0;color:var(--accent-2);font-size:13px;font-weight:700;}
     #works-page .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none;}
     #works-page .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:13px 22px;border-radius:999px;border:1px solid var(--ink);font-size:14px;font-weight:700;cursor:pointer;background:none;transition:transform .28s var(--ease),background-color .28s var(--ease),color .28s var(--ease),border-color .28s var(--ease);}
     #works-page .btn:hover{transform:translateY(-2px);}

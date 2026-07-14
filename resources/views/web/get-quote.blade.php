@@ -46,8 +46,8 @@
       --ink: #12181f;
       --ink-soft: #5c6672;
       --ink-invert-soft: rgba(255,255,255,.66);
-      --orange: #f5a623;
-      --orange-dark: #d98c0f;
+      --orange: #17C9A8;
+      --orange-dark: #2fd6c0;
       --teal: #2fd6c0;
       --teal-dim: rgba(47,214,192,.14);
       --line: #e3e6df;

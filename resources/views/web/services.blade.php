@@ -42,7 +42,7 @@ $header = \App\Models\PageSetup::page('services');
         --svc-navy-soft:#0B3E72;
         --svc-teal:#17C9A8;
         --svc-teal-dim:rgba(23,201,168,.14);
-        --svc-amber:#F5A623;
+        --svc-amber:#00ffd0;
         --svc-ink:#0B1220;
         --svc-slate:#5B6B7F;
         --svc-bg:#F7F9FC;
