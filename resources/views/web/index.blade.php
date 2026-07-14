@@ -900,7 +900,7 @@
 .msn-live-tracker .btn-light:hover{border-color:var(--ink);}
 .msn-live-tracker section{padding:clamp(76px,10vw,120px) 0;}
 .msn-live-tracker /* ============ SECTION HEAD ============ */
-.tracker-section{background:var();border-top:1px solid var(--bp-wash-line);border-bottom:1px solid var(--bp-wash-line);}
+.tracker-section{background:var(--bp-wash);border-top:1px solid var(--bp-wash-line);border-bottom:1px solid var(--bp-wash-line);}
 .msn-live-tracker .tracker-head{
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(280px,400px);
@@ -1838,7 +1838,7 @@ setInterval(pulseSync, 20000);
 
         <!-- CTA -->
         <div class="text-center mt-5">
-          <a href="https://msnsofttech.com/get-quote" class="msn-btn msn-btn-primary text-white">Get in Touch With Us →</a>
+          <a href="https://msnsofttech.com/get-quote" class="msn-btn msn-btn-primary">Get in Touch With Us →</a>
         </div>
       </div>
     </section>
@@ -1896,7 +1896,7 @@ setInterval(pulseSync, 20000);
       </div>
 
       <div class="text-center mt-5">
-        <a href="{{ route('blogs') }}" class="msn-btn msn-btn-primary text-white">Read More Blog Posts →</a>
+        <a href="{{ route('blogs') }}" class="msn-btn msn-btn-primary">Read More Blog Posts →</a>
       </div>
     </div>
   </section>
