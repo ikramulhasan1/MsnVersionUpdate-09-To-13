@@ -637,7 +637,7 @@
             <h1 class="hp-hero-title mt-3 msn-reveal">{!! $slider->title !!}</h1>
             <div class="hp-hero-copy msn-reveal">{!! $slider->description !!}</div>
             <div class="hp-hero-actions msn-reveal">
-              <a href="{{ route('get-quote') }}" class="msn-btn msn-btn-primary text-white">Get Started</a>
+              <a href="{{ route('get-quote') }}" class="msn-btn msn-btn-primary">Get Started</a>
               <a href="{{ route('services') }}" class="msn-btn msn-btn-ghost-light">What We Offer</a>
             </div>
           </div>
@@ -723,7 +723,7 @@
               </span>
               <h5>Milestone-Based Model</h5>
               <p>Break your project into achievable phases and pay only as each milestone is successfully completed.</p>
-              <button class="msn-btn msn-btn-primary text-white" type="button" onclick="selectAndSubmit('milestone-based')">Contact Us For Details →</button>
+              <button class="msn-btn msn-btn-primary" type="button" onclick="selectAndSubmit('milestone-based')">Contact Us For Details →</button>
             </div>
           </div>
 
@@ -765,7 +765,7 @@
               </div>
             </div>
 
-            <button class="msn-btn msn-btn-primary text-white">Explore Your Options →</button>
+            <button class="msn-btn msn-btn-primary">Explore Your Options →</button>
             <a class="hp-compare-link" href="#compare">Compare All Engagement Models</a>
           </div>
         </form>
@@ -812,7 +812,7 @@
         </div>
 
         <div class="d-flex justify-content-center mt-5">
-          <button id="go-services" class="msn-btn msn-btn-primary text-white">View All Services</button>
+          <button id="go-services" class="msn-btn msn-btn-primary">View All Services</button>
         </div>
       </div>
     </section>
@@ -838,7 +838,7 @@
       </div>
 
       <div class="hp-tech-actions mt-5">
-        <a href="{{ route('get-quote') }}" class="msn-btn msn-btn-primary text-white">Get a Quote →</a>
+        <a href="{{ route('get-quote') }}" class="msn-btn msn-btn-primary">Get a Quote →</a>
         <a href="{{ route('technologies') }}" class="msn-btn msn-btn-outline">See All Technologies →</a>
       </div>
     </div>
@@ -1350,7 +1350,7 @@
         <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Dedicated project manager</span>
         <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> No missed deadlines this quarter</span>
       </div>
-      <a href="{{ route('get-quote') }}" class="msn-btn msn-btn-primary text-white">Start Your Project</a>
+      <a href="{{ route('get-quote') }}" class="msn-btn msn-btn-primary">Start Your Project</a>
     </div>
 
   </div>
