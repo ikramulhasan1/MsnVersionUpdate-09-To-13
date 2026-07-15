@@ -283,38 +283,38 @@
       $section_testimonials = \App\Models\Section::section('testimonials');
     @endphp
 
-    {{-- @if(count($testimonials) > 0 && isset($section_testimonials)) --}}
+    @if(count($testimonials) > 0 && isset($section_testimonials))
       <section class="tst-testimonial-section">
           <div class="container">
 
               <div class="tst-carousel-viewport">
                   <div class="tst-carousel-track" id="tstCarouselTrack">
 
-                    {{-- @foreach($testimonials as $testimonial) --}}
+                    @foreach($testimonials as $testimonial)
                       <div class="tst-testi-card">
                           <div class="tst-testi-stars">
                               <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
                                   class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
                                   class="fa-solid fa-star"></i>
                           </div>
-                          {{-- <p class="tst-testi-quote">{!! $testimonial->description !!}</p> --}}
+                          <p class="tst-testi-quote">{!! $testimonial->description !!}</p>
                           <div class="tst-testi-footer">
                               <div class="tst-testi-avatar">
-                                {{-- @if(isset($testimonial->image_path))
+                                @if(isset($testimonial->image_path))
                                   <img src="{{ asset('uploads/testimonial/' . $testimonial->image_path) }}"
                                       alt="{{ $testimonial->title }}" loading="lazy"
                                       style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
                                 @else
                                   {{ strtoupper(substr($testimonial->title, 0, 2)) }}
-                                @endif --}}
+                                @endif
                               </div>
                               <div>
-                                  {{-- <div class="tst-testi-name">{{ $testimonial->title }}</div>
-                                  <div class="tst-testi-role">{{ $testimonial->designation }}@if(isset($testimonial->organization)), {{ $testimonial->organization }}@endif</div> --}}
+                                  <div class="tst-testi-name">{{ $testimonial->title }}</div>
+                                  <div class="tst-testi-role">{{ $testimonial->designation }}@if(isset($testimonial->organization)), {{ $testimonial->organization }}@endif</div>
                               </div>
                           </div>
                       </div>
-                    {{-- @endforeach --}}
+                    @endforeach
 
                   </div>
               </div>
@@ -380,7 +380,7 @@
           window.addEventListener('load', update);
           update();
       </script>
-    {{-- @endif --}}
+    @endif
   </div>
 
   {{-- ============ CTA SECTION (Unico Difference + closing CTA — no matching Laravel section, kept as demo design) ============ --}}
