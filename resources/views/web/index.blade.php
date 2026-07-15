@@ -283,7 +283,7 @@
       $section_testimonials = \App\Models\Section::section('testimonials');
     @endphp
 
-    @if(count($testimonials) > 0 && isset($section_testimonials))
+    {{-- @if(count($testimonials) > 0 && isset($section_testimonials)) --}}
       <section class="tst-testimonial-section">
           <div class="container">
 
@@ -380,7 +380,7 @@
           window.addEventListener('load', update);
           update();
       </script>
-    @endif
+    {{-- @endif --}}
   </div>
 
   {{-- ============ CTA SECTION (Unico Difference + closing CTA — no matching Laravel section, kept as demo design) ============ --}}
