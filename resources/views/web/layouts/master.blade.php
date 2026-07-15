@@ -205,14 +205,14 @@
      ===================================================================== --}}
 <footer id="msn-footer">
 
-  <div class="msn-footer-cta">
+  {{-- <div class="msn-footer-cta">
     <div class="container">
       <span class="msn-eyebrow msn-eyebrow-on-dark">Let's Talk</span>
       <h3>Have a project in mind? Let's build it right the first time.</h3>
       <p>Tell us what you're trying to ship — we'll reply with a clear scope, timeline and a real quote, not a sales pitch.</p>
       <a href="{{ route('get-quote') }}" class="msn-btn msn-btn-primary">Start a Project →</a>
     </div>
-  </div>
+  </div> --}}
 
   <div class="msn-footer-main">
     <div class="container">
