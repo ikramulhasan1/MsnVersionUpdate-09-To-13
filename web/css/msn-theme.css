@@ -227,119 +227,6 @@ body{ background: var(--bp-paper) !important; }
   .msn-reveal{ opacity:1; transform:none; transition:none; }
 }
 
-/* =====================================================================
-   NAVBAR — see msn-navbar-fix section further down in this file for the
-   active, working rules. This old block stays commented out for
-   reference only.
-   ===================================================================== */
-/* #msn-nav{
-  position:sticky; top:0; z-index:1000;
-  background: rgba(11,14,20,.94);
-  backdrop-filter: saturate(160%) blur(10px);
-  border-bottom:1px solid var(--bp-line-dark);
-}
-.msn-nav-row{
-  max-width:1280px; margin:0 auto; padding:0 24px;
-  display:flex; align-items:center; justify-content:space-between;
-  height:76px;
-}
-.msn-nav-logo img{ height:32px; display:block; filter:brightness(0) invert(1); }
-.msn-nav-links{
-  display:flex; align-items:center; gap:2px;
-  list-style:none; margin:0; padding:0;
-}
-.msn-nav-links > li > a{
-  display:flex; align-items:center; gap:6px;
-  font-family: var(--bp-font-mono);
-  font-size:12px; font-weight:500;
-  letter-spacing:.05em; text-transform:uppercase;
-  color: rgba(255,255,255,.7);
-  padding:10px 15px;
-  border-radius: var(--bp-radius);
-  transition: color .2s var(--bp-ease), background-color .2s var(--bp-ease);
-  position:relative;
-}
-.msn-nav-links > li > a:hover{ color: var(--bp-amber); background: rgba(245,166,35,.08); }
-.msn-nav-links > li.has-drop{ position:relative; }
-.msn-nav-links svg.msn-chev{ width:10px;height:10px; transition:transform .2s var(--bp-ease); }
-.msn-nav-links > li.has-drop:hover svg.msn-chev{ transform:rotate(180deg); }
-.msn-dropdown{
-  position:absolute; top:100%; left:0;
-  min-width:230px;
-  background:var(--bp-ink-2); border:1px solid var(--bp-line-dark);
-  border-radius: var(--bp-radius);
-  box-shadow:0 24px 50px rgba(0,0,0,.35);
-  padding:8px;
-  opacity:0; visibility:hidden; transform:translateY(6px);
-  transition: all .2s var(--bp-ease);
-}
-.msn-nav-links > li.has-drop:hover .msn-dropdown{ opacity:1; visibility:visible; transform:none; }
-.msn-dropdown a{
-  display:block; padding:10px 12px; font-size:13.5px; font-weight:500;
-  color: rgba(255,255,255,.75); border-radius:2px; font-family:var(--bp-font-body);
-  text-transform:none; letter-spacing:0;
-}
-.msn-dropdown a:hover{ background: rgba(245,166,35,.1); color: var(--bp-amber); }
-.msn-nav-actions{ display:flex; align-items:center; gap:14px; }
-.msn-nav-phone{
-  font-family: var(--bp-font-mono); font-size:12.5px; font-weight:500; color:rgba(255,255,255,.7);
-  display:flex; align-items:center; gap:8px;
-}
-.msn-nav-phone svg{ width:14px;height:14px; color:var(--bp-amber); }
-.msn-burger{
-  display:none; width:38px; height:38px; border-radius:var(--bp-radius);
-  border:1px solid var(--bp-line-dark); background:transparent;
-  align-items:center; justify-content:center; cursor:pointer;
-  flex-direction:column; gap:4px;
-}
-.msn-burger span{ width:16px; height:1.5px; background:#fff; display:block; transition:.25s var(--bp-ease); }
-.msn-burger.is-active span:nth-child(1){ transform:translateY(5.5px) rotate(45deg); }
-.msn-burger.is-active span:nth-child(2){ opacity:0; }
-.msn-burger.is-active span:nth-child(3){ transform:translateY(-5.5px) rotate(-45deg); }
-
-@media (max-width:991px){
-  .msn-nav-links, .msn-nav-phone{ display:none; }
-  .msn-burger{ display:flex; }
-  .msn-mobile-panel{
-    position:fixed; inset:76px 0 0 0; z-index:999;
-    background:var(--bp-ink); padding:20px 24px 40px;
-    transform:translateX(100%); transition:transform .3s var(--bp-ease);
-    overflow-y:auto;
-  }
-  .msn-mobile-panel.is-open{ transform:none; }
-  .msn-mobile-panel ul{ list-style:none; margin:0; padding:0; }
-  .msn-mobile-panel > ul > li{ border-bottom:1px solid var(--bp-line-dark); }
-  .msn-mobile-panel a{
-    display:block; padding:16px 4px; font-weight:600; font-size:16px; color:#fff;
-    font-family:var(--bp-font-display);
-  }
-  .msn-mobile-panel .msn-mobile-sub{ padding-left:14px; display:none; }
-  .msn-mobile-panel .msn-mobile-sub a{ font-family:var(--bp-font-body); font-size:14.5px; font-weight:500; color:rgba(255,255,255,.6); padding:11px 4px; }
-  .msn-mobile-panel li.has-drop.is-open .msn-mobile-sub{ display:block; }
-  .msn-mobile-panel .msn-btn{ width:100%; margin-top:16px; }
-} */
-
-/* =====================================================================
-   msn-navbar-fix.css
-   Fixes:
-   1) Mobile panel was visible on desktop -> now hidden by default and
-      only enabled inside the mobile media query.
-   2) Mobile panel didn't fully open -> now a fixed full-height, full
-      width slide-in panel with its own scroll, so content is never
-      clipped no matter how long the menu gets.
-   3) Adds a two-level mega menu for "Services": left column = main
-      services, right column = sub-services of whichever main service
-      is hovered/focused.
-   4) Fully responsive: desktop (>=992px) mega menu + inline links,
-      mobile (<992px) slide-in panel with accordions.
-   5) (v2) Mega menu no longer closes while moving the mouse from the
-      trigger into the panel — the gap is now built with padding on the
-      hoverable element instead of margin/position offset, so there's
-      no dead zone.
-   6) (v2) The right-hand sub-service list is a CSS multi-column layout —
-      if it has too many items for one column, it automatically
-      continues into a 2nd (or 3rd) column instead of getting cut off.
-   ===================================================================== */
 
 :root{
   --msn-nav-bg: rgba(13, 15, 23, 0.86);
@@ -407,9 +294,9 @@ body{ background: var(--bp-paper) !important; }
   align-items: center;
   gap: 6px;
   color: var(--msn-nav-text);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-thickness: 1px;
+  text-decoration: none;
+  /* text-underline-offset: 4px;
+  text-decoration-thickness: 1px; */
   font-size: 13px;
   letter-spacing: 0.06em;
   text-transform: uppercase;

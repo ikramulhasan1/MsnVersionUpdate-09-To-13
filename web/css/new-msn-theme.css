@@ -180,6 +180,7 @@
         align-items: center;
         gap: 10px;
         box-shadow: 0 12px 26px -10px rgba(214, 38, 30, 0.6);
+        text-decoration: none;
         transition:
           transform 0.2s ease,
           box-shadow 0.2s ease;
@@ -200,6 +201,7 @@
         border: 1.5px solid var(--line);
         display: inline-flex;
         align-items: center;
+        text-decoration: none;
         gap: 10px;
         transition: all 0.2s ease;
       }
@@ -377,6 +379,7 @@
 
       .svc-service-card {
         background: #fff;
+        color:#12131A;
         border: 1px solid var(--line);
         border-radius: 20px;
         padding: 2.2rem 2rem;
