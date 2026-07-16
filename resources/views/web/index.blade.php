@@ -205,6 +205,169 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
   </div>
 
+  {{-- ============ TCH SECTION (technology logos — no matching Laravel section, kept as demo design) ============ --}}
+  <div class="tch-scope">
+      <section class="tch-section">
+          <div class="container-fluid px-3">
+              <p class="tch-eyebrow">Technologies We Work With</p>
+              <h2 class="tch-heading">A Full Stack of Modern Tools</h2>
+
+              <div class="tch-stage" id="tchStage" aria-label="Technology stack logos"></div>
+          </div>
+      </section>
+
+      <script>
+          (function() {
+              // Pool of technologies — Devicon class + display name.
+              const TCH_TECH_POOL = [
+                  { name: "HTML5", icon: "devicon-html5-plain colored" },
+                  { name: "CSS3", icon: "devicon-css3-plain colored" },
+                  { name: "JavaScript", icon: "devicon-javascript-plain colored" },
+                  { name: "TypeScript", icon: "devicon-typescript-plain colored" },
+                  { name: "React", icon: "devicon-react-original colored" },
+                  { name: "Vue.js", icon: "devicon-vuejs-plain colored" },
+                  { name: "Angular", icon: "devicon-angularjs-plain colored" },
+                  { name: "Node.js", icon: "devicon-nodejs-plain colored" },
+                  { name: "Express", icon: "devicon-express-original" },
+                  { name: "MongoDB", icon: "devicon-mongodb-plain colored" },
+                  { name: "MySQL", icon: "devicon-mysql-plain colored" },
+                  { name: "PostgreSQL", icon: "devicon-postgresql-plain colored" },
+                  { name: "Redis", icon: "devicon-redis-plain colored" },
+                  { name: "Python", icon: "devicon-python-plain colored" },
+                  { name: "Django", icon: "devicon-django-plain colored" },
+                  { name: "Flask", icon: "devicon-flask-original" },
+                  { name: "PHP", icon: "devicon-php-plain colored" },
+                  { name: "Laravel", icon: "devicon-laravel-plain colored" },
+                  { name: "WordPress", icon: "devicon-wordpress-plain colored" },
+                  { name: "Bootstrap", icon: "devicon-bootstrap-plain colored" },
+                  { name: "Tailwind CSS", icon: "devicon-tailwindcss-plain colored" },
+                  { name: "Sass", icon: "devicon-sass-original colored" },
+                  { name: "Git", icon: "devicon-git-plain colored" },
+                  { name: "GitHub", icon: "devicon-github-original" },
+                  { name: "GitLab", icon: "devicon-gitlab-plain colored" },
+                  { name: "Docker", icon: "devicon-docker-plain colored" },
+                  { name: "Kubernetes", icon: "devicon-kubernetes-plain colored" },
+                  { name: "AWS", icon: "devicon-amazonwebservices-original" },
+                  { name: "Firebase", icon: "devicon-firebase-plain colored" },
+                  { name: "GraphQL", icon: "devicon-graphql-plain colored" },
+                  { name: "Figma", icon: "devicon-figma-plain colored" },
+                  { name: "Photoshop", icon: "devicon-photoshop-plain colored" },
+                  { name: "Illustrator", icon: "devicon-illustrator-plain colored" },
+                  { name: "Java", icon: "devicon-java-plain colored" },
+                  { name: "Kotlin", icon: "devicon-kotlin-plain colored" },
+                  { name: "Swift", icon: "devicon-swift-plain colored" },
+                  { name: "Flutter", icon: "devicon-flutter-plain colored" },
+                  { name: "Android", icon: "devicon-android-plain colored" },
+                  { name: "Linux", icon: "devicon-linux-plain colored" },
+                  { name: "Nginx", icon: "devicon-nginx-original colored" },
+                  { name: "Webpack", icon: "devicon-webpack-plain colored" },
+                  { name: "npm", icon: "devicon-npm-original-wordmark colored" },
+                  { name: "C#", icon: "devicon-csharp-plain colored" },
+                  { name: ".NET", icon: "devicon-dotnetcore-plain colored" },
+                  { name: "VS Code", icon: "devicon-visualstudio-plain colored" },
+              ];
+
+              const tchStage = document.getElementById("tchStage");
+              const tchScopeEl = document.querySelector(".tch-scope");
+
+              function tchShuffle(arr) {
+                  const a = arr.slice();
+                  for (let i = a.length - 1; i > 0; i--) {
+                      const j = Math.floor(Math.random() * (i + 1));
+                      [a[i], a[j]] = [a[j], a[i]];
+                  }
+                  return a;
+              }
+
+              // Build a list of exactly `count` items from the pool, cycling/reshuffling
+              // when the pool is smaller than the space available, and avoiding the
+              // same logo appearing twice in a row.
+              function tchPickItems(count) {
+                  const result = [];
+                  let bag = tchShuffle(TCH_TECH_POOL);
+                  let idx = 0;
+                  while (result.length < count) {
+                      if (idx >= bag.length) {
+                          bag = tchShuffle(TCH_TECH_POOL);
+                          idx = 0;
+                      }
+                      const candidate = bag[idx++];
+                      if (
+                          result.length &&
+                          result[result.length - 1].name === candidate.name
+                      )
+                          continue;
+                      result.push(candidate);
+                  }
+                  return result;
+              }
+
+              function tchReadPx(varName) {
+                  const val = getComputedStyle(tchScopeEl)
+                      .getPropertyValue(varName)
+                      .trim();
+                  if (val.endsWith("vh")) {
+                      return (parseFloat(val) / 100) * window.innerHeight;
+                  }
+                  return parseFloat(val);
+              }
+
+              function tchRender() {
+                  const cellW = tchReadPx("--tch-cell-w");
+                  const cellH = tchReadPx("--tch-cell-h");
+                  const gap = tchReadPx("--tch-gap");
+                  const stageH = tchReadPx("--tch-stage-h");
+
+                  const stageW =
+                      tchStage.clientWidth || tchStage.parentElement.clientWidth;
+
+                  const cols = Math.max(
+                      1,
+                      Math.floor((stageW + gap) / (cellW + gap)),
+                  );
+                  const rows = Math.max(
+                      2,
+                      Math.floor((stageH + gap) / (cellH + gap)),
+                  );
+                  const total = cols * rows;
+
+                  tchStage.style.gridTemplateColumns = `repeat(${cols}, var(--tch-cell-w))`;
+
+                  const items = tchPickItems(total);
+
+                  tchStage.innerHTML = items
+                      .map((tech, i) => {
+                          const rot = (Math.random() * 10 - 5).toFixed(1); // -5deg .. 5deg
+                          const dur = (3.2 + Math.random() * 2.4).toFixed(2); // 3.2s .. 5.6s
+                          const delay = (Math.random() * 2).toFixed(2); // 0 .. 2s
+                          const amp = (4 + Math.random() * 5).toFixed(1); // 4px .. 9px
+                          const animDelay = (i * 0.02).toFixed(2);
+
+                          return `
+        <div class="tch-card"
+             style="--tch-rot:rotate(${rot}deg); animation-delay:${animDelay}s;"
+             title="${tech.name}">
+          <span class="tch-tooltip">${tech.name}</span>
+          <div class="tch-float-inner" style="--tch-dur:${dur}s; --tch-delay:${delay}s; --tch-amp:-${amp}px;">
+            <i class="${tech.icon}"></i>
+          </div>
+        </div>`;
+                      })
+                      .join("");
+              }
+
+              tchRender();
+
+              // Recompute on resize (debounced) so the stage always stays exactly filled.
+              let tchResizeTimer;
+              window.addEventListener("resize", () => {
+                  clearTimeout(tchResizeTimer);
+                  tchResizeTimer = setTimeout(tchRender, 180);
+              });
+          })();
+      </script>
+  </div>
+
   {{-- ============ PTN SECTION (technology partners — no matching Laravel section, kept as demo design) ============ --}}
   <div class="ptn-scope">
       <section class="ptn-partners-section">
@@ -381,6 +544,205 @@
           update();
       </script>
     @endif
+  </div>
+
+  {{-- ============ CLI SECTION (client logos — no matching Laravel section, kept as demo design) ============ --}}
+  <div class="cli-scope">
+      <section class="cli-section">
+          <div class="container-fluid px-0">
+              <p class="cli-eyebrow">Valued by Clients Worldwide</p>
+
+              <div class="cli-track-wrap" id="cliWrap">
+                  <div class="cli-track" id="cliTrack">
+                      <!-- Set 1 -->
+                      <div class="cli-card">
+                          <span class="cli-text"
+                              style="font-family:&quot;Brush Script MT&quot;, cursive; font-size:26px;">abc carpet
+                              &amp; home</span>
+                      </div>
+                      <div class="cli-card">
+                          <svg viewBox="0 0 160 60" width="140" height="52" xmlns="http://www.w3.org/2000/svg">
+                              <rect width="160" height="60" fill="#1560E8" />
+                              <circle cx="34" cy="30" r="16" fill="none" stroke="#fff" stroke-width="4" />
+                              <path d="M34 18 a12 12 0 0 1 0 24" fill="none" stroke="#fff" stroke-width="4" />
+                              <text x="60" y="26" fill="#fff" font-family="Arial, sans-serif" font-size="15"
+                                  font-weight="700">
+                                  Choice
+                              </text>
+                              <text x="60" y="42" fill="#fff" font-family="Arial, sans-serif" font-size="15"
+                                  font-weight="700">
+                                  Digital
+                              </text>
+                          </svg>
+                      </div>
+                      <div class="cli-card">
+                          <svg viewBox="0 0 220 50" width="190" height="44" xmlns="http://www.w3.org/2000/svg"
+                              font-family="Arial, sans-serif" font-weight="700" font-size="30">
+                              <text x="0" y="36" fill="#F5811F">✳</text>
+                              <text x="24" y="36" fill="#4a4a4a">worx</text>
+                              <circle cx="132" cy="24" r="11" fill="#5FA023" />
+                              <text x="150" y="36" fill="#1A6FE0">go</text>
+                          </svg>
+                      </div>
+                      <div class="cli-card">
+                          <span class="cli-text" style="font-weight:700; letter-spacing:0.05em;">SVS</span>
+                      </div>
+                      <div class="cli-card">
+                          <span class="cli-text" style="font-weight:600;">Nordic&nbsp;Home</span>
+                      </div>
+                      <div class="cli-card">
+                          <span class="cli-text" style="font-weight:600;">Lumen&nbsp;Studio</span>
+                      </div>
+
+                      <!-- Set 2 (duplicate for seamless loop) -->
+                      <div class="cli-card" aria-hidden="true">
+                          <span class="cli-text"
+                              style="font-family:&quot;Brush Script MT&quot;, cursive; font-size:26px;">abc carpet
+                              &amp; home</span>
+                      </div>
+                      <div class="cli-card" aria-hidden="true">
+                          <svg viewBox="0 0 160 60" width="140" height="52" xmlns="http://www.w3.org/2000/svg">
+                              <rect width="160" height="60" fill="#1560E8" />
+                              <circle cx="34" cy="30" r="16" fill="none" stroke="#fff" stroke-width="4" />
+                              <path d="M34 18 a12 12 0 0 1 0 24" fill="none" stroke="#fff" stroke-width="4" />
+                              <text x="60" y="26" fill="#fff" font-family="Arial, sans-serif" font-size="15"
+                                  font-weight="700">
+                                  Choice
+                              </text>
+                              <text x="60" y="42" fill="#fff" font-family="Arial, sans-serif" font-size="15"
+                                  font-weight="700">
+                                  Digital
+                              </text>
+                          </svg>
+                      </div>
+                      <div class="cli-card" aria-hidden="true">
+                          <svg viewBox="0 0 220 50" width="190" height="44" xmlns="http://www.w3.org/2000/svg"
+                              font-family="Arial, sans-serif" font-weight="700" font-size="30">
+                              <text x="0" y="36" fill="#F5811F">✳</text>
+                              <text x="24" y="36" fill="#4a4a4a">worx</text>
+                              <circle cx="132" cy="24" r="11" fill="#5FA023" />
+                              <text x="150" y="36" fill="#1A6FE0">go</text>
+                          </svg>
+                      </div>
+                      <div class="cli-card" aria-hidden="true">
+                          <span class="cli-text" style="font-weight:700; letter-spacing:0.05em;">SVS</span>
+                      </div>
+                      <div class="cli-card" aria-hidden="true">
+                          <span class="cli-text" style="font-weight:600;">Nordic&nbsp;Home</span>
+                      </div>
+                      <div class="cli-card" aria-hidden="true">
+                          <span class="cli-text" style="font-weight:600;">Lumen&nbsp;Studio</span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <script>
+          (function() {
+              const cliWrap = document.getElementById("cliWrap");
+              const cliTrack = document.getElementById("cliTrack");
+
+              // If you swap the markup for a single set of real <img> logos, this will
+              // auto-duplicate it once so the loop stays seamless.
+              if (!cliTrack.querySelector('[aria-hidden="true"]')) {
+                  const clone = cliTrack.innerHTML;
+                  cliTrack.innerHTML += clone;
+                  [...cliTrack.children]
+                      .slice(cliTrack.children.length / 2)
+                      .forEach((el) => el.setAttribute("aria-hidden", "true"));
+              }
+
+              let cliSingleSetWidth = 0;
+
+              function cliMeasure() {
+                  // width of ONE set = half of total scrollWidth (since content is duplicated)
+                  cliSingleSetWidth = cliTrack.scrollWidth / 2;
+              }
+              cliMeasure();
+              window.addEventListener("resize", cliMeasure);
+
+              const CLI_SPEED = 0.6; // px per frame auto-scroll speed
+              let cliOffset = 0; // current translateX distance (positive = scrolled left)
+              let cliIsDragging = false;
+              let cliDragStartX = 0;
+              let cliDragStartOffset = 0;
+              let cliIsPaused = false; // paused on hover/pointer-down, resumes on release
+              let cliRafId = null;
+
+              function cliApplyTransform() {
+                  // wrap offset into [0, singleSetWidth) for a seamless infinite loop
+                  let wrapped = cliOffset % cliSingleSetWidth;
+                  if (wrapped < 0) wrapped += cliSingleSetWidth;
+                  cliTrack.style.transform = `translateX(${-wrapped}px)`;
+              }
+
+              function cliTick() {
+                  if (!cliIsDragging && !cliIsPaused) {
+                      cliOffset += CLI_SPEED;
+                      cliApplyTransform();
+                  }
+                  cliRafId = requestAnimationFrame(cliTick);
+              }
+              cliRafId = requestAnimationFrame(cliTick);
+
+              // Pause auto-scroll while the pointer is hovering (keeps things calm to inspect/drag)
+              cliWrap.addEventListener("mouseenter", () => {
+                  cliIsPaused = true;
+              });
+              cliWrap.addEventListener("mouseleave", () => {
+                  if (!cliIsDragging) cliIsPaused = false;
+              });
+
+              function cliStartDrag(clientX) {
+                  cliIsDragging = true;
+                  cliIsPaused = true;
+                  cliDragStartX = clientX;
+                  cliDragStartOffset = cliOffset;
+                  cliWrap.classList.add("cli-is-dragging");
+              }
+
+              function cliMoveDrag(clientX) {
+                  if (!cliIsDragging) return;
+                  const delta = clientX - cliDragStartX;
+                  cliOffset = cliDragStartOffset - delta; // drag right -> content moves right -> offset decreases
+                  cliApplyTransform();
+              }
+
+              function cliEndDrag() {
+                  if (!cliIsDragging) return;
+                  cliIsDragging = false;
+                  cliWrap.classList.remove("cli-is-dragging");
+                  // resume auto-scroll shortly after release
+                  setTimeout(() => {
+                      cliIsPaused = false;
+                  }, 300);
+              }
+
+              // Mouse events
+              cliWrap.addEventListener("mousedown", (e) => {
+                  cliStartDrag(e.clientX);
+                  e.preventDefault();
+              });
+              window.addEventListener("mousemove", (e) => cliMoveDrag(e.clientX));
+              window.addEventListener("mouseup", cliEndDrag);
+
+              // Touch events
+              cliWrap.addEventListener(
+                  "touchstart",
+                  (e) => cliStartDrag(e.touches[0].clientX), { passive: true },
+              );
+              cliWrap.addEventListener(
+                  "touchmove",
+                  (e) => cliMoveDrag(e.touches[0].clientX), { passive: true },
+              );
+              cliWrap.addEventListener("touchend", cliEndDrag);
+              cliWrap.addEventListener("touchcancel", cliEndDrag);
+
+              // Prevent native image/element drag ghost
+              cliTrack.addEventListener("dragstart", (e) => e.preventDefault());
+          })();
+      </script>
   </div>
 
   {{-- ============ CTA SECTION (Unico Difference + closing CTA — no matching Laravel section, kept as demo design) ============ --}}
