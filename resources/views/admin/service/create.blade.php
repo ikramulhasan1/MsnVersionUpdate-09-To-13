@@ -31,8 +31,8 @@
                             <!-- Form Start -->
                             <div class="form-group">
                                 <label for="title">{{ __('dashboard.title') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}"
-                                    required>
+                                <input type="text" class="form-control" name="title" id="title"
+                                    value="{{ old('title') }}" required>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.title') }}
@@ -43,8 +43,8 @@
                                 <div class="form-group col-6">
                                     <label for="slug">{{ __('dashboard.slug') }} <span>* [Write a unique
                                             slug]</span></label>
-                                    <input type="text" class="form-control" name="slug" id="slug" value="{{ old('slug') }}"
-                                        required>
+                                    <input type="text" class="form-control" name="slug" id="slug"
+                                        value="{{ old('slug') }}" required>
                                     <div class="invalid-feedback">
                                         {{ __('dashboard.please_provide') }} {{ __('dashboard.slug') }}
                                     </div>
@@ -63,20 +63,39 @@
 
                             <div class="form-group">
                                 <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
-                                <textarea class="form-control" name="description" id="editor1" rows="8"
-                                    required>{{ old('description') }}</textarea>
+                                <textarea class="form-control" name="description" id="editor1" rows="8" required>{{ old('description') }}</textarea>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="short_description">Short {{ __('dashboard.description') }} <span>*</span></label>
-                                <textarea class="form-control" name="short_description" id="editor2" rows="8"
-                                    required>{{ old('short_description') }}</textarea>
+                                <label for="short_description">Short {{ __('dashboard.description') }}
+                                    <span>*</span></label>
+                                <textarea class="form-control" name="short_description" id="editor2" rows="8" required>{{ old('short_description') }}</textarea>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label for="tags">{{ __('dashboard.tags') }} <span>*</span></label>
+                                    <input type="text" class="form-control" name="tags" id="tags"
+                                        value="{{ old('tags') }}">
+
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.tags') }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="service_icon">{{ __('dashboard.service_icon') }} <span>*</span></label>
+                                    <input type="text" class="form-control" name="service_icon" id="service_icon"
+                                        value="{{ old('service_icon') }}" required>
+
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.service_icon') }}
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -88,19 +107,10 @@
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_title') }}
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="tags">{{ __('dashboard.tags') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="tags" id="tags"
-                                    value="{{ old('tags') }}" required>
 
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.tags') }}
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <label for="short_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
-                                <textarea class="form-control" name="short_desc" id="editor" rows="4"
-                                    required>{{ old('short_desc') }}</textarea>
+                                <textarea class="form-control" name="short_desc" id="editor" rows="4" required>{{ old('short_desc') }}</textarea>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_description') }}
@@ -127,13 +137,15 @@
                             <div class="row">
                                 <div class="form-group col">
                                     <label for="price">{{ __('dashboard.price') }} <span>* </span></label>
-                                    <input type="number" class="form-control" name="price" id="price" value="499" required>
+                                    <input type="number" class="form-control" name="price" id="price"
+                                        value="499" required>
                                     <div class="invalid-feedback">
                                         {{ __('dashboard.please_provide') }} {{ __('dashboard.price') }}
                                     </div>
                                 </div>
                                 <div class="form-group col">
-                                    <label for="starting_price">{{ __('dashboard.starting_price') }} <span>*</span></label>
+                                    <label for="starting_price">{{ __('dashboard.starting_price') }}
+                                        <span>*</span></label>
                                     <input type="number" class="form-control" name="starting_price" id="starting_price"
                                         value="499" required>
 
@@ -160,7 +172,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group col">
-                                    <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label>
+                                    <label for="average_rating">{{ __('dashboard.average_rating') }}
+                                        <span>*</span></label>
                                     <input type="text" class="form-control" name="average_rating" id="average_rating"
                                         value="4.9" required>
 
@@ -191,8 +204,10 @@
                                 </div>
                                 <br><br>
                             </div>
-                            <input hidden type="text" class="form-control mb-1" name="type" value="service" required>
-                            <input hidden type="text" class="form-control mb-1" name="category_id" value="12" required>
+                            <input hidden type="text" class="form-control mb-1" name="type" value="service"
+                                required>
+                            <input hidden type="text" class="form-control mb-1" name="category_id" value="12"
+                                required>
 
                             <hr>
                             <h3>Work Process</h3>
@@ -239,11 +254,11 @@
     <!-- End Content-->
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const taginInputs = document.querySelectorAll(".tagin");
             taginInputs.forEach(input => new Tagin(input, {
                 separator: ',',
-                duplicate: false,      // Prevent duplicate tags in the frontend
+                duplicate: false, // Prevent duplicate tags in the frontend
                 enter: true,
                 maxTags: 100
             }));
@@ -252,7 +267,7 @@
 
         CKEDITOR.replace('editor', {
             on: {
-                instanceReady: function (ev) {
+                instanceReady: function(ev) {
                     this.dataProcessor.writer.setRules('strong', {
                         indent: false,
                         breakBeforeOpen: false,
@@ -269,7 +284,7 @@
         });
         CKEDITOR.replace('editor1', {
             on: {
-                instanceReady: function (ev) {
+                instanceReady: function(ev) {
                     this.dataProcessor.writer.setRules('strong', {
                         indent: false,
                         breakBeforeOpen: false,
@@ -286,7 +301,7 @@
         });
         CKEDITOR.replace('editor2', {
             on: {
-                instanceReady: function (ev) {
+                instanceReady: function(ev) {
                     this.dataProcessor.writer.setRules('strong', {
                         indent: false,
                         breakBeforeOpen: false,

@@ -177,6 +177,7 @@ return array(
   'site_title' => 'Site Title',
   'meta_title' => 'Meta Title',
   'tags' => 'Tags',
+  'service_icon' => 'Service icon',
   'meta_description' => 'Meta Description',
   'meta_desc_length' => 'Max length 160 characters',
   'meta_keywords' => 'Meta Keywords',

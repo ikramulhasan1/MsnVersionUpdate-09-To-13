@@ -58,7 +58,7 @@ class ServiceController extends Controller
             'title' => 'required|max:191|unique:services,title',
             'short_title' => 'required|max:30|unique:services,short_title',
             'meta_title' => 'required|max:70',
-            'tags' => 'max:100',
+            'service_icon' => 'required|max:50',
             'keywords' => 'required',
             'price' => 'required',
             'starting_price' => 'required',
@@ -157,6 +157,7 @@ class ServiceController extends Controller
         $service->short_title = $request->short_title;
         $service->meta_title = $request->meta_title;
         $service->tags = $request->tags;
+        $service->service_icon = $request->service_icon;
         $service->slug = Str::slug(strtolower($request->slug), '-');
         $service->short_desc = $request->short_desc;
         $service->short_description = $request->short_description;
@@ -236,7 +237,7 @@ class ServiceController extends Controller
             'title' => 'required|max:191|unique:services,title,' . $service->id,
             'short_title' => 'required|max:30|unique:services,short_title,' . $service->id,
             'meta_title' => 'required|max:70',
-            'tags' => 'max:100',
+            'service_icon' => 'required|max:50',
             'keywords' => 'required',
             'price' => 'required',
             'starting_price' => 'required',
@@ -341,6 +342,7 @@ class ServiceController extends Controller
         $service->short_title = $request->short_title;
         $service->meta_title = $request->meta_title;
         $service->tags = $request->tags;
+        $service->service_icon = $request->service_icon;
         $service->slug = Str::slug(strtolower($request->slug), '-');
         $service->short_desc = $request->short_desc;
         $service->short_description = $request->short_description;

@@ -32,8 +32,8 @@
                             <!-- Form Start -->
                             <div class="form-group">
                                 <label for="title">{{ __('dashboard.title') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="title" id="title" value="{{ $row->title }}"
-                                    required>
+                                <input type="text" class="form-control" name="title" id="title"
+                                    value="{{ $row->title }}" required>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.title') }}
@@ -43,8 +43,8 @@
                             <div class="row">
                                 <div class="form-group col-6">
                                     <label for="slug">{{ __('dashboard.slug') }} <span>* </span></label>
-                                    <input type="text" class="form-control" name="slug" id="slug" value="{{ $row->slug }}"
-                                        readonly required>
+                                    <input type="text" class="form-control" name="slug" id="slug"
+                                        value="{{ $row->slug }}" readonly required>
                                     <div class="invalid-feedback">
                                         {{ __('dashboard.please_provide') }} {{ __('dashboard.slug') }}
                                     </div>
@@ -64,20 +64,39 @@
 
                             <div class="form-group">
                                 <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
-                                <textarea class="form-control" name="description" id="editor1" rows="8"
-                                    required>{{ $row->description }}</textarea>
+                                <textarea class="form-control" name="description" id="editor1" rows="8" required>{{ $row->description }}</textarea>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="short_description">Short {{ __('dashboard.description') }} <span>*</span></label>
-                                <textarea class="form-control" name="short_description" id="editor2" rows="8"
-                                    required>{{ $row->short_description }}</textarea>
+                                <label for="short_description">Short {{ __('dashboard.description') }}
+                                    <span>*</span></label>
+                                <textarea class="form-control" name="short_description" id="editor2" rows="8" required>{{ $row->short_description }}</textarea>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.short_description') }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="tags">{{ __('dashboard.tags') }} <span>*</span></label>
+                                    <input type="text" class="form-control" name="tags" id="tags"
+                                        value="{{ $row->tags }}">
+
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.tags') }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="service_icon">{{ __('dashboard.service_icon') }} <span>*</span></label>
+                                    <input type="text" class="form-control" name="service_icon" id="service_icon"
+                                        value="{{ $row->service_icon }}" required>
+
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.service_icon') }}
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -89,19 +108,10 @@
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_title') }}
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="tags">{{ __('dashboard.tags') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="tags" id="tags"
-                                    value="{{ $row->tags }}" required>
 
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.tags') }}
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <label for="short_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
-                                <textarea class="form-control" name="short_desc" id="editor" rows="4"
-                                    required>{{ $row->short_desc }}</textarea>
+                                <textarea class="form-control" name="short_desc" id="editor" rows="4" required>{{ $row->short_desc }}</textarea>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_description') }}
@@ -136,7 +146,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group col">
-                                    <label for="starting_price">{{ __('dashboard.starting_price') }} <span>*</span></label>
+                                    <label for="starting_price">{{ __('dashboard.starting_price') }}
+                                        <span>*</span></label>
                                     <input type="number" class="form-control" name="starting_price" id="starting_price"
                                         value="{{ $row->starting_price }}" required>
 
@@ -163,7 +174,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group col">
-                                    <label for="average_rating">{{ __('dashboard.average_rating') }} <span>*</span></label>
+                                    <label for="average_rating">{{ __('dashboard.average_rating') }}
+                                        <span>*</span></label>
                                     <input type="text" class="form-control" name="average_rating" id="average_rating"
                                         value="{{ $row->average_rating }}" required>
 
@@ -179,17 +191,20 @@
                                 @php
                                     $faqs = json_decode($row->faq_steps, true);
                                 @endphp
-                                @if(!empty($faqs) && is_array($faqs))
+                                @if (!empty($faqs) && is_array($faqs))
                                     @foreach ($faqs as $key => $faq)
                                         <div class="form-group col-10 faq-group mb-2 row">
                                             <div class="col-1">
                                                 {{ $key + 1 }}.
                                             </div>
                                             <div class="col-11">
-                                                <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][title]"
-                                                    value="{{ $faq['title'] }}" placeholder="{{ $key + 1 }}. Question">
-                                                <input type="text" class="form-control mb-1" name="faqs[{{ $key }}][description]"
-                                                    value="{{ $faq['description'] }}" placeholder="{{ $key + 1 }}. Answer">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="faqs[{{ $key }}][title]" value="{{ $faq['title'] }}"
+                                                    placeholder="{{ $key + 1 }}. Question">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="faqs[{{ $key }}][description]"
+                                                    value="{{ $faq['description'] }}"
+                                                    placeholder="{{ $key + 1 }}. Answer">
                                             </div>
                                         </div>
                                     @endforeach
@@ -211,10 +226,12 @@
                                             {{ $key + 1 }}.
                                         </div>
                                         <div class="col-11">
-                                            <input type="text" class="form-control mb-1" name="workprocess[{{ $key }}][title]"
+                                            <input type="text" class="form-control mb-1"
+                                                name="workprocess[{{ $key }}][title]"
                                                 value="{{ $process->title }}" placeholder="{{ $key + 1 }}. Title">
                                             <input type="text" class="form-control mb-1"
-                                                name="workprocess[{{ $key }}][description]" value="{{ $process->description }}"
+                                                name="workprocess[{{ $key }}][description]"
+                                                value="{{ $process->description }}"
                                                 placeholder="{{ $key + 1 }}. Description">
                                             <div class="d-flex">
                                                 <input type="file" class="form-control mb-1 mr-3 w-75"
@@ -245,9 +262,12 @@
                                             {{ $key + 1 }}.
                                         </div>
                                         <div class="col-8">
-                                            <input type="text" class="form-control mb-1" name="industries[{{ $key }}][title]"
-                                                value="{{ $industry->title }}" placeholder="{{ $key + 1 }}. Title" required>
-                                            <input type="text" class="form-control mb-1" name="industries[{{ $key }}][link]"
+                                            <input type="text" class="form-control mb-1"
+                                                name="industries[{{ $key }}][title]"
+                                                value="{{ $industry->title }}" placeholder="{{ $key + 1 }}. Title"
+                                                required>
+                                            <input type="text" class="form-control mb-1"
+                                                name="industries[{{ $key }}][link]"
                                                 value="{{ $industry->link }}" placeholder="{{ $key + 1 }}. Link">
                                         </div>
                                         <div class="col-1">
@@ -279,10 +299,12 @@
                                             {{ $key + 1 }}.
                                         </div>
                                         <div class="col-8">
-                                            <input type="text" class="form-control mb-1" name="whywes[{{ $key }}][title]"
-                                                value="{{ $we->title }}" placeholder="{{ $key + 1 }}. Title" required>
-                                            <input type="text" class="form-control mb-1" name="whywes[{{ $key }}][link]"
-                                                value="{{ $we->link }}" placeholder="{{ $key + 1 }}. Link">
+                                            <input type="text" class="form-control mb-1"
+                                                name="whywes[{{ $key }}][title]" value="{{ $we->title }}"
+                                                placeholder="{{ $key + 1 }}. Title" required>
+                                            <input type="text" class="form-control mb-1"
+                                                name="whywes[{{ $key }}][link]" value="{{ $we->link }}"
+                                                placeholder="{{ $key + 1 }}. Link">
                                         </div>
                                         <div class="col-1">
                                             <button type="button" class="btn btn-danger btn-sm"
@@ -307,18 +329,20 @@
                                 <div class="form-group col">
                                     <label for="manu">Manu</label>
                                     <select class="wide" name="manu" id="manu" data-plugin="customselect">
-                                        <option value="0" @if($row->manu == 0) selected @endif>Hidden</option>
-                                        <option value="1" @if($row->manu == 1) selected @endif>Show</option>
+                                        <option value="0" @if ($row->manu == 0) selected @endif>Hidden
+                                        </option>
+                                        <option value="1" @if ($row->manu == 1) selected @endif>Show
+                                        </option>
                                     </select>
                                 </div>
 
                                 <div class="form-group col">
                                     <label for="status">{{ __('dashboard.select_status') }}</label>
                                     <select class="wide" name="status" id="status" data-plugin="customselect">
-                                        <option value="1" @if($row->status == 1) selected @endif>
+                                        <option value="1" @if ($row->status == 1) selected @endif>
                                             {{ __('dashboard.active') }}
                                         </option>
-                                        <option value="0" @if($row->status == 0) selected @endif>
+                                        <option value="0" @if ($row->status == 0) selected @endif>
                                             {{ __('dashboard.inactive') }}
                                         </option>
                                     </select>
@@ -342,11 +366,11 @@
     </div> <!-- container -->
     <!-- End Content-->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const taginInputs = document.querySelectorAll(".tagin");
             taginInputs.forEach(input => new Tagin(input, {
                 separator: ',',
-                duplicate: false,      // Prevent duplicate tags in the frontend
+                duplicate: false, // Prevent duplicate tags in the frontend
                 enter: true,
                 maxTags: 100
             }));
@@ -355,7 +379,7 @@
 
         CKEDITOR.replace('editor', {
             on: {
-                instanceReady: function (ev) {
+                instanceReady: function(ev) {
                     this.dataProcessor.writer.setRules('strong', {
                         indent: false,
                         breakBeforeOpen: false,
@@ -372,7 +396,7 @@
         });
         CKEDITOR.replace('editor1', {
             on: {
-                instanceReady: function (ev) {
+                instanceReady: function(ev) {
                     this.dataProcessor.writer.setRules('strong', {
                         indent: false,
                         breakBeforeOpen: false,
@@ -389,7 +413,7 @@
         });
         CKEDITOR.replace('editor2', {
             on: {
-                instanceReady: function (ev) {
+                instanceReady: function(ev) {
                     this.dataProcessor.writer.setRules('strong', {
                         indent: false,
                         breakBeforeOpen: false,
@@ -488,12 +512,12 @@
             if (!confirm('Are you sure you want to delete this item permanently?')) return;
 
             fetch(`/admin/industries/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json'
-                }
-            }).then(response => response.json())
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    }
+                }).then(response => response.json())
                 .then(data => {
                     if (data.success) {
                         document.getElementById(`industry-${id}`).remove();
@@ -541,12 +565,12 @@
             if (!confirm('Are you sure you want to delete this item permanently?')) return;
 
             fetch(`/admin/whywes/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json'
-                }
-            }).then(response => response.json())
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    }
+                }).then(response => response.json())
                 .then(data => {
                     if (data.success) {
                         document.getElementById(`whywes-${id}`).remove();
@@ -558,6 +582,5 @@
                     console.error(error);
                 });
         }
-
     </script>
 @endsection
