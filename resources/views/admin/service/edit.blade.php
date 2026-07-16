@@ -72,12 +72,30 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="short_description">Short {{ __('dashboard.description') }} <span>*</span></label>
+                                <textarea class="form-control" name="short_description" id="editor2" rows="8"
+                                    required>{{ $row->short_description }}</textarea>
+
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.short_description') }}
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="meta_title">{{ __('dashboard.meta_title') }} <span>*</span></label>
                                 <input type="text" class="form-control" name="meta_title" id="meta_title"
                                     value="{{ $row->meta_title }}" required>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_title') }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="tags">{{ __('dashboard.tags') }} <span>*</span></label>
+                                <input type="text" class="form-control" name="tags" id="tags"
+                                    value="{{ $row->tags }}" required>
+
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.tags') }}
                                 </div>
                             </div>
                             <div class="form-group">
@@ -353,6 +371,23 @@
             } // Converts <strong> to <b>
         });
         CKEDITOR.replace('editor1', {
+            on: {
+                instanceReady: function (ev) {
+                    this.dataProcessor.writer.setRules('strong', {
+                        indent: false,
+                        breakBeforeOpen: false,
+                        breakAfterOpen: false,
+                        breakBeforeClose: false,
+                        breakAfterClose: false
+                    });
+                }
+            },
+            coreStyles_bold: {
+                element: 'b',
+                overrides: 'strong'
+            } // Converts <strong> to <b>
+        });
+        CKEDITOR.replace('editor2', {
             on: {
                 instanceReady: function (ev) {
                     this.dataProcessor.writer.setRules('strong', {
