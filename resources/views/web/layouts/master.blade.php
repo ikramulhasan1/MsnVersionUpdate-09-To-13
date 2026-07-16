@@ -1,413 +1,986 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @yield('top_meta_tags')
-    @yield('social_meta_tags')
-    <title>@yield('title')</title>
-    <link rel="stylesheet" href="{{ asset('web/css/msn-theme.css') }}">
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+
+        <link rel="stylesheet" href="{{ asset('web/css/msn-theme.css') }}">
     <link rel="stylesheet" href="{{ asset('web/css/contact.css') }}">
     <link rel="stylesheet" href="{{ asset('web/css/new-msn-theme.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css" integrity="sha512-t7Few9xlddEmgd3oKZQahkNI4dS6l80+eGEzFQiqtyVYdvcSG2D3Iub77R20BdotfRPA9caaRkg1tyaJiPmO0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  </head>
+    @if(isset($setting))
+        <!-- App Title -->
+        <title>@yield('title') | {{ $setting->title }}</title>
+
+        <!-- App favicon -->
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('/uploads/setting/' . $setting->favicon_path) }}"
+            type="image/x-icon">
+        <link rel="shortcut icon" href="{{ asset('/uploads/setting/' . $setting->favicon_path) }}" type="image/x-icon">
+
+        {{-- google search console --}}
+        <meta name="google-site-verification" content="40_D4AP8vh4ObjZrTZwcJvieoEEvUaOw4pmPTVX0t74" />
+        @yield('top_meta_tags')
+    @endif
+
+    {{-- schema_markup --}}
+    @yield('schema_markup')
+
+    @if(empty($setting))
+        <!-- App Title -->
+        <title>@yield('title')</title>
+    @endif
+
+
+    <!-- Social Meta Tags -->
+    <link rel="canonical" href="{{ request()->url() }}">
+
+    @yield('social_meta_tags')
+
+
+    <!-- Stylesheets -->
+    {{-- <link href="{{ asset('web/css/bootstrap.css') }}" rel="stylesheet"> --}}
+    @if($livechat->status == 1)
+        <link href="{{ asset('web/css/floating-wpp.min.css') }}" rel="stylesheet">
+    @endif
+    {{-- <link href="{{ asset('web/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('web/css/responsive.css') }}" rel="stylesheet"> --}}
+
+
+    {{-- <link rel="preload" href="//fonts.googleapis.com">
+    <link rel="preload" href="//fonts.gstatic.com" crossorigin> --}}
+
+    {{-- <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet"> --}}
+
+ <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/devicon/2.15.1/devicon.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+
+
+    <!-- ✅ Owl Carousel CSS -->
+    {{-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"> --}}
+
+    <style>
+        /* .poppins-regular {
+            font-family: "Poppins", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .poppins-medium {
+            font-family: "Poppins", sans-serif;
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        .poppins-semibold {
+            font-family: "Poppins", sans-serif;
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        .poppins-regular-italic {
+            font-family: "Poppins", sans-serif;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .poppins-medium-italic {
+            font-family: "Poppins", sans-serif;
+            font-weight: 500;
+            font-style: italic;
+        }
+
+        .poppins-semibold-italic {
+            font-family: "Poppins", sans-serif;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+
+        * {
+            font-family: 'Poppins';
+        }
+ */
+
+
+
+        /* ============ New Navbar (special_) ============ */
+        :root{
+            --special_blue:#1e5eff;
+            --special_blue-dark:#1a4fe0;
+            --special_text-dark:#0b0b0f;
+        }
+
+        .special_navbar-wrap{
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display:flex;
+            justify-content:center;
+            padding: 0;
+            background: #fff;
+            transition: padding 0.35s ease, background 0.35s ease;
+        }
+        /* .special_at-top = page just loaded / not scrolled yet = larger floating "sticky" pill bar */
+        .special_navbar-wrap.special_at-top{
+            padding: 16px 20px 0 20px;
+            background: transparent;
+        }
+        /* no .special_at-top (i.e. user has scrolled) = "normal" compact bar, full width */
+        .special_navbar-wrap:not(.special_at-top){
+            padding: 0;
+            background: #fff;
+        }
+
+        .special_navbar{
+            width: 100%;
+            max-width: 1400px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            background:#fff;
+            border-radius: 0;
+            box-shadow: 0 2px 12px rgba(20,30,60,0.08);
+            padding: 14px 40px;
+            transition: padding 0.35s ease, box-shadow 0.35s ease, border-radius 0.35s ease, max-width 0.35s ease;
+            position: relative;
+        }
+        .special_navbar-wrap.special_at-top .special_navbar{
+            max-width: 1400px;
+            border-radius: 100px;
+            padding: 20px 32px;
+            box-shadow: 0 6px 24px rgba(20,30,60,0.12);
+        }
+
+        .special_logo{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            font-weight:700;
+            font-size: 19px;
+            color: var(--special_text-dark);
+            white-space: nowrap;
+        }
+        .special_logo img{ display:block; height:30px; width:auto; transition: height 0.35s ease; }
+        .special_navbar-wrap.special_at-top .special_logo img{ height: 36px; }
+
+        .special_nav-links{
+            display:flex;
+            align-items:center;
+            gap: 26px;
+            list-style:none;
+        }
+        .special_nav-links > li{ position:relative; }
+        .special_nav-links a{
+            text-decoration:none;
+            color: var(--special_text-dark);
+            font-weight: 600;
+            font-size: 15px;
+            display:flex;
+            align-items:center;
+            gap:4px;
+            white-space: nowrap;
+            transition: color 0.2s ease;
+        }
+        .special_nav-links a:hover{ color: var(--special_blue); }
+        .special_nav-links a.special_current{ color: var(--special_blue); }
+        .special_chevron{
+            width: 8px; height: 8px;
+            border-right: 2px solid currentColor;
+            border-bottom: 2px solid currentColor;
+            transform: rotate(45deg);
+            margin-top: -3px;
+            flex-shrink:0;
+        }
+
+        /* Dropdown submenus (About Us / Services / Case Study / Resources) */
+        .special_dropdown > .special_submenu{
+            display:none;
+            position:absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 12px;
+            min-width: 240px;
+            background:#fff;
+            border-radius: 14px;
+            box-shadow: 0 12px 30px rgba(20,30,60,0.14);
+            padding: 10px;
+            list-style:none;
+            z-index: 120;
+        }
+        .special_dropdown:hover > .special_submenu{ display:block; }
+        .special_submenu li a{
+            display:block;
+            padding: 9px 12px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+            color: var(--special_text-dark);
+        }
+        .special_submenu li a:hover{ background:#eef3ff; color: var(--special_blue); }
+        .special_submenu-nested{
+            list-style:none;
+            padding-left: 14px;
+            margin: 2px 0 6px;
+        }
+
+        .special_contact-btn{
+            display:flex;
+            align-items:center;
+            gap:8px;
+            background: var(--special_blue);
+            color:#fff;
+            font-weight:700;
+            font-size: 14px;
+            text-decoration:none;
+            padding: 10px 18px;
+            border-radius: 100px;
+            white-space:nowrap;
+            transition: padding 0.35s ease, background 0.2s ease;
+        }
+        .special_navbar-wrap.special_at-top .special_contact-btn{
+            padding: 14px 22px;
+            font-size: 15px;
+        }
+        .special_contact-btn:hover{ background: var(--special_blue-dark); color:#fff; }
+        .special_contact-btn-mobile{ display:none; }
+
+        /* Hamburger (mobile) */
+        .special_hamburger{
+            display:none;
+            flex-direction:column;
+            justify-content:center;
+            gap:5px;
+            width: 30px;
+            height: 30px;
+            background:none;
+            border:none;
+            cursor:pointer;
+            padding:0;
+        }
+        .special_hamburger span{
+            display:block;
+            height:2px;
+            width:100%;
+            background: var(--special_text-dark);
+            border-radius:2px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .special_hamburger.special_open span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+        .special_hamburger.special_open span:nth-child(2){ opacity:0; }
+        .special_hamburger.special_open span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+        .special_overlay{
+            display:none;
+            position:fixed;
+            inset:0;
+            background: rgba(10,12,20,0.4);
+            z-index:140;
+        }
+        .special_overlay.special_open{ display:block; }
+
+        @media (max-width: 1100px){
+            .special_nav-links{ gap: 16px; }
+            .special_nav-links > li > a{ font-size: 14px; }
+        }
+
+        @media (max-width: 860px){
+            .special_nav-links{
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                width: min(80vw, 320px);
+                background: #fff;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                gap: 4px;
+                padding: 90px 24px 28px;
+                box-shadow: -8px 0 30px rgba(20,30,60,0.15);
+                transform: translateX(100%);
+                transition: transform 0.35s ease;
+                z-index: 150;
+                overflow-y: auto;
+            }
+            .special_nav-links.special_open{ transform: translateX(0); }
+            .special_nav-links > li{ width:100%; }
+            .special_nav-links > li > a{
+                font-size: 16px;
+                padding: 12px 0;
+                width:100%;
+                border-bottom: 1px solid #f0f0f2;
+            }
+            .special_dropdown{ position:static; }
+            .special_dropdown > .special_submenu{
+                display:block;
+                position:static;
+                box-shadow:none;
+                margin-top:0;
+                padding-left: 12px;
+            }
+            .special_contact-btn-mobile{ display:flex; margin-top: 14px; }
+
+            .special_hamburger{ display:flex; }
+            .special_navbar > .special_contact-btn{ display:none; }
+
+            .special_navbar{ padding-top: 12px; padding-bottom: 12px; }
+            .special_logo{ font-size: 16px; }
+            .special_logo img{ height: 26px !important; }
+        }
+
+        @media (max-width: 640px){
+            .special_navbar{ padding-left: 16px; padding-right: 16px; }
+            .special_navbar-wrap.special_at-top{ padding: 10px 10px 0 10px; }
+            .special_navbar-wrap.special_at-top .special_navbar{ border-radius: 24px; padding: 12px 18px; }
+        }
+    </style>
+    <!-- Custom Style -->
+    @if(isset($setting->custom_css))
+        <style type="text/css">
+            {
+                ! ! strip_tags($setting->custom_css) ! !
+            }
+
+            .page-title .bread-crumb {
+                background: black !important;
+            }
+        </style>
+    @endif
+
+    <style>
+        /* Floating WhatsApp Button */
+        .whatsapp-button {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            background-color: #25d366;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+            animation: bounce 3s infinite;
+        }
+
+        .whatsapp-button img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Hover Effects */
+        .whatsapp-button:hover {
+            background-color: #1ebe5d;
+            transform: scale(1.1);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .whatsapp-button:hover img {
+            transform: rotate(10deg);
+        }
+
+        /* Bounce Animation */
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-25px);
+            }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .whatsapp-button {
+                width: 45px;
+                height: 45px;
+                bottom: 10px;
+                right: 10px;
+            }
+
+            .whatsapp-button img {
+                width: 30px;
+                height: 30px;
+            }
+        }
+
+
+
+        /* footer section */
+        .custom-footer {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #0B2447;
+            color: #ffffff !important;
+        }
+
+        .custom-footer {
+            background: radial-gradient(circle at top left, #000000, #000000);
+            padding: 60px 0 30px;
+        }
+
+        .custom-footer-section h5 {
+            font-weight: 700;
+            font-size: 20px;
+            margin-bottom: 25px;
+            position: relative;
+            color: #ffffff !important;
+        }
+
+        .custom-footer-section h5::after {
+            content: '';
+            width: 40px;
+            height: 3px;
+            background: #32CD32;
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+        }
+
+        .custom-footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .custom-footer-section ul li {
+            margin-bottom: 15px;
+        }
+
+        .custom-footer-section ul li a {
+            text-decoration: none;
+            color: #e0e0e0;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .custom-footer-section ul li a:hover {
+            color: #32CD32;
+        }
+
+        .custom-footer-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 50px 0 20px;
+        }
+
+        .custom-footer-bottom {
+            text-align: left;
+            color: #aaa;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .custom-footer-bottom p a {
+            color: #ffffff
+        }
+
+        .custom-footer-social-icons {
+            margin-top: 20px;
+        }
+
+        .custom-footer-social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            margin: 0 5px;
+            text-align: center;
+            border-radius: 50%;
+            font-size: 20px;
+            background: #fff;
+            color: #000;
+            transition: 0.3s;
+        }
+
+        .custom-footer-social-icons a:hover {
+            transform: scale(1.1);
+        }
+
+        .custom-footer-social-icons a.whatsapp {
+            background: #32CD32;
+            color: #fff;
+        }
+
+        .custom-footer-social-icons a.facebook {
+            background: #1877f2;
+            color: #fff;
+        }
+
+        .custom-footer-social-icons a.twitter {
+            background: #000;
+            color: #fff;
+        }
+
+        .custom-footer-social-icons a.linkedin {
+            background: #0a66c2;
+            color: #fff;
+        }
+
+        .custom-footer-social-icons a.youtube {
+            background: #ff0000;
+            color: #fff;
+        }
+
+        .custom-footer-social-icons a.instagram {
+            background: #E1306C;
+            color: #fff;
+        }
+
+        .custom-footer-social-icons a.behance {
+            background: #1769ff;
+            color: #fff;
+        }
+
+        .custom-footer-social-icons a.pinterest {
+            background: #e60023;
+            color: #fff;
+        }
+
+
+
+
+
+    </style>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {{-- google analytics --}}
+    <!-- Google tag (gtag.js) -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=G-FQTTGFBMBE"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-FQTTGFBMBE');
+    </script>
+    <link href="//cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+</head>
+
 <body>
 
-@php
-  $servicesMenu = $servicesMenu ?? [
-      [
-          'name' => 'Web Development',
-          'slug' => 'web-development',
-          'blurb' => 'Custom sites & platforms',
-          'children' => [
-              ['name' => 'Custom Web Applications', 'slug' => 'custom-web-applications'],
-              ['name' => 'E-commerce Development', 'slug' => 'ecommerce-development'],
-              ['name' => 'CMS & Headless CMS', 'slug' => 'cms-development'],
-              ['name' => 'API Integration', 'slug' => 'api-integration'],
-              ['name' => 'Progressive Web Apps', 'slug' => 'progressive-web-apps'],
-              ['name' => 'Website Maintenance', 'slug' => 'website-maintenance'],
-              ['name' => 'Performance Optimization', 'slug' => 'performance-optimization'],
-              ['name' => 'Third-Party Integrations', 'slug' => 'third-party-integrations'],
-          ],
-      ],
-      [
-          'name' => 'Mobile App Development',
-          'slug' => 'mobile-app-development',
-          'blurb' => 'iOS, Android & cross-platform',
-          'children' => [
-              ['name' => 'iOS App Development', 'slug' => 'ios-app-development'],
-              ['name' => 'Android App Development', 'slug' => 'android-app-development'],
-              ['name' => 'Cross-platform (Flutter / RN)', 'slug' => 'cross-platform-apps'],
-          ],
-      ],
-      [
-          'name' => 'UI/UX Design',
-          'slug' => 'ui-ux-design',
-          'blurb' => 'Research-led product design',
-          'children' => [
-              ['name' => 'Product Design', 'slug' => 'product-design'],
-              ['name' => 'Wireframing & Prototyping', 'slug' => 'wireframing-prototyping'],
-              ['name' => 'Design Systems', 'slug' => 'design-systems'],
-          ],
-      ],
-      [
-          'name' => 'Cloud & DevOps',
-          'slug' => 'cloud-devops',
-          'blurb' => 'Ship faster, run reliably',
-          'children' => [
-              ['name' => 'Cloud Migration', 'slug' => 'cloud-migration'],
-              ['name' => 'CI/CD Pipelines', 'slug' => 'ci-cd-pipelines'],
-              ['name' => 'Infrastructure Management', 'slug' => 'infrastructure-management'],
-          ],
-      ],
-      [
-          'name' => 'Digital Marketing',
-          'slug' => 'digital-marketing',
-          'blurb' => 'Grow the right way',
-          'children' => [
-              ['name' => 'SEO', 'slug' => 'seo'],
-              ['name' => 'Social Media Marketing', 'slug' => 'social-media-marketing'],
-              ['name' => 'Content Strategy', 'slug' => 'content-strategy'],
-          ],
-      ],
-  ];
-@endphp
+    <div class="page-wrapper">
+        <!-- Preloader -->
+        <div class="preloader"></div>
 
-<nav id="msn-nav">
-  <div class="msn-nav-row">
-    <a href="{{ route('home') }}" class="msn-nav-logo">
-      <img src="{{ asset('/uploads/setting/' . ($setting->logo_path ?? '')) }}" alt="{{ $setting->title ?? 'MSN Softtech' }}">
-    </a>
+        <!-- Main Header-->
+        <div class="special_overlay" id="overlay"></div>
 
-    <ul class="msn-nav-links">
-      <li><a href="{{ route('home') }}">Home</a></li>
-      <li><a href="{{ route('about') ?? '#' }}">About</a></li>
+        <div class="special_navbar-wrap special_at-top" id="navbarWrap">
+            <nav class="special_navbar">
 
-      <li class="has-drop">
-        <a href="{{ route('services') }}">
-          Services
-          <svg class="msn-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-        </a>
+                @if(isset($setting))
+                    <div class="special_logo">
+                        <a href="{{ route('home') }}"><img src="{{ asset('/uploads/setting/' . $setting->logo_path) }}" alt="{{ $setting->title ?? 'Logo' }}"></a>
+                    </div>
+                @endif
 
-        {{-- MEGA MENU --}}
-        <div class="msn-dropdown msn-mega" data-mega>
-          <div class="msn-mega-inner">
-            <div class="msn-mega-left">
-              @foreach($servicesMenu as $i => $service)
-                <button
-                  type="button"
-                  class="msn-mega-item{{ $i === 0 ? ' is-active' : '' }}"
-                  data-panel-target="panel-{{ $service['slug'] }}"
-                >
-                  {{ $service['name'] }}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                <ul class="special_nav-links" id="navLinks">
+
+                    @php
+                        $page_home = \App\Models\PageSetup::page('home');
+                    @endphp
+                    @if(isset($page_home))
+                        <li><a class="{{ Request::path() == '/' ? 'special_current' : '' }}" href="{{ route('home') }}">{{ $page_home->title }}</a></li>
+                    @endif
+
+                    @php
+                        $page_about = \App\Models\PageSetup::page('about-us');
+                        $page_faqs = \App\Models\PageSetup::page('faqs');
+                        $page_contact = \App\Models\PageSetup::page('contact-us');
+                    @endphp
+                    @if(isset($page_about) || isset($page_faqs) || isset($page_contact))
+                        <li class="special_dropdown">
+                            <a class="{{ Request::is('about*') || Request::is('faqs*') || Request::is('contact*') ? 'special_current' : '' }}" href="{{ isset($page_about) ? route('about') : '#' }}">About Us <span class="special_chevron"></span></a>
+                            <ul class="special_submenu">
+                                @if(isset($page_about))
+                                    <li><a href="{{ route('about') }}">{{ $page_about->title }}</a></li>
+                                @endif
+                                @if(isset($page_faqs))
+                                    <li><a href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
+                                @endif
+                                @if(isset($page_contact))
+                                    <li><a href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
+                                @endif
+                            </ul>
+                        </li>
+                    @endif
+
+                    @php
+                        $page_services = \App\Models\PageSetup::page('services');
+                    @endphp
+                    @if(isset($page_services))
+                        <li class="special_dropdown">
+                            <a class="{{ Request::is('service*') || Request::is('related-service*') ? 'special_current' : '' }}" href="{{ route('services') }}">{{ $page_services->title }} <span class="special_chevron"></span></a>
+                            <ul class="special_submenu">
+                                @foreach($service_subnavs as $service_subnav)
+                                    @if(isset($service_subnav->manu) && $service_subnav->manu == 1)
+                                        <li>
+                                            <a href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
+                                            @if($service_subnav->subservices->count() > 0)
+                                                <ul class="special_submenu-nested">
+                                                    @foreach($service_subnav->subservices as $sub)
+                                                        <li><a href="{{ route('service.related-single', $sub->slug) }}">{{ $sub->short_title }}</a></li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endif
+
+                    <li><a class="{{ Request::is('technologies*') ? 'special_current' : '' }}" href="{{ route('technologies') }}">Technologies</a></li>
+
+                    @php
+                        $page_portfolio = \App\Models\PageSetup::page('portfolio');
+                    @endphp
+                    @if(isset($page_portfolio))
+                        <li><a class="{{ Request::is('portfolio*') ? 'special_current' : '' }}" href="{{ route('portfolios') }}">{{ $page_portfolio->title }}</a></li>
+                    @endif
+
+                    @php
+                        $all_pages = \App\Models\Page::where('type', 'casestudy')->get();
+                        $isCurrentCasestudy = $all_pages->contains('slug', request()->segment(2));
+                    @endphp
+                    @if($all_pages->count())
+                        <li class="special_dropdown">
+                            <a class="{{ $isCurrentCasestudy ? 'special_current' : '' }}" href="#">{{ __('Case Study') }} <span class="special_chevron"></span></a>
+                            <ul class="special_submenu">
+                                @foreach($all_pages as $page)
+                                    <li><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endif
+
+                    @php
+                        $re_page = \App\Models\Page::where('type', 'resources')->get();
+                        $isCurrentResource = $re_page->contains('slug', request()->segment(2));
+                    @endphp
+                    @if($re_page->count())
+                        <li class="special_dropdown">
+                            <a class="{{ $isCurrentResource ? 'special_current' : '' }}" href="#">{{ __('Resources') }} <span class="special_chevron"></span></a>
+                            <ul class="special_submenu">
+                                @foreach($re_page as $page)
+                                    <li><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endif
+
+                    @php
+                        $page_blog = \App\Models\PageSetup::page('blog');
+                    @endphp
+                    @if(isset($page_blog))
+                        <li><a class="{{ Request::is('blogs*') ? 'special_current' : '' }}" href="{{ route('blogs') }}">{{ $page_blog->title }}</a></li>
+                    @endif
+
+                    @php
+                        $page_casestudy = \App\Models\PageSetup::page('case-studies');
+                    @endphp
+                    @if(isset($page_casestudy))
+                        <li><a class="{{ Request::is('case*') ? 'special_current' : '' }}" href="{{ route('case') }}">{{ $page_casestudy->title }}</a></li>
+                    @endif
+
+                    {{-- @php
+                        $page_quote = \App\Models\PageSetup::page('get-quote');
+                    @endphp
+                    @if(isset($page_quote))
+                        <li><a href="{{ route('get-quote') }}" class="special_contact-btn special_contact-btn-mobile">{{ $page_quote->title }} →</a></li>
+                    @endif --}}
+                </ul>
+
+                @if(isset($page_quote))
+                    <a href="{{ route('get-quote') }}" class="special_contact-btn">{{ $page_quote->title }} →</a>
+                @endif
+
+                <button class="special_hamburger" id="hamburger" aria-label="Toggle navigation">
+                    <span></span><span></span><span></span>
                 </button>
-              @endforeach
-              <a href="{{ route('services') }}" class="msn-mega-item" style="margin-top:8px;border-top:1px solid var(--msn-nav-border);border-radius:0;padding-top:14px;color:black;">
-                View all services →
-              </a>
-            </div>
+            </nav>
+        </div>
 
-            <div class="msn-mega-right">
-              @foreach($servicesMenu as $i => $service)
-                <div class="msn-mega-panel{{ $i === 0 ? ' is-active' : '' }}" id="panel-{{ $service['slug'] }}">
-                  <span class="msn-mega-panel-title">{{ $service['name'] }} — {{ $service['blurb'] }}</span>
-                  <div class="msn-mega-panel-links">
-                    @foreach($service['children'] as $child)
-                      <a href="{{ route('services') }}#{{ $child['slug'] }}">{{ $child['name'] }}</a>
-                    @endforeach
-                  </div>
+        <script>
+            (function () {
+                const navbarWrap = document.getElementById('navbarWrap');
+                const hamburger = document.getElementById('hamburger');
+                const navLinks = document.getElementById('navLinks');
+                const overlay = document.getElementById('overlay');
+                const SCROLL_THRESHOLD = 40;
+
+                function onScroll(){
+                    if(window.scrollY > SCROLL_THRESHOLD){
+                        navbarWrap.classList.remove('special_at-top');
+                    } else {
+                        navbarWrap.classList.add('special_at-top');
+                    }
+                }
+                window.addEventListener('scroll', onScroll, { passive: true });
+                onScroll();
+
+                function toggleMenu(){
+                    hamburger.classList.toggle('special_open');
+                    navLinks.classList.toggle('special_open');
+                    overlay.classList.toggle('special_open');
+                    document.body.style.overflow = navLinks.classList.contains('special_open') ? 'hidden' : '';
+                }
+                hamburger.addEventListener('click', toggleMenu);
+                overlay.addEventListener('click', toggleMenu);
+                navLinks.querySelectorAll('a').forEach(function(a){
+                    a.addEventListener('click', function(){
+                        if(navLinks.classList.contains('special_open')) toggleMenu();
+                    });
+                });
+            })();
+        </script>
+        <!--End Main Header -->
+
+        <!--  -->
+        <!-- Content Start -->
+        @yield('content')
+        <!-- Content End -->
+
+
+
+        <!-- Main custom-Footer -->
+        <footer class="custom-footer">
+            <div class="container">
+                <div class="row text-left">
+
+                    <div class="col-md-3 custom-footer-section mb-4">
+                        <h5>Company</h5>
+                        <ul>
+                            <li><a href="{{ route('about') }}">About Us</a></li>
+                            {{-- <li><a href="#">Careers</a></li>
+                            <li><a href="#">Giving Back</a></li>
+                            <li><a href="#">Referral Program</a></li> --}}
+                        </ul>
+                    </div>
+
+                    <div class="col-md-3 custom-footer-section mb-4">
+                        <h5>Services</h5>
+                        <ul>
+                            <li><a href="{{ route('services') }}">Services</a></li>
+                            <li><a href="{{ route('technologies') }}">Technologies</a></li>
+                            {{-- <li><a href="#">How We Work</a></li> --}}
+                        </ul>
+                    </div>
+
+                    <div class="col-md-3 custom-footer-section mb-4">
+                        <h5>Insights</h5>
+                        <ul>
+                            <li><a href="{{ route('blogs') }}">Blog</a></li>
+                            <li><a href="{{ route('case') }}">Case Studies</a></li>
+                            {{-- <li><a href="#">Sitemap</a></li> --}}
+                        </ul>
+                    </div>
+
+                    @if(count($pages) > 0)
+                        <div class="col-md-3 custom-footer-section mb-4">
+                            <h5>Policies</h5>
+                            <ul>
+                                @foreach($pages as $key => $page)
+                                    @if (isset($page->type) && $page->type == 'footer')
+                                        <li><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a></li>
+                                    @endif
+                                @endforeach
+                                {{-- <li><a href="#">Privacy Policy</a></li> --}}
+                                {{-- <li><a href="#">Cookie Policy</a></li>
+                                <li><a href="#">Refund Policy</a></li> --}}
+                                {{-- <li><a href="#">Disclaimer</a></li> --}}
+                            </ul>
+                        </div>
+                    @endif
                 </div>
-              @endforeach
-            </div>
-          </div>
-        </div>
-      </li>
 
-      <li><a href="{{ route('portfolios') }}">Work</a></li>
-      <li><a href="{{ route('blogs') }}">Blog</a></li>
-      <li><a href="{{ route('contact') ?? '#' }}">Contact</a></li>
-    </ul>
+                <div class="custom-footer-divider"></div>
 
-    <div class="msn-nav-actions">
-    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $setting->phone_two ?? '') }}"
-   target="_blank"
-   class="msn-nav-phone">
+                <div class="d-flex justify-content-between align-items-center">
+                    @if(isset($setting))
+                        <div class="custom-footer-bottom mt-3">
+                            <p style="color: #ffffff;">Copyright &copy; 2023 –
+                                {!! strip_tags($setting->footer_text, '<p><a><b><i><u><strong>') !!}
+                            </p>
+                        </div>
+                    @endif
+                    <div class="text-center">
+                        <div class="custom-footer-social-icons">
+                            @if(isset($social->facebook))
+                                <a class="facebook d-flex justify-content-center align-items-center"
+                                    href="{{ $social->facebook }}" target="_blank"><i class="bi bi-facebook"></i></a>
+                            @endif
+                            @if(isset($social->twitter))
+                                <a class="twitter d-flex justify-content-center align-items-center"
+                                    href="{{ $social->twitter }}" target="_blank"><i class="bi bi-twitter-x"></i></a>
+                            @endif
+                            @if(isset($social->instagram))
+                                <a class="instagram d-flex justify-content-center align-items-center"
+                                    href="{{ $social->instagram }}" target="_blank"><i class="bi bi-instagram"></i></a>
+                            @endif
+                            @if(isset($social->linkedin))
+                                <a class="linkedin d-flex justify-content-center align-items-center"
+                                    href="{{ $social->linkedin }}" target="_blank"><i class="bi bi-linkedin"></i></a>
+                            @endif
+                            @if(isset($social->pinterest))
+                                <a class="pinterest d-flex justify-content-center align-items-center"
+                                    href="{{ $social->pinterest }}" target="_blank"><i class="bi bi-pinterest"></i></a>
+                            @endif
+                            @if(isset($social->youtube))
+                                <a class="youtube d-flex justify-content-center align-items-center"
+                                    href="{{ $social->youtube }}" target="_blank"><i class="bi bi-youtube"></i></a>
+                            @endif
+                            @if(isset($social->skype))
+                                <a href="skype:{{ $social->skype }}?chat" target="_blank"><i class="bi bi-skype"></i></a>
+                            @endif
+                            @if(isset($social->whatsapp))
+                                <a rel="noopener noreferrer"
+                                    class="whatsapp d-flex justify-content-center align-items-center"
+                                    href="//wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><i
+                                        class="bi bi-whatsapp"></i></a>
+                            @endif
 
-    <i class="bi bi-whatsapp whatsapp-icon"></i>
-
-    {{-- {{ $setting->phone_two ?? '' }} --}}
-</a>
-
-    <a href="{{ route('get-quote') }}" class="msn-btn msn-btn-primary msn-btn-sm">
-        Get a Quote
-    </a>
-
-    <button type="button" class="msn-burger" id="msnBurger" aria-label="Toggle menu" aria-expanded="false" aria-controls="msnMobilePanel">
-        <span></span><span></span><span></span>
-    </button>
-</div>
-  </div>
-
-  {{-- Backdrop (mobile only) --}}
-  <div class="msn-mobile-backdrop" id="msnMobileBackdrop"></div>
-
-  {{-- Slide-in mobile panel (mobile only, hidden entirely on desktop) --}}
-  <div class="msn-mobile-panel" id="msnMobilePanel">
-    <div class="msn-mobile-panel-inner">
-      <ul class="msn-mobile-nav-list">
-        <li><a href="{{ route('home') }}">Home</a></li>
-        <li><a href="{{ route('about') ?? '#' }}">About</a></li>
-
-        <li class="has-drop">
-          <button type="button" class="msn-mobile-toggle" aria-expanded="false">
-            Services
-            <svg class="msn-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="msn-mobile-sub">
-            <a href="{{ route('services') }}">All Services</a>
-            <a href="{{ route('technologies') }}">Technologies</a>
-            <a href="{{ route('portfolios') }}">Portfolio</a>
-
-            @foreach($servicesMenu as $service)
-              <div class="msn-mobile-service-group">
-                <button type="button" class="msn-mobile-service-toggle">
-                  {{ $service['name'] }}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                </button>
-                <div class="msn-mobile-service-children">
-                  @foreach($service['children'] as $child)
-                    <a href="{{ route('services') }}#{{ $child['slug'] }}">{{ $child['name'] }}</a>
-                  @endforeach
+                        </div>
+                    </div>
                 </div>
-              </div>
-            @endforeach
-          </div>
-        </li>
 
-        <li><a href="{{ route('portfolios') }}">Work</a></li>
-        <li><a href="{{ route('blogs') }}">Blog</a></li>
-        <li><a href="{{ route('contact') ?? '#' }}">Contact</a></li>
-      </ul>
-      <a href="{{ route('get-quote') }}" class="msn-btn msn-btn-primary">Get a Quote →</a>
+
+            </div>
+        </footer>
+
+
+
     </div>
-  </div>
-</nav>
 
-@yield('content')
+    <!--Scroll to top-->
+    <div style="background-color: #1ebe5d" class="scroll-to-top scroll-to-target" data-target="html"><span
+            class="fas fa-angle-double-up"></span></div>
+
+    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-{{-- =====================================================================
-     FOOTER — web/inc/footer.blade.php (unchanged)
-     ===================================================================== --}}
-<footer id="msn-footer">
+    <!-- ✅ Owl Carousel JS -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" defer></script>
+    <script src="{{ asset('web/js/jquery.js') }}" defer></script>
+    <script src="{{ asset('web/js/popper.min.js') }}" defer></script>
+    <script src="{{ asset('web/js/bootstrap.min.js') }}" defer></script>
+    <script src="{{ asset('web/js/jquery.fancybox.js') }}" defer></script>
+    <script src="{{ asset('web/js/owl.js') }}" defer></script>
+    <script src="{{ asset('web/js/wow.js') }}" defer></script>
+    <script src="{{ asset('web/js/appear.js') }}" defer></script>
+    <script src="{{ asset('web/js/isotope.js') }}" defer></script>
+    <script src="{{ asset('web/js/jquery.mCustomScrollbar.concat.min.js') }}" defer></script>
+    <script src="{{ asset('web/js/jquery-ui.js') }}" defer></script>
+    <script type="module" src="{{ asset('web/js/mixitup.js') }}" defer></script>
+    @if($livechat->status == 1)
+        <script src="{{ asset('web/js/floating-wpp.min.js') }}" defer></script>
+    @endif
+    <script src="{{ asset('web/js/script.js') }}" defer></script>
 
-  {{-- <div class="msn-footer-cta">
-    <div class="container">
-      <span class="msn-eyebrow msn-eyebrow-on-dark">Let's Talk</span>
-      <h3>Have a project in mind? Let's build it right the first time.</h3>
-      <p>Tell us what you're trying to ship — we'll reply with a clear scope, timeline and a real quote, not a sales pitch.</p>
-      <a href="{{ route('get-quote') }}" class="msn-btn msn-btn-primary">Start a Project →</a>
-    </div>
-  </div> --}}
 
-  <div class="msn-footer-main">
-    <div class="container">
-      <div class="msn-footer-grid">
+    @if($livechat->status == 1)
+        <!--Div where the WhatsApp will be rendered-->
+        <div id="whatspp_live"></div>
 
-        <div class="msn-footer-brand">
-          <img src="{{ asset('/uploads/setting/' . ($setting->logo_path ?? '')) }}" alt="{{ $setting->title ?? 'MSN Softtech' }}">
-          <p>{!! str_limit(strip_tags($setting->description ?? ''), 150, ' ...') !!}</p>
-          <div class="msn-footer-social">
-            @if(isset($setting->facebook))
-              <a href="{{ $setting->facebook }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
-            @endif
-            @if(isset($setting->twitter))
-              <a href="{{ $setting->twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
-            @endif
-            @if(isset($setting->linkedin))
-              <a href="{{ $setting->linkedin }}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-            @endif
-            @if(isset($setting->instagram))
-              <a href="{{ $setting->instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
-            @endif
-          </div>
+        <script type="text/javascript">
+            (function ($) {
+                "use strict";
+                $('#whatspp_live').floatingWhatsApp({
+                    phone: '{{ $livechat->whatsapp_no }}', //WhatsApp Business phone number International format
+                    headerTitle: '{{ $livechat->whatsapp_title }}', //Popup Title
+                    popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
+                    showPopup: true, //Enables popup display
+                    buttonImage: '<img src="{{ asset('
+                                                web / images / social / whatsapp.png ') }}">', //Button Image
+                    headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
+                    backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
+                    position: "right"
+                });
+            })(jQuery);
+        </script>
+    @endif
+
+
+    @if($livechat->status == 0)
+        <!-- Load Facebook SDK for JavaScript -->
+        <div id="fb-root"></div>
+        <script type="text/javascript">
+            (function ($) {
+                "use strict";
+
+                window.fbAsyncInit = function () {
+                    FB.init({
+                        xfbml: true,
+                        version: 'v8.0'
+                    });
+                };
+
+                (function (d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = '//connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
+
+            })(jQuery);
+        </script>
+
+        <!-- Your Chat Plugin code -->
+        <div class="fb-customerchat" attribution=setup_tool page_id="{{ $livechat->facebook_id }}"
+            theme_color="{{ $livechat->facebook_color }}" logged_in_greeting="{{ $livechat->facebook_greeting_in }}"
+            logged_out_greeting="{{ $livechat->facebook_greeting_out }}">
         </div>
-
-        <div class="msn-footer-col">
-          <h6>Company</h6>
-          <ul>
-            <li><a href="{{ route('about') ?? '#' }}">About Us</a></li>
-            <li><a href="{{ route('portfolios') }}">Portfolio</a></li>
-            <li><a href="{{ route('blogs') }}">Blog</a></li>
-            <li><a href="{{ route('contact') ?? '#' }}">Contact</a></li>
-          </ul>
-        </div>
-
-        <div class="msn-footer-col">
-          <h6>Services</h6>
-          <ul>
-            <li><a href="{{ route('services') }}">Web Development</a></li>
-            <li><a href="{{ route('technologies') }}">Technologies</a></li>
-            <li><a href="{{ route('get-quote') }}">Get a Quote</a></li>
-          </ul>
-        </div>
-
-        <div class="msn-footer-col">
-          <h6>Contact</h6>
-          <ul class="msn-footer-contact">
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              <span>{{ $setting->phone_two ?? '' }}</span>
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
-              <span>{{ $setting->email ?? '' }}</span>
-            </li>
-            @if(isset($setting->address))
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                <span>{{ $setting->address }}</span>
-              </li>
-            @endif
-          </ul>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="msn-footer-bottom">
-      <p>© {{ date('Y') }} {{ $setting->title ?? 'MSN Softtech' }}. All rights reserved.</p>
-      <ul class="msn-footer-legal">
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Terms of Service</a></li>
-      </ul>
-    </div>
-  </div>
-</footer>
-
-<script>
-  /* Site-wide .msn-reveal scroll animation */
-  (function(){
-    if(!('IntersectionObserver' in window)){
-      document.querySelectorAll('.msn-reveal').forEach(function(el){ el.classList.add('is-visible'); });
-      return;
-    }
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('.msn-reveal').forEach(function(el){ io.observe(el); });
-  })();
-</script>
-
-<script>
-
-  (function(){
-    var burger   = document.getElementById('msnBurger');
-    var panel    = document.getElementById('msnMobilePanel');
-    var backdrop = document.getElementById('msnMobileBackdrop');
-    var body     = document.body;
-
-    function openMobile(){
-      burger.classList.add('is-active');
-      burger.setAttribute('aria-expanded', 'true');
-      panel.classList.add('is-open');
-      backdrop.classList.add('is-open');
-      body.classList.add('msn-nav-open');
-    }
-    function closeMobile(){
-      burger.classList.remove('is-active');
-      burger.setAttribute('aria-expanded', 'false');
-      panel.classList.remove('is-open');
-      backdrop.classList.remove('is-open');
-      body.classList.remove('msn-nav-open');
-    }
-
-    if(burger && panel && backdrop){
-      burger.addEventListener('click', function(){
-        panel.classList.contains('is-open') ? closeMobile() : openMobile();
-      });
-      backdrop.addEventListener('click', closeMobile);
-      document.addEventListener('keydown', function(e){
-        if(e.key === 'Escape') closeMobile();
-      });
-      window.addEventListener('resize', function(){
-        if(window.innerWidth >= 992) closeMobile();
-      });
-    }
-
-    // Mobile: Services accordion (level 1)
-    document.querySelectorAll('.msn-mobile-toggle').forEach(function(t){
-      t.addEventListener('click', function(){
-        var li = t.closest('li');
-        var expanding = !li.classList.contains('is-open');
-        li.classList.toggle('is-open', expanding);
-        t.setAttribute('aria-expanded', expanding ? 'true' : 'false');
-      });
-    });
-
-    // Mobile: per-service accordion (level 2)
-    document.querySelectorAll('.msn-mobile-service-toggle').forEach(function(t){
-      t.addEventListener('click', function(){
-        t.closest('.msn-mobile-service-group').classList.toggle('is-open');
-      });
-    });
-
-    // Desktop: mega menu panel switching
-    document.querySelectorAll('[data-mega]').forEach(function(mega){
-      var items  = mega.querySelectorAll('.msn-mega-item[data-panel-target]');
-      var panels = mega.querySelectorAll('.msn-mega-panel');
-
-      function activate(targetId){
-        items.forEach(function(i){
-          i.classList.toggle('is-active', i.dataset.panelTarget === targetId);
+    @endif
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let waButton = document.createElement("div");
+            waButton.innerHTML = `
+            
+                <a rel="noopener noreferrer" href="//wa.link/lnuvjw" target="_blank" class="whatsapp-button">
+                    <img src="//upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                </a>
+            `;
+            document.body.appendChild(waButton);
         });
-        panels.forEach(function(p){
-          p.classList.toggle('is-active', p.id === targetId);
+    </script>
+    <script>
+        document.querySelectorAll('a').forEach(link => {
+            if (!link.hasAttribute('href') && link.innerHTML.trim() === '') {
+                link.style.display = 'none';
+            }
         });
-      }
+    </script>
+    @yield('scriptjs')
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-      items.forEach(function(item){
-        item.addEventListener('mouseenter', function(){ activate(item.dataset.panelTarget); });
-        item.addEventListener('focus', function(){ activate(item.dataset.panelTarget); });
-        item.addEventListener('click', function(e){ e.preventDefault(); activate(item.dataset.panelTarget); });
-      });
-    });
-
-    // Touch devices: tapping "Services" toggles the mega menu open/closed
-    var servicesTrigger = document.querySelector('#msn-nav .has-drop > a[href*="service"]');
-    if(servicesTrigger){
-      servicesTrigger.addEventListener('click', function(e){
-        if(window.matchMedia('(hover: none)').matches){
-          var mega = servicesTrigger.parentElement.querySelector('.msn-dropdown.msn-mega');
-          if(mega && !mega.classList.contains('is-open')){
-            e.preventDefault();
-            document.querySelectorAll('.msn-dropdown.msn-mega.is-open').forEach(function(m){ m.classList.remove('is-open'); });
-            mega.classList.add('is-open');
-          }
-        }
-      });
-      document.addEventListener('click', function(e){
-        if(!servicesTrigger.parentElement.contains(e.target)){
-          document.querySelectorAll('.msn-dropdown.msn-mega.is-open').forEach(function(m){ m.classList.remove('is-open'); });
-        }
-      });
-    }
-  })();
-</script>
-@yield('scriptjs')
 </body>
+
 </html>
-
-
