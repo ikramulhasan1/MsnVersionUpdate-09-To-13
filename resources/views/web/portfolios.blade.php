@@ -91,7 +91,7 @@
       --line: #e2ded9;
       --muted: #5b564f;
       --faint: #9a948b;
-      --accent: #17C9A8;
+      --accent: #D2241D;
       --accent-2: #10131A;
       --green: #1F9D6B;
       --radius: 20px;

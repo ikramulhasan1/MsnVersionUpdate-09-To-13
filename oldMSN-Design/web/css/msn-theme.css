@@ -94,7 +94,7 @@ body{ background: var(--bp-paper) !important; }
   display:flex;align-items:center;justify-content:center;
   flex:0 0 auto;
 }
-.msn-eyebrow-on-dark{ color:#17C9A8; }
+.msn-eyebrow-on-dark{ color:#D2241D; }
 .msn-eyebrow-on-dark::before{ color: var(--bp-amber); }
 
 /* =====================================================================

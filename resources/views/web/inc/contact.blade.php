@@ -21,7 +21,7 @@
             href="{{ route('home') }}">{{ __('navbar.home') }}</a><span>/</span>{{ __('navbar.contact') }}</div>
         <div class="contact-us-hero-grid">
           <div>
-            <div class="contact-us-tag"><i class="fa-solid fa-circle"></i> Let's connect</div>
+            <div class="contact-us-tag" style="color: #ffffff"><i class="fa-solid fa-circle"></i> Let's connect</div>
             <h1>Contact Us</h1>
             <p>Tell us what you are trying to build. We will reply with a clear scope, realistic timeline, and a
               straightforward quote.</p>
@@ -36,7 +36,8 @@
       <div class="container contact-us-routes-grid">@if(isset($setting->email_one))<a class="contact-us-route"
         href="mailto:{{ $setting->email_one }}"><i class="bi bi-envelope-arrow-up"></i>
         <div><small>Email us</small><strong>{{ $setting->email_one }}</strong></div>
-      </a>@endif @if(isset($setting->phone_one))<a class="contact-us-route" href="tel:{{ $setting->phone_one }}"><i class="bi bi-telephone"></i>
+      </a>@endif @if(isset($setting->phone_one))<a class="contact-us-route" href="tel:{{ $setting->phone_one }}"><i
+              class="bi bi-telephone"></i>
             <div><small>Call us</small><strong>{{ $setting->phone_one }}</strong></div>
           </a><a class="contact-us-route" href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $setting->phone_one) }}"
             target="_blank" rel="noopener"><i class="bi bi-whatsapp"></i>
@@ -77,15 +78,18 @@
                 <div class="contact-us-field"><label for="contact-us-subject">{{ __('contact.subject') }}
                     <b>*</b></label><select id="contact-us-subject" name="subject" required>
                     <option value="" disabled {{ old('subject') ? '' : 'selected' }}>Select a topic</option>
-                    <option value="Web Development" {{ old('subject') == 'Web Development' ? 'selected' : '' }}>Web Development
+                    <option value="Web Development" {{ old('subject') == 'Web Development' ? 'selected' : '' }}>Web
+                      Development
                     </option>
-                    <option value="Laravel Development" {{ old('subject') == 'Laravel Development' ? 'selected' : '' }}>Laravel
+                    <option value="Laravel Development" {{ old('subject') == 'Laravel Development' ? 'selected' : '' }}>
+                      Laravel
                       Development</option>
                     <option value="Mobile App Development" {{ old('subject') == 'Mobile App Development' ? 'selected' : '' }}>
                       Mobile App Development</option>
                     <option value="SEO & Marketing" {{ old('subject') == 'SEO & Marketing' ? 'selected' : '' }}>SEO &amp;
                       Marketing</option>
-                    <option value="General Inquiry" {{ old('subject') == 'General Inquiry' ? 'selected' : '' }}>General Inquiry
+                    <option value="General Inquiry" {{ old('subject') == 'General Inquiry' ? 'selected' : '' }}>General
+                      Inquiry
                     </option>
                   </select></div>
                 <div class="contact-us-field contact-us-full"><label
@@ -184,7 +188,8 @@
         <div class="container">
           <p>Businesses and teams worldwide trust us</p>
           <div class="contact-us-logos">@foreach($clients as $client)<div class="contact-us-logo"><img
-          src="{{ asset('uploads/client/' . $client->image_path) }}" alt="{{ $client->title }}"></div>@endforeach</div>
+          src="{{ asset('uploads/client/' . $client->image_path) }}" alt="{{ $client->title }}"></div>@endforeach
+          </div>
         </div>
     </section>@endif
     <section class="contact-us-cta">

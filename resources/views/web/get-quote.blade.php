@@ -27,15 +27,17 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
 
   <style>
     /* ==========================================================
-       GET A QUOTE — v2, aligned to the MSN SoftTech site system:
-       dark navy/teal hero, orange CTAs, "$ eyebrow" labels,
-       rounded card language borrowed from Home/About.
-       Scoped to .gq-scope so nothing leaks into the rest of the site.
-       ========================================================== */
+             GET A QUOTE — v2, aligned to the MSN SoftTech site system:
+             dark navy/teal hero, orange CTAs, "$ eyebrow" labels,
+             rounded card language borrowed from Home/About.
+             Scoped to .gq-scope so nothing leaks into the rest of the site.
+             ========================================================== */
     .gq-scope {
       --navy-950: #070c14;
       --navy-900: #0c1626;
@@ -45,13 +47,13 @@
       --paper-alt: #eef0ea;
       --ink: #12181f;
       --ink-soft: #5c6672;
-      --ink-invert-soft: rgba(255,255,255,.66);
+      --ink-invert-soft: rgba(255, 255, 255, .66);
       --orange: #17C9A8;
-      --orange-dark: #2fd6c0;
+      --orange-dark: #D2241D;
       --teal: #2fd6c0;
-      --teal-dim: rgba(47,214,192,.14);
+      --teal-dim: rgba(47, 214, 192, .14);
       --line: #e3e6df;
-      --line-dark: rgba(255,255,255,.12);
+      --line-dark: rgba(255, 255, 255, .12);
       --danger: #d9483f;
       --ok: #22b378;
       --radius: 16px;
@@ -61,9 +63,13 @@
       background: var(--paper);
     }
 
-    .gq-scope * { box-sizing: border-box; }
+    .gq-scope * {
+      box-sizing: border-box;
+    }
 
-    .gq-display { font-family: 'Space Grotesk', sans-serif; }
+    .gq-display {
+      font-family: 'Space Grotesk', sans-serif;
+    }
 
     .gq-eyebrow {
       display: inline-flex;
@@ -76,6 +82,7 @@
       color: var(--orange);
       margin-bottom: 18px;
     }
+
     .gq-eyebrow::before {
       content: '$';
       font-family: 'JetBrains Mono', monospace;
@@ -91,15 +98,17 @@
     }
 
     @media (max-width: 991px) {
-      .gq-hero { grid-template-columns: 1fr; }
+      .gq-hero {
+        grid-template-columns: 1fr;
+      }
     }
 
     /* ----- left: dark info panel ----- */
     .gq-canvas {
       position: relative;
       background:
-        radial-gradient(720px 480px at 15% 15%, rgba(47,214,192,.16), transparent 60%),
-        radial-gradient(640px 420px at 90% 85%, rgba(245,166,35,.10), transparent 55%),
+        radial-gradient(720px 480px at 15% 15%, rgba(47, 214, 192, .16), transparent 60%),
+        radial-gradient(640px 420px at 90% 85%, rgba(245, 166, 35, .10), transparent 55%),
         linear-gradient(180deg, var(--navy-950), var(--navy-900));
       color: #fff;
       padding: 88px 56px 64px;
@@ -123,8 +132,17 @@
       color: var(--ink-invert-soft);
       max-width: 440px;
     }
-    .gq-canvas .gq-sub * { color: inherit !important; font-size: inherit !important; }
-    .gq-canvas .gq-sub a { color: var(--teal) !important; font-weight: 600; text-decoration: underline; }
+
+    .gq-canvas .gq-sub * {
+      color: inherit !important;
+      font-size: inherit !important;
+    }
+
+    .gq-canvas .gq-sub a {
+      color: var(--teal) !important;
+      font-weight: 600;
+      text-decoration: underline;
+    }
 
     /* trust strip — mirrors the homepage impact-numbers pattern */
     .gq-trust {
@@ -138,16 +156,19 @@
       margin-top: 34px;
       max-width: 460px;
     }
+
     .gq-trust-item {
-      background: rgba(255,255,255,.03);
+      background: rgba(255, 255, 255, .03);
       padding: 16px 14px;
     }
+
     .gq-trust-item strong {
       display: block;
       font-family: 'Space Grotesk', sans-serif;
       font-size: 22px;
       color: var(--teal);
     }
+
     .gq-trust-item span {
       display: block;
       font-size: 11px;
@@ -164,6 +185,7 @@
       flex-direction: column;
       gap: 14px;
     }
+
     .gq-next-card {
       position: relative;
       background: var(--navy-800);
@@ -172,6 +194,7 @@
       padding: 18px 20px;
       overflow: hidden;
     }
+
     .gq-next-card .gq-ghost-num {
       position: absolute;
       right: 14px;
@@ -179,9 +202,10 @@
       font-family: 'Space Grotesk', sans-serif;
       font-size: 46px;
       font-weight: 700;
-      color: rgba(255,255,255,.05);
+      color: rgba(255, 255, 255, .05);
       line-height: 1;
     }
+
     .gq-next-card .gq-num-badge {
       width: 30px;
       height: 30px;
@@ -195,6 +219,7 @@
       font-size: 13px;
       margin-bottom: 10px;
     }
+
     .gq-next-card h4 {
       font-size: 15px;
       font-weight: 600;
@@ -202,6 +227,7 @@
       margin-bottom: 4px;
       position: relative;
     }
+
     .gq-next-card p {
       font-size: 13.5px;
       color: var(--ink-invert-soft);
@@ -218,10 +244,13 @@
       font-size: 12.5px;
       color: var(--ink-invert-soft);
     }
+
     .gq-canvas-foot .gq-dot {
-      width: 8px; height: 8px; border-radius: 50%;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
       background: var(--teal);
-      box-shadow: 0 0 0 4px rgba(47,214,192,.18);
+      box-shadow: 0 0 0 4px rgba(47, 214, 192, .18);
     }
 
     /* ----- right: form panel ----- */
@@ -233,17 +262,39 @@
       justify-content: center;
     }
 
-    @media (max-width: 1200px) { .gq-form-panel { padding: 56px 42px; } }
-    @media (max-width: 991px) { .gq-canvas, .gq-form-panel { padding: 52px 28px; } }
-    @media (max-width: 560px) { .gq-canvas, .gq-form-panel { padding: 42px 18px; } }
+    @media (max-width: 1200px) {
+      .gq-form-panel {
+        padding: 56px 42px;
+      }
+    }
 
-    .gq-sheet-head { margin-bottom: 28px; }
+    @media (max-width: 991px) {
+
+      .gq-canvas,
+      .gq-form-panel {
+        padding: 52px 28px;
+      }
+    }
+
+    @media (max-width: 560px) {
+
+      .gq-canvas,
+      .gq-form-panel {
+        padding: 42px 18px;
+      }
+    }
+
+    .gq-sheet-head {
+      margin-bottom: 28px;
+    }
+
     .gq-sheet-head h2 {
       font-size: 24px;
       font-weight: 700;
       margin: 0 0 6px;
       color: var(--ink);
     }
+
     .gq-sheet-head p {
       font-size: 14px;
       color: var(--ink-soft);
@@ -260,14 +311,32 @@
       position: relative;
       border-radius: 8px;
     }
-    .gq-alert.alert-danger { border-left-color: var(--danger); background: #fdf3f2; }
-    .gq-alert ul { margin: 0; padding-left: 18px; }
-    .gq-alert .close {
-      position: absolute; right: 10px; top: 8px;
-      font-size: 18px; line-height: 1; color: var(--ink-soft); opacity: .7;
+
+    .gq-alert.alert-danger {
+      border-left-color: var(--danger);
+      background: #fdf3f2;
     }
 
-    .gq-form { display: flex; flex-direction: column; gap: 28px; }
+    .gq-alert ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .gq-alert .close {
+      position: absolute;
+      right: 10px;
+      top: 8px;
+      font-size: 18px;
+      line-height: 1;
+      color: var(--ink-soft);
+      opacity: .7;
+    }
+
+    .gq-form {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
 
     .gq-group-label {
       font-size: 12px;
@@ -283,10 +352,20 @@
       grid-template-columns: 1fr 1fr;
       gap: 16px 18px;
     }
-    @media (max-width: 620px) { .gq-fields { grid-template-columns: 1fr; } }
 
-    .gq-field { position: relative; }
-    .gq-field.gq-full { grid-column: 1 / -1; }
+    @media (max-width: 620px) {
+      .gq-fields {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .gq-field {
+      position: relative;
+    }
+
+    .gq-field.gq-full {
+      grid-column: 1 / -1;
+    }
 
     .gq-field label {
       display: block;
@@ -297,7 +376,9 @@
       letter-spacing: .03em;
     }
 
-    .gq-input, .gq-textarea, .gq-select {
+    .gq-input,
+    .gq-textarea,
+    .gq-select {
       width: 100%;
       border: 1.5px solid var(--line);
       border-radius: 10px;
@@ -308,16 +389,32 @@
       color: var(--ink);
       transition: border-color .2s ease, background .2s ease;
     }
-    .gq-input:focus, .gq-textarea:focus, .gq-select:focus {
+
+    .gq-input:focus,
+    .gq-textarea:focus,
+    .gq-select:focus {
       outline: none;
       border-color: var(--teal);
       background: #fff;
     }
-    .gq-input::placeholder, .gq-textarea::placeholder { color: #9aa2a8; }
-    .gq-textarea { resize: vertical; min-height: 110px; }
+
+    .gq-input::placeholder,
+    .gq-textarea::placeholder {
+      color: #9aa2a8;
+    }
+
+    .gq-textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
 
     /* prefer contact */
-    .gq-radio-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .gq-radio-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
     .gq-radio {
       display: inline-flex;
       align-items: center;
@@ -330,14 +427,17 @@
       background: var(--paper);
       transition: border-color .2s ease, background .2s ease;
     }
+
     .gq-radio:has(input:checked) {
       border-color: var(--navy-900);
       background: var(--navy-900);
       color: #fff;
     }
+
     .gq-radio input {
       appearance: none;
-      width: 14px; height: 14px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
       border: 1.5px solid var(--line);
       position: relative;
@@ -345,11 +445,24 @@
       margin: 0;
       flex: none;
     }
-    .gq-radio input:checked { border-color: var(--teal); background: var(--teal); }
+
+    .gq-radio input:checked {
+      border-color: var(--teal);
+      background: var(--teal);
+    }
 
     /* services as tags */
-    .gq-services { display: flex; flex-wrap: wrap; gap: 10px; position: relative; }
-    .gq-service { position: relative; }
+    .gq-services {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      position: relative;
+    }
+
+    .gq-service {
+      position: relative;
+    }
+
     .gq-service-label {
       display: inline-block;
       padding: 9px 18px;
@@ -361,11 +474,13 @@
       transition: all .2s ease;
       background: #fff;
     }
-    .gq-service-input:checked + .gq-service-label {
+
+    .gq-service-input:checked+.gq-service-label {
       background: var(--navy-900);
       border-color: var(--orange);
       color: #fff;
     }
+
     .gq-subservices {
       display: none;
       flex-wrap: wrap;
@@ -379,11 +494,19 @@
       border: 1px solid var(--line);
       border-radius: 14px;
       padding: 12px;
-      box-shadow: 0 14px 34px rgba(7,12,20,.14);
+      box-shadow: 0 14px 34px rgba(7, 12, 20, .14);
       z-index: 10;
     }
-    .gq-subservice { display: flex; align-items: center; }
-    .gq-subservice input { display: none; }
+
+    .gq-subservice {
+      display: flex;
+      align-items: center;
+    }
+
+    .gq-subservice input {
+      display: none;
+    }
+
     .gq-subservice label {
       font-size: 12.5px;
       padding: 7px 13px;
@@ -393,7 +516,11 @@
       margin: 0;
       white-space: nowrap;
     }
-    .gq-subservice input:checked + label { background: var(--orange); color: #fff; }
+
+    .gq-subservice input:checked+label {
+      background: var(--orange);
+      color: #fff;
+    }
 
     /* uploads */
     .gq-dropzone.dropzone {
@@ -404,10 +531,21 @@
       min-height: auto;
       font-family: 'Inter', sans-serif;
     }
-    .gq-dropzone.dropzone .dz-message { margin: 0; font-size: 14px; color: var(--ink-soft); }
-    .gq-dropzone.dropzone .dz-message::before { content: '⤒ '; color: var(--orange-dark); }
 
-    .gq-captcha { display: flex; }
+    .gq-dropzone.dropzone .dz-message {
+      margin: 0;
+      font-size: 14px;
+      color: var(--ink-soft);
+    }
+
+    .gq-dropzone.dropzone .dz-message::before {
+      content: '⤒ ';
+      color: var(--orange-dark);
+    }
+
+    .gq-captcha {
+      display: flex;
+    }
 
     /* submit — matches the site's orange pill CTA */
     .gq-submit {
@@ -426,27 +564,47 @@
       gap: 10px;
       transition: background .2s ease, transform .2s ease;
     }
-    .gq-submit:hover { background: var(--orange-dark); transform: translateY(-1px); }
-    .gq-submit svg { transition: transform .25s ease; }
-    .gq-submit:hover svg { transform: translateX(4px); }
 
-    @media (max-width: 560px) { .gq-submit { width: 100%; justify-content: center; } }
+    .gq-submit:hover {
+      background: var(--orange-dark);
+      transform: translateY(-1px);
+    }
+
+    .gq-submit svg {
+      transition: transform .25s ease;
+    }
+
+    .gq-submit:hover svg {
+      transform: translateX(4px);
+    }
+
+    @media (max-width: 560px) {
+      .gq-submit {
+        width: 100%;
+        justify-content: center;
+      }
+    }
 
     /* ==========================================================
-       PROCESS — dark grid, matches "How We Make Work Successful"
-       Wraps instead of squeezing into one row, so it never goes
-       thin-and-tall regardless of how many steps there are.
-       ========================================================== */
+             PROCESS — dark grid, matches "How We Make Work Successful"
+             Wraps instead of squeezing into one row, so it never goes
+             thin-and-tall regardless of how many steps there are.
+             ========================================================== */
     .gq-process {
       background: var(--navy-950);
       padding: 96px 15px 104px;
     }
+
     .gq-process-head {
       max-width: 640px;
       margin: 0 auto 48px;
       text-align: center;
     }
-    .gq-process-head .gq-eyebrow { justify-content: center; }
+
+    .gq-process-head .gq-eyebrow {
+      justify-content: center;
+    }
+
     .gq-process-head h2 {
       font-size: clamp(26px, 3vw, 36px);
       font-weight: 700;
@@ -466,7 +624,11 @@
       padding: 28px 24px;
       transition: transform .2s ease, border-color .2s ease;
     }
-    .gq-grid-card:hover { transform: translateY(-3px); border-color: rgba(245,166,35,.4); }
+
+    .gq-grid-card:hover {
+      transform: translateY(-3px);
+      border-color: rgb(248, 248, 248);
+    }
 
     .gq-grid-num {
       width: 36px;
@@ -482,20 +644,27 @@
       font-size: 14px;
       margin-bottom: 18px;
     }
+
     .gq-grid-card h3 {
       font-size: 17px;
       font-weight: 600;
       color: #fff;
       margin-bottom: 8px;
     }
-    .gq-grid-card .gq-grid-desc, .gq-grid-card .gq-grid-desc p {
+
+    .gq-grid-card .gq-grid-desc,
+    .gq-grid-card .gq-grid-desc p {
       font-size: 14.5px !important;
       color: var(--ink-invert-soft) !important;
       line-height: 1.6;
       margin: 0;
     }
 
-    .gq-process-cta { text-align: center; margin-top: 50px; }
+    .gq-process-cta {
+      text-align: center;
+      margin-top: 50px;
+    }
+
     .gq-process-cta a {
       display: inline-flex;
       align-items: center;
@@ -509,7 +678,11 @@
       text-decoration: none;
       transition: background .2s ease;
     }
-    .gq-process-cta a:hover { background: var(--orange-dark); color: #fff; }
+
+    .gq-process-cta a:hover {
+      background: var(--orange-dark);
+      color: #fff;
+    }
   </style>
 
   <div class="gq-scope">
@@ -568,21 +741,24 @@
 
         @if(Session::has('success'))
           <div class="gq-alert alert-success alert-dismissible fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
             {{ Session::get('success') }}
           </div>
         @endif
 
         @if(Session::has('error'))
           <div class="gq-alert alert-danger alert-dismissible fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
             {{ Session::get('error') }}
           </div>
         @endif
 
         @if ($errors->any())
           <div class="gq-alert alert-danger alert-dismissible fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
             <ul>
               @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
@@ -591,7 +767,8 @@
           </div>
         @endif
 
-        <form id="quoteForm" class="gq-form" method="post" action="{{ route('get-quote.store') }}" enctype="multipart/form-data" accept-charset="utf-8">
+        <form id="quoteForm" class="gq-form" method="post" action="{{ route('get-quote.store') }}"
+          enctype="multipart/form-data" accept-charset="utf-8">
           @csrf
           <input type="hidden" name="work_model" value="{{ $work_model }}">
           <input type="hidden" name="work_scope" value="{{ $work_scope }}">
@@ -601,27 +778,33 @@
             <div class="gq-fields">
               <div class="gq-field">
                 <label for="q_name">{{ __('form.your_name') }}</label>
-                <input class="gq-input" id="q_name" type="text" name="name" placeholder="Jane Cooper" value="{{ old('name') }}" required>
+                <input class="gq-input" id="q_name" type="text" name="name" placeholder="Jane Cooper"
+                  value="{{ old('name') }}" required>
               </div>
               <div class="gq-field">
                 <label for="q_email">{{ __('form.email_address') }}</label>
-                <input class="gq-input" id="q_email" type="email" name="email" placeholder="jane@company.com" value="{{ old('email') }}" required>
+                <input class="gq-input" id="q_email" type="email" name="email" placeholder="jane@company.com"
+                  value="{{ old('email') }}" required>
               </div>
               <div class="gq-field">
                 <label for="q_phone">{{ __('form.phone_no') }}</label>
-                <input class="gq-input" id="q_phone" type="tel" name="phone" placeholder="+1 (___) ___ ____" value="{{ old('phone') }}" required>
+                <input class="gq-input" id="q_phone" type="tel" name="phone" placeholder="+1 (___) ___ ____"
+                  value="{{ old('phone') }}" required>
               </div>
               <div class="gq-field">
                 <label for="q_company">{{ __('form.company') }}</label>
-                <input class="gq-input" id="q_company" type="text" name="company" placeholder="Optional" value="{{ old('company') }}">
+                <input class="gq-input" id="q_company" type="text" name="company" placeholder="Optional"
+                  value="{{ old('company') }}">
               </div>
               <div class="gq-field">
                 <label for="q_address">{{ __('form.address') }}</label>
-                <input class="gq-input" id="q_address" type="text" name="address" placeholder="Street address" value="{{ old('address') }}" required>
+                <input class="gq-input" id="q_address" type="text" name="address" placeholder="Street address"
+                  value="{{ old('address') }}" required>
               </div>
               <div class="gq-field">
                 <label for="q_city">{{ __('form.city') }}</label>
-                <input class="gq-input" id="q_city" type="text" name="city" placeholder="City" value="{{ old('city') }}" required>
+                <input class="gq-input" id="q_city" type="text" name="city" placeholder="City" value="{{ old('city') }}"
+                  required>
               </div>
             </div>
           </div>
@@ -630,10 +813,12 @@
             <div class="gq-group-label">{{ __('form.prefer_contact') }}</div>
             <div class="gq-radio-row">
               <label class="gq-radio">
-                <input type="radio" name="prefer_contact" value="1" id="pre_email" @if(old('prefer_contact') != '2') checked @endif required> Email
+                <input type="radio" name="prefer_contact" value="1" id="pre_email" @if(old('prefer_contact') != '2')
+                checked @endif required> Email
               </label>
               <label class="gq-radio">
-                <input type="radio" name="prefer_contact" value="2" id="pre_phone" @if(old('prefer_contact') == '2') checked @endif required> Phone
+                <input type="radio" name="prefer_contact" value="2" id="pre_phone" @if(old('prefer_contact') == '2') checked
+                @endif required> Phone
               </label>
             </div>
           </div>
@@ -643,7 +828,8 @@
             <div class="gq-services">
               @foreach($services as $service)
                 <div class="gq-service">
-                  <input type="checkbox" class="gq-service-input" name="services[]" value="{{ $service->id }}" id="service-{{ $service->id }}">
+                  <input type="checkbox" class="gq-service-input" name="services[]" value="{{ $service->id }}"
+                    id="service-{{ $service->id }}">
                   <label class="gq-service-label" for="service-{{ $service->id }}">{{ $service->short_title }}</label>
 
                   @if($service->subservices && $service->subservices->count() > 0)
@@ -664,7 +850,8 @@
           <div>
             <div class="gq-group-label">Tell us about the project</div>
             <div class="gq-field gq-full">
-              <textarea class="gq-textarea" name="message" placeholder="What are you building? What does success look like?" required>{{ old('message') }}</textarea>
+              <textarea class="gq-textarea" name="message"
+                placeholder="What are you building? What does success look like?" required>{{ old('message') }}</textarea>
             </div>
           </div>
 
@@ -684,7 +871,10 @@
 
           <button class="gq-submit" type="submit" name="submit-form">
             Send Project Brief
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8H14M14 8L9 3M14 8L9 13" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M2 8H14M14 8L9 3M14 8L9 13" stroke="white" stroke-width="1.6" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
           </button>
         </form>
       </div>
@@ -715,7 +905,10 @@
           <div class="gq-process-cta">
             <a href="#quoteHero">
               Back to the form
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M14 8H2M2 8L7 3M2 8L7 13" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path d="M14 8H2M2 8L7 3M2 8L7 13" stroke="white" stroke-width="1.6" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
             </a>
           </div>
         </div>

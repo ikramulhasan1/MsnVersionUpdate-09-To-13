@@ -115,7 +115,7 @@ body{ background: var(--bp-paper) !important; }
   display:flex;align-items:center;justify-content:center;
   flex:0 0 auto;
 }
-.msn-eyebrow-on-dark{ color:#17C9A8; }
+.msn-eyebrow-on-dark{ color:#D2241D; }
 .msn-eyebrow-on-dark::before{ color: var(--bp-amber); }
 
 /* =====================================================================
@@ -210,7 +210,7 @@ body{ background: var(--bp-paper) !important; }
 .msn-btn-primary:hover{ background-color: red; border-color: red; color:#fff; box-shadow:0 14px 30px rgb(255, 138, 138); transform:translateY(-1px); }
 .msn-btn-outline{ background:transparent; color:var(--bp-text); border-color: var(--bp-line-strong); }
 .msn-btn-outline:hover{ border-color: var(--bp-text); background: var(--bp-text); color:#fff; }
-.msn-btn-ghost-light{ background:transparent; color:#fff; border-color:#17C9A8; }
+.msn-btn-ghost-light{ background:transparent; color:#fff; border-color:#D2241D; }
 .msn-btn-ghost-light:hover{ background:rgba(255,255,255,.1); border-color:red; color:red; }
 .msn-btn-sm{ padding:11px 20px; font-size:12px; }
 
@@ -234,7 +234,7 @@ body{ background: var(--bp-paper) !important; }
   --msn-nav-border: rgba(255,255,255,0.08);
   --msn-nav-text: #e7e8ee;
   --msn-nav-muted: #9aa1ae;
-  --msn-nav-accent: #17C9A8;
+  --msn-nav-accent: #D2241D;
   --msn-nav-accent-ink: #14151d;
   --msn-nav-radius: 10px;
   --msn-nav-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'Roboto Mono', Menlo, Consolas, monospace;

@@ -587,9 +587,10 @@
             </script>
         </div>
     @endif
+    @include('web.inc.whymsn')
     {{-- ============ CTA SECTION (Unico Difference + closing CTA — no matching Laravel section, kept as demo design) ============ --}}
     <div class="cta-scope">
-        <section class="cta-unico-section">
+        {{-- <section class="cta-unico-section">
             <div class="container">
                 <h1 class="cta-unico-heading">The Unico Difference</h1>
 
@@ -659,7 +660,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
 
         <section class="cta-cta-section">
             <h2 class="cta-cta-heading">

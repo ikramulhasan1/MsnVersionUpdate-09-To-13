@@ -4,8 +4,8 @@
     --ink: #17202b;
     --muted: #6e7885;
     --paper: #f5f6f7;
-    --teal: #18c2b4;
-    --orange: #17C9A8;
+    --teal: #D2241D;
+    --orange: #D2241D;
     --line: #dfe4e7;
     background: var(--paper);
     color: var(--ink);
@@ -27,7 +27,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #12aa9e;
+    color: #D2241D;
     font-family: "Space Grotesk", sans-serif;
     font-size: 10px;
     font-weight: 500;
@@ -215,7 +215,7 @@
     position: relative;
     margin-bottom: 15px;
     padding: 12px;
-    border-left: 3px solid #12aa9e;
+    border-left: 3px solid #D2241D;
     background: #edfbfa;
     color: #087f76;
     font-size: 12px;
@@ -467,7 +467,7 @@
     cursor: pointer;
 }
 .contact-us-faq-q small {
-    color: #12aa9e;
+    color: #D2241D;
     font-family: "Space Grotesk", sans-serif;
     font-size: 9px;
 }
@@ -475,7 +475,7 @@
     font-size: 13px;
 }
 .contact-us-faq-q i {
-    color: #12aa9e;
+    color: #D2241D;
     font-size: 11px;
     transition: 0.2s;
 }

@@ -1,11 +1,11 @@
 .contact-us {
-    --navy: #071725;
+    --navy: #ffffff;
     --navy2: #0b2030;
     --ink: #17202b;
     --muted: #6e7885;
     --paper: #f5f6f7;
-    --teal: #18c2b4;
-    --orange: #17C9A8;
+    --teal: #D2241D;
+    --orange: #D2241D;
     --line: #dfe4e7;
     background: var(--paper);
     color: var(--ink);
@@ -27,7 +27,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #12aa9e;
+    color: #D2241D;
     font-family: "Space Grotesk", sans-serif;
     font-size: 10px;
     font-weight: 500;
@@ -100,10 +100,11 @@
     height: 138px;
     display: grid;
     place-items: center;
-    border: 1px dashed rgba(24, 194, 180, 0.75);
+    border: 1px dashed rgba(194, 24, 24, 0.75);
     border-radius: 50%;
     color: var(--teal);
     text-align: center;
+    background-color:  rgb(255, 255, 255);
 }
 .contact-us-hero-side strong {
     display: block;
@@ -215,7 +216,7 @@
     position: relative;
     margin-bottom: 15px;
     padding: 12px;
-    border-left: 3px solid #12aa9e;
+    border-left: 3px solid #D2241D;
     background: #edfbfa;
     color: #087f76;
     font-size: 12px;
@@ -322,7 +323,7 @@
 .contact-us-side {
     padding: 31px 29px;
     background: var(--navy);
-    color: #fff;
+    color: #000000;
 }
 .contact-us-side h3 {
     margin: 8px 0 23px;
@@ -337,13 +338,13 @@
     border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 .contact-us-detail i {
-    color: var(--teal);
+    color: #000000;
     font-size: 13px;
 }
 .contact-us-detail span {
     display: block;
     margin-bottom: 3px;
-    color: rgba(255, 255, 255, 0.48);
+    color: #000000;
     font-family: "Space Grotesk", sans-serif;
     font-size: 8px;
     letter-spacing: 0.08em;
@@ -351,7 +352,7 @@
 }
 .contact-us-detail div,
 .contact-us-detail a {
-    color: rgba(255, 255, 255, 0.9);
+    color: #000000;
     font-size: 11px;
     line-height: 1.55;
 }
@@ -359,7 +360,7 @@
     margin-top: 14px;
     padding: 13px;
     border: 1px solid rgba(24, 194, 180, 0.26);
-    color: rgba(255, 255, 255, 0.66);
+    color: #000000;
     font-size: 10px;
     line-height: 1.7;
 }
@@ -467,7 +468,7 @@
     cursor: pointer;
 }
 .contact-us-faq-q small {
-    color: #12aa9e;
+    color: #D2241D;
     font-family: "Space Grotesk", sans-serif;
     font-size: 9px;
 }
@@ -475,7 +476,7 @@
     font-size: 13px;
 }
 .contact-us-faq-q i {
-    color: #12aa9e;
+    color: #D2241D;
     font-size: 11px;
     transition: 0.2s;
 }
