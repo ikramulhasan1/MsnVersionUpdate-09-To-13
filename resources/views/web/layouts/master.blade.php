@@ -579,7 +579,7 @@
 
         /* Hover Effects */
         .whatsapp-button:hover {
-            background-color: #1ebe5d;
+            background-color: #D2241D;
             transform: scale(1.1);
             box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
         }
