@@ -82,7 +82,7 @@
     background: #fff;
     border-radius: 0;
     box-shadow: 0 2px 12px rgba(20, 30, 60, 0.08);
-    padding: 0px 40px;
+    padding: 14px 40px;
     transition: padding 0.35s ease, box-shadow 0.35s ease, border-radius 0.35s ease, max-width 0.35s ease;
     position: relative;
 }
@@ -510,8 +510,8 @@
     }
 
     .special_navbar {
-        padding-top: 12px;
-        padding-bottom: 12px;
+        padding-top: 0px;
+        padding-bottom: 0px;
     }
 
     .special_logo {
