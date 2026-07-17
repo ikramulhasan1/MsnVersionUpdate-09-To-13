@@ -1,4 +1,9 @@
 {
     "postman.settings.dotenv-detection-notification-visibility": false,
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "files.autoSave": "afterDelay",
+    "files.autoSaveWhenNoErrors": true,
+    "files.autoSaveWorkspaceFilesOnly": true,
+    "editor.formatOnSave": true,
+    "editor.codeActions.triggerOnFocusChange": true
 }
