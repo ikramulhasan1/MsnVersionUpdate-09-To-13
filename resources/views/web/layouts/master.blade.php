@@ -955,13 +955,13 @@
                         </li>
                     @endif
 
-                    @php
+                    {{-- @php
                         $page_blog = \App\Models\PageSetup::page('blog');
                     @endphp
                     @if (isset($page_blog))
                         <li><a class="{{ Request::is('blogs*') ? 'special_current' : '' }}"
                                 href="{{ route('blogs') }}">{{ $page_blog->title }}</a></li>
-                    @endif
+                    @endif --}}
                 </ul>
                 @php
                     $page_quote = \App\Models\PageSetup::page('get-quote');
