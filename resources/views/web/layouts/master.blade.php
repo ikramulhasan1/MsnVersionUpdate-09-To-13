@@ -90,7 +90,7 @@
 .special_navbar-wrap.special_at-top .special_navbar {
     max-width: 1400px;
     border-radius: 100px;
-    padding: 20px 32px;
+    padding: 10px 32px;
     box-shadow: 0 6px 24px rgba(20, 30, 60, 0.12);
 }
 
@@ -787,7 +787,7 @@
         <div class="special_overlay" id="overlay"></div>
 
         <div class="special_navbar-wrap special_at-top" id="navbarWrap">
-            <nav style="padding-inline: 0px" class="special_navbar">
+            <nav class="special_navbar">
 
                 @if (isset($setting))
                     <div class="special_logo">
