@@ -910,8 +910,8 @@
                         </li>
                     @endif
 
-                    <li><a class="{{ Request::is('technologies*') ? 'special_current' : '' }}"
-                            href="{{ route('technologies') }}">Technologies</a></li>
+                    {{-- <li><a class="{{ Request::is('technologies*') ? 'special_current' : '' }}"
+                            href="{{ route('technologies') }}">Technologies</a></li> --}}
 
                     @php
                         $page_portfolio = \App\Models\PageSetup::page('portfolio');
@@ -1058,7 +1058,7 @@
                         <h5>Services</h5>
                         <ul>
                             <li><a href="{{ route('services') }}">Services</a></li>
-                            <li><a href="{{ route('technologies') }}">Technologies</a></li>
+                            {{-- <li><a href="{{ route('technologies') }}">Technologies</a></li> --}}
                             {{-- <li><a href="#">How We Work</a></li> --}}
                         </ul>
                     </div>
