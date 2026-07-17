@@ -510,8 +510,8 @@
     }
 
     .special_navbar {
-        padding-top: 0px;
-        padding-bottom: 0px;
+        padding-top: 12px;
+        padding-bottom: 12px;
     }
 
     .special_logo {
@@ -787,7 +787,7 @@
         <div class="special_overlay" id="overlay"></div>
 
         <div class="special_navbar-wrap special_at-top" id="navbarWrap">
-            <nav class="special_navbar">
+            <nav style="padding-inline: 0px" class="special_navbar">
 
                 @if (isset($setting))
                     <div class="special_logo">
