@@ -912,7 +912,7 @@
                                                             <ul class="special_megamenu-col">
                                                                 @foreach ($chunk as $sub)
                                                                     <li><a
-                                                                            href="{{ route('service.related-single', $sub->slug) }}"><div style="display: flex"><i class="{{ $sub->sub_service_icon }}"></i>{{ $sub->short_title }}</div></a>
+                                                                            href="{{ route('service.related-single', $sub->slug) }}"><div style="display: flex; align-items: center"><i class="fs-4 me-2 {{ $sub->sub_service_icon ?? '' }}"></i>{{ $sub->short_title }}</div></a>
                                                                     </li>
                                                                 @endforeach
                                                             </ul>
