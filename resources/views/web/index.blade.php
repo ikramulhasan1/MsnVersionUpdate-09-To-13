@@ -221,7 +221,7 @@
     content: "•";
     position: absolute;
     left: 0;
-    color: #00ff0d;
+    color: #38c400;
     font-weight: bold;
 }
 </style>
