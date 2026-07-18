@@ -183,11 +183,6 @@
             display: block;
         }
 
-        /* JS-controlled hover state (fixes fast-close on the gap) */
-        .special_dropdown.special_hover-open>.special_submenu {
-            display: block !important;
-        }
-
         .special_submenu li a {
             display: block;
             padding: 9px 12px;
@@ -213,6 +208,13 @@
             display: none;
         }
 
+        /* FIX: ALL hover-open / mega-menu forced-display rules are now scoped
+           to desktop/tablet (min-width: 861px) ONLY. Previously a duplicate
+           copy of the ".special_hover-open" rules existed further down the
+           page with NO media query around it — that unguarded copy is what
+           forced the mega menu to render on top of the mobile accordion,
+           causing "What We Offer" to appear twice when tapped. It has been
+           removed; everything now lives here, safely scoped. */
         @media (min-width: 861px) {
             .special_dropdown.special_has-mega:hover>.special_submenu {
                 display: none !important;
@@ -223,6 +225,10 @@
             }
 
             /* JS-controlled hover state (fixes fast-close on the gap) */
+            .special_dropdown.special_hover-open>.special_submenu {
+                display: block !important;
+            }
+
             .special_dropdown.special_has-mega.special_hover-open>.special_submenu {
                 display: none !important;
             }
@@ -449,6 +455,13 @@
         }
 
         @media (max-width: 860px) {
+
+            /* FIX: hard-guarantee the mega menu never renders on mobile,
+               no matter what class gets toggled onto .special_dropdown by JS */
+            .special_megamenu {
+                display: none !important;
+            }
+
             .special_nav-links {
                 position: fixed;
                 top: 0;
@@ -490,11 +503,19 @@
             }
 
             .special_dropdown>.special_submenu {
-                display: block;
+                display: none;
                 position: static;
                 box-shadow: none;
                 margin-top: 0;
                 padding-left: 12px;
+            }
+
+            /* FIX: the mobile accordion now only opens when JS toggles this
+               class (i.e. on tap of the parent link) instead of always being
+               visible — this, combined with the .special_megamenu lock above,
+               stops the duplicate "What We Offer" block from appearing */
+            .special_dropdown.special_hover-open>.special_submenu {
+                display: block;
             }
 
             .special_contact-btn-mobile {
@@ -748,18 +769,6 @@
             color: #fff;
         }
 
-        /* Hover gap fix — About Us / What We Offer dropdown-submenu মাঝের ফাঁকা জায়গা bridge করে */
-        /* JS দিয়ে নিয়ন্ত্রিত hover-open ক্লাস */
-        .special_dropdown.special_hover-open>.special_submenu {
-            display: block !important;
-        }
-
-        .special_dropdown.special_has-mega.special_hover-open>.special_megamenu {
-            display: flex !important;
-        }
-
-
-
         /* Link :disabled */
         .disabled-link {
             pointer-events: none !important;
@@ -787,7 +796,6 @@
 </head>
 
 <body>
-
     <div class="page-wrapper">
         <!-- Preloader -->
         <div class="preloader"></div>
@@ -920,10 +928,6 @@
                             </div>
                         </li>
                     @endif
-
-                    {{-- <li><a class="{{ Request::is('technologies*') ? 'special_current' : '' }}"
-                            href="{{ route('technologies') }}">Technologies</a></li> --}}
-
                     @php
                         $page_portfolio = \App\Models\PageSetup::page('portfolio');
                     @endphp
@@ -931,7 +935,6 @@
                         <li><a class="{{ Request::is('portfolio*') ? 'special_current' : '' }}"
                                 href="{{ route('portfolios') }}">{{ $page_portfolio->title }}</a></li>
                     @endif
-
                     @php
                         $all_pages = \App\Models\Page::where('type', 'casestudy')->get();
                         $isCurrentCasestudy = $all_pages->contains('slug', request()->segment(2));
@@ -948,7 +951,6 @@
                             </ul>
                         </li>
                     @endif
-
                     @php
                         $re_page = \App\Models\Page::where('type', 'resources')->get();
                         $isCurrentResource = $re_page->contains('slug', request()->segment(2));
@@ -965,14 +967,6 @@
                             </ul>
                         </li>
                     @endif
-
-                    {{-- @php
-                    $page_blog = \App\Models\PageSetup::page('blog');
-                    @endphp
-                    @if (isset($page_blog))
-                    <li><a class="{{ Request::is('blogs*') ? 'special_current' : '' }}" href="{{ route('blogs') }}">{{
-                            $page_blog->title }}</a></li>
-                    @endif --}}
                 </ul>
                 @php
                     $page_quote = \App\Models\PageSetup::page('get-quote');
@@ -987,7 +981,6 @@
                 </button>
             </nav>
         </div>
-
         <script>
             (function () {
                 const navbarWrap = document.getElementById('navbarWrap');
@@ -1017,8 +1010,53 @@
                 hamburger.addEventListener('click', toggleMenu);
                 overlay.addEventListener('click', toggleMenu);
                 navLinks.querySelectorAll('a').forEach(function (a) {
-                    a.addEventListener('click', function () {
+                    a.addEventListener('click', function (e) {
+                        // FIX: on mobile, a tap on a dropdown's parent link (About Us /
+                        // What We Offer / Case Study / Resources) should only toggle
+                        // that dropdown open/closed, not navigate away and not fall
+                        // through to the old "close whole sidebar on any link tap"
+                        // behavior — that was part of what produced the duplicated
+                        // "What We Offer" block.
+                        const parentDropdown = a.closest('.special_dropdown');
+                        const isTopLevelDropdownToggle =
+                            parentDropdown &&
+                            a.parentElement === parentDropdown &&
+                            window.innerWidth <= 860;
+
+                        if (isTopLevelDropdownToggle) {
+                            e.preventDefault();
+                            const alreadyOpen = parentDropdown.classList.contains('special_hover-open');
+
+                            // close any sibling dropdowns first so only one is open at a time
+                            navLinks.querySelectorAll('.special_dropdown.special_hover-open').forEach(function (d) {
+                                if (d !== parentDropdown) d.classList.remove('special_hover-open');
+                            });
+
+                            parentDropdown.classList.toggle('special_hover-open', !alreadyOpen);
+                            return;
+                        }
+
                         if (navLinks.classList.contains('special_open')) toggleMenu();
+                    });
+                });
+
+                // Desktop/tablet only: hover with close-delay so moving the cursor
+                // down from "About Us" / "What We Offer" into the submenu doesn't
+                // close it while crossing the small gap between them.
+                navLinks.querySelectorAll('.special_dropdown').forEach(function (dropdown) {
+                    let closeTimer;
+
+                    dropdown.addEventListener('mouseenter', function () {
+                        if (window.innerWidth <= 860) return; // mobile uses click-toggle instead
+                        clearTimeout(closeTimer);
+                        dropdown.classList.add('special_hover-open');
+                    });
+
+                    dropdown.addEventListener('mouseleave', function () {
+                        if (window.innerWidth <= 860) return; // mobile uses click-toggle instead
+                        closeTimer = setTimeout(function () {
+                            dropdown.classList.remove('special_hover-open');
+                        }, 300); // 300ms grace period while crossing the gap
                     });
                 });
 
@@ -1042,19 +1080,13 @@
             })();
         </script>
         <!--End Main Header -->
-
-        <!--  -->
         <!-- Content Start -->
         @yield('content')
         <!-- Content End -->
-
-
-
         <!-- Main custom-Footer -->
         <footer class="custom-footer">
             <div class="container">
                 <div class="row text-left">
-
                     <div class="col-md-3 custom-footer-section mb-4">
                         <h5>Company</h5>
                         <ul>
@@ -1064,7 +1096,6 @@
                             <li><a href="#">Referral Program</a></li> --}}
                         </ul>
                     </div>
-
                     <div class="col-md-3 custom-footer-section mb-4">
                         <h5>Services</h5>
                         <ul>
@@ -1073,7 +1104,6 @@
                             {{-- <li><a href="#">How We Work</a></li> --}}
                         </ul>
                     </div>
-
                     <div class="col-md-3 custom-footer-section mb-4">
                         <h5>Insights</h5>
                         <ul>
@@ -1082,7 +1112,6 @@
                             {{-- <li><a href="#">Sitemap</a></li> --}}
                         </ul>
                     </div>
-
                     @if (count($pages) > 0)
                         <div class="col-md-3 custom-footer-section mb-4">
                             <h5>Policies</h5>
@@ -1093,10 +1122,6 @@
                                         </li>
                                     @endif
                                 @endforeach
-                                {{-- <li><a href="#">Privacy Policy</a></li> --}}
-                                {{-- <li><a href="#">Cookie Policy</a></li>
-                                <li><a href="#">Refund Policy</a></li> --}}
-                                {{-- <li><a href="#">Disclaimer</a></li> --}}
                             </ul>
                         </div>
                     @endif
@@ -1147,22 +1172,13 @@
                                     href="//wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank"><i
                                         class="bi bi-whatsapp"></i></a>
                             @endif
-
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </footer>
-
-
-
     </div>
-
     <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
 
     @if ($livechat->status == 1)
         <!--Div where the WhatsApp will be rendered-->
@@ -1177,7 +1193,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                            web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                        web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
@@ -1185,7 +1201,6 @@
             })(jQuery);
         </script>
     @endif
-
 
     @if ($livechat->status == 0)
         <!-- Load Facebook SDK for JavaScript -->
@@ -1236,31 +1251,6 @@
             if (!link.hasAttribute('href') && link.innerHTML.trim() === '') {
                 link.style.display = 'none';
             }
-        });
-
-
-
-
-
-
-
-
-
-
-        // Dropdown/Mega menu hover with close-delay (fast-close সমস্যা সমাধান)
-        document.querySelectorAll('.special_dropdown').forEach(function (dropdown) {
-            let closeTimer;
-
-            dropdown.addEventListener('mouseenter', function () {
-                clearTimeout(closeTimer);
-                dropdown.classList.add('special_hover-open');
-            });
-
-            dropdown.addEventListener('mouseleave', function () {
-                closeTimer = setTimeout(function () {
-                    dropdown.classList.remove('special_hover-open');
-                }, 300); // 300ms delay — এই সময়ের মধ্যে মেনুতে ঢুকলে বন্ধ হবে না
-            });
         });
     </script>
     @yield('scriptjs')
