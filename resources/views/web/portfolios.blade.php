@@ -220,21 +220,24 @@
       transform: translateY(0);
     }
 
-    /* ============ HERO ============ */
+    /* ============ HERO — dark maroon (matches About page hero) ============ */
     #works-page .works-hero {
       position: relative;
       padding: clamp(60px, 8vw, 100px) 0 50px;
       overflow: hidden;
-      border-bottom: 1px solid var(--line);
+      border-bottom: none;
+      background:
+        radial-gradient(60% 55% at 15% 8%, rgba(210, 36, 29, .55) 0%, rgba(210, 36, 29, 0) 60%),
+        linear-gradient(160deg, #3B0A0C 0%, #200507 45%, #0B0203 100%);
     }
 
     #works-page .works-hero::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(rgba(226, 222, 217, .9) 1px, transparent 1px), linear-gradient(90deg, rgba(226, 222, 217, .9) 1px, transparent 1px);
+      background: linear-gradient(rgba(255, 255, 255, .07) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .07) 1px, transparent 1px);
       background-size: 72px 72px;
-      opacity: .28;
+      opacity: 1;
       mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
       pointer-events: none;
     }
@@ -245,19 +248,27 @@
       max-width: 780px;
     }
 
+    #works-page .works-hero .eyebrow {
+      background: rgba(255, 255, 255, .07);
+      border: 1px solid rgba(255, 255, 255, .16);
+      color: rgba(255, 255, 255, .8);
+    }
+
     #works-page .works-hero h1 {
       margin: 20px 0 16px;
       font-size: clamp(36px, 5.6vw, 60px);
       font-weight: 700;
+      color: #fff;
     }
 
     #works-page .works-hero h1 span {
-      color: var(--accent);
+      color: #EF4444;
     }
 
     #works-page .works-hero p {
       font-size: clamp(15px, 1.5vw, 18px);
       max-width: 580px;
+      color: rgba(255, 255, 255, .68);
     }
 
     #works-page .works-hero-stats {
@@ -267,8 +278,9 @@
       grid-template-columns: repeat(4, 1fr);
       gap: 1px;
       margin-top: 44px;
-      border: 1px solid var(--line);
-      background: var(--line);
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(255, 255, 255, .12);
+      box-shadow: 0 24px 50px -20px rgba(0, 0, 0, .5);
     }
 
     #works-page .wstat {
@@ -290,7 +302,7 @@
       font-size: 12.5px;
     }
 
-    /* breadcrumb, adapted to sit inside the new hero */
+    /* breadcrumb, adapted to sit inside the dark hero */
     #works-page .works-breadcrumb {
       position: relative;
       z-index: 1;
@@ -304,22 +316,38 @@
       padding: 0;
       margin: 0;
       font-size: 13px;
-      color: var(--faint);
+      color: rgba(255, 255, 255, .45);
     }
 
     #works-page .works-breadcrumb ul li:not(:last-child)::after {
       content: "/";
       margin-left: 8px;
-      color: var(--faint);
+      color: rgba(255, 255, 255, .3);
     }
 
     #works-page .works-breadcrumb ul li a {
-      color: var(--muted);
+      color: rgba(255, 255, 255, .85);
       font-weight: 600;
     }
 
     #works-page .works-breadcrumb ul li a:hover {
-      color: var(--accent);
+      color: #EF4444;
+    }
+
+    /* optional: hero buttons, if you add them to the markup later */
+    #works-page .works-hero .btn-dark {
+      background: #EF4444;
+      border-color: #EF4444;
+    }
+
+    #works-page .works-hero .btn-light {
+      background: transparent;
+      border-color: rgba(255, 255, 255, .4);
+      color: #fff;
+    }
+
+    #works-page .works-hero .btn-light:hover {
+      border-color: #fff;
     }
 
     /* ============ FILTER ============ */
