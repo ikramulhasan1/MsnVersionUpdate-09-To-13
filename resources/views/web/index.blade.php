@@ -215,20 +215,17 @@
     position: relative;
     padding-left: 18px;   /* bullet-এর জন্য জায়গা, ul এর padding-left এর উপরে যোগ হবে */
     margin-bottom: 4px;
+    font-size: 14px;
 }
 
 .svc-service-desc ul li::before {
     content: "•";
     position: absolute;
     left: 0;
-    color: #288c00;
+    color: #ff0000;
     font-weight: bold;
 }
-.svc-service-desc strong,
-.svc-service-desc b {
-    color: #28a745; /* green */
-    font-weight: 700;
-}
+
 </style>
         @if (count($services) > 0 && isset($section_services))
             <section class="svc-services-section">
