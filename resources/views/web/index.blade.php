@@ -211,6 +211,7 @@
 
 .svc-service-desc ul {
     list-style: disc;
+    color: #D2241D;
     padding-left: 20px;
     margin: 0;
 }
