@@ -857,12 +857,14 @@
           </ul>
         </div>
       </div>
-      <div class="wrap works-hero-stats">
-        <div class="wstat"><b>3,700+</b><span class="mono">Projects Completed</span></div>
-        <div class="wstat"><b>900+</b><span class="mono">Happy Clients</span></div>
-        <div class="wstat"><b>25+</b><span class="mono">Countries Served</span></div>
-        <div class="wstat"><b>4.9/5</b><span class="mono">Average Rating</span></div>
-      </div>
+      @if(count($counters) > 0)
+        <div class="wrap works-hero-stats">
+          @foreach($counters as $counter)
+            <div class="wstat" data-count="{{ (int) $counter->value }}"><b>{{ (int) $counter->value }}</b><span
+                class="mono">{{ $counter->title }}</span></div>
+          @endforeach
+        </div>
+      @endif
     </section>
 
     @php
@@ -971,7 +973,7 @@
       </section>
 
       <!-- CTA — demo template, no matching Laravel data, left as-is -->
-      <section class="works-cta">
+      {{-- <section class="works-cta">
         <div class="wrap reveal">
           <div class="works-cta-box">
             <span class="eyebrow">{{ $setting->title ?? config('app.name') }} • Start a project</span>
@@ -983,7 +985,7 @@
             </div>
           </div>
         </div>
-      </section>
+      </section> --}}
 
     @endif
 

@@ -1084,6 +1084,7 @@
         @yield('content')
         <!-- Content End -->
         <!-- Main custom-Footer -->
+        @include('web.inc.cta')
         <footer class="custom-footer">
             <div class="container">
                 <div class="row text-left">
@@ -1193,7 +1194,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                        web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                        web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"

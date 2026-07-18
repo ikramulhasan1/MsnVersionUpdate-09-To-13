@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\PortfolioCategory;
 use Illuminate\Http\Request;
+use App\Models\Counter;
 use App\Models\Portfolio;
 
 class PortfolioController extends Controller
@@ -13,6 +14,11 @@ class PortfolioController extends Controller
     {
         // Portfolio Categories                                
         $data['portfolio_categories'] = PortfolioCategory::where('status', '1')
+            ->orderBy('id', 'asc')
+            ->get();
+
+        // Counters                                
+        $data['counters'] = Counter::where('status', '1')
             ->orderBy('id', 'asc')
             ->get();
 
@@ -27,7 +33,7 @@ class PortfolioController extends Controller
     public function show($slug)
     {
         // Portfolio                                
-        $data['portfolio'] = Portfolio::with('categories','technologies')->where('slug', $slug)
+        $data['portfolio'] = Portfolio::with('categories', 'technologies')->where('slug', $slug)
             ->where('status', '1')
             ->firstOrFail();
 
