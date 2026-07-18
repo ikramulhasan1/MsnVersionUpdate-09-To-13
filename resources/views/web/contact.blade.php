@@ -27,222 +27,211 @@
 
 @section('content')
     <style>
-        .partner-section {
-            padding: 60px 0;
-            background-color: #F5F7F8;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .partner-section h2 {
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 40px;
-            color: #333333;
-        }
-
-        /* ============ Hero Section — dark maroon, matches Services reference ============ */
         .about-hero-section {
             position: relative;
             overflow: hidden;
-            background:
-                radial-gradient(60% 65% at 15% 8%, rgba(210, 36, 29, .55) 0%, rgba(210, 36, 29, 0) 60%),
-                linear-gradient(160deg, #3B0A0C 0%, #200507 45%, #0B0203 100%) !important;
-            color: #fff;
-            padding: 90px 0 96px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 90px 0 60px;
+            background: #0c0503;
+            color: #ffffff;
+            font-family: "Space Grotesk", sans-serif;
         }
 
+        /* red radial glow - top left, like the screenshot */
         .about-hero-section::before {
             content: "";
             position: absolute;
             inset: 0;
             background:
-                linear-gradient(rgba(255, 255, 255, .07) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, .07) 1px, transparent 1px);
-            background-size: 72px 72px;
-            mask-image: radial-gradient(80% 80% at 25% 15%, #000 30%, transparent 90%);
-            pointer-events: none;
+                radial-gradient(circle at 10% 10%, rgba(210, 36, 29, 0.55) 0%, rgba(210, 36, 29, 0.15) 35%, transparent 60%),
+                linear-gradient(135deg, #1a0705 0%, #0c0503 55%, #050202 100%);
+            z-index: 0;
+        }
+
+        /* subtle grid overlay */
+        .about-hero-section::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+            background-size: 28px 28px;
+            z-index: 0;
         }
 
         .about-hero-inner {
             position: relative;
             z-index: 1;
-            max-width: 680px;
+            text-align: center;
         }
 
+        /* top chip/badge: "$ ./contact --init" */
         .about-hero-chip {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            letter-spacing: .04em;
-            background: rgba(255, 255, 255, .07);
-            border: 1px solid rgba(255, 255, 255, .16);
-            padding: 8px 16px;
-            border-radius: 999px;
-            color: rgba(255, 255, 255, .8);
             margin-bottom: 22px;
+            padding: 8px 18px;
+            border: 1px solid rgba(210, 36, 29, 0.4);
+            border-radius: 30px;
+            background: rgba(210, 36, 29, 0.08);
+            color: #e7c9c7;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
         .about-hero-chip .dot {
-            width: 6px;
-            height: 6px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
-            background: #EF4444;
-            display: inline-block;
+            background: #D2241D;
+            box-shadow: 0 0 8px 2px rgba(210, 36, 29, 0.7);
         }
 
-        .about-hero-section h1 {
-            font-size: 52px;
-            font-weight: 700;
-            line-height: 1.12;
+        /* Main heading */
+        .about-hero-inner h1 {
             margin: 0 0 18px;
-            color: #fff;
+            font-size: clamp(40px, 6vw, 68px);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            color: #ffffff;
         }
 
-        .about-hero-section h1 .hero-accent {
-            color: #EF4444;
+        .about-hero-inner h1 .hero-accent {
+            color: #D2241D;
         }
 
-        .about-hero-section p {
-            font-size: 18px;
-            line-height: 1.7;
-            max-width: 560px;
-            margin: 0 0 30px;
-            opacity: .75;
-            color: #fff;
+        /* small red underline like the screenshot */
+        .about-hero-inner h1::after {
+            content: "";
+            display: block;
+            width: 70px;
+            height: 3px;
+            margin: 20px auto 0;
+            background: #D2241D;
+            border-radius: 2px;
         }
 
+        .about-hero-inner p {
+            max-width: 620px;
+            margin: 24px auto 0;
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        /* CTA buttons */
         .about-hero-actions {
             display: flex;
-            flex-wrap: wrap;
+            justify-content: center;
             gap: 14px;
-            margin-bottom: 30px;
+            margin-top: 32px;
         }
 
         .about-hero-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 14px 26px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 15px;
+            padding: 12px 26px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
             text-decoration: none;
-            transition: opacity .2s ease, border-color .2s ease;
+            transition: 0.2s ease;
         }
 
         .about-hero-btn.is-primary {
-            background: #EF4444;
-            color: #fff;
-            box-shadow: 0 10px 24px -10px rgba(239, 68, 68, .6);
+            background: #D2241D;
+            color: #ffffff;
+            border: 1px solid #D2241D;
         }
 
         .about-hero-btn.is-primary:hover {
-            opacity: .9;
-            color: #fff;
+            background: #b81e18;
         }
 
         .about-hero-btn.is-outline {
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, .4);
-            color: #fff;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
         }
 
         .about-hero-btn.is-outline:hover {
-            border-color: #fff;
-            color: #fff;
+            border-color: #D2241D;
+            color: #D2241D;
         }
 
+        /* breadcrumb: Home / About Us style */
         .about-hero-crumb {
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            color: rgba(255, 255, 255, .5);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            margin-top: 30px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .about-hero-crumb a {
-            color: #fff;
+            color: #ffffff;
             text-decoration: none;
         }
 
-        .about-hero-crumb a:hover {
-            color: #EF4444;
-        }
-
         .about-hero-crumb .sep {
-            color: rgba(255, 255, 255, .3);
+            margin: 0 8px;
+            color: rgba(255, 255, 255, 0.35);
         }
 
         .about-hero-crumb .current {
-            color: #EF4444;
+            color: #D2241D;
+            font-weight: 600;
         }
 
-        /* contact-info bar, styled like the stat cards, overlapping the hero bottom */
+        /* bottom info bar (email / phone / location) */
         .about-hero-infobar {
             position: relative;
             z-index: 1;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1px;
-            margin-top: 54px;
-            background: rgba(255, 255, 255, .12);
-            border: 1px solid rgba(255, 255, 255, .12);
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 24px 50px -20px rgba(0, 0, 0, .5);
+            gap: 20px;
+            margin-top: 50px;
+            padding: 24px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(4px);
         }
 
         .about-hero-infobar>div {
-            background: #fff;
-            padding: 22px 24px;
+            text-align: center;
         }
 
         .about-hero-infobar .label {
             display: block;
-            font-family: 'Courier New', monospace;
+            margin-bottom: 6px;
+            color: rgba(255, 255, 255, 0.45);
             font-size: 11px;
-            letter-spacing: .08em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: #9CA3AF;
-            margin-bottom: 8px;
         }
 
         .about-hero-infobar .value {
-            display: block;
-            font-size: 17px;
-            font-weight: 700;
-            color: #17181C;
-        }
-
-        .about-hero-infobar a.value {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
             text-decoration: none;
-            color: #17181C;
         }
 
-        .about-hero-infobar a.value:hover {
-            color: #DC2626;
+        .about-hero-infobar .value:hover {
+            color: #D2241D;
         }
 
-        @media (max-width: 768px) {
-            .about-hero-section {
-                padding: 60px 0 70px;
-            }
-
-            .about-hero-section h1 {
-                font-size: 34px;
-            }
-
-            .about-hero-section p {
-                font-size: 16px;
-            }
-
+        @media (max-width: 767px) {
             .about-hero-infobar {
                 grid-template-columns: 1fr;
-                margin-top: 36px;
+                text-align: left;
+            }
+
+            .about-hero-actions {
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>

@@ -98,7 +98,9 @@
                     placeholder="Tell us about your project, goals, and expected timeline..."
                     required>{{ old('message') }}</textarea></div>
               </div>
-              <div class="contact-us-submit-row"><button class="contact-us-submit" type="submit" name="submit-form">Send
+              <div class="contact-us-submit-row"><button
+                  style="background-color: #D2241D; color: white; border-style: none;" type="submit"
+                  name="submit-form">Send
                   message <i class="fa-solid fa-arrow-right"></i></button>
                 <p class="contact-us-note">We only use your details to respond to your enquiry. Your information stays
                   private.</p>
