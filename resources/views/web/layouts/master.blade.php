@@ -757,6 +757,14 @@
         .special_dropdown.special_has-mega.special_hover-open>.special_megamenu {
             display: flex !important;
         }
+
+
+
+        /* Link :disabled */
+        .disabled-link {
+            pointer-events: none !important;
+            cursor: default;
+        }
     </style>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -836,16 +844,17 @@
                     @endphp
                     @if (isset($page_services))
                         <li class="special_dropdown special_has-mega">
-                            <a class="{{ Request::is('service*') || Request::is('related-service*') ? 'special_current' : '' }}"
-                                href="{{ route('services') }}">{{ $page_services->title }} <span
-                                    class="special_chevron"></span></a>
+                            <a class="{{ Request::is('service*') || Request::is('related-service*') ? 'special_current' : '' }} disabled-link"
+                                href="{{ route('services') }}">{{ $page_services->title }}
+                                {{-- href="{{ route('services') }}">{{ $page_services->title }} --}}
+                                <span class="special_chevron"></span></a>
 
                             {{-- Mobile / tablet: simple accordion list (unchanged) --}}
                             <ul class="special_submenu">
                                 @foreach ($service_subnavs as $service_subnav)
                                     @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
                                         <li>
-                                            <a
+                                            <a class="disabled-link"
                                                 href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
                                             @if ($service_subnav->subservices->count() > 0)
                                                 <ul class="special_submenu-nested">
@@ -869,7 +878,7 @@
                                             @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
                                                 <li class="special_megamenu-item {{ $loop->first ? 'special_active' : '' }}"
                                                     data-panel="mega-panel-{{ $service_subnav->id }}">
-                                                    <a
+                                                    <a class="disabled-link"
                                                         href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
                                                 </li>
                                             @endif
@@ -1168,7 +1177,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                            web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                            web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
