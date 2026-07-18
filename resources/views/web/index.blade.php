@@ -207,13 +207,13 @@
 <style>
 .svc-service-desc ul {
     list-style: none;
-    padding-left: 0;
+    padding-left: 10px;   /* পুরো লিস্ট (bullet + content) ১০px right এ shift হবে */
     margin: 0;
 }
 
 .svc-service-desc ul li {
     position: relative;
-    padding-left: 18px;
+    padding-left: 18px;   /* bullet-এর জন্য জায়গা, ul এর padding-left এর উপরে যোগ হবে */
     margin-bottom: 4px;
 }
 
@@ -221,7 +221,7 @@
     content: "•";
     position: absolute;
     left: 0;
-    color: #ff0000;
+    color: #00ff0d;
     font-weight: bold;
 }
 </style>
