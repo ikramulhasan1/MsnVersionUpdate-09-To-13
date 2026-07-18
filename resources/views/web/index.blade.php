@@ -221,7 +221,7 @@
     content: "•";
     position: absolute;
     left: 0;
-    color: #38c400;
+    color: #288c00;
     font-weight: bold;
 }
 .svc-service-desc strong,
