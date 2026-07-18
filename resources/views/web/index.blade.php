@@ -205,10 +205,14 @@
 
         @endphp
 <style>
+.svc-service-desc {
+    color: #000000;
+}
 .svc-service-desc ul {
     list-style: none;
     padding-left: 10px;   /* পুরো লিস্ট (bullet + content) ১০px right এ shift হবে */
     margin: 0;
+    color: #000000;
 }
 
 .svc-service-desc ul li {
