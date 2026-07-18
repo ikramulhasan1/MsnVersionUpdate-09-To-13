@@ -145,7 +145,7 @@
         <section class="idx-trust-section">
             <div class="container">
                 <p class="idx-trust-text mb-0">
-                    <span class="idx-highlight">Trusted by Customers across 13+ countries to take products from concept
+                    <span class="idx-highlight">Trusted by Customers across 40+ countries to take products from concept
                         to scale.</span>
                     
                 </p>
