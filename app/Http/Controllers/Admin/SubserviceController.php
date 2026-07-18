@@ -246,6 +246,7 @@ class SubserviceController extends Controller
         $subservice->meta_title = $request->meta_title;
         $subservice->slug = Str::slug(strtolower($request->slug), '-');
         $subservice->short_desc = $request->short_desc;
+        $subservice->sub_service_icon = $request->sub_service_icon;
         $subservice->description = $dom->saveHTML();
         $subservice->image_path = $fileNameToStore;
         $subservice->status = $request->status ?? 1;
@@ -473,6 +474,8 @@ class SubserviceController extends Controller
             'average_rating' => 'required',
             'review_count' => 'required',
             'short_desc' => 'required',
+            'short_desc' => 'required',
+            'short_desc' => 'required',
             'description' => 'required',
             'image' => 'nullable|image',
             'technologies' => 'nullable|array',
@@ -560,6 +563,7 @@ class SubserviceController extends Controller
         $subservice->meta_title = $request->meta_title;
         $subservice->slug = Str::slug(strtolower($request->slug), '-');
         $subservice->short_desc = $request->short_desc;
+        $subservice->sub_service_icon = $request->sub_service_icon;
         $subservice->description = $dom->saveHTML();
         $subservice->image_path = $fileNameToStore;
         $subservice->status = $request->status;

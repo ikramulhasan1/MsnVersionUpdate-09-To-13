@@ -64,7 +64,7 @@
 
 
                             <div class="row">
-                                <div class="form-group col-6">
+                                <div class="form-group col-4">
                                     <label for="slug">{{ __('dashboard.slug') }} <span>* [Write a unique
                                             slug]</span></label>
                                     <input type="text" class="form-control" name="slug" id="slug"
@@ -73,7 +73,7 @@
                                         {{ __('dashboard.please_provide') }} {{ __('dashboard.slug') }}
                                     </div>
                                 </div>
-                                <div class="form-group col-6">
+                                <div class="form-group col-4">
                                     <label for="short_title">{{ __('dashboard.short_title') }} <span>*</span></label>
                                     <input type="text" class="form-control" name="short_title" id="short_title"
                                         value="{{ old('short_title') }}" required>
@@ -81,6 +81,15 @@
                                     <div class="invalid-feedback">
                                         {{ __('dashboard.please_provide') }} {{ __('dashboard.short_title') }}
                                     </div>
+                                </div>
+                                <div class="form-group col-4">
+                                    <label for="sub_service_icon">{{ __('dashboard.sub_service_icon') }} <span>*</span></label>
+                                    <input type="text" class="form-control" name="sub_service_icon" id="sub_service_icon"
+                                        value="{{ old('sub_service_icon') }}">
+
+                                    {{-- <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.sub_service_icon') }}
+                                    </div> --}}
                                 </div>
                             </div>
 

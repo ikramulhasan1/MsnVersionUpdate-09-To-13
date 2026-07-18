@@ -113,6 +113,7 @@ return array(
   'client' => 'Client',
   'slug' => 'Slug',
   'short_title' => 'Short Title',
+  'sub_service_icon' => 'Service icon',
   'category' => 'Category',
   'short_desc' => 'Short Details',
   'description' => 'Description',

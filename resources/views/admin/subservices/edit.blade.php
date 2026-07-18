@@ -55,7 +55,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="form-group col-6">
+                                    <div class="form-group col-4">
                                         <label for="slug">{{ __('dashboard.slug') }} <span>* </span></label>
                                         <input type="text" class="form-control" name="slug" id="slug"
                                             value="{{ $subservice->slug }}" readonly required>
@@ -63,7 +63,7 @@
                                             {{ __('dashboard.please_provide') }} {{ __('dashboard.slug') }}
                                         </div>
                                     </div>
-                                    <div class="form-group col-6">
+                                    <div class="form-group col-4">
                                         <label for="short_title">{{ __('dashboard.short_title') }} <span>*</span></label>
                                         <input type="text" class="form-control" name="short_title" id="short_title"
                                             value="{{ $subservice->short_title }}" required>
@@ -71,6 +71,16 @@
                                         <div class="invalid-feedback">
                                             {{ __('dashboard.please_provide') }} {{ __('dashboard.short_title') }}
                                         </div>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="sub_service_icon">{{ __('dashboard.sub_service_icon') }}
+                                            <span>*</span></label>
+                                        <input type="text" class="form-control" name="sub_service_icon"
+                                            id="sub_service_icon" value="{{ $subservice->sub_service_icon }}">
+
+                                        {{-- <div class="invalid-feedback">
+                                            {{ __('dashboard.please_provide') }} {{ __('dashboard.sub_service_icon') }}
+                                        </div> --}}
                                     </div>
                                 </div>
 
@@ -681,10 +691,10 @@
             const bannerGroup = document.createElement('div');
             bannerGroup.classList.add('form-group', 'banner-group', 'col-10', 'mb-2');
             bannerGroup.innerHTML = `
-                        <input type="text" class="form-control mb-1" name="banner[${bannerIndex}][title]" placeholder="${bannerIndex + 1}. Title">
-                        <input type="text" class="form-control mb-1" name="banner[${bannerIndex}][sub_title]" placeholder="${bannerIndex + 1}. Sub Title">
-                        <input type="file" class="form-control mb-1" name="banner[${bannerIndex}][banner_image]">
-                    `;
+                                                    <input type="text" class="form-control mb-1" name="banner[${bannerIndex}][title]" placeholder="${bannerIndex + 1}. Title">
+                                                    <input type="text" class="form-control mb-1" name="banner[${bannerIndex}][sub_title]" placeholder="${bannerIndex + 1}. Sub Title">
+                                                    <input type="file" class="form-control mb-1" name="banner[${bannerIndex}][banner_image]">
+                                                `;
 
             // Insert before the last column (button)
             const bannerButtonContainer = bannerWrapper.querySelector('.col-2');
@@ -704,17 +714,17 @@
             const groupFeatures = document.createElement('div');
             groupFeatures.classList.add('form-group', 'features-group', 'col-10', 'mb-2', 'row');
             groupFeatures.innerHTML = `
-                    <div class="col-11">
-                        <input type="text" class="form-control mb-1" name="features[${FeaturesIndex}][icon_class]" placeholder="${FeaturesIndex + 1}. Icon Class">
-                        <input type="text" class="form-control mb-1" name="features[${FeaturesIndex}][title]" placeholder="${FeaturesIndex + 1}. Title">
-                        <input type="text" class="form-control mb-1" name="features[${FeaturesIndex}][bottom_text]" placeholder="${FeaturesIndex + 1}. Bottom Text">
-                    </div>
-                    <div class="col-1 d-flex align-items-start">
-                        <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeFeature(this)">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </div>
-                `;
+                                                <div class="col-11">
+                                                    <input type="text" class="form-control mb-1" name="features[${FeaturesIndex}][icon_class]" placeholder="${FeaturesIndex + 1}. Icon Class">
+                                                    <input type="text" class="form-control mb-1" name="features[${FeaturesIndex}][title]" placeholder="${FeaturesIndex + 1}. Title">
+                                                    <input type="text" class="form-control mb-1" name="features[${FeaturesIndex}][bottom_text]" placeholder="${FeaturesIndex + 1}. Bottom Text">
+                                                </div>
+                                                <div class="col-1 d-flex align-items-start">
+                                                    <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeFeature(this)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            `;
 
             // Insert before the last column (Add button)
             const buttonContainer = wrapperFeatures.querySelector('.col-2');
@@ -741,16 +751,16 @@
             const groupProcess = document.createElement('div');
             groupProcess.classList.add('form-group', 'process-group', 'col-10', 'mb-2', 'row');
             groupProcess.innerHTML = `
-                    <div class="col-11">
-                        <input type="text" class="form-control mb-1" name="process[${processIndex}][title]" placeholder="${processIndex + 1}. Title">
-                        <input type="text" class="form-control mb-1" name="process[${processIndex}][bottom_text]" placeholder="${processIndex + 1}. Bottom Text">
-                    </div>
-                    <div class="col-1 d-flex align-items-start">
-                        <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeProcess(this)">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </div>
-                `;
+                                                <div class="col-11">
+                                                    <input type="text" class="form-control mb-1" name="process[${processIndex}][title]" placeholder="${processIndex + 1}. Title">
+                                                    <input type="text" class="form-control mb-1" name="process[${processIndex}][bottom_text]" placeholder="${processIndex + 1}. Bottom Text">
+                                                </div>
+                                                <div class="col-1 d-flex align-items-start">
+                                                    <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeProcess(this)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            `;
 
             // Insert before the last column (Add button)
             const buttonContainer = wrapperProcess.querySelector('.col-2');
@@ -778,17 +788,17 @@
             const groupWhyWe = document.createElement('div');
             groupWhyWe.classList.add('form-group', 'WhyWe-group', 'col-10', 'mb-2', 'row');
             groupWhyWe.innerHTML = `
-                        <div class="col-11">
-                            <input type="text" class="form-control mb-1" name="why_we[${WhyWeIndex}][icon_class]" placeholder="${WhyWeIndex + 1}. Icon Class">
-                            <input type="text" class="form-control mb-1" name="why_we[${WhyWeIndex}][title]" placeholder="${WhyWeIndex + 1}. Title">
-                            <input type="text" class="form-control mb-1" name="why_we[${WhyWeIndex}][bottom_text]" placeholder="${WhyWeIndex + 1}. Bottom Text">
-                        </div>
-                        <div class="col-1 d-flex align-items-start">
-                            <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeWhyWe(this)">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </div>
-                    `;
+                                                    <div class="col-11">
+                                                        <input type="text" class="form-control mb-1" name="why_we[${WhyWeIndex}][icon_class]" placeholder="${WhyWeIndex + 1}. Icon Class">
+                                                        <input type="text" class="form-control mb-1" name="why_we[${WhyWeIndex}][title]" placeholder="${WhyWeIndex + 1}. Title">
+                                                        <input type="text" class="form-control mb-1" name="why_we[${WhyWeIndex}][bottom_text]" placeholder="${WhyWeIndex + 1}. Bottom Text">
+                                                    </div>
+                                                    <div class="col-1 d-flex align-items-start">
+                                                        <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeWhyWe(this)">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                `;
 
             // Insert before the last column (Add button)
             const buttonContainer = wrapperWhyWe.querySelector('.col-2');
@@ -814,16 +824,16 @@
             const groupIndustries = document.createElement('div');
             groupIndustries.classList.add('form-group', 'industry-group', 'col-10', 'mb-2', 'row');
             groupIndustries.innerHTML = `
-                        <div class="col-11">
-                            <input type="text" class="form-control mb-1" name="industry[${industriesIndex}][icon_class]" placeholder="${industriesIndex + 1}. Icon Class">
-                            <input type="text" class="form-control mb-1" name="industry[${industriesIndex}][title]" placeholder="${industriesIndex + 1}. Title">
-                        </div>
-                        <div class="col-1 d-flex align-items-start">
-                            <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeIndustry(this)">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </div>
-                    `;
+                                                    <div class="col-11">
+                                                        <input type="text" class="form-control mb-1" name="industry[${industriesIndex}][icon_class]" placeholder="${industriesIndex + 1}. Icon Class">
+                                                        <input type="text" class="form-control mb-1" name="industry[${industriesIndex}][title]" placeholder="${industriesIndex + 1}. Title">
+                                                    </div>
+                                                    <div class="col-1 d-flex align-items-start">
+                                                        <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeIndustry(this)">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                `;
 
             // Insert before the last column (Add button)
             const buttonContainer = wrapperIndustries.querySelector('.col-2');
@@ -850,16 +860,16 @@
             const groupIndustries = document.createElement('div');
             groupIndustries.classList.add('form-group', 'achievement-group', 'col-10', 'mb-2', 'row');
             groupIndustries.innerHTML = `
-                        <div class="col-11">
-                            <input type="text" class="form-control mb-1" name="achievement[${achievementsIndex}][count_number]" placeholder="${achievementsIndex + 1}. Count Number">
-                            <input type="text" class="form-control mb-1" name="achievement[${achievementsIndex}][title]" placeholder="${achievementsIndex + 1}. Title">
-                        </div>
-                        <div class="col-1 d-flex align-items-start">
-                            <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeAchievement(this)">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </div>
-                    `;
+                                                    <div class="col-11">
+                                                        <input type="text" class="form-control mb-1" name="achievement[${achievementsIndex}][count_number]" placeholder="${achievementsIndex + 1}. Count Number">
+                                                        <input type="text" class="form-control mb-1" name="achievement[${achievementsIndex}][title]" placeholder="${achievementsIndex + 1}. Title">
+                                                    </div>
+                                                    <div class="col-1 d-flex align-items-start">
+                                                        <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeAchievement(this)">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                `;
 
             // Insert before the last column (Add button)
             const buttonContainer = wrapperIndustries.querySelector('.col-2');
@@ -886,16 +896,16 @@
             const groupSuccessStories = document.createElement('div');
             groupSuccessStories.classList.add('form-group', 'SuccessStories-group', 'col-10', 'mb-2', 'row');
             groupSuccessStories.innerHTML = `
-                        <div class="col-11">
-                            <input type="text" class="form-control mb-1" name="story[${success_stories}][title]" placeholder="${success_stories + 1}. Title">
-                            <input type="text" class="form-control mb-1" name="story[${success_stories}][bottom_text]" placeholder="${success_stories + 1}. Bottom Text">
-                        </div>
-                        <div class="col-1 d-flex align-items-start">
-                            <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeSuccessStories(this)">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </div>
-                    `;
+                                                    <div class="col-11">
+                                                        <input type="text" class="form-control mb-1" name="story[${success_stories}][title]" placeholder="${success_stories + 1}. Title">
+                                                        <input type="text" class="form-control mb-1" name="story[${success_stories}][bottom_text]" placeholder="${success_stories + 1}. Bottom Text">
+                                                    </div>
+                                                    <div class="col-1 d-flex align-items-start">
+                                                        <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeSuccessStories(this)">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                `;
 
             // Insert before the last column (Add button)
             const buttonContainer = wrapperSuccessStories.querySelector('.col-2');
@@ -921,16 +931,16 @@
             const groupClientsSay = document.createElement('div');
             groupClientsSay.classList.add('form-group', 'clients-group', 'col-10', 'mb-2', 'row');
             groupClientsSay.innerHTML = `
-                        <div class="col-11">
-                            <input type="text" class="form-control mb-1" name="client[${clients_say}][title]" placeholder="${clients_say + 1}. Title">
-                            <input type="text" class="form-control mb-1" name="client[${clients_say}][meassage]" placeholder="${clients_say + 1}. Meassage">
-                        </div>
-                        <div class="col-1 d-flex align-items-start">
-                            <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeClientsSay(this)">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </div>
-                    `;
+                                                    <div class="col-11">
+                                                        <input type="text" class="form-control mb-1" name="client[${clients_say}][title]" placeholder="${clients_say + 1}. Title">
+                                                        <input type="text" class="form-control mb-1" name="client[${clients_say}][meassage]" placeholder="${clients_say + 1}. Meassage">
+                                                    </div>
+                                                    <div class="col-1 d-flex align-items-start">
+                                                        <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeClientsSay(this)">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                `;
 
             // Insert before the last column (Add button)
             const buttonContainer = wrapperClientsSay.querySelector('.col-2');
@@ -956,16 +966,16 @@
             const groupFaq = document.createElement('div');
             groupFaq.classList.add('form-group', 'faq-group', 'col-10', 'mb-2', 'row');
             groupFaq.innerHTML = `
-                        <div class="col-11">
-                            <input type="text" class="form-control mb-1" name="faq[${faqSteps}][question]" placeholder="${faqSteps + 1}. Question">
-                            <input type="text" class="form-control mb-1" name="faq[${faqSteps}][answer]" placeholder="${faqSteps + 1}. Answer">
-                        </div>
-                        <div class="col-1 d-flex align-items-start">
-                            <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeFaqStep(this)">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </div>
-                    `;
+                                                    <div class="col-11">
+                                                        <input type="text" class="form-control mb-1" name="faq[${faqSteps}][question]" placeholder="${faqSteps + 1}. Question">
+                                                        <input type="text" class="form-control mb-1" name="faq[${faqSteps}][answer]" placeholder="${faqSteps + 1}. Answer">
+                                                    </div>
+                                                    <div class="col-1 d-flex align-items-start">
+                                                        <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeFaqStep(this)">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                `;
 
             // Insert before the last column (Add button)
             const buttonContainer = wrapperFaqSteps.querySelector('.col-2');
@@ -991,15 +1001,15 @@
             const groupPromise = document.createElement('div');
             groupPromise.classList.add('form-group', 'promise-group', 'col-10', 'mb-2', 'row');
             groupPromise.innerHTML = `
-                        <div class="col-11">
-                            <input type="text" class="form-control mb-1" name="item[${promise}][bottom_text]" placeholder="${promise + 1}. Bottom Text">
-                        </div>
-                        <div class="col-1 d-flex align-items-start">
-                            <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removePromiseStep(this)">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </div>
-                    `;
+                                                    <div class="col-11">
+                                                        <input type="text" class="form-control mb-1" name="item[${promise}][bottom_text]" placeholder="${promise + 1}. Bottom Text">
+                                                    </div>
+                                                    <div class="col-1 d-flex align-items-start">
+                                                        <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removePromiseStep(this)">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                `;
 
             // Insert before the last column (Add button)
             const buttonContainer = wrapperPromiseSteps.querySelector('.col-2');
@@ -1025,15 +1035,15 @@
             const groupCtaStep = document.createElement('div');
             groupCtaStep.classList.add('form-group', 'cta-group', 'col-10', 'mb-2', 'row');
             groupCtaStep.innerHTML = `
-                        <div class="col-11">
-                            <input type="text" class="form-control mb-1" name="cta[${cta_steps}][bottom_text]" placeholder="${cta_steps + 1}. Bottom Text">
-                        </div>
-                        <div class="col-1 d-flex align-items-start">
-                            <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeCtaStep(this)">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </div>
-                    `;
+                                                    <div class="col-11">
+                                                        <input type="text" class="form-control mb-1" name="cta[${cta_steps}][bottom_text]" placeholder="${cta_steps + 1}. Bottom Text">
+                                                    </div>
+                                                    <div class="col-1 d-flex align-items-start">
+                                                        <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeCtaStep(this)">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                `;
 
             // Insert before the last column (Add button)
             const buttonContainer = wrapperCtaStep.querySelector('.col-2');
