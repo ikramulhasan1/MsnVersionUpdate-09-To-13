@@ -220,8 +220,8 @@
 .svc-service-desc ul li::before {
     content: "•";
     position: absolute;
-    left: 10;
-    color: #ff0800;
+    left: 0;
+    color: #ff0000;
     font-weight: bold;
 }
 </style>
