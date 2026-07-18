@@ -147,7 +147,7 @@
                 <p class="idx-trust-text mb-0">
                     <span class="idx-highlight">Trusted by Customers across 40+ countries to take products from concept
                         to scale.</span>
-                    
+
                 </p>
 
                 <div class="idx-review-row">
@@ -202,9 +202,23 @@
     <div class="svc-scope">
         @php
             $section_services = \App\Models\Section::section('services');
-            
-        @endphp
 
+        @endphp
+<style>
+    .svc-service-desc p {
+    margin-bottom: 8px;
+}
+
+.svc-service-desc ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 0;
+}
+
+.svc-service-desc ul li {
+    margin-bottom: 4px;
+}
+</style>
         @if (count($services) > 0 && isset($section_services))
             <section class="svc-services-section">
                 <div class="container">
@@ -217,10 +231,11 @@
                                     class="svc-service-card text-decoration-none d-block">
                                     <div class="svc-service-icon"><i class="{{ $service->service_icon }}"></i></div>
                                     <h3 class="svc-service-title">{{ $service->short_title }}</h3>
-                                    
-                                    @if (isset($service->short_description))
-                                        <p class="svc-service-desc">
-                                            {{ str_limit(strip_tags($service->short_description), 200, '...') }}</p>
+
+                                    @if (isset($service->short_description) && trim(strip_tags($service->short_description)) !== '')
+                                        <div class="svc-service-desc">
+                                            {!! $service->short_description !!}
+                                        </div>
                                     @endif
 
                                     @if (isset($service->tags) && trim($service->tags) !== '')
@@ -581,7 +596,7 @@
     @endif
     @include('web.inc.whymsn')
     {{-- ============ CTA SECTION (Unico Difference + closing CTA — no matching Laravel section, kept as demo design) ============ --}}
-    
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 
