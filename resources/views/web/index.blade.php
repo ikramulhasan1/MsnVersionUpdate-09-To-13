@@ -224,6 +224,11 @@
     color: #38c400;
     font-weight: bold;
 }
+.svc-service-desc strong,
+.svc-service-desc b {
+    color: #28a745; /* green */
+    font-weight: 700;
+}
 </style>
         @if (count($services) > 0 && isset($section_services))
             <section class="svc-services-section">
