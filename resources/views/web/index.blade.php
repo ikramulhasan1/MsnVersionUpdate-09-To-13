@@ -205,19 +205,24 @@
 
         @endphp
 <style>
-    .svc-service-desc p {
-    margin-bottom: 8px;
-}
-
 .svc-service-desc ul {
-    list-style: disc;
-    list-style: #ff0800;
-    padding-left: 20px;
+    list-style: none;
+    padding-left: 0;
     margin: 0;
 }
 
 .svc-service-desc ul li {
+    position: relative;
+    padding-left: 18px;
     margin-bottom: 4px;
+}
+
+.svc-service-desc ul li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #D2241D;
+    font-weight: bold;
 }
 </style>
         @if (count($services) > 0 && isset($section_services))
