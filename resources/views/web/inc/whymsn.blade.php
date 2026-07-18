@@ -122,10 +122,10 @@
         }
 
         #whymsn_wrap {
-            --whymsn-ink: #17130F;
-            --whymsn-sub: #6E6155;
-            --whymsn-wine: red;
-            --whymsn-gold: red;
+            --whymsn-ink: #FFFFFF;
+            --whymsn-sub: #A9BBD1;
+            --whymsn-wine: #E8C687;
+            --whymsn-gold: #E8C687;
             --whymsn-gold-hi: #E8C687;
             --whymsn-page-bg: #FFFFFF;
             --whymsn-navy: #0A2038;
@@ -359,7 +359,7 @@
         }
 
         /* ---------- cards ---------- */
-        .whymsn_card {
+        /* .whymsn_card {
             position: absolute;
             z-index: 3;
             width: clamp(200px, 23vw, 258px);
@@ -375,6 +375,24 @@
             cursor: default;
             transition: opacity .55s ease, transform .4s cubic-bezier(.22, 1, .36, 1),
                 background-color .45s ease, box-shadow .45s ease, border-color .45s ease;
+        } */
+        /* style edit */
+        .whymsn_card {
+            position: absolute;
+            z-index: 3;
+            width: clamp(200px, 23vw, 258px);
+            background: #14273B;
+            border: 1px solid var(--whymsn-card-line);
+            border-radius: 14px;
+            padding: 30px 26px 28px;
+            box-shadow:
+                0 1px 2px rgba(23, 19, 15, .04),
+                0 24px 44px -26px rgba(23, 19, 15, .16);
+            opacity: 0;
+            overflow: hidden;
+            cursor: default;
+            /* transition: opacity .55s ease, transform .4s cubic-bezier(.22, 1, .36, 1),
+                background-color .45s ease, box-shadow .45s ease, border-color .45s ease; */
         }
 
         .whymsn_card>* {
@@ -615,6 +633,7 @@
                 transform: none;
                 width: min(58vw, 240px);
                 margin-bottom: 4px;
+                display: none;
             }
 
             .whymsn_cards-row {

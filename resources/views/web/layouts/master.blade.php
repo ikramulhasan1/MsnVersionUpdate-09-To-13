@@ -6,7 +6,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" href="{{ asset('web/css/msn-theme.css') }}">
+    {{--
+    <link rel="stylesheet" href="{{ asset('web/css/msn-theme.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('web/css/contact.css') }}">
     <link rel="stylesheet" href="{{ asset('web/css/new-msn-theme.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -45,499 +46,499 @@
         rel="stylesheet" />
 
     <style>
-       /* ============ New Navbar (special_) — FULL CORRECTED STYLE ============ */
-:root {
-    --special_blue: #D2241D;
-    --special_blue-dark: #D2241D;
-    --special_text-dark: #0b0b0f;
-}
-
-.special_navbar-wrap {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    background: #fff;
-    transition: padding 0.35s ease, background 0.35s ease;
-}
-
-.special_navbar-wrap.special_at-top {
-    padding: 16px 20px 0 20px;
-    background: transparent;
-}
-
-.special_navbar-wrap:not(.special_at-top) {
-    padding: 0;
-    background: #fff;
-}
-
-.special_navbar {
-    width: 100%;
-    max-width: 1400px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #fff;
-    border-radius: 0;
-    box-shadow: 0 2px 12px rgba(20, 30, 60, 0.08);
-    padding: 14px 40px;
-    transition: padding 0.35s ease, box-shadow 0.35s ease, border-radius 0.35s ease, max-width 0.35s ease;
-    position: relative;
-}
-
-.special_navbar-wrap.special_at-top .special_navbar {
-    max-width: 1400px;
-    border-radius: 100px;
-    padding: 10px 32px;
-    box-shadow: 0 6px 24px rgba(20, 30, 60, 0.12);
-}
-
-.special_logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-    font-size: 19px;
-    color: var(--special_text-dark);
-    white-space: nowrap;
-}
-
-.special_logo img {
-    display: block;
-    height: 30px;
-    width: auto;
-    transition: height 0.35s ease;
-}
-
-.special_navbar-wrap.special_at-top .special_logo img {
-    height: 36px;
-}
-
-.special_nav-links {
-    display: flex;
-    align-items: center;
-    gap: 26px;
-    list-style: none;
-}
-
-.special_nav-links>li {
-    position: relative;
-}
-
-.special_nav-links a {
-    text-decoration: none;
-    color: var(--special_text-dark);
-    font-weight: 600;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    white-space: nowrap;
-    transition: color 0.2s ease;
-}
-
-.special_nav-links a:hover {
-    color: var(--special_blue);
-}
-
-.special_nav-links a.special_current {
-    color: var(--special_blue);
-}
-
-.special_chevron {
-    width: 8px;
-    height: 8px;
-    border-right: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    transform: rotate(45deg);
-    margin-top: -3px;
-    flex-shrink: 0;
-}
-
-/* ---- Hover-gap fix: extend the dropdown's own hover box down into the gap ---- */
-.special_dropdown {
-    padding-bottom: 12px;
-    margin-bottom: -12px;
-}
-
-/* Dropdown submenus (About Us / Services / Case Study / Resources) */
-.special_dropdown>.special_submenu {
-    display: none;
-    position: absolute;
-    top: calc(100% + 12px);
-    left: 0;
-    margin-top: 0;
-    min-width: 240px;
-    background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 12px 30px rgba(20, 30, 60, 0.14);
-    padding: 10px;
-    list-style: none;
-    z-index: 120;
-}
-
-.special_dropdown:hover>.special_submenu {
-    display: block;
-}
-
-/* JS-controlled hover state (fixes fast-close on the gap) */
-.special_dropdown.special_hover-open>.special_submenu {
-    display: block !important;
-}
-
-.special_submenu li a {
-    display: block;
-    padding: 9px 12px;
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 8px;
-    color: var(--special_text-dark);
-}
-
-.special_submenu li a:hover {
-    background: #FDECEB;
-    color: var(--special_blue);
-}
-
-.special_submenu-nested {
-    list-style: none;
-    padding-left: 14px;
-    margin: 2px 0 6px;
-}
-
-/* ============ Mega Menu (Services / What We Offer) — desktop only ============ */
-.special_megamenu {
-    display: none;
-}
-
-@media (min-width: 861px) {
-    .special_dropdown.special_has-mega:hover>.special_submenu {
-        display: none !important;
-    }
-
-    .special_dropdown.special_has-mega:hover>.special_megamenu {
-        display: flex;
-    }
-
-    /* JS-controlled hover state (fixes fast-close on the gap) */
-    .special_dropdown.special_has-mega.special_hover-open>.special_submenu {
-        display: none !important;
-    }
-
-    .special_dropdown.special_has-mega.special_hover-open>.special_megamenu {
-        display: flex !important;
-    }
-
-    .special_megamenu {
-        position: absolute;
-        top: calc(100% + 12px);
-        left: 0;
-        margin-top: 0;
-        width: max-content;
-        min-width: 640px;
-        max-width: 900px;
-        background: #fff;
-        border-radius: 16px;
-        box-shadow: 0 12px 30px rgba(20, 30, 60, 0.14);
-        overflow: hidden;
-        z-index: 120;
-    }
-
-    .special_megamenu-left {
-        width: max-content;
-        min-width: 240px;
-        max-width: 320px;
-        flex-shrink: 0;
-        background: #f7f9fc;
-        padding: 10px;
-        max-height: 420px;
-        overflow-y: auto;
-    }
-
-    .special_megamenu-left ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .special_megamenu-item {
-        border-radius: 10px;
-        transition: background 0.2s ease;
-    }
-
-    .special_megamenu-item>a {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        padding: 11px 14px;
-        font-size: 14.5px;
-        font-weight: 600;
-        color: var(--special_text-dark);
-        border-radius: 10px;
-        white-space: normal;
-        word-break: break-word;
-    }
-
-    .special_megamenu-item>a::after {
-        content: '';
-        width: 6px;
-        height: 6px;
-        border-right: 2px solid currentColor;
-        border-bottom: 2px solid currentColor;
-        transform: rotate(-45deg);
-        opacity: 0.45;
-        flex-shrink: 0;
-    }
-
-    .special_megamenu-item:hover,
-    .special_megamenu-item.special_active {
-        background: #fff;
-    }
-
-    .special_megamenu-item.special_active>a,
-    .special_megamenu-item:hover>a {
-        color: var(--special_blue);
-        background: #FDECEB;
-    }
-
-    .special_megamenu-right {
-        flex: 1;
-        padding: 18px 20px;
-        max-height: 420px;
-        overflow-y: auto;
-    }
-
-    .special_megamenu-panel {
-        display: none;
-    }
-
-    .special_megamenu-panel.special_active {
-        display: block;
-    }
-
-    .special_megamenu-panel-title {
-        font-size: 13px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: #8a90a2;
-        margin-bottom: 12px;
-    }
-
-    .special_megamenu-columns {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        column-gap: 20px;
-    }
-
-    .special_megamenu-col {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .special_megamenu-col li a {
-        display: block;
-        padding: 8px 10px;
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--special_text-dark);
-        border-radius: 8px;
-        white-space: normal;
-        word-break: break-word;
-    }
-
-    .special_megamenu-col li a:hover {
-        background: #FDECEB;
-        color: var(--special_blue);
-    }
-
-    .special_megamenu-empty {
-        font-size: 14px;
-        color: #8a90a2;
-    }
-}
-
-.special_contact-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--special_blue);
-    color: #fff;
-    font-weight: 700;
-    font-size: 14px;
-    text-decoration: none;
-    padding: 10px 18px;
-    border-radius: 100px;
-    white-space: nowrap;
-    transition: padding 0.35s ease, background 0.2s ease;
-}
-
-.special_navbar-wrap.special_at-top .special_contact-btn {
-    padding: 14px 22px;
-    font-size: 15px;
-}
-
-.special_contact-btn:hover {
-    background: var(--special_blue-dark);
-    color: #fff;
-}
-
-.special_contact-btn-mobile {
-    display: none;
-}
-
-/* Hamburger (mobile) */
-.special_hamburger {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    width: 30px;
-    height: 30px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-}
-
-.special_hamburger span {
-    display: block;
-    height: 2px;
-    width: 100%;
-    background: var(--special_text-dark);
-    border-radius: 2px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.special_hamburger.special_open span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-}
-
-.special_hamburger.special_open span:nth-child(2) {
-    opacity: 0;
-}
-
-.special_hamburger.special_open span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-}
-
-.special_overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(10, 12, 20, 0.4);
-    z-index: 140;
-}
-
-.special_overlay.special_open {
-    display: block;
-}
-
-@media (max-width: 1100px) {
-    .special_nav-links {
-        gap: 16px;
-    }
-
-    .special_nav-links>li>a {
-        font-size: 14px;
-    }
-}
-
-@media (max-width: 860px) {
-    .special_nav-links {
-        position: fixed;
-        top: 0;
-        right: 0;
-        height: 100vh;
-        width: min(80vw, 320px);
-        background: #fff;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
-        gap: 4px;
-        padding: 90px 24px 28px;
-        box-shadow: -8px 0 30px rgba(20, 30, 60, 0.15);
-        transform: translateX(100%);
-        transition: transform 0.35s ease;
-        z-index: 150;
-        overflow-y: auto;
-    }
-
-    .special_nav-links.special_open {
-        transform: translateX(0);
-    }
-
-    .special_nav-links>li {
-        width: 100%;
-    }
-
-    .special_nav-links>li>a {
-        font-size: 16px;
-        padding: 12px 0;
-        width: 100%;
-        border-bottom: 1px solid #f0f0f2;
-    }
-
-    .special_dropdown {
-        position: static;
-        padding-bottom: 0;
-        margin-bottom: 0;
-    }
-
-    .special_dropdown>.special_submenu {
-        display: block;
-        position: static;
-        box-shadow: none;
-        margin-top: 0;
-        padding-left: 12px;
-    }
-
-    .special_contact-btn-mobile {
-        display: flex;
-        margin-top: 14px;
-    }
-
-    .special_hamburger {
-        display: flex;
-    }
-
-    .special_navbar>.special_contact-btn {
-        display: none;
-    }
-
-    .special_navbar {
-        padding-top: 12px;
-        padding-bottom: 12px;
-    }
-
-    .special_logo {
-        font-size: 16px;
-    }
-
-    .special_logo img {
-        height: 26px !important;
-    }
-}
-
-@media (max-width: 640px) {
-    .special_navbar {
-        padding-left: 16px;
-        padding-right: 16px;
-    }
-
-    .special_navbar-wrap.special_at-top {
-        padding: 10px 10px 0 10px;
-    }
-
-    .special_navbar-wrap.special_at-top .special_navbar {
-        border-radius: 24px;
-        padding: 12px 18px;
-    }
-}
+        /* ============ New Navbar (special_) — FULL CORRECTED STYLE ============ */
+        :root {
+            --special_blue: #D2241D;
+            --special_blue-dark: #D2241D;
+            --special_text-dark: #0b0b0f;
+        }
+
+        .special_navbar-wrap {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            background: #fff;
+            transition: padding 0.35s ease, background 0.35s ease;
+        }
+
+        .special_navbar-wrap.special_at-top {
+            padding: 16px 20px 0 20px;
+            background: transparent;
+        }
+
+        .special_navbar-wrap:not(.special_at-top) {
+            padding: 0;
+            background: #fff;
+        }
+
+        .special_navbar {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            border-radius: 0;
+            box-shadow: 0 2px 12px rgba(20, 30, 60, 0.08);
+            padding: 14px 40px;
+            transition: padding 0.35s ease, box-shadow 0.35s ease, border-radius 0.35s ease, max-width 0.35s ease;
+            position: relative;
+        }
+
+        .special_navbar-wrap.special_at-top .special_navbar {
+            max-width: 1400px;
+            border-radius: 100px;
+            padding: 10px 32px;
+            box-shadow: 0 6px 24px rgba(20, 30, 60, 0.12);
+        }
+
+        .special_logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 19px;
+            color: var(--special_text-dark);
+            white-space: nowrap;
+        }
+
+        .special_logo img {
+            display: block;
+            height: 30px;
+            width: auto;
+            transition: height 0.35s ease;
+        }
+
+        .special_navbar-wrap.special_at-top .special_logo img {
+            height: 36px;
+        }
+
+        .special_nav-links {
+            display: flex;
+            align-items: center;
+            gap: 26px;
+            list-style: none;
+        }
+
+        .special_nav-links>li {
+            position: relative;
+        }
+
+        .special_nav-links a {
+            text-decoration: none;
+            color: var(--special_text-dark);
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+            transition: color 0.2s ease;
+        }
+
+        .special_nav-links a:hover {
+            color: var(--special_blue);
+        }
+
+        .special_nav-links a.special_current {
+            color: var(--special_blue);
+        }
+
+        .special_chevron {
+            width: 8px;
+            height: 8px;
+            border-right: 2px solid currentColor;
+            border-bottom: 2px solid currentColor;
+            transform: rotate(45deg);
+            margin-top: -3px;
+            flex-shrink: 0;
+        }
+
+        /* ---- Hover-gap fix: extend the dropdown's own hover box down into the gap ---- */
+        .special_dropdown {
+            padding-bottom: 12px;
+            margin-bottom: -12px;
+        }
+
+        /* Dropdown submenus (About Us / Services / Case Study / Resources) */
+        .special_dropdown>.special_submenu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 12px);
+            left: 0;
+            margin-top: 0;
+            min-width: 240px;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 12px 30px rgba(20, 30, 60, 0.14);
+            padding: 10px;
+            list-style: none;
+            z-index: 120;
+        }
+
+        .special_dropdown:hover>.special_submenu {
+            display: block;
+        }
+
+        /* JS-controlled hover state (fixes fast-close on the gap) */
+        .special_dropdown.special_hover-open>.special_submenu {
+            display: block !important;
+        }
+
+        .special_submenu li a {
+            display: block;
+            padding: 9px 12px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+            color: var(--special_text-dark);
+        }
+
+        .special_submenu li a:hover {
+            background: #FDECEB;
+            color: var(--special_blue);
+        }
+
+        .special_submenu-nested {
+            list-style: none;
+            padding-left: 14px;
+            margin: 2px 0 6px;
+        }
+
+        /* ============ Mega Menu (Services / What We Offer) — desktop only ============ */
+        .special_megamenu {
+            display: none;
+        }
+
+        @media (min-width: 861px) {
+            .special_dropdown.special_has-mega:hover>.special_submenu {
+                display: none !important;
+            }
+
+            .special_dropdown.special_has-mega:hover>.special_megamenu {
+                display: flex;
+            }
+
+            /* JS-controlled hover state (fixes fast-close on the gap) */
+            .special_dropdown.special_has-mega.special_hover-open>.special_submenu {
+                display: none !important;
+            }
+
+            .special_dropdown.special_has-mega.special_hover-open>.special_megamenu {
+                display: flex !important;
+            }
+
+            .special_megamenu {
+                position: absolute;
+                top: calc(100% + 12px);
+                left: 0;
+                margin-top: 0;
+                width: max-content;
+                min-width: 640px;
+                max-width: 900px;
+                background: #fff;
+                border-radius: 16px;
+                box-shadow: 0 12px 30px rgba(20, 30, 60, 0.14);
+                overflow: hidden;
+                z-index: 120;
+            }
+
+            .special_megamenu-left {
+                width: max-content;
+                min-width: 240px;
+                max-width: 320px;
+                flex-shrink: 0;
+                background: #f7f9fc;
+                padding: 10px;
+                max-height: 420px;
+                overflow-y: auto;
+            }
+
+            .special_megamenu-left ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .special_megamenu-item {
+                border-radius: 10px;
+                transition: background 0.2s ease;
+            }
+
+            .special_megamenu-item>a {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 10px;
+                padding: 11px 14px;
+                font-size: 14.5px;
+                font-weight: 600;
+                color: var(--special_text-dark);
+                border-radius: 10px;
+                white-space: normal;
+                word-break: break-word;
+            }
+
+            .special_megamenu-item>a::after {
+                content: '';
+                width: 6px;
+                height: 6px;
+                border-right: 2px solid currentColor;
+                border-bottom: 2px solid currentColor;
+                transform: rotate(-45deg);
+                opacity: 0.45;
+                flex-shrink: 0;
+            }
+
+            .special_megamenu-item:hover,
+            .special_megamenu-item.special_active {
+                background: #fff;
+            }
+
+            .special_megamenu-item.special_active>a,
+            .special_megamenu-item:hover>a {
+                color: var(--special_blue);
+                background: #FDECEB;
+            }
+
+            .special_megamenu-right {
+                flex: 1;
+                padding: 18px 20px;
+                max-height: 420px;
+                overflow-y: auto;
+            }
+
+            .special_megamenu-panel {
+                display: none;
+            }
+
+            .special_megamenu-panel.special_active {
+                display: block;
+            }
+
+            .special_megamenu-panel-title {
+                font-size: 13px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: #8a90a2;
+                margin-bottom: 12px;
+            }
+
+            .special_megamenu-columns {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                column-gap: 20px;
+            }
+
+            .special_megamenu-col {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .special_megamenu-col li a {
+                display: block;
+                padding: 8px 10px;
+                font-size: 14px;
+                font-weight: 500;
+                color: var(--special_text-dark);
+                border-radius: 8px;
+                white-space: normal;
+                word-break: break-word;
+            }
+
+            .special_megamenu-col li a:hover {
+                background: #FDECEB;
+                color: var(--special_blue);
+            }
+
+            .special_megamenu-empty {
+                font-size: 14px;
+                color: #8a90a2;
+            }
+        }
+
+        .special_contact-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--special_blue);
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 100px;
+            white-space: nowrap;
+            transition: padding 0.35s ease, background 0.2s ease;
+        }
+
+        .special_navbar-wrap.special_at-top .special_contact-btn {
+            padding: 14px 22px;
+            font-size: 15px;
+        }
+
+        .special_contact-btn:hover {
+            background: var(--special_blue-dark);
+            color: #fff;
+        }
+
+        .special_contact-btn-mobile {
+            display: none;
+        }
+
+        /* Hamburger (mobile) */
+        .special_hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 30px;
+            height: 30px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .special_hamburger span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background: var(--special_text-dark);
+            border-radius: 2px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .special_hamburger.special_open span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .special_hamburger.special_open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .special_hamburger.special_open span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        .special_overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 12, 20, 0.4);
+            z-index: 140;
+        }
+
+        .special_overlay.special_open {
+            display: block;
+        }
+
+        @media (max-width: 1100px) {
+            .special_nav-links {
+                gap: 16px;
+            }
+
+            .special_nav-links>li>a {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 860px) {
+            .special_nav-links {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                width: min(80vw, 320px);
+                background: #fff;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                gap: 4px;
+                padding: 90px 24px 28px;
+                box-shadow: -8px 0 30px rgba(20, 30, 60, 0.15);
+                transform: translateX(100%);
+                transition: transform 0.35s ease;
+                z-index: 150;
+                overflow-y: auto;
+            }
+
+            .special_nav-links.special_open {
+                transform: translateX(0);
+            }
+
+            .special_nav-links>li {
+                width: 100%;
+            }
+
+            .special_nav-links>li>a {
+                font-size: 16px;
+                padding: 12px 0;
+                width: 100%;
+                border-bottom: 1px solid #f0f0f2;
+            }
+
+            .special_dropdown {
+                position: static;
+                padding-bottom: 0;
+                margin-bottom: 0;
+            }
+
+            .special_dropdown>.special_submenu {
+                display: block;
+                position: static;
+                box-shadow: none;
+                margin-top: 0;
+                padding-left: 12px;
+            }
+
+            .special_contact-btn-mobile {
+                display: flex;
+                margin-top: 14px;
+            }
+
+            .special_hamburger {
+                display: flex;
+            }
+
+            .special_navbar>.special_contact-btn {
+                display: none;
+            }
+
+            .special_navbar {
+                padding-top: 12px;
+                padding-bottom: 12px;
+            }
+
+            .special_logo {
+                font-size: 16px;
+            }
+
+            .special_logo img {
+                height: 26px !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .special_navbar {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .special_navbar-wrap.special_at-top {
+                padding: 10px 10px 0 10px;
+            }
+
+            .special_navbar-wrap.special_at-top .special_navbar {
+                border-radius: 24px;
+                padding: 12px 18px;
+            }
+        }
     </style>
     <!-- Custom Style -->
     @if (isset($setting->custom_css))
@@ -747,15 +748,15 @@
             color: #fff;
         }
 
-       /* Hover gap fix — About Us / What We Offer dropdown-submenu মাঝের ফাঁকা জায়গা bridge করে */
-/* JS দিয়ে নিয়ন্ত্রিত hover-open ক্লাস */
-.special_dropdown.special_hover-open > .special_submenu {
-    display: block !important;
-}
+        /* Hover gap fix — About Us / What We Offer dropdown-submenu মাঝের ফাঁকা জায়গা bridge করে */
+        /* JS দিয়ে নিয়ন্ত্রিত hover-open ক্লাস */
+        .special_dropdown.special_hover-open>.special_submenu {
+            display: block !important;
+        }
 
-.special_dropdown.special_has-mega.special_hover-open > .special_megamenu {
-    display: flex !important;
-}
+        .special_dropdown.special_has-mega.special_hover-open>.special_megamenu {
+            display: flex !important;
+        }
     </style>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -882,7 +883,8 @@
                                                 id="mega-panel-{{ $service_subnav->id }}">
                                                 @if ($service_subnav->subservices->count() > 0)
                                                     <div class="special_megamenu-panel-title">
-                                                        {{ $service_subnav->short_title }}</div>
+                                                        {{ $service_subnav->short_title }}
+                                                    </div>
                                                     <div class="special_megamenu-columns">
                                                         @php
                                                             $subChunks = $service_subnav->subservices->chunk(
@@ -927,8 +929,8 @@
                     @endphp
                     @if ($all_pages->count())
                         <li class="special_dropdown">
-                            <a class="{{ $isCurrentCasestudy ? 'special_current' : '' }}"
-                                href="#">{{ __('Case Study') }} <span class="special_chevron"></span></a>
+                            <a class="{{ $isCurrentCasestudy ? 'special_current' : '' }}" href="#">{{ __('Case Study') }}
+                                <span class="special_chevron"></span></a>
                             <ul class="special_submenu">
                                 @foreach ($all_pages as $page)
                                     <li><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
@@ -944,8 +946,8 @@
                     @endphp
                     @if ($re_page->count())
                         <li class="special_dropdown">
-                            <a class="{{ $isCurrentResource ? 'special_current' : '' }}"
-                                href="#">{{ __('Resources') }} <span class="special_chevron"></span></a>
+                            <a class="{{ $isCurrentResource ? 'special_current' : '' }}" href="#">{{ __('Resources') }}
+                                <span class="special_chevron"></span></a>
                             <ul class="special_submenu">
                                 @foreach ($re_page as $page)
                                     <li><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
@@ -956,11 +958,11 @@
                     @endif
 
                     {{-- @php
-                        $page_blog = \App\Models\PageSetup::page('blog');
+                    $page_blog = \App\Models\PageSetup::page('blog');
                     @endphp
                     @if (isset($page_blog))
-                        <li><a class="{{ Request::is('blogs*') ? 'special_current' : '' }}"
-                                href="{{ route('blogs') }}">{{ $page_blog->title }}</a></li>
+                    <li><a class="{{ Request::is('blogs*') ? 'special_current' : '' }}" href="{{ route('blogs') }}">{{
+                            $page_blog->title }}</a></li>
                     @endif --}}
                 </ul>
                 @php
@@ -978,7 +980,7 @@
         </div>
 
         <script>
-            (function() {
+            (function () {
                 const navbarWrap = document.getElementById('navbarWrap');
                 const hamburger = document.getElementById('hamburger');
                 const navLinks = document.getElementById('navLinks');
@@ -1005,8 +1007,8 @@
                 }
                 hamburger.addEventListener('click', toggleMenu);
                 overlay.addEventListener('click', toggleMenu);
-                navLinks.querySelectorAll('a').forEach(function(a) {
-                    a.addEventListener('click', function() {
+                navLinks.querySelectorAll('a').forEach(function (a) {
+                    a.addEventListener('click', function () {
                         if (navLinks.classList.contains('special_open')) toggleMenu();
                     });
                 });
@@ -1015,14 +1017,14 @@
                 var megaMenu = document.getElementById('servicesMegaMenu');
                 if (megaMenu) {
                     var items = megaMenu.querySelectorAll('.special_megamenu-item');
-                    items.forEach(function(item) {
-                        item.addEventListener('mouseenter', function() {
+                    items.forEach(function (item) {
+                        item.addEventListener('mouseenter', function () {
                             var targetId = item.getAttribute('data-panel');
-                            items.forEach(function(i) {
+                            items.forEach(function (i) {
                                 i.classList.remove('special_active');
                             });
                             item.classList.add('special_active');
-                            megaMenu.querySelectorAll('.special_megamenu-panel').forEach(function(panel) {
+                            megaMenu.querySelectorAll('.special_megamenu-panel').forEach(function (panel) {
                                 panel.classList.toggle('special_active', panel.id === targetId);
                             });
                         });
@@ -1105,36 +1107,30 @@
                         <div class="custom-footer-social-icons">
                             @if (isset($social->facebook))
                                 <a class="facebook d-flex justify-content-center align-items-center"
-                                    href="{{ $social->facebook }}" target="_blank"><i
-                                        class="bi bi-facebook"></i></a>
+                                    href="{{ $social->facebook }}" target="_blank"><i class="bi bi-facebook"></i></a>
                             @endif
                             @if (isset($social->twitter))
                                 <a class="twitter d-flex justify-content-center align-items-center"
-                                    href="{{ $social->twitter }}" target="_blank"><i
-                                        class="bi bi-twitter-x"></i></a>
+                                    href="{{ $social->twitter }}" target="_blank"><i class="bi bi-twitter-x"></i></a>
                             @endif
                             @if (isset($social->instagram))
                                 <a class="instagram d-flex justify-content-center align-items-center"
-                                    href="{{ $social->instagram }}" target="_blank"><i
-                                        class="bi bi-instagram"></i></a>
+                                    href="{{ $social->instagram }}" target="_blank"><i class="bi bi-instagram"></i></a>
                             @endif
                             @if (isset($social->linkedin))
                                 <a class="linkedin d-flex justify-content-center align-items-center"
-                                    href="{{ $social->linkedin }}" target="_blank"><i
-                                        class="bi bi-linkedin"></i></a>
+                                    href="{{ $social->linkedin }}" target="_blank"><i class="bi bi-linkedin"></i></a>
                             @endif
                             @if (isset($social->pinterest))
                                 <a class="pinterest d-flex justify-content-center align-items-center"
-                                    href="{{ $social->pinterest }}" target="_blank"><i
-                                        class="bi bi-pinterest"></i></a>
+                                    href="{{ $social->pinterest }}" target="_blank"><i class="bi bi-pinterest"></i></a>
                             @endif
                             @if (isset($social->youtube))
                                 <a class="youtube d-flex justify-content-center align-items-center"
                                     href="{{ $social->youtube }}" target="_blank"><i class="bi bi-youtube"></i></a>
                             @endif
                             @if (isset($social->skype))
-                                <a href="skype:{{ $social->skype }}?chat" target="_blank"><i
-                                        class="bi bi-skype"></i></a>
+                                <a href="skype:{{ $social->skype }}?chat" target="_blank"><i class="bi bi-skype"></i></a>
                             @endif
                             @if (isset($social->whatsapp))
                                 <a rel="noopener noreferrer"
@@ -1164,7 +1160,7 @@
         <div id="whatspp_live"></div>
 
         <script type="text/javascript">
-            (function($) {
+            (function ($) {
                 "use strict";
                 $('#whatspp_live').floatingWhatsApp({
                     phone: '{{ $livechat->whatsapp_no }}', //WhatsApp Business phone number International format
@@ -1172,7 +1168,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                        web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                            web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
@@ -1186,17 +1182,17 @@
         <!-- Load Facebook SDK for JavaScript -->
         <div id="fb-root"></div>
         <script type="text/javascript">
-            (function($) {
+            (function ($) {
                 "use strict";
 
-                window.fbAsyncInit = function() {
+                window.fbAsyncInit = function () {
                     FB.init({
                         xfbml: true,
                         version: 'v8.0'
                     });
                 };
 
-                (function(d, s, id) {
+                (function (d, s, id) {
                     var js, fjs = d.getElementsByTagName(s)[0];
                     if (d.getElementById(id)) return;
                     js = d.createElement(s);
@@ -1215,7 +1211,7 @@
         </div>
     @endif
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             let waButton = document.createElement("div");
             waButton.innerHTML = `
             
@@ -1243,20 +1239,20 @@
 
 
         // Dropdown/Mega menu hover with close-delay (fast-close সমস্যা সমাধান)
-document.querySelectorAll('.special_dropdown').forEach(function(dropdown) {
-    let closeTimer;
+        document.querySelectorAll('.special_dropdown').forEach(function (dropdown) {
+            let closeTimer;
 
-    dropdown.addEventListener('mouseenter', function() {
-        clearTimeout(closeTimer);
-        dropdown.classList.add('special_hover-open');
-    });
+            dropdown.addEventListener('mouseenter', function () {
+                clearTimeout(closeTimer);
+                dropdown.classList.add('special_hover-open');
+            });
 
-    dropdown.addEventListener('mouseleave', function() {
-        closeTimer = setTimeout(function() {
-            dropdown.classList.remove('special_hover-open');
-        }, 300); // 300ms delay — এই সময়ের মধ্যে মেনুতে ঢুকলে বন্ধ হবে না
-    });
-});
+            dropdown.addEventListener('mouseleave', function () {
+                closeTimer = setTimeout(function () {
+                    dropdown.classList.remove('special_hover-open');
+                }, 300); // 300ms delay — এই সময়ের মধ্যে মেনুতে ঢুকলে বন্ধ হবে না
+            });
+        });
     </script>
     @yield('scriptjs')
 
