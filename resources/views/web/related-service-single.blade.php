@@ -70,11 +70,11 @@
             <div class="msn-container">
                 <div class="msn-hero-grid">
                     <div>
-                        <div class="msn-hero-badge-top">
+                        {{-- <div class="msn-hero-badge-top">
                             <div class="avatars"><span></span><span></span><span></span></div>
                             <span class="stars-mini">★★★★★</span> 4.9/5 from 900+ clients
-                        </div>
-                        <span class="eyebrow">WordPress Website Development</span>
+                        </div> --}}
+                        {{-- <span class="eyebrow">WordPress Website Development</span> --}}
                         <h1>We build WordPress sites that <span class="grad">load fast</span>, rank higher, and grow your
                             business.
                         </h1>
@@ -85,7 +85,7 @@
                             <a href="#" class="btn-msn btn-msn-primary">Get a Free Quote →</a>
                             <a href="#" class="btn-msn btn-msn-ghost">Book a Consultation</a>
                         </div>
-                        <div class="msn-hero-trust">
+                        {{-- <div class="msn-hero-trust">
                             <div class="item">
                                 <div><strong>900+</strong><span>Projects Delivered</span></div>
                             </div>
@@ -95,36 +95,36 @@
                             <div class="item">
                                 <div><strong>98%</strong><span>Client Satisfaction</span></div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div>
                         <div class="msn-hero-img-wrap msn-reveal">
                             <div class="msn-hero-img-glow"></div>
-                            <div class="msn-float-chip c1">
+                            {{-- <div class="msn-float-chip c1">
                                 <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2.5">
                                         <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
                                     </svg></div>
                                 <div><b>98/100</b><span>Speed Score</span></div>
-                            </div>
-                            <div class="msn-float-chip c2">
+                            </div> --}}
+                            {{-- <div class="msn-float-chip c2">
                                 <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2.5">
                                         <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
                                     </svg></div>
                                 <div><b>SSL Secured</b><span>Fully protected</span></div>
-                            </div>
+                            </div> --}}
                             <div class="msn-hero-img-card">
                                 <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&amp;w=900&amp;auto=format&amp;fit=crop"
                                     alt="WordPress website design service">
                                 <div class="msn-hero-img-shade"></div>
-                                <div class="msn-hero-img-badge">
+                                {{-- <div class="msn-hero-img-badge">
                                     <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                                             stroke="#fff" stroke-width="3">
                                             <path d="M20 6 9 17l-5-5" />
                                         </svg></div>
                                     <div><b>Live in 3–5 Weeks</b><span>Avg. project turnaround</span></div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -132,9 +132,9 @@
             </div>
         </section>
 
-        <svg class="msn-wave" viewBox="0 0 1440 46" preserveAspectRatio="none">
+        {{-- <svg class="msn-wave" viewBox="0 0 1440 46" preserveAspectRatio="none">
             <path d="M0,46 C360,0 1080,0 1440,46 L1440,46 L0,46 Z" fill="#FCEAE7" />
-        </svg>
+        </svg> --}}
         <!-- ============ BADGES ============ -->
         <section class="msn-badges msn-section" style="padding:56px 0 64px;">
             <div class="msn-container">
