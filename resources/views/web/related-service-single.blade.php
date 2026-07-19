@@ -4,121 +4,21 @@
 @endphp
 @if (isset($header))
 
-    @section('title', content: $service->title)
+@section('title', content: $service->title)
 
-    @section('top_meta_tags')
-        @if (isset($service->short_desc))
-            <meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
-        @else
-            <meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
-        @endif
+@section('top_meta_tags')
+    @if (isset($service->short_desc))
+        <meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
+    @else
+        <meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
+    @endif
 
-        <script type="application/ld+json">
-                                                {
-                                                  "@context": "http://schema.org",
-                                                  "@type": "Product",
-                                                  "name": "{{ $service->title }}",
-                                                  "image": {
-                                                    "@type": "ImageObject",
-                                                    "url": "{{ asset('uploads/service/' . $service->image_path) }}",
-                                                    "width": "100",
-                                                    "height": "100"
-                                                  },
-
-                                                  "description": "{{ Str::limit(strip_tags($service->description), 500, '...') }}",
-                                                  "url": "{{ route('service.related-single', $service->slug) }}",
-                                                  "brand": {
-                                                    "@type": "Brand",
-                                                    "name": "MSN Softtech",
-                                                    "logo": "https://msnsofttech.com/uploads/setting/Untitled-4_1739083515.png"
-                                                  },
-                                                  "offers": {
-                                                    "@type": "Offer",
-                                                    "price": "{{ $service->price ?? '999' }}",
-                                                    "priceCurrency": "USD",
-                                                    "availability": "https://schema.org/InStock",
-                                                    "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
-                                                    "hasMerchantReturnPolicy": {
-                                                      "@type": "MerchantReturnPolicy",
-                                                      "applicableCountry": "US",
-                                                      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                                                      "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
-                                                      "returnShippingFeesAmount": {
-                                                        "@type": "MonetaryAmount",
-                                                        "value": "0.00",
-                                                        "currency": "USD"
-                                                      },
-                                                      "merchantReturnDays": "30",
-                                                      "returnMethod": "https://schema.org/ReturnByMail",
-                                                      "returnFees": "FreeReturn"
-                                                    },
-                                                    "shippingDetails": {
-                                                      "@type": "OfferShippingDetails",
-                                                      "shippingRate": {
-                                                        "@type": "MonetaryAmount",
-                                                        "value": "0.00",
-                                                        "currency": "USD"
-                                                      },
-                                                      "deliveryTime": {
-                                                        "@type": "ShippingDeliveryTime",
-                                                        "businessDays": {
-                                                          "@type": "OpeningHoursSpecification",
-                                                          "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
-                                                          "https://schema.org/Sunday"]
-                                                        },
-                                                        "handlingTime": {
-                                                          "@type": "QuantitativeValue",
-                                                          "minValue": 1,
-                                                          "maxValue": 2,
-                                                          "unitCode": "DAY"
-                                                        },
-                                                        "transitTime": {
-                                                          "@type": "QuantitativeValue",
-                                                          "minValue": 3,
-                                                          "maxValue": 5,
-                                                          "unitCode": "DAY"
-                                                        }
-                                                      },
-                                                      "shippingDestination": {
-                                                        "@type": "DefinedRegion",
-                                                        "addressCountry": "US"
-                                                      }
-                                                    }
-                                                  },
-                                                  "aggregateRating": {
-                                                    "@type": "AggregateRating",
-                                                    "ratingValue": "{{ $service->average_rating }}",
-                                                    "bestRating": "5",
-                                                    "worstRating": "1",
-                                                    "ratingCount": "{{ $service->review_count }}",
-                                                  },
-                                                  "review": {
-                                                    "@type": "Review",
-                                                    "author": {
-                                                      "@type": "Person",
-                                                      "name": "Joseph Garcia"
-                                                    },
-                                                    "datePublished": "{{ $service->created_at->format('Y-m-d') }}",
-                                                    "reviewRating": {
-                                                      "@type": "Rating",
-                                                      "ratingValue": "5",
-                                                      "bestRating": "5",
-                                                      "worstRating": "1"
-                                                    },
-                                                    "reviewBody": "MSN Softtech delivered an exceptional custom {{ $service->short_title }} solution that enhanced our online presence and improved performance."
-                                                  }
-                                                }
-                                                </script>
-
-
-        <!-- JSON-LD markup generated by Google Structured Data Markup Helper. -->
-
-        @if (isset($header->meta_keywords))
-            <meta name="keywords" content="{!! strip_tags($header->meta_keywords) !!}">
-        @else
-            <meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
-        @endif
-    @endsection
+    @if (isset($header->meta_keywords))
+        <meta name="keywords" content="{!! strip_tags($header->meta_keywords) !!}">
+    @else
+        <meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
+    @endif
+@endsection
 
 @endif
 
@@ -146,381 +46,6 @@
 
 @section('content')
 
-    <!-- FontAwesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <!-- intl-tel-input -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" />
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
-    <!-- Bootstrap 4.1 CSS -->
-    {{--
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> --}}
-
-    <!-- Bootstrap Icons (works independently) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
-    <style>
-        /* Base */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-            color: #052C58;
-        }
-
-        /* HERO */
-        .hero-section {
-            /* background: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
-                                        color: #fff;
-                                        padding: 120px 0;
-                                        position: relative; */
-        }
-
-        .hero-section::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.911);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Section titles */
-        .section-title {
-            text-align: center;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            color: #6c757d;
-            margin-bottom: 2.5rem;
-        }
-
-        /* Service details */
-        .service-detail img {
-            border-radius: 10px;
-        }
-
-        .service-detail p {
-            line-height: 1.8;
-            color: #555;
-        }
-
-        /* Feature */
-        .feature-card {
-            background: #fff;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            transition: all .3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .feature-card i {
-            font-size: 2rem;
-            color: #052C58;
-            margin-bottom: 15px;
-        }
-
-        /* Process */
-        .process-step {
-            background: #fff;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            transition: all .3s ease;
-        }
-
-        .process-step:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Project / portfolio */
-        .project-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            transition: transform .4s ease;
-        }
-
-        .project-item img {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
-
-        .project-item:hover {
-            transform: scale(1.05);
-        }
-
-        .project-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            opacity: 0;
-            transition: all .4s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .project-item:hover .project-overlay {
-            opacity: 1;
-        }
-
-        /* CTA */
-        .cta-section {
-            background: #052C58;
-            color: #fff;
-            padding: 60px 0;
-            text-align: center;
-            border-radius: 10px;
-        }
-
-        /* FAQ (Bootstrap 4) */
-        .faq-section .card-header {
-            background: #fff;
-            border-bottom: none;
-        }
-
-        .faq-section .btn-link {
-            text-decoration: none;
-            font-weight: 500;
-            color: #052C58;
-        }
-
-        /* Testimonials small tweaks */
-        .testimonial {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-        }
-
-        /* Project journey scroller */
-        .journey-scroll {
-            display: flex;
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
-            gap: 1rem;
-        }
-
-        .journey-scroll>div {
-            min-width: 250px;
-        }
-
-        /* Utility fixes for Bootstrap4 compatibility */
-        .mb-4 {
-            margin-bottom: 1.5rem !important;
-        }
-
-        .g-4 {
-            margin-left: 0;
-            margin-right: 0;
-        }
-
-        /* placeholder so markup with g-4 won't break layout */
-
-
-        .iti.iti--allow-dropdown {
-            width: 100%;
-        }
-
-        .contact-wrapper {
-            width: 90%;
-            max-width: 1150px;
-            margin: 60px auto;
-            background: #fff;
-            border-radius: 4px;
-            /* box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); */
-            overflow: hidden;
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        /* Left Form Section */
-        .form-section {
-            flex: 1;
-            padding: 60px 50px;
-            background: #fff;
-        }
-
-        .form-section h2 {
-            font-weight: 700;
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
-
-        .form-section p {
-            color: #6c757d;
-            font-size: 15px;
-            margin-bottom: 35px;
-        }
-
-        .form-control {
-            border-radius: 4px;
-            height: 46px;
-            font-size: 14px;
-        }
-
-        textarea.form-control {
-            height: auto;
-        }
-
-        .btn-primary {
-            background-color: #6c4ef7;
-            border: none;
-            border-radius: 4px;
-            padding: 12px;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-
-        .btn-primary:hover {
-            background-color: #5639d1;
-        }
-
-        .form-check-label {
-            font-size: 14px;
-            color: #6c757d;
-        }
-
-        /* Right Image Section */
-        .image-section {
-            flex: 1;
-            background: url('https://images.unsplash.com/photo-1615840287214-7ff58936c4cf?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=387') center center/cover no-repeat;
-            position: relative;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            min-height: 650px;
-        }
-
-        .info-overlay {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(40px);
-            border-radius: 6px;
-            color: #fff;
-            width: 90%;
-            margin-bottom: 40px;
-            padding: 30px 20px;
-            text-align: center;
-            /* display: flex; */
-
-        }
-
-        .info-overlay .contact-box {
-            margin-bottom: 30px;
-        }
-
-        .info-overlay .contact-box:last-child {
-            margin-bottom: 0;
-        }
-
-        .info-overlay .contact-box i {
-            font-size: 20px;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .info-overlay h6 {
-            font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-
-        .info-overlay p {
-            margin: 0;
-            font-size: 13px;
-            opacity: 0.9;
-        }
-
-        @media (max-width: 991px) {
-            .contact-wrapper {
-                flex-direction: column;
-            }
-
-            .image-section {
-                min-height: 300px;
-                order: -1;
-            }
-
-            .form-section {
-                padding: 40px 30px;
-            }
-
-            .info-overlay {
-                position: relative;
-                margin: 20px auto;
-            }
-        }
-
-
-        .description-content ul {
-  list-style: none; /* remove default bullets */
-  padding-left: 0;
-  margin-left: 0;
-}
-
-.description-content ul li {
-  position: relative;
-  padding-left: 30px; /* space for image */
-  margin-bottom: 0px;
-}
-
-.description-content ul li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 4px;
-  width: 20px;
-  height: 20px;
-  background-image: url('{{ asset('uploads/case-study/check2.png') }}');
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-/* For ordered lists */
-.description-content ol {
-  list-style: none;
-  counter-reset: item;
-  padding-left: 0;
-}
-
-.description-content ol li {
-  counter-increment: item;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 0px;
-}
-
-.description-content ol li::before {
-  content: counter(item) ".";
-  position: absolute;
-  left: 0;
-  top: 0;
-  font-weight: bold;
-  color: #052C58; /* adjust color */
-}
-    </style>
-
-
     <!-- HERO -->
     @php
         $banners = json_decode($service->banner_steps ?? '[]', true);
@@ -536,504 +61,925 @@
         $cta = json_decode($service->cta_steps ?? '[]', true);
     @endphp
 
-    @foreach ($banners as $item)
-        <section class="hero-section d-flex align-items-center justify-content-center text-center"
-            style="background: url('{{ asset('uploads/banner/' . $item['banner_image'] ?? 'default.jpg') }}') center/cover no-repeat; color: #fff; padding: 120px 0; position: relative;">
-            <div class="container hero-content">
-                <h1 class="display-4 font-weight-bold">{{ $item['title'] }}</h1>
-                <p class="lead text-white">{{ $item['sub_title'] }}</p>
-                <a href="#contact" style="background-color: #052C58; color: #ffffff;" class="btn btn-lg mt-3">Get
-                    Started</a>
-            </div>
-        </section>
-    @endforeach
-    <!-- SERVICE DETAILS -->
-    <section class="py-5 service-detail">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="{{ asset('uploads/subservices/' . $service->image_path ?? 'default.jpg') }}"
-                        class="img-fluid" alt="Web Development">
-                </div>
-                <div class="col-lg-6">
-                    <h2 style="font-weight: 800" class=" mb-3">{{ $service->title }}</h2>
-                    <div class="description-content">
-                        {!! $service->description !!}
-                    </div>
+    <div class="msn-page">
 
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CORE FEATURES -->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <h2 style="font-weight: 800" class="section-title">Our Core Features</h2>
-            <p class="section-subtitle">Empowering your business with next-level web technology.</p>
-
-            <div class="row">
-                @foreach ($features as $item)
-                    <div class="col-md-3 col-sm-6 mb-4">
-                        <div class="feature-card h-100 text-center">
-                            <div class="icon-box mb-3">
-                                <i class="{{ $item['icon_class'] }}"></i>
+        <!-- ============ HERO ============ -->
+        <section class="msn-hero">
+            <div class="msn-hero-blob b1"></div>
+            <div class="msn-hero-blob b2"></div>
+            <div class="msn-container">
+                <div class="msn-hero-grid">
+                    <div>
+                        <div class="msn-hero-badge-top">
+                            <div class="avatars"><span></span><span></span><span></span></div>
+                            <span class="stars-mini">★★★★★</span> 4.9/5 from 900+ clients
+                        </div>
+                        <span class="eyebrow">WordPress Website Development</span>
+                        <h1>We build WordPress sites that <span class="grad">load fast</span>, rank higher, and grow your
+                            business.
+                        </h1>
+                        <p class="lead-msn">From a single landing page to a full e-commerce build — MSN Softtech designs,
+                            develops
+                            and ships secure, mobile-first WordPress websites, tuned for speed and SEO from day one.</p>
+                        <div class="msn-hero-ctas">
+                            <a href="#" class="btn-msn btn-msn-primary">Get a Free Quote →</a>
+                            <a href="#" class="btn-msn btn-msn-ghost">Book a Consultation</a>
+                        </div>
+                        <div class="msn-hero-trust">
+                            <div class="item">
+                                <div><strong>900+</strong><span>Projects Delivered</span></div>
                             </div>
-                            <h5 class="font-weight-bold">{{ $item['title'] }}</h5>
-                            <p>{{ $item['bottom_text'] }}</p>
-                        </div>
-                    </div>
-                @endforeach
-
-            </div>
-        </div>
-    </section>
-
-    <!-- SERVICE PROCESS -->
-    <section class="py-5">
-        <div class="container">
-            <h2 style="font-weight: 800" class="section-title">Our Work Process</h2>
-            <p class="section-subtitle">We follow a streamlined workflow for perfect project delivery.</p>
-
-            <div class="row text-center">
-                @foreach ($process as $key => $item)
-                    <div class="col-md-3 mb-4">
-                        <div class="process-step h-100">
-                            <div style="color: #052C58" class="step-number display-4 font-weight-bold">0{{ $key + 1 }}
+                            <div class="item">
+                                <div><strong>13+ yrs</strong><span>In Business</span></div>
                             </div>
-                            <h5 class="mt-3 font-weight-bold">{{ $item['title'] }}</h5>
-                            <p>{{ $item['bottom_text'] }}</p>
+                            <div class="item">
+                                <div><strong>98%</strong><span>Client Satisfaction</span></div>
+                            </div>
                         </div>
                     </div>
-                @endforeach
-
-            </div>
-        </div>
-    </section>
-
-    <!-- WHY CHOOSE US -->
-    <section class="py-5 bg-light">
-        <div class="container text-center">
-            <h2 style="font-weight: 800" class="section-title mb-4">Why Choose MSNSoftech?</h2>
-            <div class="row">
-                @foreach ($why_we as $item)
-                    <div class="col-md-4 mb-4">
-                        <div class="p-4 border rounded h-100 shadow-sm">
-                            <i class="{{ $item['icon_class'] }} display-4 mb-3" style="color: #052C58"></i>
-                            <h5 class="font-weight-bold">{{ $item['title'] }}</h5>
-                            <p>{{ $item['bottom_text'] }}</p>
-                        </div>
-                    </div>
-                @endforeach
-
-            </div>
-        </div>
-    </section>
-
-
-    <!-- INDUSTRIES SECTION -->
-    <section class="container my-5">
-        <div class="text-center mb-4">
-            <h2 style="font-weight: 800; color: #052C58;" class="">Industries We Serve</h2>
-            <p class="text-muted">From eCommerce to SaaS and healthcare</p>
-        </div>
-
-        <div class="row justify-content-center">
-            @foreach ($industries as $item)
-                <div class="col-6 col-md-3 mb-3">
-                    <div class="p-4 bg-white rounded shadow-sm text-center h-100">
-                        <i class="{{ $item['icon_class'] }}" style="font-size:2rem; color: #052C58;"></i>
-                        <div class="mt-2 text-muted font-weight-bold">{{ $item['title'] }}</div>
-                    </div>
-                </div>
-            @endforeach
-
-        </div>
-    </section>
-
-    <!-- STATS / ACHIEVEMENTS SECTION -->
-    <section class="container my-5">
-        <div class="text-center mb-4">
-            <h2 style="font-weight: 800; color: #052C58;" class="">Achievements</h2>
-            <p class="text-muted font-weight-bold">Numbers that show our impact</p>
-        </div>
-
-        <div class="row text-center">
-            @foreach ($achievements as $item)
-                <div class="col-md-3 mb-4">
-                    <div class="p-4 bg-white rounded shadow-sm">
-                        <h2 style="color: #052C58;" class="font-weight-bold stat-number"
-                            data-target="{{ $item['count_number'] }}">0</h2>
-                        <p class="mb-0 text-muted font-weight-bold">{{ $item['title'] }}</p>
-                    </div>
-                </div>
-            @endforeach
-
-        </div>
-    </section>
-
-    <!-- COUNTER SCRIPT (works in Bootstrap 4) -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var counters = document.querySelectorAll('.stat-number');
-            counters.forEach(function(counter) {
-                var target = +counter.getAttribute('data-target');
-                var count = 0;
-                var increment = target / 100;
-
-                function updateCounter() {
-                    count += increment;
-                    if (count < target) {
-                        counter.innerText = Math.ceil(count);
-                        requestAnimationFrame(updateCounter);
-                    } else {
-                        counter.innerText = target;
-                    }
-                }
-
-                updateCounter();
-            });
-        });
-    </script>
-
-    <!-- STYLING -->
-    <style>
-        .stat-number {
-            font-size: 2.5rem;
-        }
-    </style>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
-    <!-- PORTFOLIO -->
-    @if (!empty($service->portfolios) && count($service->portfolios) > 0)
-        <section class="py-5 bg-light">
-            <div class="container">
-                <h2 style="font-weight: 800" class="section-title">Recent Projects</h2>
-                <p style="font-weight: 800" class="section-subtitle">Explore some of our successful work for clients
-                    around the
-                    world.</p>
-
-                <div class="row">
-                    @foreach ($service->portfolios as $portfolio)
-                        <div class="col-md-4 mb-4">
-                            <div class="project-item position-relative overflow-hidden rounded shadow-sm"
-                                style="width: 350px; height:233px ">
-                                <img src="{{ asset('uploads/portfolio/' . $portfolio->image_path) }}" class="img-fluid"
-                                    alt="{{ $portfolio->title }}">
-                                <div class="project-overlay">
-                                    <h5><a href="{{ route('portfolio.single', $portfolio->slug) }}"
-                                            class="text-white font-weight-bold">{{ $portfolio->title }}</a></h5>
+                    <div>
+                        <div class="msn-hero-img-wrap msn-reveal">
+                            <div class="msn-hero-img-glow"></div>
+                            <div class="msn-float-chip c1">
+                                <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2.5">
+                                        <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
+                                    </svg></div>
+                                <div><b>98/100</b><span>Speed Score</span></div>
+                            </div>
+                            <div class="msn-float-chip c2">
+                                <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2.5">
+                                        <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
+                                    </svg></div>
+                                <div><b>SSL Secured</b><span>Fully protected</span></div>
+                            </div>
+                            <div class="msn-hero-img-card">
+                                <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&amp;w=900&amp;auto=format&amp;fit=crop"
+                                    alt="WordPress website design service">
+                                <div class="msn-hero-img-shade"></div>
+                                <div class="msn-hero-img-badge">
+                                    <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                            stroke="#fff" stroke-width="3">
+                                            <path d="M20 6 9 17l-5-5" />
+                                        </svg></div>
+                                    <div><b>Live in 3–5 Weeks</b><span>Avg. project turnaround</span></div>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-
+                    </div>
                 </div>
             </div>
         </section>
-    @endif
-    <!-- TECHNOLOGIES -->
-    @if (!empty($service->technologies) && count($service->technologies) > 0)
-        <section class="py-5 bg-light">
-            <div class="container text-center">
-                <h2 style="font-weight: 800" class="section-title">Technologies We Use</h2>
-                <p class="section-subtitle">We combine creativity and the latest tools to deliver high-quality solutions.
-                </p>
 
-                <div class="row justify-content-center align-items-center">
-                    @foreach ($service->technologies as $technology)
-                        <a href="{{ route('service.technology', $technology->slug) }}" class="col-4 col-md-2 mb-3">
-                            <img src="{{ asset('uploads/technology/' . $technology->logo_path) }}" class="img-fluid"
-                                title="{{ $technology->title }}" alt="{{ $technology->title }}"
-                                style="max-height:70px;">
-                        </a>
-                    @endforeach
+        <svg class="msn-wave" viewBox="0 0 1440 46" preserveAspectRatio="none">
+            <path d="M0,46 C360,0 1080,0 1440,46 L1440,46 L0,46 Z" fill="#FCEAE7" />
+        </svg>
+        <!-- ============ BADGES ============ -->
+        <section class="msn-badges msn-section" style="padding:56px 0 64px;">
+            <div class="msn-container">
+                <div class="msn-badges-row">
+                    <div class="msn-badge">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
+                            </svg></div>
+                        <div><strong>Fast Delivery</strong><span>On-time, every time</span></div>
+                    </div>
+                    <div class="msn-badge">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M3 17l6-6 4 4 8-8" />
+                                <path d="M17 7h4v4" />
+                            </svg></div>
+                        <div><strong>Built to Scale</strong><span>Grows with your business</span></div>
+                    </div>
+                    <div class="msn-badge">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
+                            </svg></div>
+                        <div><strong>Secure &amp; Reliable</strong><span>Protected at every layer</span></div>
+                    </div>
+                    <div class="msn-badge">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M9 12l2 2 4-4" />
+                            </svg></div>
+                        <div><strong>Easy to Manage</strong><span>Simple client dashboard</span></div>
+                    </div>
                 </div>
             </div>
         </section>
-    @endif
-    <!-- CASE STUDIES / RESULTS -->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <h2 style="font-weight: 800" class="section-title text-center">Our Success Stories</h2>
-            <p class="section-subtitle text-center">See how we’ve helped clients achieve measurable results.</p>
 
-            <div class="row mt-4">
-                @foreach ($success_stories as $item)
-                    <div class="col-md-4 mb-4">
-                        <div class="case-card bg-white shadow-sm rounded p-4 h-100">
-                            <h5 class="font-weight-bold mb-2">{{ $item['title'] }}</h5>
-                            <p>{{ $item['bottom_text'] }}</p>
+        <!-- ============ WHO IS THIS SERVICE FOR ============ -->
+        <section class="msn-audience msn-section">
+            <div class="msn-container">
+                <div class="msn-section-head msn-reveal">
+                    <span class="eyebrow">Who Is This For</span>
+                    <h2>Built for teams who need a website that actually performs</h2>
+                    <p>Whether you're launching your first site or replacing one that's holding you back, this service fits
+                        businesses at every stage.</p>
+                </div>
+                <div class="msn-audience-grid">
+                    <div class="msn-audience-card msn-reveal">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1m4 0h1m-6 4h1m4 0h1m-6 4h1m4 0h1" />
+                            </svg></div>
+                        <strong>Small &amp; Local Businesses</strong>
+                        <span>Owners who need a professional online presence that brings in calls and bookings without a big
+                            budget.</span>
+                    </div>
+                    <div class="msn-audience-card msn-reveal">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
+                            </svg></div>
+                        <strong>Startups &amp; Founders</strong>
+                        <span>Teams that need to launch fast, look credible to investors and customers, and scale the site
+                            as they
+                            grow.</span>
+                    </div>
+                    <div class="msn-audience-card msn-reveal">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                                <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                                <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                                <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                            </svg></div>
+                        <strong>Agencies &amp; Consultants</strong>
+                        <span>Firms that need a polished portfolio site or a white-label build to hand off to their own
+                            clients.</span>
+                    </div>
+                    <div class="msn-audience-card msn-reveal">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="9" cy="21" r="1.5" />
+                                <circle cx="19" cy="21" r="1.5" />
+                                <path d="M2.5 3h3l3 12.5h9.5l3-8H6.2" />
+                            </svg></div>
+                        <strong>E-commerce &amp; Retail Brands</strong>
+                        <span>Store owners who need a fast, secure WooCommerce build that converts browsers into
+                            buyers.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SERVICES INCLUDED ============ -->
+        <section class="msn-included msn-section" style="background:var(--red-soft);">
+            <div class="msn-container">
+                <div class="msn-section-head msn-reveal">
+                    <span class="eyebrow">What's Included</span>
+                    <h2>Everything needed to go from idea to a live website</h2>
+                    <p>No hidden extras — every WordPress build includes the following as standard.</p>
+                </div>
+                <div class="msn-included-grid">
+                    <div class="msn-included-item msn-reveal">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+                            </svg></div>
+                        <strong>Custom Design</strong>
+                        <span>A layout designed around your brand, not a generic template.</span>
+                    </div>
+                    <div class="msn-included-item msn-reveal">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="2" y="4" width="20" height="16" rx="2" />
+                                <path d="M2 9h20" />
+                            </svg></div>
+                        <strong>Responsive Development</strong>
+                        <span>Every page built and tested across mobile, tablet and desktop.</span>
+                    </div>
+                    <div class="msn-included-item msn-reveal">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="11" cy="11" r="7" />
+                                <path d="m21 21-4.3-4.3" />
+                            </svg></div>
+                        <strong>On-Page SEO Setup</strong>
+                        <span>Clean URLs, meta tags, schema markup and sitemap configuration.</span>
+                    </div>
+                    <div class="msn-included-item msn-reveal">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
+                            </svg></div>
+                        <strong>Speed Optimization</strong>
+                        <span>Image compression, caching and code minification for fast load times.</span>
+                    </div>
+                    <div class="msn-included-item msn-reveal">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
+                            </svg></div>
+                        <strong>Security Hardening</strong>
+                        <span>SSL setup, firewall rules and login protection configured at launch.</span>
+                    </div>
+                    <div class="msn-included-item msn-reveal">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M21 8a13 13 0 01-8.5 12A13 13 0 014 8V4l8.5-2L21 4z" />
+                            </svg></div>
+                        <strong>Content Migration</strong>
+                        <span>Existing pages, images and copy carried over cleanly to the new build.</span>
+                    </div>
+                    <div class="msn-included-item msn-reveal">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M4 4h16M4 4v10a8 8 0 0016 0V4" />
+                            </svg></div>
+                        <strong>Plugin &amp; Integration Setup</strong>
+                        <span>Forms, analytics, booking or e-commerce plugins installed and configured.</span>
+                    </div>
+                    <div class="msn-included-item msn-reveal">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M12 7v5l3 3" />
+                            </svg></div>
+                        <strong>Training &amp; Handover</strong>
+                        <span>A walkthrough video and admin guide so your team can manage it independently.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ STACK ============ -->
+        <section class="msn-stack msn-section">
+            <div class="msn-container">
+                <div class="msn-stack-head">
+                    <span class="eyebrow" style="justify-content:center;">The Stack</span>
+                    <h2 style="font-size:clamp(24px,3vw,34px); margin-top:14px; font-weight:800;">Built on tools that scale
+                        with
+                        you</h2>
+                </div>
+            </div>
+            <div class="msn-marquee">
+                <div class="msn-marquee-track" id="msnMarquee"></div>
+            </div>
+        </section>
+
+        <!-- ============ PROCESS ============ -->
+        <section class="msn-section">
+            <div class="msn-container">
+                <div class="msn-section-head msn-reveal">
+                    <span class="eyebrow">How We Work</span>
+                    <h2>Six stages, one clear plan</h2>
+                    <p>Every project moves through the same disciplined pipeline — nothing skipped, nothing rushed.</p>
+                </div>
+                <div class="msn-proc-grid">
+                    <div class="msn-proc-card msn-reveal">
+                        <span class="ghost-num">01</span>
+                        <div class="top-row">
+                            <div class="ic-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="7" />
+                                    <path d="m21 21-4.3-4.3" />
+                                </svg></div><span class="tag-line">Kickoff</span>
+                        </div>
+                        <h3>Discovery</h3>
+                        <p>We map your goals, audience and competitors to define what the site actually needs to do.</p>
+                    </div>
+                    <div class="msn-proc-card msn-reveal">
+                        <span class="ghost-num">02</span>
+                        <div class="top-row">
+                            <div class="ic-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M3 15V6a2 2 0 012-2h6l2 2h6a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                                </svg></div><span class="tag-line">Blueprint</span>
+                        </div>
+                        <h3>Planning &amp; Sitemap</h3>
+                        <p>Page structure, content plan and tech stack get locked in before a single pixel is placed.</p>
+                    </div>
+                    <div class="msn-proc-card msn-reveal">
+                        <span class="ghost-num">03</span>
+                        <div class="top-row">
+                            <div class="ic-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+                                </svg></div><span class="tag-line">Visual</span>
+                        </div>
+                        <h3>Design</h3>
+                        <p>Custom layouts in your brand voice — reviewed and refined with you before development starts.</p>
+                    </div>
+                    <div class="msn-proc-card msn-reveal">
+                        <span class="ghost-num">04</span>
+                        <div class="top-row">
+                            <div class="ic-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16" />
+                                </svg></div><span class="tag-line">Build</span>
+                        </div>
+                        <h3>Development</h3>
+                        <p>Clean, documented WordPress code — theme setup, plugins, and any custom functionality.</p>
+                    </div>
+                    <div class="msn-proc-card msn-reveal">
+                        <span class="ghost-num">05</span>
+                        <div class="top-row">
+                            <div class="ic-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M9 12l2 2 4-4" />
+                                </svg></div><span class="tag-line">QA</span>
+                        </div>
+                        <h3>Testing</h3>
+                        <p>Cross-browser, cross-device and speed testing, plus a full security sweep before launch.</p>
+                    </div>
+                    <div class="msn-proc-card msn-reveal">
+                        <span class="ghost-num">06</span>
+                        <div class="top-row">
+                            <div class="ic-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
+                                </svg></div><span class="tag-line">Go live</span>
+                        </div>
+                        <h3>Launch &amp; Support</h3>
+                        <p>We publish the site and stay on for 30 days of support to catch anything that comes up.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ CORE FEATURES ============ -->
+        <section class="msn-features msn-section" style="background:var(--red-soft);">
+            <div class="msn-container">
+                <div class="msn-section-head msn-reveal">
+                    <span class="eyebrow">Core Features</span>
+                    <h2>What makes every build stand out</h2>
+                    <p>These aren't add-ons — they're the foundation of how we build every WordPress site.</p>
+                </div>
+                <div class="msn-features-grid">
+                    <div class="msn-feature-card msn-reveal">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="2" y="4" width="20" height="16" rx="2" />
+                                <path d="M2 9h20" />
+                            </svg></div>
+                        <strong>Mobile-First Responsive Design</strong>
+                        <span>Every screen size gets a layout that feels custom-built, not squeezed to fit.</span>
+                    </div>
+                    <div class="msn-feature-card msn-reveal">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
+                            </svg></div>
+                        <strong>Lightning-Fast Performance</strong>
+                        <span>Optimized code and assets keep load times low, even on slower connections.</span>
+                    </div>
+                    <div class="msn-feature-card msn-reveal">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="11" cy="11" r="7" />
+                                <path d="m21 21-4.3-4.3" />
+                            </svg></div>
+                        <strong>SEO-Ready Structure</strong>
+                        <span>Search-friendly markup and site architecture built in from the first page.</span>
+                    </div>
+                    <div class="msn-feature-card msn-reveal">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
+                            </svg></div>
+                        <strong>Secure Architecture</strong>
+                        <span>Hardened login, regular updates and firewall rules to keep threats out.</span>
+                    </div>
+                    <div class="msn-feature-card msn-reveal">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M9 12l2 2 4-4" />
+                            </svg></div>
+                        <strong>Easy Content Management</strong>
+                        <span>A clean WordPress admin so your team can update pages without touching code.</span>
+                    </div>
+                    <div class="msn-feature-card msn-reveal">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16" />
+                            </svg></div>
+                        <strong>Scalable &amp; Future-Proof</strong>
+                        <span>Built to handle new pages, plugins and traffic growth without a rebuild.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ PORTFOLIO ============ -->
+        <section class="msn-port msn-section">
+            <div class="msn-container">
+                <div class="msn-between msn-reveal">
+                    <div class="msn-section-head">
+                        <span class="eyebrow">Selected Work</span>
+                        <h2>Sites we've shipped recently</h2>
+                    </div>
+                    <a href="#" class="btn-msn btn-msn-ghost"
+                        style="border-color:rgba(255,255,255,.5); color:#fff; background:transparent;">View All Projects</a>
+                </div>
+                <div class="msn-port-filters msn-reveal" id="msnPortFilters">
+                    <span class="msn-port-filter active" data-f="all">All</span>
+                    <span class="msn-port-filter" data-f="healthcare">Healthcare</span>
+                    <span class="msn-port-filter" data-f="ecommerce">E-Commerce</span>
+                    <span class="msn-port-filter" data-f="realestate">Real Estate</span>
+                    <span class="msn-port-filter" data-f="education">Education</span>
+                    <span class="msn-port-filter" data-f="hospitality">Hospitality</span>
+                </div>
+                <div class="msn-port-grid2" id="msnPortGrid">
+                    <div class="msn-port-card2 msn-reveal" data-cat="healthcare">
+                        <div class="msn-port-chrome"><span></span><span></span><span></span></div>
+                        <div class="msn-port-shot" style="background:linear-gradient(135deg,#2C355E,#E23A2E);"><svg
+                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"
+                                opacity=".8">
+                                <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
+                                <path d="M9 12l2 2 4-4" />
+                            </svg></div>
+                        <div class="msn-port-body"><span class="cat">Healthcare</span><b>Bay Area Dental Group</b><span
+                                class="msn-port-view">View Project →</span></div>
+                    </div>
+                    <div class="msn-port-card2 msn-reveal" data-cat="ecommerce">
+                        <div class="msn-port-chrome"><span></span><span></span><span></span></div>
+                        <div class="msn-port-shot" style="background:linear-gradient(135deg,#B4820F,#E23A2E);"><svg
+                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"
+                                opacity=".8">
+                                <circle cx="9" cy="21" r="1" />
+                                <circle cx="20" cy="21" r="1" />
+                                <path d="M1 1h4l2.7 13.4a2 2 0 002 1.6h9.7a2 2 0 002-1.6L23 6H6" />
+                            </svg></div>
+                        <div class="msn-port-body"><span class="cat">E-Commerce</span><b>Northside Outfitters</b><span
+                                class="msn-port-view">View Project →</span></div>
+                    </div>
+                    <div class="msn-port-card2 msn-reveal" data-cat="realestate">
+                        <div class="msn-port-chrome"><span></span><span></span><span></span></div>
+                        <div class="msn-port-shot" style="background:linear-gradient(135deg,#2C355E,#B4820F);"><svg
+                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"
+                                opacity=".8">
+                                <path d="M3 21h18M5 21V9l7-6 7 6v12M9 21v-6h6v6" />
+                            </svg></div>
+                        <div class="msn-port-body"><span class="cat">Real Estate</span><b>Harlow Properties</b><span
+                                class="msn-port-view">View Project →</span></div>
+                    </div>
+                    <div class="msn-port-card2 msn-reveal" data-cat="education">
+                        <div class="msn-port-chrome"><span></span><span></span><span></span></div>
+                        <div class="msn-port-shot" style="background:linear-gradient(135deg,#E23A2E,#2C355E);"><svg
+                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"
+                                opacity=".8">
+                                <path d="M22 10 12 5 2 10l10 5 10-5z" />
+                                <path d="M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5" />
+                            </svg></div>
+                        <div class="msn-port-body"><span class="cat">Education</span><b>Crestline Academy</b><span
+                                class="msn-port-view">View Project →</span></div>
+                    </div>
+                    <div class="msn-port-card2 msn-reveal" data-cat="hospitality">
+                        <div class="msn-port-chrome"><span></span><span></span><span></span></div>
+                        <div class="msn-port-shot" style="background:linear-gradient(135deg,#B4820F,#2C355E);"><svg
+                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"
+                                opacity=".8">
+                                <path d="M2 12h20M2 12a5 5 0 015-5h10a5 5 0 015 5v6H2v-6z" />
+                                <path d="M6 12V8M10 12V8" />
+                            </svg></div>
+                        <div class="msn-port-body"><span class="cat">Hospitality</span><b>The Maren Hotel</b><span
+                                class="msn-port-view">View Project →</span></div>
+                    </div>
+                    <div class="msn-port-card2 msn-reveal" data-cat="ecommerce">
+                        <div class="msn-port-chrome"><span></span><span></span><span></span></div>
+                        <div class="msn-port-shot" style="background:linear-gradient(135deg,#E23A2E,#B4820F);"><svg
+                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"
+                                opacity=".8">
+                                <path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                                <path d="M3 6h18M16 10a4 4 0 01-8 0" />
+                            </svg></div>
+                        <div class="msn-port-body"><span class="cat">E-Commerce</span><b>Willow &amp; Co. Shop</b><span
+                                class="msn-port-view">View Project →</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ COMPARE ============ -->
+        <section class="msn-compare msn-section" style="background:var(--red-soft);">
+            <div class="msn-container">
+                <div class="msn-section-head msn-reveal">
+                    <span class="eyebrow">Why MSN Softtech</span>
+                    <h2>What you get that a typical freelancer won't offer</h2>
+                </div>
+                <div class="msn-compare-cards msn-reveal">
+                    <div class="msn-cc muted">
+                        <div class="msn-cc-head">
+                            <h3>Typical Freelancer</h3><span class="msn-cc-badge">Basic</span>
+                        </div>
+                        <div class="msn-cc-row"><span class="dot-ic">✗</span>Custom Strategy &amp; Design — templates only
+                        </div>
+                        <div class="msn-cc-row"><span class="dot-ic">✗</span>Dedicated Project Team — one person</div>
+                        <div class="msn-cc-row"><span class="dot-ic">✗</span>Performance Optimization — rarely tested</div>
+                        <div class="msn-cc-row"><span class="dot-ic">✗</span>Security &amp; Data Protection — not managed
+                        </div>
+                        <div class="msn-cc-row"><span class="dot-ic">✗</span>Training &amp; Documentation — limited</div>
+                        <div class="msn-cc-row"><span class="dot-ic">✗</span>Ongoing Support — none</div>
+                    </div>
+                    <div class="msn-cc feat">
+                        <div class="msn-cc-head">
+                            <h3>MSN Softtech</h3><span class="msn-cc-badge">Recommended</span>
+                        </div>
+                        <div class="msn-cc-row"><span class="dot-ic">✓</span>Custom Strategy &amp; Design — built for you
+                        </div>
+                        <div class="msn-cc-row"><span class="dot-ic">✓</span>Dedicated Project Team — full team on call
+                        </div>
+                        <div class="msn-cc-row"><span class="dot-ic">✓</span>Performance Optimization — benchmarked &amp;
+                            tuned
+                        </div>
+                        <div class="msn-cc-row"><span class="dot-ic">✓</span>Security &amp; Data Protection — actively
+                            managed</div>
+                        <div class="msn-cc-row"><span class="dot-ic">✓</span>Training &amp; Documentation — video guide
+                            included
+                        </div>
+                        <div class="msn-cc-row"><span class="dot-ic">✓</span>Ongoing Support — 30 days free</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ DELIVERABLES ============ -->
+        <section class="msn-deliverables msn-section">
+            <div class="msn-container">
+                <div class="msn-section-head msn-reveal">
+                    <span class="eyebrow">Deliverables</span>
+                    <h2>Exactly what you'll walk away with</h2>
+                    <p>A clear, itemized handover — no ambiguity about what's yours at the end of the project.</p>
+                </div>
+                <div class="msn-deliverables-grid">
+                    <div class="msn-deliverable-row msn-reveal">
+                        <span class="num">1</span>
+                        <div><strong>Fully Functional WordPress Website</strong><span>Live, tested and published on your
+                                domain or
+                                hosting.</span></div>
+                    </div>
+                    <div class="msn-deliverable-row msn-reveal">
+                        <span class="num">2</span>
+                        <div><strong>Source Files &amp; Backup</strong><span>Complete theme, plugin and database files for
+                                your
+                                records.</span></div>
+                    </div>
+                    <div class="msn-deliverable-row msn-reveal">
+                        <span class="num">3</span>
+                        <div><strong>Admin Training Video</strong><span>A walkthrough showing how to edit pages, posts and
+                                media.</span></div>
+                    </div>
+                    <div class="msn-deliverable-row msn-reveal">
+                        <span class="num">4</span>
+                        <div><strong>SEO Setup Report</strong><span>Summary of on-page SEO, sitemap and search console
+                                configuration.</span></div>
+                    </div>
+                    <div class="msn-deliverable-row msn-reveal">
+                        <span class="num">5</span>
+                        <div><strong>Analytics Dashboard Access</strong><span>Google Analytics and Search Console connected
+                                and
+                                verified.</span></div>
+                    </div>
+                    <div class="msn-deliverable-row msn-reveal">
+                        <span class="num">6</span>
+                        <div><strong>30 Days of Free Support</strong><span>Bug fixes and small adjustments covered after
+                                launch.</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ GUARANTEE ============ -->
+        <section class="msn-guarantee msn-section">
+            <div class="msn-container">
+                <div class="msn-section-head msn-reveal">
+                    <span class="eyebrow">Our Guarantee</span>
+                    <h2>You're covered, start to finish</h2>
+                    <p>Straightforward terms — no fine print, no surprise invoices.</p>
+                </div>
+                <div class="msn-g-grid">
+                    <div class="msn-g-item msn-reveal">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M12 7v5l3 3" />
+                            </svg></div><strong>30 Days Support</strong><span>Free fixes and tweaks after delivery.</span>
+                    </div>
+                    <div class="msn-g-item msn-reveal">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M4 4h16M4 4v10a8 8 0 0016 0V4" />
+                            </svg></div><strong>Quality Assured</strong><span>Every deliverable reviewed before
+                            handoff.</span>
+                    </div>
+                    <div class="msn-g-item msn-reveal">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M3 12h4l3 8 4-16 3 8h4" />
+                            </svg></div><strong>Transparent Pricing</strong><span>One quote, no hidden line items.</span>
+                    </div>
+                    <div class="msn-g-item msn-reveal">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="3" y="4" width="18" height="16" rx="2" />
+                                <path d="M8 2v4M16 2v4M3 10h18" />
+                            </svg></div><strong>On-Time Delivery</strong><span>Milestones you can plan around.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ INDUSTRIES ============ -->
+        <section class="msn-section">
+            <div class="msn-container">
+                <div class="msn-section-head msn-reveal">
+                    <span class="eyebrow">Industries</span>
+                    <h2>Sites we build across sectors</h2>
+                </div>
+                <div class="msn-ind-wrap msn-reveal">
+                    <div class="msn-ind-chip"><span class="dot"></span>Healthcare</div>
+                    <div class="msn-ind-chip"><span class="dot"></span>Education</div>
+                    <div class="msn-ind-chip"><span class="dot"></span>Real Estate</div>
+                    <div class="msn-ind-chip"><span class="dot"></span>Travel &amp; Hospitality</div>
+                    <div class="msn-ind-chip"><span class="dot"></span>Retail &amp; E-commerce</div>
+                    <div class="msn-ind-chip"><span class="dot"></span>Legal Services</div>
+                    <div class="msn-ind-chip"><span class="dot"></span>Non-Profit</div>
+                    <div class="msn-ind-chip"><span class="dot"></span>Finance</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ TESTIMONIALS ============ -->
+        <section class="msn-test msn-section">
+            <div class="msn-container">
+                <div class="msn-section-head msn-reveal">
+                    <span class="eyebrow">Client Voices</span>
+                    <h2>What clients say after launch</h2>
+                </div>
+                <div class="msn-test-track msn-reveal">
+                    <div class="msn-test-card">
+                        <div class="quote">"</div>
+                        <p class="msg">Excellent work. The team was very professional and understood exactly what we needed
+                            beyond
+                            just what we asked for.</p>
+                        <div class="who">
+                            <div class="avatar">JD</div>
+                            <div><b>John D.</b><small>Healthcare</small>
+                                <div class="stars">★★★★★</div>
+                            </div>
                         </div>
                     </div>
-                @endforeach
-
-            </div>
-        </div>
-    </section>
-
-    <style>
-        .project-item {
-            transition: transform .4s ease;
-        }
-
-        .project-item:hover {
-            transform: scale(1.05);
-        }
-
-        .project-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            opacity: 0;
-            transition: all .4s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .project-item:hover .project-overlay {
-            opacity: 1;
-        }
-    </style>
-
-    <!-- TESTIMONIALS + FAQ -->
-    <section class="py-5">
-        <div class="container">
-            <div class="row align-items-center">
-                <!-- TESTIMONIALS -->
-                <div class="col-lg-6 mb-5 mb-lg-0">
-                    <h2 style="font-weight: 800" class="section-title">What Our Clients Say</h2>
-                    @foreach ($clients_say as $item)
-                        <div class="testimonial p-4 bg-light rounded shadow-sm mb-4">
-                            <p>{{ $item['meassage'] }}</p>
-                            <h6 class="font-weight-bold mb-0">— {{ $item['title'] }}</h6>
+                    <div class="msn-test-card">
+                        <div class="quote">"</div>
+                        <p class="msg">Very responsive and easy to communicate with — always felt like we were their only
+                            client,
+                            even during rush deadlines.</p>
+                        <div class="who">
+                            <div class="avatar">SH</div>
+                            <div><b>Sarah H.</b><small>Retail</small>
+                                <div class="stars">★★★★★</div>
+                            </div>
                         </div>
-                    @endforeach
-
-                </div>
-
-                <!-- FAQ (Bootstrap 4 collapse) -->
-                @if (!empty($faq))
-                    <div class="col-lg-6">
-                        <h2 style="font-weight: 800" class="section-title">Have Questions?</h2>
-                        <div id="accordionFaq" class="faq-section">
-                            @foreach ($faq as $key => $item)
-                                <div class="card">
-                                    <div class="card-header" id="faqHeading{{ $key }}">
-                                        <h5 class="mb-0">
-                                            <button class="btn btn-link" data-toggle="collapse"
-                                                data-target="#faq{{ $key }}"
-                                                aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
-                                                aria-controls="faq{{ $key }}">
-                                                {{ $item['question'] }}
-                                            </button>
-                                        </h5>
-                                    </div>
-
-                                    <div id="faq{{ $key }}" class="collapse {{ $loop->first ? 'show' : '' }}"
-                                        aria-labelledby="faqHeading{{ $key }}" data-parent="#accordionFaq">
-                                        <div class="card-body">
-                                            {!! $item['answer'] !!}
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div> <!-- /.accordion -->
                     </div>
-                @endif
-
-            </div>
-    </section>
-
-    <!-- PROMISE SECTION -->
-    @foreach ($our_promise as $item)
-        <section class="py-5 text-white text-center" style="background-color: #052C58;">
-            <div class="container">
-                <h2 class="font-weight-bold mb-3">Our Promise</h2>
-                <p class="mb-4 lead text-white">{{ $item['bottom_text'] }}</p>
+                    <div class="msn-test-card">
+                        <div class="quote">"</div>
+                        <p class="msg">Our new site loads instantly and the admin panel is so easy that our whole team can
+                            update it
+                            without calling for help.</p>
+                        <div class="who">
+                            <div class="avatar">MA</div>
+                            <div><b>Marcus A.</b><small>Education</small>
+                                <div class="stars">★★★★★</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="msn-test-card">
+                        <div class="quote">"</div>
+                        <p class="msg">Traffic and leads both jumped within the first quarter after launch — the SEO
+                            groundwork made
+                            a real difference.</p>
+                        <div class="who">
+                            <div class="avatar">RK</div>
+                            <div><b>Renee K.</b><small>Real Estate</small>
+                                <div class="stars">★★★★★</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
-    @endforeach
 
-    <div id="contact" class="contact-wrapper">
-        <!-- Left: Contact Form -->
-        <div class="form-section">
-            <h2>We're here to help</h2>
-            <p>Our dedicated team is ready to support you.</p>
-
-            <form method="post" action="{{ route('get-quote.store') }}" enctype="multipart/form-data"
-                accept-charset="utf-8">
-                @csrf
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>Full name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="name"
-                            placeholder="{{ __('form.your_name') }}" value="{{ old('name') }}" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Company<span class="text-danger">(optional)</span></label>
-                        <input type="text" class="form-control" name="company"
-                            placeholder="{{ __('form.company') }}" value="{{ old('company') }}">
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group col-lg-6 col-md-6 col-12">
-                        <label>Email <span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" name="email"
-                            placeholder="{{ __('form.email_address') }}" value="{{ old('email') }}" required>
-                    </div>
-
-                    <div class="form-group col-lg-6 col-md-6 col-12">
-                        <label>Phone number <span class="text-danger">*</span></label><br>
-                        <input id="phone" type="tel" class="form-control" name="phone"
-                            placeholder="{{ __('form.phone_no') }}" value="{{ old('phone') }}" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>Address <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="address" placeholder="{{ __('form.address') }}"
-                            value="{{ old('address') }}" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>City <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="city" placeholder="{{ __('form.city') }}" value="{{ old('city') }}" required>
-                    </div>
-                </div>
-                <input type="text" class="form-control" name="services[]" 
-                            value="{{ $service->service_id }}" hidden>
-                <input type="text" class="form-control" name="sub_service" 
-                            value="{{ $service->short_title }}" hidden>
-                {{-- <div class="form-group">
-                    <label>Choose a topic <span class="text-danger">*</span></label>
-                    <select name="services[]" class="form-control" required>
-                        @foreach ($all_service as $service)
-                            @if (!empty($service->short_title))
-                                <option @if(old('services') == $service->id) selected @endif id="service-{{ $service->id }}" value="{{ $service->id }}">{{ $service->short_title }}</option>
-                            @else
-                            @endif
-                        @endforeach
-                    </select>
-                </div> --}}
-
-                <div class="form-group">
-                    <label>Message <span class="text-danger">*</span></label>
-                    <textarea class="form-control" rows="3" name="message" placeholder="{{ __('form.your_massage') }}" required>{{ old('message') }}</textarea>
-                </div>
-
-                {{-- <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="privacyCheck">
-                    <label class="form-check-label" for="privacyCheck">
-                        By checking this, you agree to our privacy policy.
-                    </label>
-                </div> --}}
-                <div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
-                @if ($errors->has('captcha'))
-                    <p class="text-danger">{{ $errors->first('captcha') }}</p>
-                @endif
-                <button type="submit" class="btn btn-primary btn-block">Send message</button>
-            </form>
-        </div>
-
-        <!-- Right: Image & Info -->
-        <div class="image-section">
-            <div class="info-overlay row g-5">
-                <div class="contact-box col-6">
-                    <i class="fas fa-envelope"></i>
-                    <h6>Email</h6>
-                    <p class="text-white">support@msnsofttech.com</p>
-                </div>
-                <!--<div class="contact-box col-6">-->
-                <!--    <i class="fas fa-phone"></i>-->
-                <!--    <h6>Phone</h6>-->
-                <!--    <p class="text-white">+1 (800) 123-4567</p>-->
-                <!--</div>-->
-                <div class="contact-box col-6">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <h6>US Office</h6>
-                    <p class="text-white">3319 hans ave #E Kenner LA, 70065 USA</p>
-                </div>
-                <div class="contact-box col-6">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <h6>BD Office</h6>
-                    <p class="text-white">73/59 Chandpur shuvopur, Cumilla 3500</p>
+        <!-- ============ STATS ============ -->
+        <section class="msn-section">
+            <div class="msn-container">
+                <div class="msn-stats-grid msn-reveal">
+                    <div class="msn-stat"><b data-count="900">0</b><span>+ Projects</span></div>
+                    <div class="msn-stat"><b data-count="13">0</b><span>Years Experience</span></div>
+                    <div class="msn-stat"><b data-count="45">0</b><span>+ Team Members</span></div>
+                    <div class="msn-stat"><b data-count="98">0</b><span>% Happy Clients</span></div>
+                    <div class="msn-stat" style="grid-column:span 1;"><b>24/7</b><span>Support</span></div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- ============ FAQ ============ -->
+        <section class="msn-section" style="background:var(--red-soft);">
+            <div class="msn-container" style="max-width:820px;">
+                <div class="msn-section-head msn-reveal" style="margin:0 auto 30px;">
+                    <span class="eyebrow">FAQ</span>
+                    <h2>Common questions</h2>
+                </div>
+                <div class="msn-faq msn-reveal">
+                    <div class="msn-faq-item open">
+                        <button class="msn-faq-q">
+                            <h4>How long does it take to complete a website?</h4><span class="plus"></span>
+                        </button>
+                        <div class="msn-faq-a">
+                            <p>Most WordPress builds take 3–5 weeks depending on scope — a brochure site is faster, an
+                                e-commerce
+                                build with custom functionality takes longer. You'll get a clear timeline after the
+                                discovery call.</p>
+                        </div>
+                    </div>
+                    <div class="msn-faq-item">
+                        <button class="msn-faq-q">
+                            <h4>Will the website be SEO friendly?</h4><span class="plus"></span>
+                        </button>
+                        <div class="msn-faq-a">
+                            <p>Yes — every build ships with on-page SEO basics: clean URLs, schema markup, optimized images,
+                                and fast
+                                load times. We can also set up analytics and search console at launch.</p>
+                        </div>
+                    </div>
+                    <div class="msn-faq-item">
+                        <button class="msn-faq-q">
+                            <h4>Can I edit the website myself after launch?</h4><span class="plus"></span>
+                        </button>
+                        <div class="msn-faq-a">
+                            <p>Absolutely. We build on WordPress specifically so you can update text, images and pages
+                                without
+                                touching code, and we hand over a short training video for your team.</p>
+                        </div>
+                    </div>
+                    <div class="msn-faq-item">
+                        <button class="msn-faq-q">
+                            <h4>Do you provide hosting?</h4><span class="plus"></span>
+                        </button>
+                        <div class="msn-faq-a">
+                            <p>We can recommend and set up managed WordPress hosting, or work with a host you already have.
+                                Either way
+                                we handle the technical configuration.</p>
+                        </div>
+                    </div>
+                    <div class="msn-faq-item">
+                        <button class="msn-faq-q">
+                            <h4>What happens after the site goes live?</h4><span class="plus"></span>
+                        </button>
+                        <div class="msn-faq-a">
+                            <p>You get 30 days of free support to catch anything that comes up, plus optional ongoing
+                                maintenance
+                                plans for updates, backups and monitoring.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ RELATED SERVICES ============ -->
+        <section class="msn-related msn-section">
+            <div class="msn-container">
+                <div class="msn-section-head msn-reveal">
+                    <span class="eyebrow">Related Services</span>
+                    <h2>Pair this with our other services</h2>
+                    <p>Often ordered alongside your WordPress build to get more out of your new site.</p>
+                </div>
+                <div class="msn-related-grid">
+                    <a href="#" class="msn-related-card msn-reveal">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="9" cy="21" r="1.5" />
+                                <circle cx="19" cy="21" r="1.5" />
+                                <path d="M2.5 3h3l3 12.5h9.5l3-8H6.2" />
+                            </svg></div>
+                        <strong>WooCommerce Development</strong>
+                        <span class="desc">Full online store setup with payments, shipping and inventory.</span>
+                        <span class="go">Learn more →</span>
+                    </a>
+                    <a href="#" class="msn-related-card msn-reveal">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="11" cy="11" r="7" />
+                                <path d="m21 21-4.3-4.3" />
+                            </svg></div>
+                        <strong>SEO Optimization</strong>
+                        <span class="desc">Ongoing keyword, content and technical SEO to grow organic traffic.</span>
+                        <span class="go">Learn more →</span>
+                    </a>
+                    <a href="#" class="msn-related-card msn-reveal">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M12 7v5l3 3" />
+                            </svg></div>
+                        <strong>Website Maintenance</strong>
+                        <span class="desc">Monthly updates, backups and monitoring so your site stays healthy.</span>
+                        <span class="go">Learn more →</span>
+                    </a>
+                    <a href="#" class="msn-related-card msn-reveal">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+                            </svg></div>
+                        <strong>UI/UX Design</strong>
+                        <span class="desc">Custom branding and interface design before development begins.</span>
+                        <span class="go">Learn more →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
     </div>
-    <!-- CTA -->
-    @foreach ($cta as $item)
-        <section class="cta-section my-5 mx-3">
-            <div class="container text-center">
-                <h2 class="font-weight-bold">Ready to Start Your Project?</h2>
-                <p class="lead mb-4 text-white">{{ $item['bottom_text'] }}</p>
-                <a href="#contact" class="btn btn-light btn-lg">Contact Us</a>
-            </div>
-        </section>
-    @endforeach
 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <script>
-        var input = document.querySelector("#phone");
-        window.intlTelInput(input, {
-            initialCountry: "us",
-            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-        });
-    </script>
+        (function () {
+            var els = document.querySelectorAll('.msn-reveal');
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+            }, { threshold: .15 });
+            els.forEach(function (el) { io.observe(el); });
 
-
-    <!-- Scripts: jQuery, Popper, Bootstrap 4 -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    {{--
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> --}}
-
-    <!-- Optional: small UX scripts (smooth scroll for anchor links) -->
-    <script>
-        // Smooth scroll for anchor links
-        $(document).on('click', 'a[href^="#"]', function(e) {
-            var target = $(this.getAttribute('href'));
-            if (target.length) {
-                e.preventDefault();
-                $('html, body').stop().animate({
-                    scrollTop: target.offset().top - 20
-                }, 600);
+            // dashboard stat counters
+            function animateStat(el, target, suffix) {
+                var cur = 0; var step = Math.max(1, Math.round(target / 30));
+                var iv = setInterval(function () {
+                    cur += step;
+                    if (cur >= target) { cur = target; clearInterval(iv); }
+                    el.textContent = cur + suffix;
+                }, 35);
             }
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const counters = document.querySelectorAll('.stat-number');
-
-            counters.forEach(counter => {
-                const targetText = counter.getAttribute('data-target');
-                const numericValue = parseFloat(targetText.replace(/[^\d.]/g, '')) || 0;
-                const suffix = targetText.replace(/[0-9.]/g, '');
-                let current = 0;
-                const duration = 2000;
-                const increment = numericValue / (duration / 16);
-
-                function updateCounter() {
-                    current += increment;
-                    if (current < numericValue) {
-                        counter.textContent = Math.floor(current) + suffix;
-                        requestAnimationFrame(updateCounter);
-                    } else {
-                        counter.textContent = targetText;
-                    }
-                }
-
-                updateCounter();
+            // portfolio filters
+            var filters = document.querySelectorAll('.msn-port-filter');
+            var portCards = document.querySelectorAll('.msn-port-card2');
+            filters.forEach(function (f) {
+                f.addEventListener('click', function () {
+                    filters.forEach(function (o) { o.classList.remove('active'); });
+                    f.classList.add('active');
+                    var cat = f.getAttribute('data-f');
+                    portCards.forEach(function (c) {
+                        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? '' : 'none';
+                    });
+                });
             });
-        });
+
+            // marquee content
+            var techs = ["WordPress", "Elementor", "WooCommerce", "PHP", "MySQL", "Cloudflare", "Astra", "Bootstrap"];
+            var track = document.getElementById('msnMarquee');
+            var html = '';
+            for (var r = 0; r < 2; r++) {
+                techs.forEach(function (t) { html += '<div class="msn-tech-pill"><span class="dot"></span>' + t + '</div>'; });
+            }
+            track.innerHTML = html;
+
+            // faq accordion
+            document.querySelectorAll('.msn-faq-item').forEach(function (item) {
+                var q = item.querySelector('.msn-faq-q');
+                var a = item.querySelector('.msn-faq-a');
+                if (item.classList.contains('open')) { a.style.maxHeight = a.scrollHeight + 'px'; }
+                q.addEventListener('click', function () {
+                    var isOpen = item.classList.contains('open');
+                    document.querySelectorAll('.msn-faq-item').forEach(function (other) {
+                        other.classList.remove('open');
+                        other.querySelector('.msn-faq-a').style.maxHeight = 0;
+                    });
+                    if (!isOpen) {
+                        item.classList.add('open');
+                        a.style.maxHeight = a.scrollHeight + 'px';
+                    }
+                });
+            });
+
+            // stats counter
+            var counted = false;
+            var statSection = document.querySelector('.msn-stats-grid');
+            var io2 = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    if (e.isIntersecting && !counted) {
+                        counted = true;
+                        document.querySelectorAll('.msn-stat b[data-count]').forEach(function (b) {
+                            var target = parseInt(b.getAttribute('data-count'), 10);
+                            var cur = 0;
+                            var step = Math.max(1, Math.round(target / 40));
+                            var iv = setInterval(function () {
+                                cur += step;
+                                if (cur >= target) { cur = target; clearInterval(iv); }
+                                b.textContent = cur;
+                            }, 30);
+                        });
+                    }
+                });
+            }, { threshold: .4 });
+            if (statSection) { io2.observe(statSection); }
+        })();
     </script>
-
-
 @endsection

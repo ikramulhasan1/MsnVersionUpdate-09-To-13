@@ -9,6 +9,7 @@
     {{--
     <link rel="stylesheet" href="{{ asset('web/css/msn-theme.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('web/css/contact.css') }}">
+    <link rel="stylesheet" href="{{ asset('web/css/single-service.css') }}">
     <link rel="stylesheet" href="{{ asset('web/css/new-msn-theme.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -1387,7 +1388,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                                        web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                                    web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
