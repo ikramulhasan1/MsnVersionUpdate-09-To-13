@@ -889,7 +889,7 @@ a {
     padding-right: 24px;
 }
 
-/* CTA section */
+/* CTA section — tightened padding for a more premium, compact feel */
 .cta-cta-section {
     background: linear-gradient(
         160deg,
@@ -897,7 +897,7 @@ a {
         var(--red-900) 55%,
         var(--red-700) 130%
     );
-    padding: clamp(56px, 10vw, 110px) 20px clamp(64px, 11vw, 130px);
+    padding: clamp(44px, 7vw, 84px) 20px clamp(52px, 8vw, 96px);
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -922,20 +922,30 @@ a {
 
 .cta-cta-heading {
     position: relative;
-    font-weight: 800;
-    font-size: clamp(1.5rem, 5.5vw, 3.4rem);
-    line-height: 1.28;
-    max-width: 900px;
-    margin: 0 auto clamp(28px, 5vw, 44px);
-    letter-spacing: -0.02em;
+    max-width: 780px;
+    margin: 0 auto clamp(20px, 3.4vw, 32px);
     padding: 0 4px;
 }
 
+/* Main line: bold headline, tighter line-height */
 .cta-cta-heading .cta-line1 {
+    display: block;
     color: #ffffff;
+    font-weight: 800;
+    font-size: clamp(1.3rem, 3.4vw, 2.15rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
 }
 
+/* Sub line: smaller, lighter-weight tagline style — reads as a supporting
+   line rather than a second headline, which suits the longer service list */
 .cta-cta-heading .cta-line2 {
+    display: block;
+    margin-top: clamp(8px, 1.6vw, 12px);
+    font-weight: 600;
+    font-size: clamp(0.8rem, 1.6vw, 1rem);
+    line-height: 1.5;
+    letter-spacing: 0.01em;
     background: linear-gradient(90deg, #ffc9cb, #f4a6a8);
     -webkit-background-clip: text;
     background-clip: text;
@@ -949,7 +959,7 @@ a {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 24px;
+    gap: 16px;
 }
 
 .cta-cta-btn {
@@ -960,9 +970,9 @@ a {
     background: #ffffff;
     color: var(--red-800);
     font-weight: 700;
-    font-size: clamp(0.85rem, 2vw, 1rem);
+    font-size: clamp(0.82rem, 1.8vw, 0.95rem);
     line-height: 1.2;
-    padding: clamp(12px, 2.4vw, 16px) clamp(20px, 3.2vw, 32px);
+    padding: clamp(11px, 2vw, 14px) clamp(18px, 2.8vw, 28px);
     border-radius: 50px;
     text-decoration: none;
     white-space: nowrap;
@@ -977,8 +987,8 @@ a {
 }
 
 .cta-cta-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
     flex-shrink: 0;
     transition: transform 0.25s ease;
 }
@@ -1017,12 +1027,8 @@ a {
         margin-bottom: 0;
     }
 
-    .cta-cta-section {
-        padding: 80px 20px 100px;
-    }
-
     .cta-cta-btns {
-        gap: 20px;
+        gap: 12px;
     }
 }
 
@@ -1032,7 +1038,7 @@ a {
     .cta-cta-btns {
         flex-direction: column;
         align-items: stretch;
-        gap: 20px;
+        gap: 10px;
     }
 
     .cta-cta-btn {

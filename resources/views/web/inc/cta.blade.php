@@ -1,8 +1,8 @@
 <div class="cta-scope">
     <section class="cta-cta-section">
         <h2 class="cta-cta-heading">
-            <span class="cta-line1">Ready to explore what AI can do</span><br>
-            <span class="cta-line2">for your business?</span>
+            <span class="cta-line1">One Partner for All Your Digital Growth Needs</span>
+            <span class="cta-line2">Web Development • Mobile Apps • AI Solutions • Digital Marketing • eCommerce</span>
         </h2>
         <div class="cta-cta-btns">
             <a href="//wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" class="cta-cta-btn">

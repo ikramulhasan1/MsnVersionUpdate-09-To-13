@@ -20,7 +20,8 @@
             <h2 class="whymsn_title" style="color: #00082ffa !important;"><em style="color: #D2241D !important;">One
                     hub.</em> Four strengths.<br>Every
                 project.</h2>
-            <p class="whymsn_sub">Website &amp; programming, mobile apps, AI &amp; automation, and marketing — all
+            <p class="whymsn_sub" style="color: #00082ffa !important;">Website &amp; programming, mobile apps, AI &amp;
+                automation, and marketing — all
                 orbiting one accountable team.</p>
         </div>
 
