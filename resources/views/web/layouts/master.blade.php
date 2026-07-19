@@ -208,13 +208,6 @@
             display: none;
         }
 
-        /* FIX: ALL hover-open / mega-menu forced-display rules are now scoped
-           to desktop/tablet (min-width: 861px) ONLY. Previously a duplicate
-           copy of the ".special_hover-open" rules existed further down the
-           page with NO media query around it — that unguarded copy is what
-           forced the mega menu to render on top of the mobile accordion,
-           causing "What We Offer" to appear twice when tapped. It has been
-           removed; everything now lives here, safely scoped. */
         @media (min-width: 861px) {
             .special_dropdown.special_has-mega:hover>.special_submenu {
                 display: none !important;
@@ -224,7 +217,6 @@
                 display: flex;
             }
 
-            /* JS-controlled hover state (fixes fast-close on the gap) */
             .special_dropdown.special_hover-open>.special_submenu {
                 display: block !important;
             }
@@ -456,8 +448,6 @@
 
         @media (max-width: 860px) {
 
-            /* FIX: hard-guarantee the mega menu never renders on mobile,
-               no matter what class gets toggled onto .special_dropdown by JS */
             .special_megamenu {
                 display: none !important;
             }
@@ -510,10 +500,6 @@
                 padding-left: 12px;
             }
 
-            /* FIX: the mobile accordion now only opens when JS toggles this
-               class (i.e. on tap of the parent link) instead of always being
-               visible — this, combined with the .special_megamenu lock above,
-               stops the duplicate "What We Offer" block from appearing */
             .special_dropdown.special_hover-open>.special_submenu {
                 display: block;
             }
@@ -638,7 +624,9 @@
             }
         }
 
-        /* footer section */
+        /* ===================================================== */
+        /* footer section — Premium 4-column responsive footer   */
+        /* ===================================================== */
         .custom-footer {
             margin: 0;
             padding: 0;
@@ -649,84 +637,207 @@
 
         .custom-footer {
             background: radial-gradient(circle at top left, #000000, #000000);
-            padding: 60px 0 30px;
+            padding: 56px 0 0;
         }
 
-        .custom-footer-section h5 {
+        .custom-footer-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 6px;
+        }
+
+        /* Subtle hairline separators between columns on desktop, centered in
+           the existing gap — keeps spacing untouched, just adds definition */
+        @media (min-width: 992px) {
+            .custom-footer-col {
+                position: relative;
+            }
+
+            .custom-footer-col:not(:first-child)::before {
+                content: '';
+                position: absolute;
+                left: -20px;
+                top: 4px;
+                bottom: 4px;
+                width: 1px;
+                background: rgba(255, 255, 255, 0.08);
+            }
+        }
+
+        .custom-footer-col h5 {
             font-weight: 700;
-            font-size: 20px;
-            margin-bottom: 25px;
+            font-size: 18px;
+            margin-bottom: 20px;
             position: relative;
             color: #ffffff !important;
+            letter-spacing: 0.02em;
         }
 
-        .custom-footer-section h5::after {
+        .custom-footer-col h5::after {
             content: '';
-            width: 40px;
+            width: 36px;
             height: 3px;
             background: #D2241D;
             position: absolute;
-            bottom: -10px;
+            bottom: -9px;
             left: 0;
+            border-radius: 2px;
         }
 
-        .custom-footer-section ul {
+        /* Column 1: Brand / Logo + Address */
+        .custom-footer-brand .footer-logo img {
+            height: 34px;
+            width: auto;
+            margin-bottom: 16px;
+            filter: brightness(0) invert(1);
+        }
+
+        .custom-footer-brand .footer-address,
+        .custom-footer-brand .footer-contact-item {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #b8bdc9;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .custom-footer-brand .footer-contact-item i {
+            color: #D2241D;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        /* Columns 2-3: Services (main + indented sub-services) */
+        .custom-footer-service-list {
             list-style: none;
             padding: 0;
             margin: 0;
         }
 
-        .custom-footer-section ul li {
-            margin-bottom: 15px;
+        .custom-footer-service-list>li {
+            margin-bottom: 10px;
         }
 
-        .custom-footer-section ul li a {
+        .custom-footer-service-list>li>a.footer-main-service {
+            display: block;
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.3;
+            color: #ffffff;
             text-decoration: none;
-            color: #e0e0e0;
-            font-size: 16px;
-            transition: 0.3s;
+            transition: color 0.2s ease, padding-left 0.2s ease;
         }
 
-        .custom-footer-section ul li a:hover {
+        .custom-footer-service-list>li>a.footer-main-service:hover {
             color: #D2241D;
+            padding-left: 3px;
         }
 
-        .custom-footer-divider {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin: 50px 0 20px;
+        .footer-sub-service-list {
+            list-style: none;
+            margin: 6px 0 0;
+            padding-left: 5px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-sub-service-list li {
+            line-height: 1.25;
+        }
+
+        .footer-sub-service-list li a {
+            display: block;
+            padding: 4px 0 4px 10px;
+            font-size: 13px;
+            line-height: 1.3;
+            color: #8f95a3;
+            text-decoration: none;
+            transition: color 0.2s ease, padding-left 0.2s ease;
+        }
+
+        .footer-sub-service-list li a:hover {
+            color: #D2241D;
+            padding-left: 13px;
+        }
+
+        /* Column 4: Quick Links */
+        .custom-footer-quicklinks ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .custom-footer-quicklinks ul li {
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .custom-footer-quicklinks ul li a {
+            font-size: 14px;
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.2s ease, padding-left 0.2s ease;
+        }
+
+        .custom-footer-quicklinks ul li a:hover {
+            color: #D2241D;
+            padding-left: 3px;
+        }
+
+        .custom-footer-bottom-bar {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+            padding: 16px 0;
+            margin-top: 32px;
         }
 
         .custom-footer-bottom {
             text-align: left;
-            color: #aaa;
-            font-size: 14px;
-            line-height: 1.6;
+            color: #9098a8;
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .custom-footer-bottom p {
+            margin: 0;
         }
 
         .custom-footer-bottom p a {
-            color: #ffffff
+            color: #ffffff;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .custom-footer-bottom p a:hover {
+            color: #D2241D;
+            border-color: #D2241D;
         }
 
         .custom-footer-social-icons {
-            margin-top: 20px;
+            margin-top: 0;
         }
 
         .custom-footer-social-icons a {
             display: inline-block;
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
-            margin: 0 5px;
+            width: 34px;
+            height: 34px;
+            line-height: 34px;
+            margin: 0 4px;
             text-align: center;
             border-radius: 50%;
-            font-size: 20px;
+            font-size: 16px;
             background: #fff;
             color: #000;
-            transition: 0.3s;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
         .custom-footer-social-icons a:hover {
-            transform: scale(1.1);
+            transform: translateY(-3px) scale(1.08);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
         }
 
         .custom-footer-social-icons a.whatsapp {
@@ -767,6 +878,25 @@
         .custom-footer-social-icons a.pinterest {
             background: #e60023;
             color: #fff;
+        }
+
+        /* Footer grid responsiveness */
+        @media (max-width: 991px) {
+            .custom-footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 32px 24px;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .custom-footer-grid {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+
+            .custom-footer {
+                padding: 40px 0 20px;
+            }
         }
 
         /* Link :disabled */
@@ -854,7 +984,6 @@
                         <li class="special_dropdown special_has-mega">
                             <a class="{{ Request::is('service*') || Request::is('related-service*') ? 'special_current' : '' }} disabled-link"
                                 href="{{ route('services') }}">{{ $page_services->title }}
-                                {{-- href="{{ route('services') }}">{{ $page_services->title }} --}}
                                 <span class="special_chevron"></span></a>
 
                             {{-- Mobile / tablet: simple accordion list (unchanged) --}}
@@ -911,8 +1040,11 @@
                                                         @foreach ($subChunks as $chunk)
                                                             <ul class="special_megamenu-col">
                                                                 @foreach ($chunk as $sub)
-                                                                    <li><a
-                                                                            href="{{ route('service.related-single', $sub->slug) }}"><div style="display: flex; align-items: center"><i class="fs-4 me-2 {{ $sub->sub_service_icon ?? '' }}"></i>{{ $sub->short_title }}</div></a>
+                                                                    <li><a href="{{ route('service.related-single', $sub->slug) }}">
+                                                                            <div style="display: flex; align-items: center"><i
+                                                                                    class="fs-4 me-2 {{ $sub->sub_service_icon ?? '' }}"></i>{{ $sub->short_title }}
+                                                                            </div>
+                                                                        </a>
                                                                     </li>
                                                                 @endforeach
                                                             </ul>
@@ -1011,12 +1143,6 @@
                 overlay.addEventListener('click', toggleMenu);
                 navLinks.querySelectorAll('a').forEach(function (a) {
                     a.addEventListener('click', function (e) {
-                        // FIX: on mobile, a tap on a dropdown's parent link (About Us /
-                        // What We Offer / Case Study / Resources) should only toggle
-                        // that dropdown open/closed, not navigate away and not fall
-                        // through to the old "close whole sidebar on any link tap"
-                        // behavior — that was part of what produced the duplicated
-                        // "What We Offer" block.
                         const parentDropdown = a.closest('.special_dropdown');
                         const isTopLevelDropdownToggle =
                             parentDropdown &&
@@ -1027,7 +1153,6 @@
                             e.preventDefault();
                             const alreadyOpen = parentDropdown.classList.contains('special_hover-open');
 
-                            // close any sibling dropdowns first so only one is open at a time
                             navLinks.querySelectorAll('.special_dropdown.special_hover-open').forEach(function (d) {
                                 if (d !== parentDropdown) d.classList.remove('special_hover-open');
                             });
@@ -1040,27 +1165,23 @@
                     });
                 });
 
-                // Desktop/tablet only: hover with close-delay so moving the cursor
-                // down from "About Us" / "What We Offer" into the submenu doesn't
-                // close it while crossing the small gap between them.
                 navLinks.querySelectorAll('.special_dropdown').forEach(function (dropdown) {
                     let closeTimer;
 
                     dropdown.addEventListener('mouseenter', function () {
-                        if (window.innerWidth <= 860) return; // mobile uses click-toggle instead
+                        if (window.innerWidth <= 860) return;
                         clearTimeout(closeTimer);
                         dropdown.classList.add('special_hover-open');
                     });
 
                     dropdown.addEventListener('mouseleave', function () {
-                        if (window.innerWidth <= 860) return; // mobile uses click-toggle instead
+                        if (window.innerWidth <= 860) return;
                         closeTimer = setTimeout(function () {
                             dropdown.classList.remove('special_hover-open');
-                        }, 300); // 300ms grace period while crossing the gap
+                        }, 300);
                     });
                 });
 
-                // Mega menu: hovering a left item shows its panel on the right
                 var megaMenu = document.getElementById('servicesMegaMenu');
                 if (megaMenu) {
                     var items = megaMenu.querySelectorAll('.special_megamenu-item');
@@ -1087,53 +1208,125 @@
         @include('web.inc.cta')
         <footer class="custom-footer">
             <div class="container">
-                <div class="row text-left">
-                    <div class="col-md-3 custom-footer-section mb-4">
-                        <h5>Company</h5>
-                        <ul>
-                            <li><a href="{{ route('about') }}">About Us</a></li>
-                            {{-- <li><a href="#">Careers</a></li>
-                            <li><a href="#">Giving Back</a></li>
-                            <li><a href="#">Referral Program</a></li> --}}
-                        </ul>
+
+                <div class="custom-footer-grid">
+
+                    {{-- Column 1: Logo + Address --}}
+                    <div class="custom-footer-col custom-footer-brand">
+                        @if (isset($setting))
+                            <a href="{{ route('home') }}" class="footer-logo d-inline-block">
+                                <img src="{{ asset('/uploads/setting/' . $setting->logo_path) }}"
+                                    alt="{{ $setting->title ?? 'Logo' }}">
+                            </a>
+                        @endif
+
+                        @if (!empty($setting->contact_address))
+                            <p class="footer-address">
+                                <i class="bi bi-geo-alt"></i>
+                                <span>{{ $setting->contact_address }}</span>
+                            </p>
+                        @endif
+
+                        @if (!empty($setting->email_one))
+                            <p class="footer-contact-item">
+                                <i class="bi bi-envelope"></i>
+                                <span>{{ $setting->email_one }}</span>
+                            </p>
+                        @endif
+
+                        @if (!empty($setting->phone_one))
+                            <p class="footer-contact-item">
+                                <i class="bi bi-telephone"></i>
+                                <span>{{ $setting->phone_one }}</span>
+                            </p>
+                        @endif
                     </div>
-                    <div class="col-md-3 custom-footer-section mb-4">
-                        <h5>Services</h5>
-                        <ul>
-                            <li><a href="{{ route('services') }}">Services</a></li>
-                            {{-- <li><a href="{{ route('technologies') }}">Technologies</a></li> --}}
-                            {{-- <li><a href="#">How We Work</a></li> --}}
-                        </ul>
-                    </div>
-                    <div class="col-md-3 custom-footer-section mb-4">
-                        <h5>Insights</h5>
-                        <ul>
-                            <li><a href="{{ route('blogs') }}">Blog</a></li>
-                            <li><a href="{{ route('case') }}">Case Studies</a></li>
-                            {{-- <li><a href="#">Sitemap</a></li> --}}
-                        </ul>
-                    </div>
-                    @if (count($pages) > 0)
-                        <div class="col-md-3 custom-footer-section mb-4">
-                            <h5>Policies</h5>
-                            <ul>
-                                @foreach ($pages as $key => $page)
-                                    @if (isset($page->type) && $page->type == 'footer')
-                                        <li><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
-                                        </li>
-                                    @endif
+
+                    {{-- Column 2 & 3: Services (main service + indented sub-services) --}}
+                    {{-- Distributed with a weighted greedy balance (1 + sub-service count per
+                    item) so both columns come out visually even in height, instead of
+                    simply splitting the main-service list in half by item count. --}}
+                    @php
+                        $activeServices = $service_subnavs
+                            ->filter(function ($s) {
+                                return isset($s->manu) && $s->manu == 1;
+                            })
+                            ->values();
+
+                        $col1 = collect();
+                        $col2 = collect();
+                        $col1Weight = 0;
+                        $col2Weight = 0;
+
+                        foreach ($activeServices as $service) {
+                            $weight = 1 + $service->subservices->count();
+                            if ($col1Weight <= $col2Weight) {
+                                $col1->push($service);
+                                $col1Weight += $weight;
+                            } else {
+                                $col2->push($service);
+                                $col2Weight += $weight;
+                            }
+                        }
+
+                        $serviceChunks = collect([$col1, $col2])->filter(function ($c) {
+                            return $c->count() > 0;
+                        });
+                    @endphp
+
+                    @foreach ($serviceChunks as $chunk)
+                        <div class="custom-footer-col custom-footer-services">
+                            @if ($loop->first)
+                                <h5>Services</h5>
+                            @else
+                                <h5>&nbsp;</h5>
+                            @endif
+                            <ul class="custom-footer-service-list">
+                                @foreach ($chunk as $service)
+                                    <li>
+                                        <a class="footer-main-service" href="{{ route('service.single', $service->slug) }}">
+                                            {{ $service->short_title }}
+                                        </a>
+                                        @if ($service->subservices->count() > 0)
+                                            <ul class="footer-sub-service-list">
+                                                @foreach ($service->subservices as $sub)
+                                                    <li>
+                                                        <a href="{{ route('service.related-single', $sub->slug) }}">
+                                                            {{ $sub->short_title }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>
-                    @endif
+                    @endforeach
+
+                    {{-- Column 4: Quick Links --}}
+                    <div class="custom-footer-col custom-footer-quicklinks">
+                        <h5>Quick Links</h5>
+                        <ul>
+                            <li><a href="{{ route('home') }}">Home</a></li>
+                            <li><a href="{{ route('about') }}">About Us</a></li>
+                            <li><a href="{{ route('services') }}">Services</a></li>
+                            <li><a href="{{ route('portfolios') }}">Portfolio</a></li>
+                            <li><a href="{{ route('blogs') }}">Blog</a></li>
+                            <li><a href="{{ route('case') }}">Case Studies</a></li>
+                            <li><a href="{{ route('contact') }}">Contact Us</a></li>
+                        </ul>
+                    </div>
+
                 </div>
 
-                <div class="custom-footer-divider"></div>
+            </div>
 
-                <div class="d-flex justify-content-between align-items-center">
+            <div class="custom-footer-bottom-bar">
+                <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
                     @if (isset($setting))
-                        <div class="custom-footer-bottom mt-3">
-                            <p style="color: #ffffff;">Copyright &copy; 2023 –
+                        <div class="custom-footer-bottom">
+                            <p>Copyright &copy; 2023 –
                                 {!! strip_tags($setting->footer_text, '<p><a><b><i><u><strong>') !!}
                             </p>
                         </div>
@@ -1194,7 +1387,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                            web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                        web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
