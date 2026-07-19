@@ -4,21 +4,21 @@
 @endphp
 @if (isset($header))
 
-@section('title', content: $service->title)
+    @section('title', content: $service->title)
 
-@section('top_meta_tags')
-    @if (isset($service->short_desc))
-        <meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
-    @else
-        <meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
-    @endif
+    @section('top_meta_tags')
+        @if (isset($service->short_desc))
+            <meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
+        @else
+            <meta name="description" content="{!! str_limit(strip_tags($service->short_desc), 200, ' ...') !!}">
+        @endif
 
-    @if (isset($header->meta_keywords))
-        <meta name="keywords" content="{!! strip_tags($header->meta_keywords) !!}">
-    @else
-        <meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
-    @endif
-@endsection
+        @if (isset($header->meta_keywords))
+            <meta name="keywords" content="{!! strip_tags($header->meta_keywords) !!}">
+        @else
+            <meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
+        @endif
+    @endsection
 
 @endif
 
@@ -71,9 +71,9 @@
                 <div class="msn-hero-grid">
                     <div>
                         {{-- <div class="msn-hero-badge-top">
-                            <div class="avatars"><span></span><span></span><span></span></div>
-                            <span class="stars-mini">★★★★★</span> 4.9/5 from 900+ clients
-                        </div> --}}
+                                <div class="avatars"><span></span><span></span><span></span></div>
+                                <span class="stars-mini">★★★★★</span> 4.9/5 from 900+ clients
+                            </div> --}}
                         {{-- <span class="eyebrow">WordPress Website Development</span> --}}
                         <h1>We build WordPress sites that <span class="grad">load fast</span>, rank higher, and grow your
                             business.
@@ -86,49 +86,47 @@
                             <a href="#" class="btn-msn btn-msn-ghost">Book a Consultation</a>
                         </div>
                         {{-- <div class="msn-hero-trust">
-                            <div class="item">
-                                <div><strong>900+</strong><span>Projects Delivered</span></div>
-                            </div>
-                            <div class="item">
-                                <div><strong>13+ yrs</strong><span>In Business</span></div>
-                            </div>
-                            <div class="item">
-                                <div><strong>98%</strong><span>Client Satisfaction</span></div>
-                            </div>
-                        </div> --}}
+                                <div class="item">
+                                    <div><strong>900+</strong><span>Projects Delivered</span></div>
+                                </div>
+                                <div class="item">
+                                    <div><strong>13+ yrs</strong><span>In Business</span></div>
+                                </div>
+                                <div class="item">
+                                    <div><strong>98%</strong><span>Client Satisfaction</span></div>
+                                </div>
+                            </div> --}}
                     </div>
                     <div>
                         <div class="msn-hero-img-wrap msn-reveal">
                             <div class="msn-hero-img-glow"></div>
                             {{-- <div class="msn-float-chip c1">
-                                <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2.5">
-                                        <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
-                                    </svg></div>
-                                <div><b>98/100</b><span>Speed Score</span></div>
-                            </div> --}}
+                                    <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2.5">
+                                            <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
+                                        </svg></div>
+                                    <div><b>98/100</b><span>Speed Score</span></div>
+                                </div> --}}
                             {{-- <div class="msn-float-chip c2">
-                                <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2.5">
-                                        <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
-                                    </svg></div>
-                                <div><b>SSL Secured</b><span>Fully protected</span></div>
-                            </div> --}}
-                            @if (!empty($banners))
-                                @foreach ($banners as $item)
-                                    <div class="msn-hero-img-card">
-                                        <img src="{{ asset('uploads/banner/' . $item['banner_image'] ?? 'default.jpg') }}') }}"
-                                            alt="WordPress website design service">
-                                        <div class="msn-hero-img-shade"></div>
-                                        {{-- <div class="msn-hero-img-badge">
-                                            <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                                    stroke="#fff" stroke-width="3">
-                                                    <path d="M20 6 9 17l-5-5" />
-                                                </svg></div>
-                                            <div><b>Live in 3–5 Weeks</b><span>Avg. project turnaround</span></div>
-                                        </div> --}}
-                                    </div>
-                                @endforeach
+                                    <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2.5">
+                                            <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
+                                        </svg></div>
+                                    <div><b>SSL Secured</b><span>Fully protected</span></div>
+                                </div> --}}
+                            @if (!empty($service->image_path))
+                                <div class="msn-hero-img-card">
+                                    <img src="{{ asset('uploads/service/' . $service->image_path) }}"
+                                        alt="WordPress website design service">
+                                    <div class="msn-hero-img-shade"></div>
+                                    {{-- <div class="msn-hero-img-badge">
+                                                <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                        stroke="#fff" stroke-width="3">
+                                                        <path d="M20 6 9 17l-5-5" />
+                                                    </svg></div>
+                                                <div><b>Live in 3–5 Weeks</b><span>Avg. project turnaround</span></div>
+                                            </div> --}}
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -137,37 +135,37 @@
         </section>
 
         {{-- <svg class="msn-wave" viewBox="0 0 1440 46" preserveAspectRatio="none">
-            <path d="M0,46 C360,0 1080,0 1440,46 L1440,46 L0,46 Z" fill="#FCEAE7" />
-        </svg> --}}
+                <path d="M0,46 C360,0 1080,0 1440,46 L1440,46 L0,46 Z" fill="#FCEAE7" />
+            </svg> --}}
         <!-- ============ BADGES ============ -->
         <section class="msn-badges msn-section" style="padding:56px 0 64px;">
             <div class="msn-container">
                 <div class="msn-badges-row">
                     <div class="msn-badge">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
                             </svg></div>
                         <div><strong>Fast Delivery</strong><span>On-time, every time</span></div>
                     </div>
                     <div class="msn-badge">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <path d="M3 17l6-6 4 4 8-8" />
                                 <path d="M17 7h4v4" />
                             </svg></div>
                         <div><strong>Built to Scale</strong><span>Grows with your business</span></div>
                     </div>
                     <div class="msn-badge">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
                             </svg></div>
                         <div><strong>Secure &amp; Reliable</strong><span>Protected at every layer</span></div>
                     </div>
                     <div class="msn-badge">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <circle cx="12" cy="12" r="9" />
                                 <path d="M9 12l2 2 4-4" />
                             </svg></div>
@@ -188,8 +186,8 @@
                 </div>
                 <div class="msn-audience-grid">
                     <div class="msn-audience-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1m4 0h1m-6 4h1m4 0h1m-6 4h1m4 0h1" />
                             </svg></div>
                         <strong>Small &amp; Local Businesses</strong>
@@ -197,8 +195,8 @@
                             budget.</span>
                     </div>
                     <div class="msn-audience-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
                             </svg></div>
                         <strong>Startups &amp; Founders</strong>
@@ -207,8 +205,8 @@
                             grow.</span>
                     </div>
                     <div class="msn-audience-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <rect x="3" y="3" width="7" height="7" rx="1.5" />
                                 <rect x="14" y="3" width="7" height="7" rx="1.5" />
                                 <rect x="3" y="14" width="7" height="7" rx="1.5" />
@@ -219,8 +217,8 @@
                             clients.</span>
                     </div>
                     <div class="msn-audience-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <circle cx="9" cy="21" r="1.5" />
                                 <circle cx="19" cy="21" r="1.5" />
                                 <path d="M2.5 3h3l3 12.5h9.5l3-8H6.2" />
@@ -243,8 +241,8 @@
                 </div>
                 <div class="msn-included-grid">
                     <div class="msn-included-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <path d="M12 19l7-7 3 3-7 7-3-3z" />
                                 <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
                             </svg></div>
@@ -252,8 +250,8 @@
                         <span>A layout designed around your brand, not a generic template.</span>
                     </div>
                     <div class="msn-included-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <rect x="2" y="4" width="20" height="16" rx="2" />
                                 <path d="M2 9h20" />
                             </svg></div>
@@ -261,8 +259,8 @@
                         <span>Every page built and tested across mobile, tablet and desktop.</span>
                     </div>
                     <div class="msn-included-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <circle cx="11" cy="11" r="7" />
                                 <path d="m21 21-4.3-4.3" />
                             </svg></div>
@@ -270,40 +268,40 @@
                         <span>Clean URLs, meta tags, schema markup and sitemap configuration.</span>
                     </div>
                     <div class="msn-included-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
                             </svg></div>
                         <strong>Speed Optimization</strong>
                         <span>Image compression, caching and code minification for fast load times.</span>
                     </div>
                     <div class="msn-included-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
                             </svg></div>
                         <strong>Security Hardening</strong>
                         <span>SSL setup, firewall rules and login protection configured at launch.</span>
                     </div>
                     <div class="msn-included-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <path d="M21 8a13 13 0 01-8.5 12A13 13 0 014 8V4l8.5-2L21 4z" />
                             </svg></div>
                         <strong>Content Migration</strong>
                         <span>Existing pages, images and copy carried over cleanly to the new build.</span>
                     </div>
                     <div class="msn-included-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <path d="M4 4h16M4 4v10a8 8 0 0016 0V4" />
                             </svg></div>
                         <strong>Plugin &amp; Integration Setup</strong>
                         <span>Forms, analytics, booking or e-commerce plugins installed and configured.</span>
                     </div>
                     <div class="msn-included-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <circle cx="12" cy="12" r="9" />
                                 <path d="M12 7v5l3 3" />
                             </svg></div>
@@ -421,8 +419,8 @@
                 </div>
                 <div class="msn-features-grid">
                     <div class="msn-feature-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <rect x="2" y="4" width="20" height="16" rx="2" />
                                 <path d="M2 9h20" />
                             </svg></div>
@@ -430,16 +428,16 @@
                         <span>Every screen size gets a layout that feels custom-built, not squeezed to fit.</span>
                     </div>
                     <div class="msn-feature-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
                             </svg></div>
                         <strong>Lightning-Fast Performance</strong>
                         <span>Optimized code and assets keep load times low, even on slower connections.</span>
                     </div>
                     <div class="msn-feature-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <circle cx="11" cy="11" r="7" />
                                 <path d="m21 21-4.3-4.3" />
                             </svg></div>
@@ -447,16 +445,16 @@
                         <span>Search-friendly markup and site architecture built in from the first page.</span>
                     </div>
                     <div class="msn-feature-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
                             </svg></div>
                         <strong>Secure Architecture</strong>
                         <span>Hardened login, regular updates and firewall rules to keep threats out.</span>
                     </div>
                     <div class="msn-feature-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <circle cx="12" cy="12" r="9" />
                                 <path d="M9 12l2 2 4-4" />
                             </svg></div>
@@ -464,8 +462,8 @@
                         <span>A clean WordPress admin so your team can update pages without touching code.</span>
                     </div>
                     <div class="msn-feature-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <path d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16" />
                             </svg></div>
                         <strong>Scalable &amp; Future-Proof</strong>
@@ -484,7 +482,8 @@
                         <h2>Sites we've shipped recently</h2>
                     </div>
                     <a href="#" class="btn-msn btn-msn-ghost"
-                        style="border-color:rgba(255,255,255,.5); color:#fff; background:transparent;">View All Projects</a>
+                        style="border-color:rgba(255,255,255,.5); color:#fff; background:transparent;">View All
+                        Projects</a>
                 </div>
                 <div class="msn-port-filters msn-reveal" id="msnPortFilters">
                     <span class="msn-port-filter active" data-f="all">All</span>
@@ -498,8 +497,8 @@
                     <div class="msn-port-card2 msn-reveal" data-cat="healthcare">
                         <div class="msn-port-chrome"><span></span><span></span><span></span></div>
                         <div class="msn-port-shot" style="background:linear-gradient(135deg,#2C355E,#E23A2E);"><svg
-                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"
-                                opacity=".8">
+                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                stroke-width="1.6" opacity=".8">
                                 <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
                                 <path d="M9 12l2 2 4-4" />
                             </svg></div>
@@ -509,8 +508,8 @@
                     <div class="msn-port-card2 msn-reveal" data-cat="ecommerce">
                         <div class="msn-port-chrome"><span></span><span></span><span></span></div>
                         <div class="msn-port-shot" style="background:linear-gradient(135deg,#B4820F,#E23A2E);"><svg
-                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"
-                                opacity=".8">
+                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                stroke-width="1.6" opacity=".8">
                                 <circle cx="9" cy="21" r="1" />
                                 <circle cx="20" cy="21" r="1" />
                                 <path d="M1 1h4l2.7 13.4a2 2 0 002 1.6h9.7a2 2 0 002-1.6L23 6H6" />
@@ -521,8 +520,8 @@
                     <div class="msn-port-card2 msn-reveal" data-cat="realestate">
                         <div class="msn-port-chrome"><span></span><span></span><span></span></div>
                         <div class="msn-port-shot" style="background:linear-gradient(135deg,#2C355E,#B4820F);"><svg
-                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"
-                                opacity=".8">
+                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                stroke-width="1.6" opacity=".8">
                                 <path d="M3 21h18M5 21V9l7-6 7 6v12M9 21v-6h6v6" />
                             </svg></div>
                         <div class="msn-port-body"><span class="cat">Real Estate</span><b>Harlow Properties</b><span
@@ -531,8 +530,8 @@
                     <div class="msn-port-card2 msn-reveal" data-cat="education">
                         <div class="msn-port-chrome"><span></span><span></span><span></span></div>
                         <div class="msn-port-shot" style="background:linear-gradient(135deg,#E23A2E,#2C355E);"><svg
-                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"
-                                opacity=".8">
+                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                stroke-width="1.6" opacity=".8">
                                 <path d="M22 10 12 5 2 10l10 5 10-5z" />
                                 <path d="M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5" />
                             </svg></div>
@@ -542,8 +541,8 @@
                     <div class="msn-port-card2 msn-reveal" data-cat="hospitality">
                         <div class="msn-port-chrome"><span></span><span></span><span></span></div>
                         <div class="msn-port-shot" style="background:linear-gradient(135deg,#B4820F,#2C355E);"><svg
-                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"
-                                opacity=".8">
+                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                stroke-width="1.6" opacity=".8">
                                 <path d="M2 12h20M2 12a5 5 0 015-5h10a5 5 0 015 5v6H2v-6z" />
                                 <path d="M6 12V8M10 12V8" />
                             </svg></div>
@@ -553,8 +552,8 @@
                     <div class="msn-port-card2 msn-reveal" data-cat="ecommerce">
                         <div class="msn-port-chrome"><span></span><span></span><span></span></div>
                         <div class="msn-port-shot" style="background:linear-gradient(135deg,#E23A2E,#B4820F);"><svg
-                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"
-                                opacity=".8">
+                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                stroke-width="1.6" opacity=".8">
                                 <path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                                 <path d="M3 6h18M16 10a4 4 0 01-8 0" />
                             </svg></div>
@@ -580,7 +579,8 @@
                         <div class="msn-cc-row"><span class="dot-ic">✗</span>Custom Strategy &amp; Design — templates only
                         </div>
                         <div class="msn-cc-row"><span class="dot-ic">✗</span>Dedicated Project Team — one person</div>
-                        <div class="msn-cc-row"><span class="dot-ic">✗</span>Performance Optimization — rarely tested</div>
+                        <div class="msn-cc-row"><span class="dot-ic">✗</span>Performance Optimization — rarely tested
+                        </div>
                         <div class="msn-cc-row"><span class="dot-ic">✗</span>Security &amp; Data Protection — not managed
                         </div>
                         <div class="msn-cc-row"><span class="dot-ic">✗</span>Training &amp; Documentation — limited</div>
@@ -664,28 +664,28 @@
                 </div>
                 <div class="msn-g-grid">
                     <div class="msn-g-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <circle cx="12" cy="12" r="9" />
                                 <path d="M12 7v5l3 3" />
                             </svg></div><strong>30 Days Support</strong><span>Free fixes and tweaks after delivery.</span>
                     </div>
                     <div class="msn-g-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <path d="M4 4h16M4 4v10a8 8 0 0016 0V4" />
                             </svg></div><strong>Quality Assured</strong><span>Every deliverable reviewed before
                             handoff.</span>
                     </div>
                     <div class="msn-g-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <path d="M3 12h4l3 8 4-16 3 8h4" />
                             </svg></div><strong>Transparent Pricing</strong><span>One quote, no hidden line items.</span>
                     </div>
                     <div class="msn-g-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <rect x="3" y="4" width="18" height="16" rx="2" />
                                 <path d="M8 2v4M16 2v4M3 10h18" />
                             </svg></div><strong>On-Time Delivery</strong><span>Milestones you can plan around.</span>
@@ -724,7 +724,8 @@
                 <div class="msn-test-track msn-reveal">
                     <div class="msn-test-card">
                         <div class="quote">"</div>
-                        <p class="msg">Excellent work. The team was very professional and understood exactly what we needed
+                        <p class="msg">Excellent work. The team was very professional and understood exactly what we
+                            needed
                             beyond
                             just what we asked for.</p>
                         <div class="who">
@@ -736,7 +737,8 @@
                     </div>
                     <div class="msn-test-card">
                         <div class="quote">"</div>
-                        <p class="msg">Very responsive and easy to communicate with — always felt like we were their only
+                        <p class="msg">Very responsive and easy to communicate with — always felt like we were their
+                            only
                             client,
                             even during rush deadlines.</p>
                         <div class="who">
@@ -748,7 +750,8 @@
                     </div>
                     <div class="msn-test-card">
                         <div class="quote">"</div>
-                        <p class="msg">Our new site loads instantly and the admin panel is so easy that our whole team can
+                        <p class="msg">Our new site loads instantly and the admin panel is so easy that our whole team
+                            can
                             update it
                             without calling for help.</p>
                         <div class="who">
@@ -860,8 +863,8 @@
                 </div>
                 <div class="msn-related-grid">
                     <a href="#" class="msn-related-card msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <circle cx="9" cy="21" r="1.5" />
                                 <circle cx="19" cy="21" r="1.5" />
                                 <path d="M2.5 3h3l3 12.5h9.5l3-8H6.2" />
@@ -871,8 +874,8 @@
                         <span class="go">Learn more →</span>
                     </a>
                     <a href="#" class="msn-related-card msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <circle cx="11" cy="11" r="7" />
                                 <path d="m21 21-4.3-4.3" />
                             </svg></div>
@@ -881,8 +884,8 @@
                         <span class="go">Learn more →</span>
                     </a>
                     <a href="#" class="msn-related-card msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <circle cx="12" cy="12" r="9" />
                                 <path d="M12 7v5l3 3" />
                             </svg></div>
@@ -891,8 +894,8 @@
                         <span class="go">Learn more →</span>
                     </a>
                     <a href="#" class="msn-related-card msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <path d="M12 19l7-7 3 3-7 7-3-3z" />
                                 <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
                             </svg></div>
@@ -906,32 +909,48 @@
     </div>
 
     <script>
-        (function () {
+        (function() {
             var els = document.querySelectorAll('.msn-reveal');
-            var io = new IntersectionObserver(function (entries) {
-                entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-            }, { threshold: .15 });
-            els.forEach(function (el) { io.observe(el); });
+            var io = new IntersectionObserver(function(entries) {
+                entries.forEach(function(e) {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('in');
+                        io.unobserve(e.target);
+                    }
+                });
+            }, {
+                threshold: .15
+            });
+            els.forEach(function(el) {
+                io.observe(el);
+            });
 
             // dashboard stat counters
             function animateStat(el, target, suffix) {
-                var cur = 0; var step = Math.max(1, Math.round(target / 30));
-                var iv = setInterval(function () {
+                var cur = 0;
+                var step = Math.max(1, Math.round(target / 30));
+                var iv = setInterval(function() {
                     cur += step;
-                    if (cur >= target) { cur = target; clearInterval(iv); }
+                    if (cur >= target) {
+                        cur = target;
+                        clearInterval(iv);
+                    }
                     el.textContent = cur + suffix;
                 }, 35);
             }
             // portfolio filters
             var filters = document.querySelectorAll('.msn-port-filter');
             var portCards = document.querySelectorAll('.msn-port-card2');
-            filters.forEach(function (f) {
-                f.addEventListener('click', function () {
-                    filters.forEach(function (o) { o.classList.remove('active'); });
+            filters.forEach(function(f) {
+                f.addEventListener('click', function() {
+                    filters.forEach(function(o) {
+                        o.classList.remove('active');
+                    });
                     f.classList.add('active');
                     var cat = f.getAttribute('data-f');
-                    portCards.forEach(function (c) {
-                        c.style.display = (cat === 'all' || c.getAttribute('data-cat') === cat) ? '' : 'none';
+                    portCards.forEach(function(c) {
+                        c.style.display = (cat === 'all' || c.getAttribute('data-cat') ===
+                            cat) ? '' : 'none';
                     });
                 });
             });
@@ -941,18 +960,22 @@
             var track = document.getElementById('msnMarquee');
             var html = '';
             for (var r = 0; r < 2; r++) {
-                techs.forEach(function (t) { html += '<div class="msn-tech-pill"><span class="dot"></span>' + t + '</div>'; });
+                techs.forEach(function(t) {
+                    html += '<div class="msn-tech-pill"><span class="dot"></span>' + t + '</div>';
+                });
             }
             track.innerHTML = html;
 
             // faq accordion
-            document.querySelectorAll('.msn-faq-item').forEach(function (item) {
+            document.querySelectorAll('.msn-faq-item').forEach(function(item) {
                 var q = item.querySelector('.msn-faq-q');
                 var a = item.querySelector('.msn-faq-a');
-                if (item.classList.contains('open')) { a.style.maxHeight = a.scrollHeight + 'px'; }
-                q.addEventListener('click', function () {
+                if (item.classList.contains('open')) {
+                    a.style.maxHeight = a.scrollHeight + 'px';
+                }
+                q.addEventListener('click', function() {
                     var isOpen = item.classList.contains('open');
-                    document.querySelectorAll('.msn-faq-item').forEach(function (other) {
+                    document.querySelectorAll('.msn-faq-item').forEach(function(other) {
                         other.classList.remove('open');
                         other.querySelector('.msn-faq-a').style.maxHeight = 0;
                     });
@@ -966,24 +989,31 @@
             // stats counter
             var counted = false;
             var statSection = document.querySelector('.msn-stats-grid');
-            var io2 = new IntersectionObserver(function (entries) {
-                entries.forEach(function (e) {
+            var io2 = new IntersectionObserver(function(entries) {
+                entries.forEach(function(e) {
                     if (e.isIntersecting && !counted) {
                         counted = true;
-                        document.querySelectorAll('.msn-stat b[data-count]').forEach(function (b) {
+                        document.querySelectorAll('.msn-stat b[data-count]').forEach(function(b) {
                             var target = parseInt(b.getAttribute('data-count'), 10);
                             var cur = 0;
                             var step = Math.max(1, Math.round(target / 40));
-                            var iv = setInterval(function () {
+                            var iv = setInterval(function() {
                                 cur += step;
-                                if (cur >= target) { cur = target; clearInterval(iv); }
+                                if (cur >= target) {
+                                    cur = target;
+                                    clearInterval(iv);
+                                }
                                 b.textContent = cur;
                             }, 30);
                         });
                     }
                 });
-            }, { threshold: .4 });
-            if (statSection) { io2.observe(statSection); }
+            }, {
+                threshold: .4
+            });
+            if (statSection) {
+                io2.observe(statSection);
+            }
         })();
     </script>
 @endsection
