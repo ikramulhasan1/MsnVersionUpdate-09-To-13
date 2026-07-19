@@ -240,7 +240,7 @@
                         @foreach ($services as $key => $service)
                             <div class="col-12 col-md-6 col-lg-4 disabled-link">
                                 <a href="{{ route('service.single', $service->slug) }}"
-                                    class="svc-service-card text-decoration-none d-block">
+                                    class="svc-service-card text-decoration-none d-block text-black">
                                     <div class="svc-service-icon"><i class="{{ $service->service_icon }}"></i></div>
                                     <h3 class="svc-service-title">{{ $service->short_title }}</h3>
 
