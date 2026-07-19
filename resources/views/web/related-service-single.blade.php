@@ -114,18 +114,20 @@
                                     </svg></div>
                                 <div><b>SSL Secured</b><span>Fully protected</span></div>
                             </div> --}}
-                            <div class="msn-hero-img-card">
-                                <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&amp;w=900&amp;auto=format&amp;fit=crop"
-                                    alt="WordPress website design service">
-                                <div class="msn-hero-img-shade"></div>
-                                {{-- <div class="msn-hero-img-badge">
-                                    <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                            stroke="#fff" stroke-width="3">
-                                            <path d="M20 6 9 17l-5-5" />
-                                        </svg></div>
-                                    <div><b>Live in 3–5 Weeks</b><span>Avg. project turnaround</span></div>
-                                </div> --}}
-                            </div>
+                            @foreach ($banners as $item)
+                                <div class="msn-hero-img-card">
+                                    <img src="{{ asset('uploads/banner/' . $item['banner_image'] ?? 'default.jpg') }}') }}"
+                                        alt="WordPress website design service">
+                                    <div class="msn-hero-img-shade"></div>
+                                    {{-- <div class="msn-hero-img-badge">
+                                        <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                stroke="#fff" stroke-width="3">
+                                                <path d="M20 6 9 17l-5-5" />
+                                            </svg></div>
+                                        <div><b>Live in 3–5 Weeks</b><span>Avg. project turnaround</span></div>
+                                    </div> --}}
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
