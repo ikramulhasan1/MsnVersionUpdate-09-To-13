@@ -889,7 +889,7 @@ a {
     padding-right: 24px;
 }
 
-/* CTA section — tightened padding for a more premium, compact feel */
+/* CTA section — compact padding */
 .cta-cta-section {
     background: linear-gradient(
         160deg,
@@ -897,7 +897,7 @@ a {
         var(--red-900) 55%,
         var(--red-700) 130%
     );
-    padding: clamp(44px, 7vw, 84px) 20px clamp(52px, 8vw, 96px);
+    padding: clamp(40px, 6vw, 76px) 20px clamp(48px, 7vw, 88px);
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -922,28 +922,27 @@ a {
 
 .cta-cta-heading {
     position: relative;
-    max-width: 780px;
-    margin: 0 auto clamp(20px, 3.4vw, 32px);
-    padding: 0 4px;
+    max-width: 920px;
+    margin: 0 auto clamp(20px, 3.2vw, 32px);
+    padding: 0;
 }
 
-/* Main line: bold headline, tighter line-height */
+/* Main headline */
 .cta-cta-heading .cta-line1 {
     display: block;
     color: #ffffff;
     font-weight: 800;
-    font-size: clamp(1.3rem, 3.4vw, 2.15rem);
-    line-height: 1.2;
+    font-size: clamp(1.4rem, 3.6vw, 2.3rem);
+    line-height: 1.25;
     letter-spacing: -0.01em;
 }
 
-/* Sub line: smaller, lighter-weight tagline style — reads as a supporting
-   line rather than a second headline, which suits the longer service list */
+/* Tagline */
 .cta-cta-heading .cta-line2 {
     display: block;
     margin-top: clamp(8px, 1.6vw, 12px);
     font-weight: 600;
-    font-size: clamp(0.8rem, 1.6vw, 1rem);
+    font-size: clamp(0.85rem, 1.8vw, 1.05rem);
     line-height: 1.5;
     letter-spacing: 0.01em;
     background: linear-gradient(90deg, #ffc9cb, #f4a6a8);
@@ -952,14 +951,14 @@ a {
     color: transparent;
 }
 
-/* Button row — wraps as a unit, keeps consistent gap on every device */
+/* Button row */
 .cta-cta-btns {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 14px;
 }
 
 .cta-cta-btn {
@@ -970,9 +969,9 @@ a {
     background: #ffffff;
     color: var(--red-800);
     font-weight: 700;
-    font-size: clamp(0.82rem, 1.8vw, 0.95rem);
+    font-size: clamp(0.78rem, 1.6vw, 0.9rem);
     line-height: 1.2;
-    padding: clamp(11px, 2vw, 14px) clamp(18px, 2.8vw, 28px);
+    padding: clamp(10px, 1.8vw, 13px) clamp(16px, 2.4vw, 26px);
     border-radius: 50px;
     text-decoration: none;
     white-space: nowrap;
@@ -987,8 +986,8 @@ a {
 }
 
 .cta-cta-btn svg {
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 14px;
     flex-shrink: 0;
     transition: transform 0.25s ease;
 }
@@ -997,7 +996,7 @@ a {
     transform: translateX(4px);
 }
 
-/* Secondary button — outlined, so the two aren't visually identical */
+/* Secondary button — outlined */
 .cta-cta-btn-outline {
     background: transparent;
     color: #ffffff;
@@ -1028,13 +1027,29 @@ a {
     }
 
     .cta-cta-btns {
-        gap: 12px;
+        gap: 10px;
+    }
+
+    /* Force headline + tagline to stay on a single line each on mobile */
+    .cta-cta-heading {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .cta-cta-heading .cta-line1 {
+        white-space: nowrap;
+        font-size: 4.5vw;
+        letter-spacing: -0.02em;
+    }
+
+    .cta-cta-heading .cta-line2 {
+        white-space: nowrap;
+        font-size: 2.75vw;
+        letter-spacing: 0;
+        margin-top: 6px;
     }
 }
-
 @media (max-width: 420px) {
-    /* Very narrow phones: stack buttons full-width so text still stays
-       on one line inside each button, instead of shrinking further */
     .cta-cta-btns {
         flex-direction: column;
         align-items: stretch;

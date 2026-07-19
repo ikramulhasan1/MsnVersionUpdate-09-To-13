@@ -238,7 +238,7 @@
 
                     <div class="row g-4">
                         @foreach ($services as $key => $service)
-                            <div class="col-12 col-md-6 col-lg-4">
+                            <div class="col-12 col-md-6 col-lg-4 disabled-link">
                                 <a href="{{ route('service.single', $service->slug) }}"
                                     class="svc-service-card text-decoration-none d-block">
                                     <div class="svc-service-icon"><i class="{{ $service->service_icon }}"></i></div>
