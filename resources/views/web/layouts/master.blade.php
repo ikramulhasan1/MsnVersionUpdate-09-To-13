@@ -231,13 +231,15 @@
             }
 
             .special_megamenu {
-                position: absolute;
-                top: calc(100% + 12px);
+                position: fixed;
+                /* was: absolute */
+                top: 0;
+                /* JS দিয়ে dynamically সেট হবে */
                 left: 0;
+                /* JS দিয়ে dynamically সেট হবে */
+                width: auto;
+                /* JS দিয়ে dynamically সেট হবে (navbar-এর সমান) */
                 margin-top: 0;
-                width: max-content;
-                min-width: 640px;
-                max-width: 900px;
                 background: #fff;
                 border-radius: 16px;
                 box-shadow: 0 12px 30px rgba(20, 30, 60, 0.14);
@@ -1198,6 +1200,28 @@
                             });
                         });
                     });
+
+                    // megamenu-র left edge ও width, navbar container-এর (website-এর) left ও
+                    // right edge বরাবর মিলিয়ে বসানো হচ্ছে — যাতে menu টা website-এর
+                    // left সাইড থেকে শুরু হয়ে right সাইড পর্যন্ত বিস্তৃত থাকে
+                    var navbarEl = document.querySelector('.special_navbar');
+                    function positionMegaMenu() {
+                        var rect = navbarEl.getBoundingClientRect();
+                        var newWidth = rect.width * 0.65;  // was: rect.width / 2 — ekhon 75% width
+                        var newLeft = rect.left + (rect.width - newWidth) / 2;
+
+                        megaMenu.style.left = newLeft + 'px';
+                        megaMenu.style.width = newWidth + 'px';
+                        megaMenu.style.top = (rect.bottom + 12) + 'px';
+                    }
+
+                    var megaMenuParent = megaMenu.closest('.special_dropdown');
+                    if (megaMenuParent) {
+                        megaMenuParent.addEventListener('mouseenter', positionMegaMenu);
+                    }
+                    window.addEventListener('scroll', positionMegaMenu, { passive: true });
+                    window.addEventListener('resize', positionMegaMenu);
+                    positionMegaMenu();
                 }
             })();
         </script>
@@ -1388,7 +1412,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                                                        web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                                                                    web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
