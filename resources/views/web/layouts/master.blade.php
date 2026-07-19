@@ -1206,7 +1206,7 @@
         @yield('content')
         <!-- Content End -->
         <!-- Main custom-Footer -->
-        {{-- @include('web.inc.cta') --}}
+        @include('web.inc.cta')
         <footer class="custom-footer">
             <div class="container">
 
