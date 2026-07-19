@@ -116,7 +116,7 @@
                                 </div> --}}
                             @if (!empty($service->image_path))
                                 <div class="msn-hero-img-card">
-                                    <img src="{{ asset('uploads/service/' . $service->image_path) }}"
+                                    <img src="{{ asset('uploads/subservices/' . $service->image_path) }}"
                                         alt="WordPress website design service">
                                     <div class="msn-hero-img-shade"></div>
                                     {{-- <div class="msn-hero-img-badge">
