@@ -36,8 +36,8 @@
                                     <label for="status">{{ __('dashboard.select_status') }}</label>
                                     <select class="wide" name="service_id" id="status" data-plugin="customselect">
                                         @foreach ($services as $service)
-                                            <option value="{{ $service->id }}" @if ($subservice->service_id == $service->id)
-                                            selected @endif>{{ $service->title }}
+                                            <option value="{{ $service->id }}"
+                                                @if ($subservice->service_id == $service->id) selected @endif>{{ $service->title }}
                                             </option>
                                         @endforeach
 
@@ -86,8 +86,7 @@
 
                                 <div class="form-group">
                                     <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
-                                    <textarea class="form-control" name="description" id="editor1" rows="8"
-                                        required>{{ $subservice->description }}</textarea>
+                                    <textarea class="form-control" name="description" id="editor1" rows="8" required>{{ $subservice->description }}</textarea>
 
                                     <div class="invalid-feedback">
                                         {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
@@ -111,10 +110,13 @@
                                                 {{ $key + 1 }}.
                                             </div>
                                             <div class="col-11">
-                                                <input type="text" class="form-control mb-1" name="banner[{{ $key }}][title]"
-                                                    value="{{ $banner_step->title }}" placeholder="{{ $key + 1 }}. Title">
                                                 <input type="text" class="form-control mb-1"
-                                                    name="banner[{{ $key }}][sub_title]" value="{{ $banner_step->sub_title }}"
+                                                    name="banner[{{ $key }}][title]"
+                                                    value="{{ $banner_step->title }}"
+                                                    placeholder="{{ $key + 1 }}. Title">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="banner[{{ $key }}][sub_title]"
+                                                    value="{{ $banner_step->sub_title }}"
                                                     placeholder="{{ $key + 1 }}. Sub title">
                                                 <div class="d-flex">
                                                     <input type="file" class="form-control mb-1 mr-3 w-75"
@@ -134,22 +136,24 @@
                                     <br><br>
                                 </div>
                                 <div class="form-group mb-4">
-                                    <label for="technologies"
-                                        class="block text-sm font-medium text-gray-700 mb-1">Technologies</label>
+                                    <label for="technologies" class="block text-sm font-medium text-gray-700 mb-1">The
+                                        Stack</label>
                                     <select name="technologies[]" id="technologies" multiple>
-                                        @foreach($allTechnologies as $tech)
-                                            <option value="{{ $tech->id }}" {{ in_array($tech->id, $subservice->technologies->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                        @foreach ($allTechnologies as $tech)
+                                            <option value="{{ $tech->id }}"
+                                                {{ in_array($tech->id, $subservice->technologies->pluck('id')->toArray()) ? 'selected' : '' }}>
                                                 {{ $tech->short_title }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group mb-4">
-                                    <label for="portfolios"
-                                        class="block text-sm font-medium text-gray-700 mb-1">Portfolios</label>
+                                    <label for="portfolios" class="block text-sm font-medium text-gray-700 mb-1">Recent
+                                        Work</label>
                                     <select name="portfolios[]" id="portfolios" multiple>
-                                        @foreach($allPortfolios as $portfolio)
-                                            <option value="{{ $portfolio->id }}" {{ in_array($portfolio->id, $subservice->portfolios->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                        @foreach ($allPortfolios as $portfolio)
+                                            <option value="{{ $portfolio->id }}"
+                                                {{ in_array($portfolio->id, $subservice->portfolios->pluck('id')->toArray()) ? 'selected' : '' }}>
                                                 {{ $portfolio->title }}
                                             </option>
                                         @endforeach
@@ -171,10 +175,13 @@
                                                 </div>
                                                 <div class="col-11">
                                                     <input type="text" class="form-control mb-1"
-                                                        name="features[{{ $key }}][icon_class]" value="{{ $feature['icon_class'] }}"
+                                                        name="features[{{ $key }}][icon_class]"
+                                                        value="{{ $feature['icon_class'] }}"
                                                         placeholder="{{ $key + 1 }}. Icon Class">
-                                                    <input type="text" class="form-control mb-1" name="features[{{ $key }}][title]"
-                                                        value="{{ $feature['title'] }}" placeholder="{{ $key + 1 }}. Title">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="features[{{ $key }}][title]"
+                                                        value="{{ $feature['title'] }}"
+                                                        placeholder="{{ $key + 1 }}. Title">
                                                     <input type="text" class="form-control mb-1"
                                                         name="features[{{ $key }}][bottom_text]"
                                                         value="{{ $feature['bottom_text'] }}"
@@ -191,7 +198,7 @@
                                 </div>
 
                                 <hr>
-                                <h3>Work Process</h3>
+                                <h3>Deliverables</h3>
                                 <div class="row process-row">
                                     @php
                                         $process_steps = is_string($subservice->process_steps)
@@ -205,10 +212,13 @@
                                                     {{ $key + 1 }}.
                                                 </div>
                                                 <div class="col-11">
-                                                    <input type="text" class="form-control mb-1" name="process[{{ $key }}][title]"
-                                                        value="{{ $step['title'] }}" placeholder="{{ $key + 1 }}. Title">
                                                     <input type="text" class="form-control mb-1"
-                                                        name="process[{{ $key }}][bottom_text]" value="{{ $step['bottom_text'] }}"
+                                                        name="process[{{ $key }}][title]"
+                                                        value="{{ $step['title'] }}"
+                                                        placeholder="{{ $key + 1 }}. Title">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="process[{{ $key }}][bottom_text]"
+                                                        value="{{ $step['bottom_text'] }}"
                                                         placeholder="{{ $key + 1 }}. Bottom Text">
                                                 </div>
                                             </div>
@@ -222,12 +232,12 @@
                                 </div>
 
                                 <hr>
-                                <h3>Why Choose Us</h3>
+                                <h3>Who Is This For</h3>
                                 <div class="row WhyWe-row">
                                     @php
                                         $whyWeSteps = is_string($subservice->why_we_steps)
                                             ? json_decode($subservice->why_we_steps, true)
-                                            : ($subservice->why_we_steps ?? []);
+                                            : $subservice->why_we_steps ?? [];
                                     @endphp
                                     @if (!empty($whyWeSteps) && is_array($whyWeSteps))
                                         @foreach ($whyWeSteps as $key => $why)
@@ -237,12 +247,16 @@
                                                 </div>
                                                 <div class="col-11">
                                                     <input type="text" class="form-control mb-1"
-                                                        name="why_we[{{ $key }}][icon_class]" value="{{ $why['icon_class'] }}"
+                                                        name="why_we[{{ $key }}][icon_class]"
+                                                        value="{{ $why['icon_class'] }}"
                                                         placeholder="{{ $key + 1 }}. Icon Class">
-                                                    <input type="text" class="form-control mb-1" name="why_we[{{ $key }}][title]"
-                                                        value="{{ $why['title'] }}" placeholder="{{ $key + 1 }}. Title">
                                                     <input type="text" class="form-control mb-1"
-                                                        name="why_we[{{ $key }}][bottom_text]" value="{{ $why['bottom_text'] }}"
+                                                        name="why_we[{{ $key }}][title]"
+                                                        value="{{ $why['title'] }}"
+                                                        placeholder="{{ $key + 1 }}. Title">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="why_we[{{ $key }}][bottom_text]"
+                                                        value="{{ $why['bottom_text'] }}"
                                                         placeholder="{{ $key + 1 }}. Bottom Text">
                                                 </div>
                                             </div>
@@ -260,7 +274,7 @@
                                     @php
                                         $industriesSteps = is_string($subservice->industries_steps)
                                             ? json_decode($subservice->industries_steps, true)
-                                            : ($subservice->industries_steps ?? []);
+                                            : $subservice->industries_steps ?? [];
                                     @endphp
                                     @if (!empty($industriesSteps) && is_array($industriesSteps))
                                         @foreach ($industriesSteps as $key => $industry)
@@ -273,8 +287,10 @@
                                                         name="industry[{{ $key }}][icon_class]"
                                                         value="{{ $industry['icon_class'] }}"
                                                         placeholder="{{ $key + 1 }}. Icon Class">
-                                                    <input type="text" class="form-control mb-1" name="industry[{{ $key }}][title]"
-                                                        value="{{ $industry['title'] }}" placeholder="{{ $key + 1 }}. Title">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="industry[{{ $key }}][title]"
+                                                        value="{{ $industry['title'] }}"
+                                                        placeholder="{{ $key + 1 }}. Title">
 
                                                 </div>
                                             </div>
@@ -287,12 +303,12 @@
                                     <br><br>
                                 </div>
                                 <hr>
-                                <h3>Achievements</h3>
+                                <h3>Achievements Stats</h3>
                                 <div class="row achievement-row">
                                     @php
                                         $achievementsSteps = is_string($subservice->achievements_steps)
                                             ? json_decode($subservice->achievements_steps, true)
-                                            : ($subservice->achievements_steps ?? []);
+                                            : $subservice->achievements_steps ?? [];
                                     @endphp
                                     @if (!empty($achievementsSteps) && is_array($achievementsSteps))
                                         @foreach ($achievementsSteps as $key => $achievement)
@@ -306,7 +322,8 @@
                                                         value="{{ $achievement['count_number'] }}"
                                                         placeholder="{{ $key + 1 }}. Count Number">
                                                     <input type="text" class="form-control mb-1"
-                                                        name="achievement[{{ $key }}][title]" value="{{ $achievement['title'] }}"
+                                                        name="achievement[{{ $key }}][title]"
+                                                        value="{{ $achievement['title'] }}"
                                                         placeholder="{{ $key + 1 }}. Title">
 
                                                 </div>
@@ -334,10 +351,13 @@
                                                     {{ $key + 1 }}.
                                                 </div>
                                                 <div class="col-11">
-                                                    <input type="text" class="form-control mb-1" name="story[{{ $key }}][title]"
-                                                        value="{{ $story['title'] }}" placeholder="{{ $key + 1 }}. Title">
                                                     <input type="text" class="form-control mb-1"
-                                                        name="story[{{ $key }}][bottom_text]" value="{{ $story['bottom_text'] }}"
+                                                        name="story[{{ $key }}][title]"
+                                                        value="{{ $story['title'] }}"
+                                                        placeholder="{{ $key + 1 }}. Title">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="story[{{ $key }}][bottom_text]"
+                                                        value="{{ $story['bottom_text'] }}"
                                                         placeholder="{{ $key + 1 }}. Bottom Text">
 
                                                 </div>
@@ -365,10 +385,14 @@
                                                     {{ $key + 1 }}.
                                                 </div>
                                                 <div class="col-11">
-                                                    <input type="text" class="form-control mb-1" name="client[{{ $key }}][title]"
-                                                        value="{{ $client['title'] }}" placeholder="{{ $key + 1 }}. Title">
-                                                    <input type="text" class="form-control mb-1" name="client[{{ $key }}][meassage]"
-                                                        value="{{ $client['meassage'] }}" placeholder="{{ $key + 1 }}. Meassage">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="client[{{ $key }}][title]"
+                                                        value="{{ $client['title'] }}"
+                                                        placeholder="{{ $key + 1 }}. Title">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="client[{{ $key }}][meassage]"
+                                                        value="{{ $client['meassage'] }}"
+                                                        placeholder="{{ $key + 1 }}. Meassage">
 
                                                 </div>
                                             </div>
@@ -396,10 +420,14 @@
                                                     {{ $key + 1 }}.
                                                 </div>
                                                 <div class="col-11">
-                                                    <input type="text" class="form-control mb-1" name="faq[{{ $key }}][question]"
-                                                        value="{{ $faq['question'] }}" placeholder="{{ $key + 1 }}. Question">
-                                                    <input type="text" class="form-control mb-1" name="faq[{{ $key }}][answer]"
-                                                        value="{{ $faq['answer'] }}" placeholder="{{ $key + 1 }}. Answer">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="faq[{{ $key }}][question]"
+                                                        value="{{ $faq['question'] }}"
+                                                        placeholder="{{ $key + 1 }}. Question">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="faq[{{ $key }}][answer]"
+                                                        value="{{ $faq['answer'] }}"
+                                                        placeholder="{{ $key + 1 }}. Answer">
 
                                                 </div>
                                             </div>
@@ -412,7 +440,7 @@
                                     <br><br>
                                 </div>
                                 <hr>
-                                <h3>Our Promise</h3>
+                                <h3>Industries</h3>
                                 <div class="row promise-row">
                                     @php
                                         $ourPromise = is_string($subservice->our_promise)
@@ -427,7 +455,8 @@
                                                 </div>
                                                 <div class="col-11">
                                                     <input type="text" class="form-control mb-1"
-                                                        name="item[{{ $key }}][bottom_text]" value="{{ $item['bottom_text'] }}"
+                                                        name="item[{{ $key }}][bottom_text]"
+                                                        value="{{ $item['bottom_text'] }}"
                                                         placeholder="{{ $key + 1 }}. Bottom Text">
 
                                                 </div>
@@ -455,8 +484,10 @@
                                                     {{ $key + 1 }}.
                                                 </div>
                                                 <div class="col-11">
-                                                    <input type="text" class="form-control mb-1" name="cta[{{ $key }}][bottom_text]"
-                                                        value="{{ $cta['bottom_text'] }}" placeholder="{{ $key + 1 }}. Bottom Text">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="cta[{{ $key }}][bottom_text]"
+                                                        value="{{ $cta['bottom_text'] }}"
+                                                        placeholder="{{ $key + 1 }}. Bottom Text">
 
                                                 </div>
                                             </div>
@@ -481,8 +512,7 @@
 
                                 <div class="form-group">
                                     <label for="short_desc">{{ __('dashboard.meta_description') }} <span>*</span></label>
-                                    <textarea class="form-control" name="short_desc" id="editor" rows="4"
-                                        required>{{ $subservice->short_desc }}</textarea>
+                                    <textarea class="form-control" name="short_desc" id="editor" rows="4" required>{{ $subservice->short_desc }}</textarea>
 
                                     <div class="invalid-feedback">
                                         {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_description') }}
@@ -490,8 +520,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="keywords">{{ __('dashboard.meta_keywords') }} <span>*</span></label>
-                                    <input type="text" class="form-control tagin" data-tagin-separator=" " name="keywords"
-                                        value="{{ $subservice->keywords ?? '' }}" required>
+                                    <input type="text" class="form-control tagin" data-tagin-separator=" "
+                                        name="keywords" value="{{ $subservice->keywords ?? '' }}" required>
 
                                     <div class="invalid-feedback">
                                         {{ __('dashboard.please_provide') }} {{ __('dashboard.meta_keywords') }}
@@ -519,8 +549,8 @@
                                     <div class="form-group col">
                                         <label for="starting_price">{{ __('dashboard.starting_price') }}
                                             <span>*</span></label>
-                                        <input type="number" class="form-control" name="starting_price" id="starting_price"
-                                            value="{{ $subservice->starting_price }}" required>
+                                        <input type="number" class="form-control" name="starting_price"
+                                            id="starting_price" value="{{ $subservice->starting_price }}" required>
 
                                         <div class="invalid-feedback">
                                             {{ __('dashboard.please_provide') }} {{ __('dashboard.starting_price') }}
@@ -539,8 +569,8 @@
                                     <div class="form-group col">
                                         <label for="priceCurrency">{{ __('dashboard.priceCurrency') }}
                                             <span>*</span></label>
-                                        <input type="text" class="form-control" name="priceCurrency" id="priceCurrency"
-                                            value="{{ $subservice->priceCurrency }}" required>
+                                        <input type="text" class="form-control" name="priceCurrency"
+                                            id="priceCurrency" value="{{ $subservice->priceCurrency }}" required>
 
                                         <div class="invalid-feedback">
                                             {{ __('dashboard.please_provide') }} {{ __('dashboard.priceCurrency') }}
@@ -549,8 +579,8 @@
                                     <div class="form-group col">
                                         <label for="average_rating">{{ __('dashboard.average_rating') }}
                                             <span>*</span></label>
-                                        <input type="text" class="form-control" name="average_rating" id="average_rating"
-                                            value="{{ $subservice->average_rating }}" required>
+                                        <input type="text" class="form-control" name="average_rating"
+                                            id="average_rating" value="{{ $subservice->average_rating }}" required>
 
                                         <div class="invalid-feedback">
                                             {{ __('dashboard.please_provide') }} {{ __('dashboard.average_rating') }}
@@ -561,7 +591,8 @@
                                     <div class="form-group col">
                                         <label for="manu">Manu</label>
                                         <select class="wide" name="manu" id="manu" data-plugin="customselect">
-                                            <option value="0" @if ($subservice->manu == 0) selected @endif>Hidden
+                                            <option value="0" @if ($subservice->manu == 0) selected @endif>
+                                                Hidden
                                             </option>
                                             <option value="1" @if ($subservice->manu == 1) selected @endif>Show
                                             </option>
@@ -598,7 +629,7 @@
     </div> <!-- container -->
     <!-- End Content-->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const taginInputs = document.querySelectorAll(".tagin");
             taginInputs.forEach(input => new Tagin(input, {
                 separator: ',',
@@ -612,7 +643,7 @@
 
         CKEDITOR.replace('editor', {
             on: {
-                instanceReady: function (ev) {
+                instanceReady: function(ev) {
                     this.dataProcessor.writer.setRules('strong', {
                         indent: false,
                         breakBeforeOpen: false,
@@ -629,7 +660,7 @@
         });
         CKEDITOR.replace('editor1', {
             on: {
-                instanceReady: function (ev) {
+                instanceReady: function(ev) {
                     this.dataProcessor.writer.setRules('strong', {
                         indent: false,
                         breakBeforeOpen: false,
@@ -648,7 +679,7 @@
 
         CKEDITOR.replace('editor2', {
             on: {
-                instanceReady: function (ev) {
+                instanceReady: function(ev) {
                     this.dataProcessor.writer.setRules('strong', {
                         indent: false,
                         breakBeforeOpen: false,
@@ -665,7 +696,7 @@
         });
         CKEDITOR.replace('editor3', {
             on: {
-                instanceReady: function (ev) {
+                instanceReady: function(ev) {
                     this.dataProcessor.writer.setRules('strong', {
                         indent: false,
                         breakBeforeOpen: false,
@@ -1059,21 +1090,20 @@
                 row.remove();
             }
         }
-
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const technologiesSelect = document.getElementById('technologies');
             new Choices(technologiesSelect, {
-                removeItemButton: true,    // show "x" to remove selected items
+                removeItemButton: true, // show "x" to remove selected items
                 placeholder: true,
                 placeholderValue: 'Select technologies',
                 searchPlaceholderValue: 'Search technologies...',
-                shouldSort: false          // optional: keeps original order
+                shouldSort: false // optional: keeps original order
             });
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             new Choices('#portfolios', {
                 removeItemButton: true,
                 placeholder: true,
@@ -1082,7 +1112,6 @@
                 shouldSort: false
             });
         });
-
     </script>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 

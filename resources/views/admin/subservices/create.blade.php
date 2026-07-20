@@ -83,7 +83,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-4">
-                                    <label for="sub_service_icon">{{ __('dashboard.sub_service_icon') }} <span>*</span></label>
+                                    <label for="sub_service_icon">{{ __('dashboard.sub_service_icon') }}
+                                        <span>*</span></label>
                                     <input type="text" class="form-control" name="sub_service_icon" id="sub_service_icon"
                                         value="{{ old('sub_service_icon') }}">
 
@@ -137,8 +138,8 @@
                                 <br><br>
                             </div>
                             <div class="form-group mb-4">
-                                <label for="technologies"
-                                    class="block text-sm font-medium text-gray-700 mb-1">Technologies</label>
+                                <label for="technologies" class="block text-sm font-medium text-gray-700 mb-1">The
+                                    Stack</label>
                                 <select name="technologies[]" id="technologies" multiple>
                                     @foreach ($allTechnologies as $tech)
                                         <option value="{{ $tech->id }}">
@@ -148,8 +149,8 @@
                                 </select>
                             </div>
                             <div class="form-group mb-4">
-                                <label for="portfolios"
-                                    class="block text-sm font-medium text-gray-700 mb-1">Portfolios</label>
+                                <label for="portfolios" class="block text-sm font-medium text-gray-700 mb-1">Recent
+                                    Work</label>
                                 <select name="portfolios[]" id="portfolios" multiple>
                                     @foreach ($allPortfolios as $portfolio)
                                         <option value="{{ $portfolio->id }}">
@@ -195,7 +196,7 @@
                             </div>
 
                             <hr>
-                            <h3>Work Process</h3>
+                            <h3>Deliverables</h3>
                             <div class="row process-row">
 
                                 @if (!empty($process_steps) && is_array($process_steps))
@@ -225,7 +226,7 @@
                             </div>
 
                             <hr>
-                            <h3>Why Choose Us</h3>
+                            <h3>Who Is This For</h3>
                             <div class="row WhyWe-row">
 
                                 @if (!empty($whyWeSteps) && is_array($whyWeSteps))
@@ -288,7 +289,7 @@
                                 <br><br>
                             </div>
                             <hr>
-                            <h3>Achievements</h3>
+                            <h3>Achievements Stats</h3>
                             <div class="row achievement-row">
 
                                 @if (!empty($achievementsSteps) && is_array($achievementsSteps))
@@ -409,7 +410,7 @@
                                 <br><br>
                             </div>
                             <hr>
-                            <h3>Our Promise</h3>
+                            <h3>Industries</h3>
                             <div class="row promise-row">
 
                                 @if (!empty($ourPromise) && is_array($ourPromise))

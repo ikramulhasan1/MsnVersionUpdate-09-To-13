@@ -75,12 +75,9 @@
                                 <span class="stars-mini">★★★★★</span> 4.9/5 from 900+ clients
                             </div> --}}
                         {{-- <span class="eyebrow">WordPress Website Development</span> --}}
-                        <h1>We build WordPress sites that <span class="grad">load fast</span>, rank higher, and grow your
-                            business.
-                        </h1>
-                        <p class="lead-msn">From a single landing page to a full e-commerce build — MSN Softtech designs,
-                            develops
-                            and ships secure, mobile-first WordPress websites, tuned for speed and SEO from day one.</p>
+
+                        <h1>{{ $service->title }}</h1>
+                        <p class="lead-msn">{!! $service->short_desc !!}</p>
                         <div class="msn-hero-ctas">
                             <a href="#" class="btn-msn btn-msn-primary">Get a Free Quote →</a>
                             <a href="#" class="btn-msn btn-msn-ghost">Book a Consultation</a>
@@ -185,48 +182,16 @@
                         businesses at every stage.</p>
                 </div>
                 <div class="msn-audience-grid">
-                    <div class="msn-audience-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1m4 0h1m-6 4h1m4 0h1m-6 4h1m4 0h1" />
-                            </svg></div>
-                        <strong>Small &amp; Local Businesses</strong>
-                        <span>Owners who need a professional online presence that brings in calls and bookings without a big
-                            budget.</span>
-                    </div>
-                    <div class="msn-audience-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
-                            </svg></div>
-                        <strong>Startups &amp; Founders</strong>
-                        <span>Teams that need to launch fast, look credible to investors and customers, and scale the site
-                            as they
-                            grow.</span>
-                    </div>
-                    <div class="msn-audience-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                                <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                                <rect x="3" y="14" width="7" height="7" rx="1.5" />
-                                <rect x="14" y="14" width="7" height="7" rx="1.5" />
-                            </svg></div>
-                        <strong>Agencies &amp; Consultants</strong>
-                        <span>Firms that need a polished portfolio site or a white-label build to hand off to their own
-                            clients.</span>
-                    </div>
-                    <div class="msn-audience-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <circle cx="9" cy="21" r="1.5" />
-                                <circle cx="19" cy="21" r="1.5" />
-                                <path d="M2.5 3h3l3 12.5h9.5l3-8H6.2" />
-                            </svg></div>
-                        <strong>E-commerce &amp; Retail Brands</strong>
-                        <span>Store owners who need a fast, secure WooCommerce build that converts browsers into
-                            buyers.</span>
-                    </div>
+                    @foreach ($why_we as $item)
+                        <div class="msn-audience-card msn-reveal">
+                            <div class="ic">
+                                <i class="{{ $item['icon_class'] }}"></i>
+                            </div>
+                            <strong>{{ $item['title'] }}</strong>
+                            <span>{{ $item['bottom_text'] }}</span>
+                        </div>
+                    @endforeach
+
                 </div>
             </div>
         </section>
@@ -418,16 +383,16 @@
                     <p>These aren't add-ons — they're the foundation of how we build every WordPress site.</p>
                 </div>
                 <div class="msn-features-grid">
-                    <div class="msn-feature-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <rect x="2" y="4" width="20" height="16" rx="2" />
-                                <path d="M2 9h20" />
-                            </svg></div>
-                        <strong>Mobile-First Responsive Design</strong>
-                        <span>Every screen size gets a layout that feels custom-built, not squeezed to fit.</span>
-                    </div>
-                    <div class="msn-feature-card msn-reveal">
+                    @foreach ($features as $item)
+                        <div class="msn-feature-card msn-reveal">
+                            <div class="ic">
+                                <i class="{{ $item['icon_class'] }}"></i>
+                            </div>
+                            <strong>{{ $item['title'] }}</strong>
+                            <span>{{ $item['bottom_text'] }}</span>
+                        </div>
+                    @endforeach
+                    {{-- <div class="msn-feature-card msn-reveal">
                         <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2">
                                 <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
@@ -468,102 +433,54 @@
                             </svg></div>
                         <strong>Scalable &amp; Future-Proof</strong>
                         <span>Built to handle new pages, plugins and traffic growth without a rebuild.</span>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </section>
 
         <!-- ============ PORTFOLIO ============ -->
-        <section class="msn-port msn-section">
-            <div class="msn-container">
-                <div class="msn-between msn-reveal">
-                    <div class="msn-section-head">
-                        <span class="eyebrow">Selected Work</span>
-                        <h2>Sites we've shipped recently</h2>
+        @if (!empty($service->portfolios) && count($service->portfolios) > 0)
+            <section class="msn-port msn-section">
+                <div class="msn-container">
+                    <div class="msn-between msn-reveal">
+                        <div class="msn-section-head">
+                            <span class="eyebrow">Recent work</span>
+                            <h2>Sites we've shipped recently</h2>
+                        </div>
+                        <a href="{{ route('portfolios') }}" class="btn-msn btn-msn-ghost"
+                            style="border-color:rgba(255,255,255,.5); color:#fff; background:transparent;">View All
+                            Projects</a>
                     </div>
-                    <a href="#" class="btn-msn btn-msn-ghost"
-                        style="border-color:rgba(255,255,255,.5); color:#fff; background:transparent;">View All
-                        Projects</a>
-                </div>
-                <div class="msn-port-filters msn-reveal" id="msnPortFilters">
-                    <span class="msn-port-filter active" data-f="all">All</span>
-                    <span class="msn-port-filter" data-f="healthcare">Healthcare</span>
-                    <span class="msn-port-filter" data-f="ecommerce">E-Commerce</span>
-                    <span class="msn-port-filter" data-f="realestate">Real Estate</span>
-                    <span class="msn-port-filter" data-f="education">Education</span>
-                    <span class="msn-port-filter" data-f="hospitality">Hospitality</span>
-                </div>
-                <div class="msn-port-grid2" id="msnPortGrid">
-                    <div class="msn-port-card2 msn-reveal" data-cat="healthcare">
-                        <div class="msn-port-chrome"><span></span><span></span><span></span></div>
-                        <div class="msn-port-shot" style="background:linear-gradient(135deg,#2C355E,#E23A2E);"><svg
-                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                stroke-width="1.6" opacity=".8">
-                                <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
-                                <path d="M9 12l2 2 4-4" />
-                            </svg></div>
-                        <div class="msn-port-body"><span class="cat">Healthcare</span><b>Bay Area Dental Group</b><span
-                                class="msn-port-view">View Project →</span></div>
-                    </div>
-                    <div class="msn-port-card2 msn-reveal" data-cat="ecommerce">
-                        <div class="msn-port-chrome"><span></span><span></span><span></span></div>
-                        <div class="msn-port-shot" style="background:linear-gradient(135deg,#B4820F,#E23A2E);"><svg
-                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                stroke-width="1.6" opacity=".8">
-                                <circle cx="9" cy="21" r="1" />
-                                <circle cx="20" cy="21" r="1" />
-                                <path d="M1 1h4l2.7 13.4a2 2 0 002 1.6h9.7a2 2 0 002-1.6L23 6H6" />
-                            </svg></div>
-                        <div class="msn-port-body"><span class="cat">E-Commerce</span><b>Northside Outfitters</b><span
-                                class="msn-port-view">View Project →</span></div>
-                    </div>
-                    <div class="msn-port-card2 msn-reveal" data-cat="realestate">
-                        <div class="msn-port-chrome"><span></span><span></span><span></span></div>
-                        <div class="msn-port-shot" style="background:linear-gradient(135deg,#2C355E,#B4820F);"><svg
-                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                stroke-width="1.6" opacity=".8">
-                                <path d="M3 21h18M5 21V9l7-6 7 6v12M9 21v-6h6v6" />
-                            </svg></div>
-                        <div class="msn-port-body"><span class="cat">Real Estate</span><b>Harlow Properties</b><span
-                                class="msn-port-view">View Project →</span></div>
-                    </div>
-                    <div class="msn-port-card2 msn-reveal" data-cat="education">
-                        <div class="msn-port-chrome"><span></span><span></span><span></span></div>
-                        <div class="msn-port-shot" style="background:linear-gradient(135deg,#E23A2E,#2C355E);"><svg
-                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                stroke-width="1.6" opacity=".8">
-                                <path d="M22 10 12 5 2 10l10 5 10-5z" />
-                                <path d="M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5" />
-                            </svg></div>
-                        <div class="msn-port-body"><span class="cat">Education</span><b>Crestline Academy</b><span
-                                class="msn-port-view">View Project →</span></div>
-                    </div>
-                    <div class="msn-port-card2 msn-reveal" data-cat="hospitality">
-                        <div class="msn-port-chrome"><span></span><span></span><span></span></div>
-                        <div class="msn-port-shot" style="background:linear-gradient(135deg,#B4820F,#2C355E);"><svg
-                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                stroke-width="1.6" opacity=".8">
-                                <path d="M2 12h20M2 12a5 5 0 015-5h10a5 5 0 015 5v6H2v-6z" />
-                                <path d="M6 12V8M10 12V8" />
-                            </svg></div>
-                        <div class="msn-port-body"><span class="cat">Hospitality</span><b>The Maren Hotel</b><span
-                                class="msn-port-view">View Project →</span></div>
-                    </div>
-                    <div class="msn-port-card2 msn-reveal" data-cat="ecommerce">
-                        <div class="msn-port-chrome"><span></span><span></span><span></span></div>
-                        <div class="msn-port-shot" style="background:linear-gradient(135deg,#E23A2E,#B4820F);"><svg
-                                width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                stroke-width="1.6" opacity=".8">
-                                <path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-                                <path d="M3 6h18M16 10a4 4 0 01-8 0" />
-                            </svg></div>
-                        <div class="msn-port-body"><span class="cat">E-Commerce</span><b>Willow &amp; Co. Shop</b><span
-                                class="msn-port-view">View Project →</span></div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                    {{-- <div class="msn-port-filters msn-reveal" id="msnPortFilters">
+                        <span class="msn-port-filter active" data-f="all">All</span>
+                        <span class="msn-port-filter" data-f="healthcare">Healthcare</span>
+                        <span class="msn-port-filter" data-f="ecommerce">E-Commerce</span>
+                        <span class="msn-port-filter" data-f="realestate">Real Estate</span>
+                        <span class="msn-port-filter" data-f="education">Education</span>
+                        <span class="msn-port-filter" data-f="hospitality">Hospitality</span>
+                    </div> --}}
+                    <div class="msn-port-grid2" id="msnPortGrid">
+                        @foreach ($service->portfolios as $portfolio)
+                            <a href="{{ route('portfolio.single', $portfolio->slug) }}" class="text-decoration-none ">
+                                <div class="msn-port-card2 msn-reveal" data-cat="healthcare">
+                                    <div class="msn-port-chrome"><span></span><span></span><span></span></div>
+                                    <div class="msn-port-shot"
+                                        style="background:linear-gradient(135deg,#2C355E,#E23A2E);">
+                                        <img src="{{ asset('uploads/overview_image/' . $portfolio->overview_image) }}"
+                                            class="img-fluid" alt="{{ $portfolio->title }}">
+                                    </div>
+                                    <div class="msn-port-body">
+                                        {{-- <span class="cat">Healthcare</span> --}}
+                                        <b>{{ $portfolio->title }}</b><span class="msn-port-view">View Project →</span>
+                                    </div>
+                                </div>
+                            </a>
+                        @endforeach
 
+                    </div>
+                </div>
+            </section>
+        @endif
         <!-- ============ COMPARE ============ -->
         <section class="msn-compare msn-section" style="background:var(--red-soft);">
             <div class="msn-container">
@@ -617,39 +534,13 @@
                     <p>A clear, itemized handover — no ambiguity about what's yours at the end of the project.</p>
                 </div>
                 <div class="msn-deliverables-grid">
-                    <div class="msn-deliverable-row msn-reveal">
-                        <span class="num">1</span>
-                        <div><strong>Fully Functional WordPress Website</strong><span>Live, tested and published on your
-                                domain or
-                                hosting.</span></div>
-                    </div>
-                    <div class="msn-deliverable-row msn-reveal">
-                        <span class="num">2</span>
-                        <div><strong>Source Files &amp; Backup</strong><span>Complete theme, plugin and database files for
-                                your
-                                records.</span></div>
-                    </div>
-                    <div class="msn-deliverable-row msn-reveal">
-                        <span class="num">3</span>
-                        <div><strong>Admin Training Video</strong><span>A walkthrough showing how to edit pages, posts and
-                                media.</span></div>
-                    </div>
-                    <div class="msn-deliverable-row msn-reveal">
-                        <span class="num">4</span>
-                        <div><strong>SEO Setup Report</strong><span>Summary of on-page SEO, sitemap and search console
-                                configuration.</span></div>
-                    </div>
-                    <div class="msn-deliverable-row msn-reveal">
-                        <span class="num">5</span>
-                        <div><strong>Analytics Dashboard Access</strong><span>Google Analytics and Search Console connected
-                                and
-                                verified.</span></div>
-                    </div>
-                    <div class="msn-deliverable-row msn-reveal">
-                        <span class="num">6</span>
-                        <div><strong>30 Days of Free Support</strong><span>Bug fixes and small adjustments covered after
-                                launch.</span></div>
-                    </div>
+                    @foreach ($process as $key => $item)
+                        <div class="msn-deliverable-row msn-reveal">
+                            <span class="num">0{{ $key + 1 }}</span>
+                            <div><strong>{{ $item['title'] }}</strong><span>{{ $item['bottom_text'] }}</span></div>
+                        </div>
+                    @endforeach
+
                 </div>
             </div>
         </section>
@@ -702,14 +593,16 @@
                     <h2>Sites we build across sectors</h2>
                 </div>
                 <div class="msn-ind-wrap msn-reveal">
-                    <div class="msn-ind-chip"><span class="dot"></span>Healthcare</div>
-                    <div class="msn-ind-chip"><span class="dot"></span>Education</div>
+                    @foreach ($our_promise as $item)
+                        <div class="msn-ind-chip"><span class="dot"></span>{{ $item['bottom_text'] }}</div>
+                    @endforeach
+                    {{-- <div class="msn-ind-chip"><span class="dot"></span>Education</div>
                     <div class="msn-ind-chip"><span class="dot"></span>Real Estate</div>
                     <div class="msn-ind-chip"><span class="dot"></span>Travel &amp; Hospitality</div>
                     <div class="msn-ind-chip"><span class="dot"></span>Retail &amp; E-commerce</div>
                     <div class="msn-ind-chip"><span class="dot"></span>Legal Services</div>
                     <div class="msn-ind-chip"><span class="dot"></span>Non-Profit</div>
-                    <div class="msn-ind-chip"><span class="dot"></span>Finance</div>
+                    <div class="msn-ind-chip"><span class="dot"></span>Finance</div> --}}
                 </div>
             </div>
         </section>
@@ -777,82 +670,43 @@
             </div>
         </section>
 
-        <!-- ============ STATS ============ -->
+        <!-- ============ Achievements STATS ============ -->
         <section class="msn-section">
             <div class="msn-container">
                 <div class="msn-stats-grid msn-reveal">
-                    <div class="msn-stat"><b data-count="900">0</b><span>+ Projects</span></div>
-                    <div class="msn-stat"><b data-count="13">0</b><span>Years Experience</span></div>
-                    <div class="msn-stat"><b data-count="45">0</b><span>+ Team Members</span></div>
-                    <div class="msn-stat"><b data-count="98">0</b><span>% Happy Clients</span></div>
-                    <div class="msn-stat" style="grid-column:span 1;"><b>24/7</b><span>Support</span></div>
+                    @foreach ($achievements as $item)
+                        <div class="msn-stat"><b
+                                data-count="{{ $item['count_number'] }}">0</b><span>{{ $item['title'] }}</span>
+                        </div>
+                    @endforeach
+
                 </div>
             </div>
         </section>
 
         <!-- ============ FAQ ============ -->
-        <section class="msn-section" style="background:var(--red-soft);">
-            <div class="msn-container" style="max-width:820px;">
-                <div class="msn-section-head msn-reveal" style="margin:0 auto 30px;">
-                    <span class="eyebrow">FAQ</span>
-                    <h2>Common questions</h2>
-                </div>
-                <div class="msn-faq msn-reveal">
-                    <div class="msn-faq-item open">
-                        <button class="msn-faq-q">
-                            <h4>How long does it take to complete a website?</h4><span class="plus"></span>
-                        </button>
-                        <div class="msn-faq-a">
-                            <p>Most WordPress builds take 3–5 weeks depending on scope — a brochure site is faster, an
-                                e-commerce
-                                build with custom functionality takes longer. You'll get a clear timeline after the
-                                discovery call.</p>
-                        </div>
+        @if (!empty($faq))
+            <section class="msn-section" style="background:var(--red-soft);">
+                <div class="msn-container" style="max-width:820px;">
+                    <div class="msn-section-head msn-reveal" style="margin:0 auto 30px;">
+                        <span class="eyebrow">FAQ</span>
+                        <h2>Common questions</h2>
                     </div>
-                    <div class="msn-faq-item">
-                        <button class="msn-faq-q">
-                            <h4>Will the website be SEO friendly?</h4><span class="plus"></span>
-                        </button>
-                        <div class="msn-faq-a">
-                            <p>Yes — every build ships with on-page SEO basics: clean URLs, schema markup, optimized images,
-                                and fast
-                                load times. We can also set up analytics and search console at launch.</p>
-                        </div>
-                    </div>
-                    <div class="msn-faq-item">
-                        <button class="msn-faq-q">
-                            <h4>Can I edit the website myself after launch?</h4><span class="plus"></span>
-                        </button>
-                        <div class="msn-faq-a">
-                            <p>Absolutely. We build on WordPress specifically so you can update text, images and pages
-                                without
-                                touching code, and we hand over a short training video for your team.</p>
-                        </div>
-                    </div>
-                    <div class="msn-faq-item">
-                        <button class="msn-faq-q">
-                            <h4>Do you provide hosting?</h4><span class="plus"></span>
-                        </button>
-                        <div class="msn-faq-a">
-                            <p>We can recommend and set up managed WordPress hosting, or work with a host you already have.
-                                Either way
-                                we handle the technical configuration.</p>
-                        </div>
-                    </div>
-                    <div class="msn-faq-item">
-                        <button class="msn-faq-q">
-                            <h4>What happens after the site goes live?</h4><span class="plus"></span>
-                        </button>
-                        <div class="msn-faq-a">
-                            <p>You get 30 days of free support to catch anything that comes up, plus optional ongoing
-                                maintenance
-                                plans for updates, backups and monitoring.</p>
-                        </div>
+                    <div class="msn-faq msn-reveal">
+                        @foreach ($faq as $key => $item)
+                            <div class="msn-faq-item  {{ $key == 0 ? 'open' : '' }}">
+                                <button class="msn-faq-q">
+                                    <h4>{{ $item['question'] }}</h4><span class="plus"></span>
+                                </button>
+                                <div class="msn-faq-a">
+                                    <p>{!! $item['answer'] !!}</p>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
-            </div>
-        </section>
-
+            </section>
+        @endif
         <!-- ============ RELATED SERVICES ============ -->
         <section class="msn-related msn-section">
             <div class="msn-container">
@@ -954,16 +808,18 @@
                     });
                 });
             });
+            // Marquee content
+            var techs = @json($service->technologies->pluck('short_title')->values());
 
-            // marquee content
-            var techs = ["WordPress", "Elementor", "WooCommerce", "PHP", "MySQL", "Cloudflare", "Astra", "Bootstrap"];
             var track = document.getElementById('msnMarquee');
             var html = '';
+
             for (var r = 0; r < 2; r++) {
                 techs.forEach(function(t) {
                     html += '<div class="msn-tech-pill"><span class="dot"></span>' + t + '</div>';
                 });
             }
+
             track.innerHTML = html;
 
             // faq accordion
