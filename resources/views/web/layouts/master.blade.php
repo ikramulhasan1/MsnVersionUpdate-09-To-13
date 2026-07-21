@@ -275,8 +275,8 @@
                 justify-content: space-between;
                 gap: 10px;
                 padding: 11px 14px;
-                font-size: 14px;
-                font-weight: 500;
+                font-size: 14.5px;
+                font-weight: 600;
                 color: var(--special_text-dark);
                 border-radius: 10px;
                 white-space: normal;
@@ -1043,7 +1043,7 @@
                                                         @foreach ($subChunks as $chunk)
                                                             <ul class="special_megamenu-col">
                                                                 @foreach ($chunk as $sub)
-                                                                    <li><a
+                                                                    <li><a style="font-weight: 500"
                                                                             href="{{ route('service.related-single', $sub->slug) }}">
                                                                             <div
                                                                                 style="display: flex; align-items: center">
@@ -1420,7 +1420,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                                                                                                                                                web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                                                                                                                                                                                                                                                                            web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
