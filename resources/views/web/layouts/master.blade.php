@@ -1207,6 +1207,9 @@
                         });
                     });
 
+                    // megamenu-র left edge ও width, navbar container-এর (website-এর) left ও
+                    // right edge বরাবর মিলিয়ে বসানো হচ্ছে — যাতে menu টা website-এর
+                    // left সাইড থেকে শুরু হয়ে right সাইড পর্যন্ত বিস্তৃত থাকে
                     var navbarEl = document.querySelector('.special_navbar');
 
                     function positionMegaMenu() {
@@ -1420,7 +1423,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                                                                                                                                                                                                                                                                                            web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                                                                                                                                                    web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
