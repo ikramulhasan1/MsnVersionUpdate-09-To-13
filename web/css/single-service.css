@@ -1283,8 +1283,7 @@
         display: none;
     }
 }
-
-/* ================= HERO SERVICE IMAGE (compact, premium) ================= */
+/* ================= HERO SERVICE IMAGE (premium, inner frame) ================= */
 .msn-hero-img-wrap {
     position: relative;
     max-width: 300px;
@@ -1299,15 +1298,13 @@
 
 .msn-hero-img-glow {
     position: absolute;
-    inset: -22px -8px auto auto;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(
-        circle,
-        rgba(226, 58, 46, 0.22),
-        transparent 72%
-    );
-    filter: blur(6px);
+    inset: -26px -14px auto auto;
+    width: 220px;
+    height: 220px;
+    background:
+        radial-gradient(circle, rgba(226, 58, 46, 0.16), transparent 70%),
+        radial-gradient(circle at 65% 70%, rgba(198, 161, 91, 0.16), transparent 65%);
+    filter: blur(14px);
     z-index: 0;
     pointer-events: none;
 }
@@ -1316,16 +1313,14 @@
     position: relative;
     z-index: 1;
     aspect-ratio: 1/1;
-    border-radius: 22px;
+    border-radius: 20px;
     overflow: hidden;
-    padding: 6px;
-    background: linear-gradient(
-        155deg,
-        var(--red),
-        var(--gold) 55%,
-        var(--navy)
-    );
-    box-shadow: 0 40px 70px -28px rgba(18, 22, 42, 0.45);
+    background: var(--navy);
+    box-shadow:
+        0 1px 1px rgba(18, 22, 42, 0.06),
+        0 3px 8px rgba(18, 22, 42, 0.12),
+        0 40px 60px -26px rgba(18, 22, 42, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .msn-hero-img-card img {
@@ -1333,35 +1328,72 @@
     height: 100%;
     display: block;
     object-fit: cover;
-    border-radius: 21px;
+    filter: saturate(1.05) contrast(1.03);
+    transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.msn-hero-img-wrap:hover .msn-hero-img-card img {
+    transform: scale(1.05);
+}
+
+/* --- Inner viewfinder corners, sitting on top of the photo --- */
+.msn-hero-img-card::after {
+    content: "";
+    position: absolute;
+    inset: 16px;
+    pointer-events: none;
+    z-index: 3;
+    background:
+        linear-gradient(to right, var(--gold) 1.5px, transparent 1.5px) 0 0 / 22px 22px no-repeat,
+        linear-gradient(to bottom, var(--gold) 1.5px, transparent 1.5px) 0 0 / 22px 22px no-repeat,
+        linear-gradient(to left, var(--gold) 1.5px, transparent 1.5px) 100% 0 / 22px 22px no-repeat,
+        linear-gradient(to bottom, var(--gold) 1.5px, transparent 1.5px) 100% 0 / 22px 22px no-repeat,
+        linear-gradient(to right, var(--gold) 1.5px, transparent 1.5px) 0 100% / 22px 22px no-repeat,
+        linear-gradient(to top, var(--gold) 1.5px, transparent 1.5px) 0 100% / 22px 22px no-repeat,
+        linear-gradient(to left, var(--gold) 1.5px, transparent 1.5px) 100% 100% / 22px 22px no-repeat,
+        linear-gradient(to top, var(--gold) 1.5px, transparent 1.5px) 100% 100% / 22px 22px no-repeat;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+    opacity: 0.95;
+    transition: inset 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.msn-hero-img-wrap:hover .msn-hero-img-card::after {
+    inset: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .msn-hero-img-card::after {
+        transition: none;
+    }
 }
 
 .msn-hero-img-shade {
     position: absolute;
-    inset: 6px;
-    border-radius: 21px;
-    background: linear-gradient(
-        190deg,
-        rgba(18, 22, 42, 0) 55%,
-        rgba(18, 22, 42, 0.78) 100%
-    );
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(190deg, rgba(18, 22, 42, 0) 48%, rgba(18, 22, 42, 0.85) 100%);
     pointer-events: none;
+    z-index: 2;
 }
 
 .msn-hero-img-badge {
     position: absolute;
-    left: 20px;
-    right: 20px;
-    bottom: 18px;
-    z-index: 2;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    z-index: 4;
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 14px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    backdrop-filter: blur(10px);
+    padding: 11px 14px;
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(198, 161, 91, 0.55);
+    border-left: 1px solid rgba(255, 255, 255, 0.14);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
 }
 
 .msn-hero-img-badge .ic {
@@ -1372,7 +1404,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--red), var(--red-dark));
+    background: linear-gradient(135deg, var(--gold), #8a6a2e);
+    box-shadow: 0 4px 10px rgba(198, 161, 91, 0.35);
 }
 
 .msn-hero-img-badge b {
@@ -1384,17 +1417,22 @@
 }
 
 .msn-hero-img-badge span {
-    font-size: 11px;
-    color: #e9eaf2;
-    font-weight: 500;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.65);
+    font-weight: 600;
 }
 
 @media (max-width: 560px) {
     .msn-hero-img-wrap {
         max-width: 240px;
     }
-}
 
+    .msn-hero-img-card::after {
+        inset: 12px;
+    }
+}
 /* richer badge cards */
 .msn-badges {
     border: none;

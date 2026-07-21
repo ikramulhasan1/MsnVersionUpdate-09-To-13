@@ -1043,8 +1043,11 @@
                                                         @foreach ($subChunks as $chunk)
                                                             <ul class="special_megamenu-col">
                                                                 @foreach ($chunk as $sub)
-                                                                    <li><a href="{{ route('service.related-single', $sub->slug) }}">
-                                                                            <div style="display: flex; align-items: center"><i
+                                                                    <li><a
+                                                                            href="{{ route('service.related-single', $sub->slug) }}">
+                                                                            <div
+                                                                                style="display: flex; align-items: center">
+                                                                                <i
                                                                                     class="fs-4 me-2 {{ $sub->sub_service_icon ?? '' }}"></i>{{ $sub->short_title }}
                                                                             </div>
                                                                         </a>
@@ -1076,7 +1079,8 @@
                     @endphp
                     @if ($all_pages->count())
                         <li class="special_dropdown">
-                            <a class="{{ $isCurrentCasestudy ? 'special_current' : '' }}" href="#">{{ __('Case Study') }}
+                            <a class="{{ $isCurrentCasestudy ? 'special_current' : '' }}"
+                                href="#">{{ __('Case Study') }}
                                 <span class="special_chevron"></span></a>
                             <ul class="special_submenu">
                                 @foreach ($all_pages as $page)
@@ -1092,7 +1096,8 @@
                     @endphp
                     @if ($re_page->count())
                         <li class="special_dropdown">
-                            <a class="{{ $isCurrentResource ? 'special_current' : '' }}" href="#">{{ __('Resources') }}
+                            <a class="{{ $isCurrentResource ? 'special_current' : '' }}"
+                                href="#">{{ __('Resources') }}
                                 <span class="special_chevron"></span></a>
                             <ul class="special_submenu">
                                 @foreach ($re_page as $page)
@@ -1117,7 +1122,7 @@
             </nav>
         </div>
         <script>
-            (function () {
+            (function() {
                 const navbarWrap = document.getElementById('navbarWrap');
                 const hamburger = document.getElementById('hamburger');
                 const navLinks = document.getElementById('navLinks');
@@ -1144,8 +1149,8 @@
                 }
                 hamburger.addEventListener('click', toggleMenu);
                 overlay.addEventListener('click', toggleMenu);
-                navLinks.querySelectorAll('a').forEach(function (a) {
-                    a.addEventListener('click', function (e) {
+                navLinks.querySelectorAll('a').forEach(function(a) {
+                    a.addEventListener('click', function(e) {
                         const parentDropdown = a.closest('.special_dropdown');
                         const isTopLevelDropdownToggle =
                             parentDropdown &&
@@ -1156,9 +1161,10 @@
                             e.preventDefault();
                             const alreadyOpen = parentDropdown.classList.contains('special_hover-open');
 
-                            navLinks.querySelectorAll('.special_dropdown.special_hover-open').forEach(function (d) {
-                                if (d !== parentDropdown) d.classList.remove('special_hover-open');
-                            });
+                            navLinks.querySelectorAll('.special_dropdown.special_hover-open').forEach(
+                                function(d) {
+                                    if (d !== parentDropdown) d.classList.remove('special_hover-open');
+                                });
 
                             parentDropdown.classList.toggle('special_hover-open', !alreadyOpen);
                             return;
@@ -1168,18 +1174,18 @@
                     });
                 });
 
-                navLinks.querySelectorAll('.special_dropdown').forEach(function (dropdown) {
+                navLinks.querySelectorAll('.special_dropdown').forEach(function(dropdown) {
                     let closeTimer;
 
-                    dropdown.addEventListener('mouseenter', function () {
+                    dropdown.addEventListener('mouseenter', function() {
                         if (window.innerWidth <= 860) return;
                         clearTimeout(closeTimer);
                         dropdown.classList.add('special_hover-open');
                     });
 
-                    dropdown.addEventListener('mouseleave', function () {
+                    dropdown.addEventListener('mouseleave', function() {
                         if (window.innerWidth <= 860) return;
-                        closeTimer = setTimeout(function () {
+                        closeTimer = setTimeout(function() {
                             dropdown.classList.remove('special_hover-open');
                         }, 300);
                     });
@@ -1188,14 +1194,14 @@
                 var megaMenu = document.getElementById('servicesMegaMenu');
                 if (megaMenu) {
                     var items = megaMenu.querySelectorAll('.special_megamenu-item');
-                    items.forEach(function (item) {
-                        item.addEventListener('mouseenter', function () {
+                    items.forEach(function(item) {
+                        item.addEventListener('mouseenter', function() {
                             var targetId = item.getAttribute('data-panel');
-                            items.forEach(function (i) {
+                            items.forEach(function(i) {
                                 i.classList.remove('special_active');
                             });
                             item.classList.add('special_active');
-                            megaMenu.querySelectorAll('.special_megamenu-panel').forEach(function (panel) {
+                            megaMenu.querySelectorAll('.special_megamenu-panel').forEach(function(panel) {
                                 panel.classList.toggle('special_active', panel.id === targetId);
                             });
                         });
@@ -1205,9 +1211,10 @@
                     // right edge বরাবর মিলিয়ে বসানো হচ্ছে — যাতে menu টা website-এর
                     // left সাইড থেকে শুরু হয়ে right সাইড পর্যন্ত বিস্তৃত থাকে
                     var navbarEl = document.querySelector('.special_navbar');
+
                     function positionMegaMenu() {
                         var rect = navbarEl.getBoundingClientRect();
-                        var newWidth = rect.width * 0.65;  // was: rect.width / 2 — ekhon 75% width
+                        var newWidth = rect.width * 0.65; // was: rect.width / 2 — ekhon 75% width
                         var newLeft = rect.left + (rect.width - newWidth) / 2;
 
                         megaMenu.style.left = newLeft + 'px';
@@ -1219,7 +1226,9 @@
                     if (megaMenuParent) {
                         megaMenuParent.addEventListener('mouseenter', positionMegaMenu);
                     }
-                    window.addEventListener('scroll', positionMegaMenu, { passive: true });
+                    window.addEventListener('scroll', positionMegaMenu, {
+                        passive: true
+                    });
                     window.addEventListener('resize', positionMegaMenu);
                     positionMegaMenu();
                 }
@@ -1309,7 +1318,8 @@
                             <ul class="custom-footer-service-list">
                                 @foreach ($chunk as $service)
                                     <li>
-                                        <a class="footer-main-service" href="{{ route('service.single', $service->slug) }}">
+                                        <a class="footer-main-service"
+                                            href="{{ route('service.single', $service->slug) }}">
                                             {{ $service->short_title }}
                                         </a>
                                         @if ($service->subservices->count() > 0)
@@ -1360,30 +1370,36 @@
                         <div class="custom-footer-social-icons">
                             @if (isset($social->facebook))
                                 <a class="facebook d-flex justify-content-center align-items-center"
-                                    href="{{ $social->facebook }}" target="_blank"><i class="bi bi-facebook"></i></a>
+                                    href="{{ $social->facebook }}" target="_blank"><i
+                                        class="bi bi-facebook"></i></a>
                             @endif
                             @if (isset($social->twitter))
                                 <a class="twitter d-flex justify-content-center align-items-center"
-                                    href="{{ $social->twitter }}" target="_blank"><i class="bi bi-twitter-x"></i></a>
+                                    href="{{ $social->twitter }}" target="_blank"><i
+                                        class="bi bi-twitter-x"></i></a>
                             @endif
                             @if (isset($social->instagram))
                                 <a class="instagram d-flex justify-content-center align-items-center"
-                                    href="{{ $social->instagram }}" target="_blank"><i class="bi bi-instagram"></i></a>
+                                    href="{{ $social->instagram }}" target="_blank"><i
+                                        class="bi bi-instagram"></i></a>
                             @endif
                             @if (isset($social->linkedin))
                                 <a class="linkedin d-flex justify-content-center align-items-center"
-                                    href="{{ $social->linkedin }}" target="_blank"><i class="bi bi-linkedin"></i></a>
+                                    href="{{ $social->linkedin }}" target="_blank"><i
+                                        class="bi bi-linkedin"></i></a>
                             @endif
                             @if (isset($social->pinterest))
                                 <a class="pinterest d-flex justify-content-center align-items-center"
-                                    href="{{ $social->pinterest }}" target="_blank"><i class="bi bi-pinterest"></i></a>
+                                    href="{{ $social->pinterest }}" target="_blank"><i
+                                        class="bi bi-pinterest"></i></a>
                             @endif
                             @if (isset($social->youtube))
                                 <a class="youtube d-flex justify-content-center align-items-center"
                                     href="{{ $social->youtube }}" target="_blank"><i class="bi bi-youtube"></i></a>
                             @endif
                             @if (isset($social->skype))
-                                <a href="skype:{{ $social->skype }}?chat" target="_blank"><i class="bi bi-skype"></i></a>
+                                <a href="skype:{{ $social->skype }}?chat" target="_blank"><i
+                                        class="bi bi-skype"></i></a>
                             @endif
                             @if (isset($social->whatsapp))
                                 <a rel="noopener noreferrer"
@@ -1404,7 +1420,7 @@
         <div id="whatspp_live"></div>
 
         <script type="text/javascript">
-            (function ($) {
+            (function($) {
                 "use strict";
                 $('#whatspp_live').floatingWhatsApp({
                     phone: '{{ $livechat->whatsapp_no }}', //WhatsApp Business phone number International format
@@ -1412,7 +1428,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                                                                                    web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                                                                                        web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
@@ -1425,17 +1441,17 @@
         <!-- Load Facebook SDK for JavaScript -->
         <div id="fb-root"></div>
         <script type="text/javascript">
-            (function ($) {
+            (function($) {
                 "use strict";
 
-                window.fbAsyncInit = function () {
+                window.fbAsyncInit = function() {
                     FB.init({
                         xfbml: true,
                         version: 'v8.0'
                     });
                 };
 
-                (function (d, s, id) {
+                (function(d, s, id) {
                     var js, fjs = d.getElementsByTagName(s)[0];
                     if (d.getElementById(id)) return;
                     js = d.createElement(s);
@@ -1454,7 +1470,7 @@
         </div>
     @endif
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             let waButton = document.createElement("div");
             waButton.innerHTML = `
             

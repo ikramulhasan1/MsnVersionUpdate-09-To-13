@@ -72,59 +72,23 @@
             <div class="msn-container">
                 <div class="msn-hero-grid">
                     <div>
-                        {{-- <div class="msn-hero-badge-top">
-                                <div class="avatars"><span></span><span></span><span></span></div>
-                                <span class="stars-mini">★★★★★</span> 4.9/5 from 900+ clients
-                            </div> --}}
-                        {{-- <span class="eyebrow">WordPress Website Development</span> --}}
-
                         <h1>{{ $service->title }}</h1>
                         <p class="lead-msn">{!! $service->short_desc !!}</p>
                         <div class="msn-hero-ctas">
                             <a href="#" class="btn-msn btn-msn-primary">Get a Free Quote →</a>
                             <a href="#" class="btn-msn btn-msn-ghost">Book a Consultation</a>
                         </div>
-                        {{-- <div class="msn-hero-trust">
-                                <div class="item">
-                                    <div><strong>900+</strong><span>Projects Delivered</span></div>
-                                </div>
-                                <div class="item">
-                                    <div><strong>13+ yrs</strong><span>In Business</span></div>
-                                </div>
-                                <div class="item">
-                                    <div><strong>98%</strong><span>Client Satisfaction</span></div>
-                                </div>
-                            </div> --}}
+
                     </div>
                     <div>
                         <div class="msn-hero-img-wrap msn-reveal">
                             <div class="msn-hero-img-glow"></div>
-                            {{-- <div class="msn-float-chip c1">
-                                    <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2.5">
-                                            <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
-                                        </svg></div>
-                                    <div><b>98/100</b><span>Speed Score</span></div>
-                                </div> --}}
-                            {{-- <div class="msn-float-chip c2">
-                                    <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2.5">
-                                            <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
-                                        </svg></div>
-                                    <div><b>SSL Secured</b><span>Fully protected</span></div>
-                                </div> --}}
+
                             @if (!empty($service->image_path))
                                 <div class="msn-hero-img-card">
                                     <img src="{{ asset('uploads/subservices/' . $service->image_path) }}"
                                         alt="WordPress website design service">
                                     <div class="msn-hero-img-shade"></div>
-                                    {{-- <div class="msn-hero-img-badge">
-                                                <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                                        stroke="#fff" stroke-width="3">
-                                                        <path d="M20 6 9 17l-5-5" />
-                                                    </svg></div>
-                                                <div><b>Live in 3–5 Weeks</b><span>Avg. project turnaround</span></div>
-                                            </div> --}}
                                 </div>
                             @endif
                         </div>
@@ -132,10 +96,6 @@
                 </div>
             </div>
         </section>
-
-        {{-- <svg class="msn-wave" viewBox="0 0 1440 46" preserveAspectRatio="none">
-                <path d="M0,46 C360,0 1080,0 1440,46 L1440,46 L0,46 Z" fill="#FCEAE7" />
-            </svg> --}}
         <!-- ============ BADGES ============ -->
         <section class="msn-badges msn-section" style="padding:56px 0 64px;">
             <div class="msn-container">
@@ -149,29 +109,7 @@
                             </div>
                         </div>
                     @endforeach
-                    {{-- <div class="msn-badge">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M3 17l6-6 4 4 8-8" />
-                                <path d="M17 7h4v4" />
-                            </svg></div>
-                        <div><strong>Built to Scale</strong><span>Grows with your business</span></div>
-                    </div>
-                    <div class="msn-badge">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
-                            </svg></div>
-                        <div><strong>Secure &amp; Reliable</strong><span>Protected at every layer</span></div>
-                    </div>
-                    <div class="msn-badge">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="9" />
-                                <path d="M9 12l2 2 4-4" />
-                            </svg></div>
-                        <div><strong>Easy to Manage</strong><span>Simple client dashboard</span></div>
-                    </div> --}}
+
                 </div>
             </div>
         </section>
@@ -216,65 +154,7 @@
                             <span>{{ $item['bottom_text'] ?? '' }}</span>
                         </div>
                     @endforeach
-                    {{-- <div class="msn-included-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <rect x="2" y="4" width="20" height="16" rx="2" />
-                                <path d="M2 9h20" />
-                            </svg></div>
-                        <strong>Responsive Development</strong>
-                        <span>Every page built and tested across mobile, tablet and desktop.</span>
-                    </div>
-                    <div class="msn-included-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <circle cx="11" cy="11" r="7" />
-                                <path d="m21 21-4.3-4.3" />
-                            </svg></div>
-                        <strong>On-Page SEO Setup</strong>
-                        <span>Clean URLs, meta tags, schema markup and sitemap configuration.</span>
-                    </div>
-                    <div class="msn-included-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
-                            </svg></div>
-                        <strong>Speed Optimization</strong>
-                        <span>Image compression, caching and code minification for fast load times.</span>
-                    </div>
-                    <div class="msn-included-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
-                            </svg></div>
-                        <strong>Security Hardening</strong>
-                        <span>SSL setup, firewall rules and login protection configured at launch.</span>
-                    </div>
-                    <div class="msn-included-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M21 8a13 13 0 01-8.5 12A13 13 0 014 8V4l8.5-2L21 4z" />
-                            </svg></div>
-                        <strong>Content Migration</strong>
-                        <span>Existing pages, images and copy carried over cleanly to the new build.</span>
-                    </div>
-                    <div class="msn-included-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M4 4h16M4 4v10a8 8 0 0016 0V4" />
-                            </svg></div>
-                        <strong>Plugin &amp; Integration Setup</strong>
-                        <span>Forms, analytics, booking or e-commerce plugins installed and configured.</span>
-                    </div>
-                    <div class="msn-included-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="9" />
-                                <path d="M12 7v5l3 3" />
-                            </svg></div>
-                        <strong>Training &amp; Handover</strong>
-                        <span>A walkthrough video and admin guide so your team can manage it independently.</span>
-                    </div> --}}
+
                 </div>
             </div>
         </section>
@@ -314,63 +194,7 @@
                             <p>{{ $item['meassage'] ?? '' }}</p>
                         </div>
                     @endforeach
-                    {{-- <div class="msn-proc-card msn-reveal">
-                        <span class="ghost-num">02</span>
-                        <div class="top-row">
-                            <div class="ic-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <path d="M3 15V6a2 2 0 012-2h6l2 2h6a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-                                </svg></div><span class="tag-line">Blueprint</span>
-                        </div>
-                        <h3>Planning &amp; Sitemap</h3>
-                        <p>Page structure, content plan and tech stack get locked in before a single pixel is placed.</p>
-                    </div>
-                    <div class="msn-proc-card msn-reveal">
-                        <span class="ghost-num">03</span>
-                        <div class="top-row">
-                            <div class="ic-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <path d="M12 19l7-7 3 3-7 7-3-3z" />
-                                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
-                                </svg></div><span class="tag-line">Visual</span>
-                        </div>
-                        <h3>Design</h3>
-                        <p>Custom layouts in your brand voice — reviewed and refined with you before development starts.</p>
-                    </div>
-                    <div class="msn-proc-card msn-reveal">
-                        <span class="ghost-num">04</span>
-                        <div class="top-row">
-                            <div class="ic-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <path d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16" />
-                                </svg></div><span class="tag-line">Build</span>
-                        </div>
-                        <h3>Development</h3>
-                        <p>Clean, documented WordPress code — theme setup, plugins, and any custom functionality.</p>
-                    </div>
-                    <div class="msn-proc-card msn-reveal">
-                        <span class="ghost-num">05</span>
-                        <div class="top-row">
-                            <div class="ic-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="9" />
-                                    <path d="M9 12l2 2 4-4" />
-                                </svg></div><span class="tag-line">QA</span>
-                        </div>
-                        <h3>Testing</h3>
-                        <p>Cross-browser, cross-device and speed testing, plus a full security sweep before launch.</p>
-                    </div>
-                    <div class="msn-proc-card msn-reveal">
-                        <span class="ghost-num">06</span>
-                        <div class="top-row">
-                            <div class="ic-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
-                                </svg></div><span class="tag-line">Go live</span>
-                        </div>
-                        <h3>Launch &amp; Support</h3>
-                        <p>We publish the site and stay on for 30 days of support to catch anything that comes up.</p>
-                    </div> --}}
+
                 </div>
             </div>
         </section>
@@ -393,48 +217,7 @@
                             <span>{{ $item['bottom_text'] ?? '' }}</span>
                         </div>
                     @endforeach
-                    {{-- <div class="msn-feature-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
-                            </svg></div>
-                        <strong>Lightning-Fast Performance</strong>
-                        <span>Optimized code and assets keep load times low, even on slower connections.</span>
-                    </div>
-                    <div class="msn-feature-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <circle cx="11" cy="11" r="7" />
-                                <path d="m21 21-4.3-4.3" />
-                            </svg></div>
-                        <strong>SEO-Ready Structure</strong>
-                        <span>Search-friendly markup and site architecture built in from the first page.</span>
-                    </div>
-                    <div class="msn-feature-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
-                            </svg></div>
-                        <strong>Secure Architecture</strong>
-                        <span>Hardened login, regular updates and firewall rules to keep threats out.</span>
-                    </div>
-                    <div class="msn-feature-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="9" />
-                                <path d="M9 12l2 2 4-4" />
-                            </svg></div>
-                        <strong>Easy Content Management</strong>
-                        <span>A clean WordPress admin so your team can update pages without touching code.</span>
-                    </div>
-                    <div class="msn-feature-card msn-reveal">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16" />
-                            </svg></div>
-                        <strong>Scalable &amp; Future-Proof</strong>
-                        <span>Built to handle new pages, plugins and traffic growth without a rebuild.</span>
-                    </div> --}}
+
                 </div>
             </div>
         </section>
@@ -452,14 +235,7 @@
                             style="border-color:rgba(255,255,255,.5); color:#fff; background:transparent;">View All
                             Projects</a>
                     </div>
-                    {{-- <div class="msn-port-filters msn-reveal" id="msnPortFilters">
-                        <span class="msn-port-filter active" data-f="all">All</span>
-                        <span class="msn-port-filter" data-f="healthcare">Healthcare</span>
-                        <span class="msn-port-filter" data-f="ecommerce">E-Commerce</span>
-                        <span class="msn-port-filter" data-f="realestate">Real Estate</span>
-                        <span class="msn-port-filter" data-f="education">Education</span>
-                        <span class="msn-port-filter" data-f="hospitality">Hospitality</span>
-                    </div> --}}
+
                     <div class="msn-port-grid2" id="msnPortGrid">
                         @foreach ($service->portfolios as $portfolio)
                             <a href="{{ route('portfolio.single', $portfolio->slug) }}" class="text-decoration-none ">
@@ -567,26 +343,7 @@
                             <span>{{ $item['bottom_text'] ?? '' }}</span>
                         </div>
                     @endforeach
-                    {{-- <div class="msn-g-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M4 4h16M4 4v10a8 8 0 0016 0V4" />
-                            </svg></div><strong>Quality Assured</strong><span>Every deliverable reviewed before
-                            handoff.</span>
-                    </div>
-                    <div class="msn-g-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M3 12h4l3 8 4-16 3 8h4" />
-                            </svg></div><strong>Transparent Pricing</strong><span>One quote, no hidden line items.</span>
-                    </div>
-                    <div class="msn-g-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="16" rx="2" />
-                                <path d="M8 2v4M16 2v4M3 10h18" />
-                            </svg></div><strong>On-Time Delivery</strong><span>Milestones you can plan around.</span>
-                    </div> --}}
+
                 </div>
             </div>
         </section>
@@ -602,13 +359,7 @@
                     @foreach ($our_promise as $item)
                         <div class="msn-ind-chip"><span class="dot"></span>{{ $item['bottom_text'] ?? '' }}</div>
                     @endforeach
-                    {{-- <div class="msn-ind-chip"><span class="dot"></span>Education</div>
-                    <div class="msn-ind-chip"><span class="dot"></span>Real Estate</div>
-                    <div class="msn-ind-chip"><span class="dot"></span>Travel &amp; Hospitality</div>
-                    <div class="msn-ind-chip"><span class="dot"></span>Retail &amp; E-commerce</div>
-                    <div class="msn-ind-chip"><span class="dot"></span>Legal Services</div>
-                    <div class="msn-ind-chip"><span class="dot"></span>Non-Profit</div>
-                    <div class="msn-ind-chip"><span class="dot"></span>Finance</div> --}}
+
                 </div>
             </div>
         </section>
@@ -633,44 +384,7 @@
                             </div>
                         </div>
                     @endforeach
-                    {{-- <div class="msn-test-card">
-                        <div class="quote">"</div>
-                        <p class="msg">Very responsive and easy to communicate with — always felt like we were their
-                            only
-                            client,
-                            even during rush deadlines.</p>
-                        <div class="who">
-                            <div class="avatar">SH</div>
-                            <div><b>Sarah H.</b><small>Retail</small>
-                                <div class="stars">★★★★★</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="msn-test-card">
-                        <div class="quote">"</div>
-                        <p class="msg">Our new site loads instantly and the admin panel is so easy that our whole team
-                            can
-                            update it
-                            without calling for help.</p>
-                        <div class="who">
-                            <div class="avatar">MA</div>
-                            <div><b>Marcus A.</b><small>Education</small>
-                                <div class="stars">★★★★★</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="msn-test-card">
-                        <div class="quote">"</div>
-                        <p class="msg">Traffic and leads both jumped within the first quarter after launch — the SEO
-                            groundwork made
-                            a real difference.</p>
-                        <div class="who">
-                            <div class="avatar">RK</div>
-                            <div><b>Renee K.</b><small>Real Estate</small>
-                                <div class="stars">★★★★★</div>
-                            </div>
-                        </div>
-                    </div> --}}
+
                 </div>
             </div>
         </section>
