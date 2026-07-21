@@ -555,10 +555,15 @@
                     <p>Straightforward terms — no fine print, no surprise invoices.</p>
                 </div>
                 <div class="msn-g-grid">
-                    @foreach ($guaranteeSteps as $item)
-                        <div class="msn-g-item msn-reveal">
-                            <div class="ic"><i class="{{ $item['icon_class'] }}"></i></div>
-                            <strong>{{ $item['title'] }}</strong><span>{{ $item['description'] }}</span>
+                    @foreach ($success_stories as $item)
+                        <div class="msn-included-item msn-reveal">
+                            <div class="ic">
+                                <i class="{{ $item['icon'] ?? '' }}"></i>
+                            </div>
+
+                            <strong>{{ $item['title'] ?? '' }}</strong>
+
+                            <span>{{ $item['bottom_text'] ?? '' }}</span>
                         </div>
                     @endforeach
                     {{-- <div class="msn-g-item msn-reveal">
