@@ -275,8 +275,8 @@
                 justify-content: space-between;
                 gap: 10px;
                 padding: 11px 14px;
-                font-size: 14.5px;
-                font-weight: 600;
+                font-size: 14px;
+                font-weight: 500;
                 color: var(--special_text-dark);
                 border-radius: 10px;
                 white-space: normal;
@@ -1207,9 +1207,6 @@
                         });
                     });
 
-                    // megamenu-র left edge ও width, navbar container-এর (website-এর) left ও
-                    // right edge বরাবর মিলিয়ে বসানো হচ্ছে — যাতে menu টা website-এর
-                    // left সাইড থেকে শুরু হয়ে right সাইড পর্যন্ত বিস্তৃত থাকে
                     var navbarEl = document.querySelector('.special_navbar');
 
                     function positionMegaMenu() {
@@ -1275,11 +1272,6 @@
                             </p>
                         @endif
                     </div>
-
-                    {{-- Column 2 & 3: Services (main service + indented sub-services) --}}
-                    {{-- Distributed with a weighted greedy balance (1 + sub-service count per
-                    item) so both columns come out visually even in height, instead of
-                    simply splitting the main-service list in half by item count. --}}
                     @php
                         $activeServices = $service_subnavs
                             ->filter(function ($s) {
@@ -1428,7 +1420,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                                                                                                        web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                                                                                                                                web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
