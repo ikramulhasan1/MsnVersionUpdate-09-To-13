@@ -47,6 +47,13 @@
         rel="stylesheet" />
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Dropzone assets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
     <style>
         /* ============ New Navbar (special_) — FULL CORRECTED STYLE ============ */
         :root {
@@ -1424,7 +1431,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                                                                                                                                                                                                                                                    web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                                                                                                                                                                                                                                                                                                web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
@@ -1482,6 +1489,109 @@
             if (!link.hasAttribute('href') && link.innerHTML.trim() === '') {
                 link.style.display = 'none';
             }
+        });
+    </script>
+
+    <script>
+        // IMPORTANT: this must run right after dropzone.min.js loads,
+        // NOT inside a DOMContentLoaded handler. Dropzone registers its own
+        // "auto discover" DOMContentLoaded listener the moment its script
+        // executes, so if we wait for DOMContentLoaded ourselves before
+        // setting autoDiscover = false, Dropzone's own listener has often
+        // already fired first (auto-attaching to the .dropzone element with
+        // no url -> "No URL provided" error, and then our manual init throws
+        // "Dropzone already attached").
+        Dropzone.autoDiscover = false;
+    </script>
+
+    <!-- reCAPTCHA (was missing entirely, so the widget never rendered and
+                                         g-recaptcha-response was always empty on submit) -->
+    {{-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> --}}
+
+    <script>
+        $(document).ready(function() {
+
+            // Toggle subservice visibility when main service label is clicked
+            $('.gq-service-label').on('click', function(e) {
+                e.preventDefault();
+
+                let parent = $(this).closest('.gq-service');
+                let checkbox = parent.find('.gq-service-input');
+                let subDiv = parent.find('.gq-subservices');
+
+                if (subDiv.length > 0) {
+                    if (!checkbox.is(':checked')) {
+                        checkbox.prop('checked', true);
+                    }
+                    if (subDiv.is(':visible')) {
+                        subDiv.stop(true, true).slideUp(300);
+                    } else {
+                        subDiv.stop(true, true).slideDown(300);
+                    }
+                } else {
+                    checkbox.prop('checked', !checkbox.prop('checked'));
+                }
+            });
+
+            $(document).on('change', '.gq-subservice input[type="checkbox"]', function() {
+                let parentService = $(this).closest('.gq-service');
+                let parentCheckbox = parentService.find('.gq-service-input');
+                let subDiv = parentService.find('.gq-subservices');
+
+                if (parentService.find('.gq-subservice input:checked').length > 0) {
+                    parentCheckbox.prop('checked', true);
+                } else {
+                    parentCheckbox.prop('checked', false);
+                    subDiv.stop(true, true).slideUp(300);
+                }
+            });
+
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.gq-service').length) {
+                    $('.gq-subservices').slideUp(200);
+                }
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const dzElem = document.getElementById("quoteDropzone");
+            if (!dzElem) {
+                console.error("Dropzone element not found!");
+                return;
+            }
+
+            const quoteDropzone = new Dropzone(dzElem, {
+                url: "{{ route('quote.upload') }}",
+                paramName: "file",
+                maxFilesize: 20,
+                acceptedFiles: ".jpg,.jpeg,.png,.gif,.svg,.webp,.pdf,.doc,.docx,.txt,.zip,.rar,.csv,.xls,.xlsx,.ppt,.pptx,.mp3,.avi,.mp4,.mpeg,.3gp",
+                addRemoveLinks: true,
+                dictDefaultMessage: "Drag files here, or click to browse",
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                },
+
+                success: function(file, response) {
+                    if (response.file_name) {
+                        const hiddenInput = document.createElement("input");
+                        hiddenInput.type = "hidden";
+                        hiddenInput.name = "uploaded_files[]";
+                        hiddenInput.value = response.file_name;
+                        document.querySelector("#quoteForm").appendChild(hiddenInput);
+                        file._hiddenInput = hiddenInput;
+                    }
+                },
+
+                removedfile: function(file) {
+                    if (file.previewElement) file.previewElement.remove();
+                    if (file._hiddenInput) file._hiddenInput.remove();
+                },
+
+                error: function(file, response) {
+                    console.error("Dropzone error:", response);
+                    alert("File upload failed!");
+                },
+            });
         });
     </script>
     @yield('scriptjs')
