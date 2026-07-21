@@ -45,6 +45,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     <style>
         /* ============ New Navbar (special_) — FULL CORRECTED STYLE ============ */
@@ -1423,7 +1424,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                                                                                                                                                                                                                                web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                                                                                                                                                                                                                                    web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
