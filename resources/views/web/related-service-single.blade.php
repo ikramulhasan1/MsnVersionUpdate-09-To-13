@@ -626,7 +626,7 @@
                             <div class="quote">"</div>
                             <p class="msg">{{ $item['meassage'] ?? '' }}</p>
                             <div class="who">
-                                <div class="avatar">JD</div>
+                                {{-- <div class="avatar">JD</div> --}}
                                 <div><b>{{ $item['title'] ?? '' }}</b><small>{{ $item['designation'] ?? '' }}</small>
                                     <div class="stars">{{ $item['rating'] ?? '' }}</div>
                                 </div>
