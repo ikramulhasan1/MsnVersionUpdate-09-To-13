@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use File;
-use Image;
-use Toastr;
-use App\Models\Service;
+use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
+use App\Models\Service;
 use App\Models\Subservice;
 use App\Models\Technology;
-use Illuminate\Support\Str;
+use File;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
+use Image;
+use Toastr;
 
 class SubserviceController extends Controller
 {
@@ -23,6 +23,7 @@ class SubserviceController extends Controller
         $this->view = 'admin.subservices';
         $this->path = 'subservices';
     }
+
     public function index()
     {
 
@@ -32,9 +33,9 @@ class SubserviceController extends Controller
         $data['path'] = $this->path;
 
         $data['rows'] = Subservice::with('service')->orderBy('id', 'asc')->get();
-        return view($this->view . '.index', $data);
-    }
 
+        return view($this->view.'.index', $data);
+    }
 
     public function create()
     {
@@ -46,9 +47,9 @@ class SubserviceController extends Controller
         $data['allTechnologies'] = Technology::all();
         $data['allPortfolios'] = Portfolio::all();
         $data['services'] = Service::orderBy('id', 'asc')->get();
-        return view($this->view . '.create', $data);
-    }
 
+        return view($this->view.'.create', $data);
+    }
 
     // public function store(Request $request)
     // {
@@ -60,12 +61,11 @@ class SubserviceController extends Controller
     //     'image' => 'required|image',
     // ]);
 
-
-    // // image upload, fit and store inside public folder 
+    // // image upload, fit and store inside public folder
     // if($request->hasFile('image')){
     //     //Upload New Image
     //     $filenameWithExt = $request->file('image')->getClientOriginalName();
-    //     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME); 
+    //     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
     //     $extension = $request->file('image')->getClientOriginalExtension();
     //     $fileNameToStore = $filename.'_'.time().'.'.$extension;
 
@@ -83,24 +83,23 @@ class SubserviceController extends Controller
     //     $fileNameToStore = 'noimage.jpg'; // if no image selected this will be the default image
     // }
 
-
     // // Get content with media file
     // $content=$request->input('description');
 
     // $dom = new \DomDocument();
     // libxml_use_internal_errors(true);
     // $dom->encoding = 'utf-8';
-    // $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);    
+    // $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
     // $images = $dom->getElementsByTagName('img');
     // // foreach <img> in the submited content
     // foreach($images as $img){
     //     $src = $img->getAttribute('src');
 
     //     // if the img source is 'data-url'
-    //     if(preg_match('/data:image/', $src)){                
+    //     if(preg_match('/data:image/', $src)){
     //         // get the mimetype
     //         preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-    //         $mimetype = $groups['mime'];                
+    //         $mimetype = $groups['mime'];
     //         // Generating a random filename
     //         $filename = uniqid().'_'.time();
 
@@ -110,23 +109,22 @@ class SubserviceController extends Controller
     //             File::makeDirectory($path, 0777, true, true);
     //         }
 
-    //         $filepath = "/uploads/media/$filename.$mimetype";    
+    //         $filepath = "/uploads/media/$filename.$mimetype";
     //         // @see http://image.intervention.io/api/
     //         $image = Image::make($src)
     //             // resize if required
-    //             //->resize(500, null) 
+    //             //->resize(500, null)
     //             ->resize(800, null, function ($constraint) {
     //                 $constraint->aspectRatio();
     //                 $constraint->upsize();
     //             })
     //             ->encode($mimetype, 100)  // encode file to the specified mimetype
-    //             ->save(public_path($filepath));                
+    //             ->save(public_path($filepath));
     //         $new_src = asset($filepath);
     //         $img->removeAttribute('src');
     //         $img->setAttribute('src', $new_src);
     //     } // <!--endif
     // } // <!-
-
 
     // // Insert Data
     // $service = new Subservice;
@@ -137,7 +135,6 @@ class SubserviceController extends Controller
     // $service->description = $dom->saveHTML();
     // $service->image_path = $fileNameToStore;
     // $service->save();
-
 
     // Toastr::success(__('dashboard.created_successfully'), __('dashboard.success'));
 
@@ -173,10 +170,10 @@ class SubserviceController extends Controller
          */
         if ($request->hasFile('image')) {
             $filename = pathinfo($request->file('image')->getClientOriginalName(), PATHINFO_FILENAME);
-            $fileNameToStore = $filename . '_' . time() . '.webp';
+            $fileNameToStore = $filename.'_'.time().'.webp';
 
-            $path = public_path('uploads/' . $this->path . '/');
-            if (!File::exists($path)) {
+            $path = public_path('uploads/'.$this->path.'/');
+            if (! File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
@@ -186,7 +183,7 @@ class SubserviceController extends Controller
                     $constraint->upsize();
                 })
                 ->encode('webp', 90)
-                ->save($path . $fileNameToStore);
+                ->save($path.$fileNameToStore);
         } else {
             $fileNameToStore = 'noimage.webp';
         }
@@ -197,7 +194,7 @@ class SubserviceController extends Controller
          * ==========================
          */
         $content = $request->input('description');
-        $dom = new \DomDocument();
+        $dom = new \DomDocument;
         libxml_use_internal_errors(true);
         $dom->encoding = 'utf-8';
         $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
@@ -208,10 +205,10 @@ class SubserviceController extends Controller
 
             if (preg_match('/data:image/', $src)) {
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-                $filename = uniqid() . '_' . time();
+                $filename = uniqid().'_'.time();
                 $path = public_path('uploads/media/');
 
-                if (!File::exists($path)) {
+                if (! File::exists($path)) {
                     File::makeDirectory($path, 0777, true, true);
                 }
 
@@ -233,7 +230,7 @@ class SubserviceController extends Controller
          * 🔹 CREATE NEW SUBSERVICE
          * ==========================
          */
-        $subservice = new Subservice();
+        $subservice = new Subservice;
         $subservice->title = $request->title;
         $subservice->service_id = $request->service_id;
         $subservice->keywords = $request->keywords;
@@ -265,16 +262,16 @@ class SubserviceController extends Controller
                 if ($request->hasFile("banner.$index.banner_image")) {
                     $file = $request->file("banner.$index.banner_image");
                     $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $bannerImageName = $filename . '_' . time() . '.webp';
+                    $bannerImageName = $filename.'_'.time().'.webp';
 
                     $path = public_path('uploads/banner/');
-                    if (!File::exists($path)) {
+                    if (! File::exists($path)) {
                         File::makeDirectory($path, 0777, true, true);
                     }
 
                     Image::make($file->getRealPath())
                         ->encode('webp', 90)
-                        ->save($path . $bannerImageName);
+                        ->save($path.$bannerImageName);
                 }
 
                 $bannerSteps[] = [
@@ -299,9 +296,11 @@ class SubserviceController extends Controller
             'achievements_steps' => 'achievement',
             'success_stories_steps' => 'story',
             'clients_say_steps' => 'client',
+            'how_we_work' => 'work',
             'faq_steps' => 'faq',
             'our_promise' => 'item',
             'cta_steps' => 'cta',
+            'guarantee_steps' => 'guarantee',   // ✅ Added — was missing
         ];
 
         foreach ($sections as $jsonKey => $inputName) {
@@ -326,9 +325,9 @@ class SubserviceController extends Controller
         $subservice->portfolios()->sync($request->portfolios ?? []);
 
         Toastr::success(__('dashboard.created_successfully'), __('dashboard.success'));
+
         return redirect()->route('admin.subservices.index');
     }
-
 
     public function show(Subservice $subservice)
     {
@@ -342,7 +341,6 @@ class SubserviceController extends Controller
 
         return view('admin.subservices.show', $data);
     }
-
 
     public function edit(Subservice $subservice)
     {
@@ -359,7 +357,6 @@ class SubserviceController extends Controller
         return view('admin.subservices.edit', $data);
     }
 
-
     // public function update(Request $request, Subservice $subservice)
     // {
     //     // Field Validation
@@ -370,8 +367,7 @@ class SubserviceController extends Controller
     //         'image' => 'nullable|image',
     //     ]);
 
-
-    //     // image upload, fit and store inside public folder 
+    //     // image upload, fit and store inside public folder
     //     if($request->hasFile('image')){
 
     //         $file_path = public_path('uploads/'.$this->path.'/'.$subservice->image_path);
@@ -381,7 +377,7 @@ class SubserviceController extends Controller
 
     //         //Upload New Image
     //         $filenameWithExt = $request->file('image')->getClientOriginalName();
-    //         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME); 
+    //         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
     //         $extension = $request->file('image')->getClientOriginalExtension();
     //         $fileNameToStore = $filename.'_'.time().'.'.$extension;
 
@@ -397,9 +393,8 @@ class SubserviceController extends Controller
     //     }
     //     else{
 
-    //         $fileNameToStore = $subservice->image_path; 
+    //         $fileNameToStore = $subservice->image_path;
     //     }
-
 
     //     // Get content with media file
     //     $content=$request->input('description');
@@ -407,17 +402,17 @@ class SubserviceController extends Controller
     //     $dom = new \DomDocument();
     //     libxml_use_internal_errors(true);
     //     $dom->encoding = 'utf-8';
-    //     $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);    
+    //     $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
     //     $images = $dom->getElementsByTagName('img');
     //    // foreach <img> in the submited content
     //     foreach($images as $img){
     //         $src = $img->getAttribute('src');
 
     //         // if the img source is 'data-url'
-    //         if(preg_match('/data:image/', $src)){                
+    //         if(preg_match('/data:image/', $src)){
     //             // get the mimetype
     //             preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-    //             $mimetype = $groups['mime'];                
+    //             $mimetype = $groups['mime'];
     //             // Generating a random filename
     //             $filename = uniqid().'_'.time();
 
@@ -427,23 +422,22 @@ class SubserviceController extends Controller
     //                 File::makeDirectory($path, 0777, true, true);
     //             }
 
-    //             $filepath = "/uploads/media/$filename.$mimetype";    
+    //             $filepath = "/uploads/media/$filename.$mimetype";
     //             // @see http://image.intervention.io/api/
     //             $image = Image::make($src)
     //               // resize if required
-    //               //->resize(500, null) 
+    //               //->resize(500, null)
     //               ->resize(800, null, function ($constraint) {
     //                     $constraint->aspectRatio();
     //                     $constraint->upsize();
     //                 })
     //               ->encode($mimetype, 100)  // encode file to the specified mimetype
-    //               ->save(public_path($filepath));                
+    //               ->save(public_path($filepath));
     //             $new_src = asset($filepath);
     //             $img->removeAttribute('src');
     //             $img->setAttribute('src', $new_src);
     //         } // <!--endif
     //     } // <!-
-
 
     //     // Update Data
     //     $subservice->title = $request->title;
@@ -454,7 +448,6 @@ class SubserviceController extends Controller
     //     $subservice->status = $request->status;
     //     $subservice->save();
 
-
     //     Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
 
     //     return redirect()->route('admin.subservices.index');
@@ -464,8 +457,8 @@ class SubserviceController extends Controller
     {
         // Field Validation
         $request->validate([
-            'title' => 'required|max:191|unique:subservices,title,' . $subservice->id,
-            'short_title' => 'required|max:30|unique:services,short_title,' . $subservice->id,
+            'title' => 'required|max:191|unique:subservices,title,'.$subservice->id,
+            'short_title' => 'required|max:30|unique:services,short_title,'.$subservice->id,
             'meta_title' => 'required|max:70',
             'keywords' => 'required',
             'price' => 'required',
@@ -473,8 +466,6 @@ class SubserviceController extends Controller
             'priceCurrency' => 'required',
             'average_rating' => 'required',
             'review_count' => 'required',
-            'short_desc' => 'required',
-            'short_desc' => 'required',
             'short_desc' => 'required',
             'description' => 'required',
             'image' => 'nullable|image',
@@ -484,26 +475,26 @@ class SubserviceController extends Controller
             'portfolios.*' => 'exists:portfolios,id',
         ]);
 
-        // image upload, fit and store inside public folder 
+        // image upload, fit and store inside public folder
         if ($request->hasFile('image')) {
 
-            $file_path = public_path('uploads/' . $this->path . '/' . $subservice->image_path);
+            $file_path = public_path('uploads/'.$this->path.'/'.$subservice->image_path);
             if (File::isFile($file_path)) {
                 File::delete($file_path);
             }
 
             // Upload New Image
             $filename = pathinfo($request->file('image')->getClientOriginalName(), PATHINFO_FILENAME);
-            $fileNameToStore = $filename . '_' . time() . '.webp';
+            $fileNameToStore = $filename.'_'.time().'.webp';
 
             // Create Folder Location
-            $path = public_path('uploads/' . $this->path . '/');
-            if (!File::exists($path)) {
+            $path = public_path('uploads/'.$this->path.'/');
+            if (! File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
             // Resize and convert to WebP (800x500)
-            $thumbnailpath = $path . $fileNameToStore;
+            $thumbnailpath = $path.$fileNameToStore;
             Image::make($request->file('image')->getRealPath())
                 ->fit(800, 500, function ($constraint) {
                     $constraint->upsize();
@@ -517,7 +508,7 @@ class SubserviceController extends Controller
         // Get content with media file
         $content = $request->input('description');
 
-        $dom = new \DomDocument();
+        $dom = new \DomDocument;
         libxml_use_internal_errors(true);
         $dom->encoding = 'utf-8';
         $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
@@ -528,10 +519,10 @@ class SubserviceController extends Controller
             if (preg_match('/data:image/', $src)) {
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
                 $mimetype = $groups['mime'];
-                $filename = uniqid() . '_' . time();
+                $filename = uniqid().'_'.time();
 
                 $path = public_path('uploads/media/');
-                if (!File::exists($path)) {
+                if (! File::exists($path)) {
                     File::makeDirectory($path, 0777, true, true);
                 }
 
@@ -569,7 +560,6 @@ class SubserviceController extends Controller
         $subservice->status = $request->status;
         $subservice->manu = $request->manu;
 
-
         $bannerSteps = [];
 
         // Decode old banner steps (so we can access previous image paths)
@@ -583,16 +573,16 @@ class SubserviceController extends Controller
                 if ($request->hasFile("banner.$index.banner_image")) {
                     $file = $request->file("banner.$index.banner_image");
                     $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $bannerImageName = $filename . '_' . time() . '.webp';
+                    $bannerImageName = $filename.'_'.time().'.webp';
 
                     $path = public_path('uploads/banner/');
-                    if (!File::exists($path)) {
+                    if (! File::exists($path)) {
                         File::makeDirectory($path, 0777, true, true);
                     }
 
                     // Delete old image if exists
-                    if (!empty($oldBannerSteps[$index]['banner_image'])) {
-                        $oldPath = $path . $oldBannerSteps[$index]['banner_image'];
+                    if (! empty($oldBannerSteps[$index]['banner_image'])) {
+                        $oldPath = $path.$oldBannerSteps[$index]['banner_image'];
                         if (File::exists($oldPath)) {
                             File::delete($oldPath);
                         }
@@ -601,7 +591,7 @@ class SubserviceController extends Controller
                     // Save new image
                     Image::make($file->getRealPath())
                         ->encode('webp', 90)
-                        ->save($path . $bannerImageName);
+                        ->save($path.$bannerImageName);
                 }
 
                 $bannerSteps[] = [
@@ -676,6 +666,7 @@ class SubserviceController extends Controller
                 $industriesSteps[] = [
                     'icon_class' => $industry['icon_class'] ?? '',
                     'title' => $industry['title'] ?? '',
+                    'description' => $industry['description'] ?? '',
                 ];
             }
         }
@@ -707,6 +698,7 @@ class SubserviceController extends Controller
             foreach ($request->story as $story) {
                 $successStoriesSteps[] = [
                     'title' => $story['title'] ?? '',
+                    'icon' => $story['icon'] ?? '',
                     'bottom_text' => $story['bottom_text'] ?? '',
                 ];
             }
@@ -724,11 +716,47 @@ class SubserviceController extends Controller
                 $clientsSaySteps[] = [
                     'title' => $client['title'] ?? '',
                     'meassage' => $client['meassage'] ?? '',
+                    'designation' => $client['designation'] ?? '',
+                    'rating' => $client['rating'] ?? '',
                 ];
             }
         }
         $subservice->clients_say_steps = json_encode($clientsSaySteps);
 
+        /**
+         * ==========================
+         * 🔹 HOW WE WORK SECTION
+         * ==========================
+         */
+        $howWeWork = [];
+        if ($request->has('work')) {
+            foreach ($request->work as $work) {
+                $howWeWork[] = [
+                    'title' => $work['title'] ?? '',
+                    'designation' => $work['designation'] ?? '',
+                    'meassage' => $work['meassage'] ?? '',
+                    'icon' => $work['icon'] ?? '',
+                ];
+            }
+        }
+        $subservice->how_we_work = json_encode($howWeWork);
+
+        /**
+         * ==========================
+         * 🔹 OUR GUARANTEE SECTION
+         * ==========================
+         */
+        $guaranteeSteps = [];
+        if ($request->has('guarantee')) {
+            foreach ($request->guarantee as $guarantee) {
+                $guaranteeSteps[] = [
+                    'icon' => $guarantee['icon'] ?? '',
+                    'title' => $guarantee['title'] ?? '',
+                    'description' => $guarantee['description'] ?? '',
+                ];
+            }
+        }
+        $subservice->guarantee_steps = json_encode($guaranteeSteps);
         /**
          * ==========================
          * 🔹 FAQ SECTION
@@ -789,7 +817,7 @@ class SubserviceController extends Controller
     public function destroy(Subservice $subservice)
     {
         // Delete Data
-        $image_path = public_path('uploads/' . $this->path . '/' . $subservice->image_path);
+        $image_path = public_path('uploads/'.$this->path.'/'.$subservice->image_path);
         if (File::isFile($image_path)) {
             File::delete($image_path);
         }

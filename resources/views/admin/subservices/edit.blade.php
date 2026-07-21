@@ -269,29 +269,36 @@
                                     <br><br>
                                 </div>
                                 <hr>
-                                <h3>Industries We Serve</h3>
+                                <h3>Hero Badges</h3>
                                 <div class="row industries-row">
                                     @php
                                         $industriesSteps = is_string($subservice->industries_steps)
                                             ? json_decode($subservice->industries_steps, true)
                                             : $subservice->industries_steps ?? [];
                                     @endphp
+
                                     @if (!empty($industriesSteps) && is_array($industriesSteps))
                                         @foreach ($industriesSteps as $key => $industry)
                                             <div class="form-group col-10 industry-group mb-2 row">
                                                 <div class="col-1">
                                                     {{ $key + 1 }}.
                                                 </div>
+
                                                 <div class="col-11">
                                                     <input type="text" class="form-control mb-1"
                                                         name="industry[{{ $key }}][icon_class]"
-                                                        value="{{ $industry['icon_class'] }}"
+                                                        value="{{ $industry['icon_class'] ?? '' }}"
                                                         placeholder="{{ $key + 1 }}. Icon Class">
+
                                                     <input type="text" class="form-control mb-1"
                                                         name="industry[{{ $key }}][title]"
-                                                        value="{{ $industry['title'] }}"
+                                                        value="{{ $industry['title'] ?? '' }}"
                                                         placeholder="{{ $key + 1 }}. Title">
 
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="industry[{{ $key }}][description]"
+                                                        value="{{ $industry['description'] ?? '' }}"
+                                                        placeholder="{{ $key + 1 }}. Description">
                                                 </div>
                                             </div>
                                         @endforeach
@@ -337,7 +344,7 @@
                                     <br><br>
                                 </div>
                                 <hr>
-                                <h3>Success Stories</h3>
+                                <h3>What's Included</h3>
                                 <div class="row success-stories-row">
                                     @php
                                         $successStoriesSteps = is_string($subservice->success_stories_steps)
@@ -353,11 +360,17 @@
                                                 <div class="col-11">
                                                     <input type="text" class="form-control mb-1"
                                                         name="story[{{ $key }}][title]"
-                                                        value="{{ $story['title'] }}"
+                                                        value="{{ $story['title'] ?? '' }}"
                                                         placeholder="{{ $key + 1 }}. Title">
+
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="story[{{ $key }}][icon]"
+                                                        value="{{ $story['icon'] ?? '' }}"
+                                                        placeholder="{{ $key + 1 }}. Icon">
+
                                                     <input type="text" class="form-control mb-1"
                                                         name="story[{{ $key }}][bottom_text]"
-                                                        value="{{ $story['bottom_text'] }}"
+                                                        value="{{ $story['bottom_text'] ?? '' }}"
                                                         placeholder="{{ $key + 1 }}. Bottom Text">
 
                                                 </div>
@@ -371,7 +384,7 @@
                                     <br><br>
                                 </div>
                                 <hr>
-                                <h3>Clients Say</h3>
+                                <h3>Client Voices</h3>
                                 <div class="row clients-say-row">
                                     @php
                                         $clientsSaySteps = is_string($subservice->clients_say_steps)
@@ -387,12 +400,23 @@
                                                 <div class="col-11">
                                                     <input type="text" class="form-control mb-1"
                                                         name="client[{{ $key }}][title]"
-                                                        value="{{ $client['title'] }}"
-                                                        placeholder="{{ $key + 1 }}. Title">
+                                                        value="{{ $client['title'] ?? '' }}"
+                                                        placeholder="{{ $key + 1 }}. Name">
+
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="client[{{ $key }}][designation]"
+                                                        value="{{ $client['designation'] ?? '' }}"
+                                                        placeholder="{{ $key + 1 }}. Designation">
+
                                                     <input type="text" class="form-control mb-1"
                                                         name="client[{{ $key }}][meassage]"
-                                                        value="{{ $client['meassage'] }}"
-                                                        placeholder="{{ $key + 1 }}. Meassage">
+                                                        value="{{ $client['meassage'] ?? '' }}"
+                                                        placeholder="{{ $key + 1 }}. Message">
+
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="client[{{ $key }}][rating]"
+                                                        value="{{ $client['rating'] ?? '★★★★★' }}"
+                                                        placeholder="{{ $key + 1 }}. Rating">
 
                                                 </div>
                                             </div>
@@ -401,6 +425,47 @@
                                     <div class="form-group col-2">
                                         <button class="btn btn-success" type="button"
                                             onclick="addClientsSay()">{{ __('dashboard.add_another_FAQ') }}</button>
+                                    </div>
+                                    <br><br>
+                                </div>
+                                <hr>
+                                <h3>How We Work</h3>
+                                <div class="row works-say-row">
+                                    @php
+                                        $howWeWork = is_string($subservice->how_we_work)
+                                            ? json_decode($subservice->how_we_work, true)
+                                            : $subservice->how_we_work ?? [];
+                                    @endphp
+                                    @if (!empty($howWeWork) && is_array($howWeWork))
+                                        @foreach ($howWeWork as $key => $client)
+                                            <div class="form-group col-10 works-group mb-2 row">
+                                                <div class="col-1">
+                                                    {{ $key + 1 }}.
+                                                </div>
+                                                <div class="col-11">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="work[{{ $key }}][title]"
+                                                        value="{{ $client['title'] ?? '' }}"
+                                                        placeholder="{{ $key + 1 }}. Top title">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="work[{{ $key }}][designation]"
+                                                        value="{{ $client['designation'] ?? '' }}"
+                                                        placeholder="{{ $key + 1 }}. Bottom Title">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="work[{{ $key }}][meassage]"
+                                                        value="{{ $client['meassage'] ?? '' }}"
+                                                        placeholder="{{ $key + 1 }}. Meassage">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="work[{{ $key }}][icon]"
+                                                        value="{{ $client['icon'] ?? '' }}"
+                                                        placeholder="{{ $key + 1 }}. Icon">
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                    <div class="form-group col-2">
+                                        <button class="btn btn-success" type="button"
+                                            onclick="addWork()">{{ __('dashboard.add_another_FAQ') }}</button>
                                     </div>
                                     <br><br>
                                 </div>
@@ -496,6 +561,44 @@
                                     <div class="form-group col-2">
                                         <button class="btn btn-success" type="button"
                                             onclick="addCtaStep()">{{ __('dashboard.add_another_FAQ') }}</button>
+                                    </div>
+                                    <br><br>
+                                </div>
+
+                                <hr>
+                                <h3>Our Guarantee</h3>
+                                <div class="row guarantee-row">
+                                    @php
+                                        $guaranteeSteps = is_string($subservice->guarantee_steps)
+                                            ? json_decode($subservice->guarantee_steps, true)
+                                            : $subservice->guarantee_steps;
+                                    @endphp
+                                    @if (!empty($guaranteeSteps) && is_array($guaranteeSteps))
+                                        @foreach ($guaranteeSteps as $key => $guarantee)
+                                            <div class="form-group col-10 guarantee-group mb-2 row">
+                                                <div class="col-1">
+                                                    {{ $key + 1 }}.
+                                                </div>
+                                                <div class="col-11">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="guarantee[{{ $key }}][icon]"
+                                                        value="{{ $guarantee['icon'] }}"
+                                                        placeholder="{{ $key + 1 }}. Icon">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="guarantee[{{ $key }}][title]"
+                                                        value="{{ $guarantee['title'] }}"
+                                                        placeholder="{{ $key + 1 }}. Title">
+                                                    <input type="text" class="form-control mb-1"
+                                                        name="guarantee[{{ $key }}][description]"
+                                                        value="{{ $guarantee['description'] }}"
+                                                        placeholder="{{ $key + 1 }}. Description">
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                    <div class="form-group col-2">
+                                        <button class="btn btn-success" type="button"
+                                            onclick="addGuarantee()">{{ __('dashboard.add_another_FAQ') }}</button>
                                     </div>
                                     <br><br>
                                 </div>
@@ -929,6 +1032,7 @@
             groupSuccessStories.innerHTML = `
                                                     <div class="col-11">
                                                         <input type="text" class="form-control mb-1" name="story[${success_stories}][title]" placeholder="${success_stories + 1}. Title">
+                                                        <input type="text" class="form-control mb-1" name="story[${success_stories}][icon]" placeholder="${success_stories + 1}. Icon">
                                                         <input type="text" class="form-control mb-1" name="story[${success_stories}][bottom_text]" placeholder="${success_stories + 1}. Bottom Text">
                                                     </div>
                                                     <div class="col-1 d-flex align-items-start">
@@ -963,8 +1067,10 @@
             groupClientsSay.classList.add('form-group', 'clients-group', 'col-10', 'mb-2', 'row');
             groupClientsSay.innerHTML = `
                                                     <div class="col-11">
-                                                        <input type="text" class="form-control mb-1" name="client[${clients_say}][title]" placeholder="${clients_say + 1}. Title">
+                                                        <input type="text" class="form-control mb-1" name="client[${clients_say}][title]" placeholder="${clients_say + 1}. Name">
+                                                        <input type="text" class="form-control mb-1" name="client[${clients_say}][designation]" placeholder="${clients_say + 1}. Designation">
                                                         <input type="text" class="form-control mb-1" name="client[${clients_say}][meassage]" placeholder="${clients_say + 1}. Meassage">
+                                                        <input type="text" class="form-control mb-1" name="client[${clients_say}][rating]" value="★★★★★" placeholder="${clients_say + 1}. Rating">
                                                     </div>
                                                     <div class="col-1 d-flex align-items-start">
                                                         <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeClientsSay(this)">
@@ -983,6 +1089,44 @@
         // Function to remove feature block
         function removeClientsSay(button) {
             const row = button.closest('.clients-group');
+            if (row) {
+                row.remove();
+            }
+        }
+
+        // Initial how_we_work
+        let howWe = {{ count($howWeWork ?? []) }};
+
+        // Function to add new feature inputs
+        function addWork() {
+            const wrapperWorks = document.querySelector('.works-say-row');
+
+            const groupClientsSay = document.createElement('div');
+            groupClientsSay.classList.add('form-group', 'works-group', 'col-10', 'mb-2', 'row');
+            groupClientsSay.innerHTML = `
+                                                    <div class="col-11">
+                                                        <input type="text" class="form-control mb-1" name="work[${howWe}][title]" placeholder="${howWe + 1}. Top Title">
+                                                        <input type="text" class="form-control mb-1" name="work[${howWe}][designation]" placeholder="${howWe + 1}. Botom Title">
+                                                        <input type="text" class="form-control mb-1" name="work[${howWe}][meassage]" placeholder="${howWe + 1}. Meassage">
+                                                        <input type="text" class="form-control mb-1" name="work[${howWe}][icon]" placeholder="${howWe + 1}. Icon">
+                                                    </div>
+                                                    <div class="col-1 d-flex align-items-start">
+                                                        <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeWorks(this)">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                `;
+
+            // Insert before the last column (Add button)
+            const buttonContainer = wrapperWorks.querySelector('.col-2');
+            wrapperWorks.insertBefore(groupClientsSay, buttonContainer);
+
+            howWe++;
+        }
+
+        // Function to remove feature block
+        function removeWorks(button) {
+            const row = button.closest('.works-group');
             if (row) {
                 row.remove();
             }
@@ -1086,6 +1230,43 @@
         // Function to remove feature block
         function removeCtaStep(button) {
             const row = button.closest('.cta-group');
+            if (row) {
+                row.remove();
+            }
+        }
+
+        // Initial guarantee_steps
+        let guaranteeSteps = {{ count($guaranteeSteps ?? []) }};
+
+        // Function to add new guarantee inputs
+        function addGuarantee() {
+            const wrapperGuarantee = document.querySelector('.guarantee-row');
+
+            const groupGuarantee = document.createElement('div');
+            groupGuarantee.classList.add('form-group', 'guarantee-group', 'col-10', 'mb-2', 'row');
+            groupGuarantee.innerHTML = `
+                                                    <div class="col-11">
+                                                        <input type="text" class="form-control mb-1" name="guarantee[${guaranteeSteps}][icon]" placeholder="${guaranteeSteps + 1}. Icon">
+                                                        <input type="text" class="form-control mb-1" name="guarantee[${guaranteeSteps}][title]" placeholder="${guaranteeSteps + 1}. Title">
+                                                        <input type="text" class="form-control mb-1" name="guarantee[${guaranteeSteps}][description]" placeholder="${guaranteeSteps + 1}. Description">
+                                                    </div>
+                                                    <div class="col-1 d-flex align-items-start">
+                                                        <button type="button" class="btn btn-danger btn-sm mt-1" onclick="removeGuarantee(this)">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                `;
+
+            // Insert before the last column (Add button)
+            const buttonContainer = wrapperGuarantee.querySelector('.col-2');
+            wrapperGuarantee.insertBefore(groupGuarantee, buttonContainer);
+
+            guaranteeSteps++;
+        }
+
+        // Function to remove guarantee block
+        function removeGuarantee(button) {
+            const row = button.closest('.guarantee-group');
             if (row) {
                 row.remove();
             }

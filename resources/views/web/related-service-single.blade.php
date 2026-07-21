@@ -56,6 +56,8 @@
         $achievements = json_decode($service->achievements_steps ?? '[]', true);
         $success_stories = json_decode($service->success_stories_steps ?? '[]', true);
         $clients_say = json_decode($service->clients_say_steps ?? '[]', true);
+        $guaranteeSteps = json_decode($service->guaranteeSteps ?? '[]', true);
+        $how_we_work = json_decode($service->how_we_work ?? '[]', true);
         $faq = json_decode($service->faq_steps ?? '[]', true);
         $our_promise = json_decode($service->our_promise ?? '[]', true);
         $cta = json_decode($service->cta_steps ?? '[]', true);
@@ -138,14 +140,16 @@
         <section class="msn-badges msn-section" style="padding:56px 0 64px;">
             <div class="msn-container">
                 <div class="msn-badges-row">
-                    <div class="msn-badge">
-                        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
-                            </svg></div>
-                        <div><strong>Fast Delivery</strong><span>On-time, every time</span></div>
-                    </div>
-                    <div class="msn-badge">
+                    @foreach ($industries as $item)
+                        <div class="msn-badge">
+                            <div class="ic">
+                                <i class="{{ $item['icon_class'] }}"></i>
+                            </div>
+                            <div><strong>{{ $item['title'] ?? '' }}</strong><span>{{ $item['description'] ?? '' }}</span>
+                            </div>
+                        </div>
+                    @endforeach
+                    {{-- <div class="msn-badge">
                         <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2">
                                 <path d="M3 17l6-6 4 4 8-8" />
@@ -167,7 +171,7 @@
                                 <path d="M9 12l2 2 4-4" />
                             </svg></div>
                         <div><strong>Easy to Manage</strong><span>Simple client dashboard</span></div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </section>
@@ -205,16 +209,14 @@
                     <p>No hidden extras — every WordPress build includes the following as standard.</p>
                 </div>
                 <div class="msn-included-grid">
-                    <div class="msn-included-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M12 19l7-7 3 3-7 7-3-3z" />
-                                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
-                            </svg></div>
-                        <strong>Custom Design</strong>
-                        <span>A layout designed around your brand, not a generic template.</span>
-                    </div>
-                    <div class="msn-included-item msn-reveal">
+                    @foreach ($success_stories as $item)
+                        <div class="msn-included-item msn-reveal">
+                            <div class="ic"><i class="{{ $item['icon'] }}"></i></div>
+                            <strong>{{ $item['title'] }}</strong>
+                            <span>{{ $item['bottom_text'] }}</span>
+                        </div>
+                    @endforeach
+                    {{-- <div class="msn-included-item msn-reveal">
                         <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2">
                                 <rect x="2" y="4" width="20" height="16" rx="2" />
@@ -272,7 +274,7 @@
                             </svg></div>
                         <strong>Training &amp; Handover</strong>
                         <span>A walkthrough video and admin guide so your team can manage it independently.</span>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </section>
@@ -301,19 +303,18 @@
                     <p>Every project moves through the same disciplined pipeline — nothing skipped, nothing rushed.</p>
                 </div>
                 <div class="msn-proc-grid">
-                    <div class="msn-proc-card msn-reveal">
-                        <span class="ghost-num">01</span>
-                        <div class="top-row">
-                            <div class="ic-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <circle cx="11" cy="11" r="7" />
-                                    <path d="m21 21-4.3-4.3" />
-                                </svg></div><span class="tag-line">Kickoff</span>
+                    @foreach ($how_we_work as $key => $item)
+                        <div class="msn-proc-card msn-reveal">
+                            <span class="ghost-num">{{ $key }}+1</span>
+                            <div class="top-row">
+                                <div class="ic-badge"> <i class="{{ $item['icon'] }}"></i> </div>
+                                <span class="tag-line">{{ $item['title'] }}</span>
+                            </div>
+                            <h3>{{ $item['designation'] }}</h3>
+                            <p>{{ $item['meassage'] }}</p>
                         </div>
-                        <h3>Discovery</h3>
-                        <p>We map your goals, audience and competitors to define what the site actually needs to do.</p>
-                    </div>
-                    <div class="msn-proc-card msn-reveal">
+                    @endforeach
+                    {{-- <div class="msn-proc-card msn-reveal">
                         <span class="ghost-num">02</span>
                         <div class="top-row">
                             <div class="ic-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -369,7 +370,7 @@
                         </div>
                         <h3>Launch &amp; Support</h3>
                         <p>We publish the site and stay on for 30 days of support to catch anything that comes up.</p>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </section>
@@ -554,14 +555,13 @@
                     <p>Straightforward terms — no fine print, no surprise invoices.</p>
                 </div>
                 <div class="msn-g-grid">
-                    <div class="msn-g-item msn-reveal">
-                        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="9" />
-                                <path d="M12 7v5l3 3" />
-                            </svg></div><strong>30 Days Support</strong><span>Free fixes and tweaks after delivery.</span>
-                    </div>
-                    <div class="msn-g-item msn-reveal">
+                    @foreach ($guaranteeSteps as $item)
+                        <div class="msn-g-item msn-reveal">
+                            <div class="ic"><i class="{{ $item['icon_class'] }}"></i></div>
+                            <strong>{{ $item['title'] }}</strong><span>{{ $item['description'] }}</span>
+                        </div>
+                    @endforeach
+                    {{-- <div class="msn-g-item msn-reveal">
                         <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2">
                                 <path d="M4 4h16M4 4v10a8 8 0 0016 0V4" />
@@ -580,7 +580,7 @@
                                 <rect x="3" y="4" width="18" height="16" rx="2" />
                                 <path d="M8 2v4M16 2v4M3 10h18" />
                             </svg></div><strong>On-Time Delivery</strong><span>Milestones you can plan around.</span>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </section>
@@ -615,20 +615,19 @@
                     <h2>What clients say after launch</h2>
                 </div>
                 <div class="msn-test-track msn-reveal">
-                    <div class="msn-test-card">
-                        <div class="quote">"</div>
-                        <p class="msg">Excellent work. The team was very professional and understood exactly what we
-                            needed
-                            beyond
-                            just what we asked for.</p>
-                        <div class="who">
-                            <div class="avatar">JD</div>
-                            <div><b>John D.</b><small>Healthcare</small>
-                                <div class="stars">★★★★★</div>
+                    @foreach ($clients_say as $item)
+                        <div class="msn-test-card">
+                            <div class="quote">"</div>
+                            <p class="msg">{{ $item['meassage'] }}</p>
+                            <div class="who">
+                                <div class="avatar">JD</div>
+                                <div><b>{{ $item['title'] }}</b><small>{{ $item['designation'] }}</small>
+                                    <div class="stars">{{ $item['rating'] }}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="msn-test-card">
+                    @endforeach
+                    {{-- <div class="msn-test-card">
                         <div class="quote">"</div>
                         <p class="msg">Very responsive and easy to communicate with — always felt like we were their
                             only
@@ -665,7 +664,7 @@
                                 <div class="stars">★★★★★</div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </section>
