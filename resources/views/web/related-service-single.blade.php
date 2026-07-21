@@ -143,7 +143,7 @@
                     @foreach ($industries as $item)
                         <div class="msn-badge">
                             <div class="ic">
-                                <i class="{{ $item['icon_class'] }}"></i>
+                                <i class="{{ $item['icon_class'] ?? '' }}"></i>
                             </div>
                             <div><strong>{{ $item['title'] ?? '' }}</strong><span>{{ $item['description'] ?? '' }}</span>
                             </div>
@@ -189,10 +189,10 @@
                     @foreach ($why_we as $item)
                         <div class="msn-audience-card msn-reveal">
                             <div class="ic">
-                                <i class="{{ $item['icon_class'] }}"></i>
+                                <i class="{{ $item['icon_class'] ?? '' }}"></i>
                             </div>
-                            <strong>{{ $item['title'] }}</strong>
-                            <span>{{ $item['bottom_text'] }}</span>
+                            <strong>{{ $item['title'] ?? '' }}</strong>
+                            <span>{{ $item['bottom_text'] ?? '' }}</span>
                         </div>
                     @endforeach
 
@@ -211,9 +211,9 @@
                 <div class="msn-included-grid">
                     @foreach ($success_stories as $item)
                         <div class="msn-included-item msn-reveal">
-                            <div class="ic"><i class="{{ $item['icon'] }}"></i></div>
-                            <strong>{{ $item['title'] }}</strong>
-                            <span>{{ $item['bottom_text'] }}</span>
+                            <div class="ic"><i class="{{ $item['icon'] ?? '' }}"></i></div>
+                            <strong>{{ $item['title'] ?? '' }}</strong>
+                            <span>{{ $item['bottom_text'] ?? '' }}</span>
                         </div>
                     @endforeach
                     {{-- <div class="msn-included-item msn-reveal">
@@ -307,11 +307,11 @@
                         <div class="msn-proc-card msn-reveal">
                             <span class="ghost-num">{{ $key }}+1</span>
                             <div class="top-row">
-                                <div class="ic-badge"> <i class="{{ $item['icon'] }}"></i> </div>
-                                <span class="tag-line">{{ $item['title'] }}</span>
+                                <div class="ic-badge"> <i class="{{ $item['icon'] ?? '' }}"></i> </div>
+                                <span class="tag-line">{{ $item['title'] ?? '' }}</span>
                             </div>
-                            <h3>{{ $item['designation'] }}</h3>
-                            <p>{{ $item['meassage'] }}</p>
+                            <h3>{{ $item['designation'] ?? '' }}</h3>
+                            <p>{{ $item['meassage'] ?? '' }}</p>
                         </div>
                     @endforeach
                     {{-- <div class="msn-proc-card msn-reveal">
@@ -387,10 +387,10 @@
                     @foreach ($features as $item)
                         <div class="msn-feature-card msn-reveal">
                             <div class="ic">
-                                <i class="{{ $item['icon_class'] }}"></i>
+                                <i class="{{ $item['icon_class'] ?? '' }}"></i>
                             </div>
-                            <strong>{{ $item['title'] }}</strong>
-                            <span>{{ $item['bottom_text'] }}</span>
+                            <strong>{{ $item['title'] ?? '' }}</strong>
+                            <span>{{ $item['bottom_text'] ?? '' }}</span>
                         </div>
                     @endforeach
                     {{-- <div class="msn-feature-card msn-reveal">
@@ -538,7 +538,8 @@
                     @foreach ($process as $key => $item)
                         <div class="msn-deliverable-row msn-reveal">
                             <span class="num">0{{ $key + 1 }}</span>
-                            <div><strong>{{ $item['title'] }}</strong><span>{{ $item['bottom_text'] }}</span></div>
+                            <div><strong>{{ $item['title'] ?? '' }}</strong><span>{{ $item['bottom_text'] ?? '' }}</span>
+                            </div>
                         </div>
                     @endforeach
 
@@ -599,7 +600,7 @@
                 </div>
                 <div class="msn-ind-wrap msn-reveal">
                     @foreach ($our_promise as $item)
-                        <div class="msn-ind-chip"><span class="dot"></span>{{ $item['bottom_text'] }}</div>
+                        <div class="msn-ind-chip"><span class="dot"></span>{{ $item['bottom_text'] ?? '' }}</div>
                     @endforeach
                     {{-- <div class="msn-ind-chip"><span class="dot"></span>Education</div>
                     <div class="msn-ind-chip"><span class="dot"></span>Real Estate</div>
@@ -623,11 +624,11 @@
                     @foreach ($clients_say as $item)
                         <div class="msn-test-card">
                             <div class="quote">"</div>
-                            <p class="msg">{{ $item['meassage'] }}</p>
+                            <p class="msg">{{ $item['meassage'] ?? '' }}</p>
                             <div class="who">
                                 <div class="avatar">JD</div>
-                                <div><b>{{ $item['title'] }}</b><small>{{ $item['designation'] }}</small>
-                                    <div class="stars">{{ $item['rating'] }}</div>
+                                <div><b>{{ $item['title'] ?? '' }}</b><small>{{ $item['designation'] ?? '' }}</small>
+                                    <div class="stars">{{ $item['rating'] ?? '' }}</div>
                                 </div>
                             </div>
                         </div>
@@ -680,7 +681,7 @@
                 <div class="msn-stats-grid msn-reveal">
                     @foreach ($achievements as $item)
                         <div class="msn-stat"><b
-                                data-count="{{ $item['count_number'] }}">0</b><span>{{ $item['title'] }}</span>
+                                data-count="{{ $item['count_number'] ?? '' }}">0</b><span>{{ $item['title'] ?? '' }}</span>
                         </div>
                     @endforeach
 
@@ -700,10 +701,10 @@
                         @foreach ($faq as $key => $item)
                             <div class="msn-faq-item  {{ $key == 0 ? 'open' : '' }}">
                                 <button class="msn-faq-q">
-                                    <h4>{{ $item['question'] }}</h4><span class="plus"></span>
+                                    <h4>{{ $item['question'] ?? '' }}</h4><span class="plus"></span>
                                 </button>
                                 <div class="msn-faq-a">
-                                    <p>{!! $item['answer'] !!}</p>
+                                    <p>{!! $item['answer'] ?? '' !!}</p>
                                 </div>
                             </div>
                         @endforeach
