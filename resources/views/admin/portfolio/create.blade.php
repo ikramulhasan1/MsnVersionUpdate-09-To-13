@@ -36,15 +36,15 @@
                             <!-- Form Start -->
                             <div class="form-group">
                                 <label for="title">{{ __('dashboard.title') }} <span>*</span></label>
-                                <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}"
-                                    required>
+                                <input type="text" class="form-control" name="title" id="title"
+                                    value="{{ old('title') }}" required>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.title') }}
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="subtitle">Sub {{ __('dashboard.sub_title') }} <span>*</span></label>
+                                <label for="subtitle">{{ __('dashboard.sub_title') }} <span>*</span></label>
                                 <input type="text" class="form-control" name="sub_title" id="subtitle"
                                     value="{{ old('sub_title') }}" required>
 
@@ -64,8 +64,8 @@
                                 </div>
                                 <div class="form-group col-lg-6 col-md-6 col-12">
                                     <label for="date">{{ __('dashboard.date') }} <span>*</span></label>
-                                    <input type="date" class="form-control" name="date" id="date" value="{{ old('date') }}"
-                                        required>
+                                    <input type="date" class="form-control" name="date" id="date"
+                                        value="{{ old('date') }}" required>
 
                                     <div class="invalid-feedback">
                                         {{ __('dashboard.please_provide') }} {{ __('dashboard.date') }}
@@ -78,9 +78,10 @@
                                     <select class="select2 form-control select2-multiple" data-toggle="select2"
                                         multiple="multiple" data-placeholder="{{ __('dashboard.select') }}"
                                         name="categories[]" id="category" required>
-                                        @foreach($categories as $category)
-                                            <option value="{{ $category->id }}" @if(old('category') == $category->id) selected
-                                            @endif>{{ $category->title }}</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}"
+                                                @if (old('category') == $category->id) selected @endif>{{ $category->title }}
+                                            </option>
                                         @endforeach
                                     </select>
 
@@ -123,8 +124,8 @@
                                 @endforeach
 
                                 <div class="form-group col-2">
-                                    <button class="btn btn-success" type="button"
-                                        onclick="addScreenshot()">Add Screenshot</button>
+                                    <button class="btn btn-success" type="button" onclick="addScreenshot()">Add
+                                        Screenshot</button>
                                 </div>
                                 <br><br>
                             </div>
@@ -153,17 +154,22 @@
                                 <br><br>
                             </div>
                             <div class="form-group">
-                                <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
-                                <textarea class="form-control" name="description" id="editor" rows="8"
-                                    required>{{ old('description') }}</textarea>
+                                <label for="description">Overview<span>*</span></label>
+                                <textarea class="form-control" name="description" id="editor" rows="8" required>{{ old('description') }}</textarea>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
                                 </div>
                             </div>
-
                             <div class="form-group">
-                                <label for="image">{{ __('dashboard.thumbnail') }} <span>*</span>
+                                <label for="link2">The Challenge</label>
+                                <textarea class="form-control" name="link2" id="editor1" rows="8">{{ old('link2') }}</textarea>
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.web_link') }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Laptop view<span>*</span>
                                     <span>{{ __('dashboard.image_size', ['height' => 390, 'width' => 1270]) }}</span></label>
                                 <input type="file" class="form-control" name="image" id="image" required>
 
@@ -172,16 +178,17 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="overview_image">{{ __('dashboard.overview_image') }} <span>*</span>
+                                <label for="overview_image">Mobile view<span>*</span>
                                     <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
-                                <input type="file" class="form-control" name="overview_image" id="overview_image" required>
+                                <input type="file" class="form-control" name="overview_image" id="overview_image"
+                                    required>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.overview_image') }}
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="video_id">{{ __('dashboard.youtube_video_id') }}</label>
                                 <input type="text" class="form-control" name="video_id" id="video_id"
                                     value="{{ old('video_id') }}">
@@ -189,32 +196,27 @@
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.youtube_video_id') }}
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group">
                                 <label for="link">{{ __('dashboard.web_link') }}</label>
-                                <input type="url" class="form-control" name="link" id="link" value="{{ old('link') }}">
+                                <input type="url" class="form-control" name="link" id="link"
+                                    value="{{ old('link') }}">
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.web_link') }}
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="link2">Admin Panel</label>
-                                <input type="url" class="form-control" name="link2" id="link2" value="{{ old('link2') }}">
 
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.web_link') }}
-                                </div>
-                            </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="link3">User Panel</label>
-                                <input type="url" class="form-control" name="link3" id="link3" value="{{ old('link3') }}">
+                                <input type="url" class="form-control" name="link3" id="link3"
+                                    value="{{ old('link3') }}">
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.web_link') }}
                                 </div>
-                            </div>
+                            </div> --}}
                             <!-- Form End -->
 
                         </div>
@@ -235,7 +237,24 @@
     <script>
         CKEDITOR.replace('editor', {
             on: {
-                instanceReady: function (ev) {
+                instanceReady: function(ev) {
+                    this.dataProcessor.writer.setRules('strong', {
+                        indent: false,
+                        breakBeforeOpen: false,
+                        breakAfterOpen: false,
+                        breakBeforeClose: false,
+                        breakAfterClose: false
+                    });
+                }
+            },
+            coreStyles_bold: {
+                element: 'b',
+                overrides: 'strong'
+            } // Converts <strong> to <b>
+        });
+        CKEDITOR.replace('editor1', {
+            on: {
+                instanceReady: function(ev) {
                     this.dataProcessor.writer.setRules('strong', {
                         indent: false,
                         breakBeforeOpen: false,
@@ -302,6 +321,6 @@
             faqIndex++;
         }
     </script>
-        <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
 @endsection

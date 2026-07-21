@@ -41,7 +41,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="subtitle">Sub {{ __('dashboard.sub_title') }} <span>*</span></label>
+                                <label for="subtitle">{{ __('dashboard.sub_title') }} <span>*</span></label>
                                 <input type="text" class="form-control" name="sub_title" id="subtitle"
                                     value="{{ $row->sub_title }}" required>
 
@@ -92,8 +92,8 @@
                                         class="block text-sm font-medium text-gray-700 mb-1">Technologies</label>
                                     <select name="technologies[]" id="technologies" multiple class="form-control">
                                         @foreach ($allTechnologies as $tech)
-                                            <option value="{{ $tech->id }}" 
-                                                @if(!empty($selectedTechnologies) && in_array($tech->id, $selectedTechnologies)) selected @endif>
+                                            <option value="{{ $tech->id }}"
+                                                @if (!empty($selectedTechnologies) && in_array($tech->id, $selectedTechnologies)) selected @endif>
                                                 {{ $tech->short_title }}
                                             </option>
                                         @endforeach
@@ -138,23 +138,28 @@
                             </div>
                             <h3>Results & Impact:</h3>
                             <div class="row faq-row">
-                               
+
                                 @php
                                     $resultsSteps = json_decode($row->results_steps ?? '[]', true);
                                 @endphp
-                                @if(!empty($resultsSteps) && is_array($resultsSteps))
+                                @if (!empty($resultsSteps) && is_array($resultsSteps))
                                     @foreach ($resultsSteps as $key => $faq)
                                         <div class="form-group col-10 faq-group mb-2 row">
                                             <div class="col-1">
                                                 {{ $key + 1 }}.
                                             </div>
                                             <div class="col-11">
-                                                <input type="text" class="form-control mb-1" name="icon[{{ $key }}][icon_class]"
-                                                    value="{{ $faq['icon_class'] }}" placeholder="{{ $key + 1 }}. Icon Class">
-                                                <input type="text" class="form-control mb-1" name="icon[{{ $key }}][title]"
-                                                    value="{{ $faq['title'] }}" placeholder="{{ $key + 1 }}. Title">
-                                                <input type="text" class="form-control mb-1" name="icon[{{ $key }}][description]"
-                                                    value="{{ $faq['description'] }}" placeholder="{{ $key + 1 }}. Answer">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="icon[{{ $key }}][icon_class]"
+                                                    value="{{ $faq['icon_class'] }}"
+                                                    placeholder="{{ $key + 1 }}. Icon Class">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="icon[{{ $key }}][title]" value="{{ $faq['title'] }}"
+                                                    placeholder="{{ $key + 1 }}. Title">
+                                                <input type="text" class="form-control mb-1"
+                                                    name="icon[{{ $key }}][description]"
+                                                    value="{{ $faq['description'] }}"
+                                                    placeholder="{{ $key + 1 }}. Answer">
                                             </div>
                                         </div>
                                     @endforeach
@@ -166,16 +171,23 @@
                                 <br><br>
                             </div>
                             <div class="form-group">
-                                <label for="description">{{ __('dashboard.description') }} <span>*</span></label>
+                                <label for="description">Overview<span>*</span></label>
                                 <textarea class="form-control" name="description" id="editor" rows="8" required>{{ $row->description }}</textarea>
 
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.description') }}
                                 </div>
                             </div>
-
                             <div class="form-group">
-                                <label for="image">{{ __('dashboard.thumbnail') }}
+                                <label for="link2">The Challenge</label>
+                                <textarea class="form-control" name="link2" id="editor1" rows="8">{{ $row->link2 }}</textarea>
+
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.web_link') }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Laptop view
                                     <span>{{ __('dashboard.image_size', ['height' => 390, 'width' => 1270]) }}</span></label>
                                 <div class="d-flex">
                                     <input type="file" class="form-control" name="image" id="image">
@@ -188,19 +200,20 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="overview_image">{{ __('dashboard.overview_image') }} <span>*</span>
+                                <label for="overview_image">Mobile view<span>*</span>
                                     <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
-                                    <div class="d-flex">
-                                <input type="file" class="form-control" name="overview_image" id="overview_image"
-                                    >
-                                <img style="width: 40px; height: 40px;"
+                                <div class="d-flex">
+                                    <input type="file" class="form-control" name="overview_image"
+                                        id="overview_image">
+                                    <img style="width: 40px; height: 40px;"
                                         src="{{ asset('uploads/overview_image/' . $row->overview_image) }}"
-                                        class="process-step-icon" alt=""></div>
+                                        class="process-step-icon" alt="">
+                                </div>
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.overview_image') }}
                                 </div>
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="video_id">{{ __('dashboard.youtube_video_id') }}</label>
                                 <input type="text" class="form-control" name="video_id" id="video_id"
                                     value="{{ $row->video_id }}">
@@ -208,7 +221,7 @@
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.youtube_video_id') }}
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group">
                                 <label for="link">{{ __('dashboard.web_link') }}</label>
@@ -219,16 +232,8 @@
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.web_link') }}
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="link2">Admin Panel</label>
-                                <input type="url" class="form-control" name="link2" id="link2"
-                                    value="{{ $row->link2 }}">
 
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.web_link') }}
-                                </div>
-                            </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="link3">User Panel</label>
                                 <input type="url" class="form-control" name="link3" id="link3"
                                     value="{{ $row->link3 }}">
@@ -236,7 +241,7 @@
                                 <div class="invalid-feedback">
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.web_link') }}
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group">
                                 <label for="status">{{ __('dashboard.select_status') }}</label>
@@ -266,6 +271,23 @@
     <!-- End Content-->
     <script>
         CKEDITOR.replace('editor', {
+            on: {
+                instanceReady: function(ev) {
+                    this.dataProcessor.writer.setRules('strong', {
+                        indent: false,
+                        breakBeforeOpen: false,
+                        breakAfterOpen: false,
+                        breakBeforeClose: false,
+                        breakAfterClose: false
+                    });
+                }
+            },
+            coreStyles_bold: {
+                element: 'b',
+                overrides: 'strong'
+            } // Converts <strong> to <b>
+        });
+        CKEDITOR.replace('editor1', {
             on: {
                 instanceReady: function(ev) {
                     this.dataProcessor.writer.setRules('strong', {
@@ -320,9 +342,9 @@
 
 
         // Initial index count
-    let faqIndex = {{ count($resultsSteps ?? []) }};
+        let faqIndex = {{ count($resultsSteps ?? []) }};
 
-       
+
         function addFaq() {
             const wrapper = document.querySelector('.faq-row');
 
@@ -340,7 +362,6 @@
 
             faqIndex++;
         }
-
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>

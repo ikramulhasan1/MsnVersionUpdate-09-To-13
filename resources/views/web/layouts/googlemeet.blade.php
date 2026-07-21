@@ -99,7 +99,7 @@
             display: block;
             height: 6px;
             width: 100%;
-            background: linear-gradient(90deg, var(--ink) 0%, var(--ink-2) 45%, var(--teal) 85%, var(--gold) 100%);
+            /* background: linear-gradient(90deg, var(--ink) 0%, var(--ink-2) 45%, var(--teal) 85%, var(--gold) 100%); */
             flex-shrink: 0;
         }
 
