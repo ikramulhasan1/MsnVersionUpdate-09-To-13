@@ -53,11 +53,10 @@
             <div class="whymsn_hub">
                 <span class="whymsn_ring"></span>
                 <div class="whymsn_photo">
-                    <img class="whymsn_photo_label"
-                        src="{{ asset('uploads\why-msn\msnsofttech.jpeg') }}">
+                    <img class="whymsn_photo_img" src="{{ asset('uploads/why-msn/msnsofttech.jpeg') }}"
+                        alt="MSN SoftTech">
                 </div>
             </div>
-
             <!-- 4 corner cards -->
             <article class="whymsn_card whymsn_card--tl" data-reveal="1">
                 <span class="whymsn_num">01</span>
@@ -333,8 +332,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 22px;
             overflow: hidden;
+            /* padding removed — was pushing/cropping the photo inward */
         }
 
         .whymsn_photo::before {
@@ -344,21 +343,20 @@
             background-image: radial-gradient(rgba(255, 255, 255, .12) 1px, transparent 1px);
             background-size: 16px 16px;
             opacity: .4;
+            z-index: 1;
+            pointer-events: none;
         }
 
-        .whymsn_photo_label {
+        /* NEW: dedicated style for the actual photo */
+        .whymsn_photo_img {
             position: relative;
-            color: #F3ECE0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 12.5px;
-            font-weight: 500;
-            letter-spacing: .02em;
-            text-align: center;
-            background: rgba(255, 255, 255, .08);
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(232, 198, 135, .4);
-            border-radius: 10px;
-            padding: 10px 16px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 50%;
+            display: block;
+            z-index: 0;
         }
 
         /* ---------- cards ---------- */
