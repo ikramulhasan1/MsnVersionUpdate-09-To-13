@@ -866,195 +866,195 @@
 
         /* ============ TEAM ============ */
         /* .team-section {
-                                                            border-bottom: 1px solid var(--line);
-                                                        }
+                                                                            border-bottom: 1px solid var(--line);
+                                                                        }
 
-                                                        .team-row {
-                                                            display: flex;
-                                                            flex-wrap: wrap;
-                                                            gap: 14px;
-                                                        }
+                                                                        .team-row {
+                                                                            display: flex;
+                                                                            flex-wrap: wrap;
+                                                                            gap: 14px;
+                                                                        }
 
-                                                        .team-chip {
-                                                            display: flex;
-                                                            align-items: center;
-                                                            gap: 12px;
-                                                            padding: 12px 18px 12px 12px;
-                                                            border: 1px solid var(--line);
-                                                            border-radius: 999px;
-                                                            background: var(--white);
-                                                        }
+                                                                        .team-chip {
+                                                                            display: flex;
+                                                                            align-items: center;
+                                                                            gap: 12px;
+                                                                            padding: 12px 18px 12px 12px;
+                                                                            border: 1px solid var(--line);
+                                                                            border-radius: 999px;
+                                                                            background: var(--white);
+                                                                        }
 
-                                                        .team-chip .avatar {
-                                                            width: 38px;
-                                                            height: 38px;
-                                                            border-radius: 50%;
-                                                            display: flex;
-                                                            align-items: center;
-                                                            justify-content: center;
-                                                            color: #fff;
-                                                            font-family: "Space Grotesk", system-ui, sans-serif;
-                                                            font-weight: 700;
-                                                            font-size: 13px;
-                                                            flex: none;
-                                                        }
+                                                                        .team-chip .avatar {
+                                                                            width: 38px;
+                                                                            height: 38px;
+                                                                            border-radius: 50%;
+                                                                            display: flex;
+                                                                            align-items: center;
+                                                                            justify-content: center;
+                                                                            color: #fff;
+                                                                            font-family: "Space Grotesk", system-ui, sans-serif;
+                                                                            font-weight: 700;
+                                                                            font-size: 13px;
+                                                                            flex: none;
+                                                                        }
 
-                                                        .team-chip b {
-                                                            display: block;
-                                                            font-family: "Space Grotesk", system-ui, sans-serif;
-                                                            font-size: 14px;
-                                                        }
+                                                                        .team-chip b {
+                                                                            display: block;
+                                                                            font-family: "Space Grotesk", system-ui, sans-serif;
+                                                                            font-size: 14px;
+                                                                        }
 
-                                                        .team-chip span {
-                                                            display: block;
-                                                            font-size: 11.5px;
-                                                            color: var(--faint);
-                                                        } */
+                                                                        .team-chip span {
+                                                                            display: block;
+                                                                            font-size: 11.5px;
+                                                                            color: var(--faint);
+                                                                        } */
 
         /* ============ NEXT PROJECT NAV ============ */
         /* .next-project {
-                                                        border-bottom: 1px solid var(--line);
-                                                    }
+                                                                        border-bottom: 1px solid var(--line);
+                                                                    }
 
-                                                    .next-project-row {
-                                                        display: grid;
-                                                        grid-template-columns: 1fr 1fr;
-                                                        gap: 1px;
-                                                        background: var(--line);
-                                                        border: 1px solid var(--line);
-                                                        border-radius: var(--radius);
-                                                        overflow: hidden;
-                                                    }
+                                                                    .next-project-row {
+                                                                        display: grid;
+                                                                        grid-template-columns: 1fr 1fr;
+                                                                        gap: 1px;
+                                                                        background: var(--line);
+                                                                        border: 1px solid var(--line);
+                                                                        border-radius: var(--radius);
+                                                                        overflow: hidden;
+                                                                    }
 
-                                                    .np-link {
-                                                        background: var(--white);
-                                                        padding: 30px;
-                                                        display: flex;
-                                                        flex-direction: column;
-                                                        gap: 10px;
-                                                        transition: background-color .25s var(--ease);
-                                                    }
+                                                                    .np-link {
+                                                                        background: var(--white);
+                                                                        padding: 30px;
+                                                                        display: flex;
+                                                                        flex-direction: column;
+                                                                        gap: 10px;
+                                                                        transition: background-color .25s var(--ease);
+                                                                    }
 
-                                                    .np-link:hover {
-                                                        background: var(--soft);
-                                                    }
+                                                                    .np-link:hover {
+                                                                        background: var(--soft);
+                                                                    }
 
-                                                    .np-link.next {
-                                                        align-items: flex-end;
-                                                        text-align: right;
-                                                    }
+                                                                    .np-link.next {
+                                                                        align-items: flex-end;
+                                                                        text-align: right;
+                                                                    }
 
-                                                    .np-label {
-                                                        font-family: "JetBrains Mono", monospace;
-                                                        font-size: 11px;
-                                                        color: var(--faint);
-                                                        letter-spacing: .08em;
-                                                        text-transform: uppercase;
-                                                        display: flex;
-                                                        align-items: center;
-                                                        gap: 6px;
-                                                    }
+                                                                    .np-label {
+                                                                        font-family: "JetBrains Mono", monospace;
+                                                                        font-size: 11px;
+                                                                        color: var(--faint);
+                                                                        letter-spacing: .08em;
+                                                                        text-transform: uppercase;
+                                                                        display: flex;
+                                                                        align-items: center;
+                                                                        gap: 6px;
+                                                                    }
 
-                                                    .np-link.next .np-label {
-                                                        flex-direction: row-reverse;
-                                                    }
+                                                                    .np-link.next .np-label {
+                                                                        flex-direction: row-reverse;
+                                                                    }
 
-                                                    .np-label svg {
-                                                        width: 13px;
-                                                        height: 13px;
-                                                    }
+                                                                    .np-label svg {
+                                                                        width: 13px;
+                                                                        height: 13px;
+                                                                    }
 
-                                                    .np-title {
-                                                        font-family: "Space Grotesk", system-ui, sans-serif;
-                                                        font-size: 24px;
-                                                    } */
+                                                                    .np-title {
+                                                                        font-family: "Space Grotesk", system-ui, sans-serif;
+                                                                        font-size: 24px;
+                                                                    } */
 
         /* ============ CTA ============ */
         /* .pj-cta {
-                                                    padding: clamp(56px, 8vw, 92px) 0;
-                                                    text-align: center;
-                                                }
+                                                                    padding: clamp(56px, 8vw, 92px) 0;
+                                                                    text-align: center;
+                                                                }
 
-                                                .pj-cta-box {
-                                                    max-width: 900px;
-                                                    margin: 0 auto;
-                                                    padding: clamp(28px, 5vw, 54px);
-                                                    border: 1px solid var(--line);
-                                                    border-radius: 28px;
-                                                    background: linear-gradient(135deg, rgba(255, 255, 255, .94), rgba(247, 245, 243, .96)), radial-gradient(circle at 14% 0%, rgba(226, 35, 26, .14), transparent 34%);
-                                                    box-shadow: 0 26px 80px rgba(15, 14, 13, .09);
-                                                }
+                                                                .pj-cta-box {
+                                                                    max-width: 900px;
+                                                                    margin: 0 auto;
+                                                                    padding: clamp(28px, 5vw, 54px);
+                                                                    border: 1px solid var(--line);
+                                                                    border-radius: 28px;
+                                                                    background: linear-gradient(135deg, rgba(255, 255, 255, .94), rgba(247, 245, 243, .96)), radial-gradient(circle at 14% 0%, rgba(226, 35, 26, .14), transparent 34%);
+                                                                    box-shadow: 0 26px 80px rgba(15, 14, 13, .09);
+                                                                }
 
-                                                .pj-cta-box h2 {
-                                                    margin: 14px auto 18px;
-                                                    font-size: clamp(28px, 4.4vw, 46px);
-                                                    max-width: 640px;
-                                                }
+                                                                .pj-cta-box h2 {
+                                                                    margin: 14px auto 18px;
+                                                                    font-size: clamp(28px, 4.4vw, 46px);
+                                                                    max-width: 640px;
+                                                                }
 
-                                                .pj-cta-box p {
-                                                    max-width: 540px;
-                                                    margin: 0 auto 26px;
-                                                    font-size: 16px;
-                                                }
+                                                                .pj-cta-box p {
+                                                                    max-width: 540px;
+                                                                    margin: 0 auto 26px;
+                                                                    font-size: 16px;
+                                                                }
 
-                                                @media (max-width:980px) {
+                                                                @media (max-width:980px) {
 
-                                                    .pj-hero-grid,
-                                                    .overview-grid,
-                                                    .gallery-grid {
-                                                        grid-template-columns: 1fr;
-                                                    }
+                                                                    .pj-hero-grid,
+                                                                    .overview-grid,
+                                                                    .gallery-grid {
+                                                                        grid-template-columns: 1fr;
+                                                                    }
 
-                                                    .meta-grid {
-                                                        grid-template-columns: 1fr 1fr;
-                                                        max-width: 100%;
-                                                    }
+                                                                    .meta-grid {
+                                                                        grid-template-columns: 1fr 1fr;
+                                                                        max-width: 100%;
+                                                                    }
 
-                                                    .results-grid {
-                                                        grid-template-columns: repeat(1, 1fr);
-                                                    }
+                                                                    .results-grid {
+                                                                        grid-template-columns: repeat(1, 1fr);
+                                                                    }
 
-                                                    .device-float {
-                                                        display: none;
-                                                    }
+                                                                    .device-float {
+                                                                        display: none;
+                                                                    }
 
-                                                    .next-project-row {
-                                                        grid-template-columns: 1fr;
-                                                    }
+                                                                    .next-project-row {
+                                                                        grid-template-columns: 1fr;
+                                                                    }
 
-                                                    .np-link.next {
-                                                        align-items: flex-start;
-                                                        text-align: left;
-                                                    }
+                                                                    .np-link.next {
+                                                                        align-items: flex-start;
+                                                                        text-align: left;
+                                                                    }
 
-                                                    .np-link.next .np-label {
-                                                        flex-direction: row;
-                                                    }
-                                                }
+                                                                    .np-link.next .np-label {
+                                                                        flex-direction: row;
+                                                                    }
+                                                                }
 
-                                                @media (max-width:640px) {
-                                                    .pj-main .wrap {
-                                                        width: min(100% - 28px, 1180px);
-                                                    }
+                                                                @media (max-width:640px) {
+                                                                    .pj-main .wrap {
+                                                                        width: min(100% - 28px, 1180px);
+                                                                    }
 
-                                                    .gallery-grid {
-                                                        grid-template-columns: 1fr;
-                                                    }
+                                                                    .gallery-grid {
+                                                                        grid-template-columns: 1fr;
+                                                                    }
 
-                                                    .meta-grid {
-                                                        grid-template-columns: 1fr;
-                                                    }
-                                                }
+                                                                    .meta-grid {
+                                                                        grid-template-columns: 1fr;
+                                                                    }
+                                                                }
 
-                                                @media (prefers-reduced-motion:reduce) {
+                                                                @media (prefers-reduced-motion:reduce) {
 
-                                                    .pj-main *,
-                                                    .pj-main *::before,
-                                                    .pj-main *::after {
-                                                        animation: none !important;
-                                                        transition: none !important;
-                                                    }
-                                                } */
+                                                                    .pj-main *,
+                                                                    .pj-main *::before,
+                                                                    .pj-main *::after {
+                                                                        animation: none !important;
+                                                                        transition: none !important;
+                                                                    }
+                                                                } */
     </style>
 
     <div class="pj-main">
@@ -1159,15 +1159,17 @@
                             {!! $portfolio->description !!}
                         </div>
                     </div>
-                    <div class="challenge-box reveal">
-                        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 9v4" />
-                                <path d="M12 17h.01" />
-                                <path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
-                            </svg>The Challenge</h3>
-                        <p>Demo placeholder text — describe the client's core problem before this project started.</p>
-                        <ul class="goal-list">
+                    @if (!empty($portfolio->link2))
+                        <div class="challenge-box reveal">
+                            <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 9v4" />
+                                    <path d="M12 17h.01" />
+                                    <path
+                                        d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+                                </svg>The Challenge</h3>
+                            <p>{{ $portfolio->link2 }}</p>
+                            {{-- <ul class="goal-list">
                             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M20 6L9 17l-5-5" />
@@ -1180,8 +1182,9 @@
                                     stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M20 6L9 17l-5-5" />
                                 </svg>Demo goal three — replace with real project goal</li>
-                        </ul>
-                    </div>
+                        </ul> --}}
+                        </div>
+                    @endif
                 </div>
             </section>
 
