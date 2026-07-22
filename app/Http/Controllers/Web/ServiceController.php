@@ -30,6 +30,10 @@ class ServiceController extends Controller
             ->orderBy('id', 'asc')
             ->get();
 
+        $data['counters'] = Counter::where('status', '1')
+            ->orderBy('id', 'asc')
+            ->get();
+
         return view('web.services', $data);
     }
 

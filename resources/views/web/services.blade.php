@@ -3,23 +3,23 @@
 @php
     $header = \App\Models\PageSetup::page('services');
 @endphp
-@if(isset($header))
+@if (isset($header))
 
-@section('title', $header->meta_title)
+    @section('title', $header->meta_title)
 
-@section('top_meta_tags')
-    @if(isset($header->meta_description))
-        <meta name="description" content="{!! str_limit(strip_tags($header->meta_description), 160, ' ...') !!}">
-    @else
-        <meta name="description" content="{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}">
-    @endif
+    @section('top_meta_tags')
+        @if (isset($header->meta_description))
+            <meta name="description" content="{!! str_limit(strip_tags($header->meta_description), 160, ' ...') !!}">
+        @else
+            <meta name="description" content="{!! str_limit(strip_tags($setting->description), 160, ' ...') !!}">
+        @endif
 
-    @if(isset($header->meta_keywords))
-        <meta name="keywords" content="{!! strip_tags($header->meta_keywords) !!}">
-    @else
-        <meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
-    @endif
-@endsection
+        @if (isset($header->meta_keywords))
+            <meta name="keywords" content="{!! strip_tags($header->meta_keywords) !!}">
+        @else
+            <meta name="keywords" content="{!! strip_tags($setting->keywords) !!}">
+        @endif
+    @endsection
 
 @endif
 
@@ -32,11 +32,11 @@
 
     <style>
         /* ==========================================================================
-                   SVC — Services Page Design System
-                   Signature: developer-terminal motif (this is a software agency, so the
-                   page borrows the vernacular of an editor/terminal: tab bars, file
-                   eyebrows, commit-style process log, blinking cursor).
-                   ========================================================================== */
+                       SVC — Services Page Design System
+                       Signature: developer-terminal motif (this is a software agency, so the
+                       page borrows the vernacular of an editor/terminal: tab bars, file
+                       eyebrows, commit-style process log, blinking cursor).
+                       ========================================================================== */
 
         :root {
             --svc-navy-deep: #1A0505;
@@ -914,10 +914,11 @@
                                 <span class="svc-term-tab">services.json</span>
                             </div>
                             <div class="svc-term-body">
-                                <div class="svc-term-line"><span class="path">msn@softtech</span>&nbsp;<span>~</span>&nbsp;$
+                                <div class="svc-term-line"><span
+                                        class="path">msn@softtech</span>&nbsp;<span>~</span>&nbsp;$
                                     ls ./services</div>
-                                @if(isset($services) && count($services) > 0)
-                                    @foreach($services->take(4) as $tService)
+                                @if (isset($services) && count($services) > 0)
+                                    @foreach ($services->take(4) as $tService)
                                         <div class="svc-term-line">
                                             &gt; {{ \Illuminate\Support\Str::slug($tService->short_title) }}
                                             <span class="svc-term-tag">active</span>
@@ -961,28 +962,32 @@
         @php
             $section_services = \App\Models\Section::section('services');
         @endphp
-        @if(count($services) > 0 && isset($section_services))
+        @if (count($services) > 0 && isset($section_services))
             <!-- ================= SERVICES GRID ================= -->
             <section class="svc-section" id="svc-services-list">
                 <div class="svc-wrap">
                     <div class="svc-head">
                         <span class="svc-eyebrow">what_we_build.list()</span>
                         <h2>{{ $section_services->title }}</h2>
-                        <div class="desc" style="margin-top:14px; font-size:16px; color:var(--svc-slate); line-height:1.7;">
+                        <div class="desc"
+                            style="margin-top:14px; font-size:16px; color:var(--svc-slate); line-height:1.7;">
                             {!! $section_services->description !!}
                         </div>
                     </div>
 
                     <div class="svc-grid">
-                        @foreach($services as $key => $service)
-                            <div class="svc-card svc-reveal" style="animation-delay:{{ ($key % 3) * .08 }}s">
+                        @foreach ($services as $key => $service)
+                            <div class="svc-card svc-reveal" style="animation-delay:{{ ($key % 3) * 0.08 }}s">
                                 <div class="svc-card-file">//
                                     {{ sprintf('%02d', $key + 1) }}<span>/{{ \Illuminate\Support\Str::slug($service->short_title) }}</span>
                                 </div>
                                 <div class="svc-card-media">
-                                    <img src="{{ asset('uploads/service/' . $service->image_path) }}" alt="{{ $service->title }}">
+                                    <img src="{{ asset('uploads/service/' . $service->image_path) }}"
+                                        alt="{{ $service->title }}">
                                 </div>
-                                <h3><a href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a></h3>
+                                <h3><a
+                                        href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a>
+                                </h3>
                                 <div class="desc">{!! strip_tags(Str::words($service->short_desc, 18)) !!}</div>
                                 <a href="{{ route('service.single', $service->slug) }}"
                                     class="svc-card-more">{{ __('common.read_more') }}</a>
@@ -1024,7 +1029,7 @@
         @php
             $section_process = \App\Models\Section::section('process');
         @endphp
-        @if(count($processes) > 0 && isset($section_process))
+        @if (count($processes) > 0 && isset($section_process))
             <!-- ================= PROCESS — commit log ================= -->
             <section class="svc-section svc-process">
                 <div class="svc-wrap">
@@ -1035,8 +1040,8 @@
                     </div>
 
                     <div class="svc-log">
-                        @foreach($processes as $key => $process)
-                            <div class="svc-log-item svc-reveal" style="animation-delay:{{ $key * .07 }}s">
+                        @foreach ($processes as $key => $process)
+                            <div class="svc-log-item svc-reveal" style="animation-delay:{{ $key * 0.07 }}s">
                                 <div class="svc-log-node">#{{ sprintf('%02d', $key + 1) }}</div>
                                 <div class="svc-log-body">
                                     <h4>{{ $process->title }}</h4>

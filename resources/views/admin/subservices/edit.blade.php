@@ -442,6 +442,43 @@
             <a href="#sec-section-headings">Section Headings</a>
         </nav>
 
+        {{-- ===== JSON Bulk Import Modal ===== --}}
+        <div id="psImportModal"
+            style="display:none; position:fixed; inset:0; background:rgba(21,23,43,.55); z-index:1050; align-items:center; justify-content:center; padding:20px;">
+            <div
+                style="background:#fff; border-radius:14px; max-width:760px; width:100%; max-height:88vh; overflow:auto; box-shadow:0 20px 60px rgba(0,0,0,.35);">
+                <div
+                    style="display:flex; align-items:center; justify-content:space-between; padding:18px 22px; border-bottom:1px solid var(--ps-line);">
+                    <h5 style="margin:0; font-weight:700; font-size:16px;"><i class="fa fa-file-import"></i>&nbsp; JSON
+                        দিয়ে পুরো ফর্ম পূরণ করুন</h5>
+                    <button type="button" onclick="psCloseImport()"
+                        style="border:none;background:none;font-size:22px;line-height:1;cursor:pointer;color:var(--ps-ink-soft);">&times;</button>
+                </div>
+                <div style="padding:20px 22px;">
+                    <p style="font-size:12.5px; color:var(--ps-ink-soft); margin-bottom:14px;">
+                        নিচে JSON পেস্ট করে <strong>"ফর্মে বসান"</strong> চাপুন — সব সেকশনের ফিল্ড এবং রিপিটার (Features,
+                        FAQ, Guarantee ইত্যাদি) অটোমেটিক আপডেট হয়ে যাবে (বর্তমান ভ্যালু ওভাররাইট হবে)।
+                        <br>⚠️ থাম্বনেইল ইমেজ ব্রাউজার নিরাপত্তার কারণে JSON দিয়ে বসানো সম্ভব না — বদলাতে চাইলে সেটা import
+                        এর পর ম্যানুয়ালি সিলেক্ট করে দিতে হবে।
+                    </p>
+                    <button type="button" class="btn-add-row" onclick="psDownloadTemplate()" style="margin-bottom:12px;"><i
+                            class="fa fa-download"></i> বর্তমান ডাটা দিয়ে JSON টেমপ্লেট ডাউনলোড করুন</button>
+                    <textarea id="psImportTextarea" rows="14" class="form-control" placeholder='এখানে JSON পেস্ট করুন...'
+                        style="font-family:monospace; font-size:12.5px;"></textarea>
+                    <div id="psImportError"
+                        style="display:none; margin-top:10px; padding:10px 12px; background:var(--ps-danger-soft); color:var(--ps-danger); border-radius:8px; font-size:12.5px;">
+                    </div>
+                </div>
+                <div
+                    style="padding:14px 22px; border-top:1px solid var(--ps-line); display:flex; justify-content:flex-end; gap:10px;">
+                    <button type="button" onclick="psCloseImport()"
+                        style="border:1px solid var(--ps-line); background:#fff; padding:8px 16px; border-radius:8px; cursor:pointer; font-weight:600; font-size:13px;">বাতিল</button>
+                    <button type="button" onclick="psApplyImport()" class="btn btn-primary"
+                        style="padding:8px 22px; border-radius:8px;"><i class="fa fa-check"></i> ফর্মে বসান</button>
+                </div>
+            </div>
+        </div>
+
         <div class="row ps-shell">
             <div class="col-12 col-lg-12">
                 <div class="card">
@@ -460,6 +497,9 @@
                             <span class="ps-progress-label" id="psProgressLabel">0 / 16 sections open</span>
                         </div>
                         <div class="ps-toolbar-actions">
+                            <button type="button" onclick="psOpenImport()"
+                                style="border-color:var(--ps-primary); color:var(--ps-primary-dark); background:var(--ps-primary-soft);"><i
+                                    class="fa fa-file-import"></i> JSON Import</button>
                             <button type="button" onclick="psToggleAll(true)"><i class="fa fa-expand"></i> Expand
                                 all</button>
                             <button type="button" onclick="psToggleAll(false)"><i class="fa fa-compress"></i> Collapse
@@ -484,7 +524,8 @@
                                 <div class="premium-section-body">
                                     <div class="form-group">
                                         <label for="status">{{ __('dashboard.select_status') }}</label>
-                                        <select class="wide" name="service_id" id="status" data-plugin="customselect">
+                                        <select class="wide" name="service_id" id="status"
+                                            data-plugin="customselect">
                                             @foreach ($services as $service)
                                                 <option value="{{ $service->id }}"
                                                     @if ($subservice->service_id == $service->id) selected @endif>{{ $service->title }}
@@ -512,8 +553,8 @@
                                         <div class="form-group col-4">
                                             <label for="short_title">{{ __('dashboard.short_title') }}
                                                 <span>*</span></label>
-                                            <input type="text" class="form-control" name="short_title" id="short_title"
-                                                value="{{ $subservice->short_title }}" required>
+                                            <input type="text" class="form-control" name="short_title"
+                                                id="short_title" value="{{ $subservice->short_title }}" required>
                                             <div class="invalid-feedback">{{ __('dashboard.please_provide') }}
                                                 {{ __('dashboard.short_title') }}</div>
                                         </div>
@@ -1056,14 +1097,15 @@
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script>
         // ---- Tagin (meta keywords) ----
-        document.addEventListener('DOMContentLoaded', function() {
+        function psInitTagin() {
             document.querySelectorAll('.tagin').forEach(input => new Tagin(input, {
                 separator: ',',
                 duplicate: false,
                 enter: true,
                 maxTags: 100
             }));
-        });
+        }
+        document.addEventListener('DOMContentLoaded', psInitTagin);
 
         // ---- CKEditor (description + meta description share the same rules) ----
         ['editor', 'editor1'].forEach(function(id) {
@@ -1088,21 +1130,27 @@
         });
 
         // ---- Choices.js (technologies + portfolios share the same config) ----
-        document.addEventListener('DOMContentLoaded', function() {
-            [{
-                    el: '#technologies',
-                    placeholder: 'Select technologies',
-                    search: 'Search technologies...'
-                },
-                {
-                    el: '#portfolios',
-                    placeholder: 'Select portfolios',
-                    search: 'Search portfolios...'
-                },
-            ].forEach(function(cfg) {
+        window.psChoicesInstances = {};
+        const psChoicesConfig = [{
+                el: '#technologies',
+                placeholder: 'Select technologies',
+                search: 'Search technologies...'
+            },
+            {
+                el: '#portfolios',
+                placeholder: 'Select portfolios',
+                search: 'Search portfolios...'
+            },
+        ];
+
+        function psInitChoices() {
+            psChoicesConfig.forEach(function(cfg) {
                 const el = document.querySelector(cfg.el);
                 if (!el) return;
-                new Choices(el, {
+                if (window.psChoicesInstances[cfg.el]) {
+                    window.psChoicesInstances[cfg.el].destroy();
+                }
+                window.psChoicesInstances[cfg.el] = new Choices(el, {
                     removeItemButton: true,
                     placeholder: true,
                     placeholderValue: cfg.placeholder,
@@ -1110,7 +1158,8 @@
                     shouldSort: false
                 });
             });
-        });
+        }
+        document.addEventListener('DOMContentLoaded', psInitChoices);
 
         // ---- Generic repeater engine: replaces every add/removeXxx() pair ----
         function addRepeaterRow(btn) {
@@ -1133,6 +1182,190 @@
                 </button>`;
             wrapper.appendChild(item);
             psUpdateProgress();
+        }
+
+        // ======================================================
+        // ---- JSON Bulk Import Engine ----
+        // ======================================================
+
+        // Field names that are handled specially, never as plain inputs
+        const PS_SPECIAL_KEYS = ['technologies', 'portfolios', 'image'];
+
+        function psOpenImport() {
+            document.getElementById('psImportModal').style.display = 'flex';
+        }
+
+        function psCloseImport() {
+            document.getElementById('psImportModal').style.display = 'none';
+            document.getElementById('psImportError').style.display = 'none';
+        }
+
+        function psShowImportError(msg) {
+            const box = document.getElementById('psImportError');
+            box.textContent = msg;
+            box.style.display = 'block';
+        }
+
+        // Rebuilds one repeater section's rows from an array of {field: value} objects
+        function psFillRepeater(wrapper, items) {
+            if (!Array.isArray(items)) return;
+            const fields = JSON.parse(wrapper.dataset.fields);
+            const prefix = wrapper.dataset.prefix;
+            const group = wrapper.dataset.group;
+            wrapper.innerHTML = '';
+            items.forEach((item, idx) => {
+                const row = document.createElement('div');
+                row.className = `repeater-item ${group}`;
+                row.innerHTML = `
+                    <span class="repeater-num">${idx + 1}</span>
+                    <div class="repeater-fields">
+                        ${fields.map(f => {
+                            const raw = (item && item[f.k] !== undefined && item[f.k] !== null) ? String(item[f.k]) : (f.d || '');
+                            const safe = raw.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+                            return `<input type="text" class="form-control mb-1" name="${prefix}[${idx}][${f.k}]" placeholder="${idx + 1}. ${f.l}" value="${safe}">`;
+                        }).join('')}
+                    </div>
+                    <button type="button" class="repeater-del" onclick="this.closest('.repeater-item').remove()" title="Remove">
+                        <i class="fa fa-trash"></i>
+                    </button>`;
+                wrapper.appendChild(row);
+            });
+        }
+
+        // Builds a downloadable JSON template pre-filled with this sub-service's current data
+        function psDownloadTemplate() {
+            const template = {};
+
+            document.querySelectorAll('.premium-section-body [name]').forEach(el => {
+                const name = el.getAttribute('name');
+                if (!name || name.endsWith('[]') || name.includes('['))
+                    return; // skip multi-selects & repeater rows
+                if (el.type === 'file') return;
+                if (template[name] !== undefined) return;
+                if (el.id === 'editor1' || el.id === 'editor') {
+                    template[name] = (window.CKEDITOR && CKEDITOR.instances[el.id]) ? CKEDITOR.instances[el.id]
+                        .getData() : el.value;
+                } else {
+                    template[name] = el.value || '';
+                }
+            });
+
+            ['technologies', 'portfolios'].forEach(key => {
+                const el = document.querySelector(`#${key}`);
+                if (!el) return;
+                template[key] = Array.from(el.selectedOptions).map(o => o.value);
+            });
+
+            document.querySelectorAll('.repeater').forEach(wrapper => {
+                const prefix = wrapper.dataset.prefix;
+                const fields = JSON.parse(wrapper.dataset.fields);
+                const rows = Array.from(wrapper.querySelectorAll('.repeater-item'));
+                if (rows.length) {
+                    template[prefix] = rows.map(row => {
+                        const obj = {};
+                        fields.forEach(f => {
+                            const input = row.querySelector(`[name$="[${f.k}]"]`);
+                            obj[f.k] = input ? input.value : '';
+                        });
+                        return obj;
+                    });
+                } else {
+                    const sample = {};
+                    fields.forEach(f => sample[f.k] = '');
+                    template[prefix] = [sample];
+                }
+            });
+
+            const blob = new Blob([JSON.stringify(template, null, 2)], {
+                type: 'application/json'
+            });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'subservice-template.json';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        }
+
+        function psApplyImport() {
+            const raw = document.getElementById('psImportTextarea').value.trim();
+            if (!raw) {
+                psShowImportError('আগে JSON পেস্ট করুন।');
+                return;
+            }
+
+            let data;
+            try {
+                data = JSON.parse(raw);
+            } catch (e) {
+                psShowImportError('JSON ফরম্যাট ঠিক নেই: ' + e.message);
+                return;
+            }
+
+            document.getElementById('psImportError').style.display = 'none';
+
+            // 1) collect repeater prefixes so we don't treat them as plain fields
+            const repeaterWrappers = Array.from(document.querySelectorAll('.repeater'));
+            const repeaterPrefixes = repeaterWrappers.map(w => w.dataset.prefix);
+
+            // 2) plain fields (text, number, textarea, select, tagin, ckeditor)
+            Object.keys(data).forEach(key => {
+                if (PS_SPECIAL_KEYS.includes(key) || repeaterPrefixes.includes(key)) return;
+
+                const el = document.querySelector(`[name="${key}"]`);
+                if (!el) return;
+
+                const value = data[key];
+
+                if (el.id === 'editor1' || el.id === 'editor') {
+                    if (window.CKEDITOR && CKEDITOR.instances[el.id]) {
+                        CKEDITOR.instances[el.id].setData(value || '');
+                    } else {
+                        el.value = value || '';
+                    }
+                } else if (el.classList.contains('tagin')) {
+                    el.value = Array.isArray(value) ? value.join(',') : (value || '');
+                } else if (el.tagName === 'SELECT') {
+                    el.value = value;
+                    el.dispatchEvent(new Event('change', {
+                        bubbles: true
+                    }));
+                    // best-effort refresh for jQuery-based custom select plugins, if present
+                    if (window.jQuery) {
+                        const $el = jQuery(el);
+                        $el.trigger('change');
+                    }
+                } else {
+                    el.value = value ?? '';
+                }
+            });
+
+            // 3) Choices.js multi-selects (technologies / portfolios)
+            ['technologies', 'portfolios'].forEach(key => {
+                if (!data[key]) return;
+                const el = document.querySelector(`#${key}`);
+                if (!el) return;
+                const wanted = data[key].map(String);
+                Array.from(el.options).forEach(opt => {
+                    opt.selected = wanted.includes(opt.value);
+                });
+            });
+            psInitChoices(); // rebuild Choices UI to reflect the new selections
+
+            // 4) rebuild tagin (keywords) with the freshly set value
+            psInitTagin();
+
+            // 5) repeater sections
+            repeaterWrappers.forEach(wrapper => {
+                const prefix = wrapper.dataset.prefix;
+                if (data[prefix]) psFillRepeater(wrapper, data[prefix]);
+            });
+
+            psToggleAll(true);
+            psCloseImport();
+            alert(
+                'ডাটা ফর্মে বসানো হয়েছে ✅\nএখন থাম্বনেইল ইমেজ (যদি বদলাতে চান) সিলেক্ট করুন, সবকিছু চেক করে Update চাপুন।'
+                );
         }
 
         // ---- Accordion toggle for premium-section blocks ----
