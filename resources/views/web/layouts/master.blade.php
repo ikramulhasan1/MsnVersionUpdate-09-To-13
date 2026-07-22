@@ -989,6 +989,32 @@
             pointer-events: none !important;
             cursor: default;
         }
+
+
+        .footer-social-icons {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .footer-social-icons .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social-icons .social-icon:hover {
+            background: var(--bs-primary, #0d6efd);
+            color: #fff;
+            transform: translateY(-3px);
+        }
     </style>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -1356,6 +1382,29 @@
                                 <span>{{ $setting->phone_one }}</span>
                             </p>
                         @endif
+                        {{-- Social Media Icons --}}
+                        <div class="footer-social-icons">
+                            @if (!empty($social->facebook))
+                                <a href="{{ $social->facebook }}" target="_blank" rel="noopener noreferrer"
+                                    class="social-icon facebook">
+                                    <i class="bi bi-facebook"></i>
+                                </a>
+                            @endif
+
+                            @if (!empty($social->instagram))
+                                <a href="{{ $setting->instagram }}" target="_blank" rel="noopener noreferrer"
+                                    class="social-icon instagram">
+                                    <i class="bi bi-instagram"></i>
+                                </a>
+                            @endif
+
+                            @if (!empty($social->linkedin))
+                                <a href="{{ $setting->linkedin }}" target="_blank" rel="noopener noreferrer"
+                                    class="social-icon linkedin">
+                                    <i class="bi bi-linkedin"></i>
+                                </a>
+                            @endif
+                        </div>
                     </div>
                     @php
                         $activeServices = $service_subnavs
@@ -1443,7 +1492,7 @@
                             </p>
                         </div>
                     @endif
-                    <div class="text-center">
+                    {{-- <div class="text-center">
                         <div class="custom-footer-social-icons">
                             @if (isset($social->facebook))
                                 <a class="facebook d-flex justify-content-center align-items-center"
@@ -1485,7 +1534,7 @@
                                         class="bi bi-whatsapp"></i></a>
                             @endif
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </footer>
@@ -1505,7 +1554,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
