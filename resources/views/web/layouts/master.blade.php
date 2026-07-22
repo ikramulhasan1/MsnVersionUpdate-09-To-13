@@ -1011,7 +1011,7 @@
         }
 
         .footer-social-icons .social-icon:hover {
-            background: var(--bs-primary, #0d6efd);
+            background-color: #fd0d0d;
             color: #fff;
             transform: translateY(-3px);
         }
@@ -1554,7 +1554,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
