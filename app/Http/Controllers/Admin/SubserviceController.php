@@ -51,96 +51,6 @@ class SubserviceController extends Controller
         return view($this->view.'.create', $data);
     }
 
-    // public function store(Request $request)
-    // {
-    //     // Field Validation
-    //     $request->validate([
-    //     'title' => 'required|max:191|unique:subservices,title',
-    //     'short_desc' => 'required',
-    //     'description' => 'required',
-    //     'image' => 'required|image',
-    // ]);
-
-    // // image upload, fit and store inside public folder
-    // if($request->hasFile('image')){
-    //     //Upload New Image
-    //     $filenameWithExt = $request->file('image')->getClientOriginalName();
-    //     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-    //     $extension = $request->file('image')->getClientOriginalExtension();
-    //     $fileNameToStore = $filename.'_'.time().'.'.$extension;
-
-    //     //Crete Folder Location
-    //     $path = public_path('uploads/'.$this->path.'/');
-    //     if (! File::exists($path)) {
-    //         File::makeDirectory($path, 0777, true, true);
-    //     }
-
-    //     //Resize And Crop as Fit image here (800 width, 500 height)
-    //     $thumbnailpath = $path.$fileNameToStore;
-    //     $img = Image::make($request->file('image')->getRealPath())->fit(800, 500, function ($constraint) { $constraint->upsize(); })->save($thumbnailpath);
-    // }
-    // else{
-    //     $fileNameToStore = 'noimage.jpg'; // if no image selected this will be the default image
-    // }
-
-    // // Get content with media file
-    // $content=$request->input('description');
-
-    // $dom = new \DomDocument();
-    // libxml_use_internal_errors(true);
-    // $dom->encoding = 'utf-8';
-    // $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-    // $images = $dom->getElementsByTagName('img');
-    // // foreach <img> in the submited content
-    // foreach($images as $img){
-    //     $src = $img->getAttribute('src');
-
-    //     // if the img source is 'data-url'
-    //     if(preg_match('/data:image/', $src)){
-    //         // get the mimetype
-    //         preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-    //         $mimetype = $groups['mime'];
-    //         // Generating a random filename
-    //         $filename = uniqid().'_'.time();
-
-    //         //Crete Folder Location
-    //         $path = public_path('uploads/media/');
-    //         if (! File::exists($path)) {
-    //             File::makeDirectory($path, 0777, true, true);
-    //         }
-
-    //         $filepath = "/uploads/media/$filename.$mimetype";
-    //         // @see http://image.intervention.io/api/
-    //         $image = Image::make($src)
-    //             // resize if required
-    //             //->resize(500, null)
-    //             ->resize(800, null, function ($constraint) {
-    //                 $constraint->aspectRatio();
-    //                 $constraint->upsize();
-    //             })
-    //             ->encode($mimetype, 100)  // encode file to the specified mimetype
-    //             ->save(public_path($filepath));
-    //         $new_src = asset($filepath);
-    //         $img->removeAttribute('src');
-    //         $img->setAttribute('src', $new_src);
-    //     } // <!--endif
-    // } // <!-
-
-    // // Insert Data
-    // $service = new Subservice;
-    // $service->title = $request->title;
-    // $service->service_id = $request->service_id;
-    // $service->slug = Str::slug($request->title, '-');
-    // $service->short_desc = $request->short_desc;
-    // $service->description = $dom->saveHTML();
-    // $service->image_path = $fileNameToStore;
-    // $service->save();
-
-    // Toastr::success(__('dashboard.created_successfully'), __('dashboard.success'));
-
-    // return redirect()->route('admin.subservices.index');
-    // }
-
     public function store(Request $request)
     {
         // ✅ Validate all fields
@@ -246,6 +156,27 @@ class SubserviceController extends Controller
         $subservice->sub_service_icon = $request->sub_service_icon;
         $subservice->description = $dom->saveHTML();
         $subservice->image_path = $fileNameToStore;
+        /**
+         * ==========================
+         * 🔹 SECTION HEADINGS (title/subtitle shown on the public page)
+         * ==========================
+         */
+        $subservice->client_voices_section_title = $request->client_voices_section_title;
+        $subservice->industries_section_title = $request->industries_section_title;
+        $subservice->guarantee_section_title = $request->guarantee_section_title;
+        $subservice->guarantee_section_subtitle = $request->guarantee_section_subtitle;
+        $subservice->deliverables_section_title = $request->deliverables_section_title;
+        $subservice->deliverables_section_subtitle = $request->deliverables_section_subtitle;
+        $subservice->why_msn_softtech_section_title = $request->why_msn_softtech_section_title;
+        $subservice->stack_section_title = $request->stack_section_title;
+        $subservice->core_features_section_title = $request->core_features_section_title;
+        $subservice->core_features_section_subtitle = $request->core_features_section_subtitle;
+        $subservice->how_we_work_section_title = $request->how_we_work_section_title;
+        $subservice->how_we_work_section_subtitle = $request->how_we_work_section_subtitle;
+        $subservice->whats_included_section_title = $request->whats_included_section_title;
+        $subservice->whats_included_section_subtitle = $request->whats_included_section_subtitle;
+        $subservice->who_is_this_for_section_title = $request->who_is_this_for_section_title;
+        $subservice->who_is_this_for_section_subtitle = $request->who_is_this_for_section_subtitle;
         $subservice->status = $request->status ?? 1;
         $subservice->manu = $request->manu;
 
@@ -357,102 +288,6 @@ class SubserviceController extends Controller
         return view('admin.subservices.edit', $data);
     }
 
-    // public function update(Request $request, Subservice $subservice)
-    // {
-    //     // Field Validation
-    //     $request->validate([
-    //         'title' => 'required|max:191|unique:subservices,title,'.$subservice->id,
-    //         'short_desc' => 'required',
-    //         'description' => 'required',
-    //         'image' => 'nullable|image',
-    //     ]);
-
-    //     // image upload, fit and store inside public folder
-    //     if($request->hasFile('image')){
-
-    //         $file_path = public_path('uploads/'.$this->path.'/'.$subservice->image_path);
-    //         if(File::isFile($file_path)){
-    //             File::delete($file_path);
-    //         }
-
-    //         //Upload New Image
-    //         $filenameWithExt = $request->file('image')->getClientOriginalName();
-    //         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-    //         $extension = $request->file('image')->getClientOriginalExtension();
-    //         $fileNameToStore = $filename.'_'.time().'.'.$extension;
-
-    //         //Crete Folder Location
-    //         $path = public_path('uploads/'.$this->path.'/');
-    //         if (! File::exists($path)) {
-    //             File::makeDirectory($path, 0777, true, true);
-    //         }
-
-    //         //Resize And Crop as Fit image here (800 width, 500 height)
-    //         $thumbnailpath = $path.$fileNameToStore;
-    //         $img = Image::make($request->file('image')->getRealPath())->fit(800, 500, function ($constraint) { $constraint->upsize(); })->save($thumbnailpath);
-    //     }
-    //     else{
-
-    //         $fileNameToStore = $subservice->image_path;
-    //     }
-
-    //     // Get content with media file
-    //     $content=$request->input('description');
-
-    //     $dom = new \DomDocument();
-    //     libxml_use_internal_errors(true);
-    //     $dom->encoding = 'utf-8';
-    //     $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-    //     $images = $dom->getElementsByTagName('img');
-    //    // foreach <img> in the submited content
-    //     foreach($images as $img){
-    //         $src = $img->getAttribute('src');
-
-    //         // if the img source is 'data-url'
-    //         if(preg_match('/data:image/', $src)){
-    //             // get the mimetype
-    //             preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-    //             $mimetype = $groups['mime'];
-    //             // Generating a random filename
-    //             $filename = uniqid().'_'.time();
-
-    //             //Crete Folder Location
-    //             $path = public_path('uploads/media/');
-    //             if (! File::exists($path)) {
-    //                 File::makeDirectory($path, 0777, true, true);
-    //             }
-
-    //             $filepath = "/uploads/media/$filename.$mimetype";
-    //             // @see http://image.intervention.io/api/
-    //             $image = Image::make($src)
-    //               // resize if required
-    //               //->resize(500, null)
-    //               ->resize(800, null, function ($constraint) {
-    //                     $constraint->aspectRatio();
-    //                     $constraint->upsize();
-    //                 })
-    //               ->encode($mimetype, 100)  // encode file to the specified mimetype
-    //               ->save(public_path($filepath));
-    //             $new_src = asset($filepath);
-    //             $img->removeAttribute('src');
-    //             $img->setAttribute('src', $new_src);
-    //         } // <!--endif
-    //     } // <!-
-
-    //     // Update Data
-    //     $subservice->title = $request->title;
-    //     $subservice->slug = Str::slug($request->title, '-');
-    //     $subservice->short_desc = $request->short_desc;
-    //     $subservice->description = $dom->saveHTML();
-    //     $subservice->image_path = $fileNameToStore;
-    //     $subservice->status = $request->status;
-    //     $subservice->save();
-
-    //     Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
-
-    //     return redirect()->route('admin.subservices.index');
-    // }
-
     public function update(Request $request, Subservice $subservice)
     {
         // Field Validation
@@ -557,6 +392,27 @@ class SubserviceController extends Controller
         $subservice->sub_service_icon = $request->sub_service_icon;
         $subservice->description = $dom->saveHTML();
         $subservice->image_path = $fileNameToStore;
+        /**
+         * ==========================
+         * 🔹 SECTION HEADINGS (title/subtitle shown on the public page)
+         * ==========================
+         */
+        $subservice->client_voices_section_title = $request->client_voices_section_title;
+        $subservice->industries_section_title = $request->industries_section_title;
+        $subservice->guarantee_section_title = $request->guarantee_section_title;
+        $subservice->guarantee_section_subtitle = $request->guarantee_section_subtitle;
+        $subservice->deliverables_section_title = $request->deliverables_section_title;
+        $subservice->deliverables_section_subtitle = $request->deliverables_section_subtitle;
+        $subservice->why_msn_softtech_section_title = $request->why_msn_softtech_section_title;
+        $subservice->stack_section_title = $request->stack_section_title;
+        $subservice->core_features_section_title = $request->core_features_section_title;
+        $subservice->core_features_section_subtitle = $request->core_features_section_subtitle;
+        $subservice->how_we_work_section_title = $request->how_we_work_section_title;
+        $subservice->how_we_work_section_subtitle = $request->how_we_work_section_subtitle;
+        $subservice->whats_included_section_title = $request->whats_included_section_title;
+        $subservice->whats_included_section_subtitle = $request->whats_included_section_subtitle;
+        $subservice->who_is_this_for_section_title = $request->who_is_this_for_section_title;
+        $subservice->who_is_this_for_section_subtitle = $request->who_is_this_for_section_subtitle;
         $subservice->status = $request->status;
         $subservice->manu = $request->manu;
 

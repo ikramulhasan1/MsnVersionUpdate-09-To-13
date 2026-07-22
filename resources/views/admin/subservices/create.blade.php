@@ -433,6 +433,7 @@
             <a href="#sec-guarantee">Guarantee</a>
             <a href="#sec-seo">SEO &amp; Meta</a>
             <a href="#sec-media-pricing">Media &amp; Pricing</a>
+            <a href="#sec-section-headings">Section Headings</a>
         </nav>
 
         <div class="row ps-shell">
@@ -741,6 +742,151 @@
                                     'section' => $section,
                                 ])
                             @endforeach
+
+                            {{-- Section Headings (title / subtitle text shown on the live page for each block) --}}
+                            <div class="premium-section" id="sec-section-headings">
+                                <div class="premium-section-head" onclick="psToggleSection(this)">
+                                    <div class="premium-section-title"><span class="premium-icon"><i
+                                                class="fa fa-heading"></i></span>Section Headings</div>
+                                    <div class="premium-section-sub">Title &amp; subtitle text shown above each section
+                                        on the live page</div>
+                                    <i class="fa fa-chevron-down premium-chevron"></i>
+                                </div>
+                                <div class="premium-section-body">
+
+                                    <div class="row">
+                                        <div class="form-group col-6">
+                                            <label for="client_voices_section_title">Client Voices &mdash; Title</label>
+                                            <input type="text" class="form-control" name="client_voices_section_title"
+                                                id="client_voices_section_title"
+                                                value="{{ old('client_voices_section_title') }}">
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="industries_section_title">Industries &mdash; Title</label>
+                                            <input type="text" class="form-control" name="industries_section_title"
+                                                id="industries_section_title"
+                                                value="{{ old('industries_section_title') }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-6">
+                                            <label for="guarantee_section_title">Our Guarantee &mdash; Title</label>
+                                            <input type="text" class="form-control" name="guarantee_section_title"
+                                                id="guarantee_section_title"
+                                                value="{{ old('guarantee_section_title') }}">
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="guarantee_section_subtitle">Our Guarantee &mdash;
+                                                Subtitle</label>
+                                            <input type="text" class="form-control" name="guarantee_section_subtitle"
+                                                id="guarantee_section_subtitle"
+                                                value="{{ old('guarantee_section_subtitle') }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-6">
+                                            <label for="deliverables_section_title">Deliverables &mdash; Title</label>
+                                            <input type="text" class="form-control" name="deliverables_section_title"
+                                                id="deliverables_section_title"
+                                                value="{{ old('deliverables_section_title') }}">
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="deliverables_section_subtitle">Deliverables &mdash;
+                                                Subtitle</label>
+                                            <input type="text" class="form-control"
+                                                name="deliverables_section_subtitle" id="deliverables_section_subtitle"
+                                                value="{{ old('deliverables_section_subtitle') }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-6">
+                                            <label for="why_msn_softtech_section_title">Why MSN Softtech &mdash;
+                                                Title</label>
+                                            <input type="text" class="form-control"
+                                                name="why_msn_softtech_section_title" id="why_msn_softtech_section_title"
+                                                value="{{ old('why_msn_softtech_section_title') }}">
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="stack_section_title">The Stack &mdash; Title</label>
+                                            <input type="text" class="form-control" name="stack_section_title"
+                                                id="stack_section_title" value="{{ old('stack_section_title') }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-6">
+                                            <label for="core_features_section_title">Core Features &mdash;
+                                                Title</label>
+                                            <input type="text" class="form-control" name="core_features_section_title"
+                                                id="core_features_section_title"
+                                                value="{{ old('core_features_section_title') }}">
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="core_features_section_subtitle">Core Features &mdash;
+                                                Subtitle</label>
+                                            <input type="text" class="form-control"
+                                                name="core_features_section_subtitle" id="core_features_section_subtitle"
+                                                value="{{ old('core_features_section_subtitle') }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-6">
+                                            <label for="how_we_work_section_title">How We Work &mdash; Title</label>
+                                            <input type="text" class="form-control" name="how_we_work_section_title"
+                                                id="how_we_work_section_title"
+                                                value="{{ old('how_we_work_section_title') }}">
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="how_we_work_section_subtitle">How We Work &mdash;
+                                                Subtitle</label>
+                                            <input type="text" class="form-control"
+                                                name="how_we_work_section_subtitle" id="how_we_work_section_subtitle"
+                                                value="{{ old('how_we_work_section_subtitle') }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-6">
+                                            <label for="whats_included_section_title">What's Included &mdash;
+                                                Title</label>
+                                            <input type="text" class="form-control"
+                                                name="whats_included_section_title" id="whats_included_section_title"
+                                                value="{{ old('whats_included_section_title') }}">
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="whats_included_section_subtitle">What's Included &mdash;
+                                                Subtitle</label>
+                                            <input type="text" class="form-control"
+                                                name="whats_included_section_subtitle"
+                                                id="whats_included_section_subtitle"
+                                                value="{{ old('whats_included_section_subtitle') }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-6 mb-0">
+                                            <label for="who_is_this_for_section_title">Who Is This For &mdash;
+                                                Title</label>
+                                            <input type="text" class="form-control"
+                                                name="who_is_this_for_section_title" id="who_is_this_for_section_title"
+                                                value="{{ old('who_is_this_for_section_title') }}">
+                                        </div>
+                                        <div class="form-group col-6 mb-0">
+                                            <label for="who_is_this_for_section_subtitle">Who Is This For &mdash;
+                                                Subtitle</label>
+                                            <input type="text" class="form-control"
+                                                name="who_is_this_for_section_subtitle"
+                                                id="who_is_this_for_section_subtitle"
+                                                value="{{ old('who_is_this_for_section_subtitle') }}">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
 
                             {{-- SEO & Meta --}}
                             <div class="premium-section" id="sec-seo">
