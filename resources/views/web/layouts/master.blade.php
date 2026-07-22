@@ -572,66 +572,140 @@
     @endif
     <style>
         /* Floating WhatsApp Button */
-        .whatsapp-button {
+        /* ==========================================================
+             PREMIUM FLOATING WHATSAPP BUTTON
+             Circular icon + "Live chat with agent" label pill,
+             soft radar-pulse ring instead of a bounce, in-scope
+             class names so it can't collide with other site CSS.
+             ========================================================== */
+        .wa-fab {
             position: fixed;
-            bottom: 15px;
-            right: 15px;
+            bottom: 22px;
+            right: 22px;
             z-index: 1000;
-            width: 50px;
-            height: 50px;
-            background-color: #25d366;
-            border-radius: 50%;
             display: flex;
-            justify-content: center;
             align-items: center;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease-in-out;
-            animation: bounce 3s infinite;
+            gap: 12px;
+            text-decoration: none;
+            cursor: pointer;
         }
 
-        .whatsapp-button img {
-            width: 35px;
-            height: 35px;
+        .wa-fab-label {
+            background: #158d00;
+            color: #fff;
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 13.5px;
+            font-weight: 600;
+            letter-spacing: .01em;
+            padding: 10px 16px;
+            border-radius: 999px;
+            white-space: nowrap;
+            box-shadow: 0 10px 24px rgba(3, 69, 9, 0.22);
+            opacity: 0;
+            transform: translateX(8px);
+            animation: waLabelIn .5s ease 1.1s forwards;
+            position: relative;
+        }
+
+        .wa-fab-label::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background: #0c1626;
+            border-radius: 2px;
+            rotate: 45deg;
+        }
+
+        @keyframes waLabelIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .wa-fab-icon {
+            position: relative;
+            width: 58px;
+            height: 58px;
             border-radius: 50%;
-            transition: transform 0.3s ease-in-out;
+            background: linear-gradient(155deg, #2fe38a, #1fb955);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 26px rgba(31, 185, 85, .38), 0 2px 6px rgba(0, 0, 0, .12);
+            transition: transform .3s ease, box-shadow .3s ease;
+            flex: none;
         }
 
-        /* Hover Effects */
-        .whatsapp-button:hover {
-            background-color: #D2241D;
-            transform: scale(1.1);
-            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+        .wa-fab-icon svg {
+            width: 30px;
+            height: 30px;
+            fill: #fff;
+            position: relative;
+            z-index: 2;
+            transition: transform .3s ease;
         }
 
-        .whatsapp-button:hover img {
-            transform: rotate(10deg);
+        .wa-fab-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid rgba(47, 227, 138, .55);
+            animation: waPulse 2.6s ease-out infinite;
         }
 
-        /* Bounce Animation */
-        @keyframes bounce {
+        @keyframes waPulse {
+            0% {
+                transform: scale(1);
+                opacity: .65;
+            }
 
-            0%,
             100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-25px);
+                transform: scale(1.55);
+                opacity: 0;
             }
         }
 
-        /* Mobile Responsiveness */
+        .wa-fab:hover .wa-fab-icon {
+            transform: scale(1.08) translateY(-2px);
+            box-shadow: 0 16px 32px rgba(31, 185, 85, .46), 0 4px 8px rgba(0, 0, 0, .16);
+        }
+
+        .wa-fab:hover .wa-fab-icon svg {
+            transform: rotate(8deg);
+        }
+
+        .wa-fab:hover .wa-fab-label {
+            background: #D2241D;
+        }
+
+        .wa-fab:hover .wa-fab-label::after {
+            background: #D2241D;
+        }
+
+        /* Mobile: keep just the icon (label collapses) to save space */
         @media (max-width: 768px) {
-            .whatsapp-button {
-                width: 45px;
-                height: 45px;
-                bottom: 10px;
-                right: 10px;
+            .wa-fab {
+                bottom: 16px;
+                right: 16px;
             }
 
-            .whatsapp-button img {
-                width: 30px;
-                height: 30px;
+            .wa-fab-label {
+                display: none;
+            }
+
+            .wa-fab-icon {
+                width: 50px;
+                height: 50px;
+            }
+
+            .wa-fab-icon svg {
+                width: 26px;
+                height: 26px;
             }
         }
 
@@ -1431,7 +1505,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
@@ -1474,14 +1548,19 @@
     @endif
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            let waButton = document.createElement("div");
-            waButton.innerHTML = `
-            
-                <a rel="noopener noreferrer" href="//wa.link/lnuvjw" target="_blank" class="whatsapp-button">
-                    <img src="//upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-                </a>
-            `;
-            document.body.appendChild(waButton);
+            const waWrap = document.createElement("div");
+            waWrap.innerHTML = `
+            <a rel="noopener noreferrer" href="//wa.link/lnuvjw" target="_blank" class="wa-fab" aria-label="Live chat with agent on WhatsApp">
+                <span class="wa-fab-label">Live chat with agent</span>
+                <span class="wa-fab-icon">
+                    <span class="wa-fab-ring"></span>
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.13-2.9-7C17.19 3.03 14.7 2 12.04 2Zm0 18.13h-.01c-1.48 0-2.94-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.25-4.36c0-4.53 3.69-8.22 8.23-8.22 2.2 0 4.26.86 5.82 2.41a8.15 8.15 0 0 1 2.41 5.81c0 4.53-3.69 8.22-8.21 8.22Zm4.51-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.18-.54.06-.25-.12-1.04-.38-1.98-1.22-.73-.65-1.23-1.46-1.37-1.7-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31s-.87.85-.87 2.08.89 2.41 1.02 2.58c.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.14-1.18-.06-.11-.22-.17-.47-.29Z"/>
+                    </svg>
+                </span>
+            </a>
+        `;
+            document.body.appendChild(waWrap);
         });
     </script>
     <script>
