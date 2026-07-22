@@ -115,6 +115,23 @@
                     </div>
                 </div>
             </div>
+
+            {{-- @foreach ($achievements as $item)
+                <div class="msn-stat"><b
+                        data-count="{{ $item['count_number'] ?? '' }}">0</b><span>{{ $item['title'] ?? '' }}</span>
+                </div>
+            @endforeach --}}
+        </section>
+        <section id="works-page" style="padding-bottom: 30px">
+            @if (count($achievements) > 0)
+                <div class="wrap works-hero-stats">
+                    @foreach ($achievements as $item)
+                        <div class="wstat" data-count="{{ $item['count_number'] ?? '' }}">
+                            <b>{{ $item['count_number'] ?? '' }}</b><span class="mono">{{ $item['title'] ?? '' }}</span>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         </section>
         <!-- ============ BADGES ============ -->
         <section class="msn-badges msn-section" style="padding:56px 0 64px;">
@@ -410,7 +427,7 @@
         </section>
 
         <!-- ============ Achievements STATS ============ -->
-        <section class="msn-section">
+        {{-- <section class="msn-section">
             <div class="msn-container">
                 <div class="msn-stats-grid msn-reveal">
                     @foreach ($achievements as $item)
@@ -421,7 +438,7 @@
 
                 </div>
             </div>
-        </section>
+        </section> --}}
 
         <!-- ============ FAQ ============ -->
         @if (!empty($faq))
