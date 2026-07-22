@@ -61,8 +61,8 @@
         display: inline-flex;
         align-items: center;
         gap: 10px;
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding-top: 9px;
+        padding-bottom: 9px;
     }
 
     .cta-cta-btn-whatsapp:hover {
