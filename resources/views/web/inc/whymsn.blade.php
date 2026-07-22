@@ -50,14 +50,16 @@
             </svg>
 
             <!-- center hub -->
+            <!-- center hub -->
             <div class="whymsn_hub">
                 <span class="whymsn_ring"></span>
                 <div class="whymsn_photo">
-                    <img class="whymsn_photo_label"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPEkYhZ0E7OLO4Ow4g0ZoQd7zr3PcY4I44BEHsKMBuUgXcN8yLvo61-Lzw&s=10">
+                    <img class="whymsn_photo_img" src="{{ asset('uploads/why-msn/msnsofttech.jpeg') }}"
+                        alt="MSN SoftTech">
+                    <span class="whymsn_photo_glare"></span>
+                    <span class="whymsn_photo_edge"></span>
                 </div>
             </div>
-
             <!-- 4 corner cards -->
             <article class="whymsn_card whymsn_card--tl" data-reveal="1">
                 <span class="whymsn_num">01</span>
@@ -66,8 +68,8 @@
                 <p>Every build — web, mobile, or automation — runs through AI-assisted workflows, shipping faster
                     without cutting corners on quality.</p>
                 <span class="whymsn_arrow" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                        stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14M13 6l6 6-6 6" />
                     </svg>
                 </span>
@@ -80,8 +82,8 @@
                 <p>Website, mobile app, AI agent, ad campaign, or POD store — you brief one team, not five separate
                     vendors.</p>
                 <span class="whymsn_arrow" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                        stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14M13 6l6 6-6 6" />
                     </svg>
                 </span>
@@ -94,8 +96,8 @@
                 <p>Most clients start with one project and stay for years — we scale with you as your product and
                     marketing needs grow.</p>
                 <span class="whymsn_arrow" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                        stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14M13 6l6 6-6 6" />
                     </svg>
                 </span>
@@ -108,8 +110,8 @@
                 <p>We track launches against real numbers — conversions, installs, ROAS, revenue — not just tickets
                     closed.</p>
                 <span class="whymsn_arrow" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                        stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14M13 6l6 6-6 6" />
                     </svg>
                 </span>
@@ -333,7 +335,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 22px;
             overflow: hidden;
         }
 
@@ -344,21 +345,53 @@
             background-image: radial-gradient(rgba(255, 255, 255, .12) 1px, transparent 1px);
             background-size: 16px 16px;
             opacity: .4;
+            z-index: 1;
+            pointer-events: none;
         }
 
-        .whymsn_photo_label {
+        .whymsn_photo_img {
             position: relative;
-            color: #F3ECE0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 12.5px;
-            font-weight: 500;
-            letter-spacing: .02em;
-            text-align: center;
-            background: rgba(255, 255, 255, .08);
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(232, 198, 135, .4);
-            border-radius: 10px;
-            padding: 10px 16px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 50%;
+            display: block;
+            z-index: 0;
+            /* clarity boost instead of a haze/tint — sharper, brighter,
+       punchier, no color wash */
+            filter: contrast(1.08) saturate(1.12) brightness(1.03);
+        }
+
+        /* Crisp corner glare — a small, tight highlight in one spot, like
+   light catching the curve of a glass pane. No full-photo tint, so
+   the image underneath stays completely clear. */
+        .whymsn_photo_glare {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            border-radius: 50%;
+            background:
+                radial-gradient(ellipse 55% 30% at 24% 18%,
+                    rgba(255, 255, 255, .55),
+                    rgba(255, 255, 255, .12) 45%,
+                    transparent 70%);
+            mix-blend-mode: screen;
+            pointer-events: none;
+        }
+
+        /* Thin, sharp inner rim highlight — reads as the edge of glass
+   without touching the photo's clarity at all */
+        .whymsn_photo_edge {
+            position: absolute;
+            inset: 2px;
+            z-index: 4;
+            border-radius: 50%;
+            box-shadow:
+                inset 0 1.5px 0 rgba(255, 255, 255, .6),
+                inset 0 -1px 0 rgba(0, 0, 0, .12),
+                inset 0 0 0 1px rgba(255, 255, 255, .18);
+            pointer-events: none;
         }
 
         /* ---------- cards ---------- */
@@ -673,7 +706,7 @@
     </style>
 
     <script>
-        (function () {
+        (function() {
             var stage = document.getElementById('whymsn_stage');
             if (!stage) return;
 
@@ -684,14 +717,16 @@
                 return;
             }
 
-            var observer = new IntersectionObserver(function (entries) {
-                entries.forEach(function (entry) {
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
                     if (entry.isIntersecting) {
                         stage.classList.add('whymsn_is-visible');
                         observer.unobserve(stage);
                     }
                 });
-            }, { threshold: 0.25 });
+            }, {
+                threshold: 0.25
+            });
 
             observer.observe(stage);
         })();
