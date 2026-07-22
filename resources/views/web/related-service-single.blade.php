@@ -122,8 +122,9 @@
                 </div>
             @endforeach --}}
         </section>
-        <section id="works-page" style="padding-bottom: 30px">
-            @if (count($achievements) > 0)
+        @if (count($achievements) > 0)
+            <section id="works-page" style="padding-bottom: 30px">
+
                 <div class="wrap works-hero-stats">
                     @foreach ($achievements as $item)
                         <div class="wstat" data-count="{{ $item['count_number'] ?? '' }}">
@@ -131,57 +132,64 @@
                         </div>
                     @endforeach
                 </div>
-            @endif
-        </section>
+            </section>
+        @endif
         <!-- ============ BADGES ============ -->
-        <section class="msn-badges msn-section" style="padding:56px 0 64px;">
-            <div class="msn-container">
-                <div class="msn-badges-row">
-                    @foreach ($industries as $item)
-                        <div class="msn-badge">
-                            <div class="ic">
-                                <i class="{{ $item['icon_class'] ?? '' }}"></i>
+        @if (count($industries) > 0)
+            <section class="msn-badges msn-section" style="padding:56px 0 64px;">
+                <div class="msn-container">
+                    <div class="msn-badges-row">
+                        @foreach ($industries as $item)
+                            <div class="msn-badge">
+                                <div class="ic">
+                                    <i class="{{ $item['icon_class'] ?? '' }}"></i>
+                                </div>
+                                <div>
+                                    <strong>{{ $item['title'] ?? '' }}</strong><span>{{ $item['description'] ?? '' }}</span>
+                                </div>
                             </div>
-                            <div><strong>{{ $item['title'] ?? '' }}</strong><span>{{ $item['description'] ?? '' }}</span>
-                            </div>
-                        </div>
-                    @endforeach
-
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-        </section>
-
+            </section>
+        @endif
         <!-- ============ WHO IS THIS SERVICE FOR ============ -->
-        <section class="msn-audience msn-section">
-            <div class="msn-container">
-                <div class="msn-section-head msn-reveal">
-                    <span class="eyebrow">Who Is This For</span>
-                    <h2>Built for teams who need a website that actually performs</h2>
-                    <p>Whether you're launching your first site or replacing one that's holding you back, this service fits
-                        businesses at every stage.</p>
-                </div>
-                <div class="msn-audience-grid">
-                    @foreach ($why_we as $item)
-                        <div class="msn-audience-card msn-reveal">
-                            <div class="ic">
-                                <i class="{{ $item['icon_class'] ?? '' }}"></i>
+        @if (!empty($service->who_is_this_for_section_title))
+            <section class="msn-audience msn-section">
+                <div class="msn-container">
+                    <div class="msn-section-head msn-reveal">
+                        <span class="eyebrow">Who Is This For</span>
+                        <h2>{{ $service->who_is_this_for_section_title ?? 'Built for teams who need a website that actually performs' }}
+                        </h2>
+                        <p>{{ $service->who_is_this_for_section_subtitle ??
+                            "Whether you're launching your first site or replacing one that's holding you back, this service fits businesses at every stage." }}
+                        </p>
+                    </div>
+                    <div class="msn-audience-grid">
+                        @foreach ($why_we as $item)
+                            <div class="msn-audience-card msn-reveal">
+                                <div class="ic">
+                                    <i class="{{ $item['icon_class'] ?? '' }}"></i>
+                                </div>
+                                <strong>{{ $item['title'] ?? '' }}</strong>
+                                <span>{{ $item['bottom_text'] ?? '' }}</span>
                             </div>
-                            <strong>{{ $item['title'] ?? '' }}</strong>
-                            <span>{{ $item['bottom_text'] ?? '' }}</span>
-                        </div>
-                    @endforeach
+                        @endforeach
 
+                    </div>
                 </div>
-            </div>
-        </section>
-
+            </section>
+        @endif
         <!-- ============ SERVICES INCLUDED ============ -->
         <section class="msn-included msn-section" style="background:var(--red-soft);">
             <div class="msn-container">
                 <div class="msn-section-head msn-reveal">
                     <span class="eyebrow">What's Included</span>
-                    <h2>Everything needed to go from idea to a live website</h2>
-                    <p>No hidden extras — every WordPress build includes the following as standard.</p>
+                    <h2>{{ $service->whats_included_section_title ?? 'Everything needed to go from idea to a live website' }}
+                    </h2>
+                    <p>{{ $service->whats_included_section_subtitle ??
+                        'No hidden extras — every WordPress build includes the following as standard.' }}
+                    </p>
                 </div>
                 <div class="msn-included-grid">
                     @foreach ($success_stories as $item)
@@ -201,9 +209,8 @@
             <div class="msn-container">
                 <div class="msn-stack-head">
                     <span class="eyebrow" style="justify-content:center;">The Stack</span>
-                    <h2 style="font-size:clamp(24px,3vw,34px); margin-top:14px; font-weight:800;">Built on tools that scale
-                        with
-                        you</h2>
+                    <h2 style="font-size:clamp(24px,3vw,34px); margin-top:14px; font-weight:800;">
+                        {{ $service->stack_section_title ?? 'Built on tools that scale with you' }}</h2>
                 </div>
             </div>
             <div class="msn-marquee">
@@ -216,8 +223,10 @@
             <div class="msn-container">
                 <div class="msn-section-head msn-reveal">
                     <span class="eyebrow">How We Work</span>
-                    <h2>Six stages, one clear plan</h2>
-                    <p>Every project moves through the same disciplined pipeline — nothing skipped, nothing rushed.</p>
+                    <h2>{{ $service->how_we_work_section_title ?? 'Six stages, one clear plan' }}</h2>
+                    <p>{{ $service->how_we_work_section_subtitle ??
+                        'Every project moves through the same disciplined pipeline — nothing skipped, nothing rushed.' }}
+                    </p>
                 </div>
                 <div class="msn-proc-grid">
                     @foreach ($how_we_work as $key => $item)
@@ -241,8 +250,9 @@
             <div class="msn-container">
                 <div class="msn-section-head msn-reveal">
                     <span class="eyebrow">Core Features</span>
-                    <h2>What makes every build stand out</h2>
-                    <p>These aren't add-ons — they're the foundation of how we build every WordPress site.</p>
+                    <h2>{{ $service->core_features_section_title ?? 'What makes every build stand out' }}</h2>
+                    <p>{{ $service->core_features_section_subtitle ?? "These aren't add-ons — they're the foundation of how we build every WordPress site." }}
+                    </p>
                 </div>
                 <div class="msn-features-grid">
                     @foreach ($features as $item)
@@ -300,7 +310,8 @@
             <div class="msn-container">
                 <div class="msn-section-head msn-reveal">
                     <span class="eyebrow">Why MSN Softtech</span>
-                    <h2>What you get that a typical freelancer won't offer</h2>
+                    <h2>{{ $service->why_msn_softtech_section_title ?? "What you get that a typical freelancer won't offer" }}
+                    </h2>
                 </div>
                 <div class="msn-compare-cards msn-reveal">
                     <div class="msn-cc muted">
@@ -344,8 +355,9 @@
             <div class="msn-container">
                 <div class="msn-section-head msn-reveal">
                     <span class="eyebrow">Deliverables</span>
-                    <h2>Exactly what you'll walk away with</h2>
-                    <p>A clear, itemized handover — no ambiguity about what's yours at the end of the project.</p>
+                    <h2>{{ $service->deliverables_section_title ?? "Exactly what you'll walk away with" }}</h2>
+                    <p>{{ $service->deliverables_section_subtitle ?? "A clear, itemized handover — no ambiguity about what's yours at the end of the project." }}
+                    </p>
                 </div>
                 <div class="msn-deliverables-grid">
                     @foreach ($process as $key => $item)
@@ -365,8 +377,9 @@
             <div class="msn-container">
                 <div class="msn-section-head msn-reveal">
                     <span class="eyebrow">Our Guarantee</span>
-                    <h2>You're covered, start to finish</h2>
-                    <p>Straightforward terms — no fine print, no surprise invoices.</p>
+                    <h2>{{ $service->guarantee_section_title ?? "You're covered, start to finish" }}</h2>
+                    <p>{{ $service->guarantee_section_subtitle ?? 'Straightforward terms — no fine print, no surprise invoices.' }}
+                    </p>
                 </div>
                 <div class="msn-g-grid">
                     @foreach ($success_stories as $item)
@@ -390,13 +403,12 @@
             <div class="msn-container">
                 <div class="msn-section-head msn-reveal">
                     <span class="eyebrow">Industries</span>
-                    <h2>Sites we build across sectors</h2>
+                    <h2>{{ $service->industries_section_title ?? 'Sites we build across sectors' }}</h2>
                 </div>
                 <div class="msn-ind-wrap msn-reveal">
                     @foreach ($our_promise as $item)
                         <div class="msn-ind-chip"><span class="dot"></span>{{ $item['bottom_text'] ?? '' }}</div>
                     @endforeach
-
                 </div>
             </div>
         </section>
@@ -406,7 +418,7 @@
             <div class="msn-container">
                 <div class="msn-section-head msn-reveal">
                     <span class="eyebrow">Client Voices</span>
-                    <h2>What clients say after launch</h2>
+                    <h2>{{ $service->client_voices_section_title ?? 'What clients say after launch' }}</h2>
                 </div>
                 <div class="msn-test-track msn-reveal">
                     @foreach ($clients_say as $item)
