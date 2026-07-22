@@ -74,7 +74,7 @@
                     <div>
                         <h1>{{ $service->title }}</h1>
                         <p class="lead-msn">{!! $service->short_desc !!}</p>
-                        <div class="msn-hero-ctas">
+                        <div class="msn-hero-ctas" style="margin-top: 20px">
                             <a href="#" class="btn-msn btn-msn-primary">Get a Free Quote →</a>
                             <a href="#" class="btn-msn btn-msn-ghost">Book a Consultation</a>
                         </div>
