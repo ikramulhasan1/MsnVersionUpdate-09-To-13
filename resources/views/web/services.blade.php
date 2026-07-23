@@ -854,8 +854,8 @@
                                             href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a>
                                     </h3>
                                     <div class="desc">{!! strip_tags(\Illuminate\Support\Str::words($service->short_desc, 18)) !!}</div>
-                                    <a href="{{ route('service.single', $service->slug) }}"
-                                        class="svc-card-more">{{ __('common.read_more') }}</a>
+                                    {{-- <a href="{{ route('service.single', $service->slug) }}"
+                                        class="svc-card-more">{{ __('common.read_more') }}</a> --}}
                                 </div>
                             </div>
                         @endforeach

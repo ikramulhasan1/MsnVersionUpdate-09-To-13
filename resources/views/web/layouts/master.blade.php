@@ -1081,9 +1081,9 @@
                                 @if (isset($page_faqs))
                                     <li><a href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
                                 @endif
-                                @if (isset($page_contact))
+                                {{-- @if (isset($page_contact))
                                     <li><a href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
-                                @endif
+                                @endif --}}
                             </ul>
                         </li>
                     @endif
@@ -1474,8 +1474,8 @@
                             <li><a href="{{ route('services') }}">Services</a></li>
                             <li><a href="{{ route('portfolios') }}">Portfolio</a></li>
                             <li><a href="{{ route('blogs') }}">Blog</a></li>
-                            <li><a href="{{ route('case') }}">Case Studies</a></li>
-                            <li><a href="{{ route('contact') }}">Contact Us</a></li>
+                            {{-- <li><a href="{{ route('case') }}">Case Studies</a></li> --}}
+                            <li><a href="{{ route('get-quote') }}">Contact Us</a></li>
                         </ul>
                     </div>
 
@@ -1554,7 +1554,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
