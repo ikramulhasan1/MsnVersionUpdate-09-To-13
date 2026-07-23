@@ -106,15 +106,4 @@
       0 => 'Srmklive\\PayPal\\Providers\\PayPalServiceProvider',
     ),
   ),
-  'yoeunes/toastr' => 
-  array (
-    'aliases' => 
-    array (
-      'Toastr' => 'Yoeunes\\Toastr\\Facades\\Toastr',
-    ),
-    'providers' => 
-    array (
-      0 => 'Yoeunes\\Toastr\\ToastrServiceProvider',
-    ),
-  ),
 );
