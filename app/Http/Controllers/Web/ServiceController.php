@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Counter;
+use App\Models\Section;
 use App\Models\Service;
 use App\Models\Subservice;
 use App\Models\Technology;
@@ -24,6 +25,9 @@ class ServiceController extends Controller
         $data['services'] = Service::with('subservices')->where('status', '1')
             ->orderBy('id', 'asc')
             ->get();
+
+        // Section content for "services" section (title, description ইত্যাদি)
+        $data['section_services'] = Section::section('services');
 
         // Processes
         $data['processes'] = WorkProcess::where('status', '1')
