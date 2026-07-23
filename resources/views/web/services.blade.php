@@ -758,13 +758,23 @@
                 <div class="row align-items-center gy-5">
                     <div class="col-lg-7 svc-hero-copy svc-reveal">
                         <span class="svc-eyebrow on-dark">./services --init</span>
-                        <h1 class="mt-3">{{ __('navbar.services') }}, built like <em>production code</em> — not a pitch
-                            deck.</h1>
-                        <p>Every engagement starts with a clear spec, a real timeline, and a team that ships. Explore what
-                            we build below, then tell us what you're working on.</p>
+                        <h1 class="mt-3">
+                            One Team. <em>Every Digital Solution</em> You Need.
+                        </h1>
+                        <p>Whatever your business needs to grow online, we've probably already built it for someone else.
+                            Explore everything we offer, all under one roof.</p>
                         <div class="svc-hero-actions">
                             <a href="#svc-services-list" class="svc-btn svc-btn-primary">View Services</a>
-                            <a href="{{ route('contact') ?? '#' }}" class="svc-btn svc-btn-ghost">Start a Project</a>
+                            {{-- <a href="{{ route('contact') ?? '#' }}" class="svc-btn svc-btn-ghost">Start a Project</a> --}}
+                            <button type="button" class="cta-cta-btn svc-btn svc-btn-ghost"
+                                onclick="document.getElementById('quotePopupModal').classList.add('is-open'); document.body.style.overflow='hidden';">
+                                Start a Project
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </button>
                         </div>
                         <div class="svc-hero-crumb">
                             <a href="{{ route('home') }}">{{ __('navbar.home') }}</a> / {{ __('navbar.services') }}
