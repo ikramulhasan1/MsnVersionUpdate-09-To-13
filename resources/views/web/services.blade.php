@@ -759,7 +759,7 @@
                     <div class="col-lg-7 svc-hero-copy svc-reveal">
                         <span class="svc-eyebrow on-dark">./services --init</span>
                         <h1 class="mt-3">
-                            One Team. <em>Every Digital Solution</em> You Need.
+                            One Team. Every Digital Solution You Need.
                         </h1>
                         <p>Whatever your business needs to grow online, we've probably already built it for someone else.
                             Explore everything we offer, all under one roof.</p>
