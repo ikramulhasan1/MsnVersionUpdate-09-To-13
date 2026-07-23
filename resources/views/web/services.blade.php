@@ -885,7 +885,7 @@
 
                     <div class="sub_service-head">
                         <span class="svc-eyebrow">sub_service.filter()</span>
-                        <h2 class="mt-3">{{ __('common.related_services') ?? 'Explore Sub-Services' }}</h2>
+                        <h2 class="mt-3">{{ __('dashboard.subservice') ?? 'Explore Sub-Services' }}</h2>
                         <p>Filter by service category to find exactly what you need.</p>
                     </div>
 
