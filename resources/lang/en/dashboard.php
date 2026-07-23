@@ -74,6 +74,7 @@ return [
     'technology' => 'Technology|Technologies',
     'service' => 'Service|Services',
     'subservice' => 'Sub Service|Sub Services',
+    'service_categories' => 'Service Categories',
     'service_title' => 'Service Title',
     'related-service' => 'Related Service',
     'service_desc' => 'Service Description',

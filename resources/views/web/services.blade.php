@@ -803,22 +803,13 @@
                 </div>
 
                 <div class="svc-ticker svc-reveal row g-0 mt-5" style="animation-delay:.25s">
-                    <div class="col-6 col-md-3 svc-ticker-item">
-                        <div class="svc-ticker-num">3700<span>+</span></div>
-                        <div class="svc-ticker-label">Projects Completed</div>
-                    </div>
-                    <div class="col-6 col-md-3 svc-ticker-item">
-                        <div class="svc-ticker-num">900<span>+</span></div>
-                        <div class="svc-ticker-label">Happy Clients</div>
-                    </div>
-                    <div class="col-6 col-md-3 svc-ticker-item">
-                        <div class="svc-ticker-num">56<span>+</span></div>
-                        <div class="svc-ticker-label">Expert Developers</div>
-                    </div>
-                    <div class="col-6 col-md-3 svc-ticker-item">
-                        <div class="svc-ticker-num">25<span>+</span></div>
-                        <div class="svc-ticker-label">Countries Served</div>
-                    </div>
+                    @foreach ($counters as $counter)
+                        <div class="col-6 col-md-3 svc-ticker-item">
+                            <div class="svc-ticker-num">{{ $counter->value }}<span>+</span></div>
+                            <div class="svc-ticker-label">{{ $counter->title }}</div>
+                        </div>
+                    @endforeach
+
                 </div>
             </div>
         </section>
@@ -884,8 +875,8 @@
                 <div class="svc-wrap">
 
                     <div class="sub_service-head">
-                        <span class="svc-eyebrow">sub_service.filter()</span>
-                        <h2 class="mt-3">{{ __('dashboard.subservice') ?? 'Explore Sub-Services' }}</h2>
+                        <span class="svc-eyebrow">{{ __('dashboard.service_categories') }}.filter()</span>
+                        <h2 class="mt-3">{{ __('dashboard.service_categories') ?? 'Explore Sub-Services' }}</h2>
                         <p>Filter by service category to find exactly what you need.</p>
                     </div>
 
