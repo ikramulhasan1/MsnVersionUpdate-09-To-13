@@ -2,19 +2,19 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Pagination\Paginator;
+use App\Models\Article;
 use App\Models\ArticleCategory;
 use App\Models\LiveChat;
-use App\Models\Setting;
-use App\Models\Section;
-use App\Models\Article;
-use App\Models\Service;
-use App\Models\Social;
 use App\Models\Page;
+use App\Models\Section;
+use App\Models\Service;
+use App\Models\Setting;
+use App\Models\Social;
 use App\Models\Subservice;
 use App\Models\Technology;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
 use View;
 
 class AppServiceProvider extends ServiceProvider
@@ -39,7 +39,6 @@ class AppServiceProvider extends ServiceProvider
         //
         Schema::defaultStringLength(191);
         Paginator::useBootstrap();
-
 
         // Share view for Common Data
         $setting = Setting::where('status', '1')->first();

@@ -16,11 +16,11 @@ class PageSetup extends Model
     ];
 
     // Page Title
-    static public function page($slug)
+    public static function page($slug)
     {
         $page = PageSetup::where('slug', $slug)
-                        ->where('status', 1)
-                        ->first();
+            ->where('status', 1)
+            ->first();
 
         return $page;
     }
