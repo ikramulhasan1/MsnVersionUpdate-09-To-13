@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Models\RedirectUrl;
+use Closure;
 use Illuminate\Http\Request;
 
 class RedirectMiddleware

@@ -1,15 +1,14 @@
 <?php
 
-use App\Http\Controllers\Admin\WhyweController;
-use App\Http\Controllers\Web\MeetingController;
-use App\Http\Controllers\Web\TechnologyController;
-// use App\Http\Controllers\web\CasestudyController;
-use App\Http\Controllers\Web\GetQuoteController;
-use App\Http\Controllers\Admin\IndustryController;
 use App\Http\Controllers\Admin\CaseStudyController;
+use App\Http\Controllers\Admin\IndustryController;
 use App\Http\Controllers\Admin\MeetingGetController;
+// use App\Http\Controllers\web\CasestudyController;
 use App\Http\Controllers\Admin\RedirectUrlController;
-
+use App\Http\Controllers\Admin\WhyweController;
+use App\Http\Controllers\Web\GetQuoteController;
+use App\Http\Controllers\Web\MeetingController;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware(['XSS', 'redirect'])->namespace('Web')->group(function () {
     Route::post('/meetings', [MeetingController::class, 'store'])->name('meetings.store');
@@ -25,7 +24,6 @@ Route::middleware(['XSS', 'redirect'])->namespace('Web')->group(function () {
     Route::get('/sitemap/category', 'SitemapController@category')->name('sitemap.category');
     Route::get('/sitemap/page', 'SitemapController@page')->name('sitemap.page');
     Route::get('/sitemap/image', 'SitemapController@image')->name('sitemap.image');
-
 
     // Pages Route
     Route::get('/page/{slug}', 'HomeController@page')->name('page.single');
@@ -82,17 +80,14 @@ Route::middleware(['XSS', 'redirect'])->namespace('Web')->group(function () {
     Route::get('/payment-success/{id}', 'PayPalPaymentController@paymentSuccess')->name('success.payment');
     Route::get('/payment-feedback', 'PayPalPaymentController@paymentFeedback')->name('payment.feedback');
 
-
 });
 
-
 // Auth Routes
-//Auth::routes();
+// Auth::routes();
 Auth::routes(['register' => false]);
 
 // Admin Routes
 Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->prefix('admin')->group(function () {
-
 
     // Resource route for Redirect URL management
     Route::resource('meetinggets', MeetingGetController::class);

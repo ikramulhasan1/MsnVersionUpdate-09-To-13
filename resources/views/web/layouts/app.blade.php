@@ -7,11 +7,9 @@
     <title>Document</title>
 
     @vite('../../../js/app.js')
-    @inertiaHead
 </head>
 
 <body>
-    @inertia
 </body>
 
 </html>

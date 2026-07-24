@@ -6,13 +6,6 @@
       0 => 'Barryvdh\\TranslationManager\\ManagerServiceProvider',
     ),
   ),
-  'inertiajs/inertia-laravel' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Inertia\\ServiceProvider',
-    ),
-  ),
   'intervention/image' => 
   array (
     'aliases' => 
