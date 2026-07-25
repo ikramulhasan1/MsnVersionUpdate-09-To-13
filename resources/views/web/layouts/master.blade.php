@@ -499,7 +499,7 @@
                             <ul class="custom-footer-service-list">
                                 @foreach ($chunk as $service)
                                     <li>
-                                        <a class="footer-main-service"
+                                        <a class="footer-main-service disabled-link"
                                             href="{{ route('service.single', $service->slug) }}" wire:navigate>
                                             {{ $service->short_title }}
                                         </a>
