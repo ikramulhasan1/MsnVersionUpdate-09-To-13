@@ -509,27 +509,10 @@
                 padding: 12px 18px;
             }
         }
-    </style>
-    <!-- Custom Style -->
-    @if (isset($setting->custom_css))
-        <style type="text/css">
-            {
-                ! ! strip_tags($setting->custom_css) ! !
-            }
-
-            .page-title .bread-crumb {
-                background: black !important;
-            }
-        </style>
-    @endif
-    <style>
-        /* Floating WhatsApp Button */
-        /* ==========================================================
-             PREMIUM FLOATING WHATSAPP BUTTON
-             Circular icon + "Live chat with agent" label pill,
-             soft radar-pulse ring instead of a bounce, in-scope
-             class names so it can't collide with other site CSS.
-             ========================================================== */
+    
+   
+   
+        
         .wa-fab {
             position: fixed;
             bottom: 22px;
