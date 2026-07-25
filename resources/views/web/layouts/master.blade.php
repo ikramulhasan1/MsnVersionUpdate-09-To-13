@@ -91,7 +91,8 @@
 
                 @if (isset($setting))
                     <div class="special_logo">
-                        <a href="{{ route('home') }}" wire:navigate><img src="{{ asset('/uploads/setting/' . $setting->logo_path) }}"
+                        <a href="{{ route('home') }}" wire:navigate><img
+                                src="{{ asset('/uploads/setting/' . $setting->logo_path) }}"
                                 alt="{{ $setting->title ?? 'Logo' }}"></a>
                     </div>
                 @endif
@@ -145,12 +146,13 @@
                                     @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
                                         <li>
                                             <a class="disabled-link"
-                                                href="{{ route('service.single', $service_subnav->slug) }}" wire:navigate>{{ $service_subnav->short_title }}</a>
+                                                href="{{ route('service.single', $service_subnav->slug) }}"
+                                                wire:navigate>{{ $service_subnav->short_title }}</a>
                                             @if ($service_subnav->subservices->count() > 0)
                                                 <ul class="special_submenu-nested">
                                                     @foreach ($service_subnav->subservices as $sub)
-                                                        <li><a
-                                                                href="{{ route('service.related-single', $sub->slug) }}" wire:navigate>{{ $sub->short_title }}</a>
+                                                        <li><a href="{{ route('service.related-single', $sub->slug) }}"
+                                                                wire:navigate>{{ $sub->short_title }}</a>
                                                         </li>
                                                     @endforeach
                                                 </ul>
@@ -169,7 +171,8 @@
                                                 <li class="special_megamenu-item {{ $loop->first ? 'special_active' : '' }}"
                                                     data-panel="mega-panel-{{ $service_subnav->id }}">
                                                     <a class="disabled-link"
-                                                        href="{{ route('service.single', $service_subnav->slug) }}" wire:navigate>{{ $service_subnav->short_title }}</a>
+                                                        href="{{ route('service.single', $service_subnav->slug) }}"
+                                                        wire:navigate>{{ $service_subnav->short_title }}</a>
                                                 </li>
                                             @endif
                                         @endforeach
@@ -194,7 +197,8 @@
                                                             <ul class="special_megamenu-col">
                                                                 @foreach ($chunk as $sub)
                                                                     <li><a style="font-weight: 400"
-                                                                            href="{{ route('service.related-single', $sub->slug) }}" wire:navigate>
+                                                                            href="{{ route('service.related-single', $sub->slug) }}"
+                                                                            wire:navigate>
                                                                             <div
                                                                                 style="display: flex; align-items: center">
                                                                                 <i
@@ -234,7 +238,8 @@
                                 <span class="special_chevron"></span></a>
                             <ul class="special_submenu">
                                 @foreach ($all_pages as $page)
-                                    <li><a href="{{ route('page.single', $page->slug) }}" wire:navigate>{{ $page->title }}</a>
+                                    <li><a href="{{ route('page.single', $page->slug) }}"
+                                            wire:navigate>{{ $page->title }}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -251,7 +256,8 @@
                                 <span class="special_chevron"></span></a>
                             <ul class="special_submenu">
                                 @foreach ($re_page as $page)
-                                    <li><a href="{{ route('page.single', $page->slug) }}" wire:navigate>{{ $page->title }}</a>
+                                    <li><a href="{{ route('page.single', $page->slug) }}"
+                                            wire:navigate>{{ $page->title }}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -494,7 +500,8 @@
                                             <ul class="footer-sub-service-list">
                                                 @foreach ($service->subservices as $sub)
                                                     <li>
-                                                        <a href="{{ route('service.related-single', $sub->slug) }}" wire:navigate>
+                                                        <a href="{{ route('service.related-single', $sub->slug) }}"
+                                                            wire:navigate>
                                                             {{ $sub->short_title }}
                                                         </a>
                                                     </li>
@@ -595,7 +602,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
