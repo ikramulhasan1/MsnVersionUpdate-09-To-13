@@ -212,10 +212,10 @@
                                                                         </a>
                                                                     </li>
                                                                 @endforeach
-                                                                <li><a style="font-weight: 400"
+                                                                <li><a style="font-weight: 700; font-size: 16px;"
                                                                         href="{{ route('services') }}" wire:navigate>
                                                                         <div style="display: flex; align-items: center">
-                                                                            View All Services
+                                                                            View All Service
                                                                         </div>
                                                                     </a>
                                                                 </li>
