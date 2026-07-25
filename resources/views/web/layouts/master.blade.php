@@ -30,6 +30,7 @@
 
     @yield('schema_markup')
 
+    
     @if (empty($setting))
         <title>@yield('title')</title>
     @endif
