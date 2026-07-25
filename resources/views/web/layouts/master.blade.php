@@ -95,13 +95,19 @@
 
                 <ul class="special_nav-links" id="navLinks">
 
-
+                    @php
+                        $page_home = \App\Models\PageSetup::page('home');
+                    @endphp
                     @if (isset($page_home))
                         <li><a class="{{ Request::path() == '/' ? 'special_current' : '' }}"
                                 href="{{ route('home') }}" wire:navigate>{{ $page_home->title }}</a></li>
                     @endif
 
-
+                    @php
+                        $page_about = \App\Models\PageSetup::page('about-us');
+                        $page_faqs = \App\Models\PageSetup::page('faqs');
+                        $page_contact = \App\Models\PageSetup::page('contact-us');
+                    @endphp
                     @if (isset($page_about) || isset($page_faqs) || isset($page_contact))
                         <li class="special_dropdown">
                             <a class="{{ Request::is('about*') || Request::is('faqs*') || Request::is('contact*') ? 'special_current' : '' }}"
@@ -121,7 +127,9 @@
                         </li>
                     @endif
 
-
+                    @php
+                        $page_services = \App\Models\PageSetup::page('services');
+                    @endphp
                     @if (isset($page_services))
                         <li class="special_dropdown special_has-mega">
                             <a class="{{ Request::is('service*') || Request::is('related-service*') ? 'special_current' : '' }} disabled-link"
@@ -208,7 +216,9 @@
                             </div>
                         </li>
                     @endif
-
+                    @php
+                        $page_portfolio = \App\Models\PageSetup::page('portfolio');
+                    @endphp
                     @if (isset($page_portfolio))
                         <li><a class="{{ Request::is('portfolio*') ? 'special_current' : '' }}"
                                 href="{{ route('portfolios') }}" wire:navigate>{{ $page_portfolio->title }}</a></li>
@@ -250,7 +260,9 @@
                         </li>
                     @endif
                 </ul>
-
+                @php
+                    $page_quote = \App\Models\PageSetup::page('get-quote');
+                @endphp
                 @if (isset($page_quote))
                     <a href="{{ route('get-quote') }}" wire:navigate style="background-color: #D2241D"
                         class="special_contact-btn">{{ $page_quote->title }} →</a>
