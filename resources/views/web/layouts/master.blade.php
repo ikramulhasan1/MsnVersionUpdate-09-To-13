@@ -5,7 +5,7 @@
     <!-- Meta Tags -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {{--
     <link rel="stylesheet" href="{{ asset('web/css/msn-theme.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('web/css/contact.min.css') }}">
@@ -30,7 +30,6 @@
 
     @yield('schema_markup')
 
-    
     @if (empty($setting))
         <title>@yield('title')</title>
     @endif
@@ -53,6 +52,12 @@
 
 
     <script src="//code.jquery.com/jquery-3.6.0.min.js" defer></script>
+    {{-- floating-wpp.min.js defines jQuery.fn.floatingWhatsApp, used below in initFloatingWhatsapp().
+       The CSS for this widget was linked but the JS file itself was missing from this layout,
+       causing "jQuery(...).floatingWhatsApp is not a function" in the console on every page load.
+       Must stay AFTER jquery and keep `defer` so browsers run both in document order, before
+       DOMContentLoaded (which is when initFloatingWhatsapp() actually calls it). --}}
+    <script src="{{ asset('web/js/floating-wpp.min.js') }}" defer></script>
 
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -392,7 +397,9 @@
         </script>
         <!--End Main Header -->
         <!-- Content Start -->
-        @yield('content')
+        <main>
+            @yield('content')
+        </main>
         <!-- Content End -->
         <!-- Main custom-Footer -->
         @include('web.inc.cta')
@@ -434,21 +441,21 @@
                         <div class="footer-social-icons">
                             @if (!empty($social->facebook))
                                 <a href="{{ $social->facebook }}" target="_blank" rel="noopener noreferrer"
-                                    class="social-icon facebook">
+                                    class="social-icon facebook" aria-label="Facebook">
                                     <i class="bi bi-facebook"></i>
                                 </a>
                             @endif
 
                             @if (!empty($social->instagram))
-                                <a href="{{ $setting->instagram }}" target="_blank" rel="noopener noreferrer"
-                                    class="social-icon instagram">
+                                <a href="{{ $social->instagram }}" target="_blank" rel="noopener noreferrer"
+                                    class="social-icon instagram" aria-label="Instagram">
                                     <i class="bi bi-instagram"></i>
                                 </a>
                             @endif
 
                             @if (!empty($social->linkedin))
-                                <a href="{{ $setting->linkedin }}" target="_blank" rel="noopener noreferrer"
-                                    class="social-icon linkedin">
+                                <a href="{{ $social->linkedin }}" target="_blank" rel="noopener noreferrer"
+                                    class="social-icon linkedin" aria-label="LinkedIn">
                                     <i class="bi bi-linkedin"></i>
                                 </a>
                             @endif
@@ -707,7 +714,8 @@
     </script>
 
     <script>
-        if (!window._gqHandlersBound) {
+        function initGqHandlers() {
+            if (window._gqHandlersBound) return;
             window._gqHandlersBound = true;
 
             // Toggle subservice visibility when main service label is clicked
@@ -751,6 +759,14 @@
                 }
             });
         }
+
+        // jQuery is loaded with `defer`, so it isn't available yet when the browser parses
+        // this inline script — calling jQuery(...) here directly threw "jQuery is not defined".
+        // DOMContentLoaded fires only after all deferred scripts (incl. jquery) have run, so
+        // binding there guarantees jQuery exists. livewire:navigated re-binds after wire:navigate
+        // swaps the page without a full reload (guard above still prevents double-binding).
+        document.addEventListener('DOMContentLoaded', initGqHandlers);
+        document.addEventListener('livewire:navigated', initGqHandlers);
     </script>
     @yield('scriptjs')
 
