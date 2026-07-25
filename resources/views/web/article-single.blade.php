@@ -22,100 +22,100 @@
 
 
         <script type="application/ld+json">
-              {
-                "@context": "http://schema.org",
-                "@type": "Product",
-                "name": "{{ $article->meta_title }}",
-                "image": {
-                  "@type": "ImageObject",
-                  "url": "{{ asset('uploads/article/' . $article->image_path) }}",
-                  "width": "1200",
-                  "height": "630"
-                },
-                "description": "{{ Str::limit(strip_tags($article->description), 500, '...') }}",
-                "url": "{{ route('blog.single', $article->slug) }}",
-                "brand": {
-                  "@type": "Brand",
-                  "name": "MSN Softtech",
-                  "logo": "https://cdn-icons-png.flaticon.com/128/732/732200.png"
-                },
-                "offers": {
-                  "@type": "Offer",
-                  "price": "999",
-                  "priceCurrency": "USD",
-                  "availability": "https://schema.org/InStock",
-                  "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
-                  "hasMerchantReturnPolicy": {
-                    "@type": "MerchantReturnPolicy",
-                    "applicableCountry": "US",
-                    "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                    "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
-                    "returnShippingFeesAmount": {
-                      "@type": "MonetaryAmount",
-                      "value": "0.00",
-                      "currency": "USD"
+                  {
+                    "@@context": "http://schema.org",
+                    "@@type": "Product",
+                    "name": "{{ $article->meta_title }}",
+                    "image": {
+                      "@@type": "ImageObject",
+                      "url": "{{ asset('uploads/article/' . $article->image_path) }}",
+                      "width": "1200",
+                      "height": "630"
                     },
-                    "merchantReturnDays": "30",
-                    "returnMethod": "https://schema.org/ReturnByMail",
-                    "returnFees": "FreeReturn"
-                  },
-                  "shippingDetails": {
-                    "@type": "OfferShippingDetails",
-                    "shippingRate": {
-                      "@type": "MonetaryAmount",
-                      "value": "0.00",
-                      "currency": "USD"
+                    "description": "{{ Str::limit(strip_tags($article->description), 500, '...') }}",
+                    "url": "{{ route('blog.single', $article->slug) }}",
+                    "brand": {
+                      "@@type": "Brand",
+                      "name": "MSN Softtech",
+                      "logo": "https://cdn-icons-png.flaticon.com/128/732/732200.png"
                     },
-                    "deliveryTime": {
-                      "@type": "ShippingDeliveryTime",
-                      "businessDays": {
-                        "@type": "OpeningHoursSpecification",
-                        "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
-                        "https://schema.org/Sunday"]
+                    "offers": {
+                      "@@type": "Offer",
+                      "price": "999",
+                      "priceCurrency": "USD",
+                      "availability": "https://schema.org/InStock",
+                      "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
+                      "hasMerchantReturnPolicy": {
+                        "@@type": "MerchantReturnPolicy",
+                        "applicableCountry": "US",
+                        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                        "returnPolicySeasonalOverride": "https://schema.org/MerchantReturnNotPermitted",
+                        "returnShippingFeesAmount": {
+                          "@@type": "MonetaryAmount",
+                          "value": "0.00",
+                          "currency": "USD"
+                        },
+                        "merchantReturnDays": "30",
+                        "returnMethod": "https://schema.org/ReturnByMail",
+                        "returnFees": "FreeReturn"
                       },
-                      "handlingTime": {
-                        "@type": "QuantitativeValue",
-                        "minValue": 1,
-                        "maxValue": 2,
-                        "unitCode": "DAY"
-                      },
-                      "transitTime": {
-                        "@type": "QuantitativeValue",
-                        "minValue": 3,
-                        "maxValue": 5,
-                        "unitCode": "DAY"
+                      "shippingDetails": {
+                        "@@type": "OfferShippingDetails",
+                        "shippingRate": {
+                          "@@type": "MonetaryAmount",
+                          "value": "0.00",
+                          "currency": "USD"
+                        },
+                        "deliveryTime": {
+                          "@@type": "ShippingDeliveryTime",
+                          "businessDays": {
+                            "@@type": "OpeningHoursSpecification",
+                            "dayOfWeek": ["https://schema.org/Monday", "https://schema.org/Tuesday", "https://schema.org/Wednesday", "https://schema.org/Thursday", "https://schema.org/Friday", "https://schema.org/Saturday",
+                            "https://schema.org/Sunday"]
+                          },
+                          "handlingTime": {
+                            "@@type": "QuantitativeValue",
+                            "minValue": 1,
+                            "maxValue": 2,
+                            "unitCode": "DAY"
+                          },
+                          "transitTime": {
+                            "@@type": "QuantitativeValue",
+                            "minValue": 3,
+                            "maxValue": 5,
+                            "unitCode": "DAY"
+                          }
+                        },
+                        "shippingDestination": {
+                          "@@type": "DefinedRegion",
+                          "addressCountry": "US"
+                        }
                       }
                     },
-                    "shippingDestination": {
-                      "@type": "DefinedRegion",
-                      "addressCountry": "US"
+                    "aggregateRating": {
+                      "@@type": "AggregateRating",
+                      "ratingValue": "4.9",
+                      "bestRating": "5",
+                      "worstRating": "1",
+                      "ratingCount": "417"
+                    },
+                    "review": {
+                      "@@type": "Review",
+                      "author": {
+                        "@@type": "Person",
+                        "name": "Charles Wilson"
+                      },
+                      "datePublished": "{{ $article->created_at->format('Y-m-d') }}",
+                      "reviewRating": {
+                        "@@type": "Rating",
+                        "ratingValue": "5",
+                        "bestRating": "5",
+                        "worstRating": "1"
+                      },
+                      "reviewBody": "MSN Softtech delivered an exceptional custom {{ $article->service_title }} solution that enhanced our online presence and improved performance."
                     }
                   }
-                },
-                "aggregateRating": {
-                  "@type": "AggregateRating",
-                  "ratingValue": "4.9",
-                  "bestRating": "5",
-                  "worstRating": "1",
-                  "ratingCount": "417"
-                },
-                "review": {
-                  "@type": "Review",
-                  "author": {
-                    "@type": "Person",
-                    "name": "Charles Wilson"
-                  },
-                  "datePublished": "{{ $article->created_at->format('Y-m-d') }}",
-                  "reviewRating": {
-                    "@type": "Rating",
-                    "ratingValue": "5",
-                    "bestRating": "5",
-                    "worstRating": "1"
-                  },
-                  "reviewBody": "MSN Softtech delivered an exceptional custom {{ $article->service_title }} solution that enhanced our online presence and improved performance."
-                }
-              }
-          </script>
+              </script>
 
     @endsection
 
@@ -139,7 +139,7 @@
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="{!! '@' . str_replace(' ', '', $setting->title) !!}" />
-        <meta name="twitter:creator" content="@MSNSofttech" />
+        <meta name="twitter:creator" content="@@MSNSofttech" />
         <meta name="twitter:url" content="{{ route('blog.single', $article->slug) }}" />
         <meta name="twitter:title" content="{{ $article->title }}" />
         <meta name="twitter:description" content="{!! str_limit(strip_tags($article->meta_desc), 160, ' ...') !!}" />
@@ -151,9 +151,9 @@
 
     <style>
         /* ============================================================
-         MSN SoftTech — Blog Single (redesign)
-         Tokens: dark navy hero, teal accent, orange CTA, mono utility
-         ============================================================ */
+                             MSN SoftTech — Blog Single (redesign)
+                             Tokens: dark navy hero, teal accent, orange CTA, mono utility
+                             ============================================================ */
         .bp-page {
             --bp-navy-900: #080C16;
             --bp-navy-800: #0C1424;
@@ -186,10 +186,6 @@
             list-style: none;
         }
 
-        /* Hard reset — the site's global theme stylesheet styles raw content
-         (headings, links, list bullets) outside of this file. Force our
-         typography system everywhere inside .bp-page so the old theme
-         look can't leak through, without touching icon fonts. */
         .bp-page,
         .bp-page h1,
         .bp-page h2,
@@ -229,7 +225,6 @@
             font-family: var(--bp-font-mono) !important;
         }
 
-        /* reading progress */
         .bp-progress {
             position: sticky;
             top: 0;
@@ -246,7 +241,6 @@
             transition: width .1s linear;
         }
 
-        /* HERO */
         .bp-hero {
             position: relative;
             background: linear-gradient(160deg, var(--bp-navy-900) 0%, var(--bp-navy-700) 100%);
@@ -405,7 +399,6 @@
             color: var(--bp-teal-light);
         }
 
-        /* content wrap */
         .bp-content-wrap {
             margin-top: 0;
         }
@@ -446,7 +439,6 @@
             }
         }
 
-        /* TOC terminal window — signature element */
         .bp-toc {
             border-radius: 10px;
             overflow: hidden;
@@ -529,12 +521,6 @@
             color: #fff;
         }
 
-        /* The article body (`{!! $article->description !!}`) is raw HTML saved
-         from a WYSIWYG editor and is exposed to the site's global theme
-         stylesheet — that's the source of the old checkmark bullets, blue
-         underlined links and default font that kept showing through.
-         Every rule below is !important and resets the tag itself (not just
-         descendants) so nothing from outside this file can win. */
         .bp-description,
         .bp-description * {
             font-family: var(--bp-font-display) !important;
@@ -664,7 +650,6 @@
             display: none;
         }
 
-        /* strip legacy inline checkmark icons, if any */
         .bp-description table {
             width: 100% !important;
             border-collapse: collapse !important;
@@ -707,7 +692,6 @@
             font-style: normal !important;
         }
 
-        /* meet CTA card */
         .bp-meet-card {
             display: flex !important;
             align-items: center !important;
@@ -836,9 +820,6 @@
             filter: brightness(0) invert(1) !important;
         }
 
-        /* sidebar — all forced with !important: the theme's global stylesheet
-         targets plain elements (ul/li/a/input/button/h5) sitewide, so every
-         visual property here needs to win regardless of specificity. */
         .bp-sidebar {
             position: sticky !important;
             top: 24px !important;
@@ -1082,7 +1063,6 @@
             background: #fff !important;
         }
 
-        /* responsive */
         @media (max-width:991px) {
             .bp-hero {
                 padding: 44px 0 80px;

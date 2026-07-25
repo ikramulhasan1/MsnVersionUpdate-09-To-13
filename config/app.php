@@ -3,6 +3,8 @@
 use App\Providers\AppServiceProvider;
 use App\Providers\EventServiceProvider;
 use App\Providers\RouteServiceProvider;
+use Brian2694\Toastr\Facades\Toastr;
+use Brian2694\Toastr\ToastrServiceProvider;
 use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Auth\Passwords\PasswordResetServiceProvider;
 use Illuminate\Broadcasting\BroadcastServiceProvider;
@@ -240,7 +242,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         EventServiceProvider::class,
         RouteServiceProvider::class,
-
+        ToastrServiceProvider::class,
     ],
 
     /*
@@ -255,7 +257,7 @@ return [
     */
 
     'aliases' => [
-
+        'Toastr' => Toastr::class,
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Arr::class,
         'Artisan' => Artisan::class,
