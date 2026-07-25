@@ -267,6 +267,8 @@
     </div>
 @endsection
 @section('scriptjs')
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
     <script>
         Dropzone.autoDiscover = false;

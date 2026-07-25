@@ -399,9 +399,6 @@
 </div>
 
 <script>
-    // Guard against duplicate library loads / duplicate init if this partial
-    // ever gets included more than once on the same page, or if jQuery /
-    // Dropzone / reCAPTCHA are already loaded by the parent layout.
     (function() {
         function loadOnce(id, src, onload) {
             if (document.getElementById(id)) {
@@ -429,7 +426,7 @@
             Dropzone.autoDiscover = false;
 
             const dzElem = document.getElementById('qpfDropzone');
-            if (!dzElem || dzElem.dropzone) return; // already initialized
+            if (!dzElem || dzElem.dropzone) return;
 
             new Dropzone(dzElem, {
                 url: "{{ route('quote.upload') }}",
@@ -458,8 +455,6 @@
                 },
             });
 
-            // page-cache-এর কারণে বেক করা token পুরনো হতে পারে বলে, প্রতিটা
-            // আপলোড রিকোয়েস্টের ঠিক আগমুহূর্তে মেটা-ট্যাগ থেকে fresh token পড়া হয়
             var qpfDz = dzElem.dropzone;
             if (qpfDz) {
                 qpfDz.on("sending", function(file, xhr, formData) {
@@ -502,19 +497,33 @@
             });
         }
 
-        loadCssOnce('qpf-dropzone-css', 'https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css');
+        // ===== এখানেই মূল পরিবর্তন — সব কিছু একটা init ফাংশনে wrap করা হলো =====
+        let qpfAlreadyLoaded = false;
 
-        loadOnce('qpf-jquery-js', 'https://code.jquery.com/jquery-3.6.0.min.js', function() {
-            initServiceToggle();
-        });
-        if (typeof jQuery !== 'undefined') initServiceToggle();
+        function initQuickQuotePopup() {
+            if (qpfAlreadyLoaded) return; // দ্বিতীয়বার popup খুললে আবার লোড করবে না
+            qpfAlreadyLoaded = true;
 
-        loadOnce('qpf-dropzone-js', 'https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js',
-            function() {
-                initDropzone();
-            });
+            loadCssOnce('qpf-dropzone-css',
+                'https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css');
 
-        loadOnce('qpf-recaptcha-js', 'https://www.google.com/recaptcha/api.js');
+            // jQuery আগে থেকেই master.blade.php থেকে গ্লোবালি লোড হয়ে থাকলে,
+            // আবার আলাদা করে লোড না করে সরাসরি সেটাই ব্যবহার করবো
+            if (typeof jQuery !== 'undefined') {
+                initServiceToggle();
+            } else {
+                loadOnce('qpf-jquery-js', 'https://code.jquery.com/jquery-3.6.0.min.js', initServiceToggle);
+            }
+
+            loadOnce('qpf-dropzone-js', 'https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js',
+                initDropzone);
+            loadOnce('qpf-recaptcha-js', 'https://www.google.com/recaptcha/api.js');
+        }
+
+        // ===== popup যে modal-এ আছে, তার ID বসান (নিচের 'quickQuoteModal' বদলে আসল ID দিন) =====
+        const qpfModalEl = document.getElementById('quickQuoteModal');
+        if (qpfModalEl) {
+            qpfModalEl.addEventListener('shown.bs.modal', initQuickQuotePopup);
+        }
     })();
 </script>
-
