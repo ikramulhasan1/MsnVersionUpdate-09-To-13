@@ -671,9 +671,11 @@
     </style>
 
     <script>
-        (function() {
+        function initWhymsnReveal() {
             var stage = document.getElementById('whymsn_stage');
             if (!stage) return;
+            if (stage.dataset.whymsnBound === '1') return;
+            stage.dataset.whymsnBound = '1';
 
             var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -694,7 +696,10 @@
             });
 
             observer.observe(stage);
-        })();
+        }
+
+        document.addEventListener('DOMContentLoaded', initWhymsnReveal);
+        document.addEventListener('livewire:navigated', initWhymsnReveal);
     </script>
 </body>
 

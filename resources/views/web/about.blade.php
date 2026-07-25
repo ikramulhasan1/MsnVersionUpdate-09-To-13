@@ -31,10 +31,10 @@
 @section('content')
     <style>
         /* ==========================================================================
-                                 MSN SoftTech — About Us page styles (Minimal Clean direction)
-                                 White background, generous whitespace, single accent (red).
-                                 Prefix: .ap-  (About Page)   Shared/global: .msn-  (already used site-wide)
-                                 ========================================================================== */
+                                         MSN SoftTech — About Us page styles (Minimal Clean direction)
+                                         White background, generous whitespace, single accent (red).
+                                         Prefix: .ap-  (About Page)   Shared/global: .msn-  (already used site-wide)
+                                         ========================================================================== */
 
         @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -174,8 +174,8 @@
         }
 
         /* ==========================================================================
-                                 HERO — dark maroon/red gradient (matches reference screenshot)
-                                 ========================================================================== */
+                                         HERO — dark maroon/red gradient (matches reference screenshot)
+                                         ========================================================================== */
         .ap-hero {
             --hero-fg: #FFFFFF;
             --hero-fg-muted: rgba(255, 255, 255, .68);
@@ -316,8 +316,8 @@
         }
 
         /* optional: wrap a word in <span class="ap-accent"> inside the hero title
-                                 to highlight it in red, e.g. <h1>Building <span class="ap-accent">production
-                                 quality</span> software</h1> */
+                                         to highlight it in red, e.g. <h1>Building <span class="ap-accent">production
+                                         quality</span> software</h1> */
         .ap-hero-title .ap-accent {
             color: var(--hero-red);
         }
@@ -374,8 +374,8 @@
         }
 
         /* ==========================================================================
-                                 WHO WE ARE (intro)
-                                 ========================================================================== */
+                                         WHO WE ARE (intro)
+                                         ========================================================================== */
         .ap-intro-grid {
             display: grid;
             grid-template-columns: 1.1fr .9fr;
@@ -453,8 +453,8 @@
         }
 
         /* ==========================================================================
-                                 CORE VALUES
-                                 ========================================================================== */
+                                         CORE VALUES
+                                         ========================================================================== */
         .ap-values-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -503,8 +503,8 @@
         }
 
         /* ==========================================================================
-                                 MISSION & VISION
-                                 ========================================================================== */
+                                         MISSION & VISION
+                                         ========================================================================== */
         .ap-mv-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -569,8 +569,8 @@
         }
 
         /* ==========================================================================
-                                 WHAT WE PROVIDE
-                                 ========================================================================== */
+                                         WHAT WE PROVIDE
+                                         ========================================================================== */
         .ap-provide-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -615,8 +615,8 @@
         }
 
         /* ==========================================================================
-                                 TECH MARQUEE
-                                 ========================================================================== */
+                                         TECH MARQUEE
+                                         ========================================================================== */
         .ap-marquee-wrap {
             border-top: 1px solid var(--ap-line);
             border-bottom: 1px solid var(--ap-line);
@@ -683,8 +683,8 @@
         }
 
         /* ==========================================================================
-                                 STATS (dark, flat)
-                                 ========================================================================== */
+                                         STATS (dark, flat)
+                                         ========================================================================== */
         .ap-stats-section {
             background: var(--ap-navy);
             color: #fff;
@@ -727,8 +727,8 @@
         }
 
         /* ==========================================================================
-                                 TEAM
-                                 ========================================================================== */
+                                         TEAM
+                                         ========================================================================== */
         .ap-team-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -817,8 +817,8 @@
         }
 
         /* ==========================================================================
-                                 PULL QUOTE BAND
-                                 ========================================================================== */
+                                         PULL QUOTE BAND
+                                         ========================================================================== */
         .ap-quote-band {
             background: var(--ap-ink);
             color: #fff;
@@ -854,8 +854,8 @@
         }
 
         /* ==========================================================================
-                                 PROCESS
-                                 ========================================================================== */
+                                         PROCESS
+                                         ========================================================================== */
         .ap-process-title {
             max-width: 620px;
         }
@@ -923,8 +923,8 @@
         }
 
         /* ==========================================================================
-                                 RESPONSIVE
-                                 ========================================================================== */
+                                         RESPONSIVE
+                                         ========================================================================== */
         @media (max-width: 991px) {
             .ap-intro-grid {
                 grid-template-columns: 1fr;
@@ -1020,7 +1020,7 @@
                     build.
                 </p>
                 <div class="ap-breadcrumb msn-reveal">
-                    <a href="{{ route('home') }}">{{ __('navbar.home') }}</a>
+                    <a href="{{ route('home') }}" wire:navigate>{{ __('navbar.home') }}</a>
                     <span class="sep">/</span>
                     <span>{{ __('navbar.about') }}</span>
                 </div>
@@ -1329,7 +1329,7 @@
                         $page_quote = \App\Models\PageSetup::page('get-quote');
                     @endphp
                     <div class="text-center mt-5">
-                        <a href="{{ route('get-quote') }}"
+                        <a href="{{ route('get-quote') }}" wire:navigate
                             class="msn-btn msn-btn-primary ap-btn-shine">{{ $page_quote->title }} →</a>
                     </div>
                 </div>
@@ -1339,14 +1339,20 @@
     </div><!-- /.msn-scope -->
 
     <script>
-        (function() {
+        function initApStatsCounter() {
             // premium touch: count the stats up when they scroll into view
             var stats = document.querySelectorAll('.ap-stat-value[data-count]');
             if (!stats.length || !('IntersectionObserver' in window)) return;
+
             var io = new IntersectionObserver(function(entries) {
                 entries.forEach(function(entry) {
                     if (!entry.isIntersecting) return;
                     var el = entry.target;
+                    if (el.dataset.apCounted === '1') {
+                        io.unobserve(el);
+                        return;
+                    }
+                    el.dataset.apCounted = '1';
                     var target = parseInt(el.getAttribute('data-count'), 10) || 0;
                     var current = 0;
                     var step = Math.max(1, Math.ceil(target / 60));
@@ -1365,20 +1371,13 @@
                 threshold: 0.4
             });
             stats.forEach(function(el) {
-                io.observe(el);
+                if (el.dataset.apCounted !== '1') io.observe(el);
             });
-        })();
-
-
-
-
-
-
+        }
 
         // MSN SoftTech — scroll reveal for .msn-reveal elements
-        // Skip this file if your global site JS already reveals .msn-reveal (used on the home page too).
-        (function() {
-            var els = document.querySelectorAll('.msn-reveal');
+        function initMsnReveal() {
+            var els = document.querySelectorAll('.msn-reveal:not(.is-visible)');
             if (!els.length) return;
 
             if (!('IntersectionObserver' in window)) {
@@ -1402,7 +1401,14 @@
             els.forEach(function(el) {
                 io.observe(el);
             });
-        })();
+        }
+
+        // wire:navigate দিয়ে about পেজে বারবার এলেও ঠিকভাবে re-init হবে;
+        // data-attribute guard দ্বারা ডাবল-কাউন্ট/ডাবল-রিভিল আটকানো হয়েছে
+        document.addEventListener('DOMContentLoaded', initApStatsCounter);
+        document.addEventListener('livewire:navigated', initApStatsCounter);
+        document.addEventListener('DOMContentLoaded', initMsnReveal);
+        document.addEventListener('livewire:navigated', initMsnReveal);
     </script>
 
 @endsection

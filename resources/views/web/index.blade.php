@@ -114,7 +114,7 @@
                             $page_quote = \App\Models\PageSetup::page('get-quote');
                         @endphp
                         <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
-                            {{-- <a href="{{ route('get-quote') }}" class="idx-btn-primary-red">Talk to an Expert <i
+                            {{-- <a href="{{ route('get-quote') }}" wire:navigate class="idx-btn-primary-red">Talk to an Expert <i
                                     class="fa-solid fa-arrow-right"></i></a> --}}
                             <a href="//wa.me/{{ str_replace(' ', '', $social->whatsapp) }}"
                                 class="cta-cta-btn cta-cta-btn-whatsapp">
@@ -129,7 +129,7 @@
                                     <polyline points="12 5 19 12 12 19"></polyline>
                                 </svg>
                             </a>
-                            {{-- <a href="{{ route('services') }}" class="idx-btn-outline-dark-pill">Explore Our Work <i
+                            {{-- <a href="{{ route('services') }}" wire:navigate class="idx-btn-outline-dark-pill">Explore Our Work <i
                                     class="fa-solid fa-arrow-right"></i></a> --}}
                             <button type="button" class="cta-cta-btn idx-btn-primary-red"
                                 style="background-color: #D2241D; color: white;"
@@ -267,7 +267,7 @@
                     <div class="row g-4">
                         @foreach ($services as $key => $service)
                             <div class="col-12 col-md-6 col-lg-4 disabled-link">
-                                <a href="{{ route('service.single', $service->slug) }}"
+                                <a href="{{ route('service.single', $service->slug) }}" wire:navigate
                                     class="svc-service-card text-decoration-none d-block text-black">
                                     <div class="svc-service-icon"><i class="{{ $service->service_icon }}"></i></div>
                                     <h3 class="svc-service-title">{{ $service->short_title }}</h3>
@@ -449,55 +449,69 @@
             </section>
 
             <script>
-                const track = document.getElementById('tstCarouselTrack');
-                const cards = Array.from(track.children);
-                const tstPrevBtn = document.getElementById('tstPrevBtn');
-                const tstNextBtn = document.getElementById('tstNextBtn');
+                function initTstCarousel() {
+                    const track = document.getElementById('tstCarouselTrack');
+                    if (!track) return;
 
-                let currentIndex = 0;
+                    const cards = Array.from(track.children);
+                    const tstPrevBtn = document.getElementById('tstPrevBtn');
+                    const tstNextBtn = document.getElementById('tstNextBtn');
+                    if (!tstPrevBtn || !tstNextBtn || !cards.length) return;
 
-                function getVisibleCount() {
-                    const w = window.innerWidth;
-                    if (w <= 575.98) return 1;
-                    if (w <= 991.98) return 2;
-                    return 3;
-                }
+                    let currentIndex = 0;
 
-                function getGap() {
-                    return parseFloat(getComputedStyle(track).gap) || 24;
-                }
+                    function getVisibleCount() {
+                        const w = window.innerWidth;
+                        if (w <= 575.98) return 1;
+                        if (w <= 991.98) return 2;
+                        return 3;
+                    }
 
-                function update() {
-                    const visible = getVisibleCount();
-                    const maxIndex = Math.max(0, cards.length - visible);
-                    currentIndex = Math.min(currentIndex, maxIndex);
+                    function getGap() {
+                        return parseFloat(getComputedStyle(track).gap) || 24;
+                    }
 
-                    const cardWidth = cards[0].getBoundingClientRect().width;
-                    const gap = getGap();
-                    const offset = currentIndex * (cardWidth + gap);
+                    function update() {
+                        // পেজ থেকে সরে গেলে (wire:navigate দিয়ে) এই track আর DOM-এ থাকবে না,
+                        // তখন এই loop/handler কে চুপচাপ থেমে যেতে হবে
+                        if (!document.body.contains(track)) return;
 
-                    track.style.transform = `translateX(-${offset}px)`;
+                        const visible = getVisibleCount();
+                        const maxIndex = Math.max(0, cards.length - visible);
+                        currentIndex = Math.min(currentIndex, maxIndex);
 
-                    tstPrevBtn.disabled = currentIndex === 0;
-                    tstNextBtn.disabled = currentIndex >= maxIndex;
-                    tstNextBtn.classList.toggle('tst-active-next', currentIndex < maxIndex);
-                }
+                        const cardWidth = cards[0].getBoundingClientRect().width;
+                        const gap = getGap();
+                        const offset = currentIndex * (cardWidth + gap);
 
-                tstPrevBtn.addEventListener('click', () => {
-                    currentIndex = Math.max(0, currentIndex - 1);
+                        track.style.transform = `translateX(-${offset}px)`;
+
+                        tstPrevBtn.disabled = currentIndex === 0;
+                        tstNextBtn.disabled = currentIndex >= maxIndex;
+                        tstNextBtn.classList.toggle('tst-active-next', currentIndex < maxIndex);
+                    }
+
+                    tstPrevBtn.addEventListener('click', () => {
+                        currentIndex = Math.max(0, currentIndex - 1);
+                        update();
+                    });
+
+                    tstNextBtn.addEventListener('click', () => {
+                        const visible = getVisibleCount();
+                        const maxIndex = Math.max(0, cards.length - visible);
+                        currentIndex = Math.min(maxIndex, currentIndex + 1);
+                        update();
+                    });
+
+                    window.addEventListener('resize', update);
                     update();
-                });
+                }
 
-                tstNextBtn.addEventListener('click', () => {
-                    const visible = getVisibleCount();
-                    const maxIndex = Math.max(0, cards.length - visible);
-                    currentIndex = Math.min(maxIndex, currentIndex + 1);
-                    update();
-                });
-
-                window.addEventListener('resize', update);
-                window.addEventListener('load', update);
-                update();
+                // wire:navigate দিয়ে হোমপেজে বারবার এলেও carousel প্রতিবার re-init হবে,
+                // আর পুরনো instance-এর event listener/element নতুন করে declare হওয়ার
+                // সমস্যা (Identifier already declared) হবে না, কারণ সবকিছু function-scope-এ বন্দি
+                document.addEventListener('DOMContentLoaded', initTstCarousel);
+                document.addEventListener('livewire:navigated', initTstCarousel);
             </script>
         @endif
     </div>
@@ -525,9 +539,15 @@
             </section>
 
             <script>
-                (function() {
+                function initCliCarousel() {
                     const cliWrap = document.getElementById("cliWrap");
                     const cliTrack = document.getElementById("cliTrack");
+                    if (!cliWrap || !cliTrack) return;
+
+                    // আগে থেকেই init করা থাকলে (একই DOM node-এ, hover/drag listener সহ)
+                    // দ্বিতীয়বার বসাবো না, নাহলে ইভেন্ট লিসেনার আর rAF loop ডুপ্লিকেট হয়ে যাবে
+                    if (cliWrap.dataset.cliInitialized === '1') return;
+                    cliWrap.dataset.cliInitialized = '1';
 
                     // If you swap the markup for a single set of real <img> logos, this will
                     // auto-duplicate it once so the loop stays seamless.
@@ -564,6 +584,10 @@
                     }
 
                     function cliTick() {
+                        // wire:navigate দিয়ে এই পেজ থেকে সরে গেলে এই node আর DOM-এ থাকবে না —
+                        // তখন loop নিজে থেকে থেমে যাবে, নাহলে ব্যাকগ্রাউন্ডে চলতেই থাকবে
+                        if (!document.body.contains(cliTrack)) return;
+
                         if (!cliIsDragging && !cliIsPaused) {
                             cliOffset += CLI_SPEED;
                             cliApplyTransform();
@@ -631,7 +655,10 @@
 
                     // Prevent native image/element drag ghost
                     cliTrack.addEventListener("dragstart", (e) => e.preventDefault());
-                })();
+                }
+
+                document.addEventListener('DOMContentLoaded', initCliCarousel);
+                document.addEventListener('livewire:navigated', initCliCarousel);
             </script>
         </div>
     @endif

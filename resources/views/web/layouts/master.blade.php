@@ -73,6 +73,7 @@
     </script>
     {{-- <link href="//cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"> --}}
 
+    @livewireStyles
 </head>
 
 <body>
@@ -88,7 +89,8 @@
 
                 @if (isset($setting))
                     <div class="special_logo">
-                        <a href="{{ route('home') }}"><img src="{{ asset('/uploads/setting/' . $setting->logo_path) }}"
+                        <a href="{{ route('home') }}" wire:navigate><img
+                                src="{{ asset('/uploads/setting/' . $setting->logo_path) }}"
                                 alt="{{ $setting->title ?? 'Logo' }}"></a>
                     </div>
                 @endif
@@ -100,7 +102,7 @@
                     @endphp
                     @if (isset($page_home))
                         <li><a class="{{ Request::path() == '/' ? 'special_current' : '' }}"
-                                href="{{ route('home') }}">{{ $page_home->title }}</a></li>
+                                href="{{ route('home') }}" wire:navigate>{{ $page_home->title }}</a></li>
                     @endif
 
                     @php
@@ -115,13 +117,13 @@
                                     class="special_chevron"></span></a>
                             <ul class="special_submenu">
                                 @if (isset($page_about))
-                                    <li><a href="{{ route('about') }}">{{ $page_about->title }}</a></li>
+                                    <li><a href="{{ route('about') }}" wire:navigate>{{ $page_about->title }}</a></li>
                                 @endif
                                 @if (isset($page_faqs))
-                                    <li><a href="{{ route('faqs') }}">{{ $page_faqs->title }}</a></li>
+                                    <li><a href="{{ route('faqs') }}" wire:navigate>{{ $page_faqs->title }}</a></li>
                                 @endif
                                 {{-- @if (isset($page_contact))
-                                    <li><a href="{{ route('contact') }}">{{ $page_contact->title }}</a></li>
+                                    <li><a href="{{ route('contact') }}" wire:navigate>{{ $page_contact->title }}</a></li>
                                 @endif --}}
                             </ul>
                         </li>
@@ -133,7 +135,7 @@
                     @if (isset($page_services))
                         <li class="special_dropdown special_has-mega">
                             <a class="{{ Request::is('service*') || Request::is('related-service*') ? 'special_current' : '' }} disabled-link"
-                                href="{{ route('services') }}">{{ $page_services->title }}
+                                href="{{ route('services') }}" wire:navigate>{{ $page_services->title }}
                                 <span class="special_chevron"></span></a>
 
                             {{-- Mobile / tablet: simple accordion list (unchanged) --}}
@@ -142,12 +144,13 @@
                                     @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
                                         <li>
                                             <a class="disabled-link"
-                                                href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
+                                                href="{{ route('service.single', $service_subnav->slug) }}"
+                                                wire:navigate>{{ $service_subnav->short_title }}</a>
                                             @if ($service_subnav->subservices->count() > 0)
                                                 <ul class="special_submenu-nested">
                                                     @foreach ($service_subnav->subservices as $sub)
-                                                        <li><a
-                                                                href="{{ route('service.related-single', $sub->slug) }}">{{ $sub->short_title }}</a>
+                                                        <li><a href="{{ route('service.related-single', $sub->slug) }}"
+                                                                wire:navigate>{{ $sub->short_title }}</a>
                                                         </li>
                                                     @endforeach
                                                 </ul>
@@ -166,7 +169,8 @@
                                                 <li class="special_megamenu-item {{ $loop->first ? 'special_active' : '' }}"
                                                     data-panel="mega-panel-{{ $service_subnav->id }}">
                                                     <a class="disabled-link"
-                                                        href="{{ route('service.single', $service_subnav->slug) }}">{{ $service_subnav->short_title }}</a>
+                                                        href="{{ route('service.single', $service_subnav->slug) }}"
+                                                        wire:navigate>{{ $service_subnav->short_title }}</a>
                                                 </li>
                                             @endif
                                         @endforeach
@@ -191,7 +195,8 @@
                                                             <ul class="special_megamenu-col">
                                                                 @foreach ($chunk as $sub)
                                                                     <li><a style="font-weight: 400"
-                                                                            href="{{ route('service.related-single', $sub->slug) }}">
+                                                                            href="{{ route('service.related-single', $sub->slug) }}"
+                                                                            wire:navigate>
                                                                             <div
                                                                                 style="display: flex; align-items: center">
                                                                                 <i
@@ -218,7 +223,7 @@
                     @endphp
                     @if (isset($page_portfolio))
                         <li><a class="{{ Request::is('portfolio*') ? 'special_current' : '' }}"
-                                href="{{ route('portfolios') }}">{{ $page_portfolio->title }}</a></li>
+                                href="{{ route('portfolios') }}" wire:navigate>{{ $page_portfolio->title }}</a></li>
                     @endif
                     @php
                         $all_pages = \App\Models\Page::where('type', 'casestudy')->get();
@@ -231,7 +236,8 @@
                                 <span class="special_chevron"></span></a>
                             <ul class="special_submenu">
                                 @foreach ($all_pages as $page)
-                                    <li><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
+                                    <li><a href="{{ route('page.single', $page->slug) }}"
+                                            wire:navigate>{{ $page->title }}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -248,7 +254,8 @@
                                 <span class="special_chevron"></span></a>
                             <ul class="special_submenu">
                                 @foreach ($re_page as $page)
-                                    <li><a href="{{ route('page.single', $page->slug) }}">{{ $page->title }}</a>
+                                    <li><a href="{{ route('page.single', $page->slug) }}"
+                                            wire:navigate>{{ $page->title }}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -259,7 +266,7 @@
                     $page_quote = \App\Models\PageSetup::page('get-quote');
                 @endphp
                 @if (isset($page_quote))
-                    <a href="{{ route('get-quote') }}" style="background-color: #D2241D"
+                    <a href="{{ route('get-quote') }}" wire:navigate style="background-color: #D2241D"
                         class="special_contact-btn">{{ $page_quote->title }} →</a>
                 @endif
 
@@ -395,7 +402,7 @@
                     {{-- Column 1: Logo + Address --}}
                     <div class="custom-footer-col custom-footer-brand">
                         @if (isset($setting))
-                            <a href="{{ route('home') }}" class="footer-logo d-inline-block">
+                            <a href="{{ route('home') }}" wire:navigate class="footer-logo d-inline-block">
                                 <img src="{{ asset('/uploads/setting/' . $setting->logo_path) }}"
                                     alt="{{ $setting->title ?? 'Logo' }}">
                             </a>
@@ -484,14 +491,15 @@
                                 @foreach ($chunk as $service)
                                     <li>
                                         <a class="footer-main-service"
-                                            href="{{ route('service.single', $service->slug) }}">
+                                            href="{{ route('service.single', $service->slug) }}" wire:navigate>
                                             {{ $service->short_title }}
                                         </a>
                                         @if ($service->subservices->count() > 0)
                                             <ul class="footer-sub-service-list">
                                                 @foreach ($service->subservices as $sub)
                                                     <li>
-                                                        <a href="{{ route('service.related-single', $sub->slug) }}">
+                                                        <a href="{{ route('service.related-single', $sub->slug) }}"
+                                                            wire:navigate>
                                                             {{ $sub->short_title }}
                                                         </a>
                                                     </li>
@@ -508,13 +516,13 @@
                     <div class="custom-footer-col custom-footer-quicklinks">
                         <h5>Quick Links</h5>
                         <ul>
-                            <li><a href="{{ route('home') }}">Home</a></li>
-                            <li><a href="{{ route('about') }}">About Us</a></li>
-                            <li><a href="{{ route('services') }}">Services</a></li>
-                            <li><a href="{{ route('portfolios') }}">Portfolio</a></li>
-                            <li><a href="{{ route('blogs') }}">Blog</a></li>
-                            {{-- <li><a href="{{ route('case') }}">Case Studies</a></li> --}}
-                            <li><a href="{{ route('get-quote') }}">Contact Us</a></li>
+                            <li><a href="{{ route('home') }}" wire:navigate>Home</a></li>
+                            <li><a href="{{ route('about') }}" wire:navigate>About Us</a></li>
+                            <li><a href="{{ route('services') }}" wire:navigate>Services</a></li>
+                            <li><a href="{{ route('portfolios') }}" wire:navigate>Portfolio</a></li>
+                            <li><a href="{{ route('blogs') }}" wire:navigate>Blog</a></li>
+                            {{-- <li><a href="{{ route('case') }}" wire:navigate>Case Studies</a></li> --}}
+                            <li><a href="{{ route('get-quote') }}" wire:navigate>Contact Us</a></li>
                         </ul>
                     </div>
 
@@ -592,7 +600,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
@@ -634,7 +642,14 @@
         </div>
     @endif
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        // wire:navigate ব্যবহার করলে পুরো পেজ reload হয় না, তাই DOMContentLoaded শুধু প্রথমবার fire হয়।
+        // livewire:navigated ইভেন্টটা প্রতিটা SPA navigation-এর পরেও fire হয় (প্রথম লোডেও fire হয়)।
+        // তাই নিচের সব init function দুটো ইভেন্টেই বাঁধা হয়েছে, প্রতিটা idempotent (বারবার চালালেও সমস্যা হবে না)।
+
+        function initWhatsappFab() {
+            // আগে থেকে থাকলে duplicate FAB তৈরি হবে না
+            if (document.querySelector('.wa-fab')) return;
+
             const waWrap = document.createElement("div");
             waWrap.innerHTML = `
             <a rel="noopener noreferrer" href="//wa.link/lnuvjw" target="_blank" class="wa-fab" aria-label="Live chat with agent on WhatsApp">
@@ -648,26 +663,35 @@
             </a>
         `;
             document.body.appendChild(waWrap);
-        });
-    </script>
-    <script>
-        document.querySelectorAll('a').forEach(link => {
-            if (!link.hasAttribute('href') && link.innerHTML.trim() === '') {
-                link.style.display = 'none';
-            }
-        });
-    </script>
+        }
 
+        function hideEmptyLinks() {
+            document.querySelectorAll('a').forEach(link => {
+                if (!link.hasAttribute('href') && link.innerHTML.trim() === '') {
+                    link.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", initWhatsappFab);
+        document.addEventListener("livewire:navigated", initWhatsappFab);
+
+        document.addEventListener("DOMContentLoaded", hideEmptyLinks);
+        document.addEventListener("livewire:navigated", hideEmptyLinks);
+    </script>
     <script>
         Dropzone.autoDiscover = false;
     </script>
 
-
     <script>
-        $(document).ready(function() {
+        // Event delegation ব্যবহার করা হয়েছে (document-এ bind), তাই এই বাইন্ডিং একবার করলেই
+        // wire:navigate দিয়ে নতুন আসা get-quote পেজের এলিমেন্টগুলোতেও কাজ করবে —
+        // handler গুলো একবারই বসবে (guard দিয়ে দ্বিতীয়বার বসা আটকানো হয়েছে), duplicate fire হবে না।
+        if (!window._gqHandlersBound) {
+            window._gqHandlersBound = true;
 
             // Toggle subservice visibility when main service label is clicked
-            $('.gq-service-label').on('click', function(e) {
+            $(document).on('click', '.gq-service-label', function(e) {
                 e.preventDefault();
 
                 let parent = $(this).closest('.gq-service');
@@ -706,12 +730,17 @@
                     $('.gq-subservices').slideUp(200);
                 }
             });
-        });
+        }
 
-        document.addEventListener("DOMContentLoaded", function() {
+        function initQuoteDropzone() {
             const dzElem = document.getElementById("quoteDropzone");
             if (!dzElem) {
-                console.error("Dropzone element not found!");
+                // এই পেজে quoteDropzone নেই, কিছু করার দরকার নেই (এটা error না)
+                return;
+            }
+
+            // আগেই init করা থাকলে দ্বিতীয়বার Dropzone attach করলে এরর হয়, তাই guard
+            if (dzElem.dropzone) {
                 return;
             }
 
@@ -747,10 +776,14 @@
                     alert("File upload failed!");
                 },
             });
-        });
+        }
+
+        document.addEventListener("DOMContentLoaded", initQuoteDropzone);
+        document.addEventListener("livewire:navigated", initQuoteDropzone);
     </script>
     @yield('scriptjs')
 
+    @livewireScripts
 </body>
 
 </html>

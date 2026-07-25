@@ -37,7 +37,7 @@
                     launch.</p>
                 <div class="works-breadcrumb">
                     <ul>
-                        <li><a href="{{ route('home') }}">{{ __('navbar.home') }}</a></li>
+                        <li><a href="{{ route('home') }}" wire:navigate>{{ __('navbar.home') }}</a></li>
                         <li>{{ __('navbar.portfolios') }}</li>
                     </ul>
                 </div>
@@ -116,7 +116,8 @@
 
                     <div class="works-grid mt-4" id="worksGrid">
                         @foreach ($portfolios as $portfolio)
-                            <a href="{{ route('portfolio.single', $portfolio->slug) }}" class="work-card reveal"
+                            <a href="{{ route('portfolio.single', $portfolio->slug) }}" wire:navigate
+                                class="work-card reveal"
                                 data-cat="all @foreach ($portfolio->categories as $category){{ $category->slug }} @endforeach">
                                 <div class="wc-browser">
                                     <div class="wc-bar">
@@ -169,7 +170,7 @@
             <p>Tell us what you're building and we'll show you the approach we'd take, based on the work above.</p>
             <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
               <a href="mailto:{{ $setting->email ?? '' }}" class="btn btn-light">Email the team</a>
-              <a href="{{ route('home') }}#contact" class="btn btn-dark">Get a Free Consultation</a>
+              <a href="{{ route('home') }}#contact" wire:navigate class="btn btn-dark">Get a Free Consultation</a>
             </div>
           </div>
         </div>
@@ -181,12 +182,16 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        (function() {
-            AOS.init();
+        function initPortfoliosPage() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init();
+            }
 
             var filterBtns = document.querySelectorAll("#works-page .filter-btn");
             var filterCount = document.getElementById("filterCount");
             var worksEmpty = document.getElementById("worksEmpty");
+
+            if (!filterBtns.length && !document.querySelectorAll("#works-page .reveal").length) return;
 
             function applyFilter(filter) {
                 var visible = 0;
@@ -232,6 +237,10 @@
                 el.style.transitionDelay = (index % 6 * 0.06) + "s";
                 observer.observe(el);
             });
-        })();
+        }
+
+        // wire:navigate দিয়ে portfolios পেজে ফিরে এলে filter/reveal/AOS সবকিছু re-init হবে
+        document.addEventListener('DOMContentLoaded', initPortfoliosPage);
+        document.addEventListener('livewire:navigated', initPortfoliosPage);
     </script>
 @endsection

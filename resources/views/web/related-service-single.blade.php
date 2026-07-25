@@ -278,14 +278,15 @@
                             <span class="eyebrow">Recent work</span>
                             <h2>Sites we've shipped recently</h2>
                         </div>
-                        <a href="{{ route('portfolios') }}" class="btn-msn btn-msn-ghost"
+                        <a href="{{ route('portfolios') }}" wire:navigate class="btn-msn btn-msn-ghost"
                             style="border-color:rgba(255,255,255,.5); color:#fff; background:transparent;">View All
                             Projects</a>
                     </div>
 
                     <div class="msn-port-grid2" id="msnPortGrid">
                         @foreach ($service->portfolios as $portfolio)
-                            <a href="{{ route('portfolio.single', $portfolio->slug) }}" class="text-decoration-none ">
+                            <a href="{{ route('portfolio.single', $portfolio->slug) }}" wire:navigate
+                                class="text-decoration-none ">
                                 <div class="msn-port-card2 msn-reveal" data-cat="healthcare">
                                     <div class="msn-port-chrome"><span></span><span></span><span></span></div>
                                     <div class="msn-port-shot"
@@ -531,7 +532,7 @@
     </div>
 
     <script>
-        (function() {
+        function initRelatedServiceSingle() {
             var els = document.querySelectorAll('.msn-reveal');
             var io = new IntersectionObserver(function(entries) {
                 entries.forEach(function(e) {
@@ -638,6 +639,11 @@
             if (statSection) {
                 io2.observe(statSection);
             }
-        })();
+        }
+
+        // wire:navigate দিয়ে অন্য related-service পেজে গিয়ে আবার একটাতে এলেও
+        // marquee/FAQ/filter/stat-counter সব ঠিকভাবে re-init হবে
+        document.addEventListener('DOMContentLoaded', initRelatedServiceSingle);
+        document.addEventListener('livewire:navigated', initRelatedServiceSingle);
     </script>
 @endsection

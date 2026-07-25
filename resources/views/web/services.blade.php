@@ -777,7 +777,8 @@
                             </button>
                         </div>
                         <div class="svc-hero-crumb">
-                            <a href="{{ route('home') }}">{{ __('navbar.home') }}</a> / {{ __('navbar.services') }}
+                            <a href="{{ route('home') }}" wire:navigate>{{ __('navbar.home') }}</a> /
+                            {{ __('navbar.services') }}
                         </div>
                     </div>
 
@@ -850,11 +851,11 @@
                                         <img src="{{ asset('uploads/service/' . $service->image_path) }}"
                                             alt="{{ $service->title }}">
                                     </div>
-                                    <h3><a
-                                            href="{{ route('service.single', $service->slug) }}">{{ $service->short_title }}</a>
+                                    <h3><a href="{{ route('service.single', $service->slug) }}"
+                                            wire:navigate>{{ $service->short_title }}</a>
                                     </h3>
                                     <div class="desc">{!! strip_tags(\Illuminate\Support\Str::words($service->short_desc, 18)) !!}</div>
-                                    {{-- <a href="{{ route('service.single', $service->slug) }}"
+                                    {{-- <a href="{{ route('service.single', $service->slug) }}" wire:navigate
                                         class="svc-card-more">{{ __('common.read_more') }}</a> --}}
                                 </div>
                             </div>
@@ -920,7 +921,7 @@
                                         class="sub_service-url">{{ \Illuminate\Support\Str::slug($sub->parent_service->short_title . '-' . $sub->short_title) }}</span>
                                 </div>
 
-                                <a href="{{ route('service.related-single', $sub->slug) }}"
+                                <a href="{{ route('service.related-single', $sub->slug) }}" wire:navigate
                                     class="sub_service-card-media">
                                     <img src="{{ asset('uploads/subservice/' . $sub->image_path) }}"
                                         alt="{{ $sub->short_title }}" loading="lazy">
@@ -928,10 +929,10 @@
 
                                 <div class="sub_service-card-info">
                                     <div class="sub_service-card-title-row">
-                                        <h4><a
-                                                href="{{ route('service.related-single', $sub->slug) }}">{{ $sub->short_title }}</a>
+                                        <h4><a href="{{ route('service.related-single', $sub->slug) }}"
+                                                wire:navigate>{{ $sub->short_title }}</a>
                                         </h4>
-                                        <a href="{{ route('service.related-single', $sub->slug) }}"
+                                        <a href="{{ route('service.related-single', $sub->slug) }}" wire:navigate
                                             class="sub_service-card-arrow" aria-label="{{ $sub->short_title }}">
                                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
                                                 <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2"
@@ -964,10 +965,12 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        function initSubServiceFilter() {
             var tabs = document.querySelectorAll('#sub_serviceTabs .sub_service-tab');
             var cards = document.querySelectorAll('#sub_serviceGrid .sub_service-card');
             var countEl = document.getElementById('sub_serviceCount');
+
+            if (!tabs.length || !cards.length) return;
 
             tabs.forEach(function(tab) {
                 tab.addEventListener('click', function() {
@@ -989,7 +992,12 @@
                     countEl.textContent = shown + ' items shown';
                 });
             });
-        });
+        }
+
+        // wire:navigate-এর মাধ্যমে services পেজে বারবার আসা-যাওয়া করলেও ট্যাব
+        // এলিমেন্টগুলো প্রতিবার নতুন করে DOM-এ বসে, তাই দুটো ইভেন্টেই bind করা হয়েছে
+        document.addEventListener('DOMContentLoaded', initSubServiceFilter);
+        document.addEventListener('livewire:navigated', initSubServiceFilter);
     </script>
 
 @endsection

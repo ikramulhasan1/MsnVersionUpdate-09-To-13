@@ -866,195 +866,195 @@
 
         /* ============ TEAM ============ */
         /* .team-section {
-                                                                            border-bottom: 1px solid var(--line);
-                                                                        }
+                                                                                border-bottom: 1px solid var(--line);
+                                                                            }
 
-                                                                        .team-row {
-                                                                            display: flex;
-                                                                            flex-wrap: wrap;
-                                                                            gap: 14px;
-                                                                        }
+                                                                            .team-row {
+                                                                                display: flex;
+                                                                                flex-wrap: wrap;
+                                                                                gap: 14px;
+                                                                            }
 
-                                                                        .team-chip {
-                                                                            display: flex;
-                                                                            align-items: center;
-                                                                            gap: 12px;
-                                                                            padding: 12px 18px 12px 12px;
-                                                                            border: 1px solid var(--line);
-                                                                            border-radius: 999px;
-                                                                            background: var(--white);
-                                                                        }
+                                                                            .team-chip {
+                                                                                display: flex;
+                                                                                align-items: center;
+                                                                                gap: 12px;
+                                                                                padding: 12px 18px 12px 12px;
+                                                                                border: 1px solid var(--line);
+                                                                                border-radius: 999px;
+                                                                                background: var(--white);
+                                                                            }
 
-                                                                        .team-chip .avatar {
-                                                                            width: 38px;
-                                                                            height: 38px;
-                                                                            border-radius: 50%;
-                                                                            display: flex;
-                                                                            align-items: center;
-                                                                            justify-content: center;
-                                                                            color: #fff;
-                                                                            font-family: "Space Grotesk", system-ui, sans-serif;
-                                                                            font-weight: 700;
-                                                                            font-size: 13px;
-                                                                            flex: none;
-                                                                        }
+                                                                            .team-chip .avatar {
+                                                                                width: 38px;
+                                                                                height: 38px;
+                                                                                border-radius: 50%;
+                                                                                display: flex;
+                                                                                align-items: center;
+                                                                                justify-content: center;
+                                                                                color: #fff;
+                                                                                font-family: "Space Grotesk", system-ui, sans-serif;
+                                                                                font-weight: 700;
+                                                                                font-size: 13px;
+                                                                                flex: none;
+                                                                            }
 
-                                                                        .team-chip b {
-                                                                            display: block;
-                                                                            font-family: "Space Grotesk", system-ui, sans-serif;
-                                                                            font-size: 14px;
-                                                                        }
+                                                                            .team-chip b {
+                                                                                display: block;
+                                                                                font-family: "Space Grotesk", system-ui, sans-serif;
+                                                                                font-size: 14px;
+                                                                            }
 
-                                                                        .team-chip span {
-                                                                            display: block;
-                                                                            font-size: 11.5px;
-                                                                            color: var(--faint);
-                                                                        } */
+                                                                            .team-chip span {
+                                                                                display: block;
+                                                                                font-size: 11.5px;
+                                                                                color: var(--faint);
+                                                                            } */
 
         /* ============ NEXT PROJECT NAV ============ */
         /* .next-project {
-                                                                        border-bottom: 1px solid var(--line);
-                                                                    }
+                                                                            border-bottom: 1px solid var(--line);
+                                                                        }
 
-                                                                    .next-project-row {
-                                                                        display: grid;
-                                                                        grid-template-columns: 1fr 1fr;
-                                                                        gap: 1px;
-                                                                        background: var(--line);
-                                                                        border: 1px solid var(--line);
-                                                                        border-radius: var(--radius);
-                                                                        overflow: hidden;
-                                                                    }
+                                                                        .next-project-row {
+                                                                            display: grid;
+                                                                            grid-template-columns: 1fr 1fr;
+                                                                            gap: 1px;
+                                                                            background: var(--line);
+                                                                            border: 1px solid var(--line);
+                                                                            border-radius: var(--radius);
+                                                                            overflow: hidden;
+                                                                        }
 
-                                                                    .np-link {
-                                                                        background: var(--white);
-                                                                        padding: 30px;
-                                                                        display: flex;
-                                                                        flex-direction: column;
-                                                                        gap: 10px;
-                                                                        transition: background-color .25s var(--ease);
-                                                                    }
+                                                                        .np-link {
+                                                                            background: var(--white);
+                                                                            padding: 30px;
+                                                                            display: flex;
+                                                                            flex-direction: column;
+                                                                            gap: 10px;
+                                                                            transition: background-color .25s var(--ease);
+                                                                        }
 
-                                                                    .np-link:hover {
-                                                                        background: var(--soft);
-                                                                    }
+                                                                        .np-link:hover {
+                                                                            background: var(--soft);
+                                                                        }
 
-                                                                    .np-link.next {
-                                                                        align-items: flex-end;
-                                                                        text-align: right;
-                                                                    }
+                                                                        .np-link.next {
+                                                                            align-items: flex-end;
+                                                                            text-align: right;
+                                                                        }
 
-                                                                    .np-label {
-                                                                        font-family: "JetBrains Mono", monospace;
-                                                                        font-size: 11px;
-                                                                        color: var(--faint);
-                                                                        letter-spacing: .08em;
-                                                                        text-transform: uppercase;
-                                                                        display: flex;
-                                                                        align-items: center;
-                                                                        gap: 6px;
-                                                                    }
+                                                                        .np-label {
+                                                                            font-family: "JetBrains Mono", monospace;
+                                                                            font-size: 11px;
+                                                                            color: var(--faint);
+                                                                            letter-spacing: .08em;
+                                                                            text-transform: uppercase;
+                                                                            display: flex;
+                                                                            align-items: center;
+                                                                            gap: 6px;
+                                                                        }
 
-                                                                    .np-link.next .np-label {
-                                                                        flex-direction: row-reverse;
-                                                                    }
+                                                                        .np-link.next .np-label {
+                                                                            flex-direction: row-reverse;
+                                                                        }
 
-                                                                    .np-label svg {
-                                                                        width: 13px;
-                                                                        height: 13px;
-                                                                    }
+                                                                        .np-label svg {
+                                                                            width: 13px;
+                                                                            height: 13px;
+                                                                        }
 
-                                                                    .np-title {
-                                                                        font-family: "Space Grotesk", system-ui, sans-serif;
-                                                                        font-size: 24px;
-                                                                    } */
+                                                                        .np-title {
+                                                                            font-family: "Space Grotesk", system-ui, sans-serif;
+                                                                            font-size: 24px;
+                                                                        } */
 
         /* ============ CTA ============ */
         /* .pj-cta {
-                                                                    padding: clamp(56px, 8vw, 92px) 0;
-                                                                    text-align: center;
-                                                                }
-
-                                                                .pj-cta-box {
-                                                                    max-width: 900px;
-                                                                    margin: 0 auto;
-                                                                    padding: clamp(28px, 5vw, 54px);
-                                                                    border: 1px solid var(--line);
-                                                                    border-radius: 28px;
-                                                                    background: linear-gradient(135deg, rgba(255, 255, 255, .94), rgba(247, 245, 243, .96)), radial-gradient(circle at 14% 0%, rgba(226, 35, 26, .14), transparent 34%);
-                                                                    box-shadow: 0 26px 80px rgba(15, 14, 13, .09);
-                                                                }
-
-                                                                .pj-cta-box h2 {
-                                                                    margin: 14px auto 18px;
-                                                                    font-size: clamp(28px, 4.4vw, 46px);
-                                                                    max-width: 640px;
-                                                                }
-
-                                                                .pj-cta-box p {
-                                                                    max-width: 540px;
-                                                                    margin: 0 auto 26px;
-                                                                    font-size: 16px;
-                                                                }
-
-                                                                @media (max-width:980px) {
-
-                                                                    .pj-hero-grid,
-                                                                    .overview-grid,
-                                                                    .gallery-grid {
-                                                                        grid-template-columns: 1fr;
+                                                                        padding: clamp(56px, 8vw, 92px) 0;
+                                                                        text-align: center;
                                                                     }
 
-                                                                    .meta-grid {
-                                                                        grid-template-columns: 1fr 1fr;
-                                                                        max-width: 100%;
+                                                                    .pj-cta-box {
+                                                                        max-width: 900px;
+                                                                        margin: 0 auto;
+                                                                        padding: clamp(28px, 5vw, 54px);
+                                                                        border: 1px solid var(--line);
+                                                                        border-radius: 28px;
+                                                                        background: linear-gradient(135deg, rgba(255, 255, 255, .94), rgba(247, 245, 243, .96)), radial-gradient(circle at 14% 0%, rgba(226, 35, 26, .14), transparent 34%);
+                                                                        box-shadow: 0 26px 80px rgba(15, 14, 13, .09);
                                                                     }
 
-                                                                    .results-grid {
-                                                                        grid-template-columns: repeat(1, 1fr);
+                                                                    .pj-cta-box h2 {
+                                                                        margin: 14px auto 18px;
+                                                                        font-size: clamp(28px, 4.4vw, 46px);
+                                                                        max-width: 640px;
                                                                     }
 
-                                                                    .device-float {
-                                                                        display: none;
+                                                                    .pj-cta-box p {
+                                                                        max-width: 540px;
+                                                                        margin: 0 auto 26px;
+                                                                        font-size: 16px;
                                                                     }
 
-                                                                    .next-project-row {
-                                                                        grid-template-columns: 1fr;
+                                                                    @media (max-width:980px) {
+
+                                                                        .pj-hero-grid,
+                                                                        .overview-grid,
+                                                                        .gallery-grid {
+                                                                            grid-template-columns: 1fr;
+                                                                        }
+
+                                                                        .meta-grid {
+                                                                            grid-template-columns: 1fr 1fr;
+                                                                            max-width: 100%;
+                                                                        }
+
+                                                                        .results-grid {
+                                                                            grid-template-columns: repeat(1, 1fr);
+                                                                        }
+
+                                                                        .device-float {
+                                                                            display: none;
+                                                                        }
+
+                                                                        .next-project-row {
+                                                                            grid-template-columns: 1fr;
+                                                                        }
+
+                                                                        .np-link.next {
+                                                                            align-items: flex-start;
+                                                                            text-align: left;
+                                                                        }
+
+                                                                        .np-link.next .np-label {
+                                                                            flex-direction: row;
+                                                                        }
                                                                     }
 
-                                                                    .np-link.next {
-                                                                        align-items: flex-start;
-                                                                        text-align: left;
+                                                                    @media (max-width:640px) {
+                                                                        .pj-main .wrap {
+                                                                            width: min(100% - 28px, 1180px);
+                                                                        }
+
+                                                                        .gallery-grid {
+                                                                            grid-template-columns: 1fr;
+                                                                        }
+
+                                                                        .meta-grid {
+                                                                            grid-template-columns: 1fr;
+                                                                        }
                                                                     }
 
-                                                                    .np-link.next .np-label {
-                                                                        flex-direction: row;
-                                                                    }
-                                                                }
+                                                                    @media (prefers-reduced-motion:reduce) {
 
-                                                                @media (max-width:640px) {
-                                                                    .pj-main .wrap {
-                                                                        width: min(100% - 28px, 1180px);
-                                                                    }
-
-                                                                    .gallery-grid {
-                                                                        grid-template-columns: 1fr;
-                                                                    }
-
-                                                                    .meta-grid {
-                                                                        grid-template-columns: 1fr;
-                                                                    }
-                                                                }
-
-                                                                @media (prefers-reduced-motion:reduce) {
-
-                                                                    .pj-main *,
-                                                                    .pj-main *::before,
-                                                                    .pj-main *::after {
-                                                                        animation: none !important;
-                                                                        transition: none !important;
-                                                                    }
-                                                                } */
+                                                                        .pj-main *,
+                                                                        .pj-main *::before,
+                                                                        .pj-main *::after {
+                                                                            animation: none !important;
+                                                                            transition: none !important;
+                                                                        }
+                                                                    } */
     </style>
 
     <div class="pj-main">
@@ -1091,7 +1091,7 @@
                                     </svg>
                                 </a>
                             @endif
-                            <a href="{{ route('portfolios') }}" class="btn btn-light">Back to Our Work</a>
+                            <a href="{{ route('portfolios') }}" wire:navigate class="btn btn-light">Back to Our Work</a>
                         </div>
                         <div class="meta-grid">
                             <div class="meta-cell"><span>Client</span><b>{{ $portfolio->client }}</b></div>
@@ -1356,7 +1356,7 @@
             <p>Tell us what you're building and we'll show you the approach we'd take, based on projects like this one.
             </p>
             <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
-              <a href="{{ route('contact') }}" class="btn btn-dark">Get a Free Consultation</a>
+              <a href="{{ route('contact') }}" wire:navigate class="btn btn-dark">Get a Free Consultation</a>
             </div>
           </div>
         </div>
@@ -1366,7 +1366,12 @@
     </div>
 
     <script>
-        (function() {
+        function initPortfolioSingle() {
+            // পুরনো পেজের window scroll listener জমে থাকতে পারে, তাই আগে সরিয়ে নিচ্ছি
+            if (window._pjSubnavScrollHandler) {
+                window.removeEventListener("scroll", window._pjSubnavScrollHandler);
+            }
+
             /* reveal on scroll */
             var observer = new IntersectionObserver(function(entries) {
                 entries.forEach(function(entry) {
@@ -1378,7 +1383,7 @@
             }, {
                 threshold: .1
             });
-            document.querySelectorAll(".pj-main .reveal").forEach(function(el, index) {
+            document.querySelectorAll(".pj-main .reveal:not(.in)").forEach(function(el, index) {
                 el.style.transitionDelay = (index % 4 * 0.06) + "s";
                 observer.observe(el);
             });
@@ -1388,6 +1393,8 @@
             var trackedSections = Array.prototype.map.call(subnavLinks, function(link) {
                 return document.getElementById(link.getAttribute("href").slice(1));
             }).filter(Boolean);
+
+            if (!subnavLinks.length) return;
 
             function updateSubnav() {
                 var currentId = trackedSections[0] ? trackedSections[0].id : null;
@@ -1399,11 +1406,17 @@
                     link.classList.toggle("active", link.getAttribute("href") === "#" + currentId);
                 });
             }
+
+            window._pjSubnavScrollHandler = updateSubnav;
             window.addEventListener("scroll", updateSubnav, {
                 passive: true
             });
             updateSubnav();
-        })();
+        }
+
+        // wire:navigate দিয়ে portfolio-single পেজে বারবার এলেও ঠিকভাবে re-init হবে
+        document.addEventListener('DOMContentLoaded', initPortfolioSingle);
+        document.addEventListener('livewire:navigated', initPortfolioSingle);
     </script>
 
 @endsection

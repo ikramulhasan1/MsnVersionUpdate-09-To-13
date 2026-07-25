@@ -33,9 +33,9 @@
 
     <style>
         /* ===================================================
-                   FAQ PAGE — premium redesign
-                   Tokens
-                =================================================== */
+                           FAQ PAGE — premium redesign
+                           Tokens
+                        =================================================== */
         .faq-page {
             --navy: #052c58;
             --navy-deep: #031b38;
@@ -531,7 +531,7 @@
             <p class="faq-hero-sub">Quick, straight answers about how we work, what we deliver, and what it's like to
                 build with MSN SoftTech.</p>
             <div class="faq-breadcrumb">
-                <a href="{{ route('home') }}">{{ __('navbar.home') }}</a>
+                <a href="{{ route('home') }}" wire:navigate>{{ __('navbar.home') }}</a>
                 <span class="sep">/</span>
                 <span class="current">{{ __('navbar.faqs') }}</span>
             </div>
@@ -625,7 +625,7 @@
         </section>
 
         <script>
-            (function() {
+            function initFaqsPage() {
 
                 // ---------- Accordion + search (re-run after every AJAX swap) ----------
                 function initFaqAccordionAndSearch() {
@@ -676,18 +676,24 @@
                     }
                 }
 
-                window.addEventListener('resize', function() {
+                if (window._faqResizeHandler) {
+                    window.removeEventListener('resize', window._faqResizeHandler);
+                }
+                window._faqResizeHandler = function() {
                     document.querySelectorAll('[data-faq-item].active').forEach(function(item) {
                         var body = item.querySelector('[data-faq-body]');
                         body.style.maxHeight = body.scrollHeight + 'px';
                     });
-                });
+                };
+                window.addEventListener('resize', window._faqResizeHandler);
 
                 initFaqAccordionAndSearch();
 
                 // ---------- AJAX category switching (no page reload) ----------
-                var accordionWrap = document.getElementById('faqAccordion').parentNode; // .col-lg-8
+                var faqAccordionEl = document.getElementById('faqAccordion');
                 var catList = document.getElementById('faqCatList');
+                if (!faqAccordionEl || !catList) return;
+                var accordionWrap = faqAccordionEl.parentNode; // .col-lg-8
 
                 function bindCategoryLinks() {
                     catList.querySelectorAll('[data-faq-cat-link]').forEach(function(link) {
@@ -755,12 +761,21 @@
 
                 bindCategoryLinks();
 
-                window.addEventListener('popstate', function(e) {
+                if (window._faqPopstateHandler) {
+                    window.removeEventListener('popstate', window._faqPopstateHandler);
+                }
+                window._faqPopstateHandler = function(e) {
                     if (e.state && e.state.faqCategoryUrl) {
                         loadCategory(e.state.faqCategoryUrl, false);
                     }
-                });
-            })();
+                };
+                window.addEventListener('popstate', window._faqPopstateHandler);
+            }
+
+            // wire:navigate দিয়ে অন্য পেজে গিয়ে আবার FAQ পেজে ফিরে এলেও accordion,
+            // সার্চ, আর category-এর AJAX-switch সবকিছু ঠিকভাবে re-init হবে
+            document.addEventListener('DOMContentLoaded', initFaqsPage);
+            document.addEventListener('livewire:navigated', initFaqsPage);
         </script>
         <!--End FAQs Section-->
     @endif
