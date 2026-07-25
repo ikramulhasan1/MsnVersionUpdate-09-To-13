@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\CacheFullPage;
 use App\Http\Middleware\CheckForMaintenanceMode;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\Localization;
@@ -87,6 +88,7 @@ class Kernel extends HttpKernel
         'verified' => EnsureEmailIsVerified::class,
         'XSS' => XSSProtection::class,
         'redirect' => RedirectMiddleware::class,
+        'pagecache' => CacheFullPage::class,
     ];
 
     /**

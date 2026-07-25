@@ -10,8 +10,16 @@ use App\Http\Controllers\Web\GetQuoteController;
 use App\Http\Controllers\Web\MeetingController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['XSS', 'redirect'])->namespace('Web')->group(function () {
+Route::middleware(['XSS', 'redirect', 'pagecache'])->namespace('Web')->group(function () {
     Route::post('/meetings', [MeetingController::class, 'store'])->name('meetings.store');
+
+    // Full-page cache-এর কারণে ফর্মের মধ্যে বেক করা CSRF token পুরনো হয়ে যেতে পারে
+    // (cached HTML সব ভিজিটরের জন্য একই থাকে), তাই পেজ লোড হওয়ার পর JS দিয়ে
+    // এই এন্ডপয়েন্ট থেকে fresh token নিয়ে ফর্ম/মেটা-ট্যাগ আপডেট করা হয়।
+    // JSON রেসপন্স হওয়ায় এটা কখনোই HTML page-cache-এ সেভ হবে না।
+    Route::get('/csrf-refresh', function () {
+        return response()->json(['token' => csrf_token()]);
+    })->name('csrf.refresh');
 
     // Home Route
     Route::get('/', 'HomeController@index')->name('home');
@@ -102,6 +110,17 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
     // Dashboard Route
     Route::get('/', 'DashboardController@index')->name('dashboard.index');
     // Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
+
+    // Cache Management Routes
+    Route::prefix('cache')->name('cache.')->group(function () {
+        Route::get('/', 'CacheManagementController@index')->name('index');
+        Route::post('/enable', 'CacheManagementController@enable')->name('enable');
+        Route::post('/disable', 'CacheManagementController@disable')->name('disable');
+        Route::post('/clear-all', 'CacheManagementController@clearAll')->name('clear-all');
+        Route::post('/clear-home', 'CacheManagementController@clearHome')->name('clear-home');
+        Route::post('/clear-path', 'CacheManagementController@clearPath')->name('clear-path');
+        Route::post('/clear-framework', 'CacheManagementController@clearFramework')->name('clear-framework');
+    });
 
     // Get Quote Routes
     Route::resource('get-quote', 'GetQuoteController');

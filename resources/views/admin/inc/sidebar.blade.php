@@ -252,6 +252,13 @@
             </ul>
         </li>
 
+        <li>
+            <a href="{{ route('admin.cache.index') }}">
+                <span class="icon"><i class="fas fa-bolt"></i></span>
+                <span> Cache Management </span>
+            </a>
+        </li>
+
     </ul>
 
 </div>

@@ -73,6 +73,8 @@
     </script>
     {{-- <link href="//cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"> --}}
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     @livewireStyles
 </head>
 
@@ -89,8 +91,7 @@
 
                 @if (isset($setting))
                     <div class="special_logo">
-                        <a href="{{ route('home') }}" wire:navigate><img
-                                src="{{ asset('/uploads/setting/' . $setting->logo_path) }}"
+                        <a href="{{ route('home') }}" wire:navigate><img src="{{ asset('/uploads/setting/' . $setting->logo_path) }}"
                                 alt="{{ $setting->title ?? 'Logo' }}"></a>
                     </div>
                 @endif
@@ -144,13 +145,12 @@
                                     @if (isset($service_subnav->manu) && $service_subnav->manu == 1)
                                         <li>
                                             <a class="disabled-link"
-                                                href="{{ route('service.single', $service_subnav->slug) }}"
-                                                wire:navigate>{{ $service_subnav->short_title }}</a>
+                                                href="{{ route('service.single', $service_subnav->slug) }}" wire:navigate>{{ $service_subnav->short_title }}</a>
                                             @if ($service_subnav->subservices->count() > 0)
                                                 <ul class="special_submenu-nested">
                                                     @foreach ($service_subnav->subservices as $sub)
-                                                        <li><a href="{{ route('service.related-single', $sub->slug) }}"
-                                                                wire:navigate>{{ $sub->short_title }}</a>
+                                                        <li><a
+                                                                href="{{ route('service.related-single', $sub->slug) }}" wire:navigate>{{ $sub->short_title }}</a>
                                                         </li>
                                                     @endforeach
                                                 </ul>
@@ -169,8 +169,7 @@
                                                 <li class="special_megamenu-item {{ $loop->first ? 'special_active' : '' }}"
                                                     data-panel="mega-panel-{{ $service_subnav->id }}">
                                                     <a class="disabled-link"
-                                                        href="{{ route('service.single', $service_subnav->slug) }}"
-                                                        wire:navigate>{{ $service_subnav->short_title }}</a>
+                                                        href="{{ route('service.single', $service_subnav->slug) }}" wire:navigate>{{ $service_subnav->short_title }}</a>
                                                 </li>
                                             @endif
                                         @endforeach
@@ -195,8 +194,7 @@
                                                             <ul class="special_megamenu-col">
                                                                 @foreach ($chunk as $sub)
                                                                     <li><a style="font-weight: 400"
-                                                                            href="{{ route('service.related-single', $sub->slug) }}"
-                                                                            wire:navigate>
+                                                                            href="{{ route('service.related-single', $sub->slug) }}" wire:navigate>
                                                                             <div
                                                                                 style="display: flex; align-items: center">
                                                                                 <i
@@ -236,8 +234,7 @@
                                 <span class="special_chevron"></span></a>
                             <ul class="special_submenu">
                                 @foreach ($all_pages as $page)
-                                    <li><a href="{{ route('page.single', $page->slug) }}"
-                                            wire:navigate>{{ $page->title }}</a>
+                                    <li><a href="{{ route('page.single', $page->slug) }}" wire:navigate>{{ $page->title }}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -254,8 +251,7 @@
                                 <span class="special_chevron"></span></a>
                             <ul class="special_submenu">
                                 @foreach ($re_page as $page)
-                                    <li><a href="{{ route('page.single', $page->slug) }}"
-                                            wire:navigate>{{ $page->title }}</a>
+                                    <li><a href="{{ route('page.single', $page->slug) }}" wire:navigate>{{ $page->title }}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -498,8 +494,7 @@
                                             <ul class="footer-sub-service-list">
                                                 @foreach ($service->subservices as $sub)
                                                     <li>
-                                                        <a href="{{ route('service.related-single', $sub->slug) }}"
-                                                            wire:navigate>
+                                                        <a href="{{ route('service.related-single', $sub->slug) }}" wire:navigate>
                                                             {{ $sub->short_title }}
                                                         </a>
                                                     </li>
@@ -600,7 +595,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
@@ -645,6 +640,36 @@
         // wire:navigate ব্যবহার করলে পুরো পেজ reload হয় না, তাই DOMContentLoaded শুধু প্রথমবার fire হয়।
         // livewire:navigated ইভেন্টটা প্রতিটা SPA navigation-এর পরেও fire হয় (প্রথম লোডেও fire হয়)।
         // তাই নিচের সব init function দুটো ইভেন্টেই বাঁধা হয়েছে, প্রতিটা idempotent (বারবার চালালেও সমস্যা হবে না)।
+
+        function refreshCsrfToken() {
+            // পুরো পেজের HTML সবার জন্য একইভাবে cache (public_path('cache-html'))
+            // হওয়ায়, ভেতরে বেক করা CSRF token পুরনো/ভুল হয়ে যেতে পারে (এটা যিনি
+            // প্রথম পেজটা জেনারেট করেছিলেন তার সেশনের token, আপনার সেশনের না)।
+            // তাই পেজ লোড হওয়ার পর সবসময় fresh token এনে মেটা-ট্যাগ ও ফর্মের
+            // hidden _token input আপডেট করে দেওয়া হয় — Dropzone/AJAX কলগুলো
+            // request পাঠানোর মুহূর্তে এই মেটা-ট্যাগ থেকেই token পড়ে (নিচে দেখুন)।
+            fetch("{{ route('csrf.refresh') }}", {
+                    credentials: 'same-origin'
+                })
+                .then(function(res) {
+                    return res.json();
+                })
+                .then(function(data) {
+                    if (!data.token) return;
+                    var meta = document.querySelector('meta[name="csrf-token"]');
+                    if (meta) meta.setAttribute('content', data.token);
+                    document.querySelectorAll('input[name="_token"]').forEach(function(input) {
+                        input.value = data.token;
+                    });
+                })
+                .catch(function() {
+                    // fetch fail করলে চুপচাপ থাকবে — এই সেশনে page cache নাও থাকতে
+                    // পারে, তখন সার্ভারের রেন্ডার করা token-ই যথেষ্ট
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', refreshCsrfToken);
+        document.addEventListener('livewire:navigated', refreshCsrfToken);
 
         function initWhatsappFab() {
             // আগে থেকে থাকলে duplicate FAB তৈরি হবে না
@@ -751,9 +776,6 @@
                 acceptedFiles: ".jpg,.jpeg,.png,.gif,.svg,.webp,.pdf,.doc,.docx,.txt,.zip,.rar,.csv,.xls,.xlsx,.ppt,.pptx,.mp3,.avi,.mp4,.mpeg,.3gp",
                 addRemoveLinks: true,
                 dictDefaultMessage: "Drag files here, or click to browse",
-                headers: {
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                },
 
                 success: function(file, response) {
                     if (response.file_name) {
@@ -775,6 +797,13 @@
                     console.error("Dropzone error:", response);
                     alert("File upload failed!");
                 },
+            });
+
+            // page-cache-এর কারণে বেক করা token পুরনো হতে পারে বলে, প্রতিটা
+            // আপলোড রিকোয়েস্টের ঠিক আগমুহূর্তে মেটা-ট্যাগ থেকে fresh token পড়া হয়
+            quoteDropzone.on("sending", function(file, xhr, formData) {
+                var meta = document.querySelector('meta[name="csrf-token"]');
+                if (meta) xhr.setRequestHeader('X-CSRF-TOKEN', meta.getAttribute('content'));
             });
         }
 

@@ -16,6 +16,24 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
+    # ==== Page Cache: cache চালু থাকলে ও ফাইল থাকলে সরাসরি static HTML সার্ভ ====
+    # (PHP/Laravel বুটই হয় না — real speed win এখান থেকেই আসে)
+    # হোমপেজ (/)
+    RewriteCond %{REQUEST_METHOD} GET
+    RewriteCond %{QUERY_STRING} ^$
+    RewriteCond storage/framework/cache/pagecache-enabled.flag -f
+    RewriteCond %{REQUEST_URI} ^/$
+    RewriteCond cache-html/index.html -f
+    RewriteRule ^$ cache-html/index.html [L]
+
+    # বাকি সব পেজ (/about, /service/web-design ইত্যাদি)
+    RewriteCond %{REQUEST_METHOD} GET
+    RewriteCond %{QUERY_STRING} ^$
+    RewriteCond storage/framework/cache/pagecache-enabled.flag -f
+    RewriteCond %{REQUEST_URI} !^/$
+    RewriteCond cache-html%{REQUEST_URI}.html -f
+    RewriteRule ^(.*)$ cache-html/$1.html [L]
+
     # Handle Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f

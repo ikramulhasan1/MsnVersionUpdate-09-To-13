@@ -438,9 +438,6 @@
                 acceptedFiles: ".jpg,.jpeg,.png,.gif,.svg,.webp,.pdf,.doc,.docx,.txt,.zip,.rar,.csv,.xls,.xlsx,.ppt,.pptx,.mp3,.avi,.mp4,.mpeg,.3gp",
                 addRemoveLinks: true,
                 dictDefaultMessage: "Drag files here, or click to browse",
-                headers: {
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                },
                 success: function(file, response) {
                     if (response.file_name) {
                         const hiddenInput = document.createElement("input");
@@ -460,6 +457,16 @@
                     alert("File upload failed!");
                 },
             });
+
+            // page-cache-এর কারণে বেক করা token পুরনো হতে পারে বলে, প্রতিটা
+            // আপলোড রিকোয়েস্টের ঠিক আগমুহূর্তে মেটা-ট্যাগ থেকে fresh token পড়া হয়
+            var qpfDz = dzElem.dropzone;
+            if (qpfDz) {
+                qpfDz.on("sending", function(file, xhr, formData) {
+                    var meta = document.querySelector('meta[name="csrf-token"]');
+                    if (meta) xhr.setRequestHeader('X-CSRF-TOKEN', meta.getAttribute('content'));
+                });
+            }
         }
 
         function initServiceToggle() {
@@ -510,3 +517,4 @@
         loadOnce('qpf-recaptcha-js', 'https://www.google.com/recaptcha/api.js');
     })();
 </script>
+
