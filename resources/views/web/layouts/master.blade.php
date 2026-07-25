@@ -213,7 +213,7 @@
                         <li><a class="{{ Request::is('portfolio*') ? 'special_current' : '' }}"
                                 href="{{ route('portfolios') }}" wire:navigate>{{ $page_portfolio->title }}</a></li>
                     @endif
-                    {{-- @php
+                    @php
                         $all_pages = \App\Models\Page::where('type', 'casestudy')->get();
                         $isCurrentCasestudy = $all_pages->contains('slug', request()->segment(2));
                     @endphp
@@ -248,7 +248,7 @@
                                 @endforeach
                             </ul>
                         </li>
-                    @endif --}}
+                    @endif
                 </ul>
 
                 @if (isset($page_quote))
