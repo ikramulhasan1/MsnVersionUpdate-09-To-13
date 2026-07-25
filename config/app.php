@@ -243,6 +243,7 @@ return [
         EventServiceProvider::class,
         RouteServiceProvider::class,
         ToastrServiceProvider::class,
+        App\Providers\ViewServiceProvider::class,
     ],
 
     /*

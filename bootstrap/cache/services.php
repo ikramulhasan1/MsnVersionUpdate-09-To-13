@@ -43,6 +43,7 @@
     39 => 'App\\Providers\\EventServiceProvider',
     40 => 'App\\Providers\\RouteServiceProvider',
     41 => 'Brian2694\\Toastr\\ToastrServiceProvider',
+    42 => 'App\\Providers\\ViewServiceProvider',
   ),
   'eager' => 
   array (
@@ -74,6 +75,7 @@
     25 => 'App\\Providers\\EventServiceProvider',
     26 => 'App\\Providers\\RouteServiceProvider',
     27 => 'Brian2694\\Toastr\\ToastrServiceProvider',
+    28 => 'App\\Providers\\ViewServiceProvider',
   ),
   'deferred' => 
   array (
