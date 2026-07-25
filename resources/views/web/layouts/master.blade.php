@@ -11,10 +11,9 @@
     <link rel="stylesheet" href="{{ asset('web/css/contact.css') }}">
     <link rel="stylesheet" href="{{ asset('web/css/single-service.css') }}">
     <link rel="stylesheet" href="{{ asset('web/css/new-msn-theme.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    <link href="//cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css"
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css"
         integrity="sha512-t7Few9xlddEmgd3oKZQahkNI4dS6l80+eGEzFQiqtyVYdvcSG2D3Iub77R20BdotfRPA9caaRkg1tyaJiPmO0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     @if (isset($setting))
@@ -41,19 +40,16 @@
         <link href="{{ asset('web/css/floating-wpp.min.css') }}" rel="stylesheet">
     @endif
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/devicon/2.15.1/devicon.min.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/devicon/2.15.1/devicon.min.css" />
+    <link rel="preconnect" href="//fonts.googleapis.com" />
+    <link href="//fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="//www.google.com/recaptcha/api.js" async defer></script>
 
 
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Dropzone assets -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -74,7 +70,7 @@
     {{-- <link href="//cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"> --}}
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    @stack('styles')
     @livewireStyles
 </head>
 
@@ -602,7 +598,7 @@
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
                     buttonImage: '<img src="{{ asset('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            web / images / social / whatsapp.png ') }}">', //Button Image
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            web / images / social / whatsapp.png ') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
@@ -711,9 +707,7 @@
         document.addEventListener("DOMContentLoaded", hideEmptyLinks);
         document.addEventListener("livewire:navigated", hideEmptyLinks);
     </script>
-    <script>
-        Dropzone.autoDiscover = false;
-    </script>
+
 
     <script>
         // Event delegation ব্যবহার করা হয়েছে (document-এ bind), তাই এই বাইন্ডিং একবার করলেই
@@ -763,59 +757,6 @@
                 }
             });
         }
-
-        function initQuoteDropzone() {
-            const dzElem = document.getElementById("quoteDropzone");
-            if (!dzElem) {
-                // এই পেজে quoteDropzone নেই, কিছু করার দরকার নেই (এটা error না)
-                return;
-            }
-
-            // আগেই init করা থাকলে দ্বিতীয়বার Dropzone attach করলে এরর হয়, তাই guard
-            if (dzElem.dropzone) {
-                return;
-            }
-
-            const quoteDropzone = new Dropzone(dzElem, {
-                url: "{{ route('quote.upload') }}",
-                paramName: "file",
-                maxFilesize: 20,
-                acceptedFiles: ".jpg,.jpeg,.png,.gif,.svg,.webp,.pdf,.doc,.docx,.txt,.zip,.rar,.csv,.xls,.xlsx,.ppt,.pptx,.mp3,.avi,.mp4,.mpeg,.3gp",
-                addRemoveLinks: true,
-                dictDefaultMessage: "Drag files here, or click to browse",
-
-                success: function(file, response) {
-                    if (response.file_name) {
-                        const hiddenInput = document.createElement("input");
-                        hiddenInput.type = "hidden";
-                        hiddenInput.name = "uploaded_files[]";
-                        hiddenInput.value = response.file_name;
-                        document.querySelector("#quoteForm").appendChild(hiddenInput);
-                        file._hiddenInput = hiddenInput;
-                    }
-                },
-
-                removedfile: function(file) {
-                    if (file.previewElement) file.previewElement.remove();
-                    if (file._hiddenInput) file._hiddenInput.remove();
-                },
-
-                error: function(file, response) {
-                    console.error("Dropzone error:", response);
-                    alert("File upload failed!");
-                },
-            });
-
-            // page-cache-এর কারণে বেক করা token পুরনো হতে পারে বলে, প্রতিটা
-            // আপলোড রিকোয়েস্টের ঠিক আগমুহূর্তে মেটা-ট্যাগ থেকে fresh token পড়া হয়
-            quoteDropzone.on("sending", function(file, xhr, formData) {
-                var meta = document.querySelector('meta[name="csrf-token"]');
-                if (meta) xhr.setRequestHeader('X-CSRF-TOKEN', meta.getAttribute('content'));
-            });
-        }
-
-        document.addEventListener("DOMContentLoaded", initQuoteDropzone);
-        document.addEventListener("livewire:navigated", initQuoteDropzone);
     </script>
     @yield('scriptjs')
 

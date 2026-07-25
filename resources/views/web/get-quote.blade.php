@@ -3,6 +3,9 @@
 @php
     $header = \App\Models\PageSetup::page('get-quote');
 @endphp
+@push('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
+@endpush
 @if (isset($header))
 
     @section('title', $header->meta_title)
@@ -134,8 +137,8 @@
                             </div>
                             <div class="gq-field">
                                 <label for="q_company">{{ __('form.company') }}</label>
-                                <input class="gq-input" id="q_company" type="text" name="company" placeholder="Optional"
-                                    value="{{ old('company') }}">
+                                <input class="gq-input" id="q_company" type="text" name="company"
+                                    placeholder="Optional" value="{{ old('company') }}">
                             </div>
                             <div class="gq-field">
                                 <label for="q_address">{{ __('form.address') }}</label>
@@ -262,4 +265,54 @@
         @endif
 
     </div>
+@endsection
+@section('scriptjs')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+    <script>
+        Dropzone.autoDiscover = false;
+
+        function initQuoteDropzone() {
+            const dzElem = document.getElementById("quoteDropzone");
+            if (!dzElem) {
+                return;
+            }
+            if (dzElem.dropzone) {
+                return;
+            }
+            const quoteDropzone = new Dropzone(dzElem, {
+                url: "{{ route('quote.upload') }}",
+                paramName: "file",
+                maxFilesize: 20,
+                acceptedFiles: ".jpg,.jpeg,.png,.gif,.svg,.webp,.pdf,.doc,.docx,.txt,.zip,.rar,.csv,.xls,.xlsx,.ppt,.pptx,.mp3,.avi,.mp4,.mpeg,.3gp",
+                addRemoveLinks: true,
+                dictDefaultMessage: "Drag files here, or click to browse",
+                success: function(file, response) {
+                    if (response.file_name) {
+                        const hiddenInput = document.createElement("input");
+                        hiddenInput.type = "hidden";
+                        hiddenInput.name = "uploaded_files[]";
+                        hiddenInput.value = response.file_name;
+                        document.querySelector("#quoteForm").appendChild(hiddenInput);
+                        file._hiddenInput = hiddenInput;
+                    }
+                },
+                removedfile: function(file) {
+                    if (file.previewElement) file.previewElement.remove();
+                    if (file._hiddenInput) file._hiddenInput.remove();
+                },
+                error: function(file, response) {
+                    console.error("Dropzone error:", response);
+                    alert("File upload failed!");
+                },
+            });
+
+            quoteDropzone.on("sending", function(file, xhr, formData) {
+                var meta = document.querySelector('meta[name="csrf-token"]');
+                if (meta) xhr.setRequestHeader('X-CSRF-TOKEN', meta.getAttribute('content'));
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", initQuoteDropzone);
+        document.addEventListener("livewire:navigated", initQuoteDropzone);
+    </script>
 @endsection
