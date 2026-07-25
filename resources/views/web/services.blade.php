@@ -923,8 +923,9 @@
 
                                 <a href="{{ route('service.related-single', $sub->slug) }}" wire:navigate
                                     class="sub_service-card-media">
-                                    <img src="{{ asset('uploads/subservice/' . $sub->image_path) }}"
+                                    <img src="{{ asset('uploads/subservices/' . $sub->image_path) }}"
                                         alt="{{ $sub->short_title }}" loading="lazy">
+
                                 </a>
 
                                 <div class="sub_service-card-info">
