@@ -41,14 +41,11 @@
         <meta name="twitter:image" content="{{ asset('/uploads/setting/' . $setting->logo_path) }}" />
     @endif
 
-    {{-- New design (design.html) dependencies: Bootstrap 5, Font Awesome 6, Plus Jakarta Sans.
-       NOTE: this design ships with no CSS of its own (the <style> block in design.html
-       was empty) — per instruction we're shifting the markup/structure only. --}}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    {{-- Bootstrap 5, Font Awesome 6, and Google Fonts are already loaded once in
+       web.layouts.master (bootstrap 5.3.8 via jsDelivr, font-awesome 6.7.2 + bootstrap-icons
+       via cdnjs, Plus Jakarta Sans via Google Fonts). Re-declaring a second copy of each here
+       (a different CDN/version) was doubling render-blocking CSS requests on every page load —
+       removed. --}}
 @endsection
 
 @section('content')
@@ -220,8 +217,6 @@
                 </div>
             </div>
         </section>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
     </div>
 
     {{-- ============ SVC SECTION (services) — wired to $services / $section_services ============ --}}
@@ -292,9 +287,6 @@
                 </div>
             </section>
         @endif
-
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
     </div>
 
     {{-- ============ TCH SECTION (technology logos — no matching Laravel section, kept as demo design) ============ --}}
@@ -311,7 +303,7 @@
 
                             <div class="tch-float-inner" style="--tch-dur:4.47s; --tch-delay:1.61s; --tch-amp:-7.2px;">
                                 <img class="techImg" src="{{ asset('uploads/technology/' . $technology->logo_path) }}"
-                                    loading="lazy">
+                                    width="50" height="50" alt="{{ $technology->short_title }}" loading="lazy">
                             </div>
                         </div>
                     @endforeach
@@ -664,8 +656,10 @@
     @endif
     @include('web.inc.whymsn')
     {{-- ============ CTA SECTION (Unico Difference + closing CTA — no matching Laravel section, kept as demo design) ============ --}}
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    {{-- Bootstrap's JS bundle (Popper + Bootstrap) was loaded 3x on this page (~65 KiB + parse/exec
+       cost each time) but nothing on the page actually uses a Bootstrap JS component
+       (no data-bs-* attributes anywhere in this view). Removed entirely; if a future
+       section needs it (modal, dropdown, carousel via data-bs-toggle), add ONE copy
+       with `defer` near the closing </body>, not inline mid-page. --}}
 
 @endsection

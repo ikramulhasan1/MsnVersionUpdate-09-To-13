@@ -54,7 +54,7 @@
                 <span class="whymsn_ring"></span>
                 <div class="whymsn_photo">
                     <img class="whymsn_photo_img" src="{{ asset('uploads/why-msn/msnsofttech.jpeg') }}"
-                        alt="MSN SoftTech">
+                        width="302" height="302" alt="MSN SoftTech" loading="lazy">
                 </div>
             </div>
             <!-- 4 corner cards -->

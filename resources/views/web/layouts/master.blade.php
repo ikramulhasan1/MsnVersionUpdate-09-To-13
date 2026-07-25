@@ -8,9 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     {{--
     <link rel="stylesheet" href="{{ asset('web/css/msn-theme.css') }}"> --}}
-    <link rel="stylesheet" href="{{ asset('web/css/contact.css') }}">
-    <link rel="stylesheet" href="{{ asset('web/css/single-service.css') }}">
-    <link rel="stylesheet" href="{{ asset('web/css/new-msn-theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('web/css/contact.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('web/css/single-service.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('web/css/new-msn-theme.min.css') }}">
     <link href="//cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css"
@@ -40,7 +40,10 @@
         <link href="{{ asset('web/css/floating-wpp.min.css') }}" rel="stylesheet">
     @endif
 
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/devicon/2.15.1/devicon.min.css" />
+    {{-- devicon.min.css removed: not used anywhere. config/technologies.php references
+       devicon SVG files directly by URL (devicons/devicon/icons/.../....svg as plain <img>
+       sources), it never uses the devicon-* CSS icon-font classes this stylesheet provides.
+       This was a fully wasted render-blocking request on every single page. --}}
     <link rel="preconnect" href="//fonts.googleapis.com" />
     <link href="//fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
