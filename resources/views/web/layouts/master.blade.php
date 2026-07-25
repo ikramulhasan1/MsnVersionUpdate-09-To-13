@@ -48,7 +48,7 @@
 
 
 
-    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-3.6.0.min.js" defer></script>
 
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -590,20 +590,24 @@
         <div id="whatspp_live"></div>
 
         <script type="text/javascript">
-            (function($) {
-                "use strict";
-                $('#whatspp_live').floatingWhatsApp({
+            function initFloatingWhatsapp() {
+                // duplicate init আটকাতে guard (livewire:navigated বারবার ফায়ার হলেও সমস্যা হবে না)
+                if (window._floatingWaInit) return;
+                window._floatingWaInit = true;
+
+                jQuery('#whatspp_live').floatingWhatsApp({
                     phone: '{{ $livechat->whatsapp_no }}', //WhatsApp Business phone number International format
                     headerTitle: '{{ $livechat->whatsapp_title }}', //Popup Title
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
-                    buttonImage: '<img src="{{ asset('
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            web / images / social / whatsapp.png ') }}">', //Button Image
+                    buttonImage: '<img src="{{ asset('web/images/social/whatsapp.png') }}">', //Button Image
                     headerColor: '{{ $livechat->whatsapp_color }}', //headerColor: 'crimson', //Custom header color
                     backgroundColor: 'transparent', //backgroundColor: 'crimson', //Custom background button color
                     position: "right"
                 });
-            })(jQuery);
+            }
+            document.addEventListener('DOMContentLoaded', initFloatingWhatsapp);
+            document.addEventListener('livewire:navigated', initFloatingWhatsapp);
         </script>
     @endif
 
@@ -611,9 +615,7 @@
         <!-- Load Facebook SDK for JavaScript -->
         <div id="fb-root"></div>
         <script type="text/javascript">
-            (function($) {
-                "use strict";
-
+            function initFacebookChat() {
                 window.fbAsyncInit = function() {
                     FB.init({
                         xfbml: true,
@@ -629,8 +631,9 @@
                     js.src = '//connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
                     fjs.parentNode.insertBefore(js, fjs);
                 }(document, 'script', 'facebook-jssdk'));
-
-            })(jQuery);
+            }
+            document.addEventListener('DOMContentLoaded', initFacebookChat);
+            document.addEventListener('livewire:navigated', initFacebookChat);
         </script>
 
         <!-- Your Chat Plugin code -->
@@ -639,18 +642,13 @@
             logged_out_greeting="{{ $livechat->facebook_greeting_out }}">
         </div>
     @endif
+
     <script>
         // wire:navigate ব্যবহার করলে পুরো পেজ reload হয় না, তাই DOMContentLoaded শুধু প্রথমবার fire হয়।
         // livewire:navigated ইভেন্টটা প্রতিটা SPA navigation-এর পরেও fire হয় (প্রথম লোডেও fire হয়)।
         // তাই নিচের সব init function দুটো ইভেন্টেই বাঁধা হয়েছে, প্রতিটা idempotent (বারবার চালালেও সমস্যা হবে না)।
 
         function refreshCsrfToken() {
-            // পুরো পেজের HTML সবার জন্য একইভাবে cache (public_path('cache-html'))
-            // হওয়ায়, ভেতরে বেক করা CSRF token পুরনো/ভুল হয়ে যেতে পারে (এটা যিনি
-            // প্রথম পেজটা জেনারেট করেছিলেন তার সেশনের token, আপনার সেশনের না)।
-            // তাই পেজ লোড হওয়ার পর সবসময় fresh token এনে মেটা-ট্যাগ ও ফর্মের
-            // hidden _token input আপডেট করে দেওয়া হয় — Dropzone/AJAX কলগুলো
-            // request পাঠানোর মুহূর্তে এই মেটা-ট্যাগ থেকেই token পড়ে (নিচে দেখুন)।
             fetch("{{ route('csrf.refresh') }}", {
                     credentials: 'same-origin'
                 })
@@ -665,31 +663,27 @@
                         input.value = data.token;
                     });
                 })
-                .catch(function() {
-                    // fetch fail করলে চুপচাপ থাকবে — এই সেশনে page cache নাও থাকতে
-                    // পারে, তখন সার্ভারের রেন্ডার করা token-ই যথেষ্ট
-                });
+                .catch(function() {});
         }
 
         document.addEventListener('DOMContentLoaded', refreshCsrfToken);
         document.addEventListener('livewire:navigated', refreshCsrfToken);
 
         function initWhatsappFab() {
-            // আগে থেকে থাকলে duplicate FAB তৈরি হবে না
             if (document.querySelector('.wa-fab')) return;
 
             const waWrap = document.createElement("div");
             waWrap.innerHTML = `
-            <a rel="noopener noreferrer" href="//wa.link/lnuvjw" target="_blank" class="wa-fab" aria-label="Live chat with agent on WhatsApp">
-                <span class="wa-fab-label">Live chat with agent</span>
-                <span class="wa-fab-icon">
-                    <span class="wa-fab-ring"></span>
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.13-2.9-7C17.19 3.03 14.7 2 12.04 2Zm0 18.13h-.01c-1.48 0-2.94-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.25-4.36c0-4.53 3.69-8.22 8.23-8.22 2.2 0 4.26.86 5.82 2.41a8.15 8.15 0 0 1 2.41 5.81c0 4.53-3.69 8.22-8.21 8.22Zm4.51-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.18-.54.06-.25-.12-1.04-.38-1.98-1.22-.73-.65-1.23-1.46-1.37-1.7-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31s-.87.85-.87 2.08.89 2.41 1.02 2.58c.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.14-1.18-.06-.11-.22-.17-.47-.29Z"/>
-                    </svg>
-                </span>
-            </a>
-        `;
+        <a rel="noopener noreferrer" href="//wa.link/lnuvjw" target="_blank" class="wa-fab" aria-label="Live chat with agent on WhatsApp">
+            <span class="wa-fab-label">Live chat with agent</span>
+            <span class="wa-fab-icon">
+                <span class="wa-fab-ring"></span>
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.13-2.9-7C17.19 3.03 14.7 2 12.04 2Zm0 18.13h-.01c-1.48 0-2.94-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.25-4.36c0-4.53 3.69-8.22 8.23-8.22 2.2 0 4.26.86 5.82 2.41a8.15 8.15 0 0 1 2.41 5.81c0 4.53-3.69 8.22-8.21 8.22Zm4.51-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.18-.54.06-.25-.12-1.04-.38-1.98-1.22-.73-.65-1.23-1.46-1.37-1.7-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31s-.87.85-.87 2.08.89 2.41 1.02 2.58c.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.14-1.18-.06-.11-.22-.17-.47-.29Z"/>
+                </svg>
+            </span>
+        </a>
+    `;
             document.body.appendChild(waWrap);
         }
 
@@ -708,19 +702,15 @@
         document.addEventListener("livewire:navigated", hideEmptyLinks);
     </script>
 
-
     <script>
-        // Event delegation ব্যবহার করা হয়েছে (document-এ bind), তাই এই বাইন্ডিং একবার করলেই
-        // wire:navigate দিয়ে নতুন আসা get-quote পেজের এলিমেন্টগুলোতেও কাজ করবে —
-        // handler গুলো একবারই বসবে (guard দিয়ে দ্বিতীয়বার বসা আটকানো হয়েছে), duplicate fire হবে না।
         if (!window._gqHandlersBound) {
             window._gqHandlersBound = true;
 
             // Toggle subservice visibility when main service label is clicked
-            $(document).on('click', '.gq-service-label', function(e) {
+            jQuery(document).on('click', '.gq-service-label', function(e) {
                 e.preventDefault();
 
-                let parent = $(this).closest('.gq-service');
+                let parent = jQuery(this).closest('.gq-service');
                 let checkbox = parent.find('.gq-service-input');
                 let subDiv = parent.find('.gq-subservices');
 
@@ -738,8 +728,8 @@
                 }
             });
 
-            $(document).on('change', '.gq-subservice input[type="checkbox"]', function() {
-                let parentService = $(this).closest('.gq-service');
+            jQuery(document).on('change', '.gq-subservice input[type="checkbox"]', function() {
+                let parentService = jQuery(this).closest('.gq-service');
                 let parentCheckbox = parentService.find('.gq-service-input');
                 let subDiv = parentService.find('.gq-subservices');
 
@@ -751,9 +741,9 @@
                 }
             });
 
-            $(document).on('click', function(e) {
-                if (!$(e.target).closest('.gq-service').length) {
-                    $('.gq-subservices').slideUp(200);
+            jQuery(document).on('click', function(e) {
+                if (!jQuery(e.target).closest('.gq-service').length) {
+                    jQuery('.gq-subservices').slideUp(200);
                 }
             });
         }
