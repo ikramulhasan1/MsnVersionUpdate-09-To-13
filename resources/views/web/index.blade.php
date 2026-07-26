@@ -283,7 +283,8 @@
                                 </a>
                             </div>
                         @endforeach
-                        <h5><a href="{{ route('services') }}" target="_blank" rel="noopener noreferrer">View all
+                        <h5 style="text-align: center; color: red;"><a href="{{ route('services') }}" target="_blank"
+                                rel="noopener noreferrer">View all
                                 services</a></h5>
                     </div>
                 </div>
