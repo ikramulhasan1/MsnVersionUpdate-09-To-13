@@ -90,6 +90,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // 🔧 public_path() স্পষ্টভাবে project root কে পয়েন্ট করে দেওয়া হলো, যাতে
+        // সব আপলোড (subservices, article, portfolio, client ইত্যাদি) সবসময়
+        // root ফোল্ডারের "uploads/" এই সেভ হয় — index.php এর কোনো hidden
+        // override এর উপর নির্ভর করতে হবে না।
+        $this->app->usePublicPath(base_path());
+
         $this->app->singleton(\App\Services\PageCacheService::class);
     }
 

@@ -1365,7 +1365,7 @@
             psCloseImport();
             alert(
                 'ডাটা ফর্মে বসানো হয়েছে ✅\nএখন থাম্বনেইল ইমেজ (যদি বদলাতে চান) সিলেক্ট করুন, সবকিছু চেক করে Update চাপুন।'
-                );
+            );
         }
 
         // ---- Accordion toggle for premium-section blocks ----
