@@ -1778,13 +1778,13 @@
     flex-shrink: 0;
 }
 
-.msn-proc-card:nth-child(2n) .ic-badge {
+/* .msn-proc-card:nth-child(2n) .ic-badge {
     background: linear-gradient(135deg, var(--gold), #b4820f);
 }
 
 .msn-proc-card:nth-child(3n) .ic-badge {
     background: linear-gradient(135deg, var(--navy), #2c355e);
-}
+} */
 
 .msn-proc-card .tag-line {
     font-size: 11px;
