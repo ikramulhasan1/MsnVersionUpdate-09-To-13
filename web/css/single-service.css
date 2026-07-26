@@ -1405,8 +1405,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--gold), #8a6a2e);
-    box-shadow: 0 4px 10px rgba(198, 161, 91, 0.35);
+    /* background: linear-gradient(135deg, var(--gold), #8a6a2e);
+    box-shadow: 0 4px 10px rgba(198, 161, 91, 0.35); */
 }
 
 .msn-hero-img-badge b {
