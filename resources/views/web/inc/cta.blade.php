@@ -1,7 +1,7 @@
 <div class="cta-scope">
 
     <section class="cta-cta-section">
-        <div class="msn-hero-badge-top" style="color: white; background-color: green; border: none; border-radius: 0px;">
+        <div class="msn-hero-badge-top" style="color: white; background-color: green; border: none; border-radius: 4px;">
             <div class="avatars">
                 <i class="fa-brands fa-first-order" style="color:#D6261E;"></i>
             </div>
