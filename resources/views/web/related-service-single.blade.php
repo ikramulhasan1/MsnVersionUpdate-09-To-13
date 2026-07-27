@@ -72,8 +72,8 @@
             <div class="msn-container">
                 <div class="msn-hero-grid">
                     <div>
-                        <div class="msn-hero-badge-top">
-                            <div class="avatars"><i class="fa-brands fa-first-order"></i></div>
+                        <div class="msn-hero-badge-top" style="background-color: #FDECEB; border: solid #ff0f02;">
+                            <div class="avatars"><i class="fa-brands fa-first-order" style="color: #D6261E"></i></div>
                             Enjoy 20% Off Your First Order & Start Your Journey With
                             Us
                         </div>
