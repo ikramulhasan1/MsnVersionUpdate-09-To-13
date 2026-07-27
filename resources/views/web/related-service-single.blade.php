@@ -73,7 +73,7 @@
                 <div class="msn-hero-grid">
                     <div>
                         <div class="msn-hero-badge-top">
-                            <div class="avatars"></div>
+                            <div class="avatars"><i class="fa-brands fa-first-order"></i></div>
                             Enjoy 20% Off Your First Order & Start Your Journey With
                             Us
                         </div>
