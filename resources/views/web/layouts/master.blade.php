@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {{--
     <link rel="stylesheet" href="{{ asset('web/css/msn-theme.css') }}"> --}}
-    <link rel="stylesheet" href="{{ asset('web/css/contact.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('web/css/contact.css') }}">
     <link rel="stylesheet" href="{{ asset('web/css/single-service.css') }}">
     <link rel="stylesheet" href="{{ asset('web/css/new-msn-theme.css') }}">
     <link href="//cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -156,9 +156,11 @@
                                             @if ($service_subnav->subservices->count() > 0)
                                                 <ul class="special_submenu-nested">
                                                     @foreach ($service_subnav->subservices as $sub)
-                                                        <li><a href="{{ route('service.related-single', $sub->slug) }}"
-                                                                wire:navigate>{{ $sub->short_title }}</a>
-                                                        </li>
+                                                        @if ($sub->status != 0)
+                                                            <li><a href="{{ route('service.related-single', $sub->slug) }}"
+                                                                    wire:navigate>{{ $sub->short_title }}</a>
+                                                            </li>
+                                                        @endif
                                                     @endforeach
                                                 </ul>
                                             @endif
@@ -201,16 +203,18 @@
                                                         @foreach ($subChunks as $chunk)
                                                             <ul class="special_megamenu-col">
                                                                 @foreach ($chunk as $sub)
-                                                                    <li><a style="font-weight: 400"
-                                                                            href="{{ route('service.related-single', $sub->slug) }}"
-                                                                            wire:navigate>
-                                                                            <div
-                                                                                style="display: flex; align-items: center">
-                                                                                <i
-                                                                                    class="fs-4 me-2 {{ $sub->sub_service_icon ?? '' }}"></i>{{ $sub->short_title }}
-                                                                            </div>
-                                                                        </a>
-                                                                    </li>
+                                                                    @if ($sub->status != 0)
+                                                                        <li><a style="font-weight: 400"
+                                                                                href="{{ route('service.related-single', $sub->slug) }}"
+                                                                                wire:navigate>
+                                                                                <div
+                                                                                    style="display: flex; align-items: center">
+                                                                                    <i
+                                                                                        class="fs-4 me-2 {{ $sub->sub_service_icon ?? '' }}"></i>{{ $sub->short_title }}
+                                                                                </div>
+                                                                            </a>
+                                                                        </li>
+                                                                    @endif
                                                                 @endforeach
                                                                 <li><a style="font-weight: 700; font-size: 16px;"
                                                                         href="{{ route('services') }}" wire:navigate>
@@ -513,12 +517,14 @@
                                         @if ($service->subservices->count() > 0)
                                             <ul class="footer-sub-service-list">
                                                 @foreach ($service->subservices as $sub)
-                                                    <li>
-                                                        <a href="{{ route('service.related-single', $sub->slug) }}"
-                                                            wire:navigate>
-                                                            {{ $sub->short_title }}
-                                                        </a>
-                                                    </li>
+                                                    @if ($sub->status != 0)
+                                                        <li>
+                                                            <a href="{{ route('service.related-single', $sub->slug) }}"
+                                                                wire:navigate>
+                                                                {{ $sub->short_title }}
+                                                            </a>
+                                                        </li>
+                                                    @endif
                                                 @endforeach
                                             </ul>
                                         @endif

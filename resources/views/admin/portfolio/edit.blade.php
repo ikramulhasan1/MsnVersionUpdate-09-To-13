@@ -201,7 +201,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="overview_image">Mobile view<span>*</span>
-                                    <span>{{ __('dashboard.image_size', ['height' => 500, 'width' => 800]) }}</span></label>
+                                    <span>{{ __('dashboard.image_size', ['height' => 200, 'width' => 130]) }}</span></label>
                                 <div class="d-flex">
                                     <input type="file" class="form-control" name="overview_image"
                                         id="overview_image">

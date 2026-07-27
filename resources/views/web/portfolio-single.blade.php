@@ -430,6 +430,7 @@
             background: linear-gradient(135deg, var(--proj1), var(--proj2));
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
             position: relative;
             display: flex;
             align-items: center;
@@ -465,6 +466,9 @@
         .device-float .mini-screen {
             height: 220px;
             background: linear-gradient(160deg, var(--proj2), var(--proj1));
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -478,9 +482,86 @@
         }
 
         .device-float .mini-bar {
-            height: 14px;
-            background: var(--soft);
-            border-bottom: 1px solid var(--line);
+            height: 24px;
+            background: var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            padding: 0 9px;
+            position: relative;
+        }
+
+        .mini-time {
+            font-family: "Space Grotesk", system-ui, sans-serif;
+            font-size: 9px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: .01em;
+            line-height: 1;
+        }
+
+        .mini-status {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .mi-signal {
+            width: 11px;
+            height: 8px;
+            display: block;
+        }
+
+        .mi-wifi {
+            width: 11px;
+            height: 8px;
+            display: block;
+        }
+
+        .mi-battery {
+            display: flex;
+            align-items: center;
+        }
+
+        .mi-battery-body {
+            position: relative;
+            width: 17px;
+            height: 8px;
+            border: 1px solid #fff;
+            border-radius: 2.5px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+        }
+
+        .mi-battery-fill {
+            position: absolute;
+            left: 1.4px;
+            top: 1.4px;
+            bottom: 1.4px;
+            width: 65%;
+            background: var(--green);
+            border-radius: 1px;
+        }
+
+        .mi-bolt {
+            position: relative;
+            width: 6px;
+            height: 7px;
+            margin: 0 auto;
+            color: var(--ink);
+            z-index: 1;
+        }
+
+        .mi-battery-tip {
+            width: 1.3px;
+            height: 3.4px;
+            background: #fff;
+            border-radius: 0 1px 1px 0;
+            margin-left: 1px;
         }
 
         /* ============ STICKY SUBNAV ============ */
@@ -864,197 +945,145 @@
             color: var(--faint);
         }
 
-        /* ============ TEAM ============ */
-        /* .team-section {
-                                                                                border-bottom: 1px solid var(--line);
-                                                                            }
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 960px) {
+            .pj-hero-grid {
+                grid-template-columns: 1fr;
+            }
 
-                                                                            .team-row {
-                                                                                display: flex;
-                                                                                flex-wrap: wrap;
-                                                                                gap: 14px;
-                                                                            }
+            .pj-hero-grid .device-wrap {
+                order: -1;
+                max-width: 480px;
+                margin: 0 auto;
+            }
 
-                                                                            .team-chip {
-                                                                                display: flex;
-                                                                                align-items: center;
-                                                                                gap: 12px;
-                                                                                padding: 12px 18px 12px 12px;
-                                                                                border: 1px solid var(--line);
-                                                                                border-radius: 999px;
-                                                                                background: var(--white);
-                                                                            }
+            .overview-grid {
+                grid-template-columns: 1fr;
+            }
+        }
 
-                                                                            .team-chip .avatar {
-                                                                                width: 38px;
-                                                                                height: 38px;
-                                                                                border-radius: 50%;
-                                                                                display: flex;
-                                                                                align-items: center;
-                                                                                justify-content: center;
-                                                                                color: #fff;
-                                                                                font-family: "Space Grotesk", system-ui, sans-serif;
-                                                                                font-weight: 700;
-                                                                                font-size: 13px;
-                                                                                flex: none;
-                                                                            }
+        @media (max-width: 768px) {
 
-                                                                            .team-chip b {
-                                                                                display: block;
-                                                                                font-family: "Space Grotesk", system-ui, sans-serif;
-                                                                                font-size: 14px;
-                                                                            }
+            .gallery-grid,
+            .results-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
 
-                                                                            .team-chip span {
-                                                                                display: block;
-                                                                                font-size: 11.5px;
-                                                                                color: var(--faint);
-                                                                            } */
+            .browser-screen {
+                height: 260px;
+            }
 
-        /* ============ NEXT PROJECT NAV ============ */
-        /* .next-project {
-                                                                            border-bottom: 1px solid var(--line);
-                                                                        }
+            .device-float {
+                width: 110px;
+                right: -14px;
+                bottom: -20px;
+            }
 
-                                                                        .next-project-row {
-                                                                            display: grid;
-                                                                            grid-template-columns: 1fr 1fr;
-                                                                            gap: 1px;
-                                                                            background: var(--line);
-                                                                            border: 1px solid var(--line);
-                                                                            border-radius: var(--radius);
-                                                                            overflow: hidden;
-                                                                        }
+            .device-float .mini-screen {
+                height: 185px;
+            }
+        }
 
-                                                                        .np-link {
-                                                                            background: var(--white);
-                                                                            padding: 30px;
-                                                                            display: flex;
-                                                                            flex-direction: column;
-                                                                            gap: 10px;
-                                                                            transition: background-color .25s var(--ease);
-                                                                        }
+        @media (max-width: 560px) {
+            .meta-grid {
+                grid-template-columns: 1fr;
+                max-width: 100%;
+            }
 
-                                                                        .np-link:hover {
-                                                                            background: var(--soft);
-                                                                        }
+            .browser-screen {
+                height: 220px;
+            }
 
-                                                                        .np-link.next {
-                                                                            align-items: flex-end;
-                                                                            text-align: right;
-                                                                        }
+            .device-float {
+                width: 88px;
+                right: -8px;
+                bottom: -14px;
+                border-radius: 14px;
+            }
 
-                                                                        .np-label {
-                                                                            font-family: "JetBrains Mono", monospace;
-                                                                            font-size: 11px;
-                                                                            color: var(--faint);
-                                                                            letter-spacing: .08em;
-                                                                            text-transform: uppercase;
-                                                                            display: flex;
-                                                                            align-items: center;
-                                                                            gap: 6px;
-                                                                        }
+            .device-float .mini-screen {
+                height: 148px;
+            }
 
-                                                                        .np-link.next .np-label {
-                                                                            flex-direction: row-reverse;
-                                                                        }
+            .device-float .mini-bar {
+                height: 18px;
+                padding: 0 6px;
+            }
 
-                                                                        .np-label svg {
-                                                                            width: 13px;
-                                                                            height: 13px;
-                                                                        }
+            .mini-time {
+                font-size: 7.5px;
+            }
 
-                                                                        .np-title {
-                                                                            font-family: "Space Grotesk", system-ui, sans-serif;
-                                                                            font-size: 24px;
-                                                                        } */
+            .mi-wifi {
+                display: none;
+            }
 
-        /* ============ CTA ============ */
-        /* .pj-cta {
-                                                                        padding: clamp(56px, 8vw, 92px) 0;
-                                                                        text-align: center;
-                                                                    }
+            .mi-signal {
+                width: 9px;
+                height: 7px;
+            }
 
-                                                                    .pj-cta-box {
-                                                                        max-width: 900px;
-                                                                        margin: 0 auto;
-                                                                        padding: clamp(28px, 5vw, 54px);
-                                                                        border: 1px solid var(--line);
-                                                                        border-radius: 28px;
-                                                                        background: linear-gradient(135deg, rgba(255, 255, 255, .94), rgba(247, 245, 243, .96)), radial-gradient(circle at 14% 0%, rgba(226, 35, 26, .14), transparent 34%);
-                                                                        box-shadow: 0 26px 80px rgba(15, 14, 13, .09);
-                                                                    }
+            .mi-battery-body {
+                width: 14px;
+                height: 7px;
+            }
 
-                                                                    .pj-cta-box h2 {
-                                                                        margin: 14px auto 18px;
-                                                                        font-size: clamp(28px, 4.4vw, 46px);
-                                                                        max-width: 640px;
-                                                                    }
+            .pj-hero-actions,
+            .status-row {
+                gap: 8px;
+            }
 
-                                                                    .pj-cta-box p {
-                                                                        max-width: 540px;
-                                                                        margin: 0 auto 26px;
-                                                                        font-size: 16px;
-                                                                    }
+            .btn {
+                min-height: 44px;
+                padding: 11px 18px;
+                font-size: 13px;
+            }
+        }
 
-                                                                    @media (max-width:980px) {
+        @media (max-width: 480px) {
 
-                                                                        .pj-hero-grid,
-                                                                        .overview-grid,
-                                                                        .gallery-grid {
-                                                                            grid-template-columns: 1fr;
-                                                                        }
+            .gallery-grid,
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
 
-                                                                        .meta-grid {
-                                                                            grid-template-columns: 1fr 1fr;
-                                                                            max-width: 100%;
-                                                                        }
+            .device-wrap {
+                padding-right: 0;
+            }
 
-                                                                        .results-grid {
-                                                                            grid-template-columns: repeat(1, 1fr);
-                                                                        }
+            .device-float {
+                width: 74px;
+                right: 4px;
+                bottom: -10px;
+            }
 
-                                                                        .device-float {
-                                                                            display: none;
-                                                                        }
+            .device-float .mini-screen {
+                height: 124px;
+            }
 
-                                                                        .next-project-row {
-                                                                            grid-template-columns: 1fr;
-                                                                        }
+            .device-float .mini-bar {
+                height: 16px;
+                padding: 0 5px;
+            }
 
-                                                                        .np-link.next {
-                                                                            align-items: flex-start;
-                                                                            text-align: left;
-                                                                        }
+            .mini-time {
+                font-size: 6.5px;
+            }
 
-                                                                        .np-link.next .np-label {
-                                                                            flex-direction: row;
-                                                                        }
-                                                                    }
+            .mi-signal {
+                display: none;
+            }
 
-                                                                    @media (max-width:640px) {
-                                                                        .pj-main .wrap {
-                                                                            width: min(100% - 28px, 1180px);
-                                                                        }
+            .mi-battery-body {
+                width: 12px;
+                height: 6px;
+            }
 
-                                                                        .gallery-grid {
-                                                                            grid-template-columns: 1fr;
-                                                                        }
-
-                                                                        .meta-grid {
-                                                                            grid-template-columns: 1fr;
-                                                                        }
-                                                                    }
-
-                                                                    @media (prefers-reduced-motion:reduce) {
-
-                                                                        .pj-main *,
-                                                                        .pj-main *::before,
-                                                                        .pj-main *::after {
-                                                                            animation: none !important;
-                                                                            transition: none !important;
-                                                                        }
-                                                                    } */
+            .mi-bolt {
+                width: 5px;
+                height: 6px;
+            }
+        }
     </style>
 
     <div class="pj-main">
@@ -1121,7 +1150,35 @@
                             </div>
                         </div>
                         <div class="device-float">
-                            <div class="mini-bar"></div>
+                            <div class="mini-bar">
+                                <span class="mini-time">9:41</span>
+                                <span class="mini-status">
+                                    <svg class="mi-signal" viewBox="0 0 14 10" fill="currentColor"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="0" y="6" width="2.4" height="4" rx="0.5" />
+                                        <rect x="3.8" y="4" width="2.4" height="6" rx="0.5" />
+                                        <rect x="7.6" y="2" width="2.4" height="8" rx="0.5" />
+                                        <rect x="11.4" y="0" width="2.4" height="10" rx="0.5" opacity=".4" />
+                                    </svg>
+                                    <svg class="mi-wifi" viewBox="0 0 14 10" fill="none" stroke="currentColor"
+                                        stroke-width="1.3" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1.5 4.2a8 8 0 0 1 11 0" />
+                                        <path d="M3.6 6.6a5 5 0 0 1 6.8 0" />
+                                        <circle cx="7" cy="9" r=".9" fill="currentColor"
+                                            stroke="none" />
+                                    </svg>
+                                    <span class="mi-battery">
+                                        <span class="mi-battery-body">
+                                            <span class="mi-battery-fill"></span>
+                                            <svg class="mi-bolt" viewBox="0 0 8 10" fill="currentColor"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4.6 0 0 5.6h2.6L2 10l4.4-5.8H4z" />
+                                            </svg>
+                                        </span>
+                                        <span class="mi-battery-tip"></span>
+                                    </span>
+                                </span>
+                            </div>
                             <div class="mini-screen"
                                 style="background-image:url('{{ asset('uploads/overview_image/' . $portfolio->overview_image) }}')">
                             </div>
@@ -1169,20 +1226,7 @@
                                         d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
                                 </svg>The Challenge</h3>
                             <p>{{ $portfolio->link2 }}</p>
-                            {{-- <ul class="goal-list">
-                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M20 6L9 17l-5-5" />
-                                </svg>Demo goal one — replace with real project goal</li>
-                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M20 6L9 17l-5-5" />
-                                </svg>Demo goal two — replace with real project goal</li>
-                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M20 6L9 17l-5-5" />
-                                </svg>Demo goal three — replace with real project goal</li>
-                        </ul> --}}
+
                         </div>
                     @endif
                 </div>
@@ -1303,64 +1347,6 @@
                 </div>
             </section>
 
-            <!-- TEAM (demo — no matching Laravel data) -->
-            {{-- <section class="team-section" id="team">
-                <div class="wrap">
-                    <div class="section-head reveal">
-                        <span class="eyebrow mono">Behind this project</span>
-                        <h2>The team that delivered it.</h2>
-                    </div>
-                    <div class="team-row reveal">
-                        <div class="team-chip"><span class="avatar" style="background:#e2231a;">MH</span>
-                            <div><b>Team Member</b><span>Role</span></div>
-                        </div>
-                        <div class="team-chip"><span class="avatar" style="background:#1f5fa8;">SR</span>
-                            <div><b>Team Member</b><span>Role</span></div>
-                        </div>
-                        <div class="team-chip"><span class="avatar" style="background:#1F9D6B;">TA</span>
-                            <div><b>Team Member</b><span>Role</span></div>
-                        </div>
-                    </div>
-                </div>
-            </section> --}}
-
-            <!-- NEXT PROJECT (demo — no prev/next portfolio logic in current controller) -->
-            {{-- <section class="next-project">
-                <div class="wrap">
-                    <div class="next-project-row reveal">
-                        <a href="#" class="np-link prev">
-                            <span class="np-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M15 18l-6-6 6-6" />
-                                </svg>Previous Project</span>
-                            <span class="np-title">Demo Project Title</span>
-                        </a>
-                        <a href="#" class="np-link next">
-                            <span class="np-label">Next Project<svg viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M9 18l6-6-6-6" />
-                                </svg></span>
-                            <span class="np-title">Demo Project Title</span>
-                        </a>
-                    </div>
-                </div>
-            </section> --}}
-
-            <!-- CTA -->
-            {{-- <section class="pj-cta">
-        <div class="wrap reveal">
-          <div class="pj-cta-box">
-            <span class="eyebrow">Start a project</span>
-            <h2>Want a build like this for your business?</h2>
-            <p>Tell us what you're building and we'll show you the approach we'd take, based on projects like this one.
-            </p>
-            <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
-              <a href="{{ route('contact') }}" wire:navigate class="btn btn-dark">Get a Free Consultation</a>
-            </div>
-          </div>
-        </div>
-      </section> --}}
 
         </main>
     </div>
