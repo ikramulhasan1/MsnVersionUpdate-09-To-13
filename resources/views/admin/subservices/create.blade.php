@@ -1038,7 +1038,7 @@
                                                 {{ __('dashboard.average_rating') }}</div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" style="margin-bottom: 50px">
                                         <div class="form-group col">
                                             <label for="manu">Manu</label>
                                             <select class="wide" name="manu" id="manu"
@@ -1304,7 +1304,7 @@
                 if (el.type === 'file') return;
                 if (el.id === 'editor1' || el.id === 'editor') {
                     obj[name] = (window.CKEDITOR && CKEDITOR.instances[el.id]) ? CKEDITOR.instances[el.id]
-                    .getData() : el.value;
+                        .getData() : el.value;
                 } else if (el.tagName === 'SELECT' && el.multiple) {
                     const selected = Array.from(el.selectedOptions).map(o => o.value);
                     obj[name] = selected.length ? selected : ['<' + name.slice(0, -1) + '_id>'];
@@ -1350,7 +1350,7 @@
             document.querySelectorAll('.premium-section-body [name]').forEach(el => {
                 const name = el.getAttribute('name');
                 if (!name || name.endsWith('[]') || name.includes('['))
-            return; // skip multi-selects & repeater rows
+                    return; // skip multi-selects & repeater rows
                 if (el.type === 'file') return;
                 if (template[name] !== undefined) return;
                 if (el.id === 'editor1' || el.id === 'editor') {

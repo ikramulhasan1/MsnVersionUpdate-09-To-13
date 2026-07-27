@@ -1085,7 +1085,7 @@
                                                 {{ __('dashboard.average_rating') }}</div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" style="margin-bottom: 50px">
                                         <div class="form-group col">
                                             <label for="manu">Manu</label>
                                             <select class="wide" name="manu" id="manu"
