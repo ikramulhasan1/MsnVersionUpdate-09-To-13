@@ -143,6 +143,7 @@
         @if (count($industries) > 0)
             <section class="msn-badges msn-section" style="padding:56px 0 64px;">
                 <div class="msn-container">
+                    <span class="eyebrow" style="margin-bottom: 20px">Industries We Serve</span>
                     <div class="msn-badges-row">
                         @foreach ($industries as $item)
                             <div class="msn-badge">
@@ -479,7 +480,7 @@
                         @endforeach
                     </div>
                 </div>
-                
+
             </section>
         @endif
         <!-- ============ RELATED SERVICES ============ -->
