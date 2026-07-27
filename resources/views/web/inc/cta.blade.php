@@ -1,9 +1,11 @@
 <div class="cta-scope">
+
     <section class="cta-cta-section">
-        <div class="msn-hero-badge-top" style="background-color: #ffffff; border: 2px dashed #117000;">
-            <div class="avatars"><i class="fa-brands fa-first-order" style="color: #D6261E"></i></div>
-            Enjoy 20% Off Your First Order & Start Your Journey With
-            Us
+        <div class="msn-hero-badge-top" style="color: white; background-color: green; border: 2px dashed #25D366;">
+            <div class="avatars">
+                <i class="fa-brands fa-first-order" style="color:#D6261E;"></i>
+            </div>
+            Enjoy 20% Off Your First Order &amp; Start Your Journey With Us
         </div>
         <h2 class="cta-cta-heading">
             <span class="cta-line1">One Partner for All Your Digital Growth Needs</span>
