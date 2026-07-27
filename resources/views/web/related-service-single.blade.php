@@ -469,7 +469,7 @@
                     </div>
                     <div class="msn-faq msn-reveal">
                         @foreach ($faq as $key => $item)
-                            <div class="msn-faq-item  {{ $key == 0 ? 'open' : '' }}">
+                            <div class="msn-faq-item {{ $key == 0 ? 'open' : '' }}">
                                 <button class="msn-faq-q">
                                     <h4>{{ $item['question'] ?? '' }}</h4><span class="plus"></span>
                                 </button>
@@ -600,12 +600,21 @@
 
             // faq accordion
             document.querySelectorAll('.msn-faq-item').forEach(function(item) {
-                var q = item.querySelector('.msn-faq-q');
                 var a = item.querySelector('.msn-faq-a');
                 if (item.classList.contains('open')) {
                     a.style.maxHeight = a.scrollHeight + 'px';
                 }
-                q.addEventListener('click', function() {
+            });
+
+            // ডেলিগেশন — পুরো পেজে (বা .msn-faq কন্টেইনারে) একবারই বসবে, বারবার init হলেও ডুপ্লিকেট হবে না
+            if (!window.__msnFaqBound) {
+                window.__msnFaqBound = true;
+                document.addEventListener('click', function(e) {
+                    var q = e.target.closest('.msn-faq-q');
+                    if (!q) return;
+                    var item = q.closest('.msn-faq-item');
+                    if (!item) return;
+
                     var isOpen = item.classList.contains('open');
                     document.querySelectorAll('.msn-faq-item').forEach(function(other) {
                         other.classList.remove('open');
@@ -613,10 +622,11 @@
                     });
                     if (!isOpen) {
                         item.classList.add('open');
-                        a.style.maxHeight = a.scrollHeight + 'px';
+                        item.querySelector('.msn-faq-a').style.maxHeight =
+                            item.querySelector('.msn-faq-a').scrollHeight + 'px';
                     }
                 });
-            });
+            }
 
             // stats counter
             var counted = false;
