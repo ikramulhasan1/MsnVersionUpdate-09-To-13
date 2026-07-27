@@ -72,6 +72,11 @@
             <div class="msn-container">
                 <div class="msn-hero-grid">
                     <div>
+                        <div class="msn-hero-badge-top">
+                            <div class="avatars"></div>
+                            Enjoy 20% Off Your First Order & Start Your Journey With
+                            Us
+                        </div>
                         <h1>{{ $service->title }}</h1>
                         <p class="lead-msn">{!! $service->short_desc !!}</p>
                         <div class="msn-hero-ctas" style="margin-top: 20px">
