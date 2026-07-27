@@ -216,15 +216,25 @@
                                                                         </li>
                                                                     @endif
                                                                 @endforeach
-                                                                <li><a style="font-weight: 700; font-size: 16px;"
+                                                                {{-- <li><a style="font-weight: 700; font-size: 16px;"
                                                                         href="{{ route('services') }}" wire:navigate>
                                                                         <div style="display: flex; align-items: center">
                                                                             View All Service
                                                                         </div>
                                                                     </a>
-                                                                </li>
+                                                                </li> --}}
                                                             </ul>
                                                         @endforeach
+                                                    </div>
+                                                    {{-- View All Service — এখন কলামের বাইরে, একবার, মাঝখানে --}}
+                                                    <div style="text-align: center; margin-top: 10px;">
+                                                        <a style="font-weight: 700; font-size: 16px;"
+                                                            href="{{ route('services') }}" wire:navigate>
+                                                            <div
+                                                                style="display: flex; align-items: center; justify-content: center;">
+                                                                View All Service
+                                                            </div>
+                                                        </a>
                                                     </div>
                                                 @else
                                                     <p class="special_megamenu-empty">{{ __('No sub services') }}</p>
