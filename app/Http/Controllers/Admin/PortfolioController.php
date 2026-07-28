@@ -102,7 +102,7 @@ class PortfolioController extends Controller
 
             $thumbnailpath = $path.$fileNameToStore;
             Image::make($request->file('image')->getRealPath())
-                ->fit(1600, 1000, function ($constraint) {
+                ->fit(1200, 750, function ($constraint) {
                     $constraint->upsize();
                 })
                 ->save($thumbnailpath);
@@ -125,7 +125,7 @@ class PortfolioController extends Controller
             }
 
             Image::make($file->getRealPath())
-                ->fit(750, 1250, function ($constraint) {
+                ->fit(500, 830, function ($constraint) {
                     $constraint->upsize();
                 })
                 ->encode('webp', 90)
@@ -287,7 +287,7 @@ class PortfolioController extends Controller
                 File::makeDirectory($path, 0777, true, true);
             }
 
-            Image::make($file->getRealPath())->fit(1600, 1000, function ($constraint) {
+            Image::make($file->getRealPath())->fit(1200, 750, function ($constraint) {
                 $constraint->upsize();
             })->save($path.$fileNameToStore);
         } else {
@@ -353,7 +353,7 @@ class PortfolioController extends Controller
 
             // Save new overview image
             Image::make($file->getRealPath())
-                ->fit(750, 1250, function ($constraint) {
+                ->fit(500, 830, function ($constraint) {
                     $constraint->upsize();
                 })
                 ->encode('webp', 90)

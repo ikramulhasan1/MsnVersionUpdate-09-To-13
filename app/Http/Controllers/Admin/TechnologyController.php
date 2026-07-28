@@ -2,50 +2,45 @@
 
 namespace App\Http\Controllers\Admin;
 
-use File;
-use Image;
-use Toastr;
+use App\Http\Controllers\Controller;
 use App\Models\Service;
 use App\Models\Technology;
-use Illuminate\Support\Str;
+use File;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+use Image;
+use Toastr;
 
 class TechnologyController extends Controller
 {
     public function __construct()
     {
-        // Module Data
-        // $this->title = trans_choice('dashboard.technology', 1);
-        // $this->route = 'admin.service';
-        // $this->view = 'admin.service';
-        // $this->path = 'service';
-        // Module Data
         $this->title = trans_choice('dashboard.technology', 1);
         $this->route = 'admin.technology';
         $this->view = 'admin.technology';
         $this->path = 'technology';
     }
+
     private function removeBackground($file, $path, $filename)
     {
         $response = Http::withHeaders([
             'X-Api-Key' => env('REMOVEBG_API_KEY'),
         ])->attach(
-                'image_file',
-                file_get_contents($file->getRealPath()),
-                $file->getClientOriginalName()
-            )->post('https://api.remove.bg/v1.0/removebg', [
-                    'size' => 'auto',
-                ]);
+            'image_file',
+            file_get_contents($file->getRealPath()),
+            $file->getClientOriginalName()
+        )->post('https://api.remove.bg/v1.0/removebg', [
+            'size' => 'auto',
+        ]);
 
         if ($response->successful()) {
-            if (!File::exists($path)) {
+            if (! File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
-            $fileNameToStore = $filename . '_' . time() . '.png';
-            file_put_contents($path . $fileNameToStore, $response->body());
+            $fileNameToStore = $filename.'_'.time().'.png';
+            file_put_contents($path.$fileNameToStore, $response->body());
 
             return $fileNameToStore;
         }
@@ -62,9 +57,8 @@ class TechnologyController extends Controller
 
         $data['rows'] = Technology::with('service')->orderBy('id', 'asc')->get();
 
-        return view($this->view . '.index', $data);
+        return view($this->view.'.index', $data);
     }
-
 
     public function create()
     {
@@ -75,9 +69,8 @@ class TechnologyController extends Controller
 
         $data['services'] = Service::orderBy('id', 'asc')->get();
 
-        return view($this->view . '.create', $data);
+        return view($this->view.'.create', $data);
     }
-
 
     public function store(Request $request)
     {
@@ -118,7 +111,7 @@ class TechnologyController extends Controller
 
         // 🟢 Process Description Images (from WYSIWYG editor)
         $content = $request->input('description');
-        $dom = new \DomDocument();
+        $dom = new \DomDocument;
         libxml_use_internal_errors(true);
         $dom->encoding = 'utf-8';
         $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
@@ -129,9 +122,9 @@ class TechnologyController extends Controller
 
             if (preg_match('/data:image/', $src)) {
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-                $filename = uniqid() . '_' . time();
+                $filename = uniqid().'_'.time();
                 $path = public_path('uploads/media/');
-                if (!File::exists($path)) {
+                if (! File::exists($path)) {
                     File::makeDirectory($path, 0777, true, true);
                 }
 
@@ -203,6 +196,7 @@ class TechnologyController extends Controller
         $service->save();
 
         Toastr::success(__('dashboard.created_successfully'), __('dashboard.success'));
+
         return redirect()->route('admin.technologies.index');
     }
 
@@ -211,10 +205,10 @@ class TechnologyController extends Controller
      */
     private function processImage($file, $path, $filename, $removeBg = false)
     {
-        $fileNameToStore = $filename . '_' . time() . '.webp';
-        $fullPath = public_path('uploads/' . $path . '/');
+        $fileNameToStore = $filename.'_'.time().'.webp';
+        $fullPath = public_path('uploads/'.$path.'/');
 
-        if (!File::exists($fullPath)) {
+        if (! File::exists($fullPath)) {
             File::makeDirectory($fullPath, 0777, true, true);
         }
 
@@ -223,16 +217,17 @@ class TechnologyController extends Controller
             $response = Http::withHeaders([
                 'X-Api-Key' => env('REMOVEBG_API_KEY'),
             ])->attach(
-                    'image_file',
-                    file_get_contents($file->getRealPath()),
-                    $file->getClientOriginalName()
-                )->post('https://api.remove.bg/v1.0/removebg', [
-                        'size' => 'auto',
-                    ]);
+                'image_file',
+                file_get_contents($file->getRealPath()),
+                $file->getClientOriginalName()
+            )->post('https://api.remove.bg/v1.0/removebg', [
+                'size' => 'auto',
+            ]);
 
             if ($response->successful()) {
-                $fileNameToStore = $filename . '_' . time() . '.png'; // keep transparency
-                file_put_contents($fullPath . $fileNameToStore, $response->body());
+                $fileNameToStore = $filename.'_'.time().'.png'; // keep transparency
+                file_put_contents($fullPath.$fileNameToStore, $response->body());
+
                 return $fileNameToStore;
             }
         }
@@ -244,10 +239,11 @@ class TechnologyController extends Controller
                 $constraint->upsize();
             })
             ->encode('webp', 90)
-            ->save($fullPath . $fileNameToStore);
+            ->save($fullPath.$fileNameToStore);
 
         return $fileNameToStore;
     }
+
     public function show(Technology $technology)
     {
         //
@@ -261,7 +257,6 @@ class TechnologyController extends Controller
         return view('admin.technology.show', $data);
     }
 
-
     public function edit(Technology $technology)
     {
         $data['title'] = $this->title;
@@ -271,16 +266,16 @@ class TechnologyController extends Controller
 
         $data['subservice'] = $technology;
         $data['services'] = Service::orderBy('id', 'asc')->get();
-        return view($this->view . '.edit', $data);
-    }
 
+        return view($this->view.'.edit', $data);
+    }
 
     public function update(Request $request, Technology $technology)
     {
         // Field Validation
         $request->validate([
-            'title' => 'required|max:191|unique:services,title,' . $technology->id,
-            'short_title' => 'required|max:30|unique:services,short_title,' . $technology->id,
+            'title' => 'required|max:191|unique:services,title,'.$technology->id,
+            'short_title' => 'required|max:30|unique:services,short_title,'.$technology->id,
             'meta_title' => 'required|max:70',
             'keywords' => 'required',
             'price' => 'required',
@@ -294,15 +289,15 @@ class TechnologyController extends Controller
             'logo' => 'nullable|image',
         ]);
 
-        $path = public_path('uploads/' . $this->path . '/');
-        if (!File::exists($path)) {
+        $path = public_path('uploads/'.$this->path.'/');
+        if (! File::exists($path)) {
             File::makeDirectory($path, 0777, true, true);
         }
 
         // ----- CTA Image -----
         if ($request->hasFile('image')) {
-            if (!empty($technology->image_path) && File::exists($path . $technology->image_path)) {
-                File::delete($path . $technology->image_path);
+            if (! empty($technology->image_path) && File::exists($path.$technology->image_path)) {
+                File::delete($path.$technology->image_path);
             }
 
             $file = $request->file('image');
@@ -312,14 +307,14 @@ class TechnologyController extends Controller
                 ? $this->removeBackground($file, $path, $filename)
                 : null;
 
-            if (!$fileNameToStore) {
-                $fileNameToStore = $filename . '_' . time() . '.webp';
+            if (! $fileNameToStore) {
+                $fileNameToStore = $filename.'_'.time().'.webp';
                 Image::make($file->getRealPath())
                     ->fit(780, 400, function ($constraint) {
                         $constraint->upsize();
                     })
                     ->encode('webp', 90)
-                    ->save($path . $fileNameToStore);
+                    ->save($path.$fileNameToStore);
             }
         } else {
             $fileNameToStore = $technology->image_path;
@@ -327,8 +322,8 @@ class TechnologyController extends Controller
 
         // ----- Logo -----
         if ($request->hasFile('logo')) {
-            if (!empty($technology->logo_path) && File::exists($path . $technology->logo_path)) {
-                File::delete($path . $technology->logo_path);
+            if (! empty($technology->logo_path) && File::exists($path.$technology->logo_path)) {
+                File::delete($path.$technology->logo_path);
             }
 
             $file = $request->file('logo');
@@ -338,15 +333,15 @@ class TechnologyController extends Controller
                 ? $this->removeBackground($file, $path, $filename)
                 : null;
 
-            if (!$logoFileNameToStore) {
-                $logoFileNameToStore = $filename . '_' . time() . '.webp';
+            if (! $logoFileNameToStore) {
+                $logoFileNameToStore = $filename.'_'.time().'.webp';
                 Image::make($file->getRealPath())
                     ->resize(200, null, function ($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     })
                     ->encode('webp', 90)
-                    ->save($path . $logoFileNameToStore);
+                    ->save($path.$logoFileNameToStore);
             }
         } else {
             $logoFileNameToStore = $technology->logo_path;
@@ -354,7 +349,7 @@ class TechnologyController extends Controller
 
         // ----- Description Images (CKEditor) -----
         $content = $request->input('description');
-        $dom = new \DomDocument();
+        $dom = new \DomDocument;
         libxml_use_internal_errors(true);
         $dom->encoding = 'utf-8';
         $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
@@ -364,10 +359,11 @@ class TechnologyController extends Controller
             $src = $img->getAttribute('src');
             if (preg_match('/data:image/', $src)) {
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
-                $filename = uniqid() . '_' . time();
+                $filename = uniqid().'_'.time();
                 $mediaPath = public_path('uploads/media/');
-                if (!File::exists($mediaPath))
+                if (! File::exists($mediaPath)) {
                     File::makeDirectory($mediaPath, 0777, true, true);
+                }
 
                 $filepath = "/uploads/media/$filename.webp";
                 Image::make($src)
@@ -424,8 +420,8 @@ class TechnologyController extends Controller
 
             if ($request->hasFile("expertise.$index.expertise_image")) {
 
-                if (!empty($expertiseImageName) && File::exists($path . $expertiseImageName)) {
-                    File::delete($path . $expertiseImageName);
+                if (! empty($expertiseImageName) && File::exists($path.$expertiseImageName)) {
+                    File::delete($path.$expertiseImageName);
                 }
 
                 $file = $request->file("expertise.$index.expertise_image");
@@ -435,8 +431,8 @@ class TechnologyController extends Controller
                     ? $this->removeBackground($file, $path, $filename)
                     : null;
 
-                if (!$expertiseImageName) {
-                    $expertiseImageName = $filename . '_' . time() . '.webp';
+                if (! $expertiseImageName) {
+                    $expertiseImageName = $filename.'_'.time().'.webp';
 
                     $image = Image::make($file->getRealPath());
 
@@ -445,14 +441,13 @@ class TechnologyController extends Controller
                             $constraint->aspectRatio();
                             $constraint->upsize();
                         })->encode('webp', 90)
-                            ->save($path . $expertiseImageName);
+                            ->save($path.$expertiseImageName);
                     } else {
                         // Optional: fallback or log error
                         throw new \Exception('Failed to create image from uploaded file.');
                     }
                 }
             }
-
 
             $expertiseSteps[] = [
                 'expertise_url' => $process['expertise_url'],
@@ -464,14 +459,14 @@ class TechnologyController extends Controller
         $technology->save();
 
         Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
+
         return redirect()->route('admin.technologies.index');
     }
-
 
     public function destroy(Technology $technology)
     {
         // Delete Data
-        $image_path = public_path('uploads/' . $this->path . '/' . $technology->image_path);
+        $image_path = public_path('uploads/'.$this->path.'/'.$technology->image_path);
         if (File::isFile($image_path)) {
             File::delete($image_path);
         }

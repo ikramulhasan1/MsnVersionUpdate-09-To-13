@@ -188,7 +188,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="image">Laptop view
-                                    <span>{{ __('dashboard.image_size', ['height' => 390, 'width' => 1270]) }}</span></label>
+                                    <span>{{ __('dashboard.image_size', ['height' => 750, 'width' => 1200]) }}</span></label>
                                 <div class="d-flex">
                                     <input type="file" class="form-control" name="image" id="image">
                                     <img style="width: 40px; height: 40px;"
@@ -201,7 +201,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="overview_image">Mobile view<span>*</span>
-                                    <span>{{ __('dashboard.image_size', ['height' => 200, 'width' => 130]) }}</span></label>
+                                    <span>{{ __('dashboard.image_size', ['height' => 830, 'width' => 500]) }}</span></label>
                                 <div class="d-flex">
                                     <input type="file" class="form-control" name="overview_image"
                                         id="overview_image">
