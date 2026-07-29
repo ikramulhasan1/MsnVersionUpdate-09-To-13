@@ -87,6 +87,101 @@
             max-width: 100%;
             overflow-wrap: break-word;
         }
+
+        /* ===== TCH SECTION — service categories (left) + tech logos (right) ===== */
+        .tch-layout {
+            display: flex;
+            align-items: flex-start;
+            gap: 32px;
+            margin-top: 30px;
+        }
+
+        .tch-categories {
+            flex: 0 0 280px;
+            max-width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tch-cat-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-align: left;
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            background: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #333;
+            cursor: pointer;
+            transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+        }
+
+        .tch-cat-btn i {
+            font-size: 1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .tch-cat-btn:hover {
+            border-color: var(--red-600, #d2241d);
+        }
+
+        .tch-cat-btn.active {
+            background: var(--red-600, #d2241d);
+            border-color: var(--red-600, #d2241d);
+            color: #fff;
+        }
+
+        .tch-logos-wrap {
+            flex: 1 1 0;
+            min-width: 0;
+        }
+
+        .tch-logos-panel {
+            display: none;
+        }
+
+        .tch-logos-panel.active {
+            display: block;
+        }
+
+        @media (max-width: 991px) {
+            .tch-layout {
+                flex-direction: column;
+            }
+
+            .tch-categories {
+                flex: 0 0 auto;
+                max-width: 100%;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 6px;
+            }
+
+            .tch-cat-btn {
+                width: auto;
+                white-space: nowrap;
+                flex: 0 0 auto;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .tch-cat-btn {
+                padding: 10px 14px;
+                font-size: 0.85rem;
+            }
+
+            .tch-stage {
+                justify-content: flex-start;
+            }
+        }
     </style>
     {{-- ============ IDX SECTION (hero) — wired to $sliders ============ --}}
     <div class="idx-scope">
@@ -373,28 +468,86 @@
         @endif
     </div>
 
-    {{-- ============ TCH SECTION (technology logos — no matching Laravel section, kept as demo design) ============ --}}
-    <div class="tch-scope ">
+    {{-- ============ TCH SECTION (service categories left, matching tech logos right) ============ --}}
+    <div class="tch-scope">
         <section class="tch-section container">
             <div class="container-fluid px-3">
                 <p class="tch-eyebrow">Technologies We Work With</p>
                 <h2 class="tch-heading">A Full Stack of Modern Tools</h2>
 
-                <div class="tch-stage" id="tchStage" aria-label="Technology stack logos">
-                    @foreach ($technologies->shuffle() as $technology)
-                        <div class="tch-card" title="{{ $technology->short_title }}">
-                            <span class="tch-tooltip">{{ $technology->short_title }}</span>
+                <div class="tch-layout" id="tchLayout">
+                    {{-- LEFT: service categories --}}
+                    <div class="tch-categories" role="tablist" aria-label="Service categories">
+                        @foreach ($services as $key => $service)
+                            @if ($service->technologies->count() > 0)
+                                <button type="button" class="tch-cat-btn {{ $loop->first ? 'active' : '' }}"
+                                    data-tch-target="tchPanel{{ $key }}" role="tab"
+                                    aria-selected="{{ $loop->first ? 'true' : 'false' }}">
+                                    @if ($service->service_icon)
+                                        <i class="{{ $service->service_icon }}"></i>
+                                    @endif
+                                    <span>{{ $service->short_title }}</span>
+                                </button>
+                            @endif
+                        @endforeach
+                    </div>
 
-                            <div class="tch-float-inner" style="--tch-dur:4.47s; --tch-delay:1.61s; --tch-amp:-7.2px;">
-                                <img class="techImg" src="{{ asset('uploads/technology/' . $technology->logo_path) }}"
-                                    width="50" height="50" alt="{{ $technology->short_title }}" loading="lazy">
-                            </div>
-                        </div>
-                    @endforeach
+                    {{-- RIGHT: tech logos for the selected category --}}
+                    <div class="tch-logos-wrap">
+                        @foreach ($services as $key => $service)
+                            @if ($service->technologies->count() > 0)
+                                <div class="tch-logos-panel {{ $loop->first ? 'active' : '' }}"
+                                    id="tchPanel{{ $key }}" role="tabpanel">
+                                    <div class="tch-stage" aria-label="{{ $service->short_title }} technology logos">
+                                        @foreach ($service->technologies as $technology)
+                                            <div class="tch-card" title="{{ $technology->short_title }}">
+                                                <span class="tch-tooltip">{{ $technology->short_title }}</span>
+
+                                                <div class="tch-float-inner"
+                                                    style="--tch-dur:4.47s; --tch-delay:1.61s; --tch-amp:-7.2px;">
+                                                    <img class="techImg"
+                                                        src="{{ asset('uploads/technology/' . $technology->logo_path) }}"
+                                                        width="50" height="50"
+                                                        alt="{{ $technology->short_title }}" loading="lazy">
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </section>
 
+        <script>
+            function initTchTabs() {
+                const wrap = document.getElementById('tchLayout');
+                if (!wrap || wrap.dataset.tchInitialized === '1') return;
+                wrap.dataset.tchInitialized = '1';
+
+                wrap.addEventListener('click', function(e) {
+                    const btn = e.target.closest('.tch-cat-btn');
+                    if (!btn || !wrap.contains(btn)) return;
+
+                    wrap.querySelectorAll('.tch-cat-btn').forEach((b) => {
+                        b.classList.remove('active');
+                        b.setAttribute('aria-selected', 'false');
+                    });
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-selected', 'true');
+
+                    const targetId = btn.getAttribute('data-tch-target');
+                    wrap.querySelectorAll('.tch-logos-panel').forEach((panel) => {
+                        panel.classList.toggle('active', panel.id === targetId);
+                    });
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', initTchTabs);
+            document.addEventListener('livewire:navigated', initTchTabs);
+        </script>
     </div>
 
     {{-- ============ PTN SECTION (technology partners — no matching Laravel section, kept as demo design) ============ --}}
