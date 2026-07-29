@@ -5,7 +5,7 @@
     --red-line: #f3d6d1;
     --navy: #12162a;
     --navy-soft: #1d2340;
-    --gold: #d3a324;
+    --gold: #e23a2e;
     --white: #ffffff;
     --ink: #181b29;
     --slate: #6b6f82;
@@ -1663,7 +1663,7 @@
 }
 
 .msn-badge:nth-child(even) .ic {
-    color: var(--gold);
+    color: #ff8177;
 }
 
 .msn-badge:nth-child(odd):hover .ic {
@@ -1673,7 +1673,7 @@
 }
 
 .msn-badge:nth-child(even):hover .ic {
-    background: linear-gradient(135deg, var(--gold), #b4820f);
+    background: linear-gradient(135deg, var(--red), var(--red-dark));
     border-color: transparent;
     color: #fff;
 }
@@ -2017,8 +2017,8 @@
 }
 
 .msn-cc.feat .msn-cc-badge {
-    background: linear-gradient(135deg, var(--gold), #b4820f);
-    color: var(--navy);
+    background: linear-gradient(135deg, var(--gold), #b41f0f);
+    color: white;
 }
 
 .msn-cc-row {
@@ -2255,11 +2255,11 @@
 }
 
 .msn-feature-card:nth-child(2n) .ic {
-    background: linear-gradient(135deg, var(--gold), #b4820f);
+    background: linear-gradient(135deg, var(--red), var(--red-dark));
 }
 
 .msn-feature-card:nth-child(3n) .ic {
-    background: linear-gradient(135deg, var(--navy), #2c355e);
+    background: linear-gradient(135deg, var(--red), var(--red-dark));
 }
 
 .msn-feature-card strong {

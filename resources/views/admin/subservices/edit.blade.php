@@ -624,16 +624,59 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <style>
+                                        .ps-checkbox-box {
+                                            max-height: 260px;
+                                            overflow-y: auto;
+                                            border: 1px solid var(--ps-line);
+                                            border-radius: 10px;
+                                            padding: 10px 12px;
+                                            background: #fbfbfd;
+                                        }
+
+                                        .ps-checkbox-item {
+                                            display: flex;
+                                            align-items: center;
+                                            gap: 8px;
+                                            padding: 6px 4px;
+                                            font-size: 13px;
+                                            font-weight: 500;
+                                            color: var(--ps-ink);
+                                            cursor: pointer;
+                                            border-radius: 6px;
+                                            margin: 0;
+                                        }
+
+                                        .ps-checkbox-item:hover {
+                                            background: var(--ps-primary-soft);
+                                        }
+
+                                        .ps-checkbox-item input[type="checkbox"] {
+                                            width: 15px;
+                                            height: 15px;
+                                            accent-color: var(--ps-primary);
+                                            flex: none;
+                                        }
+
+                                        .ps-checkbox-item.ps-hidden {
+                                            display: none;
+                                        }
+                                    </style>
                                     <div class="form-group mb-0">
-                                        <label for="portfolios"
-                                            class="block text-sm font-medium text-gray-700 mb-1">Recent Work</label>
-                                        <select name="portfolios[]" id="portfolios" multiple>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Recent Work</label>
+                                        @php $selectedPortfolioIds = $subservice->portfolios->pluck('id')->toArray(); @endphp
+                                        <input type="text" class="form-control ps-checkbox-search mb-2"
+                                            id="portfolios-search" placeholder="Search portfolio...">
+                                        <div class="ps-checkbox-box" id="portfolios-box">
                                             @foreach ($allPortfolios as $portfolio)
-                                                <option value="{{ $portfolio->id }}"
-                                                    {{ in_array($portfolio->id, $subservice->portfolios->pluck('id')->toArray()) ? 'selected' : '' }}>
-                                                    {{ $portfolio->title }}</option>
+                                                <label class="ps-checkbox-item">
+                                                    <input type="checkbox" name="portfolios[]"
+                                                        value="{{ $portfolio->id }}"
+                                                        {{ in_array($portfolio->id, $selectedPortfolioIds) ? 'checked' : '' }}>
+                                                    <span>{{ $portfolio->title }}</span>
+                                                </label>
                                             @endforeach
-                                        </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1435,16 +1478,10 @@
         // ---- Choices.js (technologies + portfolios share the same config) ----
         window.psChoicesInstances = {};
         const psChoicesConfig = [{
-                el: '#technologies',
-                placeholder: 'Select technologies',
-                search: 'Search technologies...'
-            },
-            {
-                el: '#portfolios',
-                placeholder: 'Select portfolios',
-                search: 'Search portfolios...'
-            },
-        ];
+            el: '#technologies',
+            placeholder: 'Select technologies',
+            search: 'Search technologies...'
+        }];
 
         function psInitChoices() {
             psChoicesConfig.forEach(function(cfg) {
@@ -1719,10 +1756,21 @@
         // Reads current values of every plain [name] field inside a section into a flat object
         function psReadSectionFields(section) {
             const obj = {};
+            const seenCheckboxGroups = new Set();
+
             section.querySelectorAll('[name]').forEach(el => {
                 const name = el.getAttribute('name');
-                if (!name || name.includes('[')) return;
+                if (!name || (name.includes('[') && name !== 'portfolios[]')) return;
                 if (el.type === 'file') return;
+
+                if (name === 'portfolios[]') {
+                    if (seenCheckboxGroups.has(name)) return;
+                    seenCheckboxGroups.add(name);
+                    obj['portfolios'] = Array.from(section.querySelectorAll('input[name="portfolios[]"]:checked'))
+                        .map(cb => cb.value);
+                    return;
+                }
+
                 if (el.id === 'editor1' || el.id === 'editor') {
                     obj[name] = (window.CKEDITOR && CKEDITOR.instances[el.id]) ? CKEDITOR.instances[el.id]
                         .getData() : el.value;
@@ -1781,11 +1829,15 @@
                 }
             });
 
-            ['technologies', 'portfolios'].forEach(key => {
-                const el = document.querySelector(`#${key}`);
-                if (!el) return;
-                template[key] = Array.from(el.selectedOptions).map(o => o.value);
-            });
+            // technologies (Choices.js select)
+            const techEl = document.querySelector('#technologies');
+            if (techEl) {
+                template['technologies'] = Array.from(techEl.selectedOptions).map(o => o.value);
+            }
+
+            // portfolios (checkbox box)
+            template['portfolios'] = Array.from(document.querySelectorAll('input[name="portfolios[]"]:checked'))
+                .map(cb => cb.value);
 
             document.querySelectorAll('.repeater').forEach(wrapper => {
                 const prefix = wrapper.dataset.prefix;
@@ -1814,9 +1866,20 @@
         function psApplyPlainFields(root, data) {
             Object.keys(data).forEach(key => {
                 if (PS_SPECIAL_KEYS.includes(key)) return;
+
+                // ---- Portfolios checkbox-box (special case) ----
+                if (key === 'portfolios') {
+                    const wanted = (Array.isArray(data[key]) ? data[key] : [data[key]]).map(String);
+                    root.querySelectorAll('input[name="portfolios[]"]').forEach(cb => {
+                        cb.checked = wanted.includes(cb.value);
+                    });
+                    return;
+                }
+
                 const el = root.querySelector(`[name="${key}"]`);
                 if (!el) return;
                 const value = data[key];
+                // ... বাকি অংশ অপরিবর্তিত
 
                 if (el.id === 'editor1' || el.id === 'editor') {
                     if (window.CKEDITOR && CKEDITOR.instances[el.id]) {
@@ -1963,6 +2026,23 @@
                 head.insertBefore(btn, chevron);
             });
         });
+
+        // 
+        // ---- Recent Work checkbox-box search filter ----
+        document.addEventListener('DOMContentLoaded', function() {
+            const search = document.getElementById('portfolios-search');
+            const box = document.getElementById('portfolios-box');
+            if (!search || !box) return;
+
+            search.addEventListener('input', function() {
+                const q = this.value.trim().toLowerCase();
+                box.querySelectorAll('.ps-checkbox-item').forEach(function(item) {
+                    const text = item.textContent.trim().toLowerCase();
+                    item.classList.toggle('ps-hidden', q && !text.includes(q));
+                });
+            });
+        });
+
 
         // ---- Accordion toggle for premium-section blocks ----
         function psToggleSection(headEl) {
