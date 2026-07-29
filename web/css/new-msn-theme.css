@@ -1171,9 +1171,9 @@ a {
 }
 
 .idx-pill-icon {
-    width: 26px;
-    height: 26px;
-    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
     background: linear-gradient(135deg, var(--red-500), var(--red-700));
     color: #fff;
     display: flex;
