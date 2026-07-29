@@ -22,13 +22,15 @@
 @php $collapsed = $section['collapsed'] ?? true; @endphp
 <div class="premium-section{{ $collapsed ? ' ps-collapsed' : '' }}" id="{{ $section['id'] }}">
     <div class="premium-section-head" onclick="psToggleSection(this)">
-        <div class="premium-section-title"><span class="premium-icon"><i class="fa {{ $section['icon'] }}"></i></span>{{ $section['title'] }}</div>
+        <div class="premium-section-title"><span class="premium-icon"><i
+                    class="fa {{ $section['icon'] }}"></i></span>{{ $section['title'] }}</div>
         <div class="premium-section-sub">{{ $section['subtitle'] }}</div>
         <i class="fa fa-chevron-down premium-chevron"></i>
     </div>
     <div class="premium-section-body{{ $collapsed ? ' ps-collapsed' : '' }}">
-        <div class="repeater {{ $section['row'] }}" data-prefix="{{ $section['prefix'] }}" data-group="{{ $section['group'] }}" data-fields='@json($section['fields'])'>
-            @foreach (($section['items'] ?? []) as $key => $row)
+        <div class="repeater {{ $section['row'] }}" data-prefix="{{ $section['prefix'] }}"
+            data-group="{{ $section['group'] }}" data-fields='@json($section['fields'])'>
+            @foreach ($section['items'] ?? [] as $key => $row)
                 <div class="repeater-item {{ $section['group'] }}">
                     <span class="repeater-num">{{ $key + 1 }}</span>
                     <div class="repeater-fields">
@@ -39,7 +41,8 @@
                                 placeholder="{{ $key + 1 }}. {{ $f['l'] }}">
                         @endforeach
                     </div>
-                    <button type="button" class="repeater-del" onclick="this.closest('.repeater-item').remove()" title="Remove">
+                    <button type="button" class="repeater-del" onclick="this.closest('.repeater-item').remove()"
+                        title="Remove">
                         <i class="fa fa-trash"></i>
                     </button>
                 </div>

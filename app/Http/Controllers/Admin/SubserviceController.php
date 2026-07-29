@@ -467,8 +467,8 @@ class SubserviceController extends Controller
          * ==========================
          */
         $featuresSteps = [];
-        if ($request->has('features')) {
-            foreach ($request->features as $feature) {
+        if ($request->has('core_features')) {
+            foreach ($request->core_features as $feature) {
                 $featuresSteps[] = [
                     'icon_class' => $feature['icon_class'] ?? '',
                     'title' => $feature['title'] ?? '',
@@ -480,12 +480,12 @@ class SubserviceController extends Controller
 
         /**
          * ==========================
-         * 🔹 WORK PROCESS SECTION
+         * 🔹 DELIVERABLES (WORK PROCESS) SECTION
          * ==========================
          */
         $processSteps = [];
-        if ($request->has('process')) {
-            foreach ($request->process as $step) {
+        if ($request->has('deliverables')) {
+            foreach ($request->deliverables as $step) {
                 $processSteps[] = [
                     'title' => $step['title'] ?? '',
                     'bottom_text' => $step['bottom_text'] ?? '',
@@ -496,12 +496,12 @@ class SubserviceController extends Controller
 
         /**
          * ==========================
-         * 🔹 WHY CHOOSE US SECTION
+         * 🔹 WHO IS THIS FOR SECTION
          * ==========================
          */
         $whyWeSteps = [];
-        if ($request->has('why_we')) {
-            foreach ($request->why_we as $why) {
+        if ($request->has('who_is_this_for')) {
+            foreach ($request->who_is_this_for as $why) {
                 $whyWeSteps[] = [
                     'icon_class' => $why['icon_class'] ?? '',
                     'title' => $why['title'] ?? '',
@@ -513,12 +513,12 @@ class SubserviceController extends Controller
 
         /**
          * ==========================
-         * 🔹 INDUSTRIES SECTION
+         * 🔹 HERO BADGES SECTION
          * ==========================
          */
         $industriesSteps = [];
-        if ($request->has('industry')) {
-            foreach ($request->industry as $industry) {
+        if ($request->has('hero_badges')) {
+            foreach ($request->hero_badges as $industry) {
                 $industriesSteps[] = [
                     'icon_class' => $industry['icon_class'] ?? '',
                     'title' => $industry['title'] ?? '',
@@ -534,8 +534,8 @@ class SubserviceController extends Controller
          * ==========================
          */
         $achievementsSteps = [];
-        if ($request->has('achievement')) {
-            foreach ($request->achievement as $achievement) {
+        if ($request->has('achievements')) {
+            foreach ($request->achievements as $achievement) {
                 $achievementsSteps[] = [
                     'count_number' => $achievement['count_number'] ?? '',
                     'title' => $achievement['title'] ?? '',
@@ -546,12 +546,12 @@ class SubserviceController extends Controller
 
         /**
          * ==========================
-         * 🔹 SUCCESS STORIES SECTION
+         * 🔹 WHAT'S INCLUDED (SUCCESS STORIES) SECTION
          * ==========================
          */
         $successStoriesSteps = [];
-        if ($request->has('story')) {
-            foreach ($request->story as $story) {
+        if ($request->has('whats_included')) {
+            foreach ($request->whats_included as $story) {
                 $successStoriesSteps[] = [
                     'title' => $story['title'] ?? '',
                     'icon' => $story['icon'] ?? '',
@@ -563,12 +563,12 @@ class SubserviceController extends Controller
 
         /**
          * ==========================
-         * 🔹 CLIENTS SAY SECTION
+         * 🔹 CLIENT VOICES SECTION
          * ==========================
          */
         $clientsSaySteps = [];
-        if ($request->has('client')) {
-            foreach ($request->client as $client) {
+        if ($request->has('client_voices')) {
+            foreach ($request->client_voices as $client) {
                 $clientsSaySteps[] = [
                     'title' => $client['title'] ?? '',
                     'meassage' => $client['meassage'] ?? '',
@@ -585,8 +585,8 @@ class SubserviceController extends Controller
          * ==========================
          */
         $howWeWork = [];
-        if ($request->has('work')) {
-            foreach ($request->work as $work) {
+        if ($request->has('how_we_work')) {
+            foreach ($request->how_we_work as $work) {
                 $howWeWork[] = [
                     'title' => $work['title'] ?? '',
                     'designation' => $work['designation'] ?? '',
@@ -599,7 +599,7 @@ class SubserviceController extends Controller
 
         /**
          * ==========================
-         * 🔹 OUR GUARANTEE SECTION
+         * 🔹 OUR GUARANTEE SECTION (prefix অপরিবর্তিত)
          * ==========================
          */
         $guaranteeSteps = [];
@@ -613,14 +613,15 @@ class SubserviceController extends Controller
             }
         }
         $subservice->guarantee_steps = json_encode($guaranteeSteps);
+
         /**
          * ==========================
          * 🔹 FAQ SECTION
          * ==========================
          */
         $faqSteps = [];
-        if ($request->has('faq')) {
-            foreach ($request->faq as $faq) {
+        if ($request->has('faqs')) {
+            foreach ($request->faqs as $faq) {
                 $faqSteps[] = [
                     'question' => $faq['question'] ?? '',
                     'answer' => $faq['answer'] ?? '',
@@ -631,12 +632,12 @@ class SubserviceController extends Controller
 
         /**
          * ==========================
-         * 🔹 OUR PROMISE SECTION
+         * 🔹 INDUSTRIES (OUR PROMISE) SECTION
          * ==========================
          */
         $promiseSteps = [];
-        if ($request->has('item')) {
-            foreach ($request->item as $promise) {
+        if ($request->has('industries')) {
+            foreach ($request->industries as $promise) {
                 $promiseSteps[] = [
                     'bottom_text' => $promise['bottom_text'] ?? '',
                 ];
@@ -650,8 +651,8 @@ class SubserviceController extends Controller
          * ==========================
          */
         $ctaSteps = [];
-        if ($request->has('cta')) {
-            foreach ($request->cta as $cta) {
+        if ($request->has('call_to_action')) {
+            foreach ($request->call_to_action as $cta) {
                 $ctaSteps[] = [
                     'bottom_text' => $cta['bottom_text'] ?? '',
                 ];
