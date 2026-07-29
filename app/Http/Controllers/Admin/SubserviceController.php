@@ -220,18 +220,18 @@ class SubserviceController extends Controller
          * ==========================
          */
         $sections = [
-            'features_steps' => 'features',
-            'process_steps' => 'process',
-            'why_we_steps' => 'why_we',
-            'industries_steps' => 'industry',
-            'achievements_steps' => 'achievement',
-            'success_stories_steps' => 'story',
-            'clients_say_steps' => 'client',
-            'how_we_work' => 'work',
-            'faq_steps' => 'faq',
-            'our_promise' => 'item',
-            'cta_steps' => 'cta',
-            'guarantee_steps' => 'guarantee',   // ✅ Added — was missing
+            'features_steps' => 'core_features',      // ✅ fixed (was 'features')
+            'process_steps' => 'deliverables',        // ✅ fixed (was 'process')
+            'why_we_steps' => 'who_is_this_for',      // ✅ fixed (was 'why_we')
+            'industries_steps' => 'hero_badges',          // ✅ fixed (was 'industry')
+            'achievements_steps' => 'achievements',         // ✅ fixed (was 'achievement')
+            'success_stories_steps' => 'whats_included',       // ✅ fixed (was 'story')
+            'clients_say_steps' => 'client_voices',        // ✅ fixed (was 'client')
+            'how_we_work' => 'how_we_work',          // ✅ same
+            'faq_steps' => 'faqs',                 // ✅ fixed (was 'faq')
+            'our_promise' => 'industries',           // ✅ fixed (was 'item')
+            'cta_steps' => 'call_to_action',       // ✅ fixed (was 'cta')
+            'guarantee_steps' => 'guarantee',            // ✅ same
         ];
 
         foreach ($sections as $jsonKey => $inputName) {
