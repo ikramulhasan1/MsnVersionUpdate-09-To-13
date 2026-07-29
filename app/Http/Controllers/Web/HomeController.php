@@ -2,108 +2,108 @@
 
 namespace App\Http\Controllers\Web;
 
-use Mail;
-use App\Models\Page;
+use App\Http\Controllers\Controller;
+use App\Mail\Subscription;
 use App\Models\About;
-use App\Models\Client;
-use App\Models\Member;
-use App\Models\Slider;
 use App\Models\Article;
+use App\Models\CaseStudy;
+use App\Models\Client;
 use App\Models\Counter;
+use App\Models\EmailTemplate;
+use App\Models\Member;
+use App\Models\Page;
+use App\Models\Portfolio;
+use App\Models\PortfolioCategory;
 use App\Models\Service;
 use App\Models\Setting;
-use App\Models\CaseStudy;
-use App\Models\Portfolio;
-use App\Mail\Subscription;
+use App\Models\Slider;
 use App\Models\Subscriber;
 use App\Models\Technology;
 use App\Models\Testimonial;
 use App\Models\WorkProcess;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use App\Models\EmailTemplate;
-use App\Models\PortfolioCategory;
-use App\Http\Controllers\Controller;
+use Mail;
 
 class HomeController extends Controller
 {
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return Renderable
      */
     public function index()
     {
         // Sliders
         $data['sliders'] = Slider::where('status', '1')
-                            ->orderBy('id', 'desc')
-                            ->get();
+            ->orderBy('id', 'desc')
+            ->get();
 
         // About
         $data['about'] = About::where('status', '1')
-                            ->first();
+            ->first();
 
-        // Counters                                
+        // Counters
         $data['counters'] = Counter::where('status', '1')
-                            ->orderBy('id', 'asc')
-                            ->get();
+            ->orderBy('id', 'asc')
+            ->get();
 
-        // Services                                
-        $data['services'] = Service::where('status', '1')->where('manu','1')
-                            ->orderBy('id', 'asc')->take(6)
-                            ->get();
+        // Services
+        $data['services'] = Service::where('status', '1')->where('manu', '1')
+            ->orderBy('id', 'asc')->take(6)
+            ->get();
 
-        // Portfolio Categories                                
+        // Portfolio Categories
         $data['portfolio_categories'] = PortfolioCategory::where('status', '1')
-                            ->orderBy('id', 'asc')
-                            ->get();
+            ->orderBy('id', 'asc')
+            ->get();
 
-        // Portfolios                                
+        // Portfolios
         $data['portfolios'] = Portfolio::where('status', '1')
-                            ->orderBy('id', 'desc')
-                            ->take(9)
-                            ->get();
+            ->orderBy('id', 'desc')
+            ->take(9)
+            ->get();
 
-        // Members                                
+        // Members
         $data['members'] = Member::where('status', '1')
-                            ->orderBy('id', 'asc')
-                            ->get();
+            ->orderBy('id', 'asc')
+            ->get();
 
-        // Testimonials                                
+        // Testimonials
         $data['testimonials'] = Testimonial::where('status', '1')
-                            ->orderBy('id', 'desc')
-                            ->get();
+            ->orderBy('id', 'desc')
+            ->get();
 
-        // Articles                                
+        // Articles
         $data['articles'] = Article::where('status', '1')
-                            ->orderBy('id', 'desc')
-                            ->take(3)
-                            ->get();
+            ->orderBy('id', 'desc')
+            ->take(3)
+            ->get();
 
         // Processes
         $data['processes'] = WorkProcess::where('status', '1')
-                            ->orderBy('id', 'asc')
-                            ->get();
+            ->orderBy('id', 'asc')
+            ->get();
 
         // Clients
         $data['clients'] = Client::where('status', '1')
-                            ->orderBy('id', 'desc')->take(10)
-                            ->get();
+            ->orderBy('id', 'desc')->take(10)
+            ->get();
 
         $data['technologies'] = Technology::where('status', '1')
-                            ->orderBy('id', 'asc')
-                            ->get();
+            ->orderBy('id', 'asc')
+            ->get();
         $data['case_studies'] = CaseStudy::with('technologies')->where('status', '1')
-                            ->orderBy('id', 'desc')
-                            ->get();
+            ->orderBy('id', 'desc')
+            ->get();
 
         return view('web.index', $data);
     }
 
-
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return Renderable
      */
     public function subscribe(Request $request)
     {
@@ -114,15 +114,15 @@ class HomeController extends Controller
 
         $subscriber = Subscriber::where('email', $request->email)->first();
 
-        if(!isset($subscriber)){
-            Subscriber::create($request->all());             
+        if (! isset($subscriber)) {
+            Subscriber::create($request->all());
         }
 
         // Notify to User
         $template = EmailTemplate::where('slug', 'subscription')->first();
         $setting = Setting::where('status', '1')->first();
 
-        if(isset($template) && isset($setting)){
+        if (isset($template) && isset($setting)) {
 
             // Passing data to email template
             $data['email'] = $request->email;
@@ -137,14 +137,14 @@ class HomeController extends Controller
             Mail::to($data['email'])->send(new Subscription($data));
 
         }
-        
+
         return redirect()->back();
     }
 
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return Renderable
      */
     public function page($slug)
     {

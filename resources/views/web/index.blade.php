@@ -141,11 +141,13 @@
                         </div>
 
                         <div class="d-flex flex-wrap justify-content-center gap-3">
-                            <span class="idx-pill-feature">
-                                <span class="idx-pill-icon"><i class="fa-solid fa-robot"></i></span>
-                                Agentic AI
-                            </span>
-                            <span class="idx-pill-feature">
+                            @foreach ($services as $service)
+                                <a href="{{ route('services') }}" style="text-decoration: none" class="idx-pill-feature">
+                                    <span class="idx-pill-icon"><i class="fs-1 {{ $service->service_icon }}"></i></span>
+                                    {{ $service->short_title }}
+                                </a>
+                            @endforeach
+                            {{-- <span class="idx-pill-feature">
                                 <span class="idx-pill-icon"><i class="fa-solid fa-code-branch"></i></span>
                                 AI Integration &amp; Automation
                             </span>
@@ -156,7 +158,7 @@
                             <span class="idx-pill-feature">
                                 <span class="idx-pill-icon"><i class="fa-solid fa-mobile-screen"></i></span>
                                 Mobile Applications
-                            </span>
+                            </span> --}}
                         </div>
                     </div>
                 </section>
@@ -172,7 +174,84 @@
 
                 </p>
 
-                <div class="idx-review-row">
+                {{-- ===== STAT COUNTER ROW (added — update numbers/labels as needed) ===== --}}
+                <style>
+                    .trust-stat-row {
+                        display: flex;
+                        flex-wrap: wrap;
+                        background: #ffffff;
+                        border-radius: 10px;
+                        overflow: hidden;
+                        margin: 40px 0 44px;
+                        border: 1px solid #eee;
+                        box-shadow: 0 10px 30px -8px rgba(210, 36, 29, 0.12), 0 2px 8px rgba(0, 0, 0, 0.05);
+                    }
+
+                    .trust-stat-item {
+                        flex: 1 1 0;
+                        min-width: 140px;
+                        padding: 28px 32px;
+                        border-right: 1px solid #e7e2e2;
+                    }
+
+                    .trust-stat-item:last-child {
+                        border-right: none;
+                    }
+
+                    .trust-stat-number {
+                        /* font-family: 'Courier New', ui-monospace, monospace; */
+                        font-weight: 800;
+                        font-size: clamp(1.8rem, 3vw, 2.6rem);
+                        line-height: 1;
+                        color: var(--red-600, #d2241d);
+                        margin-bottom: 10px;
+                    }
+
+                    .trust-stat-label {
+                        /* font-family: 'Courier New', ui-monospace, monospace; */
+                        /* font-size: 0.78rem; */
+                        letter-spacing: 0.04em;
+                        text-transform: uppercase;
+                        font-weight: 700;
+                        /* color: #7a7370; */
+                    }
+
+                    @media (max-width: 767px) {
+                        .trust-stat-row {
+                            flex-direction: column;
+                        }
+
+                        .trust-stat-item {
+                            border-right: none;
+                            border-bottom: 1px solid #e7e2e2;
+                        }
+
+                        .trust-stat-item:last-child {
+                            border-bottom: none;
+                        }
+                    }
+                </style>
+
+                <div class="trust-stat-row">
+                    <div class="trust-stat-item">
+                        <div class="trust-stat-number">3700+</div>
+                        <div class="trust-stat-label">Projects Completed</div>
+                    </div>
+                    <div class="trust-stat-item">
+                        <div class="trust-stat-number">900+</div>
+                        <div class="trust-stat-label">Happy Clients</div>
+                    </div>
+                    <div class="trust-stat-item">
+                        <div class="trust-stat-number">56+</div>
+                        <div class="trust-stat-label">Expert Developers</div>
+                    </div>
+                    <div class="trust-stat-item">
+                        <div class="trust-stat-number">25+</div>
+                        <div class="trust-stat-label">Countries Served</div>
+                    </div>
+                </div>
+
+                {{-- <div class="idx-review-row">
                     <div class="idx-review-card">
                         <div>
                             <div class="idx-review-label">Reviewed on</div>
@@ -213,7 +292,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </section>
     </div>
