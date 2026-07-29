@@ -281,7 +281,7 @@ class SubserviceController extends Controller
         $data['path'] = $this->path;
 
         $data['subservice'] = $subservice;
-        $data['services'] = Service::orderBy('id', 'asc')->get();
+        $data['services'] = Service::with('technologies')->orderBy('id', 'asc')->get();
         $data['allTechnologies'] = Technology::all();
         $data['allPortfolios'] = Portfolio::all();
 

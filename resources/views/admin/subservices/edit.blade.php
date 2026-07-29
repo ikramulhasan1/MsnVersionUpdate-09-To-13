@@ -556,6 +556,7 @@
                                             data-plugin="customselect">
                                             @foreach ($services as $service)
                                                 <option value="{{ $service->id }}"
+                                                    data-technologies="{{ $service->technologies->pluck('id')->implode(',') }}"
                                                     @if ($subservice->service_id == $service->id) selected @endif>{{ $service->title }}
                                                 </option>
                                             @endforeach
@@ -616,11 +617,16 @@
                                     <div class="form-group mb-4">
                                         <label for="technologies" class="block text-sm font-medium text-gray-700 mb-1">The
                                             Stack</label>
+                                        @php
+                                            $allTechnologies = $services->flatMap->technologies->unique('id');
+                                            $selectedTechnologyIds = $subservice->technologies->pluck('id')->toArray();
+                                        @endphp
                                         <select name="technologies[]" id="technologies" multiple>
                                             @foreach ($allTechnologies as $tech)
                                                 <option value="{{ $tech->id }}"
-                                                    {{ in_array($tech->id, $subservice->technologies->pluck('id')->toArray()) ? 'selected' : '' }}>
-                                                    {{ $tech->short_title }}</option>
+                                                    @if (in_array($tech->id, $selectedTechnologyIds)) selected @endif>
+                                                    {{ $tech->short_title }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -1415,8 +1421,8 @@
                                             </select>
                                         </div>
                                         <div class="form-group col">
-                                            <label for="status">{{ __('dashboard.select_status') }}</label>
-                                            <select class="wide" name="status" id="status"
+                                            <label for="publish_status">{{ __('dashboard.select_status') }}</label>
+                                            <select class="wide" name="status" id="publish_status"
                                                 data-plugin="customselect">
                                                 <option value="1" @if ($subservice->status == 1) selected @endif>
                                                     {{ __('dashboard.active') }}</option>
@@ -1500,7 +1506,34 @@
             });
         }
         document.addEventListener('DOMContentLoaded', psInitChoices);
+        document.addEventListener('DOMContentLoaded', psInitChoices);
 
+        // ---- Auto-select technologies based on chosen service ----
+        function psAutoSelectTechnologies() {
+            const statusSelect = document.getElementById('status');
+            const techInstance = window.psChoicesInstances['#technologies'];
+            if (!statusSelect || !techInstance) return;
+
+            const selectedOption = statusSelect.options[statusSelect.selectedIndex];
+            const attr = selectedOption ? (selectedOption.getAttribute('data-technologies') || '') : '';
+            const techIds = attr.split(',').filter(Boolean);
+
+            techInstance.removeActiveItems();
+            if (techIds.length) {
+                techInstance.setChoiceByValue(techIds);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusSelect = document.getElementById('status');
+            if (!statusSelect) return;
+
+            statusSelect.addEventListener('change', psAutoSelectTechnologies);
+
+            if (window.jQuery) {
+                jQuery(document).on('change', '#status', psAutoSelectTechnologies);
+            }
+        });
         // ---- Generic repeater engine: replaces every add/removeXxx() pair ----
         function addRepeaterRow(btn) {
             const body = btn.closest('.premium-section-body');
