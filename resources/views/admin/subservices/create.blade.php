@@ -531,6 +531,7 @@
                                     <div class="premium-section-sub">Core details clients see first</div>
                                     <i class="fa fa-chevron-down premium-chevron"></i>
                                 </div>
+
                                 <div class="premium-section-body">
                                     <div class="form-group">
                                         <label for="status">{{ __('dashboard.select_status') }}</label>
@@ -598,8 +599,10 @@
                                         <label for="technologies" class="block text-sm font-medium text-gray-700 mb-1">The
                                             Stack</label>
                                         <select name="technologies[]" id="technologies" multiple>
-                                            @foreach ($allTechnologies as $tech)
-                                                <option value="{{ $tech->id }}">{{ $tech->short_title }}</option>
+                                            @foreach ($services as $service)
+                                                @foreach ($service->technologies as $tech)
+                                                    <option value="{{ $tech->id }}">{{ $tech->short_title }}</option>
+                                                @endforeach
                                             @endforeach
                                         </select>
                                     </div>

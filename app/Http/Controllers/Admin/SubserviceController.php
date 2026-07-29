@@ -46,7 +46,7 @@ class SubserviceController extends Controller
 
         $data['allTechnologies'] = Technology::all();
         $data['allPortfolios'] = Portfolio::all();
-        $data['services'] = Service::orderBy('id', 'asc')->get();
+        $data['services'] = Service::with('technologies')->orderBy('id', 'asc')->get();
 
         return view($this->view.'.create', $data);
     }
