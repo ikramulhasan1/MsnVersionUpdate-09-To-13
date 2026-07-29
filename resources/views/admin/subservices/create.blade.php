@@ -538,7 +538,10 @@
                                         <select class="wide" name="service_id" id="status"
                                             data-plugin="customselect">
                                             @foreach ($services as $service)
-                                                <option value="{{ $service->id }}">{{ $service->title }}</option>
+                                                <option value="{{ $service->id }}"
+                                                    data-technologies="{{ $service->technologies->pluck('id')->implode(',') }}">
+                                                    {{ $service->title }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -599,10 +602,9 @@
                                         <label for="technologies" class="block text-sm font-medium text-gray-700 mb-1">The
                                             Stack</label>
                                         <select name="technologies[]" id="technologies" multiple>
-                                            @foreach ($services as $service)
-                                                @foreach ($service->technologies as $tech)
-                                                    <option value="{{ $tech->id }}">{{ $tech->short_title }}</option>
-                                                @endforeach
+                                            @php $allTechnologies = $services->flatMap->technologies->unique('id'); @endphp
+                                            @foreach ($allTechnologies as $tech)
+                                                <option value="{{ $tech->id }}">{{ $tech->short_title }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -1144,7 +1146,36 @@
             });
         }
         document.addEventListener('DOMContentLoaded', psInitChoices);
+        // ---- Auto-select technologies based on chosen service ----
+        function psAutoSelectTechnologies() {
+            const statusSelect = document.getElementById('status');
+            const techInstance = window.psChoicesInstances['#technologies'];
+            if (!statusSelect || !techInstance) return;
 
+            const selectedOption = statusSelect.options[statusSelect.selectedIndex];
+            const attr = selectedOption ? (selectedOption.getAttribute('data-technologies') || '') : '';
+            const techIds = attr.split(',').filter(Boolean);
+
+            // আগের সব selection মুছে দিন
+            techInstance.removeActiveItems();
+            // নতুন করে service-এর technology গুলো সিলেক্ট করে দিন
+            if (techIds.length) {
+                techInstance.setChoiceByValue(techIds);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusSelect = document.getElementById('status');
+            if (!statusSelect) return;
+
+            // native change (keyboard/native select interaction)
+            statusSelect.addEventListener('change', psAutoSelectTechnologies);
+
+            // jQuery-triggered change (customselect প্লাগিন jQuery দিয়ে trigger করে)
+            if (window.jQuery) {
+                jQuery(document).on('change', '#status', psAutoSelectTechnologies);
+            }
+        });
         // ---- Generic repeater engine: replaces every add/removeXxx() pair ----
         function addRepeaterRow(btn) {
             const body = btn.closest('.premium-section-body');
