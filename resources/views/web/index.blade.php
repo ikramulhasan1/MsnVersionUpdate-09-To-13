@@ -97,8 +97,7 @@
                     <div class="container">
                         <span class="idx-hero-badge">
                             <span class="idx-dot"></span>
-                            From AI strategy to product in weeks
-                        </span>
+                            A Top-Rated & Leading Digital Agency </span>
 
                         <h1 class="idx-hero-title">
                             {!! $slider->title !!}

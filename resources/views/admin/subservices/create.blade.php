@@ -620,6 +620,7 @@
                                 partial — see partials/repeater-section.blade.php.
                                 On create, every list simply starts empty.
                             --}}
+
                             @php
                                 $repeaterSections = [
                                     [
@@ -629,7 +630,7 @@
                                         'subtitle' => 'Highlight what makes this service stand out',
                                         'row' => 'features-row',
                                         'group' => 'features-group',
-                                        'prefix' => 'features',
+                                        'prefix' => 'core_features',
                                         'items' => $features ?? [],
                                         'fields' => [
                                             ['k' => 'icon_class', 'l' => 'Icon Class'],
@@ -637,6 +638,7 @@
                                             ['k' => 'bottom_text', 'l' => 'Bottom Text'],
                                         ],
                                     ],
+
                                     [
                                         'id' => 'sec-deliverables',
                                         'icon' => 'fa-tasks',
@@ -644,13 +646,14 @@
                                         'subtitle' => 'Step-by-step delivery process shown to clients',
                                         'row' => 'process-row',
                                         'group' => 'process-group',
-                                        'prefix' => 'process',
+                                        'prefix' => 'deliverables',
                                         'items' => $process_steps ?? [],
                                         'fields' => [
                                             ['k' => 'title', 'l' => 'Title'],
                                             ['k' => 'bottom_text', 'l' => 'Bottom Text'],
                                         ],
                                     ],
+
                                     [
                                         'id' => 'sec-who-is-this-for',
                                         'icon' => 'fa-users',
@@ -658,7 +661,7 @@
                                         'subtitle' => 'Describe the ideal client for this service',
                                         'row' => 'WhyWe-row',
                                         'group' => 'WhyWe-group',
-                                        'prefix' => 'why_we',
+                                        'prefix' => 'who_is_this_for',
                                         'items' => $whyWeSteps ?? [],
                                         'fields' => [
                                             ['k' => 'icon_class', 'l' => 'Icon Class'],
@@ -666,6 +669,7 @@
                                             ['k' => 'bottom_text', 'l' => 'Bottom Text'],
                                         ],
                                     ],
+
                                     [
                                         'id' => 'sec-hero-badges',
                                         'icon' => 'fa-certificate',
@@ -673,7 +677,7 @@
                                         'subtitle' => 'Badges shown in the hero banner',
                                         'row' => 'industries-row',
                                         'group' => 'industry-group',
-                                        'prefix' => 'industry',
+                                        'prefix' => 'hero_badges',
                                         'items' => $industriesSteps ?? [],
                                         'fields' => [
                                             ['k' => 'icon_class', 'l' => 'Icon Class'],
@@ -681,6 +685,7 @@
                                             ['k' => 'description', 'l' => 'Description'],
                                         ],
                                     ],
+
                                     [
                                         'id' => 'sec-achievements',
                                         'icon' => 'fa-chart-line',
@@ -688,13 +693,14 @@
                                         'subtitle' => 'Numbers that build trust',
                                         'row' => 'achievement-row',
                                         'group' => 'achievement-group',
-                                        'prefix' => 'achievement',
+                                        'prefix' => 'achievements',
                                         'items' => $achievementsSteps ?? [],
                                         'fields' => [
                                             ['k' => 'count_number', 'l' => 'Count Number'],
                                             ['k' => 'title', 'l' => 'Title'],
                                         ],
                                     ],
+
                                     [
                                         'id' => 'sec-whats-included',
                                         'icon' => 'fa-check-circle',
@@ -702,7 +708,7 @@
                                         'subtitle' => 'Key outcomes included in this service',
                                         'row' => 'success-stories-row',
                                         'group' => 'SuccessStories-group',
-                                        'prefix' => 'story',
+                                        'prefix' => 'whats_included',
                                         'items' => $successStoriesSteps ?? [],
                                         'fields' => [
                                             ['k' => 'title', 'l' => 'Title'],
@@ -710,6 +716,7 @@
                                             ['k' => 'bottom_text', 'l' => 'Bottom Text'],
                                         ],
                                     ],
+
                                     [
                                         'id' => 'sec-client-voices',
                                         'icon' => 'fa-quote-left',
@@ -717,7 +724,7 @@
                                         'subtitle' => 'Testimonials from real clients',
                                         'row' => 'clients-say-row',
                                         'group' => 'clients-group',
-                                        'prefix' => 'client',
+                                        'prefix' => 'client_voices',
                                         'items' => $clientsSaySteps ?? [],
                                         'fields' => [
                                             ['k' => 'title', 'l' => 'Name'],
@@ -726,6 +733,7 @@
                                             ['k' => 'rating', 'l' => 'Rating', 'd' => '★★★★★'],
                                         ],
                                     ],
+
                                     [
                                         'id' => 'sec-how-we-work',
                                         'icon' => 'fa-cogs',
@@ -733,7 +741,7 @@
                                         'subtitle' => 'Explain your working process',
                                         'row' => 'works-say-row',
                                         'group' => 'works-group',
-                                        'prefix' => 'work',
+                                        'prefix' => 'how_we_work',
                                         'items' => $howWeWork ?? [],
                                         'fields' => [
                                             ['k' => 'title', 'l' => 'Top Title'],
@@ -742,6 +750,7 @@
                                             ['k' => 'icon', 'l' => 'Icon'],
                                         ],
                                     ],
+
                                     [
                                         'id' => 'sec-faqs',
                                         'icon' => 'fa-question-circle',
@@ -749,13 +758,14 @@
                                         'subtitle' => 'Answer common client questions',
                                         'row' => 'faq-row',
                                         'group' => 'faq-group',
-                                        'prefix' => 'faq',
+                                        'prefix' => 'faqs',
                                         'items' => $faqSteps ?? [],
                                         'fields' => [
                                             ['k' => 'question', 'l' => 'Question'],
                                             ['k' => 'answer', 'l' => 'Answer'],
                                         ],
                                     ],
+
                                     [
                                         'id' => 'sec-industries',
                                         'icon' => 'fa-industry',
@@ -763,10 +773,11 @@
                                         'subtitle' => 'Industries this service serves',
                                         'row' => 'promise-row',
                                         'group' => 'promise-group',
-                                        'prefix' => 'item',
+                                        'prefix' => 'industries',
                                         'items' => $ourPromise ?? [],
                                         'fields' => [['k' => 'bottom_text', 'l' => 'Bottom Text']],
                                     ],
+
                                     [
                                         'id' => 'sec-cta',
                                         'icon' => 'fa-bullhorn',
@@ -774,10 +785,11 @@
                                         'subtitle' => 'The closing pitch on the page',
                                         'row' => 'cta-row',
                                         'group' => 'cta-group',
-                                        'prefix' => 'cta',
+                                        'prefix' => 'call_to_action',
                                         'items' => $ctaSteps ?? [],
                                         'fields' => [['k' => 'bottom_text', 'l' => 'Bottom Text']],
                                     ],
+
                                     [
                                         'id' => 'sec-guarantee',
                                         'icon' => 'fa-shield-alt',

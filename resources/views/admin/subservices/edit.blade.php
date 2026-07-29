@@ -645,7 +645,7 @@
                                 are config-driven and rendered through one shared partial —
                                 see partials/repeater-section.blade.php
                             --}}
-                            @php
+                            {{-- @php
                                 $repeaterSections = [
                                     [
                                         'id' => 'sec-core-features',
@@ -841,6 +841,276 @@
                                         ],
                                     ],
                                 ];
+                            @endphp --}}
+                            @php
+                                $repeaterSections = [
+                                    [
+                                        'id' => 'sec-core-features',
+                                        'icon' => 'fa-star',
+                                        'title' => 'Core Features',
+                                        'subtitle' => 'Highlight what makes this service stand out',
+                                        'row' => 'features-row',
+                                        'group' => 'features-group',
+
+                                        // NEW INPUT / JSON NAME
+                                        'prefix' => 'core_features',
+
+                                        // DATABASE FIELD UNCHANGED
+                                        'items' => is_string($subservice->features_steps)
+                                            ? json_decode($subservice->features_steps, true)
+                                            : $subservice->features_steps ?? [],
+
+                                        'fields' => [
+                                            ['k' => 'icon_class', 'l' => 'Icon Class'],
+                                            ['k' => 'title', 'l' => 'Title'],
+                                            ['k' => 'bottom_text', 'l' => 'Bottom Text'],
+                                        ],
+                                    ],
+
+                                    [
+                                        'id' => 'sec-deliverables',
+                                        'icon' => 'fa-tasks',
+                                        'title' => 'Deliverables',
+                                        'subtitle' => 'Step-by-step delivery process shown to clients',
+                                        'row' => 'process-row',
+                                        'group' => 'process-group',
+
+                                        // NEW INPUT / JSON NAME
+                                        'prefix' => 'deliverables',
+
+                                        // DATABASE FIELD UNCHANGED
+                                        'items' => is_string($subservice->process_steps)
+                                            ? json_decode($subservice->process_steps, true)
+                                            : $subservice->process_steps ?? [],
+
+                                        'fields' => [
+                                            ['k' => 'title', 'l' => 'Title'],
+                                            ['k' => 'bottom_text', 'l' => 'Bottom Text'],
+                                        ],
+                                    ],
+
+                                    [
+                                        'id' => 'sec-who-is-this-for',
+                                        'icon' => 'fa-users',
+                                        'title' => 'Who Is This For',
+                                        'subtitle' => 'Describe the ideal client for this service',
+                                        'row' => 'WhyWe-row',
+                                        'group' => 'WhyWe-group',
+
+                                        // NEW INPUT / JSON NAME
+                                        'prefix' => 'who_is_this_for',
+
+                                        // DATABASE FIELD UNCHANGED
+                                        'items' => is_string($subservice->why_we_steps)
+                                            ? json_decode($subservice->why_we_steps, true)
+                                            : $subservice->why_we_steps ?? [],
+
+                                        'fields' => [
+                                            ['k' => 'icon_class', 'l' => 'Icon Class'],
+                                            ['k' => 'title', 'l' => 'Title'],
+                                            ['k' => 'bottom_text', 'l' => 'Bottom Text'],
+                                        ],
+                                    ],
+
+                                    [
+                                        'id' => 'sec-hero-badges',
+                                        'icon' => 'fa-certificate',
+                                        'title' => 'Hero Badges',
+                                        'subtitle' => 'Badges shown in the hero banner',
+                                        'row' => 'industries-row',
+                                        'group' => 'industry-group',
+
+                                        // NEW INPUT / JSON NAME
+                                        'prefix' => 'hero_badges',
+
+                                        // DATABASE FIELD UNCHANGED
+                                        'items' => is_string($subservice->industries_steps)
+                                            ? json_decode($subservice->industries_steps, true)
+                                            : $subservice->industries_steps ?? [],
+
+                                        'fields' => [
+                                            ['k' => 'icon_class', 'l' => 'Icon Class'],
+                                            ['k' => 'title', 'l' => 'Title'],
+                                            ['k' => 'description', 'l' => 'Description'],
+                                        ],
+                                    ],
+
+                                    [
+                                        'id' => 'sec-achievements',
+                                        'icon' => 'fa-chart-line',
+                                        'title' => 'Achievements Stats',
+                                        'subtitle' => 'Numbers that build trust',
+                                        'row' => 'achievement-row',
+                                        'group' => 'achievement-group',
+
+                                        // NEW INPUT / JSON NAME
+                                        'prefix' => 'achievements',
+
+                                        // DATABASE FIELD UNCHANGED
+                                        'items' => is_string($subservice->achievements_steps)
+                                            ? json_decode($subservice->achievements_steps, true)
+                                            : $subservice->achievements_steps ?? [],
+
+                                        'fields' => [
+                                            ['k' => 'count_number', 'l' => 'Count Number'],
+                                            ['k' => 'title', 'l' => 'Title'],
+                                        ],
+                                    ],
+
+                                    [
+                                        'id' => 'sec-whats-included',
+                                        'icon' => 'fa-check-circle',
+                                        'title' => "What's Included",
+                                        'subtitle' => 'Key outcomes included in this service',
+                                        'row' => 'success-stories-row',
+                                        'group' => 'SuccessStories-group',
+
+                                        // NEW INPUT / JSON NAME
+                                        'prefix' => 'whats_included',
+
+                                        // DATABASE FIELD UNCHANGED
+                                        'items' => is_string($subservice->success_stories_steps)
+                                            ? json_decode($subservice->success_stories_steps, true)
+                                            : $subservice->success_stories_steps ?? [],
+
+                                        'fields' => [
+                                            ['k' => 'title', 'l' => 'Title'],
+                                            ['k' => 'icon', 'l' => 'Icon'],
+                                            ['k' => 'bottom_text', 'l' => 'Bottom Text'],
+                                        ],
+                                    ],
+
+                                    [
+                                        'id' => 'sec-client-voices',
+                                        'icon' => 'fa-quote-left',
+                                        'title' => 'Client Voices',
+                                        'subtitle' => 'Testimonials from real clients',
+                                        'row' => 'clients-say-row',
+                                        'group' => 'clients-group',
+
+                                        // NEW INPUT / JSON NAME
+                                        'prefix' => 'client_voices',
+
+                                        // DATABASE FIELD UNCHANGED
+                                        'items' => is_string($subservice->clients_say_steps)
+                                            ? json_decode($subservice->clients_say_steps, true)
+                                            : $subservice->clients_say_steps ?? [],
+
+                                        'fields' => [
+                                            ['k' => 'title', 'l' => 'Name'],
+                                            ['k' => 'designation', 'l' => 'Designation'],
+                                            ['k' => 'meassage', 'l' => 'Message'],
+                                            ['k' => 'rating', 'l' => 'Rating', 'd' => '★★★★★'],
+                                        ],
+                                    ],
+
+                                    [
+                                        'id' => 'sec-how-we-work',
+                                        'icon' => 'fa-cogs',
+                                        'title' => 'How We Work',
+                                        'subtitle' => 'Explain your working process',
+                                        'row' => 'works-say-row',
+                                        'group' => 'works-group',
+
+                                        // NEW INPUT / JSON NAME
+                                        'prefix' => 'how_we_work',
+
+                                        // DATABASE FIELD UNCHANGED
+                                        'items' => is_string($subservice->how_we_work)
+                                            ? json_decode($subservice->how_we_work, true)
+                                            : $subservice->how_we_work ?? [],
+
+                                        'fields' => [
+                                            ['k' => 'title', 'l' => 'Top Title'],
+                                            ['k' => 'designation', 'l' => 'Bottom Title'],
+                                            ['k' => 'meassage', 'l' => 'Message'],
+                                            ['k' => 'icon', 'l' => 'Icon'],
+                                        ],
+                                    ],
+
+                                    [
+                                        'id' => 'sec-faqs',
+                                        'icon' => 'fa-question-circle',
+                                        'title' => 'FAQs',
+                                        'subtitle' => 'Answer common client questions',
+                                        'row' => 'faq-row',
+                                        'group' => 'faq-group',
+
+                                        // NEW INPUT / JSON NAME
+                                        'prefix' => 'faqs',
+
+                                        // DATABASE FIELD UNCHANGED
+                                        'items' => is_string($subservice->faq_steps)
+                                            ? json_decode($subservice->faq_steps, true)
+                                            : $subservice->faq_steps ?? [],
+
+                                        'fields' => [
+                                            ['k' => 'question', 'l' => 'Question'],
+                                            ['k' => 'answer', 'l' => 'Answer'],
+                                        ],
+                                    ],
+
+                                    [
+                                        'id' => 'sec-industries',
+                                        'icon' => 'fa-industry',
+                                        'title' => 'Industries',
+                                        'subtitle' => 'Industries this service serves',
+                                        'row' => 'promise-row',
+                                        'group' => 'promise-group',
+
+                                        // NEW INPUT / JSON NAME
+                                        'prefix' => 'industries',
+
+                                        // DATABASE FIELD UNCHANGED
+                                        'items' => is_string($subservice->our_promise)
+                                            ? json_decode($subservice->our_promise, true)
+                                            : $subservice->our_promise ?? [],
+
+                                        'fields' => [['k' => 'bottom_text', 'l' => 'Bottom Text']],
+                                    ],
+
+                                    [
+                                        'id' => 'sec-cta',
+                                        'icon' => 'fa-bullhorn',
+                                        'title' => 'Call to Action',
+                                        'subtitle' => 'The closing pitch on the page',
+                                        'row' => 'cta-row',
+                                        'group' => 'cta-group',
+
+                                        // NEW INPUT / JSON NAME
+                                        'prefix' => 'call_to_action',
+
+                                        // DATABASE FIELD UNCHANGED
+                                        'items' => is_string($subservice->cta_steps)
+                                            ? json_decode($subservice->cta_steps, true)
+                                            : $subservice->cta_steps ?? [],
+
+                                        'fields' => [['k' => 'bottom_text', 'l' => 'Bottom Text']],
+                                    ],
+
+                                    [
+                                        'id' => 'sec-guarantee',
+                                        'icon' => 'fa-shield-alt',
+                                        'title' => 'Our Guarantee',
+                                        'subtitle' => 'Reassure clients with guarantees',
+                                        'row' => 'guarantee-row',
+                                        'group' => 'guarantee-group',
+
+                                        // NEW INPUT / JSON NAME
+                                        'prefix' => 'guarantee',
+
+                                        // DATABASE FIELD UNCHANGED
+                                        'items' => is_string($subservice->guarantee_steps)
+                                            ? json_decode($subservice->guarantee_steps, true)
+                                            : $subservice->guarantee_steps ?? [],
+
+                                        'fields' => [
+                                            ['k' => 'icon', 'l' => 'Icon'],
+                                            ['k' => 'title', 'l' => 'Title'],
+                                            ['k' => 'description', 'l' => 'Description'],
+                                        ],
+                                    ],
+                                ];
                             @endphp
 
                             @foreach ($repeaterSections as $section)
@@ -848,6 +1118,11 @@
                                     'section' => $section,
                                 ])
                             @endforeach
+                            {{-- @foreach ($repeaterSections as $section)
+                                @include('admin.subservices.partials.repeater-section', [
+                                    'section' => $section,
+                                ])
+                            @endforeach --}}
 
                             {{-- Section Headings (title / subtitle text shown on the live page for each block) --}}
                             <div class="premium-section" id="sec-section-headings">
