@@ -43,7 +43,7 @@
             background: var(--svc-bg) !important;
             font-family: var(--svc-body) !important;
             color: var(--svc-ink) !important;
-            overflow-x: hidden;
+            /* overflow-x: hidden; */
         }
 
         .svc-scope * {
@@ -378,6 +378,10 @@
             margin-bottom: 40px;
             padding-bottom: 22px;
             border-bottom: 1px solid var(--svc-line);
+            position: sticky;
+            top: var(--svc-nav-offset, 0px);
+            z-index: 40;
+            background: #fff !important;
         }
 
         .sub_service-tabs {
@@ -1910,6 +1914,20 @@
         document.addEventListener('livewire:navigated', initSubServiceExplorer);
         document.addEventListener('DOMContentLoaded', initSvcFaq);
         document.addEventListener('livewire:navigated', initSvcFaq);
+
+        function updateSvcNavOffset() {
+            var navbar = document.getElementById('navbarWrap');
+            if (navbar) {
+                document.documentElement.style.setProperty('--svc-nav-offset', navbar.offsetHeight + 'px');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', updateSvcNavOffset);
+        document.addEventListener('livewire:navigated', updateSvcNavOffset);
+        window.addEventListener('load', updateSvcNavOffset);
+        window.addEventListener('resize', updateSvcNavOffset);
+        window.addEventListener('scroll', updateSvcNavOffset, {
+            passive: true
+        });
     </script>
 
 @endsection
