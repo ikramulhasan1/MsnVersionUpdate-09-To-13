@@ -22,7 +22,7 @@ class ServiceController extends Controller
     public function index()
     {
         // Services
-        $data['services'] = Service::with('subservices')->where('status', '1')
+        $data['services'] = Service::with('subservices', 'technologies')->where('status', '1')
             ->orderBy('id', 'asc')
             ->get();
 
