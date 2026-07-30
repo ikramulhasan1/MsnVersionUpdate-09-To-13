@@ -21,16 +21,12 @@
 
 @section('content')
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
-        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         .svc-scope {
             --svc-navy-deep: #1A0505;
-            --svc-navy: #4A0A0A;
+            --svc-navy: #E31E24;
             --svc-navy-soft: #6E0F0F;
             --svc-teal: #E31E24;
             --svc-teal-dim: rgba(227, 30, 36, .12);
@@ -347,121 +343,7 @@
             color: var(--svc-slate) !important;
         }
 
-        /* SECTION HEAD (Main services list, unchanged) */
-        .svc-section {
-            padding: 100px 0;
-        }
 
-        .svc-head {
-            max-width: 640px;
-            margin-bottom: 52px;
-        }
-
-        .svc-head .svc-eyebrow {
-            margin-bottom: 16px;
-        }
-
-        .svc-head h2 {
-            font-size: clamp(28px, 3.4vw, 38px);
-            font-weight: 700;
-            color: var(--svc-navy) !important;
-            line-height: 1.18;
-        }
-
-        .svc-head p,
-        .svc-head .desc {
-            margin-top: 14px !important;
-            font-size: 16px;
-            color: var(--svc-slate) !important;
-            line-height: 1.7;
-        }
-
-        .svc-card {
-            position: relative;
-            background: var(--svc-card) !important;
-            border: 1px solid var(--svc-line) !important;
-            border-radius: var(--svc-radius) !important;
-            padding: 30px 28px 28px !important;
-            transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .svc-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(227, 30, 36, .5) !important;
-            box-shadow: 0 26px 46px -22px rgba(74, 10, 10, .28);
-        }
-
-        .svc-card-file {
-            font-family: var(--svc-mono) !important;
-            font-size: 11.5px;
-            color: var(--svc-slate) !important;
-        }
-
-        .svc-card-file span {
-            color: var(--svc-teal) !important;
-        }
-
-        .svc-card-media {
-            margin-top: 16px;
-            width: 100%;
-            aspect-ratio: 16/10;
-            border-radius: 12px !important;
-            overflow: hidden;
-            background: var(--svc-navy) !important;
-        }
-
-        .svc-card-media img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .svc-card h3 {
-            margin-top: 20px !important;
-            font-size: 19px;
-            font-weight: 600;
-            color: var(--svc-navy) !important;
-        }
-
-        .svc-card h3 a {
-            color: inherit !important;
-        }
-
-        .svc-card .desc {
-            margin-top: 10px !important;
-            font-size: 14.5px;
-            line-height: 1.7;
-            color: var(--svc-slate) !important;
-            flex: 1;
-        }
-
-        .svc-card .desc * {
-            font-size: inherit !important;
-            margin: 0 !important;
-        }
-
-        .svc-card-more {
-            margin-top: 20px !important;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--svc-mono) !important;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--svc-navy) !important;
-        }
-
-        .svc-card-more::after {
-            content: '→';
-            transition: transform .2s ease;
-        }
-
-        .svc-card:hover .svc-card-more::after {
-            transform: translateX(4px);
-        }
 
         /* ================= FILTERABLE SUB_SERVICE GRID (portfolio-style) ================= */
         .sub_service-section {
@@ -533,35 +415,84 @@
             white-space: nowrap;
         }
 
-        .sub_service-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-        }
-
-        .sub_service-card {
-            border: 1px solid var(--svc-line) !important;
-            border-radius: 12px !important;
-            overflow: hidden;
+        /* ---- two-pane explorer: category tabs (top) -> sub-service list (left) -> detail (right) ---- */
+        .sub_service-panels {
+            display: flex;
+            align-items: stretch;
             background: #fff !important;
-            transition: box-shadow .25s ease, transform .25s ease, opacity .25s ease;
-            opacity: 0;
-            animation: sub_serviceFadeIn .5s ease forwards;
+            border: 1px solid var(--svc-line) !important;
+            border-radius: var(--svc-radius) !important;
+            overflow: hidden;
+            box-shadow: 0 24px 50px -34px rgba(3, 24, 46, .35);
         }
 
-        .sub_service-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 32px -14px rgba(74, 10, 10, .22);
+        .sub_service-list-pane {
+            display: none;
+            width: 300px;
+            flex-shrink: 0;
+            background: #FAFBFD !important;
+            border-right: 1px solid var(--svc-line) !important;
+            max-height: 560px;
+            overflow-y: auto;
         }
 
-        .sub_service-card.sub_service-hidden {
-            display: none !important;
+        .sub_service-list-pane.active {
+            display: block;
+            animation: sub_serviceFadeIn .35s ease forwards;
+        }
+
+        .sub_service-list {
+            padding: 12px;
+        }
+
+        .sub_service-list-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            text-align: left;
+            background: transparent !important;
+            border: none;
+            padding: 14px 16px !important;
+            border-radius: 9px !important;
+            margin-bottom: 4px;
+            font-family: var(--svc-body) !important;
+            font-size: 14.5px;
+            font-weight: 600;
+            color: var(--svc-ink) !important;
+            cursor: pointer;
+            transition: background .18s ease, color .18s ease;
+        }
+
+        .sub_service-list-item:hover {
+            background: #EFF2F7 !important;
+        }
+
+        .sub_service-list-item.active {
+            background: var(--svc-navy) !important;
+            color: #fff !important;
+        }
+
+        .sub_service-list-item svg {
+            flex-shrink: 0;
+            opacity: .55;
+            transition: transform .18s ease, opacity .18s ease;
+        }
+
+        .sub_service-list-item.active svg,
+        .sub_service-list-item:hover svg {
+            opacity: 1;
+        }
+
+        .sub_service-list-item.active svg {
+            transform: translateX(2px);
         }
 
         @keyframes sub_serviceFadeIn {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(6px);
             }
 
             to {
@@ -570,127 +501,95 @@
             }
         }
 
-        .sub_service-card-bar {
+        .sub_service-detail {
+            flex: 1;
+            min-width: 0;
+            position: relative;
+        }
+
+        .sub_service-detail-pane {
+            display: none;
+            padding: 40px;
+        }
+
+        .sub_service-detail-pane.active {
+            display: block;
+            animation: sub_serviceFadeIn .4s ease forwards;
+        }
+
+        .sub_service-detail-row {
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 9px 12px;
-            background: #fafafa !important;
-            border-bottom: 1px solid #eee;
+            gap: 32px;
         }
 
-        .sub_service-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #ddd !important;
-            display: inline-block;
-        }
-
-        .sub_service-url {
-            margin-left: 8px;
-            font-size: 10.5px;
-            color: #999 !important;
-            font-family: var(--svc-mono) !important;
-            background: #fff !important;
-            border: 1px solid #eee;
-            border-radius: 4px;
-            padding: 2px 8px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .sub_service-detail-text {
             flex: 1;
+            min-width: 0;
         }
 
-        .sub_service-card-media {
-            display: block;
-            aspect-ratio: 16/10;
-            overflow: hidden;
-            background: #f5f5f5 !important;
+        .sub_service-detail-tag {
+            display: inline-block;
+            font-family: var(--svc-mono) !important;
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--svc-teal) !important;
+            background: var(--svc-teal-dim) !important;
+            border: 1px solid rgba(227, 30, 36, .3);
+            padding: 4px 12px !important;
+            border-radius: 100px !important;
         }
 
-        .sub_service-card-media img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform .4s ease;
-        }
-
-        .sub_service-card:hover .sub_service-card-media img {
-            transform: scale(1.04);
-        }
-
-        .sub_service-card-info {
-            padding: 16px 18px 18px !important;
-        }
-
-        .sub_service-card-title-row {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        .sub_service-card-title-row h4 {
-            font-size: 15px;
+        .sub_service-detail-text h3 {
+            margin-top: 14px !important;
+            font-size: clamp(19px, 2.4vw, 24px);
             font-weight: 700;
-            line-height: 1.4;
+            line-height: 1.3;
             color: var(--svc-navy) !important;
         }
 
-        .sub_service-card-title-row h4 a {
-            color: inherit !important;
+        .sub_service-detail-text p {
+            margin-top: 12px !important;
+            font-size: 14.5px;
+            line-height: 1.75;
+            color: var(--svc-slate) !important;
         }
 
-        .sub_service-card-arrow {
-            flex-shrink: 0;
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            border: 1px solid #ddd;
-            color: #333 !important;
-            transition: background .2s ease, color .2s ease, border-color .2s ease;
-        }
-
-        .sub_service-card:hover .sub_service-card-arrow {
-            background: var(--svc-teal) !important;
-            border-color: var(--svc-teal) !important;
-            color: #fff !important;
-        }
-
-        .sub_service-card-desc {
-            font-size: 12.5px;
-            color: #777 !important;
-            line-height: 1.6;
-            margin: 8px 0 12px !important;
-        }
-
-        .sub_service-card-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .sub_service-tag {
-            font-size: 11px;
-            color: #555 !important;
-            background: #f2f2f2 !important;
-            border-radius: 20px;
-            padding: 3px 10px;
-        }
-
-        .sub_service-tag-muted {
-            background: transparent !important;
-            border: 1px solid #eee;
+        .sub_service-detail-link {
+            margin-top: 22px !important;
             display: inline-flex;
             align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--svc-teal) !important;
+        }
+
+        .sub_service-detail-link svg {
+            transition: transform .18s ease;
+        }
+
+        .sub_service-detail-link:hover svg {
+            transform: translateX(3px);
+        }
+
+        .sub_service-detail-media {
+            width: 190px;
+            flex-shrink: 0;
+            aspect-ratio: 4/3;
+            border-radius: 10px !important;
+            overflow: hidden;
+            background: #f5f5f5 !important;
+            border: 1px solid var(--svc-line);
+        }
+
+        .sub_service-detail-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .sub_service-empty-state {
-            grid-column: 1/-1;
             text-align: center;
             padding: 60px 20px;
             font-family: var(--svc-mono) !important;
@@ -698,26 +597,136 @@
             color: #aaa !important;
         }
 
-        @media (max-width:1200px) {
-            .sub_service-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
         @media (max-width:900px) {
-            .sub_service-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .sub_service-panels {
+                flex-direction: column;
             }
-        }
 
-        @media (max-width:560px) {
-            .sub_service-grid {
-                grid-template-columns: 1fr;
+            .sub_service-list-pane {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--svc-line) !important;
+                max-height: 260px;
+            }
+
+            .sub_service-detail-pane {
+                padding: 28px;
             }
 
             .sub_service-filterbar {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+        }
+
+        @media (max-width:560px) {
+            .sub_service-detail-pane {
+                padding: 22px;
+            }
+
+            .sub_service-detail-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
+            }
+
+            .sub_service-detail-media {
+                width: 140px;
+            }
+        }
+
+        /* ---- Industries We Serve + Our Commitment (below desc/image) ---- */
+        .sub_service-extra {
+            margin-top: 30px;
+            padding-top: 26px;
+            border-top: 1px dashed var(--svc-line);
+            display: flex;
+            flex-direction: column;
+            gap: 26px;
+        }
+
+        .sub_service-extra-block {
+            width: 100%;
+        }
+
+        .sub_service-extra-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-family: var(--svc-mono) !important;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            color: var(--svc-teal) !important;
+        }
+
+        .sub_service-extra-eyebrow::before {
+            content: '';
+            width: 14px;
+            height: 1px;
+            background: var(--svc-teal);
+            display: inline-block;
+        }
+
+        .sub_service-extra-block h4 {
+            margin-top: 8px !important;
+            font-size: 16.5px;
+            font-weight: 700;
+            color: var(--svc-navy) !important;
+        }
+
+        /* Industries: outline pills */
+        .sub_service-industries-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .sub_service-industry-pill {
+            font-family: var(--svc-body) !important;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--svc-navy) !important;
+            background: transparent !important;
+            border: 1px solid var(--svc-line);
+            padding: 7px 15px !important;
+            border-radius: 100px !important;
+            white-space: nowrap;
+            transition: border-color .18s ease, color .18s ease, background .18s ease;
+        }
+
+        .sub_service-industry-pill:hover {
+            border-color: var(--svc-teal);
+            color: var(--svc-teal) !important;
+            background: var(--svc-teal-dim) !important;
+        }
+
+        /* Our commitment */
+        .sub_service-commitment-sub {
+            margin-top: 10px !important;
+            font-size: 14px !important;
+            line-height: 1.75;
+            color: var(--svc-slate) !important;
+            padding-left: 16px;
+            border-left: 2px solid var(--svc-teal);
+        }
+
+        @media (max-width:560px) {
+            .sub_service-extra {
+                gap: 24px;
+                margin-top: 24px;
+                padding-top: 20px;
+            }
+
+            .sub_service-industries-tags {
+                gap: 7px;
+            }
+
+            .sub_service-industry-pill {
+                font-size: 12px;
+                padding: 6px 13px !important;
             }
         }
 
@@ -826,46 +835,6 @@
         </section>
 
         @php
-            $section_services = \App\Models\Section::section('services');
-        @endphp
-
-        {{-- ================= MAIN SERVICES GRID (unchanged) ================= --}}
-        @if (isset($services) && count($services) > 0)
-            <section class="svc-section" id="svc-services-list">
-                <div class="svc-wrap">
-                    <div class="svc-head">
-                        <span class="svc-eyebrow">what_we_build.list()</span>
-                        <h2 class="mt-3">{{ $section_services->title ?? 'Our Services' }}</h2>
-                        <div class="desc">{!! $section_services->description ?? 'Smart Solutions for a Smarter Tomorrow.' !!}</div>
-                    </div>
-
-                    <div class="row g-4">
-                        @foreach ($services as $key => $service)
-                            <div class="col-md-6 col-lg-4">
-                                <div class="svc-card svc-reveal" style="animation-delay:{{ ($key % 3) * 0.08 }}s">
-                                    <div class="svc-card-file">
-                                        //
-                                        {{ sprintf('%02d', $key + 1) }}<span>/{{ \Illuminate\Support\Str::slug($service->short_title) }}</span>
-                                    </div>
-                                    <div class="svc-card-media">
-                                        <img src="{{ asset('uploads/service/' . $service->image_path) }}"
-                                            alt="{{ $service->title }}">
-                                    </div>
-                                    <h3><a href="{{ route('service.single', $service->slug) }}"
-                                            wire:navigate>{{ $service->short_title }}</a>
-                                    </h3>
-                                    <div class="desc">{!! strip_tags(\Illuminate\Support\Str::words($service->short_desc, 18)) !!}</div>
-                                    {{-- <a href="{{ route('service.single', $service->slug) }}" wire:navigate
-                                        class="svc-card-more">{{ __('common.read_more') }}</a> --}}
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </section>
-        @endif
-
-        @php
             $allSubservices = collect();
             if (isset($services)) {
                 foreach ($services as $service) {
@@ -880,83 +849,124 @@
             }
         @endphp
 
-        {{-- ================= FILTERABLE SUB_SERVICE PORTFOLIO GRID ================= --}}
+        {{-- ================= SERVICE CATEGORIES -> SUB-SERVICE EXPLORER ================= --}}
         @if ($allSubservices->count() > 0)
             <section class="sub_service-section" id="sub_service-portfolio">
                 <div class="svc-wrap">
 
                     <div class="sub_service-head">
-                        <span class="svc-eyebrow">{{ __('dashboard.service_categories') }}.filter()</span>
+                        <span class="svc-eyebrow">{{ __('dashboard.service_categories') }}.explore()</span>
                         <h2 class="mt-3">{{ __('dashboard.service_categories') ?? 'Explore Sub-Services' }}</h2>
-                        <p>Filter by service category to find exactly what you need.</p>
+                        <p>Pick a service category, then select a sub-service to see its details.</p>
                     </div>
 
+                    {{-- Service Categories (top) --}}
                     <div class="sub_service-filterbar">
                         <div class="sub_service-tabs" id="sub_serviceTabs">
-                            <button type="button" class="sub_service-tab active" data-filter="all">All</button>
                             @foreach ($services as $service)
                                 @if ($service->subservices->count() > 0)
-                                    <button type="button" class="sub_service-tab"
-                                        data-filter="{{ \Illuminate\Support\Str::slug($service->short_title) }}">
+                                    <button type="button" class="sub_service-tab {{ $loop->first ? 'active' : '' }}"
+                                        data-category="{{ \Illuminate\Support\Str::slug($service->short_title) }}">
                                         {{ $service->short_title }}
                                     </button>
                                 @endif
                             @endforeach
                         </div>
-                        <div class="sub_service-shown-count" id="sub_serviceCount">{{ $allSubservices->count() }} items
-                            shown</div>
                     </div>
 
-                    <div class="sub_service-grid" id="sub_serviceGrid">
-                        @foreach ($allSubservices as $key => $sub)
-                            <div class="sub_service-card"
-                                data-category="{{ \Illuminate\Support\Str::slug($sub->parent_service->short_title) }}"
-                                style="animation-delay:{{ ($key % 4) * 0.06 }}s">
+                    {{-- Left: sub-services of the selected category | Right: detail (short desc + image) --}}
+                    <div class="sub_service-panels" id="sub_servicePanels">
 
-                                <div class="sub_service-card-bar">
-                                    <span class="sub_service-dot"></span>
-                                    <span class="sub_service-dot"></span>
-                                    <span class="sub_service-dot"></span>
-                                    <span
-                                        class="sub_service-url">{{ \Illuminate\Support\Str::slug($sub->parent_service->short_title . '-' . $sub->short_title) }}</span>
+                        @foreach ($services as $service)
+                            @if ($service->subservices->count() > 0)
+                                <div class="sub_service-list-pane {{ $loop->first ? 'active' : '' }}"
+                                    data-category-list="{{ \Illuminate\Support\Str::slug($service->short_title) }}">
+                                    <ul class="sub_service-list">
+                                        @foreach ($service->subservices as $sub)
+                                            @if (!isset($sub->manu) || $sub->manu == 1)
+                                                <li>
+                                                    <button type="button"
+                                                        class="sub_service-list-item {{ $loop->first ? 'active' : '' }}"
+                                                        data-target="sub_service-detail-{{ $sub->id }}">
+                                                        <span>{{ $sub->short_title }}</span>
+                                                        <svg width="14" height="14" viewBox="0 0 24 24"
+                                                            fill="none">
+                                                            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round" />
+                                                        </svg>
+                                                    </button>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
                                 </div>
+                            @endif
+                        @endforeach
 
-                                <a href="{{ route('service.related-single', $sub->slug) }}" wire:navigate
-                                    class="sub_service-card-media">
-                                    <img src="{{ asset('uploads/subservices/' . $sub->image_path) }}"
-                                        alt="{{ $sub->short_title }}" loading="lazy">
+                        <div class="sub_service-detail" id="sub_serviceDetail">
+                            @foreach ($allSubservices as $key => $sub)
+                                <div class="sub_service-detail-pane {{ $key == 0 ? 'active' : '' }}"
+                                    id="sub_service-detail-{{ $sub->id }}">
 
-                                </a>
+                                    <div class="sub_service-detail-row">
+                                        <div class="sub_service-detail-text">
+                                            <span
+                                                class="sub_service-detail-tag">{{ $sub->parent_service->short_title }}</span>
+                                            <h3>{{ $sub->short_title }}</h3>
+                                            @if (!empty($sub->short_desc))
+                                                <p>{{ \Illuminate\Support\Str::words(strip_tags($sub->short_desc), 36) }}
+                                                </p>
+                                            @endif
+                                            <a href="{{ route('service.related-single', $sub->slug) }}" wire:navigate
+                                                class="sub_service-detail-link">
+                                                Learn More
+                                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                                                    <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2"
+                                                        stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                            </a>
+                                        </div>
 
-                                <div class="sub_service-card-info">
-                                    <div class="sub_service-card-title-row">
-                                        <h4><a href="{{ route('service.related-single', $sub->slug) }}"
-                                                wire:navigate>{{ $sub->short_title }}</a>
-                                        </h4>
                                         <a href="{{ route('service.related-single', $sub->slug) }}" wire:navigate
-                                            class="sub_service-card-arrow" aria-label="{{ $sub->short_title }}">
-                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                                                <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
+                                            class="sub_service-detail-media">
+                                            <img src="{{ asset('uploads/subservices/' . $sub->image_path) }}"
+                                                alt="{{ $sub->short_title }}" loading="lazy">
                                         </a>
                                     </div>
 
-                                    @if (!empty($sub->short_desc))
-                                        <p class="sub_service-card-desc">
-                                            {{ \Illuminate\Support\Str::words(strip_tags($sub->short_desc), 10) }}</p>
-                                    @endif
+                                    {{-- Industries We Serve + Our Commitment --}}
+                                    <div class="sub_service-extra">
+                                        <div class="sub_service-extra-block">
+                                            {{-- <span class="sub_service-extra-eyebrow">Where We Work</span> --}}
+                                            <h4>Industries We Serve</h4>
+                                            <div class="sub_service-industries-tags">
+                                                <span class="sub_service-industry-pill">E-commerce</span>
+                                                <span class="sub_service-industry-pill">Healthcare</span>
+                                                <span class="sub_service-industry-pill">Education</span>
+                                                <span class="sub_service-industry-pill">Real Estate</span>
+                                                <span class="sub_service-industry-pill">Finance &amp; Banking</span>
+                                                <span class="sub_service-industry-pill">Retail</span>
+                                                <span class="sub_service-industry-pill">Logistics</span>
+                                                <span class="sub_service-industry-pill">Hospitality</span>
+                                                <span class="sub_service-industry-pill">Manufacturing</span>
+                                                <span class="sub_service-industry-pill">Technology</span>
+                                                <span class="sub_service-industry-pill">Travel &amp; Tourism</span>
+                                                <span class="sub_service-industry-pill">Non-Profit</span>
+                                            </div>
+                                        </div>
 
-                                    <div class="sub_service-card-tags">
-                                        <span class="sub_service-tag">{{ $sub->parent_service->short_title }}</span>
-                                        @if (!empty($sub->sub_service_icon))
-                                            <span class="sub_service-tag sub_service-tag-muted"><i
-                                                    class="{{ $sub->sub_service_icon }}"></i></span>
-                                        @endif
+                                        <div class="sub_service-extra-block">
+                                            {{-- <span class="sub_service-extra-eyebrow">Why Clients Stay</span> --}}
+                                            <h4>Our Commitment</h4>
+                                            <p class="sub_service-commitment-sub">Quality-first delivery, transparent
+                                                communication, and long-term support — for every project, big or
+                                                small.</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
+
                     </div>
 
                 </div>
@@ -966,39 +976,66 @@
     </div>
 
     <script>
-        function initSubServiceFilter() {
-            var tabs = document.querySelectorAll('#sub_serviceTabs .sub_service-tab');
-            var cards = document.querySelectorAll('#sub_serviceGrid .sub_service-card');
-            var countEl = document.getElementById('sub_serviceCount');
+        function initSubServiceExplorer() {
+            var catTabs = document.querySelectorAll('#sub_serviceTabs .sub_service-tab');
+            var listPanes = document.querySelectorAll('#sub_servicePanels .sub_service-list-pane');
+            var detailPanes = document.querySelectorAll('#sub_serviceDetail .sub_service-detail-pane');
 
-            if (!tabs.length || !cards.length) return;
+            if (!catTabs.length || !listPanes.length) return;
 
-            tabs.forEach(function(tab) {
+            function showDetail(targetId) {
+                detailPanes.forEach(function(pane) {
+                    pane.classList.toggle('active', pane.id === targetId);
+                });
+            }
+
+            function bindListItems(listPane) {
+                var items = listPane.querySelectorAll('.sub_service-list-item');
+                items.forEach(function(item) {
+                    item.addEventListener('click', function() {
+                        items.forEach(function(it) {
+                            it.classList.remove('active');
+                        });
+                        item.classList.add('active');
+                        showDetail(item.getAttribute('data-target'));
+                    });
+                });
+            }
+
+            function activateFirstItem(listPane) {
+                var items = listPane.querySelectorAll('.sub_service-list-item');
+                items.forEach(function(it, idx) {
+                    it.classList.toggle('active', idx === 0);
+                });
+                if (items.length) {
+                    showDetail(items[0].getAttribute('data-target'));
+                }
+            }
+
+            listPanes.forEach(bindListItems);
+
+            catTabs.forEach(function(tab) {
                 tab.addEventListener('click', function() {
-                    tabs.forEach(function(t) {
+                    catTabs.forEach(function(t) {
                         t.classList.remove('active');
                     });
                     tab.classList.add('active');
 
-                    var filter = tab.getAttribute('data-filter');
-                    var shown = 0;
+                    var category = tab.getAttribute('data-category');
 
-                    cards.forEach(function(card) {
-                        var match = (filter === 'all' || card.getAttribute(
-                            'data-category') === filter);
-                        card.classList.toggle('sub_service-hidden', !match);
-                        if (match) shown++;
+                    listPanes.forEach(function(pane) {
+                        var match = pane.getAttribute('data-category-list') === category;
+                        pane.classList.toggle('active', match);
+                        if (match) activateFirstItem(pane);
                     });
-
-                    countEl.textContent = shown + ' items shown';
                 });
             });
         }
 
-        // wire:navigate-এর মাধ্যমে services পেজে বারবার আসা-যাওয়া করলেও ট্যাব
-        // এলিমেন্টগুলো প্রতিবার নতুন করে DOM-এ বসে, তাই দুটো ইভেন্টেই bind করা হয়েছে
-        document.addEventListener('DOMContentLoaded', initSubServiceFilter);
-        document.addEventListener('livewire:navigated', initSubServiceFilter);
+        // wire:navigate-এর মাধ্যমে services পেজে বারবার আসা-যাওয়া করলেও এলিমেন্টগুলো
+        // প্রতিবার নতুন করে DOM-এ বসে, তাই দুটো ইভেন্টেই bind করা হয়েছে
+        document.addEventListener('DOMContentLoaded', initSubServiceExplorer);
+        document.addEventListener('livewire:navigated', initSubServiceExplorer);
     </script>
 
 @endsection

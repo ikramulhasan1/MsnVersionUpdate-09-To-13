@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use File;
-use Image;
-use Toastr;
-use App\Models\Faq;
-use App\Models\Service;
-use App\Models\FaqCategory;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Faq;
+use App\Models\FaqCategory;
 use App\Models\Industry;
 use App\Models\Processwork;
+use App\Models\Service;
 use App\Models\Whywe;
+use File;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Str;
+use Image;
+use Toastr;
 
 class ServiceController extends Controller
 {
@@ -36,7 +37,7 @@ class ServiceController extends Controller
 
         $data['rows'] = Service::orderBy('id', 'asc')->get();
 
-        return view($this->view . '.index', $data);
+        return view($this->view.'.index', $data);
     }
 
     public function create()
@@ -47,9 +48,8 @@ class ServiceController extends Controller
         $data['view'] = $this->view;
         $data['faqCategories'] = FaqCategory::where('status', 1)->get();
 
-        return view($this->view . '.create', $data);
+        return view($this->view.'.create', $data);
     }
-
 
     public function store(Request $request)
     {
@@ -77,25 +77,25 @@ class ServiceController extends Controller
         $keywords = array_unique(array_map('trim', explode(',', $request->keywords)));
 
         // Check for existing keywords in other articles
-        $existingKeywords = Service::whereRaw("FIND_IN_SET(keywords, ?) > 0", [implode(',', $keywords)])->exists();
+        $existingKeywords = Service::whereRaw('FIND_IN_SET(keywords, ?) > 0', [implode(',', $keywords)])->exists();
         if ($existingKeywords) {
             return back()->withErrors(['keywords' => 'Some keywords already exist. Please use unique tags.']);
         }
 
-        // Image upload, fit, and store inside public folder 
+        // Image upload, fit, and store inside public folder
         if ($request->hasFile('image')) {
             $filenameWithExt = $request->file('image')->getClientOriginalName();
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $fileNameToStore = $filename . '_' . time() . '.webp'; // Save as WebP
+            $fileNameToStore = $filename.'_'.time().'.webp'; // Save as WebP
 
             // Create Folder Location
-            $path = public_path('uploads/' . $this->path . '/');
-            if (!File::exists($path)) {
+            $path = public_path('uploads/'.$this->path.'/');
+            if (! File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
             // Resize, Convert to WebP, and Save
-            $thumbnailpath = $path . $fileNameToStore;
+            $thumbnailpath = $path.$fileNameToStore;
             Image::make($request->file('image')->getRealPath())
                 ->fit(732, 300, function ($constraint) {
                     $constraint->upsize();
@@ -109,7 +109,7 @@ class ServiceController extends Controller
         // Get content with media file
         $content = $request->input('description');
 
-        $dom = new \DomDocument();
+        $dom = new \DomDocument;
         libxml_use_internal_errors(true);
         $dom->encoding = 'utf-8';
         $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
@@ -123,10 +123,10 @@ class ServiceController extends Controller
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
                 $mimetype = 'webp'; // Force conversion to WebP
 
-                $filename = uniqid() . '_' . time();
+                $filename = uniqid().'_'.time();
 
                 $path = public_path('uploads/media/');
-                if (!File::exists($path)) {
+                if (! File::exists($path)) {
                     File::makeDirectory($path, 0777, true, true);
                 }
 
@@ -179,7 +179,6 @@ class ServiceController extends Controller
         $service->faq_steps = json_encode($faqSteps);
         $service->save();
 
-
         // foreach ($request->faqs as $faq) {
         //     Faq::create([
         //         'category_id' => $faq['category_id'],
@@ -191,10 +190,8 @@ class ServiceController extends Controller
         // }
         Toastr::success(__('dashboard.created_successfully'), __('dashboard.success'));
 
-        return redirect()->route($this->route . '.index');
+        return redirect()->route($this->route.'.index');
     }
-
-
 
     public function show(Service $service)
     {
@@ -206,14 +203,14 @@ class ServiceController extends Controller
 
         $data['row'] = $service;
 
-        return view($this->view . '.show', $data);
+        return view($this->view.'.show', $data);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Service $service)
     {
@@ -225,17 +222,15 @@ class ServiceController extends Controller
         $data['faqCategories'] = FaqCategory::where('status', 1)->get();
         $data['row'] = $service;
 
-        return view($this->view . '.edit', $data);
+        return view($this->view.'.edit', $data);
     }
-
-
 
     public function update(Request $request, Service $service)
     {
         // Field Validation
         $request->validate([
-            'title' => 'required|max:191|unique:services,title,' . $service->id,
-            'short_title' => 'required|max:30|unique:services,short_title,' . $service->id,
+            'title' => 'required|max:191|unique:services,title,'.$service->id,
+            'short_title' => 'required|max:30|unique:services,short_title,'.$service->id,
             'meta_title' => 'required|max:70',
             'service_icon' => 'required|max:50',
             'keywords' => 'required',
@@ -255,17 +250,17 @@ class ServiceController extends Controller
 
         // Check for existing keywords in other articles (excluding the current article)
         $existingKeywords = Service::where('id', '!=', $service->id)
-            ->whereRaw("FIND_IN_SET(keywords, ?) > 0", [implode(',', $keywords)])
+            ->whereRaw('FIND_IN_SET(keywords, ?) > 0', [implode(',', $keywords)])
             ->exists();
 
         if ($existingKeywords) {
             return back()->withErrors(['keywords' => 'Some keywords already exist. Please use unique tags.']);
         }
 
-        // Image upload, fit, and store inside public folder 
+        // Image upload, fit, and store inside public folder
         if ($request->hasFile('image')) {
 
-            $file_path = public_path('uploads/' . $this->path . '/' . $service->image_path);
+            $file_path = public_path('uploads/'.$this->path.'/'.$service->image_path);
             if (File::isFile($file_path)) {
                 File::delete($file_path);
             }
@@ -273,16 +268,16 @@ class ServiceController extends Controller
             // Upload New Image
             $filenameWithExt = $request->file('image')->getClientOriginalName();
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $fileNameToStore = $filename . '_' . time() . '.webp'; // Save as WebP
+            $fileNameToStore = $filename.'_'.time().'.webp'; // Save as WebP
 
             // Create Folder Location
-            $path = public_path('uploads/' . $this->path . '/');
-            if (!File::exists($path)) {
+            $path = public_path('uploads/'.$this->path.'/');
+            if (! File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
             // Resize, Convert to WebP, and Save
-            $thumbnailpath = $path . $fileNameToStore;
+            $thumbnailpath = $path.$fileNameToStore;
             Image::make($request->file('image')->getRealPath())
                 ->fit(732, 300, function ($constraint) {
                     $constraint->upsize();
@@ -296,7 +291,7 @@ class ServiceController extends Controller
         // Get content with media file
         $content = $request->input('description');
 
-        $dom = new \DomDocument();
+        $dom = new \DomDocument;
         libxml_use_internal_errors(true);
         $dom->encoding = 'utf-8';
         $dom->loadHtml(utf8_decode($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
@@ -309,10 +304,10 @@ class ServiceController extends Controller
                 preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
                 $mimetype = 'webp';
 
-                $filename = uniqid() . '_' . time();
+                $filename = uniqid().'_'.time();
 
                 $path = public_path('uploads/media/');
-                if (!File::exists($path)) {
+                if (! File::exists($path)) {
                     File::makeDirectory($path, 0777, true, true);
                 }
 
@@ -375,7 +370,7 @@ class ServiceController extends Controller
         //         ]);
         //     }
         // }
-        // 
+        //
         if ($request->has('workprocess')) {
             foreach ($request->workprocess as $index => $process) {
                 $processImageName = null;
@@ -389,16 +384,16 @@ class ServiceController extends Controller
                 if ($request->hasFile("workprocess.$index.process_image")) {
                     $file = $request->file("workprocess.$index.process_image");
                     $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $processImageName = $filename . '_' . time() . '.webp';
+                    $processImageName = $filename.'_'.time().'.webp';
 
                     $path = public_path('uploads/process/');
-                    if (!File::exists($path)) {
+                    if (! File::exists($path)) {
                         File::makeDirectory($path, 0777, true, true);
                     }
 
                     // Delete old image if exists
-                    if ($existing && $existing->image_path && File::exists($path . $existing->image_path)) {
-                        File::delete($path . $existing->image_path);
+                    if ($existing && $existing->image_path && File::exists($path.$existing->image_path)) {
+                        File::delete($path.$existing->image_path);
                     }
 
                     // Save new image
@@ -408,7 +403,7 @@ class ServiceController extends Controller
                             $constraint->upsize();
                         })
                         ->encode('webp', 90)
-                        ->save($path . $processImageName);
+                        ->save($path.$processImageName);
                 }
 
                 // Use new image or retain existing
@@ -421,7 +416,7 @@ class ServiceController extends Controller
             }
         }
 
-        // 
+        //
         if ($request->has('industries')) {
             foreach ($request->industries as $industry) {
                 Industry::updateOrCreate(
@@ -434,7 +429,7 @@ class ServiceController extends Controller
             }
         }
 
-        // 
+        //
         if ($request->has('whywes')) {
             foreach ($request->whywes as $we) {
                 Whywe::updateOrCreate(
@@ -455,7 +450,7 @@ class ServiceController extends Controller
     public function destroy(Service $service)
     {
         // Delete Data
-        $image_path = public_path('uploads/' . $this->path . '/' . $service->image_path);
+        $image_path = public_path('uploads/'.$this->path.'/'.$service->image_path);
         if (File::isFile($image_path)) {
             File::delete($image_path);
         }
