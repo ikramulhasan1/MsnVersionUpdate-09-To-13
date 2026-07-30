@@ -26,7 +26,7 @@
     <style>
         .svc-scope {
             --svc-navy-deep: #1A0505;
-            --svc-navy: #E31E24;
+            --svc-navy: #1A0505;
             --svc-navy-soft: #6E0F0F;
             --svc-teal: #E31E24;
             --svc-teal-dim: rgba(227, 30, 36, .12);
