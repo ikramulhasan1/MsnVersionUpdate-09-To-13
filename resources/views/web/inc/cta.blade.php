@@ -9,7 +9,8 @@
         </div>
         <h2 class="cta-cta-heading">
             <span class="cta-line1">One Partner for All Your Digital Growth Needs</span>
-            <span class="cta-line2">Web Development • Mobile Apps • AI Solutions • Digital Marketing • eCommerce</span>
+            <span style="color: white" class="cta-line2">Web Development • Mobile Apps • AI Solutions • Digital Marketing
+                • eCommerce</span>
         </h2>
         <div class="cta-cta-btns">
             <a href="//wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" class="cta-cta-btn cta-cta-btn-whatsapp">
