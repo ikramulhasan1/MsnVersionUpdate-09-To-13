@@ -342,22 +342,12 @@
                 </style>
 
                 <div class="trust-stat-row">
-                    <div class="trust-stat-item">
-                        <div class="trust-stat-number">3700+</div>
-                        <div class="trust-stat-label">Projects Completed</div>
-                    </div>
-                    <div class="trust-stat-item">
-                        <div class="trust-stat-number">900+</div>
-                        <div class="trust-stat-label">Happy Clients</div>
-                    </div>
-                    <div class="trust-stat-item">
-                        <div class="trust-stat-number">56+</div>
-                        <div class="trust-stat-label">Expert Developers</div>
-                    </div>
-                    <div class="trust-stat-item">
-                        <div class="trust-stat-number">25+</div>
-                        <div class="trust-stat-label">Countries Served</div>
-                    </div>
+                    @foreach ($counters as $counter)
+                        <div class="trust-stat-item">
+                            <div class="trust-stat-number">{{ $counter->value }}</div>
+                            <div class="trust-stat-label">{{ $counter->title }}</div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </section>

@@ -1566,7 +1566,7 @@
 
 /* ================= REDESIGN: trust bar / process / portfolio / compare ================= */
 .msn-badges {
-    background: linear-gradient(135deg, var(--navy) 0%, #232a4c 100%);
+    background-color: rgb(255, 255, 255);
     border: none;
     position: relative;
     overflow: hidden;
@@ -1607,7 +1607,7 @@
     align-items: center;
     gap: 16px;
     padding: 30px 26px;
-    background: transparent;
+    background: var(--navy);
     border-radius: 0;
     box-shadow: none;
     border-right: 1px solid rgba(255, 255, 255, 0.14);
@@ -1620,7 +1620,7 @@
 }
 
 .msn-badge:hover {
-    background: rgba(255, 255, 255, 0.05);
+    /* background: rgba(255, 255, 255, 0.05); */
     transform: none;
     box-shadow: none;
 }

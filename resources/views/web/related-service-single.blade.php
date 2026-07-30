@@ -66,10 +66,49 @@
     <div class="msn-page">
 
         <!-- ============ HERO ============ -->
+        <style>
+            /* msn-hero — dark red radial gradient, matched to About Us page style */
+            .msn-hero {
+                position: relative;
+                background-color: #0d0405;
+                background-image:
+                    radial-gradient(circle at 12% 15%, rgba(178, 24, 24, 0.75) 0%, rgba(120, 16, 16, 0.35) 30%, rgba(13, 4, 5, 0) 60%),
+                    linear-gradient(135deg, #2a0a0a 0%, #150607 45%, #0d0405 100%);
+                background-repeat: no-repeat;
+                background-size: cover;
+                overflow: hidden;
+            }
+
+            .msn-hero::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background-image:
+                    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+                background-size: 40px 40px;
+                pointer-events: none;
+            }
+
+            .msn-hero .msn-container {
+                position: relative;
+                z-index: 1;
+            }
+
+            .msn-hero h1,
+            .msn-hero .lead-msn {
+                color: #fff;
+            }
+        </style>
         <section class="msn-hero">
             <div class="msn-hero-blob b1"></div>
             <div class="msn-hero-blob b2"></div>
             <div class="msn-container">
+                <style>
+                    .lead-msn>p {
+                        color: white;
+                    }
+                </style>
                 <div class="msn-hero-grid">
                     <div>
                         <div class="msn-hero-badge-top" style="background-color: #FDECEB; border: 2px dashed #ff0f02;">
@@ -78,7 +117,7 @@
                             Us
                         </div>
                         <h1>{{ $service->title }}</h1>
-                        <p class="lead-msn">{!! $service->short_desc !!}</p>
+                        <div class="lead-msn">{!! $service->short_desc !!}</div>
                         <div class="msn-hero-ctas" style="margin-top: 20px">
                             {{-- <a href="#" class="btn-msn btn-msn-primary">Get a Free Quote →</a> --}}
                             <a href="//wa.me/{{ str_replace(' ', '', $social->whatsapp) }}"
@@ -128,7 +167,7 @@
             @endforeach --}}
         </section>
         @if (count($achievements) > 0)
-            <section id="works-page" style="padding-bottom: 30px">
+            <section id="works-page" style="padding-bottom: 30px;">
 
                 <div class="wrap works-hero-stats">
                     @foreach ($achievements as $item)
