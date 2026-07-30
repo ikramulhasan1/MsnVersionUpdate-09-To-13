@@ -423,7 +423,7 @@
             border: 1px solid var(--svc-line) !important;
             border-radius: var(--svc-radius) !important;
             overflow: hidden;
-            /* box-shadow: 0 24px 50px -34px rgba(3, 24, 46, .35); */
+            box-shadow: 0 24px 50px -34px rgba(3, 24, 46, .35);
         }
 
         .sub_service-list-pane {
@@ -882,6 +882,166 @@
             }
         }
 
+        /* ================= WHY US / COMPARISON ================= */
+        .svc-compare {
+            padding: 90px 0;
+            background: #fff !important;
+        }
+
+        .svc-compare-head {
+            max-width: 620px;
+            margin-bottom: 48px;
+        }
+
+        .svc-compare-head h2 {
+            margin-top: 14px !important;
+            font-size: clamp(28px, 3.4vw, 40px);
+            font-weight: 700;
+            line-height: 1.15;
+            color: var(--svc-ink) !important;
+        }
+
+        .svc-compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 26px;
+            align-items: stretch;
+        }
+
+        .svc-compare-card {
+            border-radius: 18px !important;
+            padding: 34px 30px;
+        }
+
+        .svc-compare-card.is-basic {
+            background: #fff !important;
+            border: 1px solid var(--svc-line);
+        }
+
+        .svc-compare-card.is-us {
+            position: relative;
+            background: var(--svc-ink) !important;
+            box-shadow: 0 30px 60px -30px rgba(11, 18, 32, .5);
+        }
+
+        .svc-compare-card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .svc-compare-card-head h3 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .svc-compare-card.is-basic .svc-compare-card-head h3 {
+            color: var(--svc-ink) !important;
+        }
+
+        .svc-compare-card.is-us .svc-compare-card-head h3 {
+            color: #fff !important;
+        }
+
+        .svc-compare-badge {
+            font-family: var(--svc-mono) !important;
+            font-size: 11.5px;
+            font-weight: 600;
+            letter-spacing: .04em;
+            padding: 6px 14px !important;
+            border-radius: 100px !important;
+            white-space: nowrap;
+        }
+
+        .svc-compare-badge.is-basic {
+            color: var(--svc-slate) !important;
+            background: var(--svc-bg) !important;
+            border: 1px solid var(--svc-line);
+        }
+
+        .svc-compare-badge.is-us {
+            color: #fff !important;
+            background: var(--svc-teal) !important;
+        }
+
+        .svc-compare-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--svc-line);
+            font-size: 15px;
+            line-height: 1.55;
+        }
+
+        .svc-compare-list li:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .svc-compare-card.is-us .svc-compare-list li {
+            border-bottom-color: rgba(255, 255, 255, .1);
+        }
+
+        .svc-compare-mark {
+            flex-shrink: 0;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            margin-top: 1px;
+        }
+
+        .svc-compare-card.is-basic .svc-compare-mark {
+            color: var(--svc-slate) !important;
+            background: var(--svc-bg) !important;
+            border: 1px solid var(--svc-line);
+        }
+
+        .svc-compare-card.is-us .svc-compare-mark {
+            color: #fff !important;
+            background: var(--svc-teal) !important;
+        }
+
+        .svc-compare-card.is-basic .svc-compare-list li span {
+            color: var(--svc-slate) !important;
+        }
+
+        .svc-compare-card.is-basic .svc-compare-list li strong {
+            color: var(--svc-ink) !important;
+            font-weight: 600;
+        }
+
+        .svc-compare-card.is-us .svc-compare-list li strong {
+            color: #fff !important;
+            font-weight: 700;
+        }
+
+        .svc-compare-card.is-us .svc-compare-list li span {
+            color: rgba(255, 255, 255, .55) !important;
+        }
+
+        @media (max-width:860px) {
+            .svc-compare-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width:560px) {
+            .svc-compare {
+                padding: 60px 0;
+            }
+
+            .svc-compare-card {
+                padding: 26px 22px;
+            }
+        }
+
         /* ================= FAQ ================= */
         .svc-faq {
             padding: 90px 0;
@@ -1026,7 +1186,7 @@
             <div class="svc-wrap">
                 <div class="row align-items-center gy-5">
                     <div class="col-lg-7 svc-hero-copy svc-reveal">
-                        <span class="svc-eyebrow on-dark">./services --init</span>
+                        {{-- <span class="svc-eyebrow on-dark">./services --init</span> --}}
                         <h1 class="mt-3">
                             One Team. Every Digital Solution You Need.
                         </h1>
@@ -1115,7 +1275,7 @@
                 <div class="svc-wrap">
 
                     <div class="sub_service-head">
-                        <span class="svc-eyebrow">{{ __('dashboard.service_categories') }}.explore()</span>
+                        {{-- <span class="svc-eyebrow">{{ __('dashboard.service_categories') }}.explore()</span> --}}
                         <h2 class="mt-3">{{ __('dashboard.service_categories') ?? 'Explore Sub-Services' }}</h2>
                         <p>Pick a service category, then select a sub-service to see its details.</p>
                     </div>
@@ -1215,12 +1375,12 @@
                                             </div>
                                         </div>
 
-                                        {{-- <div class="sub_service-extra-block">
+                                        <div class="sub_service-extra-block">
                                             <h4>Our Commitment</h4>
                                             <p class="sub_service-commitment-sub">Quality-first delivery, transparent
                                                 communication, and long-term support — for every project, big or
                                                 small.</p>
-                                        </div> --}}
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach
@@ -1236,7 +1396,7 @@
         <section class="svc-process">
             <div class="svc-wrap">
                 <div class="svc-process-head">
-                    <span class="svc-eyebrow">./how-we-work --run()</span>
+                    {{-- <span class="svc-eyebrow">./how-we-work --run()</span> --}}
                     <h2>How We Work</h2>
                     <p>A clear, proven process that takes your idea from first conversation to a fully supported,
                         live product.</p>
@@ -1277,11 +1437,89 @@
             </div>
         </section>
 
+        {{-- ================= WHY US / COMPARISON ================= --}}
+        <section class="svc-compare">
+            <div class="svc-wrap">
+                <div class="svc-compare-head">
+                    {{-- <span class="svc-eyebrow">./why --msn-softtech</span> --}}
+                    <h2>What you get that a typical<br class="d-none d-md-block"> freelancer won't offer</h2>
+                </div>
+
+                <div class="svc-compare-grid">
+                    <div class="svc-compare-card is-basic">
+                        <div class="svc-compare-card-head">
+                            <h3>Typical Freelancer</h3>
+                            <span class="svc-compare-badge is-basic">BASIC</span>
+                        </div>
+                        <ul class="svc-compare-list">
+                            <li>
+                                <span class="svc-compare-mark">✕</span>
+                                <span><strong>Custom Strategy &amp; Design</strong> — templates only</span>
+                            </li>
+                            <li>
+                                <span class="svc-compare-mark">✕</span>
+                                <span><strong>Dedicated Project Team</strong> — one person</span>
+                            </li>
+                            <li>
+                                <span class="svc-compare-mark">✕</span>
+                                <span><strong>Performance Optimization</strong> — rarely tested</span>
+                            </li>
+                            <li>
+                                <span class="svc-compare-mark">✕</span>
+                                <span><strong>Security &amp; Data Protection</strong> — not managed</span>
+                            </li>
+                            <li>
+                                <span class="svc-compare-mark">✕</span>
+                                <span><strong>Training &amp; Documentation</strong> — limited</span>
+                            </li>
+                            <li>
+                                <span class="svc-compare-mark">✕</span>
+                                <span><strong>Ongoing Support</strong> — none</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="svc-compare-card is-us">
+                        <div class="svc-compare-card-head">
+                            <h3>MSN Softtech</h3>
+                            <span class="svc-compare-badge is-us">RECOMMENDED</span>
+                        </div>
+                        <ul class="svc-compare-list">
+                            <li>
+                                <span class="svc-compare-mark">✓</span>
+                                <span><strong>Custom Strategy &amp; Design</strong> — built for you</span>
+                            </li>
+                            <li>
+                                <span class="svc-compare-mark">✓</span>
+                                <span><strong>Dedicated Project Team</strong> — full team on call</span>
+                            </li>
+                            <li>
+                                <span class="svc-compare-mark">✓</span>
+                                <span><strong>Performance Optimization</strong> — benchmarked &amp; tuned</span>
+                            </li>
+                            <li>
+                                <span class="svc-compare-mark">✓</span>
+                                <span><strong>Security &amp; Data Protection</strong> — actively managed</span>
+                            </li>
+                            <li>
+                                <span class="svc-compare-mark">✓</span>
+                                <span><strong>Training &amp; Documentation</strong> — video guide included</span>
+                            </li>
+                            <li>
+                                <span class="svc-compare-mark">✓</span>
+                                <span><strong>Ongoing Support</strong> — 30 days free</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         {{-- ================= FAQ ================= --}}
         <section class="svc-faq" id="svc-faq">
             <div class="svc-wrap">
                 <div class="svc-faq-head">
-                    <span class="svc-eyebrow">./faqs --open()</span>
+                    {{-- <span class="svc-eyebrow">./faqs --open()</span> --}}
                     <h2>Frequently Asked Questions</h2>
                     <p>Answers to the questions we hear most from clients before starting a project.</p>
                 </div>
