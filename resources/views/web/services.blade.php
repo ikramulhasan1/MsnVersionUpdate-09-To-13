@@ -955,13 +955,12 @@
                                             </div>
                                         </div>
 
-                                        <div class="sub_service-extra-block">
-                                            {{-- <span class="sub_service-extra-eyebrow">Why Clients Stay</span> --}}
+                                        {{-- <div class="sub_service-extra-block">
                                             <h4>Our Commitment</h4>
                                             <p class="sub_service-commitment-sub">Quality-first delivery, transparent
                                                 communication, and long-term support — for every project, big or
                                                 small.</p>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             @endforeach
