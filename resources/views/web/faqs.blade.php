@@ -33,9 +33,9 @@
 
     <style>
         /* ===================================================
-                           FAQ PAGE — premium redesign
-                           Tokens
-                        =================================================== */
+                                           FAQ PAGE — premium redesign
+                                           Tokens
+                                        =================================================== */
         .faq-page {
             --navy: #052c58;
             --navy-deep: #031b38;
@@ -66,9 +66,10 @@
         /* ---------- Hero ---------- */
         .faq-hero {
             position: relative;
-            background:
-                radial-gradient(60% 90% at 85% 0%, rgba(228, 35, 40, 0.18), transparent 60%),
-                linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+            background-color: #0d0405;
+            background-image:
+                radial-gradient(circle at 12% 15%, rgba(178, 24, 24, .75) 0%, rgba(120, 16, 16, .35) 30%, rgba(13, 4, 5, 0) 60%),
+                linear-gradient(135deg, #2a0a0a 0%, #150607 45%, #0d0405 100%);
             padding: 108px 0 78px;
             overflow: hidden;
             isolation: isolate;
@@ -96,7 +97,7 @@
             font-weight: 700;
             letter-spacing: 0.14em;
             text-transform: uppercase;
-            color: #ffd7d8;
+            color: #fffafa;
             background: rgba(228, 35, 40, 0.16);
             border: 1px solid rgba(228, 35, 40, 0.35);
             padding: 7px 16px;
@@ -120,7 +121,7 @@
         }
 
         .faq-hero-sub {
-            color: rgba(255, 255, 255, 0.72);
+            color: rgba(255, 255, 255, 0.959);
             font-size: 17px;
             max-width: 560px;
             margin: 0 0 26px;

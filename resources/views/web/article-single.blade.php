@@ -151,9 +151,9 @@
 
     <style>
         /* ============================================================
-                             MSN SoftTech — Blog Single (redesign)
-                             Tokens: dark navy hero, teal accent, orange CTA, mono utility
-                             ============================================================ */
+                                                                                                 MSN SoftTech — Blog Single (redesign)
+                                                                                                 Tokens: dark navy hero, teal accent, orange CTA, mono utility
+                                                                                                 ============================================================ */
         .bp-page {
             --bp-navy-900: #080C16;
             --bp-navy-800: #0C1424;
@@ -222,7 +222,7 @@
         .bp-case-eyebrow,
         .bp-crumb,
         .bp-crumb * {
-            font-family: var(--bp-font-mono) !important;
+            /* font-family: var(--bp-font-mono) !important; */
         }
 
         .bp-progress {
@@ -243,7 +243,10 @@
 
         .bp-hero {
             position: relative;
-            background: linear-gradient(160deg, var(--bp-navy-900) 0%, var(--bp-navy-700) 100%);
+            background-color: #0d0405;
+            background-image:
+                radial-gradient(circle at 12% 15%, rgba(178, 24, 24, .75) 0%, rgba(120, 16, 16, .35) 30%, rgba(13, 4, 5, 0) 60%),
+                linear-gradient(135deg, #2a0a0a 0%, #150607 45%, #0d0405 100%);
             padding: 56px 0 96px;
             overflow: hidden;
         }
@@ -252,8 +255,10 @@
             position: absolute;
             inset: 0;
             background:
-                radial-gradient(480px 320px at 85% 0%, rgba(0, 137, 59, 0.28), transparent 65%),
-                radial-gradient(360px 260px at 10% 100%, rgba(245, 166, 35, 0.14), transparent 60%);
+                linear-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: linear-gradient(180deg, transparent, rgba(0, 0, 0, .9) 30%, rgba(0, 0, 0, .9) 80%, transparent);
             pointer-events: none;
         }
 
@@ -299,12 +304,12 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-family: var(--bp-font-mono);
+            /* font-family: var(--bp-font-mono); */
             font-size: 12px;
             font-weight: 600;
             letter-spacing: .12em;
             text-transform: uppercase;
-            color: var(--bp-teal-light);
+            color: white;
             background: rgba(0, 137, 59, 0.12);
             border: 1px solid rgba(18, 196, 107, 0.35);
             padding: 7px 14px;
@@ -313,7 +318,7 @@
         }
 
         .bp-eyebrow-mark {
-            color: var(--bp-orange);
+            color: white;
             font-weight: 700;
         }
 
@@ -396,7 +401,7 @@
         }
 
         .bp-status-live {
-            color: var(--bp-teal-light);
+            color: white;
         }
 
         .bp-content-wrap {
@@ -513,7 +518,7 @@
 
         .bp-toc-body li a::before {
             content: counter(toc, decimal-leading-zero);
-            color: var(--bp-teal-light);
+            color: red;
             flex: 0 0 auto;
         }
 
@@ -587,7 +592,7 @@
 
         .bp-description a,
         .bp-description a * {
-            color: var(--bp-teal) !important;
+            color: red !important;
             font-weight: 500 !important;
             text-decoration: underline !important;
             text-underline-offset: 2px !important;
@@ -754,9 +759,9 @@
         }
 
         .bp-tag-pill {
-            background: rgba(0, 137, 59, 0.08) !important;
-            color: var(--bp-teal) !important;
-            border: 1px solid rgba(0, 137, 59, 0.25) !important;
+            background: #FDECEB !important;
+            color: red !important;
+            /* border: 1px solid rgba(0, 137, 59, 0.25) !important; */
             padding: 6px 14px !important;
             border-radius: 100px !important;
             font-size: 13px !important;
@@ -765,8 +770,8 @@
         }
 
         .bp-tag-pill:hover {
-            background: var(--bp-teal) !important;
-            color: #fff !important;
+            background: red !important;
+            color: #ffffff !important;
         }
 
         .bp-share {
@@ -1195,7 +1200,7 @@
                             </div>
                         </section>
 
-                        <div class="bp-meet-card">
+                        {{-- <div class="bp-meet-card">
                             <div class="bp-meet-text">
                                 <strong>Have a question about this?</strong>
                                 <span>Book a quick call with our team — no sales pitch.</span>
@@ -1214,7 +1219,7 @@
                                 </button>
                             </div>
                         </div>
-                        @include('web.layouts.googlemeet')
+                        @include('web.layouts.googlemeet') --}}
 
                         <div class="bp-tags">
                             <span class="bp-tags-label">{{ __('common.category') }}</span>
@@ -1270,7 +1275,7 @@
                             </div>
                         @endif
 
-                        @if (count($article_categories) > 0)
+                        {{-- @if (count($article_categories) > 0)
                             <div class="bp-widget bp-widget-dark">
                                 <h5 class="bp-widget-title">Categories</h5>
                                 <ul class="bp-cat-list">
@@ -1286,7 +1291,7 @@
                                     @endforeach
                                 </ul>
                             </div>
-                        @endif
+                        @endif --}}
 
                         @if (count($recents) > 0)
                             <div class="bp-widget">
@@ -1306,13 +1311,13 @@
                             </div>
                         @endif
 
-                        <div class="bp-widget bp-case-widget">
+                        {{-- <div class="bp-widget bp-case-widget">
                             <div class="bp-case-eyebrow">§ EXPLORE OUR</div>
                             <h5>Case Studies</h5>
                             <p>Inspiring success stories from real projects.</p>
                             <a href="{{ route('case') }}" wire:navigate class="bp-case-btn">VIEW ALL <i
                                     class="fa-solid fa-arrow-right-long"></i></a>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>

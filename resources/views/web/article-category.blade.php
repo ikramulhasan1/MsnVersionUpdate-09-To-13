@@ -41,13 +41,13 @@
 
     <style>
         /* =====================================================================
-                       BLOG / JOURNAL — premium pass built on the same Blueprint system as
-                       the About page: deep navy + teal-glass register, Space Grotesk /
-                       IBM Plex Sans / JetBrains Mono type stack. Scoped to .msn-scope with
-                       a bl- prefix and its own local token layer so it doesn't touch the
-                       shared theme file. Every post is treated as a numbered journal entry
-                       — the numbering reflects real publish order, not decoration.
-                       ===================================================================== */
+                                                                           BLOG / JOURNAL — premium pass built on the same Blueprint system as
+                                                                           the About page: deep navy + teal-glass register, Space Grotesk /
+                                                                           IBM Plex Sans / JetBrains Mono type stack. Scoped to .msn-scope with
+                                                                           a bl- prefix and its own local token layer so it doesn't touch the
+                                                                           shared theme file. Every post is treated as a numbered journal entry
+                                                                           — the numbering reflects real publish order, not decoration.
+                                                                           ===================================================================== */
 
         .msn-scope {
             --bl-navy-950: #05070d;
@@ -130,7 +130,7 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: var(--bl-teal-gradient-hard);
+            background: red;
             box-shadow: 0 0 8px rgba(45, 212, 191, .75);
             flex: 0 0 auto;
         }
@@ -172,11 +172,10 @@
         /* ---------- HERO ---------- */
         .bl-hero {
             position: relative;
-            background-color: #05070d !important;
+            background-color: #0d0405 !important;
             background-image:
-                radial-gradient(circle at 80% 10%, rgba(45, 212, 191, .16), transparent 42%),
-                radial-gradient(circle at 6% 92%, rgba(45, 212, 191, .08), transparent 46%),
-                linear-gradient(180deg, #05070d 0%, #0a0f1a 55%, #0e1526 100%) !important;
+                radial-gradient(circle at 12% 15%, rgba(178, 24, 24, .75) 0%, rgba(120, 16, 16, .35) 30%, rgba(13, 4, 5, 0) 60%),
+                linear-gradient(135deg, #2a0a0a 0%, #150607 45%, #0d0405 100%) !important;
             padding: clamp(110px, 15vw, 168px) 0 clamp(96px, 11vw, 132px);
             overflow: hidden;
             isolation: isolate;
@@ -187,9 +186,9 @@
             position: absolute;
             inset: 0;
             background-image:
-                linear-gradient(rgba(45, 212, 191, .08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(45, 212, 191, .08) 1px, transparent 1px);
-            background-size: 64px 64px, 64px 64px;
+                linear-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+            background-size: 40px 40px, 40px 40px;
             mask-image: linear-gradient(180deg, transparent, rgba(0, 0, 0, .9) 30%, rgba(0, 0, 0, .9) 80%, transparent);
             pointer-events: none;
         }
@@ -213,7 +212,7 @@
             width: 64px;
             height: 3px;
             margin-top: 18px;
-            background-image: linear-gradient(115deg, #99F6E4, #14B8A6, #115E59);
+            background-image: linear-gradient(115deg, #F87171, #D2241D, #7A1210);
             border-radius: 2px;
         }
 
@@ -266,22 +265,22 @@
         }
 
         .bl-plaque-num {
-            font-family: var(--bp-font-mono);
+            /* font-family: var(--bp-font-mono); */
             font-weight: 600;
             font-size: 34px;
             line-height: 1;
-            background-image: var(--bl-teal-gradient-hard);
+            /* background-image: var(--bl-teal-gradient-hard); */
             -webkit-background-clip: text;
             background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: transparent;
+            /* -webkit-text-fill-color: transparent; */
+            color: red;
         }
 
         .bl-plaque-label {
             font-family: var(--bp-font-mono);
             font-size: 9.5px;
             letter-spacing: .12em;
-            color: rgba(255, 255, 255, .5);
+            color: rgb(255, 255, 255);
             margin-top: 4px;
             text-transform: uppercase;
         }
@@ -449,7 +448,7 @@
             font-weight: 600;
             letter-spacing: .05em;
             text-transform: uppercase;
-            color: var(--bl-teal-700);
+            color: red;
             text-decoration: none;
         }
 
@@ -460,7 +459,7 @@
         }
 
         .bl-read-more:hover {
-            color: var(--bl-teal-500);
+            color: red;
         }
 
         .bl-read-more:hover svg {

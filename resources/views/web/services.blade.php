@@ -109,7 +109,7 @@
         }
 
         .svc-eyebrow.on-dark {
-            color: #FF8A8D !important;
+            color: white !important;
             background: rgba(255, 138, 141, .08) !important;
             border-color: rgba(255, 138, 141, .25) !important;
         }

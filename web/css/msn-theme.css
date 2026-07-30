@@ -97,7 +97,7 @@ body{ background: var(--bp-paper) !important; }
   font-weight:500;
   letter-spacing:.08em;
   text-transform:uppercase;
-  color: var(--bp-amber-deep);
+  color: red;
   background:none;
   padding:0;
   border:none;
@@ -108,9 +108,8 @@ body{ background: var(--bp-paper) !important; }
   font-family: var(--bp-font-mono);
   font-weight:600;
   font-size:13px;
-  color: var(--bp-amber);
+  color: red;
   border:1px solid currentColor;
-  color: var(--bp-amber);
   width:20px;height:20px;
   display:flex;align-items:center;justify-content:center;
   flex:0 0 auto;

@@ -28,6 +28,56 @@
 
 @section('content')
 
+    <style>
+        /* gq-canvas — dark red radial gradient, matched to About Us page style */
+        .gq-canvas {
+            position: relative !important;
+            background-color: #0d0405 !important;
+            background-image:
+                radial-gradient(circle at 12% 15%, rgba(178, 24, 24, .75) 0%, rgba(120, 16, 16, .35) 30%, rgba(13, 4, 5, 0) 60%),
+                linear-gradient(135deg, #2a0a0a 0%, #150607 45%, #0d0405 100%) !important;
+            overflow: hidden;
+        }
+
+        .gq-canvas::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+        .gq-canvas>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .gq-canvas .gq-eyebrow,
+        .gq-canvas .gq-display,
+        .gq-canvas h4 {
+            color: #fff !important;
+        }
+
+        .gq-canvas .gq-sub,
+        .gq-canvas .gq-next-card p,
+        .gq-canvas .gq-trust-item span,
+        .gq-canvas .gq-canvas-foot span {
+            color: rgba(255, 255, 255, .7) !important;
+        }
+
+        .gq-canvas .gq-trust-item strong {
+            color: #fff !important;
+        }
+
+        .gq-canvas .gq-next-card {
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .12);
+        }
+    </style>
+
     <div class="gq-scope">
 
         <section class="gq-hero" id="quoteHero">

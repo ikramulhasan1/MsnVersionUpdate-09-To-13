@@ -2423,9 +2423,9 @@ a {
       --ink: #12181f;
       --ink-soft: #5c6672;
       --ink-invert-soft: rgba(255, 255, 255, .66);
-      --orange: #17C9A8;
+      --orange: red;
       --orange-dark: #D2241D;
-      --teal: #2fd6c0;
+      --teal: #D2241D;
       --teal-dim: rgba(47, 214, 192, .14);
       --line: #e3e6df;
       --line-dark: rgba(255, 255, 255, .12);
@@ -2586,7 +2586,7 @@ a {
       height: 30px;
       border-radius: 8px;
       background: var(--teal-dim);
-      color: var(--teal);
+      color: white;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -3010,7 +3010,7 @@ a {
       height: 36px;
       border-radius: 10px;
       background: var(--orange);
-      color: var(--navy-950);
+      color: white;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -3045,7 +3045,7 @@ a {
       align-items: center;
       gap: 10px;
       background: var(--orange);
-      color: var(--navy-950);
+      color: white;
       padding: 14px 30px;
       border-radius: 999px;
       font-weight: 600;

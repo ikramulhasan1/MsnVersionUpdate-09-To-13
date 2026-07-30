@@ -31,10 +31,10 @@
 @section('content')
     <style>
         /* ==========================================================================
-                                         MSN SoftTech — About Us page styles (Minimal Clean direction)
-                                         White background, generous whitespace, single accent (red).
-                                         Prefix: .ap-  (About Page)   Shared/global: .msn-  (already used site-wide)
-                                         ========================================================================== */
+                                             MSN SoftTech — About Us page styles (Minimal Clean direction)
+                                             White background, generous whitespace, single accent (red).
+                                             Prefix: .ap-  (About Page)   Shared/global: .msn-  (already used site-wide)
+                                             ========================================================================== */
 
         @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -174,8 +174,8 @@
         }
 
         /* ==========================================================================
-                                         HERO — dark maroon/red gradient (matches reference screenshot)
-                                         ========================================================================== */
+                                             HERO — dark maroon/red gradient (matches reference screenshot)
+                                             ========================================================================== */
         .ap-hero {
             --hero-fg: #FFFFFF;
             --hero-fg-muted: rgba(255, 255, 255, .68);
@@ -316,8 +316,8 @@
         }
 
         /* optional: wrap a word in <span class="ap-accent"> inside the hero title
-                                         to highlight it in red, e.g. <h1>Building <span class="ap-accent">production
-                                         quality</span> software</h1> */
+                                             to highlight it in red, e.g. <h1>Building <span class="ap-accent">production
+                                             quality</span> software</h1> */
         .ap-hero-title .ap-accent {
             color: var(--hero-red);
         }
@@ -374,8 +374,8 @@
         }
 
         /* ==========================================================================
-                                         WHO WE ARE (intro)
-                                         ========================================================================== */
+                                             WHO WE ARE (intro)
+                                             ========================================================================== */
         .ap-intro-grid {
             display: grid;
             grid-template-columns: 1.1fr .9fr;
@@ -453,8 +453,8 @@
         }
 
         /* ==========================================================================
-                                         CORE VALUES
-                                         ========================================================================== */
+                                             CORE VALUES
+                                             ========================================================================== */
         .ap-values-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -503,8 +503,8 @@
         }
 
         /* ==========================================================================
-                                         MISSION & VISION
-                                         ========================================================================== */
+                                             MISSION & VISION
+                                             ========================================================================== */
         .ap-mv-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -569,8 +569,8 @@
         }
 
         /* ==========================================================================
-                                         WHAT WE PROVIDE
-                                         ========================================================================== */
+                                             WHAT WE PROVIDE
+                                             ========================================================================== */
         .ap-provide-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -615,8 +615,8 @@
         }
 
         /* ==========================================================================
-                                         TECH MARQUEE
-                                         ========================================================================== */
+                                             TECH MARQUEE
+                                             ========================================================================== */
         .ap-marquee-wrap {
             border-top: 1px solid var(--ap-line);
             border-bottom: 1px solid var(--ap-line);
@@ -683,8 +683,8 @@
         }
 
         /* ==========================================================================
-                                         STATS (dark, flat)
-                                         ========================================================================== */
+                                             STATS (dark, flat)
+                                             ========================================================================== */
         .ap-stats-section {
             background: var(--ap-navy);
             color: #fff;
@@ -716,7 +716,7 @@
             font-family: var(--bp-font-display);
             font-weight: 700;
             font-size: clamp(2rem, 3.6vw, 2.7rem);
-            color: var(--ap-red-line);
+            color: white;
             line-height: 1;
         }
 
@@ -727,8 +727,8 @@
         }
 
         /* ==========================================================================
-                                         TEAM
-                                         ========================================================================== */
+                                             TEAM
+                                             ========================================================================== */
         .ap-team-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -817,8 +817,8 @@
         }
 
         /* ==========================================================================
-                                         PULL QUOTE BAND
-                                         ========================================================================== */
+                                             PULL QUOTE BAND
+                                             ========================================================================== */
         .ap-quote-band {
             background: var(--ap-ink);
             color: #fff;
@@ -854,8 +854,8 @@
         }
 
         /* ==========================================================================
-                                         PROCESS
-                                         ========================================================================== */
+                                             PROCESS
+                                             ========================================================================== */
         .ap-process-title {
             max-width: 620px;
         }
@@ -923,8 +923,8 @@
         }
 
         /* ==========================================================================
-                                         RESPONSIVE
-                                         ========================================================================== */
+                                             RESPONSIVE
+                                             ========================================================================== */
         @media (max-width: 991px) {
             .ap-intro-grid {
                 grid-template-columns: 1fr;
