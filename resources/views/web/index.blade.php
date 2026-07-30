@@ -50,6 +50,35 @@
 
 @section('content')
     <style>
+        /* ===== IDX HERO — background matched to About Us page style (dark red radial fade to black) ===== */
+        .idx-hero-section {
+            position: relative;
+            background-color: #0d0405;
+            background-image:
+                radial-gradient(circle at 12% 15%, rgba(178, 24, 24, 0.75) 0%, rgba(120, 16, 16, 0.35) 30%, rgba(13, 4, 5, 0) 60%),
+                linear-gradient(135deg, #2a0a0a 0%, #150607 45%, #0d0405 100%);
+            background-repeat: no-repeat;
+            background-size: cover;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .idx-hero-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+        .idx-hero-section .container {
+            position: relative;
+            z-index: 1;
+        }
+
         .techImg {
             width: 50px;
             height: 50px;
@@ -226,11 +255,7 @@
                                 style="background-color: #D2241D; color: white;"
                                 onclick="document.getElementById('quotePopupModal').classList.add('is-open'); document.body.style.overflow='hidden';">
                                 {{ $page_quote->title }}
-                                {{-- <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg> --}}
+
                                 <i class="fa-solid fa-arrow-right"></i>
                             </button>
                         </div>
@@ -242,18 +267,7 @@
                                     {{ $service->short_title }}
                                 </a>
                             @endforeach
-                            {{-- <span class="idx-pill-feature">
-                                <span class="idx-pill-icon"><i class="fa-solid fa-code-branch"></i></span>
-                                AI Integration &amp; Automation
-                            </span>
-                            <span class="idx-pill-feature">
-                                <span class="idx-pill-icon"><i class="fa-solid fa-window-maximize"></i></span>
-                                Web Applications
-                            </span>
-                            <span class="idx-pill-feature">
-                                <span class="idx-pill-icon"><i class="fa-solid fa-mobile-screen"></i></span>
-                                Mobile Applications
-                            </span> --}}
+
                         </div>
                     </div>
                 </section>
@@ -345,49 +359,6 @@
                         <div class="trust-stat-label">Countries Served</div>
                     </div>
                 </div>
-
-                {{-- <div class="idx-review-row">
-                    <div class="idx-review-card">
-                        <div>
-                            <div class="idx-review-label">Reviewed on</div>
-                            <div class="idx-review-brand">Clutch</div>
-                        </div>
-                        <div class="idx-stars-red">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i>
-                            <div class="idx-review-count">52 Reviews</div>
-                        </div>
-                    </div>
-
-                    <div class="idx-review-card idx-design-rush-badge">
-                        <i class="fa-solid fa-award" style="color:var(--red-600); font-size:1.6rem;"></i>
-                        <div>
-                            <div class="idx-review-count">30 Reviews on DesignRush</div>
-                            <div class="idx-stars-red">
-                                <span class="idx-review-score" style="font-size:1rem;">4.9</span>
-                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                    class="fa-solid fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="idx-review-card">
-                        <i class="fa-solid fa-shield-halved" style="color:var(--red-600); font-size:1.6rem;"></i>
-                        <div>
-                            <div class="idx-review-count">Goodfirms &middot; 34 Reviews</div>
-                            <div class="d-flex align-items-center gap-2">
-                                <span class="idx-review-score">4.89</span>
-                                <span class="idx-stars-red">
-                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                        class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                        class="fa-solid fa-star"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
             </div>
         </section>
     </div>

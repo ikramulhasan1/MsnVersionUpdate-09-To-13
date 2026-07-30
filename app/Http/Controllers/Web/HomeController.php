@@ -54,20 +54,20 @@ class HomeController extends Controller
             ->get();
 
         // Portfolio Categories
-        $data['portfolio_categories'] = PortfolioCategory::where('status', '1')
-            ->orderBy('id', 'asc')
-            ->get();
+        // $data['portfolio_categories'] = PortfolioCategory::where('status', '1')
+        //     ->orderBy('id', 'asc')
+        //     ->get();
 
         // Portfolios
-        $data['portfolios'] = Portfolio::where('status', '1')
-            ->orderBy('id', 'desc')
-            ->take(9)
-            ->get();
+        // $data['portfolios'] = Portfolio::where('status', '1')
+        //     ->orderBy('id', 'desc')
+        //     ->take(9)
+        //     ->get();
 
         // Members
-        $data['members'] = Member::where('status', '1')
-            ->orderBy('id', 'asc')
-            ->get();
+        // $data['members'] = Member::where('status', '1')
+        //     ->orderBy('id', 'asc')
+        //     ->get();
 
         // Testimonials
         $data['testimonials'] = Testimonial::where('status', '1')
@@ -75,10 +75,10 @@ class HomeController extends Controller
             ->get();
 
         // Articles
-        $data['articles'] = Article::where('status', '1')
-            ->orderBy('id', 'desc')
-            ->take(3)
-            ->get();
+        // $data['articles'] = Article::where('status', '1')
+        //     ->orderBy('id', 'desc')
+        //     ->take(3)
+        //     ->get();
 
         // Processes
         $data['processes'] = WorkProcess::where('status', '1')
@@ -90,12 +90,12 @@ class HomeController extends Controller
             ->orderBy('id', 'desc')->take(10)
             ->get();
 
-        $data['technologies'] = Technology::where('status', '1')
-            ->orderBy('id', 'asc')
-            ->get();
-        $data['case_studies'] = CaseStudy::with('technologies')->where('status', '1')
-            ->orderBy('id', 'desc')
-            ->get();
+        // $data['technologies'] = Technology::where('status', '1')
+        //     ->orderBy('id', 'asc')
+        //     ->get();
+        // $data['case_studies'] = CaseStudy::with('technologies')->where('status', '1')
+        //     ->orderBy('id', 'desc')
+        //     ->get();
 
         return view('web.index', $data);
     }
