@@ -423,7 +423,7 @@
             border: 1px solid var(--svc-line) !important;
             border-radius: var(--svc-radius) !important;
             overflow: hidden;
-            box-shadow: 0 24px 50px -34px rgba(3, 24, 46, .35);
+            /* box-shadow: 0 24px 50px -34px rgba(3, 24, 46, .35); */
         }
 
         .sub_service-list-pane {
@@ -757,6 +757,266 @@
         .svc-cta .svc-btn {
             margin-top: 30px !important;
         }
+
+        /* ================= HOW WE WORK ================= */
+        .svc-process {
+            padding: 90px 0;
+            background: var(--svc-bg) !important;
+        }
+
+        .svc-process-head {
+            max-width: 680px;
+            margin: 0 auto 50px;
+            text-align: center;
+        }
+
+        .svc-process-head h2 {
+            margin-top: 14px !important;
+            font-size: clamp(26px, 3.2vw, 36px);
+            font-weight: 700;
+            color: var(--svc-navy) !important;
+        }
+
+        .svc-process-head p {
+            margin-top: 12px !important;
+            font-size: 15.5px;
+            color: var(--svc-slate) !important;
+            line-height: 1.7;
+        }
+
+        .svc-process-track {
+            position: relative;
+            display: flex;
+            gap: 22px;
+        }
+
+        .svc-process-track::before {
+            content: '';
+            position: absolute;
+            top: 26px;
+            left: 4%;
+            right: 4%;
+            height: 2px;
+            background: repeating-linear-gradient(90deg,
+                    var(--svc-line) 0,
+                    var(--svc-line) 8px,
+                    transparent 8px,
+                    transparent 16px);
+        }
+
+        .svc-process-step {
+            position: relative;
+            flex: 1;
+            min-width: 0;
+            background: var(--svc-card) !important;
+            border: 1px solid var(--svc-line);
+            border-radius: var(--svc-radius) !important;
+            padding: 26px 20px;
+            transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+        }
+
+        .svc-process-step:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 46px -28px rgba(3, 24, 46, .35);
+            border-color: rgba(227, 30, 36, .3);
+        }
+
+        .svc-process-num {
+            position: relative;
+            z-index: 2;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--svc-mono) !important;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--svc-navy) !important;
+            background: #fff !important;
+            border: 2px solid var(--svc-navy);
+            border-radius: 50%;
+        }
+
+        .svc-process-step:hover .svc-process-num {
+            color: #fff !important;
+            background: var(--svc-teal) !important;
+            border-color: var(--svc-teal);
+        }
+
+        .svc-process-step h4 {
+            margin-top: 20px !important;
+            font-size: 16.5px;
+            font-weight: 700;
+            color: var(--svc-navy) !important;
+        }
+
+        .svc-process-step p {
+            margin-top: 10px !important;
+            font-size: 13.5px;
+            line-height: 1.65;
+            color: var(--svc-slate) !important;
+        }
+
+        @media (max-width:991px) {
+            .svc-process-track {
+                flex-wrap: wrap;
+            }
+
+            .svc-process-track::before {
+                display: none;
+            }
+
+            .svc-process-step {
+                flex: 1 1 calc(50% - 11px);
+            }
+        }
+
+        @media (max-width:560px) {
+            .svc-process {
+                padding: 60px 0;
+            }
+
+            .svc-process-step {
+                flex: 1 1 100%;
+            }
+        }
+
+        /* ================= FAQ ================= */
+        .svc-faq {
+            padding: 90px 0;
+            background: #fff !important;
+        }
+
+        .svc-faq-head {
+            max-width: 680px;
+            margin: 0 auto 44px;
+            text-align: center;
+        }
+
+        .svc-faq-head h2 {
+            margin-top: 14px !important;
+            font-size: clamp(26px, 3.2vw, 36px);
+            font-weight: 700;
+            color: var(--svc-navy) !important;
+        }
+
+        .svc-faq-head p {
+            margin-top: 12px !important;
+            font-size: 15.5px;
+            color: var(--svc-slate) !important;
+            line-height: 1.7;
+        }
+
+        .svc-faq-list {
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        .svc-faq-item {
+            border: 1px solid var(--svc-line);
+            border-radius: 12px !important;
+            margin-bottom: 14px;
+            overflow: hidden;
+            background: var(--svc-card) !important;
+            transition: border-color .2s ease;
+        }
+
+        .svc-faq-item.active {
+            border-color: rgba(227, 30, 36, .35);
+        }
+
+        .svc-faq-q {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            background: transparent !important;
+            border: none;
+            text-align: left;
+            padding: 20px 22px !important;
+            cursor: pointer;
+            font-family: var(--svc-body) !important;
+            font-size: 15.5px;
+            font-weight: 600;
+            color: var(--svc-navy) !important;
+        }
+
+        .svc-faq-icon {
+            flex-shrink: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid var(--svc-line);
+            position: relative;
+            transition: background .2s ease, border-color .2s ease, transform .2s ease;
+        }
+
+        .svc-faq-icon::before,
+        .svc-faq-icon::after {
+            content: '';
+            position: absolute;
+            background: var(--svc-navy);
+            transition: background .2s ease, transform .2s ease, opacity .2s ease;
+        }
+
+        .svc-faq-icon::before {
+            width: 12px;
+            height: 2px;
+        }
+
+        .svc-faq-icon::after {
+            width: 2px;
+            height: 12px;
+        }
+
+        .svc-faq-item.active .svc-faq-icon {
+            background: var(--svc-teal) !important;
+            border-color: var(--svc-teal);
+        }
+
+        .svc-faq-item.active .svc-faq-icon::before,
+        .svc-faq-item.active .svc-faq-icon::after {
+            background: #fff !important;
+        }
+
+        .svc-faq-item.active .svc-faq-icon::after {
+            transform: rotate(90deg);
+            opacity: 0;
+        }
+
+        .svc-faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .3s ease;
+        }
+
+        .svc-faq-a-inner {
+            padding: 0 22px 20px;
+            font-size: 14.5px;
+            line-height: 1.75;
+            color: var(--svc-slate) !important;
+        }
+
+        @media (max-width:560px) {
+            .svc-faq {
+                padding: 60px 0;
+            }
+
+            .svc-faq-q {
+                font-size: 14.5px;
+                padding: 16px 18px !important;
+            }
+
+            .svc-faq-a-inner {
+                padding: 0 18px 16px;
+                font-size: 14px;
+            }
+        }
     </style>
 
     <div class="svc-scope">
@@ -839,7 +1099,7 @@
             if (isset($services)) {
                 foreach ($services as $service) {
                     foreach ($service->subservices as $sub) {
-                        if (isset($sub->manu) && $sub->manu != 1) {
+                        if (isset($sub->status) && $sub->status != 1) {
                             continue;
                         } // চাইলে বাদ দিন এই লাইন
                         $sub->parent_service = $service;
@@ -972,6 +1232,124 @@
             </section>
         @endif
 
+        {{-- ================= HOW WE WORK ================= --}}
+        <section class="svc-process">
+            <div class="svc-wrap">
+                <div class="svc-process-head">
+                    <span class="svc-eyebrow">./how-we-work --run()</span>
+                    <h2>How We Work</h2>
+                    <p>A clear, proven process that takes your idea from first conversation to a fully supported,
+                        live product.</p>
+                </div>
+
+                <div class="svc-process-track">
+                    <div class="svc-process-step">
+                        <div class="svc-process-num">01</div>
+                        <h4>Discover</h4>
+                        <p>We learn about your business, audience, and goals to define exactly what success looks
+                            like.</p>
+                    </div>
+
+                    <div class="svc-process-step">
+                        <div class="svc-process-num">02</div>
+                        <h4>Planning &amp; Design</h4>
+                        <p>We map the strategy and craft the UI/UX so every screen has a clear purpose.</p>
+                    </div>
+
+                    <div class="svc-process-step">
+                        <div class="svc-process-num">03</div>
+                        <h4>Development</h4>
+                        <p>Our engineers build your solution with clean, scalable, well-documented code.</p>
+                    </div>
+
+                    <div class="svc-process-step">
+                        <div class="svc-process-num">04</div>
+                        <h4>Testing &amp; Launch</h4>
+                        <p>Rigorous QA across devices, then a smooth, monitored release to production.</p>
+                    </div>
+
+                    <div class="svc-process-step">
+                        <div class="svc-process-num">05</div>
+                        <h4>Support</h4>
+                        <p>We stay on after launch with maintenance, updates, and ongoing improvements.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ================= FAQ ================= --}}
+        <section class="svc-faq" id="svc-faq">
+            <div class="svc-wrap">
+                <div class="svc-faq-head">
+                    <span class="svc-eyebrow">./faqs --open()</span>
+                    <h2>Frequently Asked Questions</h2>
+                    <p>Answers to the questions we hear most from clients before starting a project.</p>
+                </div>
+
+                <div class="svc-faq-list" id="svcFaqList">
+                    <div class="svc-faq-item active">
+                        <button type="button" class="svc-faq-q">
+                            <span>How long does a typical project take?</span>
+                            <span class="svc-faq-icon"></span>
+                        </button>
+                        <div class="svc-faq-a">
+                            <div class="svc-faq-a-inner">Timelines depend on scope, but most projects move from
+                                discovery to launch within 4-10 weeks. We'll give you a clear estimate after our
+                                first discovery call.</div>
+                        </div>
+                    </div>
+
+                    <div class="svc-faq-item">
+                        <button type="button" class="svc-faq-q">
+                            <span>How much does it cost to work with you?</span>
+                            <span class="svc-faq-icon"></span>
+                        </button>
+                        <div class="svc-faq-a">
+                            <div class="svc-faq-a-inner">Every project is scoped individually based on features,
+                                complexity, and timeline. Share your requirements with us and we'll provide a
+                                transparent, detailed quote.</div>
+                        </div>
+                    </div>
+
+                    <div class="svc-faq-item">
+                        <button type="button" class="svc-faq-q">
+                            <span>Do you provide support after launch?</span>
+                            <span class="svc-faq-icon"></span>
+                        </button>
+                        <div class="svc-faq-a">
+                            <div class="svc-faq-a-inner">Yes. Every engagement includes a support period after
+                                launch, and we offer ongoing maintenance plans for ongoing updates and improvements.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="svc-faq-item">
+                        <button type="button" class="svc-faq-q">
+                            <span>Can you work with our existing codebase or design?</span>
+                            <span class="svc-faq-icon"></span>
+                        </button>
+                        <div class="svc-faq-a">
+                            <div class="svc-faq-a-inner">Absolutely. We regularly join projects mid-way, whether
+                                that means extending an existing codebase or continuing from an established design
+                                system.</div>
+                        </div>
+                    </div>
+
+                    <div class="svc-faq-item">
+                        <button type="button" class="svc-faq-q">
+                            <span>How do we communicate during the project?</span>
+                            <span class="svc-faq-icon"></span>
+                        </button>
+                        <div class="svc-faq-a">
+                            <div class="svc-faq-a-inner">You'll have a dedicated point of contact and regular
+                                progress updates through email, calls, or your preferred project management tool.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </div>
 
     <script>
@@ -1031,10 +1409,49 @@
             });
         }
 
+        function initSvcFaq() {
+            var faqList = document.getElementById('svcFaqList');
+            if (!faqList) return;
+
+            // Guard: DOMContentLoaded ও livewire:navigated দুটোই fire হলে init দুইবার
+            // চলে গিয়ে প্রতিটা বাটনে ডাবল click-listener বসে যাচ্ছিল, যার ফলে ক্লিক করলে
+            // item খুলেই সাথে সাথে আবার বন্ধ হয়ে যাচ্ছিল ("off-on hoyna" বাগ)।
+            // dataset flag দিয়ে দ্বিতীয়বার bind হওয়া আটকানো হলো।
+            if (faqList.dataset.faqInit === '1') return;
+            faqList.dataset.faqInit = '1';
+
+            var items = faqList.querySelectorAll('.svc-faq-item');
+
+            function openItem(item) {
+                var answer = item.querySelector('.svc-faq-a');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                item.classList.add('active');
+            }
+
+            function closeItem(item) {
+                var answer = item.querySelector('.svc-faq-a');
+                answer.style.maxHeight = null;
+                item.classList.remove('active');
+            }
+
+            items.forEach(function(item) {
+                var q = item.querySelector('.svc-faq-q');
+                if (item.classList.contains('active')) openItem(item);
+
+                q.addEventListener('click', function() {
+                    var isActive = item.classList.contains('active');
+                    items.forEach(closeItem);
+                    if (!isActive) openItem(item);
+                });
+            });
+        }
+
         // wire:navigate-এর মাধ্যমে services পেজে বারবার আসা-যাওয়া করলেও এলিমেন্টগুলো
         // প্রতিবার নতুন করে DOM-এ বসে, তাই দুটো ইভেন্টেই bind করা হয়েছে
         document.addEventListener('DOMContentLoaded', initSubServiceExplorer);
         document.addEventListener('livewire:navigated', initSubServiceExplorer);
+        document.addEventListener('DOMContentLoaded', initSvcFaq);
+        document.addEventListener('livewire:navigated', initSvcFaq);
     </script>
 
 @endsection
