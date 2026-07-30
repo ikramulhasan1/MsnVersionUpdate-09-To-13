@@ -883,7 +883,7 @@
                                     data-category-list="{{ \Illuminate\Support\Str::slug($service->short_title) }}">
                                     <ul class="sub_service-list">
                                         @foreach ($service->subservices as $sub)
-                                            @if (!isset($sub->manu) || $sub->manu == 1)
+                                            @if (!isset($sub->status) || $sub->status == 1)
                                                 <li>
                                                     <button type="button"
                                                         class="sub_service-list-item {{ $loop->first ? 'active' : '' }}"
