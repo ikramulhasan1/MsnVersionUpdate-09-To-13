@@ -57,7 +57,7 @@
        causing "jQuery(...).floatingWhatsApp is not a function" in the console on every page load.
        Must stay AFTER jquery and keep `defer` so browsers run both in document order, before
        DOMContentLoaded (which is when initFloatingWhatsapp() actually calls it). --}}
-    <script src="{{ asset('web/js/floating-wpp.min.js') }}" defer></script>
+    <script src="{{ asset('web/js/floating-wpp.js') }}" defer></script>
 
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -618,7 +618,7 @@
             </div>
         </footer>
     </div>
-
+    @dd($livechat->whatsapp_no)
     @if ($livechat->status == 1)
         <!--Div where the WhatsApp will be rendered-->
         <div id="whatspp_live"></div>

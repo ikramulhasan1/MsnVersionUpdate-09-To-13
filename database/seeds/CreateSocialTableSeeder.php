@@ -13,15 +13,15 @@ class CreateSocialTableSeeder extends Seeder
     public function run()
     {
         DB::table('socials')->delete();
-        
+
         $social = Social::create([
 
-            'facebook'=>'https://www.facebook.com/HiTechParks/',
-            'twitter'=>'https://twitter.com/hitechparks',
-            'linkedin'=>'https://www.linkedin.com/company/hi-techparks/',
-            'skype'=>'hitechparks',
-            'whatsapp'=>'+8801740473189',
-            
+            'facebook' => 'https://www.facebook.com/HiTechParks/',
+            'twitter' => 'https://twitter.com/hitechparks',
+            'linkedin' => 'https://www.linkedin.com/company/hi-techparks/',
+            'skype' => 'hitechparks',
+            'whatsapp' => '881325359909',
+
         ]);
     }
 }
