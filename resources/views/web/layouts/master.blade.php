@@ -630,7 +630,7 @@
                 window._floatingWaInit = true;
 
                 jQuery('#whatspp_live').floatingWhatsApp({
-                    phone: '{{ $livechat->whatsapp_no }}', //WhatsApp Business phone number International format
+                    phone: '881325359909', //WhatsApp Business phone number International format
                     headerTitle: '{{ $livechat->whatsapp_title }}', //Popup Title
                     popupMessage: '{{ $livechat->whatsapp_greeting }}', //Popup Message
                     showPopup: true, //Enables popup display
