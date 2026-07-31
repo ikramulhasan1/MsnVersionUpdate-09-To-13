@@ -618,7 +618,7 @@
             </div>
         </footer>
     </div>
-    @dd($livechat->whatsapp_no)
+
     @if ($livechat->status == 1)
         <!--Div where the WhatsApp will be rendered-->
         <div id="whatspp_live"></div>
