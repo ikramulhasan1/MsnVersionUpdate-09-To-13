@@ -481,7 +481,7 @@ CREATE TABLE `live_chats` (
 --
 
 INSERT INTO `live_chats` (`id`, `whatsapp_no`, `whatsapp_title`, `whatsapp_greeting`, `whatsapp_color`, `whatsapp_position`, `whatsapp_status`, `facebook_id`, `facebook_greeting_in`, `facebook_greeting_out`, `facebook_color`, `facebook_position`, `facebook_status`, `status`, `created_at`, `updated_at`) VALUES
-(3, '+8801740473189', 'Chat with us on WhatsApp!', 'Hello, how can we help you?', '#ff9c00', 1, 1, '1808009959448230', 'Hello, how can we help you?', 'Hello, how can we help you?', '#ff9c00', 1, 1, 0, '2021-11-07 14:26:20', '2021-11-07 14:37:54');
+(3, '881325359909', 'Chat with us on WhatsApp!', 'Hello, how can we help you?', '#ff9c00', 1, 1, '1808009959448230', 'Hello, how can we help you?', 'Hello, how can we help you?', '#ff9c00', 1, 1, 0, '2021-11-07 14:26:20', '2021-11-07 14:37:54');
 
 -- --------------------------------------------------------
 
