@@ -708,7 +708,7 @@
 
             const waWrap = document.createElement("div");
             waWrap.innerHTML = `
-        <a rel="noopener noreferrer" href="//wa.link/lnuvjw" target="_blank" class="wa-fab" aria-label="Live chat with agent on WhatsApp">
+        <a rel="noopener noreferrer" href="//wa.me/{{ str_replace(' ', '', $social->whatsapp) }}" target="_blank" class="wa-fab" aria-label="Live chat with agent on WhatsApp">
             <span class="wa-fab-label">Live chat with agent</span>
             <span class="wa-fab-icon">
                 <span class="wa-fab-ring"></span>
