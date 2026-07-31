@@ -1197,7 +1197,7 @@
                         <p>Whatever your business needs to grow online, we've probably already built it for someone else.
                             Explore everything we offer, all under one roof.</p>
                         <div class="svc-hero-actions">
-                            <a href="#svc-services-list" class="svc-btn svc-btn-primary">View Services</a>
+                            {{-- <a href="#svc-services-list" class="svc-btn svc-btn-primary">View Services</a> --}}
                             {{-- <a href="{{ route('contact') ?? '#' }}" class="svc-btn svc-btn-ghost">Start a Project</a> --}}
                             <button type="button" class="cta-cta-btn svc-btn svc-btn-ghost"
                                 onclick="document.getElementById('quotePopupModal').classList.add('is-open'); document.body.style.overflow='hidden';">
@@ -1280,7 +1280,7 @@
 
                     <div class="sub_service-head">
                         {{-- <span class="svc-eyebrow">{{ __('dashboard.service_categories') }}.explore()</span> --}}
-                        <h2 class="mt-3">{{ __('dashboard.service_categories') ?? 'Explore Sub-Services' }}</h2>
+                        <h2 class="mt-3">Services At a Glance</h2>
                         <p>Pick a service category, then select a sub-service to see its details.</p>
                     </div>
 
@@ -1291,7 +1291,7 @@
                                 @if ($service->subservices->count() > 0)
                                     <button type="button" class="sub_service-tab {{ $loop->first ? 'active' : '' }}"
                                         data-category="{{ \Illuminate\Support\Str::slug($service->short_title) }}">
-                                        {{ $service->short_title }}
+                                        {{ $service->short_title }}<i style="color: red" class="ms-2 fa-solid fa-down-long"></i>
                                     </button>
                                 @endif
                             @endforeach
