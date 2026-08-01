@@ -903,7 +903,7 @@
 
         .testimonial-box p {
             font-family: "Space Grotesk", system-ui, sans-serif;
-            font-size: clamp(20px, 2.6vw, 28px);
+            font-size: clamp(20px, 1.6vw, 28px);
             color: var(--ink);
             line-height: 1.5;
             font-weight: 500;
