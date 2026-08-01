@@ -1136,7 +1136,7 @@
                                 </div>
                             @endif
                             <div class="meta-cell"><span>Project duration</span><b>{{ $portfolio->video_id }}</b></div>
-                            <div class="meta-cell"><span>Project cost</span><b>{{ $portfolio->link3 }} $</b></div>
+                            <div class="meta-cell"><span>Project cost</span><b>$ {{ $portfolio->link3 }}</b></div>
                         </div>
                     </div>
                     <div class="device-wrap reveal">
@@ -1338,7 +1338,7 @@
                             <path
                                 d="M9.5 4C6 4 3 7 3 11.5S6 19 9.5 19c.3 0 .5-.2.5-.5V15c0-.3-.2-.5-.5-.5C7.6 14.5 6 12.9 6 11c0-.1 0-.2 0-.3C6.8 11 7.5 11.3 8.3 11.3 10 11.3 11.3 10 11.3 8.3S10 5.3 8.3 5.3M19.5 4C16 4 13 7 13 11.5S16 19 19.5 19c.3 0 .5-.2.5-.5V15c0-.3-.2-.5-.5-.5-1.9 0-3.5-1.6-3.5-3.5 0-.1 0-.2 0-.3.8.3 1.5.6 2.3.6 1.7 0 3-1.3 3-3S21.2 5.3 19.5 5.3" />
                         </svg>
-                        <p>{{ $portfolio->feedback ?? ''}}</p>
+                        <p>{{ $portfolio->feedback ?? '' }}</p>
                         <div class="testimonial-person">
                             {{-- <span class="testimonial-avatar">{{ $portfolio->client }}</span> --}}
                             <div><b>{{ $portfolio->client }}</b>
