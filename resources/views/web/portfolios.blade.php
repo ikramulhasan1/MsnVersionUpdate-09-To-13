@@ -156,7 +156,7 @@
                     </div>
 
                     <div class="works-empty" id="worksEmpty">
-                        {{ __('common.no_results') ?? 'No projects match this filter yet.' }}
+                        No projects match this filter yet.
                     </div>
                 </div>
             </section>
