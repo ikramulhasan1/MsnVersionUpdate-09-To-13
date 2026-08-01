@@ -186,42 +186,55 @@
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.web_link') }}
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="image">Laptop view
-                                    <span>{{ __('dashboard.image_size', ['height' => 750, 'width' => 1200]) }}</span></label>
-                                <div class="d-flex">
-                                    <input type="file" class="form-control" name="image" id="image">
-                                    <img style="width: 40px; height: 40px;"
-                                        src="{{ asset('uploads/portfolio/' . $row->image_path) }}"
-                                        class="process-step-icon" alt="">
+                            <div class="row">
+                                <div class="form-group col-lg-6 col-md-6 col-12">
+                                    <label for="image">Laptop view
+                                        <span>{{ __('dashboard.image_size', ['height' => 750, 'width' => 1200]) }}</span></label>
+                                    <div class="d-flex">
+                                        <input type="file" class="form-control" name="image" id="image">
+                                        <img style="width: 40px; height: 40px;"
+                                            src="{{ asset('uploads/portfolio/' . $row->image_path) }}"
+                                            class="process-step-icon" alt="">
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.thumbnail') }}
+                                    </div>
                                 </div>
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.thumbnail') }}
+                                <div class="form-group col-lg-6 col-md-6 col-12">
+                                    <label for="overview_image">Mobile view<span>*</span>
+                                        <span>{{ __('dashboard.image_size', ['height' => 830, 'width' => 500]) }}</span></label>
+                                    <div class="d-flex">
+                                        <input type="file" class="form-control" name="overview_image"
+                                            id="overview_image">
+                                        <img style="width: 40px; height: 40px;"
+                                            src="{{ asset('uploads/overview_image/' . $row->overview_image) }}"
+                                            class="process-step-icon" alt="">
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.overview_image') }}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="overview_image">Mobile view<span>*</span>
-                                    <span>{{ __('dashboard.image_size', ['height' => 830, 'width' => 500]) }}</span></label>
-                                <div class="d-flex">
-                                    <input type="file" class="form-control" name="overview_image"
-                                        id="overview_image">
-                                    <img style="width: 40px; height: 40px;"
-                                        src="{{ asset('uploads/overview_image/' . $row->overview_image) }}"
-                                        class="process-step-icon" alt="">
-                                </div>
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.overview_image') }}
-                                </div>
-                            </div>
-                            {{-- <div class="form-group">
-                                <label for="video_id">{{ __('dashboard.youtube_video_id') }}</label>
-                                <input type="text" class="form-control" name="video_id" id="video_id"
-                                    value="{{ $row->video_id }}">
+                            <div class="row">
+                                <div class="form-group col-lg-6 col-md-6 col-12">
+                                    <label for="video_id">Project duration</label>
+                                    <input type="text" class="form-control" name="video_id" id="video_id"
+                                        value="{{ $row->video_id }}">
 
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.youtube_video_id') }}
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.youtube_video_id') }}
+                                    </div>
                                 </div>
-                            </div> --}}
+                                <div class="form-group col-lg-6 col-md-6 col-12">
+                                    <label for="link3">Project cost</label>
+                                    <input type="text" class="form-control" name="link3" id="link3"
+                                        value="{{ $row->link3 }}">
+
+                                    <div class="invalid-feedback">
+                                        {{ __('dashboard.please_provide') }} {{ __('dashboard.web_link') }}
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <label for="link">{{ __('dashboard.web_link') }}</label>
@@ -233,15 +246,7 @@
                                 </div>
                             </div>
 
-                            {{-- <div class="form-group">
-                                <label for="link3">User Panel</label>
-                                <input type="url" class="form-control" name="link3" id="link3"
-                                    value="{{ $row->link3 }}">
 
-                                <div class="invalid-feedback">
-                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.web_link') }}
-                                </div>
-                            </div> --}}
 
                             <div class="form-group">
                                 <label for="status">{{ __('dashboard.select_status') }}</label>
