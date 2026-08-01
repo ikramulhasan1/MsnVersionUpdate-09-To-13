@@ -1137,9 +1137,10 @@
                                 </div>
                             @endif
                             <div class="meta-cell"><span>Project duration</span><b>{{ $portfolio->video_id }}</b></div>
-                            <div class="meta-cell"><span>Project cost</span><b>${{ $portfolio->link3 }}</b></div>
+                            <div class="meta-cell"><span>Project cost</span><b>{{ $portfolio->link3 }}</b></div>
                         </div>
                     </div>
+                    
                     <div class="device-wrap reveal">
                         <div class="browser-frame">
                             <div class="browser-bar">
