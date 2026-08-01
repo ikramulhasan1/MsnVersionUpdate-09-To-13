@@ -247,7 +247,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="feedback">{{ __('dashboard.feedback') }}</label>
-                                <input type="url" class="form-control" name="feedback" id="feedback"
+                                <input type="text" class="form-control" name="feedback" id="feedback"
                                     value="{{ $row->feedback }}">
 
                                 <div class="invalid-feedback">
