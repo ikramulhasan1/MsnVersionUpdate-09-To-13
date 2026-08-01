@@ -1105,7 +1105,7 @@
                                     @endif
                                 </span>
                             @endif --}}
-                            <span class="eyebrow mono">Com</span>
+                            <span class="eyebrow mono">Completed</span>
                         </div>
                         <h1>{{ $portfolio->title }}</h1>
                         <p class="pj-hero-sub">{{ $portfolio->sub_title }}</p>
