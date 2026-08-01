@@ -1093,18 +1093,19 @@
                 <div class="wrap pj-hero-grid">
                     <div class="reveal">
                         <div class="status-row">
-                            <span class="status-live"><span class="status-dot"></span>Live</span>
-                            @if ($portfolio->technologies->count() || $portfolio->categories->count())
+                            {{-- <span class="status-live"><span class="status-dot"></span>Live</span> --}}
+                            {{-- @if ($portfolio->technologies->count() || $portfolio->categories->count())
                                 <span class="eyebrow mono">
                                     @if ($portfolio->technologies->count())
-                                        {{-- {{ $portfolio->technologies->pluck('short_title')->join(', ') }} --}}
+                                        {{ $portfolio->technologies->pluck('short_title')->join(', ') }}
                                     @endif
 
                                     @if ($portfolio->categories->count())
-                                        {{-- {{ $portfolio->categories->pluck('title')->join(', ') }} --}}
+                                        {{ $portfolio->categories->pluck('title')->join(', ') }}
                                     @endif
                                 </span>
-                            @endif
+                            @endif --}}
+                            <span class="eyebrow mono">Com</span>
                         </div>
                         <h1>{{ $portfolio->title }}</h1>
                         <p class="pj-hero-sub">{{ $portfolio->sub_title }}</p>
@@ -1136,7 +1137,7 @@
                                 </div>
                             @endif
                             <div class="meta-cell"><span>Project duration</span><b>{{ $portfolio->video_id }}</b></div>
-                            <div class="meta-cell"><span>Project cost</span><b>$ {{ $portfolio->link3 }}</b></div>
+                            <div class="meta-cell"><span>Project cost</span><b>${{ $portfolio->link3 }}</b></div>
                         </div>
                     </div>
                     <div class="device-wrap reveal">
