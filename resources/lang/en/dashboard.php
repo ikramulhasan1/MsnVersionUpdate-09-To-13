@@ -148,6 +148,7 @@ return [
     'feature_name' => 'Feature Name',
     'add_feature' => 'Add Feature',
     'web_link' => 'Web Link',
+    'feedback' => 'Feedback',
     'whatsapp' => 'WhatsApp No',
     'shortcode' => 'Shortcode',
     'locale' => 'Locale',

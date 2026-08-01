@@ -221,6 +221,15 @@
                                     {{ __('dashboard.please_provide') }} {{ __('dashboard.web_link') }}
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="feedback">{{ __('dashboard.feedback') }}</label>
+                                <input type="url" class="form-control" name="feedback" id="feedback"
+                                    value="{{ old('feedback') }}">
+
+                                <div class="invalid-feedback">
+                                    {{ __('dashboard.please_provide') }} {{ __('dashboard.feedback') }}
+                                </div>
+                            </div>
 
 
                             <!-- Form End -->

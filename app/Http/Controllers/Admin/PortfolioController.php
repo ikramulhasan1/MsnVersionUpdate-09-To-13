@@ -174,6 +174,7 @@ class PortfolioController extends Controller
         $portfolio->link = $request->link;
         $portfolio->link2 = $request->link2;
         $portfolio->link3 = $request->link3;
+        $portfolio->feedback = $request->feedback;
         $portfolio->screenshot = json_encode($screenshotSteps);
 
         $faqSteps = [];
@@ -417,6 +418,7 @@ class PortfolioController extends Controller
         $portfolio->link = $request->link;
         $portfolio->link2 = $request->link2;
         $portfolio->link3 = $request->link3;
+        $portfolio->feedback = $request->feedback;
         $portfolio->status = $request->status;
         $portfolio->screenshot = json_encode($screenshotSteps);
 
