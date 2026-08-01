@@ -1140,7 +1140,7 @@
                             <div class="meta-cell"><span>Project cost</span><b>{{ $portfolio->link3 }}</b></div>
                         </div>
                     </div>
-                    
+
                     <div class="device-wrap reveal">
                         <div class="browser-frame">
                             <div class="browser-bar">
@@ -1237,7 +1237,7 @@
             </section>
 
             <!-- PROCESS TIMELINE (demo — no matching Laravel data) -->
-            <section class="process-section" id="process">
+            {{-- <section class="process-section" id="process">
                 <div class="wrap">
                     <div class="section-head reveal">
                         <span class="eyebrow mono">How we got there</span>
@@ -1270,7 +1270,7 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> --}}
 
             <!-- GALLERY -->
             @if (!empty($screenshotImage))
