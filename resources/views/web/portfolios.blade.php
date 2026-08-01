@@ -124,9 +124,9 @@
                                         <span class="wc-dot"></span><span class="wc-dot"></span><span class="wc-dot"></span>
                                         <span class="wc-url">{{ $portfolio->slug }}</span>
                                     </div>
-                                    @if (!empty($portfolio->overview_image))
+                                    @if (!empty($portfolio->image_path))
                                         <div class="wc-screen">
-                                            <img src="{{ asset('uploads/overview_image/' . $portfolio->overview_image) }}"
+                                            <img src="{{ asset('uploads/portfolio/' . $portfolio->image_path) }}"
                                                 alt="{{ $portfolio->title }}">
                                         </div>
                                     @else
