@@ -438,10 +438,10 @@
                             </a>
                         @endif
 
-                        @if (!empty($setting->email_address2))
+                        @if (!empty($setting->email_two))
                             <p class="footer-address">
                                 <i class="bi bi-geo-alt"></i>
-                                <span>{{ $setting->email_address2 }}</span>
+                                <span>{{ $setting->email_two }}</span>
                             </p>
                         @endif
                         @if (!empty($setting->contact_address))
