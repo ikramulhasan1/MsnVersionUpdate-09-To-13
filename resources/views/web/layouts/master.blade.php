@@ -438,6 +438,12 @@
                             </a>
                         @endif
 
+                        @if (!empty($setting->email_address2))
+                            <p class="footer-address">
+                                <i class="bi bi-geo-alt"></i>
+                                <span>{{ $setting->email_address2 }}</span>
+                            </p>
+                        @endif
                         @if (!empty($setting->contact_address))
                             <p class="footer-address">
                                 <i class="bi bi-geo-alt"></i>
@@ -452,12 +458,12 @@
                             </p>
                         @endif
 
-                        @if (!empty($setting->phone_one))
+                        {{-- @if (!empty($setting->phone_one))
                             <p class="footer-contact-item">
                                 <i class="bi bi-telephone"></i>
                                 <span>{{ $setting->phone_one }}</span>
                             </p>
-                        @endif
+                        @endif --}}
                         {{-- Social Media Icons --}}
                         <div class="footer-social-icons">
                             @if (!empty($social->facebook))

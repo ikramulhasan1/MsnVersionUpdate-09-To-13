@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Setting;
 use App\Models\Social;
 use App\User;
-use Toastr;
-use Image;
-use File;
 use Auth;
+use File;
 use Hash;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Image;
+use Toastr;
 
 class SettingController extends Controller
 {
@@ -32,7 +33,7 @@ class SettingController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -51,8 +52,7 @@ class SettingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function siteInfo(Request $request)
     {
@@ -65,97 +65,92 @@ class SettingController extends Controller
 
         $id = $request->id;
 
+        // Logo upload, fit and store inside public folder
+        if ($request->hasFile('logo')) {
 
-        // Logo upload, fit and store inside public folder 
-        if($request->hasFile('logo')){
-
-            //Delete Old Image
+            // Delete Old Image
             $old_file = Setting::find($id);
 
-            if(isset($old_file->logo_path)){
+            if (isset($old_file->logo_path)) {
                 $file_path = public_path('uploads/'.$this->path.'/'.$old_file->logo_path);
-                if(File::isFile($file_path)){
+                if (File::isFile($file_path)) {
                     File::delete($file_path);
                 }
             }
 
-            //Upload New Image
+            // Upload New Image
             $filenameWithExt = $request->file('logo')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME); 
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('logo')->getClientOriginalExtension();
             $logoNameToStore = $filename.'_'.time().'.'.$extension;
 
-            //Crete Folder Location
+            // Crete Folder Location
             $path = public_path('uploads/'.$this->path.'/');
             if (! File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
-            //Resize And Crop as Fit image here (auto width, 80 height)
+            // Resize And Crop as Fit image here (auto width, 80 height)
             $thumbnailpath = $path.$logoNameToStore;
-            $img = Image::make($request->file('logo')->getRealPath())->resize(null, 80, function ($constraint) { $constraint->aspectRatio(); })->save($thumbnailpath);
-        }
-        else{
+            $img = Image::make($request->file('logo')->getRealPath())->resize(null, 80, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($thumbnailpath);
+        } else {
 
             $old_file = Setting::find($id);
 
-            if(isset($old_file->logo_path)){
-                $logoNameToStore = $old_file->logo_path; 
+            if (isset($old_file->logo_path)) {
+                $logoNameToStore = $old_file->logo_path;
+            } else {
+                $logoNameToStore = null;
             }
-            else {
-                $logoNameToStore = Null;
-            }
-            
+
         }
 
+        // Favicon upload, fit and store inside public folder
+        if ($request->hasFile('favicon')) {
 
-
-        // Favicon upload, fit and store inside public folder 
-        if($request->hasFile('favicon')){
-
-            //Delete Old Image
+            // Delete Old Image
             $old_file = Setting::find($id);
 
-            if(isset($old_file->favicon_path)){
+            if (isset($old_file->favicon_path)) {
                 $file_path = public_path('uploads/'.$this->path.'/'.$old_file->favicon_path);
-                if(File::isFile($file_path)){
+                if (File::isFile($file_path)) {
                     File::delete($file_path);
                 }
             }
 
-            //Upload New Image
+            // Upload New Image
             $filenameWithExt = $request->file('favicon')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME); 
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('favicon')->getClientOriginalExtension();
             $faviconNameToStore = $filename.'_'.time().'.'.$extension;
 
-            //Crete Folder Location
+            // Crete Folder Location
             $path = public_path('uploads/'.$this->path.'/');
             if (! File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
 
-            //Resize And Crop as Fit image here (64 width, 64 height)
+            // Resize And Crop as Fit image here (64 width, 64 height)
             $thumbnailpath = $path.$faviconNameToStore;
-            $img = Image::make($request->file('favicon')->getRealPath())->fit(64, 64, function ($constraint) { $constraint->upsize(); })->save($thumbnailpath);
-        }
-        else{
+            $img = Image::make($request->file('favicon')->getRealPath())->fit(64, 64, function ($constraint) {
+                $constraint->upsize();
+            })->save($thumbnailpath);
+        } else {
 
             $old_file = Setting::find($id);
 
-            if(isset($old_file->favicon_path)){
-                $faviconNameToStore = $old_file->favicon_path; 
+            if (isset($old_file->favicon_path)) {
+                $faviconNameToStore = $old_file->favicon_path;
+            } else {
+                $faviconNameToStore = null;
             }
-            else {
-                $faviconNameToStore = Null;
-            }
-            
+
         }
 
-
-
         // -1 means no data row found
-        if($id == -1){
+        if ($id == -1) {
             // Insert Data
             $data = new Setting;
             $data->title = $request->title;
@@ -166,8 +161,7 @@ class SettingController extends Controller
             $data->google_analytics = $request->google_analytics;
             $data->footer_text = $request->footer_text;
             $data->save();
-        }
-        else{
+        } else {
             // Update Data
             $data = Setting::find($id);
             $data->title = $request->title;
@@ -180,7 +174,6 @@ class SettingController extends Controller
             $data->save();
         }
 
-
         Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
 
         return redirect()->back();
@@ -189,8 +182,7 @@ class SettingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function contactInfo(Request $request)
     {
@@ -206,9 +198,8 @@ class SettingController extends Controller
 
         $id = $request->id;
 
-
         // -1 means no data row found
-        if($id == -1){
+        if ($id == -1) {
             // Insert Data
             $data = new Setting;
             $data->phone_one = $request->phone_no;
@@ -220,8 +211,7 @@ class SettingController extends Controller
             $data->office_hours = $request->office_hours;
             $data->google_map = $request->google_map;
             $data->save();
-        }
-        else{
+        } else {
             // Update Data
             $data = Setting::find($id);
             $data->phone_one = $request->phone_no;
@@ -235,7 +225,6 @@ class SettingController extends Controller
             $data->save();
         }
 
-
         Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
 
         return redirect()->back();
@@ -244,8 +233,7 @@ class SettingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function changeMail(Request $request)
     {
@@ -255,17 +243,16 @@ class SettingController extends Controller
         ]);
 
         // Check
-        if($request->email != Auth::user()->email){
+        if ($request->email != Auth::user()->email) {
             $user = User::find(Auth::user()->id);
             $user->email = $request->email;
             $user->save();
             Auth::logout();
-            
+
             Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
 
             return redirect()->route('login');
-        }
-        else{
+        } else {
             Toastr::error(__('dashboard.email_invalid'), __('dashboard.error'));
 
             return redirect()->back();
@@ -275,8 +262,7 @@ class SettingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function changePass(Request $request)
     {
@@ -290,17 +276,16 @@ class SettingController extends Controller
         $hashedPassword = Auth::user()->password;
 
         // Check old password for validation
-        if(Hash::check($oldPassword, $hashedPassword)){
+        if (Hash::check($oldPassword, $hashedPassword)) {
             $user = User::find(Auth::user()->id);
             $user->password = Hash::make($request->password);
             $user->save();
             Auth::logout();
-            
+
             Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
 
             return redirect()->route('login');
-        }
-        else{
+        } else {
             Toastr::error(__('dashboard.password_invalid'), __('dashboard.error'));
 
             return redirect()->back();
@@ -310,28 +295,24 @@ class SettingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function socialInfo(Request $request)
     {
         $id = $request->id;
 
-
         // -1 means no data row found
-        if($id == -1){
+        if ($id == -1) {
             // Insert Data
             $input = $request->all();
             $data = Social::create($input);
-        }
-        else{
+        } else {
             // Update Data
             $data = Social::find($id);
 
             $input = $request->all();
             $data->update($input);
         }
-
 
         Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
 
@@ -341,28 +322,24 @@ class SettingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function customCode(Request $request)
     {
         $id = $request->id;
 
-
         // -1 means no data row found
-        if($id == -1){
+        if ($id == -1) {
             // Insert Data
             $data = new Setting;
             $data->custom_css = $request->custom_css;
             $data->save();
-        }
-        else{
+        } else {
             // Update Data
             $data = Setting::find($id);
             $data->custom_css = $request->custom_css;
             $data->save();
         }
-
 
         Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
 
