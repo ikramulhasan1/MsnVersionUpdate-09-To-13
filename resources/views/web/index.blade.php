@@ -421,8 +421,7 @@
                     <h4 style="text-align: center; margin-top: 50px;"><a wire:navigate=""
                             class="cta-cta-btn idx-btn-primary-red"
                             style="background-color: #D2241D; color: white; text-decoration: none;"
-                            href="http://msnversionupdate-09-to-13.test/services" target="_blank"
-                            rel="noopener noreferrer">View All
+                            href="{{ route('services') }}" target="_blank" rel="noopener noreferrer">View All
                             Services</a></h4>
                 </div>
             </section>

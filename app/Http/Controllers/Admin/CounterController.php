@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use App\Models\Counter;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Toastr;
 
 class CounterController extends Controller
@@ -27,7 +28,7 @@ class CounterController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -36,7 +37,7 @@ class CounterController extends Controller
         $data['route'] = $this->route;
         $data['view'] = $this->view;
         $data['path'] = $this->path;
-        
+
         $data['rows'] = Counter::orderBy('id', 'asc')->get();
 
         return view($this->view.'.index', $data);
@@ -45,7 +46,7 @@ class CounterController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -55,15 +56,14 @@ class CounterController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
         // Field Validation
         $request->validate([
             'title' => 'required|max:191|unique:counters,title',
-            'value' => 'numeric|required',
+            'value' => 'required',
         ]);
 
         // Insert Data
@@ -75,7 +75,6 @@ class CounterController extends Controller
         $counter->value = $request->value;
         $counter->save();
 
-
         Toastr::success(__('dashboard.created_successfully'), __('dashboard.success'));
 
         return redirect()->back();
@@ -85,7 +84,7 @@ class CounterController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Counter $counter)
     {
@@ -96,7 +95,7 @@ class CounterController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Counter $counter)
     {
@@ -106,16 +105,15 @@ class CounterController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Counter $counter)
     {
         // Field Validation
         $request->validate([
             'title' => 'required|max:191|unique:counters,title,'.$counter->id,
-            'value' => 'numeric|required',
+            'value' => 'required',
         ]);
 
         // Update Data
@@ -127,7 +125,6 @@ class CounterController extends Controller
         $counter->status = $request->status;
         $counter->save();
 
-
         Toastr::success(__('dashboard.updated_successfully'), __('dashboard.success'));
 
         return redirect()->back();
@@ -137,7 +134,7 @@ class CounterController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Counter $counter)
     {
