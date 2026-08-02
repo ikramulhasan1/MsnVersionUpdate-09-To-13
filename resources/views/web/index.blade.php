@@ -260,7 +260,7 @@
                             </button>
                         </div>
 
-                        <div class="d-flex flex-wrap justify-content-center gap-3">
+                        {{-- <div class="d-flex flex-wrap justify-content-center gap-3">
                             @foreach ($services as $service)
                                 <a href="{{ route('services') }}" style="text-decoration: none" class="idx-pill-feature">
                                     <span class="idx-pill-icon"><i class="fs-5 {{ $service->service_icon }}"></i></span>
@@ -268,7 +268,7 @@
                                 </a>
                             @endforeach
 
-                        </div>
+                        </div> --}}
                     </div>
                 </section>
             @endforeach
