@@ -1154,7 +1154,7 @@ a {
     background: #fff;
     border: 1px solid var(--line);
     border-radius: 2px;
-    padding: 0.3rem 0.4rem;
+    padding: 0.2rem 0.2rem;
     font-weight: 600;
     font-size: 0.92rem;
     color: var(--ink-900);
@@ -1438,7 +1438,7 @@ a {
     background: #fff;
     border: 1px solid var(--line);
     border-radius: 22px;
-    box-shadow: 0 20px 45px -30px rgba(18, 19, 26, 0.25);
+    box-shadow: 0 20px 15px -30px rgba(18, 19, 26, 0.25);
     padding: 0.5rem;
 }
 
@@ -1490,95 +1490,45 @@ a {
     font-weight: 500;
     color: #8f939c;
 }
-
-/* --- Xano --- */
-.ptn-xano-badge {
-    display: flex;
-    align-items: stretch;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 6px 16px -8px rgba(18, 19, 26, 0.35);
+/* --- AWS --- */
+.ptn-aws-icon {
+    background: #fff5eb;
 }
 
-.ptn-xano-badge .ptn-stripe {
-    width: 6px;
-    background: linear-gradient(180deg, var(--red-500), #f5b000);
+.ptn-aws-icon svg {
+    width: 34px;
+    height: auto;
 }
 
-.ptn-xano-badge .ptn-xano-.ptn-scope {
-    background: var(--ink-900);
-    padding: 0.55rem 1rem;
-    line-height: 1.15;
+/* --- Cloudflare --- */
+.ptn-cloudflare-icon {
+    background: #fff4e8;
 }
 
-.ptn-xano-badge .ptn-xano-title {
-    font-weight: 800;
-    font-size: 1.05rem;
-    color: #fff;
-    letter-spacing: 0.02em;
+.ptn-cloudflare-icon svg {
+    width: 30px;
+    height: auto;
 }
 
-.ptn-xano-badge .ptn-xano-sub {
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: #c7cbd4;
-    text-transform: uppercase;
+/* --- PayPal --- */
+.ptn-paypal-icon {
+    background: #eaf4ff;
 }
 
-.ptn-xano-badge .ptn-xano-sub span {
-    color: #f5b000;
+.ptn-paypal-icon svg {
+    width: 24px;
+    height: 24px;
 }
 
-/* --- Google Cloud --- */
-.ptn-gcloud-icon {
-    background: var(--red-50);
+/* --- Shopify --- */
+.ptn-shopify-icon {
+    background: #eaf7e4;
 }
 
-.ptn-gcloud-icon svg {
+.ptn-shopify-icon svg {
     width: 26px;
     height: 26px;
 }
-
-/* --- weweb --- */
-.ptn-weweb-word {
-    font-weight: 700;
-    font-size: 1.6rem;
-    color: #111318;
-    letter-spacing: -0.01em;
-}
-
-/* --- Google Workspace --- */
-.ptn-gws-title {
-    font-size: 1.02rem;
-    font-weight: 600;
-    color: #4a4e56;
-}
-
-.ptn-gws-title b {
-    font-weight: 700;
-}
-
-.ptn-gws-partner {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #3d4148;
-    display: block;
-    margin-top: 0.1rem;
-}
-
-/* --- JioCloud --- */
-.ptn-jio-icon {
-    background: linear-gradient(135deg, var(--red-600), var(--red-700));
-    color: #fff;
-}
-
-.ptn-jio-name {
-    font-weight: 800;
-    font-size: 1.2rem;
-    color: #1c1c8f;
-}
-
 @media (max-width: 991.98px) {
     .ptn-partner-item {
         flex: 1 1 33.333%;
