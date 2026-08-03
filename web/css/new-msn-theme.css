@@ -1057,381 +1057,193 @@ a {
     box-shadow: none !important;
 }
 /* ================= HERO SECTION - DARK PREMIUM ================= */
-/* ================= HERO SECTION - FULL PREMIUM GLOSSY (v3) ================= */
+
+
+/* ================= HERO SECTION - EDITORIAL PREMIUM (REDESIGN) ================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap');
 
 .idx-hero-section {
     background: #0a0a0d;
-    min-height: 78vh;
-    display: flex;
-    align-items: center;
-    padding: 100px 0 70px;
+    padding: 130px 0 90px;
     position: relative;
-    overflow: hidden;
     font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-}
-
-/* glossy top light streak */
-.idx-hero-section .idx-gloss {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 50%;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent);
-    pointer-events: none;
-    z-index: 1;
-}
-
-/* glowing orbs */
-.idx-hero-section::before {
-    content: "";
-    position: absolute;
-    top: -10%;
-    left: 10%;
-    width: 520px;
-    height: 520px;
-    background: radial-gradient(circle, rgba(214, 38, 30, 0.4), transparent 70%);
-    filter: blur(50px);
-    pointer-events: none;
-    animation: idxOrbFloat 10s ease-in-out infinite;
-}
-
-.idx-hero-section::after {
-    content: "";
-    position: absolute;
-    bottom: -15%;
-    right: 8%;
-    width: 460px;
-    height: 460px;
-    background: radial-gradient(circle, rgba(214, 38, 30, 0.28), transparent 70%);
-    filter: blur(60px);
-    pointer-events: none;
-    animation: idxOrbFloat 12s ease-in-out infinite reverse;
-}
-
-@keyframes idxOrbFloat {
-
-    0%,
-    100% {
-        transform: translate(0, 0) scale(1);
-    }
-
-    50% {
-        transform: translate(30px, -20px) scale(1.08);
-    }
 }
 
 .idx-hero-section .container {
     position: relative;
-    z-index: 2;
-    width: 100%;
+    max-width: 780px;
 }
 
-/* grid overlay */
-.idx-hero-section .container::before {
-    content: "";
-    position: absolute;
-    inset: -80px -20px;
-    background-image:
-        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-    background-size: 44px 44px;
-    mask-image: radial-gradient(ellipse at center, black 35%, transparent 75%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 75%);
-    pointer-events: none;
-    z-index: -1;
-}
-
-/* floating particles */
-.idx-hero-section .idx-particles {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    overflow: hidden;
-}
-
-.idx-hero-section .idx-particles span {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: rgba(255, 90, 80, 0.55);
-    box-shadow: 0 0 8px 2px rgba(255, 65, 54, 0.4);
-    animation: idxParticleFloat 8s ease-in-out infinite;
-}
-
-.idx-hero-section .idx-particles span:nth-child(1) {
-    top: 20%;
-    left: 12%;
-    animation-delay: 0s;
-}
-
-.idx-hero-section .idx-particles span:nth-child(2) {
-    top: 60%;
-    left: 22%;
-    animation-delay: 1.5s;
-}
-
-.idx-hero-section .idx-particles span:nth-child(3) {
-    top: 30%;
-    left: 80%;
-    animation-delay: 3s;
-}
-
-.idx-hero-section .idx-particles span:nth-child(4) {
-    top: 75%;
-    left: 70%;
-    animation-delay: 2s;
-}
-
-.idx-hero-section .idx-particles span:nth-child(5) {
-    top: 45%;
-    left: 50%;
-    animation-delay: 4s;
-}
-
-.idx-hero-section .idx-particles span:nth-child(6) {
-    top: 15%;
-    left: 55%;
-    animation-delay: 0.8s;
-}
-
-@keyframes idxParticleFloat {
-
-    0%,
-    100% {
-        transform: translateY(0) translateX(0);
-        opacity: 0.3;
-    }
-
-    50% {
-        transform: translateY(-24px) translateX(10px);
-        opacity: 0.9;
-    }
-}
-
-/* ---- Badge (glassy) ---- */
+/* ---- Badge: overline style, not a pill ---- */
 .idx-hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #d8d8dd;
+    background: transparent;
+    border: none;
+    color: #8a8a92;
     font-weight: 600;
-    font-size: 0.82rem;
-    letter-spacing: 0.06em;
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    padding: 0.6rem 1.35rem;
-    border-radius: 999px;
-    box-shadow: 0 0 24px -8px rgba(214, 38, 30, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    animation: idxFadeUp 0.6s ease both;
+    padding: 0;
+    margin-bottom: 1.6rem;
+    box-shadow: none;
 }
 
 .idx-hero-badge .idx-dot {
-    width: 8px;
-    height: 8px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
-    background: #ff4136;
-    box-shadow: 0 0 8px 2px rgba(255, 65, 54, 0.7);
-    animation: idxPulseGlow 1.8s ease-in-out infinite;
+    background: #e5342b;
+    box-shadow: none;
 }
 
-@keyframes idxPulseGlow {
-
-    0%,
-    100% {
-        box-shadow: 0 0 8px 2px rgba(255, 65, 54, 0.7);
-    }
-
-    50% {
-        box-shadow: 0 0 16px 6px rgba(255, 65, 54, 0.45);
-    }
+/* thin divider under badge */
+.idx-hero-badge::after {
+    content: "";
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: rgb(255, 255, 255);
+    margin-left: 6px;
 }
 
 /* ---- Title ---- */
 .idx-hero-title {
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1.05;
-    font-size: clamp(2.7rem, 4.2vw, 5.3rem);
-    margin: 1.9rem 0 1.6rem;
-    color: #f5f5f7;
-    font-feature-settings: "kern" 1, "liga" 1;
-    text-rendering: optimizeLegibility;
-    animation: idxFadeUp 0.7s ease 0.1s both;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+    font-size: clamp(2.4rem, 3.6vw, 4.4rem);
+    margin: 0 0 1.8rem;
+    color: #f2f2f4;
+    text-align: left;
 }
 
 .idx-hero-title .idx-accent {
     font-family: 'Instrument Serif', serif;
     font-style: italic;
     font-weight: 400;
-    letter-spacing: 0;
-    background: linear-gradient(135deg, #ff8a7f 0%, #ff6a5f 30%, #d6261e 65%, #8c0f0a 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-shadow: 0 0 40px rgba(214, 38, 30, 0.4);
+    color: #e5342b;
 }
 
 /* ---- Subtitle ---- */
 .idx-hero-sub {
     font-weight: 400;
-    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
-    color: #a6a6ae;
-    max-width: 650px;
-    margin: 0 auto 2.4rem;
+    font-size: 1.05rem;
+    color: #9a9aa2;
+    max-width: 520px;
+    margin: 0 0 2.6rem;
     line-height: 1.7;
-    animation: idxFadeUp 0.8s ease 0.2s both;
+    text-align: left;
 }
 
-@keyframes idxFadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(16px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
+/* ---- Buttons row: left aligned, asymmetric ---- */
 .idx-hero-section .d-flex.flex-wrap.justify-content-center {
-    position: relative;
-    z-index: 2;
-    animation: idxFadeUp 0.9s ease 0.3s both;
+    justify-content: flex-start !important;
+    text-align: left;
+    gap: 1.2rem !important;
 }
 
-/* ---- Primary red button + WhatsApp CTA (glossy) ---- */
-.idx-btn-primary-red,
-.cta-cta-btn-whatsapp {
-    position: relative;
-    background: linear-gradient(180deg, #ff4a3d 0%, #e5342b 45%, #a8180f 100%);
+/* Primary: solid, sharp-ish corners, no glow */
+.idx-btn-primary-red {
+    background: #e5342b;
     color: #fff;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.95rem;
     letter-spacing: 0.01em;
-    padding: 1.05rem 2.2rem;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    border: none;
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    overflow: hidden;
-    box-shadow: 0 12px 28px -10px rgba(214, 38, 30, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    box-shadow: none;
     text-decoration: none;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: background 0.2s ease, transform 0.2s ease;
 }
 
-/* glossy highlight cap on top half of button */
-.idx-btn-primary-red::before,
-.cta-cta-btn-whatsapp::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 50%;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.35), transparent);
-    border-radius: 999px 999px 0 0;
-    pointer-events: none;
-}
-
-.idx-btn-primary-red:hover,
-.cta-cta-btn-whatsapp:hover {
+.idx-btn-primary-red:hover {
+    background: #c9271f;
     color: #fff;
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 0 30px 4px rgba(214, 38, 30, 0.55), 0 20px 36px -8px rgba(214, 38, 30, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
 }
 
+/* WhatsApp: ghost/outline style instead of solid green block */
 .cta-cta-btn-whatsapp {
-    background: linear-gradient(180deg, #34e07d 0%, #25D366 45%, #128C7E 100%);
-    box-shadow: 0 12px 28px -10px rgba(37, 211, 102, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    background: transparent;
+    color: #f2f2f4;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 1rem 1.6rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: none;
+    text-decoration: none;
+    transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
 }
 
 .cta-cta-btn-whatsapp:hover {
-    box-shadow: 0 0 30px 4px rgba(37, 211, 102, 0.4), 0 20px 36px -8px rgba(37, 211, 102, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    border-color: #25D366;
+    background: rgba(37, 211, 102, 0.08);
+    transform: translateY(-2px);
 }
 
 .cta-wa-icon {
-    width: 20px;
-    height: 20px;
-    position: relative;
-    z-index: 1;
+    width: 18px;
+    height: 18px;
+    color: #25D366;
 }
 
-/* ---- Outline / secondary button (glassy) ---- */
 .idx-btn-outline-dark-pill {
-    position: relative;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: #f0f0f2;
-    font-weight: 700;
-    font-size: 1rem;
-    letter-spacing: 0.01em;
-    padding: 1.05rem 2.2rem;
-    border-radius: 999px;
-    border: 1.5px solid rgba(255, 255, 255, 0.18);
+    background: transparent;
+    color: #d0d0d6;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 1rem 1.6rem;
+    border-radius: 8px;
+    border: none;
     display: inline-flex;
     align-items: center;
-    text-decoration: none;
-    gap: 10px;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+    gap: 8px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 .idx-btn-outline-dark-pill:hover {
-    color: #ff6a5f;
-    border-color: rgba(214, 38, 30, 0.6);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 0 24px -4px rgba(214, 38, 30, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    color: #fff;
+    text-decoration-color: #fff;
 }
 
-/* ---- Feature pills (glassy) ---- */
-.idx-pill-feature {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 999px;
-    padding: 0.5rem 1.1rem;
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #e4e4e8;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+/* ---- Feature pills: simple text tags with dividers, not cards ---- */
+.idx-hero-section .idx-pill-feature {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0 1rem 0 0;
+    margin-right: 1rem;
+    font-weight: 500;
+    font-size: 0.88rem;
+    color: #8a8a92;
+    border-right: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.idx-pill-feature:hover {
-    transform: translateY(-3px);
-    border-color: rgba(214, 38, 30, 0.5);
-    box-shadow: 0 0 20px -4px rgba(214, 38, 30, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+.idx-hero-section .idx-pill-feature:last-child {
+    border-right: none;
 }
 
 .idx-pill-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: linear-gradient(180deg, #ff4a3d, #a8180f);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.85rem;
-    flex-shrink: 0;
-    box-shadow: 0 0 12px -2px rgba(214, 38, 30, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    display: none;
 }
+
+
+
 
 
 

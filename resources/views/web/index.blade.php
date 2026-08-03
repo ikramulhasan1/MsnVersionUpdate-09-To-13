@@ -68,8 +68,8 @@
             position: absolute;
             inset: 0;
             background-image:
-                linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+                linear-gradient(rgba(255, 255, 255, 0.078) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.068) 1px, transparent 1px);
             background-size: 40px 40px;
             pointer-events: none;
         }
@@ -232,7 +232,7 @@
                             {!! $slider->title !!}
                         </h1>
 
-                        <p class="idx-hero-sub">
+                        <p style="color: white" class="idx-hero-sub">
                             {!! $slider->description !!}
                         </p>
                         @php
