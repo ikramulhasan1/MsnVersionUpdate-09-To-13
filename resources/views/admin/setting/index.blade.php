@@ -168,12 +168,15 @@
                                         </div>
 
                                         <div class="form-group col-md-6">
-                                            <label for="phone_no2">{{ __('dashboard.phone_no_2') }}</label>
-                                            <input type="text" class="form-control" name="phone_no2" id="phone_no2"
-                                                value="{{ isset($row->phone_two) ? $row->phone_two : '' }}">
+                                            <label for="contact_mail">{{ __('dashboard.contact_mail') }}
+                                                <span>*</span></label>
+                                            <input type="email" class="form-control" name="contact_mail"
+                                                id="contact_mail"
+                                                value="{{ isset($row->contact_mail) ? $row->contact_mail : '' }}"
+                                                required>
 
                                             <div class="invalid-feedback">
-                                                {{ __('dashboard.please_provide') }} {{ __('dashboard.phone_no_2') }}
+                                                {{ __('dashboard.please_provide') }} {{ __('dashboard.contact_mail') }}
                                             </div>
                                         </div>
                                     </div>
@@ -217,17 +220,15 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group col-md-6">
-                                            <label for="contact_mail">{{ __('dashboard.contact_mail') }}
-                                                <span>*</span></label>
-                                            <input type="email" class="form-control" name="contact_mail"
-                                                id="contact_mail"
-                                                value="{{ isset($row->contact_mail) ? $row->contact_mail : '' }}"
-                                                required>
 
-                                            <div class="invalid-feedback">
-                                                {{ __('dashboard.please_provide') }} {{ __('dashboard.contact_mail') }}
-                                            </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="phone_no2">Contact Address 3</label>
+                                            <input type="text" class="form-control" name="phone_no2" id="phone_no2"
+                                                value="{{ isset($row->phone_two) ? $row->phone_two : '' }}">
+
+                                            {{-- <div class="invalid-feedback">
+                                                {{ __('dashboard.please_provide') }} {{ __('dashboard.phone_no_2') }}
+                                            </div> --}}
                                         </div>
                                     </div>
 

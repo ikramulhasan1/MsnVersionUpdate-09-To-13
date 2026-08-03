@@ -1249,7 +1249,7 @@
                 <div class="svc-ticker svc-reveal row g-0 mt-5" style="animation-delay:.25s">
                     @foreach ($counters as $counter)
                         <div class="col-6 col-md-3 svc-ticker-item">
-                            <div class="svc-ticker-num">{{ $counter->value }}</div>
+                            <div class="svc-ticker-num">{{ $counter->value }}Phone No 2</div>
                             <div class="svc-ticker-label">{{ $counter->title }}</div>
                         </div>
                     @endforeach

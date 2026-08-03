@@ -189,7 +189,7 @@ class SettingController extends Controller
         // Field Validation
         $request->validate([
             'phone_no' => 'required|max:50',
-            'phone_no2' => 'nullable|max:50',
+            'phone_no2' => 'nullable|max:500',
             'email_address' => 'required',
             'email_address2' => 'nullable',
             'contact_address' => 'required',

@@ -450,6 +450,12 @@
                                 <span>{{ $setting->contact_address }}</span>
                             </p>
                         @endif
+                        @if (!empty($setting->phone_two))
+                            <p class="footer-address">
+                                <i class="bi bi-geo-alt"></i>
+                                <span>{{ $setting->phone_two }}</span>
+                            </p>
+                        @endif
 
                         @if (!empty($setting->email_one))
                             <p class="footer-contact-item">
