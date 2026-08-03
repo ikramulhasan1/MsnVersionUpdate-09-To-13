@@ -1292,7 +1292,8 @@
                                     <button type="button" class="sub_service-tab {{ $loop->first ? 'active' : '' }}"
                                         data-category="{{ \Illuminate\Support\Str::slug($service->short_title) }}">
                                         {{ $service->short_title }}<i style="color: red"
-                                            class="ms-2 fa-solid fa-down-long"></i>
+                                            class="ms-2 fa-solid fa-chevron-down"></i>
+                                            
                                     </button>
                                 @endif
                             @endforeach
