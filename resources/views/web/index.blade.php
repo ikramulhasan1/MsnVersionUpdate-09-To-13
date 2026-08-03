@@ -217,17 +217,17 @@
 
         @if (count($sliders) > 0)
             @foreach ($sliders as $slider)
-                <section class="idx-hero-section text-center">
+                <section class="idx-hero-section">
                     <div class="container">
                         <span class="idx-hero-badge">
                             <span class="idx-dot"></span>
                             A Top-Rated & Leading Digital Agency </span>
 
-                        <h1 class="idx-hero-title">
+                        <h1 class="idx-hero-title text-center">
                             {!! $slider->title !!}
                         </h1>
 
-                        <p class="idx-hero-sub">
+                        <p class="idx-hero-sub text-center">
                             {!! $slider->description !!}
                         </p>
                         @php
