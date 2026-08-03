@@ -45,8 +45,8 @@
             @if (count($counters) > 0)
                 <div class="wrap works-hero-stats">
                     @foreach ($counters as $counter)
-                        <div class="wstat" data-count="{{ (int) $counter->value }}"><b>{{ (int) $counter->value }}</b><span
-                                class="mono">{{ $counter->title }}</span></div>
+                        <div class="wstat"><b>{{ $counter->value }}</b><span class="mono">{{ $counter->title }}</span>
+                        </div>
                     @endforeach
                 </div>
             @endif
