@@ -1249,7 +1249,7 @@
                 <div class="svc-ticker svc-reveal row g-0 mt-5" style="animation-delay:.25s">
                     @foreach ($counters as $counter)
                         <div class="col-6 col-md-3 svc-ticker-item">
-                            <div class="svc-ticker-num">{{ $counter->value }}<span>+</span></div>
+                            <div class="svc-ticker-num">{{ $counter->value }}</div>
                             <div class="svc-ticker-label">{{ $counter->title }}</div>
                         </div>
                     @endforeach
@@ -1291,7 +1291,8 @@
                                 @if ($service->subservices->count() > 0)
                                     <button type="button" class="sub_service-tab {{ $loop->first ? 'active' : '' }}"
                                         data-category="{{ \Illuminate\Support\Str::slug($service->short_title) }}">
-                                        {{ $service->short_title }}<i style="color: red" class="ms-2 fa-solid fa-down-long"></i>
+                                        {{ $service->short_title }}<i style="color: red"
+                                            class="ms-2 fa-solid fa-down-long"></i>
                                     </button>
                                 @endif
                             @endforeach
