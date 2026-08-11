@@ -21,7 +21,7 @@
         href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('../analytics/public/css/app.css/') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css/') }}">
     @stack('styles')
 </head>
 
@@ -69,8 +69,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('../analytics/public/js/app.js') }}"></script>
-    <script src="{{ asset('../analytics/public/js/theme.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/theme.js') }}"></script>
     @stack('scripts')
 </body>
 

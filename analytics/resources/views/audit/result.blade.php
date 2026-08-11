@@ -58,9 +58,9 @@
                 </div>
             </div>
 
-            
+
             @push('scripts')
-                <script src="{{ asset('../analytics/public/js/audit-progress.js') }}"></script>
+                <script src="{{ asset('js/audit-progress.js') }}"></script>
             @endpush
         @elseif ($audit->status === \App\Audit\Enums\AuditStatus::FAILED)
             <div class="card mx-auto text-center">
@@ -166,5 +166,5 @@
 
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-    <script src="{{ asset('../analytics/public/js/dashboard-charts.js') }}"></script>
+    <script src="{{ asset('js/dashboard-charts.js') }}"></script>
 @endpush
