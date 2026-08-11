@@ -24,7 +24,6 @@ final class AuditController extends Controller
 {
     public function __construct(
         private readonly AuditServiceInterface $auditService,
-        private readonly AuditPdfExportServiceInterface $pdfExportService,
         private readonly Excel $excel,
         private readonly AuditCacheServiceInterface $cache,
         private readonly AnalysisResultsToDashboardCategories $dashboardCategoryMapper,
@@ -155,7 +154,7 @@ final class AuditController extends Controller
         ]);
     }
 
-    public function export(Audit $audit): Response
+    public function export(Audit $audit, AuditPdfExportServiceInterface $pdfExportService): Response
     {
         abort_if(
             $audit->status !== AuditStatus::COMPLETED,
@@ -166,7 +165,7 @@ final class AuditController extends Controller
         $results = $this->cache->getAnalysisResults($audit->uuid) ?? new AnalysisResults(url: $audit->url);
         $recommendationResult = $this->cache->getRecommendations($audit->uuid);
 
-        return $this->pdfExportService->download($audit, $results, $recommendationResult);
+        return $pdfExportService->download($audit, $results, $recommendationResult);
     }
 
     public function exportExcel(Audit $audit): Response
