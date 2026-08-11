@@ -58,6 +58,7 @@
                 </div>
             </div>
 
+            
             @push('scripts')
                 <script src="{{ asset('../analytics/public/js/audit-progress.js') }}"></script>
             @endpush
