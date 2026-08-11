@@ -1,0 +1,193 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Audit\Jobs;
+
+use App\Audit\Accessibility\AccessibilityAnalyzer;
+use App\Audit\BusinessOpportunity\BusinessOpportunityAnalyzer;
+use App\Audit\BusinessSignals\BusinessSignalsDetector;
+use App\Audit\Cache\Contracts\AuditCacheServiceInterface;
+use App\Audit\Contacts\ContactInfoExtractor;
+use App\Audit\Content\ContentAnalyzer;
+use App\Audit\Crawler\Contracts\WebsiteCrawlerServiceInterface;
+use App\Audit\Crawler\DTO\CrawlResult;
+use App\Audit\Fetching\Contracts\WebsiteFetcherServiceInterface;
+use App\Audit\Fetching\DTO\FetchResult;
+use App\Audit\Jobs\Concerns\HasAuditUniqueness;
+use App\Audit\Performance\PerformanceAnalyzer;
+use App\Audit\ReviewPresence\ReviewPresenceScanner;
+use App\Audit\Security\SecurityAnalyzer;
+use App\Audit\Seo\Contracts\SeoAnalyzerServiceInterface;
+use App\Audit\Technology\TechnologyDetector;
+use App\Audit\UiUx\UiUxAnalyzer;
+use Illuminate\Bus\Batchable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
+use InvalidArgumentException;
+use Throwable;
+
+/**
+ * One chunk of the analyzer fan-out. Each instance is responsible for
+ * a subset of ANALYZER_KEYS (grouped by FetchAndCrawlJob's chunk_size)
+ * and runs them sequentially within itself — parallelism comes from
+ * multiple chunk jobs (and, for the seven single-page analyzers,
+ * multiple analyzer keys within later chunks) being picked up by
+ * different queue workers at the same time, not from anything inside
+ * a single chunk.
+ *
+ * Does not modify or wrap any analyzer's logic — each analyzer is
+ * called exactly as its existing analyze()/detect() signature expects.
+ * This job only decides *which* analyzers run in *this* process and
+ * *where* their output goes (a cache fragment, not a return value),
+ * which is orchestration, not analysis.
+ */
+final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
+{
+    use Batchable;
+    use HasAuditUniqueness;
+
+    /**
+     * @var array<int, string>
+     */
+    public const array ANALYZER_KEYS = [
+        'security',
+        'accessibility',
+        'content',
+        'ui_ux',
+        'performance',
+        'business_opportunity',
+        'technology',
+        'seo',
+        'business_signals',
+        'contact_info',
+        'review_presence',
+    ];
+
+    /**
+     * @param array<int, string> $analyzerKeys subset of ANALYZER_KEYS this chunk runs
+     */
+    public function __construct(
+        string $auditUuid,
+        private readonly string $url,
+        private readonly array $analyzerKeys,
+    ) {
+        parent::__construct();
+
+        $this->auditUuid = $auditUuid;
+    }
+
+    /**
+     * A chunk only reads from cache (fetch/crawl results should
+     * already be warm — see handle()) and runs a bounded number of
+     * in-process analyzers, so it needs far less headroom than
+     * FetchAndCrawlJob. The one edge case — a cold/expired cache
+     * forcing a chunk to re-fetch or re-crawl — is rare enough not to
+     * size this around, and simply retries via backoff() like any
+     * other timeout.
+     */
+    protected function defaultTimeoutSeconds(): int
+    {
+        return (int) config('audit.queue.analyze_chunk_timeout_seconds', 90);
+    }
+
+    public function handle(
+        AuditCacheServiceInterface $cache,
+        WebsiteFetcherServiceInterface $fetcher,
+        WebsiteCrawlerServiceInterface $crawler,
+        SecurityAnalyzer $securityAnalyzer,
+        AccessibilityAnalyzer $accessibilityAnalyzer,
+        ContentAnalyzer $contentAnalyzer,
+        UiUxAnalyzer $uiUxAnalyzer,
+        PerformanceAnalyzer $performanceAnalyzer,
+        BusinessOpportunityAnalyzer $businessOpportunityAnalyzer,
+        TechnologyDetector $technologyDetector,
+        SeoAnalyzerServiceInterface $seoAnalyzerService,
+        BusinessSignalsDetector $businessSignalsDetector,
+        ContactInfoExtractor $contactInfoExtractor,
+        ReviewPresenceScanner $reviewPresenceScanner,
+    ): void {
+        if ($this->batch()?->cancelled()) {
+            return;
+        }
+
+        // Both calls are cache hits by the time a chunk runs (populated
+        // by FetchAndCrawlJob) — remember() is reused here rather than a
+        // plain cache get() only so a chunk that somehow runs before the
+        // cache is warm (or after it has expired) still gets a correct
+        // result instead of null, at the cost of one possible re-fetch.
+        $fetchResult = $cache->rememberFetchResult(
+            $this->url,
+            fn (): FetchResult => $fetcher->fetch($this->url),
+        );
+
+        $crawlResult = $cache->rememberCrawlResult(
+            $this->url,
+            fn (): CrawlResult => $crawler->crawl($this->url),
+        );
+
+        foreach ($this->analyzerKeys as $key) {
+            $result = match ($key) {
+                'security' => $securityAnalyzer->analyze($fetchResult),
+                'accessibility' => $accessibilityAnalyzer->analyze($fetchResult),
+                'content' => $contentAnalyzer->analyze($fetchResult),
+                'ui_ux' => $uiUxAnalyzer->analyze($fetchResult),
+                'business_opportunity' => $businessOpportunityAnalyzer->analyze($fetchResult),
+                'technology' => $technologyDetector->detect($fetchResult),
+                // Performance analyzes a single crawled page; AnalysisResults
+                // only carries one PerformanceResult per audit, so this uses
+                // the first crawled page (the entry page) — the same page
+                // every other analyzer here is implicitly scoped to via
+                // $fetchResult.
+                'performance' => $crawlResult->pages === [] ? null : $performanceAnalyzer->analyze($crawlResult->pages[0]),
+                'seo' => $seoAnalyzerService->analyze($crawlResult),
+                // Same empty-pages guard as performance above, and for the
+                // same reason: BusinessSignalsDetector needs a concrete
+                // entry page plus the full crawled-page list to scan
+                // careers/hiring/blog signals across the site.
+                'business_signals' => $crawlResult->pages === [] ? null : $businessSignalsDetector->analyze($crawlResult->pages[0], $crawlResult->pages),
+                // Same empty-pages guard again: ContactInfoExtractor scans
+                // every crawled page (mailto:/tel: links, social anchors,
+                // team-page schema.org Person markup) rather than a single
+                // entry page, so it needs a non-empty page list to do
+                // anything meaningful.
+                'contact_info' => $crawlResult->pages === [] ? null : $contactInfoExtractor->extract($crawlResult->pages),
+                // Same empty-pages guard again: ReviewPresenceScanner
+                // scans every crawled page's anchors for a review-platform
+                // profile link.
+                'review_presence' => $crawlResult->pages === [] ? null : $reviewPresenceScanner->scan($crawlResult->pages),
+                default => throw new InvalidArgumentException("Unknown analyzer key [{$key}]."),
+            };
+
+            if ($result !== null) {
+                $cache->putAnalysisFragment($this->auditUuid, $key, $result);
+            }
+        }
+    }
+
+    public function failed(Throwable $e): void
+    {
+        // A single chunk exhausting its retries does not, by itself,
+        // fail the whole audit — AssembleAnalysisResultsJob (always run
+        // via the batch's finally() callback) checks which analyzer
+        // fragments actually made it into the cache and marks the audit
+        // FAILED only if some are missing. Still report the exception
+        // so a real failure isn't silently swallowed.
+        report($e);
+    }
+
+    /**
+     * Distinguishes this chunk's uniqueness lock from every other
+     * chunk of the same audit — without this, ShouldBeUnique would key
+     * every chunk of the same audit identically and drop all but the
+     * first one dispatched.
+     */
+    protected function uniqueIdSuffix(): string
+    {
+        return ':' . md5(implode(',', $this->analyzerKeys));
+    }
+
+    protected function overlapKey(): string
+    {
+        return static::class . ':' . $this->auditUuid . $this->uniqueIdSuffix();
+    }
+}
