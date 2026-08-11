@@ -39,8 +39,8 @@
                 data-audit-progress-url="{{ route('audits.progress', $audit) }}"
                 data-audit-show-url="{{ route('audits.show', $audit) }}">
                 <div class="card-body py-5">
-                    <div class="progress mb-3" role="progressbar" aria-label="Audit progress"
-                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="height: 0.75rem;">
+                    <div class="progress mb-3" role="progressbar" aria-label="Audit progress" aria-valuenow="0"
+                        aria-valuemin="0" aria-valuemax="100" style="height: 0.75rem;">
                         <div id="audit-progress-bar" class="progress-bar progress-bar-striped progress-bar-animated"
                             style="width: 0%"></div>
                     </div>
@@ -51,11 +51,15 @@
                     <p class="text-secondary mb-0">
                         This usually takes a few seconds. The page updates automatically &mdash; no need to refresh.
                     </p>
+                    <p class="text-warning small mt-3 mb-0 d-none" id="audit-progress-stall-hint">
+                        This is taking much longer than usual. It may be stuck &mdash; you're welcome to keep
+                        waiting, or check back later.
+                    </p>
                 </div>
             </div>
 
             @push('scripts')
-                <script src="{{ asset('js/audit-progress.js') }}"></script>
+                <script src="{{ asset('../analytics/public/js/audit-progress.js') }}"></script>
             @endpush
         @elseif ($audit->status === \App\Audit\Enums\AuditStatus::FAILED)
             <div class="card mx-auto text-center">
@@ -161,5 +165,5 @@
 
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-    <script src="{{ asset('js/dashboard-charts.js') }}"></script>
+    <script src="{{ asset('../analytics/public/js/dashboard-charts.js') }}"></script>
 @endpush
