@@ -18,7 +18,6 @@ use App\Audit\Fetching\DTO\FetchResult;
 use App\Audit\Jobs\Concerns\HasAuditUniqueness;
 use App\Audit\Performance\PerformanceAnalyzer;
 use App\Audit\ReviewPresence\ReviewPresenceScanner;
-use App\Audit\Security\DTO\SecurityAuditResult;
 use App\Audit\Security\SecurityAnalyzer;
 use App\Audit\Seo\Contracts\SeoAnalyzerServiceInterface;
 use App\Audit\Technology\TechnologyDetector;
@@ -66,7 +65,7 @@ final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
     ];
 
     /**
-     * @param array<int, string> $analyzerKeys subset of ANALYZER_KEYS this chunk runs
+     * @param  array<int, string>  $analyzerKeys  subset of ANALYZER_KEYS this chunk runs
      */
     public function __construct(
         string $auditUuid,
@@ -127,16 +126,40 @@ final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
             fn (): CrawlResult => $crawler->crawl($this->url),
         );
 
+        // Security and Accessibility both now analyze several crawled
+        // pages (up to config('audit.security.per_page_limit')) rather
+        // than just the entry page, and both need the exact same set of
+        // fetched FetchResults to do it. Resolved lazily — only fetched
+        // once, on whichever of 'security'/'accessibility' is processed
+        // first below — and reused for the other if this chunk happens
+        // to run both, so a chunk containing both keys never fetches the
+        // same extra pages twice.
+        $multiPageFetchResults = null;
+        $resolveMultiPageFetchResults = function () use (&$multiPageFetchResults, $crawlResult, $fetchResult, $fetcher): array {
+            if ($multiPageFetchResults === null) {
+                $multiPageFetchResults = $this->fetchPagesForMultiPageAnalysis($crawlResult, $fetchResult, $fetcher);
+            }
+
+            return $multiPageFetchResults;
+        };
+
         foreach ($this->analyzerKeys as $key) {
             $result = match ($key) {
                 // Security now analyzes every successfully crawled page
                 // (up to config('audit.security.per_page_limit')), not just
-                // the entry page — see analyzeSecurity() below, which
-                // fetches the extra pages via fetchMany() and reuses
-                // $fetchResult for the entry page rather than re-fetching
-                // it. Returns a SecurityAuditResult keyed by page URL.
-                'security' => $this->analyzeSecurity($crawlResult, $fetchResult, $fetcher, $securityAnalyzer),
-                'accessibility' => $accessibilityAnalyzer->analyze($fetchResult),
+                // the entry page — see resolveMultiPageFetchResults()
+                // above and fetchPagesForMultiPageAnalysis() below. Returns
+                // a SecurityAuditResult keyed by page URL.
+                'security' => $crawlResult->pages === []
+                    ? null
+                    : $securityAnalyzer->analyzeAll($resolveMultiPageFetchResults(), $crawlResult->startUrl),
+                // Same multi-page treatment as security above, sharing the
+                // exact same fetched page set via resolveMultiPageFetchResults()
+                // rather than fetching it again. Returns an
+                // AccessibilityAuditResult keyed by page URL.
+                'accessibility' => $crawlResult->pages === []
+                    ? null
+                    : $accessibilityAnalyzer->analyzeAll($resolveMultiPageFetchResults(), $crawlResult->startUrl),
                 'content' => $contentAnalyzer->analyze($fetchResult),
                 'ui_ux' => $uiUxAnalyzer->analyze($fetchResult),
                 'business_opportunity' => $businessOpportunityAnalyzer->analyze($fetchResult),
@@ -188,28 +211,30 @@ final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
     }
 
     /**
-     * Runs SecurityAnalyzer across every successfully crawled page (up to
-     * config('audit.security.per_page_limit'), taken in crawl order so
-     * the entry page and the pages closest to it are always included),
+     * Resolves the FetchResult for every page that Security's and
+     * Accessibility's analyzeAll() need — every successfully crawled page,
+     * up to config('audit.security.per_page_limit') taken in crawl order
+     * so the entry page and the pages closest to it are always included —
      * fetching whichever of those pages weren't already fetched via
      * WebsiteFetcherServiceInterface::fetchMany(). The entry page's
-     * FetchResult ($fetchResult, fetched once at the top of handle() for
-     * every other single-page analyzer here) is reused instead of being
-     * fetched a second time.
+     * FetchResult ($entryPageFetchResult, fetched once at the top of
+     * handle() for every other single-page analyzer here) is reused
+     * instead of being fetched a second time.
+     *
+     * @return array<string, FetchResult> keyed by page URL
      */
-    private function analyzeSecurity(
+    private function fetchPagesForMultiPageAnalysis(
         CrawlResult $crawlResult,
         FetchResult $entryPageFetchResult,
         WebsiteFetcherServiceInterface $fetcher,
-        SecurityAnalyzer $securityAnalyzer,
-    ): ?SecurityAuditResult {
+    ): array {
         $successfulPages = array_values(array_filter(
             $crawlResult->pages,
             static fn (CrawledPage $page): bool => $page->success,
         ));
 
         if ($successfulPages === []) {
-            return null;
+            return [];
         }
 
         $limit = max(1, (int) config('audit.security.per_page_limit', 20));
@@ -232,7 +257,7 @@ final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
             $fetchResults += $fetcher->fetchMany($urlsToFetch);
         }
 
-        return $securityAnalyzer->analyzeAll($fetchResults, $crawlResult->startUrl);
+        return $fetchResults;
     }
 
     /**
@@ -243,11 +268,11 @@ final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
      */
     protected function uniqueIdSuffix(): string
     {
-        return ':' . md5(implode(',', $this->analyzerKeys));
+        return ':'.md5(implode(',', $this->analyzerKeys));
     }
 
     protected function overlapKey(): string
     {
-        return static::class . ':' . $this->auditUuid . $this->uniqueIdSuffix();
+        return self::class.':'.$this->auditUuid.$this->uniqueIdSuffix();
     }
 }
