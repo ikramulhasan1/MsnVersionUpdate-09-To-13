@@ -10,6 +10,8 @@ final readonly class FontAsset implements \JsonSerializable
         public string $url,
         public ?string $format = null,
         public string $source = 'link',
+        public ?string $pageUrl = null,
+        public ?string $domPath = null,
     ) {
     }
 
@@ -22,6 +24,8 @@ final readonly class FontAsset implements \JsonSerializable
             'url' => $this->url,
             'format' => $this->format,
             'source' => $this->source,
+            'page_url' => $this->pageUrl,
+            'dom_path' => $this->domPath,
         ];
     }
 

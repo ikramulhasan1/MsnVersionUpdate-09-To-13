@@ -13,6 +13,8 @@ use App\Audit\Lead\DTO\ProspectQualificationResult;
 use App\Audit\Lead\ProspectQualificationScorer;
 use App\Audit\Outreach\DTO\OutreachDraftResult;
 use App\Audit\Outreach\OutreachDraftGenerator;
+use App\Audit\Performance\DTO\PerformanceAuditResult;
+use App\Audit\Performance\DTO\PerformanceResult;
 use App\Audit\Repositories\Contracts\AuditRepositoryInterface;
 use App\Audit\Technology\TechnologyUpgradeAnalyzer;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -68,6 +70,16 @@ final class AssembleAnalysisResultsJob extends AuditJob implements ShouldBeUniqu
 
         $technology = $fragments['technology'] ?? null;
 
+        // The 'performance' fragment is now a site-wide PerformanceAuditResult
+        // (see AnalyzeChunkJob and PerformanceAnalyzer::analyzeAll()), keyed
+        // by page URL. AnalysisResults still carries a single-page
+        // PerformanceResult (like every other per-page analyzer property
+        // here, matching FetchResult's single-page scope) so the entry
+        // page's result is pulled back out of the wrapper below — the
+        // richer multi-page data remains available from the cached
+        // fragment itself for anything that wants it directly.
+        $performance = $this->extractEntryPagePerformance($fragments['performance'] ?? null);
+
         $technologyUpgradeOpportunities = [];
 
         if ($technology !== null) {
@@ -89,7 +101,7 @@ final class AssembleAnalysisResultsJob extends AuditJob implements ShouldBeUniqu
             accessibility: $fragments['accessibility'] ?? null,
             content: $fragments['content'] ?? null,
             uiUx: $fragments['ui_ux'] ?? null,
-            performance: $fragments['performance'] ?? null,
+            performance: $performance,
             businessOpportunity: $fragments['business_opportunity'] ?? null,
             technology: $technology,
             seo: $fragments['seo'] ?? null,
@@ -203,5 +215,27 @@ final class AssembleAnalysisResultsJob extends AuditJob implements ShouldBeUniqu
     public function failed(Throwable $e): void
     {
         $this->markAuditFailedIfNotFinished($e);
+    }
+
+    /**
+     * Pulls the entry page's (i.e. $this->url's) PerformanceResult back
+     * out of the site-wide PerformanceAuditResult cached under the
+     * 'performance' fragment key. Falls back to the first available page
+     * result if the entry page itself isn't in the map for some reason
+     * (e.g. it redirected and got crawled under its final URL instead),
+     * so AnalysisResults still gets a representative result rather than
+     * null whenever the audit clearly did produce performance data.
+     */
+    private function extractEntryPagePerformance(?object $fragment): ?PerformanceResult
+    {
+        if (! $fragment instanceof PerformanceAuditResult) {
+            return null;
+        }
+
+        if (isset($fragment->pages[$this->url])) {
+            return $fragment->pages[$this->url];
+        }
+
+        return $fragment->pages === [] ? null : reset($fragment->pages);
     }
 }

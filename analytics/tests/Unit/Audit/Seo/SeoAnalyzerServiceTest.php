@@ -33,11 +33,11 @@ final class SeoAnalyzerServiceTest extends TestCase
      * Builds a CrawledPage that passes every single check by default —
      * individual tests override just the fields they care about.
      *
-     * @param array<int, Heading> $headings
-     * @param array<int, ImageAsset> $images
-     * @param array<int, string> $internalLinkUrls
-     * @param array<int, string> $externalLinkUrls
-     * @param array<int, SchemaBlock> $schema
+     * @param  array<int, Heading>  $headings
+     * @param  array<int, ImageAsset>  $images
+     * @param  array<int, string>  $internalLinkUrls
+     * @param  array<int, string>  $externalLinkUrls
+     * @param  array<int, SchemaBlock>  $schema
      */
     private function page(
         string $url = 'https://example.com/',
@@ -110,8 +110,8 @@ final class SeoAnalyzerServiceTest extends TestCase
     }
 
     /**
-     * @param array<int, CrawledPage> $pages
-     * @param array<int, LinkInventoryEntry> $brokenLinks
+     * @param  array<int, CrawledPage>  $pages
+     * @param  array<int, LinkInventoryEntry>  $brokenLinks
      */
     private function crawlResult(array $pages, array $brokenLinks = [], string $startUrl = 'https://example.com/'): CrawlResult
     {
@@ -131,7 +131,7 @@ final class SeoAnalyzerServiceTest extends TestCase
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      * @return array<int, string>
      */
     private function codes(array $issues): array
@@ -296,13 +296,67 @@ final class SeoAnalyzerServiceTest extends TestCase
 
         $issue = $decoded['pages'][0]['issues'][0];
         $this->assertSame(
-            ['check', 'code', 'severity', 'message', 'recommendation'],
+            ['check', 'code', 'severity', 'message', 'recommendation', 'page_url', 'element_url', 'dom_path', 'context'],
             array_keys($issue),
         );
     }
 
+    public function test_alt_missing_issue_references_the_offending_image(): void
+    {
+        $image = new ImageAsset(
+            url: 'https://example.com/hero.png',
+            alt: null,
+            width: 100,
+            height: 100,
+            pageUrl: 'https://example.com/',
+            domPath: 'html > body > img:nth-child(1)',
+        );
+
+        $page = $this->page(images: [$image]);
+        $result = $this->service()->analyze($this->crawlResult([$page]));
+
+        $issue = $this->findIssue($result->pages[0]->issues, 'alt_missing');
+
+        $this->assertNotNull($issue);
+        $this->assertSame('https://example.com/', $issue->pageUrl);
+        $this->assertSame('https://example.com/hero.png', $issue->elementUrl);
+        $this->assertSame('html > body > img:nth-child(1)', $issue->domPath);
+    }
+
+    public function test_schema_invalid_issue_references_the_offending_block(): void
+    {
+        $block = new SchemaBlock(
+            types: [],
+            data: null,
+            valid: false,
+            pageUrl: 'https://example.com/',
+            domPath: 'html > head > script:nth-child(2)',
+        );
+
+        $page = $this->page(schema: [$block]);
+        $result = $this->service()->analyze($this->crawlResult([$page]));
+
+        $issue = $this->findIssue($result->pages[0]->issues, 'schema_invalid');
+
+        $this->assertNotNull($issue);
+        $this->assertSame('html > head > script:nth-child(2)', $issue->domPath);
+    }
+
+    public function test_title_too_short_message_includes_exact_length_and_minimum(): void
+    {
+        $page = $this->page(title: 'Too Short');
+
+        $result = $this->service()->analyze($this->crawlResult([$page]));
+        $issue = $this->findIssue($result->pages[0]->issues, 'title_too_short');
+
+        $this->assertNotNull($issue);
+        $this->assertSame('Title is 9 characters (minimum 30 required).', $issue->message);
+        $this->assertSame('https://example.com/', $issue->pageUrl);
+        $this->assertSame('title tag', $issue->context);
+    }
+
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
     private function findIssue(array $issues, string $code): ?SeoIssue
     {

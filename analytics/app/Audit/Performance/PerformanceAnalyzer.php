@@ -5,15 +5,21 @@ declare(strict_types=1);
 namespace App\Audit\Performance;
 
 use App\Audit\Crawler\DTO\CrawledPage;
+use App\Audit\Crawler\DTO\CrawlResult;
 use App\Audit\Fetching\DTO\CssLink;
 use App\Audit\Fetching\DTO\ScriptLink;
+use App\Audit\Performance\DTO\PerformanceAuditResult;
 use App\Audit\Performance\DTO\PerformanceResult;
 
 /**
  * Runs the performance checklist (HTML/CSS/JS/image size, compression,
  * caching, lazy loading, minification, critical CSS, render blocking,
- * DOM size, TTFB, LCP, CLS, FID) against a single crawled page, then
- * rolls the results up into an overall score, letter grade, and summary.
+ * DOM size, TTFB, LCP, CLS, FID) against a single crawled page via
+ * analyze(), then rolls the results up into an overall score, letter
+ * grade, and summary. analyzeAll() runs the same checklist across
+ * every successfully crawled page in a CrawlResult and wraps the
+ * per-page results in a PerformanceAuditResult, mirroring how
+ * SeoAnalyzerService reports site-wide rather than single-page results.
  *
  * Several metrics (compression, caching, lazy loading, minification,
  * critical CSS, LCP, CLS, FID) require data — response headers, raw
@@ -88,6 +94,48 @@ final class PerformanceAnalyzer
             grade: $grade,
             summary: $this->summary($metrics, $score, $grade),
             metrics: $metrics,
+            analyzedAt: (new \DateTimeImmutable())->format(DATE_ATOM),
+        );
+    }
+
+    /**
+     * Runs analyze() over every successfully crawled page in
+     * $crawlResult, rather than just the entry page — each page gets
+     * its own independent PerformanceResult, since asset weight,
+     * render-blocking resources, DOM size, TTFB, and (when PageSpeed
+     * Insights is enabled) LCP/CLS/FID can all differ page to page on
+     * the same site.
+     */
+    public function analyzeAll(CrawlResult $crawlResult): PerformanceAuditResult
+    {
+        $successfulPages = array_values(array_filter(
+            $crawlResult->pages,
+            static fn (CrawledPage $page): bool => $page->success,
+        ));
+
+        $pageResults = [];
+
+        foreach ($successfulPages as $page) {
+            $pageResults[$page->url] = $this->analyze($page);
+        }
+
+        $scoredResults = array_filter(
+            $pageResults,
+            static fn (PerformanceResult $result): bool => $result->score !== null,
+        );
+
+        $averageScore = $scoredResults !== []
+            ? (int) round(
+                array_sum(array_map(static fn (PerformanceResult $r): int => $r->score, $scoredResults))
+                    / count($scoredResults)
+            )
+            : null;
+
+        return new PerformanceAuditResult(
+            startUrl: $crawlResult->startUrl,
+            pages: $pageResults,
+            pagesAnalyzed: count($pageResults),
+            averageScore: $averageScore,
             analyzedAt: (new \DateTimeImmutable())->format(DATE_ATOM),
         );
     }
@@ -320,7 +368,7 @@ final class PerformanceAnalyzer
      * or the client itself returned null (see PageSpeedInsightsClient's
      * own docblock: it never throws, it returns null on any failure).
      *
-     * @return ?array{lcp_ms: ?float, cls: ?float, tbt_ms: ?float}
+     * @return ?array{lcp_ms: ?float, cls: ?float, tbt_ms: ?float, lcp_resource: ?string, cls_resource: ?string, tbt_resource: ?string}
      */
     private function fetchPageSpeedMetrics(CrawledPage $page): ?array
     {
@@ -338,8 +386,8 @@ final class PerformanceAnalyzer
      * a real-browser paint-timing metric a static HTTP crawl has no way
      * to derive on its own.
      *
-     * @param ?array{lcp_ms: ?float, cls: ?float, tbt_ms: ?float} $pageSpeedMetrics
-     * @return array{value: float|null, unit: string, status: string, message?: string}
+     * @param ?array{lcp_ms: ?float, cls: ?float, tbt_ms: ?float, lcp_resource: ?string, cls_resource: ?string, tbt_resource: ?string} $pageSpeedMetrics
+     * @return array{value: float|null, unit: string, status: string, message?: string, affected_resource?: ?string}
      */
     private function checkLcp(?array $pageSpeedMetrics): array
     {
@@ -355,6 +403,7 @@ final class PerformanceAnalyzer
             // Google's published LCP thresholds: good ≤2500ms, poor >4000ms.
             'status' => $this->statusFor((int) round($lcpMs), 2500, 4000),
             'message' => 'From Google PageSpeed Insights (lab data).',
+            'affected_resource' => $pageSpeedMetrics['lcp_resource'] ?? null,
         ];
     }
 
@@ -364,8 +413,8 @@ final class PerformanceAnalyzer
      * browser's Layout Instability API during rendering, which cannot
      * be derived from parsed HTML/asset metadata alone.
      *
-     * @param ?array{lcp_ms: ?float, cls: ?float, tbt_ms: ?float} $pageSpeedMetrics
-     * @return array{value: float|null, unit: string, status: string, message?: string}
+     * @param ?array{lcp_ms: ?float, cls: ?float, tbt_ms: ?float, lcp_resource: ?string, cls_resource: ?string, tbt_resource: ?string} $pageSpeedMetrics
+     * @return array{value: float|null, unit: string, status: string, message?: string, affected_resource?: ?string}
      */
     private function checkCls(?array $pageSpeedMetrics): array
     {
@@ -384,6 +433,7 @@ final class PerformanceAnalyzer
             // small decimal (e.g. 0.08) rather than a millisecond count.
             'status' => $this->statusFor((int) round($cls * 1000), 100, 250),
             'message' => 'From Google PageSpeed Insights (lab data).',
+            'affected_resource' => $pageSpeedMetrics['cls_resource'] ?? null,
         ];
     }
 
@@ -396,8 +446,8 @@ final class PerformanceAnalyzer
      * TBT proxy standing in for it) so nothing here is presented as
      * more certain than it is.
      *
-     * @param ?array{lcp_ms: ?float, cls: ?float, tbt_ms: ?float} $pageSpeedMetrics
-     * @return array{value: float|null, unit: string, status: string, message?: string}
+     * @param ?array{lcp_ms: ?float, cls: ?float, tbt_ms: ?float, lcp_resource: ?string, cls_resource: ?string, tbt_resource: ?string} $pageSpeedMetrics
+     * @return array{value: float|null, unit: string, status: string, message?: string, affected_resource?: ?string}
      */
     private function checkFid(?array $pageSpeedMetrics): array
     {
@@ -415,6 +465,7 @@ final class PerformanceAnalyzer
             // cutoffs, since this value is TBT, not FID).
             'status' => $this->statusFor((int) round($tbtMs), 200, 600),
             'message' => 'PageSpeed Insights v5 no longer measures lab FID; this is Total Blocking Time from Google PageSpeed Insights, used as an FID proxy.',
+            'affected_resource' => $pageSpeedMetrics['tbt_resource'] ?? null,
         ];
     }
 

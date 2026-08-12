@@ -16,6 +16,8 @@ final readonly class SchemaBlock implements \JsonSerializable
         public array $types,
         public ?array $data,
         public bool $valid,
+        public ?string $pageUrl = null,
+        public ?string $domPath = null,
     ) {
     }
 
@@ -28,6 +30,8 @@ final readonly class SchemaBlock implements \JsonSerializable
             'types' => $this->types,
             'valid' => $this->valid,
             'data' => $this->data,
+            'page_url' => $this->pageUrl,
+            'dom_path' => $this->domPath,
         ];
     }
 

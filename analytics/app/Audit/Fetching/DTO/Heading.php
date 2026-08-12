@@ -9,6 +9,8 @@ final readonly class Heading implements \JsonSerializable
     public function __construct(
         public int $level,
         public string $text,
+        public ?string $pageUrl = null,
+        public ?string $domPath = null,
     ) {
     }
 
@@ -20,6 +22,8 @@ final readonly class Heading implements \JsonSerializable
         return [
             'level' => $this->level,
             'text' => $this->text,
+            'page_url' => $this->pageUrl,
+            'dom_path' => $this->domPath,
         ];
     }
 

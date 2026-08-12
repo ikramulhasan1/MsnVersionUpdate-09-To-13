@@ -14,8 +14,11 @@ final readonly class SeoIssue implements \JsonSerializable
         public SeoSeverity $severity,
         public string $message,
         public ?string $recommendation,
-    ) {
-    }
+        public ?string $pageUrl = null,
+        public ?string $elementUrl = null,
+        public ?string $domPath = null,
+        public ?string $context = null,
+    ) {}
 
     /**
      * @return array<string, mixed>
@@ -28,6 +31,10 @@ final readonly class SeoIssue implements \JsonSerializable
             'severity' => $this->severity->value,
             'message' => $this->message,
             'recommendation' => $this->recommendation,
+            'page_url' => $this->pageUrl,
+            'element_url' => $this->elementUrl,
+            'dom_path' => $this->domPath,
+            'context' => $this->context,
         ];
     }
 

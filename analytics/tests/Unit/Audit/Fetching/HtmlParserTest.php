@@ -64,6 +64,8 @@ final class HtmlParserTest extends TestCase
         $this->assertSame('https://example.com/css/app.css', $css[0]->url);
         $this->assertSame('https://cdn.example.com/lib.css', $css[1]->url);
         $this->assertSame('screen', $css[1]->media);
+        $this->assertSame('https://example.com/page', $css[0]->pageUrl);
+        $this->assertNotNull($css[0]->domPath);
     }
 
     public function test_extracts_script_links_with_defer_flag(): void
@@ -75,6 +77,8 @@ final class HtmlParserTest extends TestCase
         $this->assertTrue($js[0]->defer);
         $this->assertFalse($js[0]->async);
         $this->assertSame('https://cdn.example.com/lib.js', $js[1]->url);
+        $this->assertSame('https://example.com/page', $js[0]->pageUrl);
+        $this->assertNotNull($js[0]->domPath);
     }
 
     public function test_extracts_images_with_dimensions(): void
@@ -87,6 +91,8 @@ final class HtmlParserTest extends TestCase
         $this->assertSame(120, $images[0]->width);
         $this->assertSame(40, $images[0]->height);
         $this->assertNull($images[1]->width);
+        $this->assertSame('https://example.com/page', $images[0]->pageUrl);
+        $this->assertNotNull($images[0]->domPath);
     }
 
     public function test_extracts_preloaded_fonts(): void
@@ -96,6 +102,32 @@ final class HtmlParserTest extends TestCase
         $this->assertCount(1, $fonts);
         $this->assertSame('https://example.com/fonts/Inter.woff2', $fonts[0]->url);
         $this->assertSame('woff2', $fonts[0]->format);
+        $this->assertSame('https://example.com/page', $fonts[0]->pageUrl);
+        $this->assertNotNull($fonts[0]->domPath);
+    }
+
+    public function test_dom_path_prefers_id_then_class_then_position(): void
+    {
+        $html = <<<'HTML'
+            <html><body>
+                <div id="main">
+                    <a href="https://a.example.com">A</a>
+                </div>
+                <div class="cards first">
+                    <a href="https://b.example.com">B</a>
+                </div>
+                <div>
+                    <a href="https://c.example.com">C</a>
+                    <a href="https://d.example.com">D</a>
+                </div>
+            </body></html>
+            HTML;
+
+        $anchors = (new HtmlParser)->parse($html, 'https://example.com/page')->anchors;
+
+        $this->assertSame('html > body > div#main > a:nth-child(1)', $anchors[0]->domPath);
+        $this->assertSame('html > body > div.cards > a:nth-child(1)', $anchors[1]->domPath);
+        $this->assertSame('html > body > div:nth-child(3) > a:nth-child(2)', $anchors[3]->domPath);
     }
 
     public function test_extracts_manifest_link(): void

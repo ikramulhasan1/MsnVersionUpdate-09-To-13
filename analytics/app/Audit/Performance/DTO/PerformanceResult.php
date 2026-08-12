@@ -8,7 +8,12 @@ final readonly class PerformanceResult implements \JsonSerializable
 {
     /**
      * @param array<string, mixed> $metrics per-metric results, keyed by metric name.
-     *        Left empty until each metric check is implemented.
+     *        Left empty until each metric check is implemented. The 'lcp',
+     *        'cls', and 'fid' entries — the metrics sourced from
+     *        PageSpeedInsightsClient — additionally carry an
+     *        'affected_resource' key (string|null) naming the specific
+     *        script/image/element PageSpeed's own diagnostics blamed for
+     *        that metric, when PSI reported one.
      * @param ?string $grade letter grade (A-F) derived from score; null when score is null.
      * @param string $summary human-readable overview of the performance result.
      */

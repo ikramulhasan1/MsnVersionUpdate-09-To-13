@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Audit\Accessibility;
 
+use App\Audit\Accessibility\DTO\AccessibilityAuditResult;
 use App\Audit\Accessibility\DTO\AccessibilityCheckResult;
 use App\Audit\Accessibility\DTO\AccessibilityResult;
 use App\Audit\Enums\AccessibilityCheckStatus;
@@ -12,13 +13,16 @@ use App\Audit\Fetching\DTO\ImageAsset;
 
 /**
  * Runs a fixed set of basic HTML accessibility checks against a single
- * fetched page: ARIA usage, image alt text, form control labeling, button
- * accessible names, inline-style color contrast, inline/legacy font size,
- * keyboard reachability of click handlers, tabindex order, heading level
- * order, and baseline WCAG document-structure compliance (page language,
- * page title, unique ids) — then rolls the results up into an overall
- * score, letter grade, and summary. Mirrors SecurityAnalyzer's
- * score()/grade()/summary() points-averaging approach.
+ * fetched page via analyze(): ARIA usage, image alt text, form control
+ * labeling, button accessible names, inline-style color contrast,
+ * inline/legacy font size, keyboard reachability of click handlers,
+ * tabindex order, heading level order, and baseline WCAG document-structure
+ * compliance (page language, page title, unique ids) — then rolls the
+ * results up into an overall score, letter grade, and summary. Mirrors
+ * SecurityAnalyzer's score()/grade()/summary() points-averaging approach.
+ * analyzeAll() runs the same checklist across several fetched pages at
+ * once and wraps the per-page results in an AccessibilityAuditResult,
+ * mirroring SecurityAnalyzer::analyzeAll().
  *
  * Deliberately scoped to only these ten checks.
  *
@@ -94,30 +98,30 @@ final class AccessibilityAnalyzer
         private readonly int $gradeBThreshold = 75,
         private readonly int $gradeCThreshold = 60,
         private readonly int $gradeDThreshold = 40,
-    ) {
-    }
+    ) {}
 
     public function analyze(FetchResult $result): AccessibilityResult
     {
         $html = (string) $result->html;
+        $pageUrl = $this->targetUrl($result);
 
         if (trim($html) === '') {
-            return $this->emptyResult($result);
+            return $this->emptyResult($result, $pageUrl);
         }
 
         $xpath = new \DOMXPath($this->loadDocument($html));
 
         $checks = [
-            'aria' => $this->checkAria($xpath),
-            'alt' => $this->checkAlt($result),
-            'label' => $this->checkLabel($xpath),
-            'button' => $this->checkButton($xpath),
-            'contrast' => $this->checkContrast($xpath),
-            'font_size' => $this->checkFontSize($xpath),
-            'keyboard_navigation' => $this->checkKeyboardNavigation($xpath),
-            'tab_index' => $this->checkTabIndex($xpath),
-            'heading_order' => $this->checkHeadingOrder($xpath),
-            'wcag_compliance' => $this->checkWcagCompliance($xpath),
+            'aria' => $this->checkAria($xpath, $pageUrl),
+            'alt' => $this->checkAlt($result, $pageUrl),
+            'label' => $this->checkLabel($xpath, $pageUrl),
+            'button' => $this->checkButton($xpath, $pageUrl),
+            'contrast' => $this->checkContrast($xpath, $pageUrl),
+            'font_size' => $this->checkFontSize($xpath, $pageUrl),
+            'keyboard_navigation' => $this->checkKeyboardNavigation($xpath, $pageUrl),
+            'tab_index' => $this->checkTabIndex($xpath, $pageUrl),
+            'heading_order' => $this->checkHeadingOrder($xpath, $pageUrl),
+            'wcag_compliance' => $this->checkWcagCompliance($xpath, $pageUrl),
         ];
 
         $score = $this->score($checks);
@@ -129,15 +133,63 @@ final class AccessibilityAnalyzer
             score: $score,
             grade: $grade,
             summary: $this->summary($checks, $score, $grade),
-            analyzedAt: (new \DateTimeImmutable())->format(DATE_ATOM),
+            analyzedAt: (new \DateTimeImmutable)->format(DATE_ATOM),
         );
+    }
+
+    /**
+     * Runs analyze() over several already-fetched pages at once (see
+     * AnalyzeChunkJob, which shares the fetched page set with
+     * SecurityAnalyzer::analyzeAll() via a common helper) and wraps the
+     * per-page results in an AccessibilityAuditResult. Pages whose fetch
+     * itself failed are reported in failedPageUrls rather than analyzed,
+     * since there's no response to check.
+     *
+     * @param  array<string, FetchResult>  $fetchResults  keyed by page URL
+     */
+    public function analyzeAll(array $fetchResults, string $startUrl): AccessibilityAuditResult
+    {
+        $pageResults = [];
+        $failedPageUrls = [];
+
+        foreach ($fetchResults as $url => $fetchResult) {
+            if (! $fetchResult->success) {
+                $failedPageUrls[] = $url;
+
+                continue;
+            }
+
+            $pageResults[$url] = $this->analyze($fetchResult);
+        }
+
+        $averageScore = $pageResults !== []
+            ? (int) round(
+                array_sum(array_map(static fn (AccessibilityResult $r): int => $r->score, $pageResults))
+                    / count($pageResults)
+            )
+            : 0;
+
+        return new AccessibilityAuditResult(
+            startUrl: $startUrl,
+            pages: $pageResults,
+            failedPageUrls: $failedPageUrls,
+            pagesAnalyzed: count($pageResults),
+            pagesFailed: count($failedPageUrls),
+            averageScore: $averageScore,
+            analyzedAt: (new \DateTimeImmutable)->format(DATE_ATOM),
+        );
+    }
+
+    private function targetUrl(FetchResult $result): string
+    {
+        return $result->finalUrl ?? $result->url;
     }
 
     private function loadDocument(string $html): \DOMDocument
     {
         $previous = libxml_use_internal_errors(true);
 
-        $dom = new \DOMDocument();
+        $dom = new \DOMDocument;
         $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_NONET);
 
         libxml_clear_errors();
@@ -146,72 +198,34 @@ final class AccessibilityAnalyzer
         return $dom;
     }
 
-    private function emptyResult(FetchResult $result): AccessibilityResult
+    private function emptyResult(FetchResult $result, string $pageUrl): AccessibilityResult
     {
-        $noHtml = new AccessibilityCheckResult(
-            check: 'ARIA',
-            value: 'no HTML content to analyze',
-            status: AccessibilityCheckStatus::WARNING,
-            recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-        );
+        $message = 'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.';
 
-        $checks = [
-            'aria' => $noHtml,
-            'alt' => new AccessibilityCheckResult(
-                check: 'Alt',
-                value: 'no HTML content to analyze',
-                status: AccessibilityCheckStatus::WARNING,
-                recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-            ),
-            'label' => new AccessibilityCheckResult(
-                check: 'Label',
-                value: 'no HTML content to analyze',
-                status: AccessibilityCheckStatus::WARNING,
-                recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-            ),
-            'button' => new AccessibilityCheckResult(
-                check: 'Button',
-                value: 'no HTML content to analyze',
-                status: AccessibilityCheckStatus::WARNING,
-                recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-            ),
-            'contrast' => new AccessibilityCheckResult(
-                check: 'Contrast',
-                value: 'no HTML content to analyze',
-                status: AccessibilityCheckStatus::WARNING,
-                recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-            ),
-            'font_size' => new AccessibilityCheckResult(
-                check: 'Font Size',
-                value: 'no HTML content to analyze',
-                status: AccessibilityCheckStatus::WARNING,
-                recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-            ),
-            'keyboard_navigation' => new AccessibilityCheckResult(
-                check: 'Keyboard Navigation',
-                value: 'no HTML content to analyze',
-                status: AccessibilityCheckStatus::WARNING,
-                recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-            ),
-            'tab_index' => new AccessibilityCheckResult(
-                check: 'Tab Index',
-                value: 'no HTML content to analyze',
-                status: AccessibilityCheckStatus::WARNING,
-                recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-            ),
-            'heading_order' => new AccessibilityCheckResult(
-                check: 'Heading Order',
-                value: 'no HTML content to analyze',
-                status: AccessibilityCheckStatus::WARNING,
-                recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-            ),
-            'wcag_compliance' => new AccessibilityCheckResult(
-                check: 'WCAG Compliance',
-                value: 'no HTML content to analyze',
-                status: AccessibilityCheckStatus::WARNING,
-                recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-            ),
+        $labels = [
+            'aria' => 'ARIA',
+            'alt' => 'Alt',
+            'label' => 'Label',
+            'button' => 'Button',
+            'contrast' => 'Contrast',
+            'font_size' => 'Font Size',
+            'keyboard_navigation' => 'Keyboard Navigation',
+            'tab_index' => 'Tab Index',
+            'heading_order' => 'Heading Order',
+            'wcag_compliance' => 'WCAG Compliance',
         ];
+
+        $checks = [];
+
+        foreach ($labels as $key => $label) {
+            $checks[$key] = new AccessibilityCheckResult(
+                check: $label,
+                value: 'no HTML content to analyze',
+                status: AccessibilityCheckStatus::WARNING,
+                recommendation: $message,
+                pageUrl: $pageUrl,
+            );
+        }
 
         $score = $this->score($checks);
         $grade = $this->grade($score);
@@ -222,37 +236,56 @@ final class AccessibilityAnalyzer
             score: $score,
             grade: $grade,
             summary: $this->summary($checks, $score, $grade),
-            analyzedAt: (new \DateTimeImmutable())->format(DATE_ATOM),
+            analyzedAt: (new \DateTimeImmutable)->format(DATE_ATOM),
         );
     }
 
-    private function checkAria(\DOMXPath $xpath): AccessibilityCheckResult
+    private function checkAria(\DOMXPath $xpath, string $pageUrl): AccessibilityCheckResult
     {
-        $invalidRoles = $this->findInvalidAriaRoles($xpath);
-        $hiddenFocusable = $this->findAriaHiddenFocusableElements($xpath);
+        $invalidRoleElements = $this->findInvalidAriaRoleElements($xpath);
+        $hiddenFocusableElements = $this->findAriaHiddenFocusableElements($xpath);
 
-        if ($invalidRoles === [] && $hiddenFocusable === []) {
+        if ($invalidRoleElements === [] && $hiddenFocusableElements === []) {
             return new AccessibilityCheckResult(
                 check: 'ARIA',
                 value: 'no ARIA issues found',
                 status: AccessibilityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
 
         $issues = [];
+        $affectedElements = [];
 
-        if ($invalidRoles !== []) {
-            $unique = array_values(array_unique($invalidRoles));
-            $issues[] = count($invalidRoles) === 1
-                ? '1 element uses an invalid ARIA role: ' . implode(', ', $unique)
-                : count($invalidRoles) . ' element(s) use invalid ARIA roles: ' . implode(', ', $unique);
+        if ($invalidRoleElements !== []) {
+            $roles = array_column($invalidRoleElements, 'role');
+            $unique = array_values(array_unique($roles));
+            $issues[] = count($invalidRoleElements) === 1
+                ? '1 element uses an invalid ARIA role: '.implode(', ', $unique)
+                : count($invalidRoleElements).' element(s) use invalid ARIA roles: '.implode(', ', $unique);
+
+            foreach ($invalidRoleElements as $entry) {
+                $affectedElements[] = $this->element(
+                    $this->elementUrl($entry['element']),
+                    $this->buildDomPath($entry['element']),
+                    "Invalid ARIA role: {$entry['role']}",
+                );
+            }
         }
 
-        if ($hiddenFocusable !== []) {
-            $issues[] = count($hiddenFocusable) === 1
+        if ($hiddenFocusableElements !== []) {
+            $issues[] = count($hiddenFocusableElements) === 1
                 ? '1 focusable element is hidden from assistive technology with aria-hidden="true"'
-                : count($hiddenFocusable) . ' focusable elements are hidden from assistive technology with aria-hidden="true"';
+                : count($hiddenFocusableElements).' focusable elements are hidden from assistive technology with aria-hidden="true"';
+
+            foreach ($hiddenFocusableElements as $element) {
+                $affectedElements[] = $this->element(
+                    $this->elementUrl($element),
+                    $this->buildDomPath($element),
+                    'Focusable but hidden from assistive technology with aria-hidden="true"',
+                );
+            }
         }
 
         return new AccessibilityCheckResult(
@@ -260,15 +293,18 @@ final class AccessibilityAnalyzer
             value: implode('; ', $issues),
             status: AccessibilityCheckStatus::FAIL,
             recommendation: 'Use only valid WAI-ARIA role values, and never set aria-hidden="true" on an element '
-                . 'that can still receive keyboard focus — either remove it from the tab order (tabindex="-1") '
-                . 'or remove aria-hidden entirely.',
+                .'that can still receive keyboard focus — either remove it from the tab order (tabindex="-1") '
+                .'or remove aria-hidden entirely.',
+            pageUrl: $pageUrl,
+            affectedElements: $affectedElements,
         );
     }
 
     /**
-     * @return array<int, string> the invalid role value(s) found, one entry per offending element
+     * @return array<int, array{role: string, element: \DOMElement}> the invalid role value(s)
+     *                                                               found, one entry per offending role on each element
      */
-    private function findInvalidAriaRoles(\DOMXPath $xpath): array
+    private function findInvalidAriaRoleElements(\DOMXPath $xpath): array
     {
         $invalid = [];
 
@@ -280,7 +316,7 @@ final class AccessibilityAnalyzer
 
             foreach ($roles as $role) {
                 if ($role !== '' && ! in_array(strtolower($role), self::VALID_ARIA_ROLES, true)) {
-                    $invalid[] = $role;
+                    $invalid[] = ['role' => $role, 'element' => $node];
                 }
             }
         }
@@ -289,20 +325,20 @@ final class AccessibilityAnalyzer
     }
 
     /**
-     * @return array<int, string> tag names of matching elements
+     * @return array<int, \DOMElement>
      */
     private function findAriaHiddenFocusableElements(\DOMXPath $xpath): array
     {
         $query = '//*[@aria-hidden="true"]'
-            . '[self::a[@href] or self::button or self::input or self::select or self::textarea'
-            . ' or (@tabindex and @tabindex!="-1")]';
+            .'[self::a[@href] or self::button or self::input or self::select or self::textarea'
+            .' or (@tabindex and @tabindex!="-1")]';
 
         $nodes = $xpath->query($query) ?: [];
 
-        return array_map(static fn (\DOMElement $node): string => $node->nodeName, iterator_to_array($nodes));
+        return iterator_to_array($nodes);
     }
 
-    private function checkAlt(FetchResult $result): AccessibilityCheckResult
+    private function checkAlt(FetchResult $result, string $pageUrl): AccessibilityCheckResult
     {
         $total = count($result->images);
 
@@ -312,33 +348,42 @@ final class AccessibilityAnalyzer
                 value: 'no images found',
                 status: AccessibilityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
 
-        $missing = count(array_filter(
+        $missingImages = array_values(array_filter(
             $result->images,
             static fn (ImageAsset $image): bool => $image->alt === null || trim($image->alt) === '',
         ));
 
-        if ($missing === 0) {
+        if ($missingImages === []) {
             return new AccessibilityCheckResult(
                 check: 'Alt',
                 value: 'all images have alt text',
                 status: AccessibilityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
+
+        $missing = count($missingImages);
 
         return new AccessibilityCheckResult(
             check: 'Alt',
             value: "{$missing} of {$total} image(s) missing alt text",
             status: AccessibilityCheckStatus::FAIL,
             recommendation: 'Add descriptive alt text to every meaningful image; use alt="" only for purely '
-                . 'decorative images so screen readers skip them.',
+                .'decorative images so screen readers skip them.',
+            pageUrl: $pageUrl,
+            affectedElements: array_map(
+                fn (ImageAsset $image): array => $this->element($image->url, $image->domPath, 'Missing alt text'),
+                $missingImages,
+            ),
         );
     }
 
-    private function checkLabel(\DOMXPath $xpath): AccessibilityCheckResult
+    private function checkLabel(\DOMXPath $xpath, string $pageUrl): AccessibilityCheckResult
     {
         $controls = $this->collectLabelableControls($xpath);
 
@@ -348,6 +393,7 @@ final class AccessibilityAnalyzer
                 value: 'no form controls found',
                 status: AccessibilityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
 
@@ -356,7 +402,7 @@ final class AccessibilityAnalyzer
 
         foreach ($controls as $control) {
             if (! $this->hasAccessibleLabel($control, $xpath, $labelForIds)) {
-                $unlabeled[] = $this->describeElement($control);
+                $unlabeled[] = $control;
             }
         }
 
@@ -366,11 +412,16 @@ final class AccessibilityAnalyzer
                 value: 'all form controls are labeled',
                 status: AccessibilityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
 
         $count = count($unlabeled);
-        $sample = implode(', ', array_slice($unlabeled, 0, 3));
+        $sample = implode(', ', array_slice(
+            array_map(fn (\DOMElement $c): string => $this->describeElement($c), $unlabeled),
+            0,
+            3,
+        ));
 
         return new AccessibilityCheckResult(
             check: 'Label',
@@ -379,7 +430,12 @@ final class AccessibilityAnalyzer
                 : "{$count} form controls have no accessible label, including: {$sample}",
             status: AccessibilityCheckStatus::FAIL,
             recommendation: 'Give every form control an accessible name: wrap it in a <label>, add a '
-                . '<label for="..."> pointing at its id, or set aria-label/aria-labelledby.',
+                .'<label for="..."> pointing at its id, or set aria-label/aria-labelledby.',
+            pageUrl: $pageUrl,
+            affectedElements: array_map(
+                fn (\DOMElement $c): array => $this->element($this->elementUrl($c), $this->buildDomPath($c), 'No accessible label'),
+                $unlabeled,
+            ),
         );
     }
 
@@ -424,7 +480,7 @@ final class AccessibilityAnalyzer
     }
 
     /**
-     * @param array<int, string> $labelForIds
+     * @param  array<int, string>  $labelForIds
      */
     private function hasAccessibleLabel(\DOMElement $control, \DOMXPath $xpath, array $labelForIds): bool
     {
@@ -449,7 +505,7 @@ final class AccessibilityAnalyzer
         return $ancestorLabels !== false && $ancestorLabels->length > 0;
     }
 
-    private function checkButton(\DOMXPath $xpath): AccessibilityCheckResult
+    private function checkButton(\DOMXPath $xpath, string $pageUrl): AccessibilityCheckResult
     {
         $buttons = iterator_to_array($xpath->query('//button | //*[@role="button"]') ?: []);
 
@@ -459,6 +515,7 @@ final class AccessibilityAnalyzer
                 value: 'no buttons found',
                 status: AccessibilityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
 
@@ -467,7 +524,7 @@ final class AccessibilityAnalyzer
         foreach ($buttons as $button) {
             /** @var \DOMElement $button */
             if (! $this->buttonHasAccessibleName($button)) {
-                $unlabeled[] = $this->describeElement($button);
+                $unlabeled[] = $button;
             }
         }
 
@@ -477,11 +534,16 @@ final class AccessibilityAnalyzer
                 value: 'all buttons have accessible text',
                 status: AccessibilityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
 
         $count = count($unlabeled);
-        $sample = implode(', ', array_slice($unlabeled, 0, 3));
+        $sample = implode(', ', array_slice(
+            array_map(fn (\DOMElement $b): string => $this->describeElement($b), $unlabeled),
+            0,
+            3,
+        ));
 
         return new AccessibilityCheckResult(
             check: 'Button',
@@ -490,7 +552,12 @@ final class AccessibilityAnalyzer
                 : "{$count} buttons have no accessible text, including: {$sample}",
             status: AccessibilityCheckStatus::FAIL,
             recommendation: 'Give every button visible text, or an aria-label/aria-labelledby, so its purpose is '
-                . 'announced to screen reader users — this is especially common on icon-only buttons.',
+                .'announced to screen reader users — this is especially common on icon-only buttons.',
+            pageUrl: $pageUrl,
+            affectedElements: array_map(
+                fn (\DOMElement $b): array => $this->element($this->elementUrl($b), $this->buildDomPath($b), 'No accessible text'),
+                $unlabeled,
+            ),
         );
     }
 
@@ -509,6 +576,11 @@ final class AccessibilityAnalyzer
         return $button->hasAttribute('aria-labelledby') && trim($button->getAttribute('aria-labelledby')) !== '';
     }
 
+    /**
+     * Short human-readable label for an element, used in a check's summary
+     * $value text (e.g. "input[email], select[country]"). Distinct from
+     * buildDomPath()/affectedElements, which locate the element precisely.
+     */
     private function describeElement(\DOMElement $element): string
     {
         $identifier = $element->getAttribute('name') ?: $element->getAttribute('id');
@@ -516,26 +588,118 @@ final class AccessibilityAnalyzer
         return $identifier !== '' ? "{$element->nodeName}[{$identifier}]" : $element->nodeName;
     }
 
-    private function checkContrast(\DOMXPath $xpath): AccessibilityCheckResult
+    /**
+     * The `src` or `href` of an element, when it has one — used as the
+     * affectedElements 'url' field for elements that reference an actual
+     * resource (images, links). Returns null for elements with neither
+     * (form controls, buttons, headings, etc.), where domPath alone
+     * locates the element.
+     */
+    private function elementUrl(\DOMElement $element): ?string
     {
-        $ratios = $this->collectInlineContrastRatios($xpath);
+        foreach (['src', 'href'] as $attribute) {
+            if ($element->hasAttribute($attribute)) {
+                $value = trim($element->getAttribute($attribute));
 
-        if ($ratios === []) {
+                if ($value !== '') {
+                    return $value;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Builds one entry of an AccessibilityCheckResult's affectedElements
+     * list. Mirrors SecurityAnalyzer::element()'s shape.
+     *
+     * @return array{url: ?string, domPath: ?string, detail: ?string}
+     */
+    private function element(?string $url, ?string $domPath, ?string $detail): array
+    {
+        return ['url' => $url, 'domPath' => $domPath, 'detail' => $detail];
+    }
+
+    /**
+     * Builds a readable CSS-selector-style path from the document root
+     * down to the given element, identical in approach to
+     * App\Audit\Fetching\HtmlParser::buildDomPath() — duplicated here
+     * rather than shared because this class parses its own fresh
+     * \DOMDocument from raw HTML for DOM-structural checks (ARIA, labels,
+     * tabindex, etc.) that HtmlParser doesn't perform, so there's no
+     * existing DOMElement from HtmlParser's own parse to reuse.
+     */
+    private function buildDomPath(\DOMElement $element): string
+    {
+        $segments = [];
+        $node = $element;
+
+        while ($node instanceof \DOMElement) {
+            $segments[] = $this->domPathSegment($node);
+            $parent = $node->parentNode;
+            $node = $parent instanceof \DOMElement ? $parent : null;
+        }
+
+        return implode(' > ', array_reverse($segments));
+    }
+
+    private function domPathSegment(\DOMElement $node): string
+    {
+        $tag = strtolower($node->nodeName);
+
+        $id = trim($node->getAttribute('id'));
+
+        if ($id !== '') {
+            return sprintf('%s#%s', $tag, $id);
+        }
+
+        $class = trim($node->getAttribute('class'));
+
+        if ($class !== '') {
+            $firstClass = preg_split('/\s+/', $class, -1, PREG_SPLIT_NO_EMPTY)[0] ?? '';
+
+            if ($firstClass !== '') {
+                return sprintf('%s.%s', $tag, $firstClass);
+            }
+        }
+
+        $position = 1;
+        $sibling = $node->previousSibling;
+
+        while ($sibling !== null) {
+            if ($sibling instanceof \DOMElement) {
+                $position++;
+            }
+
+            $sibling = $sibling->previousSibling;
+        }
+
+        return sprintf('%s:nth-child(%d)', $tag, $position);
+    }
+
+    private function checkContrast(\DOMXPath $xpath, string $pageUrl): AccessibilityCheckResult
+    {
+        $entries = $this->collectInlineContrastEntries($xpath);
+
+        if ($entries === []) {
             return new AccessibilityCheckResult(
                 check: 'Contrast',
                 value: 'no inline text/background color pairs found to check',
                 status: AccessibilityCheckStatus::WARNING,
                 recommendation: 'Color contrast mostly depends on external CSS, which static HTML analysis '
-                    . 'cannot read. Run an automated tool (e.g. axe, Lighthouse) or verify manually against '
-                    . 'WCAG AA (4.5:1 for normal text, 3:1 for large text).',
+                    .'cannot read. Run an automated tool (e.g. axe, Lighthouse) or verify manually against '
+                    .'WCAG AA (4.5:1 for normal text, 3:1 for large text).',
+                pageUrl: $pageUrl,
             );
         }
 
-        $checked = count($ratios);
-        $failing = count(array_filter(
-            $ratios,
-            static fn (float $ratio): bool => $ratio < self::MIN_CONTRAST_RATIO,
+        $checked = count($entries);
+        $failingEntries = array_values(array_filter(
+            $entries,
+            static fn (array $entry): bool => $entry['ratio'] < self::MIN_CONTRAST_RATIO,
         ));
+        $failing = count($failingEntries);
 
         if ($failing === 0) {
             return new AccessibilityCheckResult(
@@ -543,6 +707,7 @@ final class AccessibilityAnalyzer
                 value: "{$checked} inline-styled element(s) checked, all meet the WCAG AA 4.5:1 contrast ratio",
                 status: AccessibilityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
 
@@ -551,8 +716,17 @@ final class AccessibilityAnalyzer
             value: "{$failing} of {$checked} inline-styled element(s) fall below the WCAG AA 4.5:1 contrast ratio",
             status: AccessibilityCheckStatus::FAIL,
             recommendation: 'Increase the contrast between text and background color to at least 4.5:1 (3:1 '
-                . 'for large text) per WCAG AA. Note: only elements with inline color/background-color styles '
-                . 'were checked — colors set via external CSS are not visible to static analysis.',
+                .'for large text) per WCAG AA. Note: only elements with inline color/background-color styles '
+                .'were checked — colors set via external CSS are not visible to static analysis.',
+            pageUrl: $pageUrl,
+            affectedElements: array_map(
+                fn (array $entry): array => $this->element(
+                    $this->elementUrl($entry['element']),
+                    $this->buildDomPath($entry['element']),
+                    sprintf('Contrast ratio %.2f:1 (below %.1f:1)', $entry['ratio'], self::MIN_CONTRAST_RATIO),
+                ),
+                $failingEntries,
+            ),
         );
     }
 
@@ -563,11 +737,11 @@ final class AccessibilityAnalyzer
      * other values this parser doesn't resolve are silently skipped
      * rather than guessed at.
      *
-     * @return array<int, float>
+     * @return array<int, array{element: \DOMElement, ratio: float}>
      */
-    private function collectInlineContrastRatios(\DOMXPath $xpath): array
+    private function collectInlineContrastEntries(\DOMXPath $xpath): array
     {
-        $ratios = [];
+        $entries = [];
 
         foreach ($xpath->query('//*[@style]') ?: [] as $node) {
             /** @var \DOMElement $node */
@@ -584,11 +758,11 @@ final class AccessibilityAnalyzer
             $ratio = $this->contrastRatio($color, $background);
 
             if ($ratio !== null) {
-                $ratios[] = $ratio;
+                $entries[] = ['element' => $node, 'ratio' => $ratio];
             }
         }
 
-        return $ratios;
+        return $entries;
     }
 
     private function contrastRatio(string $colorValue, string $backgroundValue): ?float
@@ -621,7 +795,7 @@ final class AccessibilityAnalyzer
         if (preg_match('/^#([0-9a-f]{3})$/i', $value, $m) === 1) {
             [$r, $g, $b] = str_split($m[1]);
 
-            return [hexdec($r . $r), hexdec($g . $g), hexdec($b . $b)];
+            return [hexdec($r.$r), hexdec($g.$g), hexdec($b.$b)];
         }
 
         if (preg_match('/^#([0-9a-f]{6})$/i', $value, $m) === 1) {
@@ -640,7 +814,7 @@ final class AccessibilityAnalyzer
     }
 
     /**
-     * @param array{0: int, 1: int, 2: int} $rgb
+     * @param  array{0: int, 1: int, 2: int}  $rgb
      */
     private function relativeLuminance(array $rgb): float
     {
@@ -655,54 +829,73 @@ final class AccessibilityAnalyzer
         return 0.2126 * $channels[0] + 0.7152 * $channels[1] + 0.0722 * $channels[2];
     }
 
-    private function checkFontSize(\DOMXPath $xpath): AccessibilityCheckResult
+    private function checkFontSize(\DOMXPath $xpath, string $pageUrl): AccessibilityCheckResult
     {
-        $sizes = $this->collectInlineFontSizesPx($xpath);
-        $legacyNodes = $xpath->query('//font[@size]');
-        $legacyCount = $legacyNodes !== false ? $legacyNodes->length : 0;
+        $sizeEntries = $this->collectInlineFontSizeEntries($xpath);
+        $legacyNodes = iterator_to_array($xpath->query('//font[@size]') ?: []);
+        $legacyCount = count($legacyNodes);
 
-        if ($sizes === [] && $legacyCount === 0) {
+        if ($sizeEntries === [] && $legacyCount === 0) {
             return new AccessibilityCheckResult(
                 check: 'Font Size',
                 value: 'no inline font-size styles or legacy <font> tags found to check',
                 status: AccessibilityCheckStatus::WARNING,
                 recommendation: 'Font size mostly depends on external CSS, which static HTML analysis cannot '
-                    . 'read. Verify with an automated tool or manually that body text renders at least 16px '
-                    . '(never below ' . (int) self::MIN_FONT_SIZE_PX . 'px).',
+                    .'read. Verify with an automated tool or manually that body text renders at least 16px '
+                    .'(never below '.(int) self::MIN_FONT_SIZE_PX.'px).',
+                pageUrl: $pageUrl,
             );
         }
 
-        $tooSmall = count(array_filter(
-            $sizes,
-            static fn (float $px): bool => $px < self::MIN_FONT_SIZE_PX,
+        $tooSmallEntries = array_values(array_filter(
+            $sizeEntries,
+            static fn (array $entry): bool => $entry['px'] < self::MIN_FONT_SIZE_PX,
         ));
+        $tooSmall = count($tooSmallEntries);
 
         if ($tooSmall === 0 && $legacyCount === 0) {
             return new AccessibilityCheckResult(
                 check: 'Font Size',
-                value: count($sizes) . ' inline font-size declaration(s) checked, all at or above '
-                    . (int) self::MIN_FONT_SIZE_PX . 'px',
+                value: count($sizeEntries).' inline font-size declaration(s) checked, all at or above '
+                    .(int) self::MIN_FONT_SIZE_PX.'px',
                 status: AccessibilityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
 
         $issues = [];
+        $affectedElements = [];
 
         if ($tooSmall > 0) {
-            $issues[] = "{$tooSmall} inline font-size declaration(s) below " . (int) self::MIN_FONT_SIZE_PX . 'px';
+            $issues[] = "{$tooSmall} inline font-size declaration(s) below ".(int) self::MIN_FONT_SIZE_PX.'px';
+
+            foreach ($tooSmallEntries as $entry) {
+                $affectedElements[] = $this->element(
+                    $this->elementUrl($entry['element']),
+                    $this->buildDomPath($entry['element']),
+                    sprintf('Font size %.1fpx (below %dpx)', $entry['px'], (int) self::MIN_FONT_SIZE_PX),
+                );
+            }
         }
 
         if ($legacyCount > 0) {
             $issues[] = "{$legacyCount} legacy <font> tag(s) found";
+
+            foreach ($legacyNodes as $node) {
+                /** @var \DOMElement $node */
+                $affectedElements[] = $this->element(null, $this->buildDomPath($node), 'Legacy <font> tag');
+            }
         }
 
         return new AccessibilityCheckResult(
             check: 'Font Size',
             value: implode('; ', $issues),
             status: $tooSmall > 0 ? AccessibilityCheckStatus::FAIL : AccessibilityCheckStatus::WARNING,
-            recommendation: 'Avoid font sizes below ' . (int) self::MIN_FONT_SIZE_PX . 'px for body text, and '
-                . 'replace legacy <font> tags with CSS font-size on semantic elements.',
+            recommendation: 'Avoid font sizes below '.(int) self::MIN_FONT_SIZE_PX.'px for body text, and '
+                .'replace legacy <font> tags with CSS font-size on semantic elements.',
+            pageUrl: $pageUrl,
+            affectedElements: $affectedElements,
         );
     }
 
@@ -712,11 +905,11 @@ final class AccessibilityAnalyzer
      * relative to a base size static analysis has no way to resolve, so
      * they're skipped rather than misreported.
      *
-     * @return array<int, float>
+     * @return array<int, array{element: \DOMElement, px: float}>
      */
-    private function collectInlineFontSizesPx(\DOMXPath $xpath): array
+    private function collectInlineFontSizeEntries(\DOMXPath $xpath): array
     {
-        $sizes = [];
+        $entries = [];
 
         foreach ($xpath->query('//*[@style]') ?: [] as $node) {
             /** @var \DOMElement $node */
@@ -730,11 +923,11 @@ final class AccessibilityAnalyzer
             $px = $this->toPixels($value);
 
             if ($px !== null) {
-                $sizes[] = $px;
+                $entries[] = ['element' => $node, 'px' => $px];
             }
         }
 
-        return $sizes;
+        return $entries;
     }
 
     private function toPixels(string $value): ?float
@@ -759,7 +952,7 @@ final class AccessibilityAnalyzer
      */
     private function extractCssValue(string $style, string $property): ?string
     {
-        $pattern = '/(?<![a-z-])' . preg_quote($property, '/') . '\s*:\s*([^;]+)/i';
+        $pattern = '/(?<![a-z-])'.preg_quote($property, '/').'\s*:\s*([^;]+)/i';
 
         if (preg_match($pattern, $style, $matches) === 1) {
             return trim($matches[1]);
@@ -768,7 +961,7 @@ final class AccessibilityAnalyzer
         return null;
     }
 
-    private function checkKeyboardNavigation(\DOMXPath $xpath): AccessibilityCheckResult
+    private function checkKeyboardNavigation(\DOMXPath $xpath, string $pageUrl): AccessibilityCheckResult
     {
         $unreachable = $this->findClickableNonFocusableElements($xpath);
 
@@ -778,11 +971,16 @@ final class AccessibilityAnalyzer
                 value: 'no click handlers found on non-focusable elements',
                 status: AccessibilityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
 
         $count = count($unreachable);
-        $sample = implode(', ', array_slice($unreachable, 0, 3));
+        $sample = implode(', ', array_slice(
+            array_map(fn (\DOMElement $e): string => $this->describeElement($e), $unreachable),
+            0,
+            3,
+        ));
 
         return new AccessibilityCheckResult(
             check: 'Keyboard Navigation',
@@ -791,8 +989,13 @@ final class AccessibilityAnalyzer
                 : "{$count} elements have click handlers but aren't keyboard-focusable, including: {$sample}",
             status: AccessibilityCheckStatus::FAIL,
             recommendation: 'Interactive elements must be operable by keyboard: use a native <button>/<a> '
-                . 'instead, or add tabindex="0" plus a role (e.g. role="button") and a matching keydown handler '
-                . 'for Enter/Space.',
+                .'instead, or add tabindex="0" plus a role (e.g. role="button") and a matching keydown handler '
+                .'for Enter/Space.',
+            pageUrl: $pageUrl,
+            affectedElements: array_map(
+                fn (\DOMElement $e): array => $this->element($this->elementUrl($e), $this->buildDomPath($e), "Has a click handler but isn't keyboard-focusable"),
+                $unreachable,
+            ),
         );
     }
 
@@ -802,23 +1005,20 @@ final class AccessibilityAnalyzer
      * focusable via an explicit tabindex — i.e. a mouse-only interaction
      * a keyboard user cannot reach at all.
      *
-     * @return array<int, string>
+     * @return array<int, \DOMElement>
      */
     private function findClickableNonFocusableElements(\DOMXPath $xpath): array
     {
         $query = '//*[@onclick]'
-            . '[not(self::a[@href]) and not(self::button) and not(self::input) and not(self::select)'
-            . ' and not(self::textarea) and not(@tabindex)]';
+            .'[not(self::a[@href]) and not(self::button) and not(self::input) and not(self::select)'
+            .' and not(self::textarea) and not(@tabindex)]';
 
         $nodes = $xpath->query($query) ?: [];
 
-        return array_map(
-            fn (\DOMElement $node): string => $this->describeElement($node),
-            iterator_to_array($nodes),
-        );
+        return iterator_to_array($nodes);
     }
 
-    private function checkTabIndex(\DOMXPath $xpath): AccessibilityCheckResult
+    private function checkTabIndex(\DOMXPath $xpath, string $pageUrl): AccessibilityCheckResult
     {
         $positive = $this->findPositiveTabIndexElements($xpath);
 
@@ -828,11 +1028,16 @@ final class AccessibilityAnalyzer
                 value: 'no positive tabindex values found',
                 status: AccessibilityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
 
         $count = count($positive);
-        $sample = implode(', ', array_slice($positive, 0, 3));
+        $sample = implode(', ', array_slice(
+            array_map(fn (array $entry): string => $this->describeElement($entry['element']), $positive),
+            0,
+            3,
+        ));
 
         return new AccessibilityCheckResult(
             check: 'Tab Index',
@@ -841,13 +1046,22 @@ final class AccessibilityAnalyzer
                 : "{$count} elements use a positive tabindex, including: {$sample}",
             status: AccessibilityCheckStatus::WARNING,
             recommendation: 'Avoid positive tabindex values — they override the natural DOM tab order and '
-                . 'create confusing, hard-to-maintain keyboard navigation. Use tabindex="0" (natural order) or '
-                . 'restructure the DOM instead.',
+                .'create confusing, hard-to-maintain keyboard navigation. Use tabindex="0" (natural order) or '
+                .'restructure the DOM instead.',
+            pageUrl: $pageUrl,
+            affectedElements: array_map(
+                fn (array $entry): array => $this->element(
+                    $this->elementUrl($entry['element']),
+                    $this->buildDomPath($entry['element']),
+                    "tabindex={$entry['value']}",
+                ),
+                $positive,
+            ),
         );
     }
 
     /**
-     * @return array<int, string>
+     * @return array<int, array{element: \DOMElement, value: string}>
      */
     private function findPositiveTabIndexElements(\DOMXPath $xpath): array
     {
@@ -858,14 +1072,14 @@ final class AccessibilityAnalyzer
             $value = trim($node->getAttribute('tabindex'));
 
             if (preg_match('/^\+?\d+$/', $value) === 1 && (int) $value > 0) {
-                $found[] = $this->describeElement($node);
+                $found[] = ['element' => $node, 'value' => $value];
             }
         }
 
         return $found;
     }
 
-    private function checkHeadingOrder(\DOMXPath $xpath): AccessibilityCheckResult
+    private function checkHeadingOrder(\DOMXPath $xpath, string $pageUrl): AccessibilityCheckResult
     {
         $headings = $this->collectHeadingLevels($xpath);
 
@@ -875,32 +1089,44 @@ final class AccessibilityAnalyzer
                 value: 'no heading elements (h1-h6) found',
                 status: AccessibilityCheckStatus::WARNING,
                 recommendation: 'Structure page content with heading elements (h1-h6) so screen reader users '
-                    . 'can navigate the page by outline.',
+                    .'can navigate the page by outline.',
+                pageUrl: $pageUrl,
             );
         }
 
         $issues = [];
+        $affectedElements = [];
 
         if ($headings[0]['level'] !== 1) {
             $issues[] = "page does not start with an <h1> (first heading is <h{$headings[0]['level']}>)";
+            $affectedElements[] = $this->element(
+                $headings[0]['url'],
+                $headings[0]['domPath'],
+                "First heading is <h{$headings[0]['level']}>, not <h1>",
+            );
         }
 
         $skips = $this->findSkippedHeadingLevels($headings);
 
         if ($skips !== []) {
             $count = count($skips);
-            $sample = implode(', ', array_slice($skips, 0, 3));
+            $sample = implode(', ', array_slice(array_column($skips, 'label'), 0, 3));
             $issues[] = $count === 1
                 ? "1 heading level is skipped: {$sample}"
                 : "{$count} heading levels are skipped, including: {$sample}";
+
+            foreach ($skips as $skip) {
+                $affectedElements[] = $this->element($skip['url'], $skip['domPath'], $skip['detail']);
+            }
         }
 
         if ($issues === []) {
             return new AccessibilityCheckResult(
                 check: 'Heading Order',
-                value: count($headings) . ' heading(s) checked, order is sequential',
+                value: count($headings).' heading(s) checked, order is sequential',
                 status: AccessibilityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
 
@@ -909,8 +1135,10 @@ final class AccessibilityAnalyzer
             value: implode('; ', $issues),
             status: AccessibilityCheckStatus::FAIL,
             recommendation: 'Start the page with a single <h1> and increase heading levels one step at a time '
-                . '(e.g. h2 then h3, never h2 then h4) so the document outline stays logical for assistive '
-                . 'technology.',
+                .'(e.g. h2 then h3, never h2 then h4) so the document outline stays logical for assistive '
+                .'technology.',
+            pageUrl: $pageUrl,
+            affectedElements: $affectedElements,
         );
     }
 
@@ -919,7 +1147,7 @@ final class AccessibilityAnalyzer
      * query normalizes results into document order regardless of the
      * order the alternatives are listed in, so no extra sort is needed.
      *
-     * @return array<int, array{level: int, label: string}>
+     * @return array<int, array{level: int, label: string, domPath: string, url: ?string}>
      */
     private function collectHeadingLevels(\DOMXPath $xpath): array
     {
@@ -930,6 +1158,8 @@ final class AccessibilityAnalyzer
             $headings[] = [
                 'level' => (int) substr($node->nodeName, 1),
                 'label' => $this->describeElement($node),
+                'domPath' => $this->buildDomPath($node),
+                'url' => $this->elementUrl($node),
             ];
         }
 
@@ -937,8 +1167,8 @@ final class AccessibilityAnalyzer
     }
 
     /**
-     * @param array<int, array{level: int, label: string}> $headings
-     * @return array<int, string>
+     * @param  array<int, array{level: int, label: string, domPath: string, url: ?string}>  $headings
+     * @return array<int, array{label: string, domPath: string, url: ?string, detail: string}>
      */
     private function findSkippedHeadingLevels(array $headings): array
     {
@@ -947,7 +1177,12 @@ final class AccessibilityAnalyzer
 
         foreach ($headings as $heading) {
             if ($previousLevel !== null && $heading['level'] > $previousLevel + 1) {
-                $skips[] = "h{$previousLevel} to h{$heading['level']} ({$heading['label']})";
+                $skips[] = [
+                    'label' => "h{$previousLevel} to h{$heading['level']} ({$heading['label']})",
+                    'domPath' => $heading['domPath'],
+                    'url' => $heading['url'],
+                    'detail' => "Heading level jumps from h{$previousLevel} to h{$heading['level']}",
+                ];
             }
 
             $previousLevel = $heading['level'];
@@ -956,26 +1191,33 @@ final class AccessibilityAnalyzer
         return $skips;
     }
 
-    private function checkWcagCompliance(\DOMXPath $xpath): AccessibilityCheckResult
+    private function checkWcagCompliance(\DOMXPath $xpath, string $pageUrl): AccessibilityCheckResult
     {
         $issues = [];
+        $affectedElements = [];
 
         if (! $this->hasPageLanguage($xpath)) {
             $issues[] = 'the <html> element has no (or an empty) lang attribute';
+            $affectedElements[] = $this->element(null, $this->htmlElementDomPath($xpath), 'Missing or empty lang attribute');
         }
 
         if (! $this->hasPageTitle($xpath)) {
             $issues[] = 'the page has no (or an empty) <title> element';
+            $affectedElements[] = $this->element(null, null, 'Missing or empty <title> element');
         }
 
-        $duplicateIds = $this->findDuplicateIds($xpath);
+        $duplicateIdEntries = $this->findDuplicateIds($xpath);
 
-        if ($duplicateIds !== []) {
-            $count = count($duplicateIds);
-            $sample = implode(', ', array_slice($duplicateIds, 0, 3));
+        if ($duplicateIdEntries !== []) {
+            $count = count($duplicateIdEntries);
+            $sample = implode(', ', array_slice(array_column($duplicateIdEntries, 'id'), 0, 3));
             $issues[] = $count === 1
                 ? "1 id attribute is duplicated: {$sample}"
                 : "{$count} id attributes are duplicated, including: {$sample}";
+
+            foreach ($duplicateIdEntries as $entry) {
+                $affectedElements[] = $this->element(null, $entry['domPath'], "Duplicate id \"{$entry['id']}\"");
+            }
         }
 
         if ($issues === []) {
@@ -984,6 +1226,7 @@ final class AccessibilityAnalyzer
                 value: 'page language, page title, and unique element ids are all present',
                 status: AccessibilityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
 
@@ -992,8 +1235,10 @@ final class AccessibilityAnalyzer
             value: implode('; ', $issues),
             status: AccessibilityCheckStatus::FAIL,
             recommendation: 'Set a valid lang attribute on <html> (WCAG 3.1.1), give the page a descriptive '
-                . '<title> (WCAG 2.4.2), and ensure every id attribute is unique (WCAG 4.1.1) so assistive '
-                . 'technology can reliably parse and reference the document.',
+                .'<title> (WCAG 2.4.2), and ensure every id attribute is unique (WCAG 4.1.1) so assistive '
+                .'technology can reliably parse and reference the document.',
+            pageUrl: $pageUrl,
+            affectedElements: $affectedElements,
         );
     }
 
@@ -1011,6 +1256,19 @@ final class AccessibilityAnalyzer
         return trim($html->getAttribute('lang')) !== '';
     }
 
+    private function htmlElementDomPath(\DOMXPath $xpath): ?string
+    {
+        $nodes = $xpath->query('//html');
+
+        if ($nodes === false || $nodes->length === 0) {
+            return null;
+        }
+
+        $html = $nodes->item(0);
+
+        return $html instanceof \DOMElement ? $this->buildDomPath($html) : null;
+    }
+
     private function hasPageTitle(\DOMXPath $xpath): bool
     {
         $nodes = $xpath->query('//title');
@@ -1026,12 +1284,15 @@ final class AccessibilityAnalyzer
     }
 
     /**
-     * @return array<int, string> id values that appear on more than one element
+     * @return array<int, array{id: string, domPath: string}> one entry per
+     *                                                        element whose id is a repeat of an id already seen earlier
+     *                                                        in document order (the first occurrence of each id is not
+     *                                                        included, since that one isn't itself a duplicate)
      */
     private function findDuplicateIds(\DOMXPath $xpath): array
     {
         $seen = [];
-        $duplicates = [];
+        $entries = [];
 
         foreach ($xpath->query('//*[@id]') ?: [] as $node) {
             /** @var \DOMElement $node */
@@ -1041,14 +1302,14 @@ final class AccessibilityAnalyzer
                 continue;
             }
 
-            if (isset($seen[$id]) && ! in_array($id, $duplicates, true)) {
-                $duplicates[] = $id;
+            if (isset($seen[$id])) {
+                $entries[] = ['id' => $id, 'domPath' => $this->buildDomPath($node)];
             }
 
             $seen[$id] = true;
         }
 
-        return $duplicates;
+        return $entries;
     }
 
     /**
@@ -1056,7 +1317,7 @@ final class AccessibilityAnalyzer
      * point value), then rounds to the nearest whole score. Mirrors
      * SecurityAnalyzer::score()'s points-averaging approach.
      *
-     * @param array<string, AccessibilityCheckResult> $checks
+     * @param  array<string, AccessibilityCheckResult>  $checks
      */
     private function score(array $checks): int
     {
@@ -1089,7 +1350,7 @@ final class AccessibilityAnalyzer
     }
 
     /**
-     * @param array<string, AccessibilityCheckResult> $checks
+     * @param  array<string, AccessibilityCheckResult>  $checks
      */
     private function summary(array $checks, int $score, string $grade): string
     {

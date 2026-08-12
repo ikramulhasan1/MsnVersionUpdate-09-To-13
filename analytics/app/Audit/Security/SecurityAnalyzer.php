@@ -5,7 +5,12 @@ declare(strict_types=1);
 namespace App\Audit\Security;
 
 use App\Audit\Enums\SecurityCheckStatus;
+use App\Audit\Fetching\DTO\CssLink;
 use App\Audit\Fetching\DTO\FetchResult;
+use App\Audit\Fetching\DTO\FontAsset;
+use App\Audit\Fetching\DTO\ImageAsset;
+use App\Audit\Fetching\DTO\ScriptLink;
+use App\Audit\Security\DTO\SecurityAuditResult;
 use App\Audit\Security\DTO\SecurityCheckResult;
 use App\Audit\Security\DTO\SecurityResult;
 use App\Audit\Validation\Contracts\SslInspectorInterface;
@@ -15,8 +20,12 @@ use App\Audit\Validation\Contracts\SslInspectorInterface;
  * SSL certificate validity, presence of common security response headers,
  * HSTS, XSS protection, Content-Security-Policy, Referrer-Policy, cookie
  * security, mixed content, directory listing exposure, and server
- * information exposure — against a single fetched page, then rolls the
- * results up into an overall score, letter grade, and summary.
+ * information exposure — against a single fetched page via analyze(),
+ * then rolls the results up into an overall score, letter grade, and
+ * summary. analyzeAll() runs the same checklist across several fetched
+ * pages at once and wraps the per-page results in a SecurityAuditResult,
+ * mirroring how SeoAnalyzerService reports site-wide rather than
+ * single-page results.
  *
  * Takes a FetchResult rather than a CrawledPage because these checks need
  * the raw response headers (Strict-Transport-Security, security headers,
@@ -27,12 +36,12 @@ use App\Audit\Validation\Contracts\SslInspectorInterface;
 final class SecurityAnalyzer
 {
     /**
-     * @param array<int, string> $requiredSecurityHeaders header names checked
-     *        for presence under "Security Headers". Constructor-injected so
-     *        the required set can change without editing this class.
-     * @param array<int, string> $cspUnsafeTokens directives/sources that weaken a CSP even when present
-     * @param array<int, string> $weakReferrerPolicies Referrer-Policy values treated as insufficiently strict
-     * @param array<int, string> $serverInfoHeaders response headers checked for version/technology disclosure
+     * @param  array<int, string>  $requiredSecurityHeaders  header names checked
+     *                                                       for presence under "Security Headers". Constructor-injected so
+     *                                                       the required set can change without editing this class.
+     * @param  array<int, string>  $cspUnsafeTokens  directives/sources that weaken a CSP even when present
+     * @param  array<int, string>  $weakReferrerPolicies  Referrer-Policy values treated as insufficiently strict
+     * @param  array<int, string>  $serverInfoHeaders  response headers checked for version/technology disclosure
      */
     public function __construct(
         private readonly SslInspectorInterface $sslInspector,
@@ -66,8 +75,7 @@ final class SecurityAnalyzer
         private readonly int $gradeBThreshold = 75,
         private readonly int $gradeCThreshold = 60,
         private readonly int $gradeDThreshold = 40,
-    ) {
-    }
+    ) {}
 
     public function analyze(FetchResult $result): SecurityResult
     {
@@ -94,13 +102,57 @@ final class SecurityAnalyzer
             score: $score,
             grade: $grade,
             summary: $this->summary($checks, $score, $grade),
-            analyzedAt: (new \DateTimeImmutable())->format(DATE_ATOM),
+            analyzedAt: (new \DateTimeImmutable)->format(DATE_ATOM),
+        );
+    }
+
+    /**
+     * Runs analyze() over several already-fetched pages at once (see
+     * AnalyzeChunkJob, which fetches up to config('audit.security.per_page_limit')
+     * pages via WebsiteFetcherServiceInterface::fetchMany() before calling
+     * this) and wraps the per-page results in a SecurityAuditResult.
+     * Pages whose fetch itself failed are reported in failedPageUrls
+     * rather than analyzed, since there's no response to check.
+     *
+     * @param  array<string, FetchResult>  $fetchResults  keyed by page URL
+     */
+    public function analyzeAll(array $fetchResults, string $startUrl): SecurityAuditResult
+    {
+        $pageResults = [];
+        $failedPageUrls = [];
+
+        foreach ($fetchResults as $url => $fetchResult) {
+            if (! $fetchResult->success) {
+                $failedPageUrls[] = $url;
+
+                continue;
+            }
+
+            $pageResults[$url] = $this->analyze($fetchResult);
+        }
+
+        $averageScore = $pageResults !== []
+            ? (int) round(
+                array_sum(array_map(static fn (SecurityResult $r): int => $r->score, $pageResults))
+                    / count($pageResults)
+            )
+            : 0;
+
+        return new SecurityAuditResult(
+            startUrl: $startUrl,
+            pages: $pageResults,
+            failedPageUrls: $failedPageUrls,
+            pagesAnalyzed: count($pageResults),
+            pagesFailed: count($failedPageUrls),
+            averageScore: $averageScore,
+            analyzedAt: (new \DateTimeImmutable)->format(DATE_ATOM),
         );
     }
 
     private function checkHttps(FetchResult $result): SecurityCheckResult
     {
-        $scheme = strtolower((string) parse_url($this->targetUrl($result), PHP_URL_SCHEME));
+        $targetUrl = $this->targetUrl($result);
+        $scheme = strtolower((string) parse_url($targetUrl, PHP_URL_SCHEME));
         $isHttps = $scheme === 'https';
 
         return new SecurityCheckResult(
@@ -110,12 +162,17 @@ final class SecurityAnalyzer
             recommendation: $isHttps
                 ? null
                 : 'Serve the site over HTTPS: install a valid TLS certificate and redirect all HTTP traffic to HTTPS.',
+            pageUrl: $targetUrl,
+            affectedElements: $isHttps ? null : [
+                $this->element($targetUrl, null, $scheme !== '' ? "Page is served over {$scheme}" : 'Page has no discernible URL scheme'),
+            ],
         );
     }
 
     private function checkSsl(FetchResult $result): SecurityCheckResult
     {
-        $host = (string) parse_url($this->targetUrl($result), PHP_URL_HOST);
+        $targetUrl = $this->targetUrl($result);
+        $host = (string) parse_url($targetUrl, PHP_URL_HOST);
 
         if ($host === '') {
             return new SecurityCheckResult(
@@ -123,6 +180,8 @@ final class SecurityAnalyzer
                 value: null,
                 status: SecurityCheckStatus::FAIL,
                 recommendation: 'Could not determine the host to inspect for an SSL certificate.',
+                pageUrl: $targetUrl,
+                affectedElements: [$this->element(null, null, 'No host could be parsed from the page URL')],
             );
         }
 
@@ -134,6 +193,8 @@ final class SecurityAnalyzer
                 value: $ssl->error ?? 'invalid',
                 status: SecurityCheckStatus::FAIL,
                 recommendation: 'Install a valid SSL certificate from a trusted certificate authority.',
+                pageUrl: $targetUrl,
+                affectedElements: [$this->element($host, null, $ssl->error ?? 'Certificate is invalid')],
             );
         }
 
@@ -145,6 +206,8 @@ final class SecurityAnalyzer
                 value: 'expired',
                 status: SecurityCheckStatus::FAIL,
                 recommendation: 'Renew the expired SSL certificate immediately.',
+                pageUrl: $targetUrl,
+                affectedElements: [$this->element($host, null, 'Certificate expired')],
             );
         }
 
@@ -154,6 +217,8 @@ final class SecurityAnalyzer
                 value: "{$daysLeft} days until expiry",
                 status: SecurityCheckStatus::WARNING,
                 recommendation: "Renew the SSL certificate soon — it expires in {$daysLeft} day(s).",
+                pageUrl: $targetUrl,
+                affectedElements: [$this->element($host, null, "Certificate expires in {$daysLeft} day(s)")],
             );
         }
 
@@ -162,11 +227,13 @@ final class SecurityAnalyzer
             value: $daysLeft !== null ? "{$daysLeft} days until expiry" : 'valid',
             status: SecurityCheckStatus::PASS,
             recommendation: null,
+            pageUrl: $targetUrl,
         );
     }
 
     private function checkSecurityHeaders(FetchResult $result): SecurityCheckResult
     {
+        $targetUrl = $this->targetUrl($result);
         $present = array_map(strtolower(...), array_keys($result->headers));
         $missing = array_values(array_filter(
             $this->requiredSecurityHeaders,
@@ -179,6 +246,7 @@ final class SecurityAnalyzer
                 value: 'all present',
                 status: SecurityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $targetUrl,
             );
         }
 
@@ -186,14 +254,20 @@ final class SecurityAnalyzer
 
         return new SecurityCheckResult(
             check: 'Security Headers',
-            value: 'missing: ' . implode(', ', $missing),
+            value: 'missing: '.implode(', ', $missing),
             status: $allMissing ? SecurityCheckStatus::FAIL : SecurityCheckStatus::WARNING,
-            recommendation: 'Add the missing security headers: ' . implode(', ', $missing) . '.',
+            recommendation: 'Add the missing security headers: '.implode(', ', $missing).'.',
+            pageUrl: $targetUrl,
+            affectedElements: array_map(
+                fn (string $header): array => $this->element(null, null, "Missing header: {$header}"),
+                $missing,
+            ),
         );
     }
 
     private function checkHsts(FetchResult $result): SecurityCheckResult
     {
+        $targetUrl = $this->targetUrl($result);
         $value = $this->headerValue($result, 'Strict-Transport-Security');
 
         if ($value === null) {
@@ -202,7 +276,9 @@ final class SecurityAnalyzer
                 value: null,
                 status: SecurityCheckStatus::FAIL,
                 recommendation: 'Add a Strict-Transport-Security header (e.g. "max-age=31536000; includeSubDomains") '
-                    . 'to enforce HTTPS on future visits.',
+                    .'to enforce HTTPS on future visits.',
+                pageUrl: $targetUrl,
+                affectedElements: [$this->element(null, null, 'No Strict-Transport-Security header present')],
             );
         }
 
@@ -214,7 +290,9 @@ final class SecurityAnalyzer
                 value: $value,
                 status: SecurityCheckStatus::WARNING,
                 recommendation: "Increase the HSTS max-age to at least {$this->hstsMinMaxAgeSeconds} seconds "
-                    . 'for stronger protection.',
+                    .'for stronger protection.',
+                pageUrl: $targetUrl,
+                affectedElements: [$this->element(null, null, "max-age={$maxAge} (below recommended {$this->hstsMinMaxAgeSeconds})")],
             );
         }
 
@@ -223,6 +301,7 @@ final class SecurityAnalyzer
             value: $value,
             status: SecurityCheckStatus::PASS,
             recommendation: null,
+            pageUrl: $targetUrl,
         );
     }
 
@@ -233,6 +312,7 @@ final class SecurityAnalyzer
 
     private function checkXssProtection(FetchResult $result): SecurityCheckResult
     {
+        $targetUrl = $this->targetUrl($result);
         $value = $this->headerValue($result, 'X-XSS-Protection');
 
         if ($value === null) {
@@ -241,7 +321,9 @@ final class SecurityAnalyzer
                 value: null,
                 status: SecurityCheckStatus::WARNING,
                 recommendation: 'X-XSS-Protection is deprecated in modern browsers, but a strong Content-Security-Policy '
-                    . 'is the current best defense against XSS — verify that CSP check passes.',
+                    .'is the current best defense against XSS — verify that CSP check passes.',
+                pageUrl: $targetUrl,
+                affectedElements: [$this->element(null, null, 'No X-XSS-Protection header present')],
             );
         }
 
@@ -253,7 +335,9 @@ final class SecurityAnalyzer
                 value: $value,
                 status: SecurityCheckStatus::FAIL,
                 recommendation: 'X-XSS-Protection is explicitly disabled (0). Remove this override or set it to '
-                    . '"1; mode=block", and rely on a strong Content-Security-Policy as the primary defense.',
+                    .'"1; mode=block", and rely on a strong Content-Security-Policy as the primary defense.',
+                pageUrl: $targetUrl,
+                affectedElements: [$this->element(null, null, "X-XSS-Protection: {$value}")],
             );
         }
 
@@ -263,6 +347,7 @@ final class SecurityAnalyzer
                 value: $value,
                 status: SecurityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $targetUrl,
             );
         }
 
@@ -272,7 +357,9 @@ final class SecurityAnalyzer
                 value: $value,
                 status: SecurityCheckStatus::WARNING,
                 recommendation: 'X-XSS-Protection is enabled but without "mode=block", so the browser may sanitize '
-                    . 'rather than block the page. Set it to "1; mode=block", or rely on CSP instead.',
+                    .'rather than block the page. Set it to "1; mode=block", or rely on CSP instead.',
+                pageUrl: $targetUrl,
+                affectedElements: [$this->element(null, null, "X-XSS-Protection: {$value}")],
             );
         }
 
@@ -281,12 +368,15 @@ final class SecurityAnalyzer
             value: $value,
             status: SecurityCheckStatus::WARNING,
             recommendation: 'X-XSS-Protection has an unrecognized value. Set it to "1; mode=block", or remove it '
-                . 'and rely on a strong Content-Security-Policy instead.',
+                .'and rely on a strong Content-Security-Policy instead.',
+            pageUrl: $targetUrl,
+            affectedElements: [$this->element(null, null, "X-XSS-Protection: {$value}")],
         );
     }
 
     private function checkCsp(FetchResult $result): SecurityCheckResult
     {
+        $targetUrl = $this->targetUrl($result);
         $value = $this->headerValue($result, 'Content-Security-Policy');
 
         if ($value === null) {
@@ -295,7 +385,9 @@ final class SecurityAnalyzer
                 value: null,
                 status: SecurityCheckStatus::FAIL,
                 recommendation: 'Add a Content-Security-Policy header to restrict which sources scripts, styles, and '
-                    . 'other resources can be loaded from.',
+                    .'other resources can be loaded from.',
+                pageUrl: $targetUrl,
+                affectedElements: [$this->element(null, null, 'No Content-Security-Policy header present')],
             );
         }
 
@@ -310,8 +402,13 @@ final class SecurityAnalyzer
                 check: 'Content Security Policy',
                 value: $value,
                 status: SecurityCheckStatus::WARNING,
-                recommendation: 'Tighten the CSP: it currently allows ' . implode(', ', $foundUnsafeTokens)
-                    . ', which weakens protection against injected scripts.',
+                recommendation: 'Tighten the CSP: it currently allows '.implode(', ', $foundUnsafeTokens)
+                    .', which weakens protection against injected scripts.',
+                pageUrl: $targetUrl,
+                affectedElements: array_map(
+                    fn (string $token): array => $this->element(null, null, "CSP allows {$token}"),
+                    $foundUnsafeTokens,
+                ),
             );
         }
 
@@ -320,11 +417,13 @@ final class SecurityAnalyzer
             value: $value,
             status: SecurityCheckStatus::PASS,
             recommendation: null,
+            pageUrl: $targetUrl,
         );
     }
 
     private function checkReferrerPolicy(FetchResult $result): SecurityCheckResult
     {
+        $targetUrl = $this->targetUrl($result);
         $value = $this->headerValue($result, 'Referrer-Policy');
 
         if ($value === null) {
@@ -333,7 +432,9 @@ final class SecurityAnalyzer
                 value: null,
                 status: SecurityCheckStatus::WARNING,
                 recommendation: 'Add a Referrer-Policy header (e.g. "strict-origin-when-cross-origin") to control how '
-                    . 'much referrer information is sent to other sites.',
+                    .'much referrer information is sent to other sites.',
+                pageUrl: $targetUrl,
+                affectedElements: [$this->element(null, null, 'No Referrer-Policy header present')],
             );
         }
 
@@ -353,9 +454,14 @@ final class SecurityAnalyzer
                 check: 'Referrer Policy',
                 value: $value,
                 status: SecurityCheckStatus::WARNING,
-                recommendation: 'Referrer-Policy includes ' . implode(', ', array_unique($weak))
-                    . ', which leaks the full referrer URL to other origins. Use "strict-origin-when-cross-origin" '
-                    . 'or "no-referrer" instead.',
+                recommendation: 'Referrer-Policy includes '.implode(', ', array_unique($weak))
+                    .', which leaks the full referrer URL to other origins. Use "strict-origin-when-cross-origin" '
+                    .'or "no-referrer" instead.',
+                pageUrl: $targetUrl,
+                affectedElements: array_map(
+                    fn (string $policy): array => $this->element(null, null, "Referrer-Policy includes {$policy}"),
+                    array_values(array_unique($weak)),
+                ),
             );
         }
 
@@ -364,11 +470,13 @@ final class SecurityAnalyzer
             value: $value,
             status: SecurityCheckStatus::PASS,
             recommendation: null,
+            pageUrl: $targetUrl,
         );
     }
 
     private function checkCookieSecurity(FetchResult $result): SecurityCheckResult
     {
+        $targetUrl = $this->targetUrl($result);
         $value = $this->headerValue($result, 'Set-Cookie');
 
         if ($value === null) {
@@ -377,6 +485,7 @@ final class SecurityAnalyzer
                 value: 'no cookies set',
                 status: SecurityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $targetUrl,
             );
         }
 
@@ -407,28 +516,44 @@ final class SecurityAnalyzer
                 check: 'Cookie Security',
                 value: $value,
                 status: SecurityCheckStatus::FAIL,
-                recommendation: 'Set the Secure attribute on cookie(s): ' . implode(', ', $missingSecure)
-                    . ' — without it, the cookie can be sent over an unencrypted HTTP connection.',
+                recommendation: 'Set the Secure attribute on cookie(s): '.implode(', ', $missingSecure)
+                    .' — without it, the cookie can be sent over an unencrypted HTTP connection.',
+                pageUrl: $targetUrl,
+                affectedElements: array_map(
+                    fn (string $name): array => $this->element(null, null, "Cookie \"{$name}\" is missing the Secure attribute"),
+                    $missingSecure,
+                ),
             );
         }
 
         if ($missingHttpOnly !== [] || $missingSameSite !== []) {
             $notes = [];
+            $affectedElements = [];
 
             if ($missingHttpOnly !== []) {
-                $notes[] = 'HttpOnly missing on: ' . implode(', ', $missingHttpOnly);
+                $notes[] = 'HttpOnly missing on: '.implode(', ', $missingHttpOnly);
+
+                foreach ($missingHttpOnly as $name) {
+                    $affectedElements[] = $this->element(null, null, "Cookie \"{$name}\" is missing the HttpOnly attribute");
+                }
             }
 
             if ($missingSameSite !== []) {
-                $notes[] = 'SameSite missing on: ' . implode(', ', $missingSameSite);
+                $notes[] = 'SameSite missing on: '.implode(', ', $missingSameSite);
+
+                foreach ($missingSameSite as $name) {
+                    $affectedElements[] = $this->element(null, null, "Cookie \"{$name}\" is missing the SameSite attribute");
+                }
             }
 
             return new SecurityCheckResult(
                 check: 'Cookie Security',
                 value: $value,
                 status: SecurityCheckStatus::WARNING,
-                recommendation: 'Strengthen cookie attributes — ' . implode('; ', $notes)
-                    . '. HttpOnly blocks JavaScript access (mitigating XSS theft); SameSite mitigates CSRF.',
+                recommendation: 'Strengthen cookie attributes — '.implode('; ', $notes)
+                    .'. HttpOnly blocks JavaScript access (mitigating XSS theft); SameSite mitigates CSRF.',
+                pageUrl: $targetUrl,
+                affectedElements: $affectedElements,
             );
         }
 
@@ -437,12 +562,14 @@ final class SecurityAnalyzer
             value: $value,
             status: SecurityCheckStatus::PASS,
             recommendation: null,
+            pageUrl: $targetUrl,
         );
     }
 
     private function checkMixedContent(FetchResult $result): SecurityCheckResult
     {
-        $scheme = strtolower((string) parse_url($this->targetUrl($result), PHP_URL_SCHEME));
+        $targetUrl = $this->targetUrl($result);
+        $scheme = strtolower((string) parse_url($targetUrl, PHP_URL_SCHEME));
 
         if ($scheme !== 'https') {
             return new SecurityCheckResult(
@@ -450,22 +577,24 @@ final class SecurityAnalyzer
                 value: 'not applicable — page is not served over HTTPS',
                 status: SecurityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $targetUrl,
             );
         }
 
-        $insecureUrls = $this->collectInsecureResourceUrls($result);
+        $insecureResources = $this->collectInsecureResources($result);
 
-        if ($insecureUrls === []) {
+        if ($insecureResources === []) {
             return new SecurityCheckResult(
                 check: 'Mixed Content',
                 value: 'no insecure resources found',
                 status: SecurityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $targetUrl,
             );
         }
 
-        $count = count($insecureUrls);
-        $sample = implode(', ', array_slice($insecureUrls, 0, 3));
+        $count = count($insecureResources);
+        $sample = implode(', ', array_slice(array_column($insecureResources, 'url'), 0, 3));
 
         return new SecurityCheckResult(
             check: 'Mixed Content',
@@ -474,38 +603,60 @@ final class SecurityAnalyzer
                 : "{$count} insecure resources, including: {$sample}",
             status: SecurityCheckStatus::FAIL,
             recommendation: 'Update the insecure (http://) resource URL(s) to https:// — browsers block or warn '
-                . 'on mixed content loaded into an HTTPS page.',
+                .'on mixed content loaded into an HTTPS page.',
+            pageUrl: $targetUrl,
+            affectedElements: array_map(
+                fn (array $resource): array => $this->element($resource['url'], $resource['domPath'], 'Loaded over insecure http://'),
+                $insecureResources,
+            ),
         );
     }
 
     /**
-     * Collects the URLs of every CSS, JS, image, and font sub-resource
-     * referenced by the page that loads over plain HTTP. Anchors are
-     * deliberately excluded — a hyperlink to an HTTP page is not "mixed
-     * content"; only actively fetched sub-resources trigger the browser
-     * warning/block this check is about.
+     * Collects every CSS, JS, image, and font sub-resource referenced by
+     * the page that loads over plain HTTP, together with the DOM path of
+     * the tag that references it (when known — see HtmlParser::buildDomPath()
+     * upstream). Anchors are deliberately excluded — a hyperlink to an
+     * HTTP page is not "mixed content"; only actively fetched
+     * sub-resources trigger the browser warning/block this check is
+     * about. De-duplicated by URL (first occurrence's domPath wins),
+     * since the same asset can legitimately be referenced more than
+     * once on a page.
      *
-     * @return array<int, string>
+     * @return array<int, array{url: string, domPath: ?string}>
      */
-    private function collectInsecureResourceUrls(FetchResult $result): array
+    private function collectInsecureResources(FetchResult $result): array
     {
-        $urls = [
-            ...array_map(static fn ($css): string => $css->url, $result->cssLinks),
-            ...array_map(static fn ($js): string => $js->url, $result->jsLinks),
-            ...array_map(static fn ($image): string => $image->url, $result->images),
-            ...array_map(static fn ($font): string => $font->url, $result->fonts),
+        /** @var array<int, CssLink|ScriptLink|ImageAsset|FontAsset> $assets */
+        $assets = [
+            ...$result->cssLinks,
+            ...$result->jsLinks,
+            ...$result->images,
+            ...$result->fonts,
         ];
 
-        $insecure = array_filter(
-            $urls,
-            static fn (string $url): bool => strtolower((string) parse_url($url, PHP_URL_SCHEME)) === 'http',
-        );
+        $insecure = [];
+        $seen = [];
 
-        return array_values(array_unique($insecure));
+        foreach ($assets as $asset) {
+            if (strtolower((string) parse_url($asset->url, PHP_URL_SCHEME)) !== 'http') {
+                continue;
+            }
+
+            if (isset($seen[$asset->url])) {
+                continue;
+            }
+
+            $seen[$asset->url] = true;
+            $insecure[] = ['url' => $asset->url, 'domPath' => $asset->domPath];
+        }
+
+        return $insecure;
     }
 
     private function checkDirectoryListing(FetchResult $result): SecurityCheckResult
     {
+        $targetUrl = $this->targetUrl($result);
         $title = trim((string) $result->meta?->title);
         $html = (string) $result->html;
 
@@ -515,6 +666,7 @@ final class SecurityAnalyzer
                 value: 'no directory listing detected',
                 status: SecurityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $targetUrl,
             );
         }
 
@@ -523,7 +675,9 @@ final class SecurityAnalyzer
             value: $title !== '' ? $title : 'directory listing detected',
             status: SecurityCheckStatus::FAIL,
             recommendation: 'Disable directory autoindexing on the web server (e.g. "Options -Indexes" on Apache, '
-                . '"autoindex off;" on nginx) and add an index file to every exposed directory.',
+                .'"autoindex off;" on nginx) and add an index file to every exposed directory.',
+            pageUrl: $targetUrl,
+            affectedElements: [$this->element($targetUrl, null, $title !== '' ? $title : 'Directory listing detected')],
         );
     }
 
@@ -546,13 +700,16 @@ final class SecurityAnalyzer
 
     private function checkServerInformationExposure(FetchResult $result): SecurityCheckResult
     {
+        $targetUrl = $this->targetUrl($result);
         $exposed = [];
+        $affectedElements = [];
 
         foreach ($this->serverInfoHeaders as $header) {
             $value = $this->headerValue($result, $header);
 
             if ($value !== null && trim($value) !== '') {
                 $exposed[] = "{$header}: {$value}";
+                $affectedElements[] = $this->element(null, null, "{$header}: {$value}");
             }
         }
 
@@ -562,6 +719,7 @@ final class SecurityAnalyzer
                 value: 'no server/technology details exposed',
                 status: SecurityCheckStatus::PASS,
                 recommendation: null,
+                pageUrl: $targetUrl,
             );
         }
 
@@ -570,8 +728,10 @@ final class SecurityAnalyzer
             value: implode('; ', $exposed),
             status: SecurityCheckStatus::WARNING,
             recommendation: 'Suppress server/technology version details in response headers ('
-                . implode(', ', $this->serverInfoHeaders) . ') to avoid giving attackers a head start on known '
-                . 'vulnerabilities for that exact version.',
+                .implode(', ', $this->serverInfoHeaders).') to avoid giving attackers a head start on known '
+                .'vulnerabilities for that exact version.',
+            pageUrl: $targetUrl,
+            affectedElements: $affectedElements,
         );
     }
 
@@ -613,6 +773,21 @@ final class SecurityAnalyzer
         return null;
     }
 
+    /**
+     * Builds one entry of a SecurityCheckResult's affectedElements list.
+     * $url is the specific resource/host implicated (when there is one),
+     * $domPath its location in the page's DOM (when known — only
+     * meaningful for actual markup-referenced resources like
+     * mixed_content's assets), and $detail a short human-readable note
+     * of what's wrong with it.
+     *
+     * @return array{url: ?string, domPath: ?string, detail: ?string}
+     */
+    private function element(?string $url, ?string $domPath, ?string $detail): array
+    {
+        return ['url' => $url, 'domPath' => $domPath, 'detail' => $detail];
+    }
+
     private function extractMaxAge(string $headerValue): ?int
     {
         return preg_match('/max-age\s*=\s*(\d+)/i', $headerValue, $matches) === 1
@@ -627,7 +802,7 @@ final class SecurityAnalyzer
      * "unknown" exclusion — every security check here always resolves to
      * a definite status, so none are excluded.
      *
-     * @param array<string, SecurityCheckResult> $checks
+     * @param  array<string, SecurityCheckResult>  $checks
      */
     private function score(array $checks): int
     {
@@ -660,7 +835,7 @@ final class SecurityAnalyzer
     }
 
     /**
-     * @param array<string, SecurityCheckResult> $checks
+     * @param  array<string, SecurityCheckResult>  $checks
      */
     private function summary(array $checks, int $score, string $grade): string
     {

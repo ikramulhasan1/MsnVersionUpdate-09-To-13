@@ -12,7 +12,7 @@ final class HtmlParserSeoExtractionTest extends TestCase
 {
     private function parse(string $html): ParsedHtml
     {
-        return (new HtmlParser())->parse($html, 'https://example.com/page');
+        return (new HtmlParser)->parse($html, 'https://example.com/page');
     }
 
     public function test_extracts_headings_in_document_order_with_level_and_text(): void
@@ -36,6 +36,8 @@ final class HtmlParserSeoExtractionTest extends TestCase
             ['Main Title', 'First Section', 'Sub Section', 'Second Section'],
             array_map(static fn ($h) => $h->text, $headings),
         );
+        $this->assertSame('https://example.com/page', $headings[0]->pageUrl);
+        $this->assertNotNull($headings[0]->domPath);
     }
 
     public function test_normalizes_whitespace_in_heading_text(): void
@@ -63,6 +65,8 @@ final class HtmlParserSeoExtractionTest extends TestCase
         $this->assertCount(1, $schema);
         $this->assertTrue($schema[0]->valid);
         $this->assertSame(['Article'], $schema[0]->types);
+        $this->assertSame('https://example.com/page', $schema[0]->pageUrl);
+        $this->assertNotNull($schema[0]->domPath);
     }
 
     public function test_parses_graph_nested_type_arrays(): void
@@ -106,6 +110,8 @@ final class HtmlParserSeoExtractionTest extends TestCase
         $this->assertFalse($schema[0]->valid);
         $this->assertSame([], $schema[0]->types);
         $this->assertNull($schema[0]->data);
+        $this->assertSame('https://example.com/page', $schema[0]->pageUrl);
+        $this->assertNotNull($schema[0]->domPath);
     }
 
     public function test_counts_words_in_body_only_ignoring_head_style_and_body_script(): void

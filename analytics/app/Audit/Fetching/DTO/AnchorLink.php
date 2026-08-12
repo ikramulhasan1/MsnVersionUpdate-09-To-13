@@ -11,6 +11,8 @@ final readonly class AnchorLink implements \JsonSerializable
         public ?string $text,
         public ?string $rel,
         public bool $nofollow,
+        public ?string $pageUrl = null,
+        public ?string $domPath = null,
     ) {
     }
 
@@ -24,6 +26,8 @@ final readonly class AnchorLink implements \JsonSerializable
             'text' => $this->text,
             'rel' => $this->rel,
             'nofollow' => $this->nofollow,
+            'page_url' => $this->pageUrl,
+            'dom_path' => $this->domPath,
         ];
     }
 

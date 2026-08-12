@@ -10,6 +10,8 @@ final readonly class CssLink implements \JsonSerializable
         public string $url,
         public ?string $rel = 'stylesheet',
         public ?string $media = null,
+        public ?string $pageUrl = null,
+        public ?string $domPath = null,
     ) {
     }
 
@@ -22,6 +24,8 @@ final readonly class CssLink implements \JsonSerializable
             'url' => $this->url,
             'rel' => $this->rel,
             'media' => $this->media,
+            'page_url' => $this->pageUrl,
+            'dom_path' => $this->domPath,
         ];
     }
 

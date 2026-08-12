@@ -11,12 +11,14 @@ use App\Audit\Cache\Contracts\AuditCacheServiceInterface;
 use App\Audit\Contacts\ContactInfoExtractor;
 use App\Audit\Content\ContentAnalyzer;
 use App\Audit\Crawler\Contracts\WebsiteCrawlerServiceInterface;
+use App\Audit\Crawler\DTO\CrawledPage;
 use App\Audit\Crawler\DTO\CrawlResult;
 use App\Audit\Fetching\Contracts\WebsiteFetcherServiceInterface;
 use App\Audit\Fetching\DTO\FetchResult;
 use App\Audit\Jobs\Concerns\HasAuditUniqueness;
 use App\Audit\Performance\PerformanceAnalyzer;
 use App\Audit\ReviewPresence\ReviewPresenceScanner;
+use App\Audit\Security\DTO\SecurityAuditResult;
 use App\Audit\Security\SecurityAnalyzer;
 use App\Audit\Seo\Contracts\SeoAnalyzerServiceInterface;
 use App\Audit\Technology\TechnologyDetector;
@@ -127,18 +129,28 @@ final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
 
         foreach ($this->analyzerKeys as $key) {
             $result = match ($key) {
-                'security' => $securityAnalyzer->analyze($fetchResult),
+                // Security now analyzes every successfully crawled page
+                // (up to config('audit.security.per_page_limit')), not just
+                // the entry page — see analyzeSecurity() below, which
+                // fetches the extra pages via fetchMany() and reuses
+                // $fetchResult for the entry page rather than re-fetching
+                // it. Returns a SecurityAuditResult keyed by page URL.
+                'security' => $this->analyzeSecurity($crawlResult, $fetchResult, $fetcher, $securityAnalyzer),
                 'accessibility' => $accessibilityAnalyzer->analyze($fetchResult),
                 'content' => $contentAnalyzer->analyze($fetchResult),
                 'ui_ux' => $uiUxAnalyzer->analyze($fetchResult),
                 'business_opportunity' => $businessOpportunityAnalyzer->analyze($fetchResult),
                 'technology' => $technologyDetector->detect($fetchResult),
-                // Performance analyzes a single crawled page; AnalysisResults
-                // only carries one PerformanceResult per audit, so this uses
-                // the first crawled page (the entry page) — the same page
-                // every other analyzer here is implicitly scoped to via
-                // $fetchResult.
-                'performance' => $crawlResult->pages === [] ? null : $performanceAnalyzer->analyze($crawlResult->pages[0]),
+                // Performance now analyzes every successfully crawled page
+                // (not just the entry page) and returns a
+                // PerformanceAuditResult keyed by page URL — see
+                // PerformanceAnalyzer::analyzeAll(). AssembleAnalysisResultsJob
+                // is responsible for picking the entry page's individual
+                // PerformanceResult back out of this wrapper for
+                // AnalysisResults, which still carries a single-page result
+                // for backward compatibility with the AI recommendation
+                // engine and existing exports.
+                'performance' => $crawlResult->pages === [] ? null : $performanceAnalyzer->analyzeAll($crawlResult),
                 'seo' => $seoAnalyzerService->analyze($crawlResult),
                 // Same empty-pages guard as performance above, and for the
                 // same reason: BusinessSignalsDetector needs a concrete
@@ -173,6 +185,54 @@ final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
         // FAILED only if some are missing. Still report the exception
         // so a real failure isn't silently swallowed.
         report($e);
+    }
+
+    /**
+     * Runs SecurityAnalyzer across every successfully crawled page (up to
+     * config('audit.security.per_page_limit'), taken in crawl order so
+     * the entry page and the pages closest to it are always included),
+     * fetching whichever of those pages weren't already fetched via
+     * WebsiteFetcherServiceInterface::fetchMany(). The entry page's
+     * FetchResult ($fetchResult, fetched once at the top of handle() for
+     * every other single-page analyzer here) is reused instead of being
+     * fetched a second time.
+     */
+    private function analyzeSecurity(
+        CrawlResult $crawlResult,
+        FetchResult $entryPageFetchResult,
+        WebsiteFetcherServiceInterface $fetcher,
+        SecurityAnalyzer $securityAnalyzer,
+    ): ?SecurityAuditResult {
+        $successfulPages = array_values(array_filter(
+            $crawlResult->pages,
+            static fn (CrawledPage $page): bool => $page->success,
+        ));
+
+        if ($successfulPages === []) {
+            return null;
+        }
+
+        $limit = max(1, (int) config('audit.security.per_page_limit', 20));
+        $limitedPages = array_slice($successfulPages, 0, $limit);
+
+        $fetchResults = [];
+        $urlsToFetch = [];
+
+        foreach ($limitedPages as $page) {
+            if ($page->url === $this->url) {
+                $fetchResults[$page->url] = $entryPageFetchResult;
+
+                continue;
+            }
+
+            $urlsToFetch[] = $page->url;
+        }
+
+        if ($urlsToFetch !== []) {
+            $fetchResults += $fetcher->fetchMany($urlsToFetch);
+        }
+
+        return $securityAnalyzer->analyzeAll($fetchResults, $crawlResult->startUrl);
     }
 
     /**

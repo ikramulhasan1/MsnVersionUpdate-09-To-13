@@ -43,8 +43,8 @@ final class HtmlParser implements HtmlParserInterface
             manifestUrl: $this->parseManifest($xpath, $baseUrl),
             feedUrls: $this->parseFeeds($xpath, $baseUrl),
             anchors: $this->parseAnchors($xpath, $baseUrl),
-            headings: $this->parseHeadings($xpath),
-            schema: $this->parseSchema($xpath),
+            headings: $this->parseHeadings($xpath, $baseUrl),
+            schema: $this->parseSchema($xpath, $baseUrl),
             wordCount: $this->countWords($xpath),
             mailtoLinks: $this->parseSchemeLinks($xpath, 'mailto:'),
             telLinks: $this->parseSchemeLinks($xpath, 'tel:'),
@@ -141,6 +141,8 @@ final class HtmlParser implements HtmlParserInterface
                 url: $resolved,
                 rel: $node->getAttribute('rel') ?: 'stylesheet',
                 media: $node->getAttribute('media') ?: null,
+                pageUrl: $baseUrl,
+                domPath: $this->buildDomPath($node),
             );
         }
 
@@ -168,6 +170,8 @@ final class HtmlParser implements HtmlParserInterface
                 type: $node->getAttribute('type') ?: null,
                 async: $node->hasAttribute('async'),
                 defer: $node->hasAttribute('defer'),
+                pageUrl: $baseUrl,
+                domPath: $this->buildDomPath($node),
             );
         }
 
@@ -198,6 +202,8 @@ final class HtmlParser implements HtmlParserInterface
                 alt: $node->hasAttribute('alt') ? $node->getAttribute('alt') : null,
                 width: ctype_digit($width) ? (int) $width : null,
                 height: ctype_digit($height) ? (int) $height : null,
+                pageUrl: $baseUrl,
+                domPath: $this->buildDomPath($node),
             );
         }
 
@@ -223,7 +229,13 @@ final class HtmlParser implements HtmlParserInterface
             $type = $node->getAttribute('type');
             $format = $type !== '' ? (explode('/', $type)[1] ?? null) : $this->guessFormatFromUrl($resolved);
 
-            $fonts[] = new FontAsset(url: $resolved, format: $format, source: 'preload');
+            $fonts[] = new FontAsset(
+                url: $resolved,
+                format: $format,
+                source: 'preload',
+                pageUrl: $baseUrl,
+                domPath: $this->buildDomPath($node),
+            );
         }
 
         return $fonts;
@@ -298,6 +310,8 @@ final class HtmlParser implements HtmlParserInterface
                 text: $text !== '' ? $text : null,
                 rel: $rel,
                 nofollow: $rel !== null && str_contains(strtolower($rel), 'nofollow'),
+                pageUrl: $baseUrl,
+                domPath: $this->buildDomPath($node),
             );
         }
 
@@ -360,7 +374,7 @@ final class HtmlParser implements HtmlParserInterface
      *
      * @return array<int, Heading>
      */
-    private function parseHeadings(\DOMXPath $xpath): array
+    private function parseHeadings(\DOMXPath $xpath, string $baseUrl): array
     {
         $headings = [];
 
@@ -371,7 +385,12 @@ final class HtmlParser implements HtmlParserInterface
             $level = (int) substr($node->nodeName, 1);
             $text = $this->normalizeWhitespace($node->textContent);
 
-            $headings[] = new Heading(level: $level, text: $text);
+            $headings[] = new Heading(
+                level: $level,
+                text: $text,
+                pageUrl: $baseUrl,
+                domPath: $this->buildDomPath($node),
+            );
         }
 
         return $headings;
@@ -385,7 +404,7 @@ final class HtmlParser implements HtmlParserInterface
      *
      * @return array<int, SchemaBlock>
      */
-    private function parseSchema(\DOMXPath $xpath): array
+    private function parseSchema(\DOMXPath $xpath, string $baseUrl): array
     {
         $blocks = [];
 
@@ -397,10 +416,12 @@ final class HtmlParser implements HtmlParserInterface
                 continue;
             }
 
+            $domPath = $this->buildDomPath($node);
+
             try {
                 $decoded = json_decode($raw, true, 512, JSON_THROW_ON_ERROR);
             } catch (\JsonException) {
-                $blocks[] = new SchemaBlock(types: [], data: null, valid: false);
+                $blocks[] = new SchemaBlock(types: [], data: null, valid: false, pageUrl: $baseUrl, domPath: $domPath);
 
                 continue;
             }
@@ -408,7 +429,7 @@ final class HtmlParser implements HtmlParserInterface
             if (! is_array($decoded)) {
                 // Technically valid JSON (e.g. a bare string or number) but
                 // not a usable JSON-LD payload.
-                $blocks[] = new SchemaBlock(types: [], data: null, valid: false);
+                $blocks[] = new SchemaBlock(types: [], data: null, valid: false, pageUrl: $baseUrl, domPath: $domPath);
 
                 continue;
             }
@@ -416,7 +437,7 @@ final class HtmlParser implements HtmlParserInterface
             $types = [];
             $this->collectSchemaTypes($decoded, $types);
 
-            $blocks[] = new SchemaBlock(types: $types, data: $decoded, valid: true);
+            $blocks[] = new SchemaBlock(types: $types, data: $decoded, valid: true, pageUrl: $baseUrl, domPath: $domPath);
         }
 
         return $blocks;
@@ -510,6 +531,64 @@ final class HtmlParser implements HtmlParserInterface
         }
 
         return count(preg_split('/\s+/u', $text) ?: []);
+    }
+
+    /**
+     * Builds a readable CSS-selector-style path from the document root down
+     * to the given element, e.g. "body > header > nav > a:nth-child(2)".
+     * Each segment prefers a stable identifier over a positional one: an
+     * `id` wins outright (assumed unique), then the element's first class,
+     * and only when neither is present does it fall back to an
+     * `:nth-child(n)` position among the element's siblings. This keeps
+     * paths short and human-readable for well-structured markup while still
+     * producing a deterministic, disambiguating locator for plain markup.
+     */
+    private function buildDomPath(\DOMElement $element): string
+    {
+        $segments = [];
+        $node = $element;
+
+        while ($node instanceof \DOMElement) {
+            $segments[] = $this->domPathSegment($node);
+            $parent = $node->parentNode;
+            $node = $parent instanceof \DOMElement ? $parent : null;
+        }
+
+        return implode(' > ', array_reverse($segments));
+    }
+
+    private function domPathSegment(\DOMElement $node): string
+    {
+        $tag = strtolower($node->nodeName);
+
+        $id = trim($node->getAttribute('id'));
+
+        if ($id !== '') {
+            return sprintf('%s#%s', $tag, $id);
+        }
+
+        $class = trim($node->getAttribute('class'));
+
+        if ($class !== '') {
+            $firstClass = preg_split('/\s+/', $class, -1, PREG_SPLIT_NO_EMPTY)[0] ?? '';
+
+            if ($firstClass !== '') {
+                return sprintf('%s.%s', $tag, $firstClass);
+            }
+        }
+
+        $position = 1;
+        $sibling = $node->previousSibling;
+
+        while ($sibling !== null) {
+            if ($sibling instanceof \DOMElement) {
+                $position++;
+            }
+
+            $sibling = $sibling->previousSibling;
+        }
+
+        return sprintf('%s:nth-child(%d)', $tag, $position);
     }
 
     private function normalizeWhitespace(string $text): string

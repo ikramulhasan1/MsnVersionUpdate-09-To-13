@@ -36,12 +36,11 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
         private readonly int $descriptionMinLength = 70,
         private readonly int $descriptionMaxLength = 160,
         private readonly int $thinContentWordCount = 300,
-    ) {
-    }
+    ) {}
 
     public function analyze(CrawlResult $crawlResult): SeoAuditResult
     {
-        $analyzedAt = (new \DateTimeImmutable())->format(DATE_ATOM);
+        $analyzedAt = (new \DateTimeImmutable)->format(DATE_ATOM);
 
         $successfulPages = array_values(array_filter(
             $crawlResult->pages,
@@ -92,7 +91,7 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
     }
 
     /**
-     * @param array<int, LinkInventoryEntry> $brokenLinks broken links found on this specific page
+     * @param  array<int, LinkInventoryEntry>  $brokenLinks  broken links found on this specific page
      */
     private function analyzePage(
         CrawledPage $page,
@@ -115,10 +114,10 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
         $this->checkImageSeo($page, $issues);
         $this->checkInternalLinks($page, $issues);
         $this->checkExternalLinks($page, $issues);
-        $this->checkBrokenLinks($brokenLinks, $issues);
+        $this->checkBrokenLinks($page, $brokenLinks, $issues);
         $this->checkThinContent($page, $issues);
-        $this->checkDuplicateTitle($duplicateTitleCount, $issues);
-        $this->checkDuplicateDescription($duplicateDescriptionCount, $issues);
+        $this->checkDuplicateTitle($page, $duplicateTitleCount, $issues);
+        $this->checkDuplicateDescription($page, $duplicateDescriptionCount, $issues);
 
         [$critical, $warning, $notice] = $this->countBySeverity($issues);
 
@@ -133,7 +132,7 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
     private function checkTitle(CrawledPage $page, array &$issues): void
     {
@@ -146,6 +145,8 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 severity: SeoSeverity::CRITICAL,
                 message: 'The page has no <title> tag.',
                 recommendation: 'Add a unique, descriptive <title> tag to every indexable page.',
+                pageUrl: $page->url,
+                context: 'title tag',
             );
 
             return;
@@ -158,22 +159,26 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 check: 'title',
                 code: 'title_too_short',
                 severity: SeoSeverity::WARNING,
-                message: "Title is only {$length} characters — search engines may consider it too short.",
+                message: "Title is {$length} characters (minimum {$this->titleMinLength} required).",
                 recommendation: "Expand the title to roughly {$this->titleMinLength}-{$this->titleMaxLength} characters.",
+                pageUrl: $page->url,
+                context: 'title tag',
             );
         } elseif ($length > $this->titleMaxLength) {
             $issues[] = new SeoIssue(
                 check: 'title',
                 code: 'title_too_long',
                 severity: SeoSeverity::WARNING,
-                message: "Title is {$length} characters and may be truncated in search results.",
+                message: "Title is {$length} characters (maximum {$this->titleMaxLength} recommended) and may be truncated in search results.",
                 recommendation: "Trim the title to roughly {$this->titleMinLength}-{$this->titleMaxLength} characters.",
+                pageUrl: $page->url,
+                context: 'title tag',
             );
         }
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
     private function checkDescription(CrawledPage $page, array &$issues): void
     {
@@ -186,6 +191,8 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 severity: SeoSeverity::CRITICAL,
                 message: 'The page has no meta description.',
                 recommendation: 'Add a unique meta description that summarizes the page and encourages clicks.',
+                pageUrl: $page->url,
+                context: 'meta description tag',
             );
 
             return;
@@ -198,22 +205,26 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 check: 'description',
                 code: 'description_too_short',
                 severity: SeoSeverity::WARNING,
-                message: "Meta description is only {$length} characters.",
+                message: "Meta description is {$length} characters (minimum {$this->descriptionMinLength} required).",
                 recommendation: "Expand it to roughly {$this->descriptionMinLength}-{$this->descriptionMaxLength} characters.",
+                pageUrl: $page->url,
+                context: 'meta description tag',
             );
         } elseif ($length > $this->descriptionMaxLength) {
             $issues[] = new SeoIssue(
                 check: 'description',
                 code: 'description_too_long',
                 severity: SeoSeverity::WARNING,
-                message: "Meta description is {$length} characters and may be truncated in search results.",
+                message: "Meta description is {$length} characters (maximum {$this->descriptionMaxLength} recommended) and may be truncated in search results.",
                 recommendation: "Trim it to roughly {$this->descriptionMinLength}-{$this->descriptionMaxLength} characters.",
+                pageUrl: $page->url,
+                context: 'meta description tag',
             );
         }
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
     private function checkKeywords(CrawledPage $page, array &$issues): void
     {
@@ -226,6 +237,8 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 severity: SeoSeverity::NOTICE,
                 message: 'No meta keywords tag found.',
                 recommendation: 'Meta keywords carry little ranking weight today — safe to skip, optional to add.',
+                pageUrl: $page->url,
+                context: 'meta keywords tag',
             );
 
             return;
@@ -240,12 +253,14 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 severity: SeoSeverity::WARNING,
                 message: "Meta keywords tag lists {$count} terms, which can read as keyword stuffing.",
                 recommendation: 'Trim the keywords list to the handful of terms most relevant to the page.',
+                pageUrl: $page->url,
+                context: 'meta keywords tag',
             );
         }
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
     private function checkCanonical(CrawledPage $page, array &$issues): void
     {
@@ -258,6 +273,8 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 severity: SeoSeverity::WARNING,
                 message: 'No canonical tag found.',
                 recommendation: 'Add a self-referencing canonical tag to help prevent duplicate-content issues.',
+                pageUrl: $page->url,
+                context: 'canonical tag',
             );
 
             return;
@@ -270,14 +287,17 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 check: 'canonical',
                 code: 'canonical_points_elsewhere',
                 severity: SeoSeverity::NOTICE,
-                message: 'Canonical tag points to a different URL than the page itself.',
+                message: "Canonical tag points to \"{$canonical}\" instead of this page's own URL \"{$pageUrl}\".",
                 recommendation: 'Confirm this is intentional — otherwise point the canonical back at this page.',
+                pageUrl: $page->url,
+                elementUrl: $canonical,
+                context: 'canonical tag',
             );
         }
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
     private function checkRobots(CrawledPage $page, array &$issues): void
     {
@@ -288,6 +308,8 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 severity: SeoSeverity::CRITICAL,
                 message: 'Page is marked noindex and will be excluded from search results.',
                 recommendation: 'Remove the noindex directive if this page should be discoverable in search.',
+                pageUrl: $page->url,
+                context: 'meta robots tag',
             );
         }
 
@@ -296,14 +318,16 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 check: 'robots',
                 code: 'robots_nofollow',
                 severity: SeoSeverity::WARNING,
-                message: "Page is marked nofollow — its outgoing links pass no authority.",
+                message: 'Page is marked nofollow — its outgoing links pass no authority.',
                 recommendation: 'Remove the nofollow directive unless deliberately blocking link equity from this page.',
+                pageUrl: $page->url,
+                context: 'meta robots tag',
             );
         }
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
     private function checkOpenGraph(CrawledPage $page, array &$issues): void
     {
@@ -322,13 +346,15 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
             check: 'open_graph',
             code: 'open_graph_incomplete',
             severity: SeoSeverity::WARNING,
-            message: 'Missing Open Graph tag(s): ' . implode(', ', $missing) . '.',
+            message: 'Missing Open Graph tag(s): '.implode(', ', $missing).'.',
             recommendation: 'Add the missing Open Graph tags so shared links render correctly on social platforms.',
+            pageUrl: $page->url,
+            context: implode(', ', $missing),
         );
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
     private function checkTwitterCard(CrawledPage $page, array &$issues): void
     {
@@ -341,12 +367,14 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 severity: SeoSeverity::NOTICE,
                 message: 'No twitter:card meta tag found.',
                 recommendation: 'Add a twitter:card tag so links preview correctly when shared on X/Twitter.',
+                pageUrl: $page->url,
+                context: 'twitter:card tag',
             );
         }
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
     private function checkSchema(CrawledPage $page, array &$issues): void
     {
@@ -357,17 +385,22 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 severity: SeoSeverity::NOTICE,
                 message: 'No structured data (JSON-LD) found on the page.',
                 recommendation: 'Add relevant Schema.org markup (e.g. Article, Product, Organization) to qualify for rich results.',
+                pageUrl: $page->url,
+                context: 'JSON-LD structured data',
             );
 
             return;
         }
 
-        $invalidCount = count(array_filter(
+        $invalidBlocks = array_values(array_filter(
             $page->schema,
             static fn (SchemaBlock $block): bool => ! $block->valid,
         ));
+        $invalidCount = count($invalidBlocks);
 
         if ($invalidCount > 0) {
+            $first = $invalidBlocks[0];
+
             $issues[] = new SeoIssue(
                 check: 'schema',
                 code: 'schema_invalid',
@@ -376,19 +409,23 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                     ? 'One JSON-LD structured data block failed to parse.'
                     : "{$invalidCount} JSON-LD structured data blocks failed to parse.",
                 recommendation: 'Validate the structured data with a JSON-LD linter and fix the malformed block(s).',
+                pageUrl: $page->url,
+                domPath: $first->domPath,
+                context: 'invalid JSON-LD block',
             );
         }
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
     private function checkHeadings(CrawledPage $page, array &$issues): void
     {
-        $h1Count = count(array_filter(
+        $h1Headings = array_values(array_filter(
             $page->headings,
             static fn (Heading $heading): bool => $heading->level === 1,
         ));
+        $h1Count = count($h1Headings);
 
         if ($h1Count === 0) {
             $issues[] = new SeoIssue(
@@ -397,33 +434,53 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 severity: SeoSeverity::CRITICAL,
                 message: 'Page has no H1 heading.',
                 recommendation: "Add exactly one H1 that describes the page's main topic.",
+                pageUrl: $page->url,
+                context: 'H1 heading',
             );
         } elseif ($h1Count > 1) {
+            $extraH1 = $h1Headings[1];
+
             $issues[] = new SeoIssue(
                 check: 'headings',
                 code: 'heading_h1_multiple',
                 severity: SeoSeverity::WARNING,
                 message: "Page has {$h1Count} H1 headings.",
                 recommendation: 'Keep a single H1 per page and demote the others to H2/H3.',
+                pageUrl: $page->url,
+                elementUrl: $extraH1->pageUrl,
+                domPath: $extraH1->domPath,
+                context: 'H1 #2',
             );
         }
 
-        if ($this->hasSkippedHeadingLevel($page->headings)) {
+        $skipped = $this->findSkippedHeading($page->headings);
+
+        if ($skipped !== null) {
+            [$previousLevel, $heading] = $skipped;
+
             $issues[] = new SeoIssue(
                 check: 'headings',
                 code: 'heading_level_skipped',
                 severity: SeoSeverity::WARNING,
-                message: 'Heading levels skip a level (e.g. H2 straight to H4 with no H3).',
+                message: "Heading level jumps from H{$previousLevel} to H{$heading->level} without an intervening H"
+                    .($previousLevel + 1).'.',
                 recommendation: 'Keep the heading hierarchy sequential so it accurately reflects page structure.',
+                pageUrl: $page->url,
+                elementUrl: $heading->pageUrl,
+                domPath: $heading->domPath,
+                context: "H{$heading->level} heading",
             );
         }
 
-        $emptyCount = count(array_filter(
+        $emptyHeadings = array_values(array_filter(
             $page->headings,
             static fn (Heading $heading): bool => trim($heading->text) === '',
         ));
+        $emptyCount = count($emptyHeadings);
 
         if ($emptyCount > 0) {
+            $first = $emptyHeadings[0];
+
             $issues[] = new SeoIssue(
                 check: 'headings',
                 code: 'heading_empty',
@@ -432,76 +489,99 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                     ? 'One heading tag has no text.'
                     : "{$emptyCount} heading tags have no text.",
                 recommendation: 'Remove empty heading tags or give them meaningful text.',
+                pageUrl: $page->url,
+                elementUrl: $first->pageUrl,
+                domPath: $first->domPath,
+                context: "H{$first->level} tag",
             );
         }
     }
 
     /**
-     * @param array<int, Heading> $headings
+     * Finds the first place in document order where the heading level jumps
+     * by more than one (e.g. H2 straight to H4 with no H3 in between).
+     *
+     * @param  array<int, Heading>  $headings
+     * @return array{0: int, 1: Heading}|null the previous level and the
+     *                                        offending heading, or null if the hierarchy is sequential
      */
-    private function hasSkippedHeadingLevel(array $headings): bool
+    private function findSkippedHeading(array $headings): ?array
     {
         $previousLevel = null;
 
         foreach ($headings as $heading) {
             if ($previousLevel !== null && $heading->level > $previousLevel + 1) {
-                return true;
+                return [$previousLevel, $heading];
             }
 
             $previousLevel = $heading->level;
         }
 
-        return false;
+        return null;
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
     private function checkAltText(CrawledPage $page, array &$issues): void
     {
-        $missing = count(array_filter(
+        $missingImages = array_values(array_filter(
             $page->images,
             static fn (ImageAsset $image): bool => $image->alt === null || trim($image->alt) === '',
         ));
+        $missing = count($missingImages);
 
         if ($missing > 0) {
+            $first = $missingImages[0];
+
             $issues[] = new SeoIssue(
                 check: 'alt',
                 code: 'alt_missing',
                 severity: SeoSeverity::WARNING,
                 message: $missing === 1
-                    ? 'One image is missing alt text.'
-                    : "{$missing} images are missing alt text.",
+                    ? "One image is missing alt text: {$first->url}."
+                    : "{$missing} images are missing alt text, including {$first->url}.",
                 recommendation: 'Add descriptive alt text to every meaningful image (alt="" is fine for purely decorative ones).',
+                pageUrl: $page->url,
+                elementUrl: $first->url,
+                domPath: $first->domPath,
+                context: 'image missing alt text',
             );
         }
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
     private function checkImageSeo(CrawledPage $page, array &$issues): void
     {
-        $missingDimensions = count(array_filter(
+        $missingDimensionImages = array_values(array_filter(
             $page->images,
             static fn (ImageAsset $image): bool => $image->width === null || $image->height === null,
         ));
+        $missingDimensions = count($missingDimensionImages);
 
         if ($missingDimensions > 0) {
+            $first = $missingDimensionImages[0];
+
             $issues[] = new SeoIssue(
                 check: 'image_seo',
                 code: 'image_missing_dimensions',
                 severity: SeoSeverity::NOTICE,
                 message: $missingDimensions === 1
-                    ? 'One image has no width/height attributes.'
-                    : "{$missingDimensions} images have no width/height attributes.",
+                    ? "One image has no width/height attributes: {$first->url}."
+                    : "{$missingDimensions} images have no width/height attributes, including {$first->url}.",
                 recommendation: 'Set explicit width and height on images to avoid layout shift while they load.',
+                pageUrl: $page->url,
+                elementUrl: $first->url,
+                domPath: $first->domPath,
+                context: 'image missing width/height',
             );
         }
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
     private function checkInternalLinks(CrawledPage $page, array &$issues): void
     {
@@ -512,12 +592,14 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 severity: SeoSeverity::WARNING,
                 message: 'Page has no internal links to other pages on the site.',
                 recommendation: 'Link to related pages so crawlers and users can navigate onward from here.',
+                pageUrl: $page->url,
+                context: 'internal links',
             );
         }
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
     private function checkExternalLinks(CrawledPage $page, array &$issues): void
     {
@@ -530,15 +612,17 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 severity: SeoSeverity::NOTICE,
                 message: "Page links out to {$count} external URLs.",
                 recommendation: 'Review whether all outbound links are necessary — an excessive number can dilute page authority.',
+                pageUrl: $page->url,
+                context: 'external links',
             );
         }
     }
 
     /**
-     * @param array<int, LinkInventoryEntry> $brokenLinks
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, LinkInventoryEntry>  $brokenLinks
+     * @param  array<int, SeoIssue>  $issues
      */
-    private function checkBrokenLinks(array $brokenLinks, array &$issues): void
+    private function checkBrokenLinks(CrawledPage $page, array $brokenLinks, array &$issues): void
     {
         if ($brokenLinks === []) {
             return;
@@ -559,11 +643,14 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 ? "One broken link found on this page: {$sample}."
                 : "{$count} broken links found on this page, including: {$sample}.",
             recommendation: 'Fix or remove the broken link(s) — they hurt both crawlability and user experience.',
+            pageUrl: $page->url,
+            elementUrl: $brokenLinks[0]->url,
+            context: 'broken link',
         );
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
     private function checkThinContent(CrawledPage $page, array &$issues): void
     {
@@ -573,16 +660,18 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                 code: 'thin_content',
                 severity: SeoSeverity::WARNING,
                 message: "Page has only {$page->wordCount} words of body content"
-                    . " (below the {$this->thinContentWordCount}-word guideline).",
+                    ." (below the {$this->thinContentWordCount}-word guideline).",
                 recommendation: 'Expand the page with more substantive, unique content, or consolidate it with a related page.',
+                pageUrl: $page->url,
+                context: 'body content',
             );
         }
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
-    private function checkDuplicateTitle(int $duplicateCount, array &$issues): void
+    private function checkDuplicateTitle(CrawledPage $page, int $duplicateCount, array &$issues): void
     {
         if ($duplicateCount > 0) {
             $issues[] = new SeoIssue(
@@ -593,14 +682,16 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                     ? 'This title is also used on 1 other page.'
                     : "This title is also used on {$duplicateCount} other pages.",
                 recommendation: 'Give each page a unique, descriptive title.',
+                pageUrl: $page->url,
+                context: 'title tag',
             );
         }
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
-    private function checkDuplicateDescription(int $duplicateCount, array &$issues): void
+    private function checkDuplicateDescription(CrawledPage $page, int $duplicateCount, array &$issues): void
     {
         if ($duplicateCount > 0) {
             $issues[] = new SeoIssue(
@@ -611,13 +702,15 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
                     ? 'This meta description is also used on 1 other page.'
                     : "This meta description is also used on {$duplicateCount} other pages.",
                 recommendation: 'Give each page a unique meta description.',
+                pageUrl: $page->url,
+                context: 'meta description tag',
             );
         }
     }
 
     /**
-     * @param array<int, CrawledPage> $pages
-     * @param \Closure(CrawledPage): ?string $extractor
+     * @param  array<int, CrawledPage>  $pages
+     * @param  \Closure(CrawledPage): ?string  $extractor
      * @return array<string, array<int, string>> normalized value => page URLs sharing it
      */
     private function buildDuplicateMap(array $pages, \Closure $extractor): array
@@ -639,7 +732,7 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
     }
 
     /**
-     * @param array<string, array<int, string>> $map
+     * @param  array<string, array<int, string>>  $map
      */
     private function duplicateCount(array $map, ?string $value): int
     {
@@ -669,7 +762,7 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      */
     private function score(array $issues): int
     {
@@ -682,7 +775,7 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
     }
 
     /**
-     * @param array<int, SeoIssue> $issues
+     * @param  array<int, SeoIssue>  $issues
      * @return array{0: int, 1: int, 2: int} critical, warning, notice counts
      */
     private function countBySeverity(array $issues): array
@@ -707,7 +800,7 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
      * of site-wide recommendations — critical issues first, then by how
      * many pages each issue affects.
      *
-     * @param array<int, PageSeoResult> $pageResults
+     * @param  array<int, PageSeoResult>  $pageResults
      * @return array<int, string>
      */
     private function buildRecommendations(array $pageResults): array

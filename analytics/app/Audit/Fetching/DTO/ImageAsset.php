@@ -11,6 +11,8 @@ final readonly class ImageAsset implements \JsonSerializable
         public ?string $alt = null,
         public ?int $width = null,
         public ?int $height = null,
+        public ?string $pageUrl = null,
+        public ?string $domPath = null,
     ) {
     }
 
@@ -24,6 +26,8 @@ final readonly class ImageAsset implements \JsonSerializable
             'alt' => $this->alt,
             'width' => $this->width,
             'height' => $this->height,
+            'page_url' => $this->pageUrl,
+            'dom_path' => $this->domPath,
         ];
     }
 

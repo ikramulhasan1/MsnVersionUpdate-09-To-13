@@ -11,6 +11,8 @@ final readonly class ScriptLink implements \JsonSerializable
         public ?string $type = null,
         public bool $async = false,
         public bool $defer = false,
+        public ?string $pageUrl = null,
+        public ?string $domPath = null,
     ) {
     }
 
@@ -24,6 +26,8 @@ final readonly class ScriptLink implements \JsonSerializable
             'type' => $this->type,
             'async' => $this->async,
             'defer' => $this->defer,
+            'page_url' => $this->pageUrl,
+            'dom_path' => $this->domPath,
         ];
     }
 
