@@ -61,6 +61,17 @@ use App\Audit\UiUx\DTO\UiUxElementResult;
  *     computed inputs is normalised to pass/warning independently, since
  *     none of them carry a genuine "fail" concept (a missing signal or
  *     contact detail is "not found", not a broken check).
+ *
+ * Every check entry also carries a 'location' key — shape
+ * ['page_url' => ?string, 'dom_path' => ?string, 'affected_elements' =>
+ * array<int, array{url: ?string, domPath: ?string, detail: ?string}>] —
+ * populated from whichever of the underlying DTO's own pageUrl/domPath/
+ * elementUrl/affectedElements fields exist for that check (see
+ * self::location()). Always present, even when every part of it is
+ * null/empty, so the dashboard view/Excel/PDF layers can read
+ * $check['location'] unconditionally rather than checking whether the
+ * key exists first; those layers are themselves responsible for hiding
+ * empty parts, not this class.
  */
 final class AnalysisResultsToDashboardCategories
 {
@@ -72,7 +83,7 @@ final class AnalysisResultsToDashboardCategories
      *     score: ?int,
      *     grade: ?string,
      *     summary: string,
-     *     checks: array<int, array{name: string, status: string, note: ?string}>,
+     *     checks: array<int, array{name: string, status: string, note: ?string, location: array{page_url: ?string, dom_path: ?string, affected_elements: array<int, array{url: ?string, domPath: ?string, detail: ?string}>}}>,
      *     recommendations: array<int, string>,
      * }>
      */
@@ -110,6 +121,13 @@ final class AnalysisResultsToDashboardCategories
                         SeoSeverity::WARNING, SeoSeverity::NOTICE => 'warning',
                     },
                     'note' => $issue->message,
+                    'location' => $this->location(
+                        $issue->pageUrl,
+                        $issue->domPath,
+                        $issue->elementUrl !== null || $issue->context !== null
+                            ? [['url' => $issue->elementUrl, 'domPath' => $issue->domPath, 'detail' => $issue->context]]
+                            : null,
+                    ),
                 ];
             }
         }
@@ -146,6 +164,7 @@ final class AnalysisResultsToDashboardCategories
             $value = is_array($data) ? ($data['value'] ?? null) : null;
             $unit = is_array($data) ? ($data['unit'] ?? null) : null;
             $message = is_array($data) ? ($data['message'] ?? null) : null;
+            $affectedResource = is_array($data) ? ($data['affected_resource'] ?? null) : null;
 
             $note = $message ?? ($value !== null ? trim($value.' '.(string) $unit) : null);
 
@@ -157,6 +176,13 @@ final class AnalysisResultsToDashboardCategories
                     default => 'warning', // 'warning' and 'unknown' both surface as a flagged, non-passing check
                 },
                 'note' => $note,
+                'location' => $this->location(
+                    $performance->url,
+                    null,
+                    $affectedResource !== null
+                        ? [['url' => $affectedResource, 'domPath' => null, 'detail' => null]]
+                        : null,
+                ),
             ];
         }
 
@@ -189,6 +215,7 @@ final class AnalysisResultsToDashboardCategories
                 'name' => $check->check,
                 'status' => $check->status->value,
                 'note' => $check->value ?? $check->recommendation,
+                'location' => $this->location($check->pageUrl, null, $check->affectedElements),
             ];
 
             if ($check->recommendation !== null) {
@@ -224,6 +251,7 @@ final class AnalysisResultsToDashboardCategories
                 'name' => $check->check,
                 'status' => $check->status->value,
                 'note' => $check->value ?? $check->recommendation,
+                'location' => $this->location($check->pageUrl, null, $check->affectedElements),
             ];
 
             if ($check->recommendation !== null) {
@@ -264,6 +292,7 @@ final class AnalysisResultsToDashboardCategories
                     ContentCheckStatus::CRITICAL => 'fail',
                 },
                 'note' => $check->value ?? $check->recommendation,
+                'location' => $this->location($check->pageUrl, null, $check->affectedElements),
             ];
 
             if ($check->recommendation !== null) {
@@ -299,6 +328,7 @@ final class AnalysisResultsToDashboardCategories
                 'name' => $element->element,
                 'status' => $element->status->value,
                 'note' => $element->issues === [] ? null : implode('; ', $element->issues),
+                'location' => $this->location($element->pageUrl, null, $element->affectedElements),
             ];
         }
 
@@ -332,6 +362,13 @@ final class AnalysisResultsToDashboardCategories
                     'name' => $issue->issue,
                     'status' => $issue->status->value,
                     'note' => $issue->recommendation,
+                    'location' => $this->location(
+                        $issue->pageUrl,
+                        null,
+                        $issue->elementUrl !== null
+                            ? [['url' => $issue->elementUrl, 'domPath' => null, 'detail' => null]]
+                            : null,
+                    ),
                 ];
 
                 if ($issue->recommendation !== null) {
@@ -414,7 +451,7 @@ final class AnalysisResultsToDashboardCategories
     }
 
     /**
-     * @return array<int, array{name: string, status: string, note: ?string}>
+     * @return array<int, array{name: string, status: string, note: ?string, location: array{page_url: ?string, dom_path: ?string, affected_elements: array<int, array{url: ?string, domPath: ?string, detail: ?string}>}}>
      */
     private function businessSignalsChecks(?BusinessSignalsResult $businessSignals): array
     {
@@ -435,6 +472,9 @@ final class AnalysisResultsToDashboardCategories
                 // since absence of a signal isn't itself a problem.
                 'status' => $detected ? 'pass' : 'warning',
                 'note' => $businessSignals->signalDetails[$signal] ?? null,
+                // BusinessSignalsResult carries no page/element location
+                // data of its own, so this is always the empty shape.
+                'location' => $this->location(null),
             ];
         }
 
@@ -442,7 +482,7 @@ final class AnalysisResultsToDashboardCategories
     }
 
     /**
-     * @return array<int, array{name: string, status: string, note: ?string}>
+     * @return array<int, array{name: string, status: string, note: ?string, location: array{page_url: ?string, dom_path: ?string, affected_elements: array<int, array{url: ?string, domPath: ?string, detail: ?string}>}}>
      */
     private function contactInfoChecks(?ContactInfoResult $contactInfo): array
     {
@@ -454,12 +494,32 @@ final class AnalysisResultsToDashboardCategories
             [
                 'name' => 'Emails found',
                 'status' => $contactInfo->emails === [] ? 'warning' : 'pass',
-                'note' => $contactInfo->emails === [] ? null : implode(', ', $contactInfo->emails),
+                'note' => $contactInfo->emails === []
+                    ? null
+                    : implode(', ', array_column($contactInfo->emails, 'value')),
+                'location' => $this->location(null, null, array_map(
+                    static fn (array $email): array => [
+                        'url' => null,
+                        'domPath' => null,
+                        'detail' => "{$email['value']} — found on {$email['sourceUrl']}",
+                    ],
+                    $contactInfo->emails,
+                )),
             ],
             [
                 'name' => 'Phones found',
                 'status' => $contactInfo->phones === [] ? 'warning' : 'pass',
-                'note' => $contactInfo->phones === [] ? null : implode(', ', $contactInfo->phones),
+                'note' => $contactInfo->phones === []
+                    ? null
+                    : implode(', ', array_column($contactInfo->phones, 'value')),
+                'location' => $this->location(null, null, array_map(
+                    static fn (array $phone): array => [
+                        'url' => null,
+                        'domPath' => null,
+                        'detail' => "{$phone['value']} — found on {$phone['sourceUrl']}",
+                    ],
+                    $contactInfo->phones,
+                )),
             ],
             [
                 'name' => 'Social profiles found',
@@ -467,6 +527,12 @@ final class AnalysisResultsToDashboardCategories
                 'note' => $contactInfo->socialProfiles === []
                     ? null
                     : implode(', ', array_keys($contactInfo->socialProfiles)),
+                // Social profile links aren't tracked per-source-page —
+                // ContactInfoExtractor::extractSocialProfiles() only
+                // records the first matching URL per platform, not which
+                // page it was found on — so there's no page/element
+                // location to surface here.
+                'location' => $this->location(null),
             ],
             [
                 'name' => 'Team members identified',
@@ -474,12 +540,20 @@ final class AnalysisResultsToDashboardCategories
                 'note' => $contactInfo->teamMembers === []
                     ? null
                     : implode(', ', array_column($contactInfo->teamMembers, 'name')),
+                'location' => $this->location(null, null, array_map(
+                    static fn (array $member): array => [
+                        'url' => $member['linkedinUrl'] ?? null,
+                        'domPath' => null,
+                        'detail' => trim(($member['name'] ?? '').' — found on '.($member['sourceUrl'] ?? '')),
+                    ],
+                    $contactInfo->teamMembers,
+                )),
             ],
         ];
     }
 
     /**
-     * @return array<int, array{name: string, status: string, note: ?string}>
+     * @return array<int, array{name: string, status: string, note: ?string, location: array{page_url: ?string, dom_path: ?string, affected_elements: array<int, array{url: ?string, domPath: ?string, detail: ?string}>}}>
      */
     private function reviewPresenceChecks(?ReviewPresenceResult $reviewPresence): array
     {
@@ -494,6 +568,11 @@ final class AnalysisResultsToDashboardCategories
                 'name' => 'Review presence: '.ucfirst($platform),
                 'status' => $profileUrl === null ? 'warning' : 'pass',
                 'note' => $profileUrl,
+                'location' => $this->location(
+                    $reviewPresence->platformSourcePages[$platform] ?? null,
+                    null,
+                    $profileUrl !== null ? [['url' => $profileUrl, 'domPath' => null, 'detail' => null]] : null,
+                ),
             ];
         }
 
@@ -502,12 +581,12 @@ final class AnalysisResultsToDashboardCategories
 
     /**
      * @param  array<int, TechnologyUpgradeOpportunity>  $opportunities
-     * @return array<int, array{name: string, status: string, note: ?string}>
+     * @return array<int, array{name: string, status: string, note: ?string, location: array{page_url: ?string, dom_path: ?string, affected_elements: array<int, array{url: ?string, domPath: ?string, detail: ?string}>}}>
      */
     private function technologyUpgradeChecks(array $opportunities): array
     {
         return array_map(
-            static fn (TechnologyUpgradeOpportunity $opportunity): array => [
+            fn (TechnologyUpgradeOpportunity $opportunity): array => [
                 'name' => $opportunity->technology.($opportunity->detectedVersion !== null
                     ? ' ('.$opportunity->detectedVersion.')'
                     : ''),
@@ -519,6 +598,10 @@ final class AnalysisResultsToDashboardCategories
                 // doesn't carry.
                 'status' => 'warning',
                 'note' => $opportunity->reason,
+                // TechnologyUpgradeOpportunity carries no page/element
+                // location data of its own, so this is always the empty
+                // shape.
+                'location' => $this->location(null),
             ],
             $opportunities,
         );
@@ -568,5 +651,32 @@ final class AnalysisResultsToDashboardCategories
         }
 
         return $parts === [] ? 'No lead intelligence data available yet.' : implode('; ', $parts).'.';
+    }
+
+    /**
+     * Builds the standard 'location' shape every check entry carries —
+     * see this class's own docblock. $affectedElements entries are
+     * normalized to always carry 'url'/'domPath'/'detail' keys (even
+     * when the source DTO's own shape omits one, e.g. UiUxElementResult
+     * only ever supplies domPath/detail, never url) so every consumer
+     * of this shape can rely on all three keys always being present.
+     *
+     * @param  ?array<int, array{url?: ?string, domPath?: ?string, detail?: ?string}>  $affectedElements
+     * @return array{page_url: ?string, dom_path: ?string, affected_elements: array<int, array{url: ?string, domPath: ?string, detail: ?string}>}
+     */
+    private function location(?string $pageUrl, ?string $domPath = null, ?array $affectedElements = null): array
+    {
+        return [
+            'page_url' => $pageUrl,
+            'dom_path' => $domPath,
+            'affected_elements' => array_map(
+                static fn (array $element): array => [
+                    'url' => $element['url'] ?? null,
+                    'domPath' => $element['domPath'] ?? null,
+                    'detail' => $element['detail'] ?? null,
+                ],
+                $affectedElements ?? [],
+            ),
+        ];
     }
 }

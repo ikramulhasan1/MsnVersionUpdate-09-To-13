@@ -7,21 +7,30 @@ namespace App\Audit\ReviewPresence\DTO;
 final readonly class ReviewPresenceResult implements \JsonSerializable
 {
     /**
-     * @param array<string, ?string> $platforms keyed by clutch, g2,
-     *        goodfirms, google — value is the profile/listing URL found
-     *        linked from the site, or null when no such link was found.
-     *        This is presence detection only (does the site itself link
-     *        out to a review profile) — it is NOT review data (rating,
-     *        review count) fetched from those platforms, since that
-     *        would require each platform's own API and ToS agreement,
-     *        which this class does not have.
+     * @param  array<string, ?string>  $platforms  keyed by clutch, g2,
+     *                                             goodfirms, google — value is the profile/listing URL found
+     *                                             linked from the site, or null when no such link was found.
+     *                                             This is presence detection only (does the site itself link
+     *                                             out to a review profile) — it is NOT review data (rating,
+     *                                             review count) fetched from those platforms, since that
+     *                                             would require each platform's own API and ToS agreement,
+     *                                             which this class does not have.
+     * @param  array<string, ?string>  $platformSourcePages  keyed the same
+     *                                                       as $platforms — value is the URL of the specific crawled
+     *                                                       page the platform link was found on (the "first matching
+     *                                                       link wins" page, matching $platforms' own first-occurrence
+     *                                                       rule), or null for a platform with no link found. Kept as
+     *                                                       a separate parallel array (rather than folding sourcePage
+     *                                                       into $platforms' value) so $platforms' existing shape —
+     *                                                       platform => URL — stays untouched for anything already
+     *                                                       reading it.
      */
     public function __construct(
         public string $url,
         public array $platforms,
         public string $analyzedAt,
-    ) {
-    }
+        public array $platformSourcePages = [],
+    ) {}
 
     /**
      * @return array<string, mixed>
@@ -31,6 +40,7 @@ final readonly class ReviewPresenceResult implements \JsonSerializable
         return [
             'url' => $this->url,
             'platforms' => $this->platforms,
+            'platform_source_pages' => $this->platformSourcePages,
             'analyzed_at' => $this->analyzedAt,
         ];
     }

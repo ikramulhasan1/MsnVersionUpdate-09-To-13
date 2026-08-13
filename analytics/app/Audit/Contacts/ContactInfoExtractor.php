@@ -39,6 +39,13 @@ use App\Audit\Fetching\DTO\SchemaBlock;
  *     person — a real-world harm to that person, not just a
  *     data-quality bug. A team page with no Person markup yields no
  *     team members here, honestly, rather than a guessed list.
+ *   - Emails and phones each carry the sourceUrl of the first crawled
+ *     page they were found linked from — the same first-occurrence
+ *     rule teamMembers already applies per name is applied here per
+ *     address/number, since a contact address/number can legitimately
+ *     appear (via mailto:/tel: links) on more than one page (e.g. a
+ *     footer repeated site-wide), and only the first page it was seen
+ *     on is kept rather than a list of every page.
  */
 final class ContactInfoExtractor
 {
@@ -56,7 +63,7 @@ final class ContactInfoExtractor
     ];
 
     /**
-     * @param array<int, CrawledPage> $crawledPages
+     * @param  array<int, CrawledPage>  $crawledPages
      */
     public function extract(array $crawledPages): ContactInfoResult
     {
@@ -73,12 +80,13 @@ final class ContactInfoExtractor
     }
 
     /**
-     * @param array<int, CrawledPage> $crawledPages
-     * @return array<int, string>
+     * @param  array<int, CrawledPage>  $crawledPages
+     * @return array<int, array{value: string, sourceUrl: string}>
      */
     private function extractEmails(array $crawledPages): array
     {
         $emails = [];
+        $seen = [];
 
         foreach ($crawledPages as $page) {
             foreach ($page->mailtoLinks as $address) {
@@ -92,9 +100,12 @@ final class ContactInfoExtractor
 
                 $normalized = strtolower($address);
 
-                if (! in_array($normalized, $emails, true)) {
-                    $emails[] = $normalized;
+                if (isset($seen[$normalized])) {
+                    continue;
                 }
+
+                $seen[$normalized] = true;
+                $emails[] = ['value' => $normalized, 'sourceUrl' => $page->url];
             }
         }
 
@@ -115,18 +126,22 @@ final class ContactInfoExtractor
     }
 
     /**
-     * @param array<int, CrawledPage> $crawledPages
-     * @return array<int, string>
+     * @param  array<int, CrawledPage>  $crawledPages
+     * @return array<int, array{value: string, sourceUrl: string}>
      */
     private function extractPhones(array $crawledPages): array
     {
         $phones = [];
+        $seen = [];
 
         foreach ($crawledPages as $page) {
             foreach ($page->telLinks as $number) {
-                if (! in_array($number, $phones, true)) {
-                    $phones[] = $number;
+                if (isset($seen[$number])) {
+                    continue;
                 }
+
+                $seen[$number] = true;
+                $phones[] = ['value' => $number, 'sourceUrl' => $page->url];
             }
         }
 
@@ -134,7 +149,7 @@ final class ContactInfoExtractor
     }
 
     /**
-     * @param array<int, CrawledPage> $crawledPages
+     * @param  array<int, CrawledPage>  $crawledPages
      * @return array<string, string>
      */
     private function extractSocialProfiles(array $crawledPages): array
@@ -159,7 +174,7 @@ final class ContactInfoExtractor
     }
 
     /**
-     * @param array<int, CrawledPage> $crawledPages
+     * @param  array<int, CrawledPage>  $crawledPages
      * @return array<int, array{name: string, title: ?string, linkedinUrl: ?string, sourceUrl: string}>
      */
     private function extractTeamMembers(array $crawledPages): array
@@ -216,7 +231,7 @@ final class ContactInfoExtractor
      * shape, but collecting whole Person nodes rather than just type
      * names.
      *
-     * @param array<mixed> $node
+     * @param  array<mixed>  $node
      * @return array<int, array<string, mixed>>
      */
     private function findPersonNodes(array $node): array
@@ -247,7 +262,7 @@ final class ContactInfoExtractor
     }
 
     /**
-     * @param array<string, mixed> $person
+     * @param  array<string, mixed>  $person
      */
     private function findLinkedInUrl(array $person): ?string
     {

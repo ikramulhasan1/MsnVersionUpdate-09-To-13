@@ -265,13 +265,13 @@ final class AnalysisResultsToRows
                 'Contacts Found',
                 'Emails',
                 (string) count($contactInfo->emails),
-                $contactInfo->emails === [] ? null : implode(', ', $contactInfo->emails),
+                $contactInfo->emails === [] ? null : implode(', ', array_column($contactInfo->emails, 'value')),
             ));
             $rows->push(new LeadIntelligenceRow(
                 'Contacts Found',
                 'Phones',
                 (string) count($contactInfo->phones),
-                $contactInfo->phones === [] ? null : implode(', ', $contactInfo->phones),
+                $contactInfo->phones === [] ? null : implode(', ', array_column($contactInfo->phones, 'value')),
             ));
             $rows->push(new LeadIntelligenceRow(
                 'Contacts Found',

@@ -25,6 +25,10 @@ final class ReviewPresenceScannerTest extends TestCase
             ['clutch' => null, 'g2' => null, 'goodfirms' => null, 'google' => null],
             $result->platforms,
         );
+        $this->assertSame(
+            ['clutch' => null, 'g2' => null, 'goodfirms' => null, 'google' => null],
+            $result->platformSourcePages,
+        );
     }
 
     public function test_a_clutch_profile_link_is_detected(): void
@@ -123,6 +127,35 @@ final class ReviewPresenceScannerTest extends TestCase
         $this->assertSame('https://example.com/', $result->url);
     }
 
+    public function test_the_source_page_is_recorded_for_a_detected_platform_link(): void
+    {
+        $home = CrawledPageFactory::make(url: 'https://example.com/');
+        $about = CrawledPageFactory::make(url: 'https://example.com/about', anchors: [
+            CrawledPageFactory::anchor('https://clutch.co/profile/example-agency'),
+        ]);
+
+        $result = $this->scanner()->scan([$home, $about]);
+
+        $this->assertSame('https://clutch.co/profile/example-agency', $result->platforms['clutch']);
+        $this->assertSame('https://example.com/about', $result->platformSourcePages['clutch']);
+        $this->assertNull($result->platformSourcePages['g2']);
+    }
+
+    public function test_source_page_follows_the_same_first_match_wins_rule_as_the_link_itself(): void
+    {
+        $first = CrawledPageFactory::make(url: 'https://example.com/press', anchors: [
+            CrawledPageFactory::anchor('https://clutch.co/profile/first'),
+        ]);
+        $second = CrawledPageFactory::make(url: 'https://example.com/about', anchors: [
+            CrawledPageFactory::anchor('https://clutch.co/profile/second'),
+        ]);
+
+        $result = $this->scanner()->scan([$first, $second]);
+
+        $this->assertSame('https://clutch.co/profile/first', $result->platforms['clutch']);
+        $this->assertSame('https://example.com/press', $result->platformSourcePages['clutch']);
+    }
+
     public function test_result_serializes_to_the_expected_json_shape(): void
     {
         $page = CrawledPageFactory::make();
@@ -131,6 +164,6 @@ final class ReviewPresenceScannerTest extends TestCase
 
         $decoded = json_decode(json_encode($result, JSON_THROW_ON_ERROR), true, flags: JSON_THROW_ON_ERROR);
 
-        $this->assertSame(['url', 'platforms', 'analyzed_at'], array_keys($decoded));
+        $this->assertSame(['url', 'platforms', 'platform_source_pages', 'analyzed_at'], array_keys($decoded));
     }
 }

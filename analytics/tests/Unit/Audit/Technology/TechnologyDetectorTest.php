@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Audit\Technology;
 
 use App\Audit\Fetching\DTO\CssLink;
+use App\Audit\Fetching\DTO\MetaData;
 use App\Audit\Technology\TechnologyDetector;
 use PHPUnit\Framework\TestCase;
 use Tests\Support\FetchResultFactory;
@@ -38,8 +39,8 @@ final class TechnologyDetectorTest extends TestCase
     public function test_wordpress_asset_paths_are_a_strong_enough_signal_to_detect_wordpress(): void
     {
         // detectWordPress() matches asset paths against the structured
-        // cssLinks/jsLinks arrays (via anyLinkContains), not the raw html
-        // string, so the signal has to be supplied as a CssLink — a
+        // cssLinks/jsLinks arrays (via firstMatchingLinkUrl), not the raw
+        // html string, so the signal has to be supplied as a CssLink — a
         // <link> tag inside html: alone is never parsed out of it.
         $result = $this->detector()->detect(FetchResultFactory::make(
             cssLinks: [new CssLink(url: 'https://example.com/wp-content/themes/x/style.css')],
@@ -69,5 +70,84 @@ final class TechnologyDetectorTest extends TestCase
             ['url', 'detections', 'technology_stack', 'technology_summary', 'overall_detection_confidence', 'server_header', 'analyzed_at'],
             array_keys($decoded),
         );
+    }
+
+    public function test_a_detection_result_includes_the_evidence_keys(): void
+    {
+        $result = $this->detector()->detect(FetchResultFactory::make());
+
+        $decoded = json_decode(json_encode($result, JSON_THROW_ON_ERROR), true, flags: JSON_THROW_ON_ERROR);
+
+        $this->assertSame(
+            ['technology', 'detected', 'version', 'confidence_score', 'detection_method', 'evidence_url', 'evidence_snippet'],
+            array_keys($decoded['detections']['laravel']),
+        );
+    }
+
+    public function test_wordpress_detection_reports_the_matching_asset_url_as_evidence(): void
+    {
+        $result = $this->detector()->detect(FetchResultFactory::make(
+            cssLinks: [new CssLink(url: 'https://example.com/wp-content/themes/x/style.css')],
+        ));
+
+        $wordpress = $result->detections['wordpress'];
+
+        $this->assertTrue($wordpress->detected);
+        $this->assertSame('https://example.com/wp-content/themes/x/style.css', $wordpress->evidenceUrl);
+        $this->assertNull($wordpress->evidenceSnippet);
+    }
+
+    public function test_laravel_detection_reports_the_matching_cookie_as_an_evidence_snippet(): void
+    {
+        $result = $this->detector()->detect(FetchResultFactory::make(headers: [
+            'Set-Cookie' => 'laravel_session=abc123; XSRF-TOKEN=def456; Path=/',
+        ]));
+
+        $laravel = $result->detections['laravel'];
+
+        $this->assertTrue($laravel->detected);
+        $this->assertNull($laravel->evidenceUrl);
+        $this->assertStringContainsString('Set-Cookie: laravel_session=abc123', (string) $laravel->evidenceSnippet);
+    }
+
+    public function test_a_meta_generator_tag_is_reported_as_evidence(): void
+    {
+        $meta = new MetaData(
+            title: null,
+            description: null,
+            keywords: null,
+            canonical: null,
+            robots: null,
+            viewport: null,
+            charset: null,
+            openGraph: [],
+            twitter: [],
+            raw: [['name' => 'generator', 'property' => null, 'content' => 'WordPress 6.4']],
+        );
+
+        $result = $this->detector()->detect(FetchResultFactory::make(
+            meta: $meta,
+            cssLinks: [new CssLink(url: 'https://example.com/wp-content/themes/x/style.css')],
+        ));
+
+        $wordpress = $result->detections['wordpress'];
+
+        $this->assertTrue($wordpress->detected);
+        $this->assertSame('6.4', $wordpress->version);
+        // The generator meta tag (weight 55) outweighs the asset path
+        // signal (weight 40), so it wins as the reported evidence.
+        $this->assertNull($wordpress->evidenceUrl);
+        $this->assertSame('<meta name="generator" content="WordPress 6.4">', $wordpress->evidenceSnippet);
+    }
+
+    public function test_undetected_technologies_have_no_evidence(): void
+    {
+        $result = $this->detector()->detect(FetchResultFactory::make());
+
+        $react = $result->detections['react'];
+
+        $this->assertFalse($react->detected);
+        $this->assertNull($react->evidenceUrl);
+        $this->assertNull($react->evidenceSnippet);
     }
 }

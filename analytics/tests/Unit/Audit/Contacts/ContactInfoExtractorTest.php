@@ -42,7 +42,31 @@ final class ContactInfoExtractorTest extends TestCase
 
         $result = $this->extractor()->extract([$page]);
 
-        $this->assertSame(['sales@acme-co.com', 'hi@acme-co.com'], $result->emails);
+        $this->assertSame(
+            ['sales@acme-co.com', 'hi@acme-co.com'],
+            array_column($result->emails, 'value'),
+        );
+    }
+
+    public function test_each_email_records_the_page_it_was_found_on(): void
+    {
+        $page = CrawledPageFactory::make(url: 'https://example.com/contact', mailtoLinks: ['sales@acme-co.com']);
+
+        $result = $this->extractor()->extract([$page]);
+
+        $this->assertSame('sales@acme-co.com', $result->emails[0]['value']);
+        $this->assertSame('https://example.com/contact', $result->emails[0]['sourceUrl']);
+    }
+
+    public function test_an_email_repeated_across_pages_keeps_the_first_pages_source_url(): void
+    {
+        $home = CrawledPageFactory::make(url: 'https://example.com/', mailtoLinks: ['sales@acme-co.com']);
+        $contact = CrawledPageFactory::make(url: 'https://example.com/contact', mailtoLinks: ['sales@acme-co.com']);
+
+        $result = $this->extractor()->extract([$home, $contact]);
+
+        $this->assertCount(1, $result->emails);
+        $this->assertSame('https://example.com/', $result->emails[0]['sourceUrl']);
     }
 
     public function test_any_address_on_the_example_com_or_test_com_domain_is_treated_as_a_placeholder(): void
@@ -68,7 +92,7 @@ final class ContactInfoExtractorTest extends TestCase
 
         $result = $this->extractor()->extract([$page]);
 
-        $this->assertSame(['real@company.com'], $result->emails);
+        $this->assertSame(['real@company.com'], array_column($result->emails, 'value'));
     }
 
     public function test_tel_links_are_collected_verbatim_and_deduplicated(): void
@@ -77,7 +101,28 @@ final class ContactInfoExtractorTest extends TestCase
 
         $result = $this->extractor()->extract([$page]);
 
-        $this->assertSame(['+1-555-0100', '555.0200'], $result->phones);
+        $this->assertSame(['+1-555-0100', '555.0200'], array_column($result->phones, 'value'));
+    }
+
+    public function test_each_phone_records_the_page_it_was_found_on(): void
+    {
+        $page = CrawledPageFactory::make(url: 'https://example.com/contact', telLinks: ['+1-555-0100']);
+
+        $result = $this->extractor()->extract([$page]);
+
+        $this->assertSame('+1-555-0100', $result->phones[0]['value']);
+        $this->assertSame('https://example.com/contact', $result->phones[0]['sourceUrl']);
+    }
+
+    public function test_a_phone_repeated_across_pages_keeps_the_first_pages_source_url(): void
+    {
+        $home = CrawledPageFactory::make(url: 'https://example.com/', telLinks: ['+1-555-0100']);
+        $contact = CrawledPageFactory::make(url: 'https://example.com/contact', telLinks: ['+1-555-0100']);
+
+        $result = $this->extractor()->extract([$home, $contact]);
+
+        $this->assertCount(1, $result->phones);
+        $this->assertSame('https://example.com/', $result->phones[0]['sourceUrl']);
     }
 
     public function test_social_profile_links_are_detected_per_platform(): void
@@ -233,6 +278,28 @@ final class ContactInfoExtractorTest extends TestCase
         $this->assertSame(
             ['url', 'emails', 'phones', 'social_profiles', 'team_members', 'analyzed_at'],
             array_keys($decoded),
+        );
+    }
+
+    public function test_email_and_phone_entries_serialize_with_value_and_source_url(): void
+    {
+        $page = CrawledPageFactory::make(
+            url: 'https://example.com/contact',
+            mailtoLinks: ['sales@acme-co.com'],
+            telLinks: ['+1-555-0100'],
+        );
+
+        $result = $this->extractor()->extract([$page]);
+
+        $decoded = json_decode(json_encode($result, JSON_THROW_ON_ERROR), true, flags: JSON_THROW_ON_ERROR);
+
+        $this->assertSame(
+            ['value' => 'sales@acme-co.com', 'sourceUrl' => 'https://example.com/contact'],
+            $decoded['emails'][0],
+        );
+        $this->assertSame(
+            ['value' => '+1-555-0100', 'sourceUrl' => 'https://example.com/contact'],
+            $decoded['phones'][0],
         );
     }
 }

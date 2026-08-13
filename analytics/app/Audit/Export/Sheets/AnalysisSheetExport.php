@@ -18,22 +18,23 @@ use Maatwebsite\Excel\Concerns\WithTitle;
  * every analyzed category.
  *
  * Mixes in FormatsWorksheet (Prompt 16.3) for professional formatting;
- * collection()/headings()/title() below are unchanged from Prompt 16.1.
+ * collection()/headings()/title() below are unchanged from Prompt 16.1,
+ * aside from the two additional "Page URL" / "Element / Location"
+ * columns appended at the end (see AnalysisRow::$pageUrl/$elementLocation).
  */
-final class AnalysisSheetExport implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize, WithEvents
+final class AnalysisSheetExport implements FromCollection, ShouldAutoSize, WithEvents, WithHeadings, WithTitle
 {
     use FormatsWorksheet;
 
     /**
-     * @param Collection<int, AnalysisRow> $rows
+     * @param  Collection<int, AnalysisRow>  $rows
      */
     public function __construct(
         private readonly Collection $rows,
-    ) {
-    }
+    ) {}
 
     /**
-     * @return Collection<int, array{0: string, 1: string, 2: ?string, 3: string}>
+     * @return Collection<int, array{0: string, 1: string, 2: ?string, 3: string, 4: ?string, 5: ?string}>
      */
     public function collection(): Collection
     {
@@ -42,6 +43,8 @@ final class AnalysisSheetExport implements FromCollection, WithHeadings, WithTit
             $row->check,
             $row->value,
             $row->status,
+            $row->pageUrl,
+            $row->elementLocation,
         ]);
     }
 
@@ -50,7 +53,7 @@ final class AnalysisSheetExport implements FromCollection, WithHeadings, WithTit
      */
     public function headings(): array
     {
-        return ['Category', 'Check', 'Value', 'Status'];
+        return ['Category', 'Check', 'Value', 'Status', 'Page URL', 'Element / Location'];
     }
 
     public function title(): string

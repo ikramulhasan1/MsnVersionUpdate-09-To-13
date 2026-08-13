@@ -105,7 +105,7 @@ final class AnalysisResultsToDashboardCategoriesLeadIntelligenceTest extends Tes
             url: 'https://example.com/',
             contactInfo: new ContactInfoResult(
                 url: 'https://example.com/',
-                emails: ['sales@example.com'],
+                emails: [['value' => 'sales@example.com', 'sourceUrl' => 'https://example.com/']],
                 phones: [],
                 socialProfiles: [],
                 teamMembers: [],

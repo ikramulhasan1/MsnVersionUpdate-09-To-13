@@ -16,7 +16,16 @@
                         score: int|null,
                         grade: string|null,
                         summary: string,
-                        checks: array<int, array{name: string, status: string, note: string}>,
+                        checks: array<int, array{
+                            name: string,
+                            status: string,
+                            note: string,
+                            location: array{
+                                page_url: string|null,
+                                dom_path: string|null,
+                                affected_elements: array<int, array{url: string|null, domPath: string|null, detail: string|null}>,
+                            },
+                        }>,
                         recommendations: array<int, string>,
                     }>
 --}}
@@ -102,9 +111,12 @@
                         <div class="progress progress-thin" role="progressbar"
                             aria-label="{{ $category['label'] }} checks breakdown" aria-valuenow="{{ $passCount }}"
                             aria-valuemin="0" aria-valuemax="{{ $total }}">
-                            <div class="progress-bar bg-success" style="width: {{ ($passCount / $total) * 100 }}%"></div>
-                            <div class="progress-bar bg-warning" style="width: {{ ($warnCount / $total) * 100 }}%"></div>
-                            <div class="progress-bar bg-danger" style="width: {{ ($failCount / $total) * 100 }}%"></div>
+                            <div class="progress-bar bg-success" style="width: {{ ($passCount / $total) * 100 }}%">
+                            </div>
+                            <div class="progress-bar bg-warning" style="width: {{ ($warnCount / $total) * 100 }}%">
+                            </div>
+                            <div class="progress-bar bg-danger" style="width: {{ ($failCount / $total) * 100 }}%">
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -144,11 +156,61 @@
 
                             <ul class="list-group list-group-flush mb-3">
                                 @foreach ($category['checks'] as $check)
+                                    @php
+                                        $location = $check['location'] ?? null;
+                                        $pageUrl = $location['page_url'] ?? null;
+                                        $affectedElements = $location['affected_elements'] ?? [];
+                                        $checkUid = $category['key'] . '-' . $loop->index;
+                                    @endphp
                                     <li
                                         class="list-group-item d-flex align-items-start justify-content-between gap-3 px-0">
-                                        <div>
+                                        <div class="flex-grow-1">
                                             <p class="fw-medium mb-0">{{ $check['name'] }}</p>
                                             <p class="text-secondary small mb-0">{{ $check['note'] }}</p>
+
+                                            {{-- Page URL this check/issue was found on, when known --}}
+                                            @if (!empty($pageUrl))
+                                                <p class="text-secondary small mb-0">
+                                                    <a href="{{ $pageUrl }}" target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        class="check-location-link">{{ $pageUrl }}</a>
+                                                </p>
+                                            @endif
+
+                                            {{-- Affected element(s)/DOM location(s), when known — collapsed by default --}}
+                                            @if (!empty($affectedElements))
+                                                <button class="btn btn-link btn-sm p-0 mt-1 small text-decoration-none"
+                                                    type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#check-location-{{ $checkUid }}"
+                                                    aria-expanded="false"
+                                                    aria-controls="check-location-{{ $checkUid }}">
+                                                    {{ count($affectedElements) }}
+                                                    affected element{{ count($affectedElements) > 1 ? 's' : '' }}
+                                                </button>
+                                                <div class="collapse mt-1" id="check-location-{{ $checkUid }}">
+                                                    <ul class="mb-0 ps-3 check-location-list">
+                                                        @foreach ($affectedElements as $element)
+                                                            @php
+                                                                $bits = array_filter([
+                                                                    $element['domPath'] ?? null,
+                                                                    $element['detail'] ?? null,
+                                                                ]);
+                                                            @endphp
+                                                            @if (!empty($bits) || !empty($element['url']))
+                                                                <li class="text-secondary small">
+                                                                    @if (!empty($bits))
+                                                                        {{ implode(' — ', $bits) }}
+                                                                    @endif
+                                                                    @if (!empty($element['url']))
+                                                                        <a href="{{ $element['url'] }}" target="_blank"
+                                                                            rel="noopener noreferrer">{{ $element['url'] }}</a>
+                                                                    @endif
+                                                                </li>
+                                                            @endif
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
                                         </div>
                                         <span
                                             class="badge bg-{{ audit_check_variant($check['status']) }}-subtle text-{{ audit_check_variant($check['status']) }}-emphasis text-capitalize flex-shrink-0">
@@ -161,8 +223,9 @@
                             {{-- Expandable Section: recommendations, collapsed by default --}}
                             @if (!empty($category['recommendations']))
                                 <button class="btn btn-sm btn-outline-secondary" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#recommendations-{{ $category['key'] }}"
-                                    aria-expanded="false" aria-controls="recommendations-{{ $category['key'] }}">
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#recommendations-{{ $category['key'] }}" aria-expanded="false"
+                                    aria-controls="recommendations-{{ $category['key'] }}">
                                     View recommendations ({{ count($category['recommendations']) }})
                                 </button>
                                 <div class="collapse mt-3" id="recommendations-{{ $category['key'] }}">

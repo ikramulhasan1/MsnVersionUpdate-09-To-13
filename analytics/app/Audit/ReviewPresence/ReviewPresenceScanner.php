@@ -34,12 +34,18 @@ final class ReviewPresenceScanner
     ];
 
     /**
-     * @param array<int, CrawledPage> $crawledPages
+     * @param  array<int, CrawledPage>  $crawledPages
      */
     public function scan(array $crawledPages): ReviewPresenceResult
     {
         $url = $crawledPages[0]->url ?? '';
         $platforms = [
+            'clutch' => null,
+            'g2' => null,
+            'goodfirms' => null,
+            'google' => null,
+        ];
+        $platformSourcePages = [
             'clutch' => null,
             'g2' => null,
             'goodfirms' => null,
@@ -55,6 +61,7 @@ final class ReviewPresenceScanner
 
                     if (preg_match($pattern, $anchor->url) === 1) {
                         $platforms[$platform] = $anchor->url;
+                        $platformSourcePages[$platform] = $page->url;
                     }
                 }
             }
@@ -64,6 +71,7 @@ final class ReviewPresenceScanner
             url: $url,
             platforms: $platforms,
             analyzedAt: (new \DateTimeImmutable)->format(DATE_ATOM),
+            platformSourcePages: $platformSourcePages,
         );
     }
 }

@@ -25,6 +25,17 @@ use App\Audit\Technology\DTO\TechnologyResult;
  * a technology is present" is inherently a spectrum rather than a
  * checklist item that can outright pass or fail.
  *
+ * Each signal a detect*() method finds is additionally, wherever
+ * possible, tagged with its own evidence — either the specific asset
+ * URL that matched ('url'), or a short raw snippet of the matched HTML/
+ * cookie/header text ('snippet') — alongside its existing weight/label.
+ * buildResult() rolls a technology's signals up into a single
+ * evidenceUrl/evidenceSnippet pair on the returned
+ * TechnologyDetectionResult (see primaryEvidence()): whichever signal
+ * carried the *highest weight* among those with evidence, so the
+ * reported evidence is always the strongest reason the technology was
+ * flagged, not just whichever signal happened to be checked first.
+ *
  * Takes a FetchResult (not a CrawledPage) for the same reason
  * SecurityAnalyzer does: fingerprinting needs the raw response headers
  * (Set-Cookie, X-Shopify-Stage, etc.) and raw HTML (inline JS globals,
@@ -223,24 +234,38 @@ final class TechnologyDetector
         $html = (string) $result->html;
         $signals = [];
 
-        if ($this->hasCookieNamed($result, 'laravel_session')) {
-            $signals[] = ['weight' => 45, 'label' => 'laravel_session cookie present'];
+        $laravelCookie = $this->cookieSnippet($result, 'laravel_session');
+
+        if ($laravelCookie !== null) {
+            $signals[] = ['weight' => 45, 'label' => 'laravel_session cookie present', 'snippet' => "Set-Cookie: {$laravelCookie}"];
         }
 
-        if ($this->hasCookieNamed($result, 'XSRF-TOKEN')) {
-            $signals[] = ['weight' => 25, 'label' => 'XSRF-TOKEN cookie present'];
+        $xsrfCookie = $this->cookieSnippet($result, 'XSRF-TOKEN');
+
+        if ($xsrfCookie !== null) {
+            $signals[] = ['weight' => 25, 'label' => 'XSRF-TOKEN cookie present', 'snippet' => "Set-Cookie: {$xsrfCookie}"];
         }
 
-        if ($this->htmlHasMetaCsrfToken($html)) {
-            $signals[] = ['weight' => 20, 'label' => 'csrf-token meta tag present'];
+        $csrfMetaSnippet = $this->htmlMetaCsrfSnippet($html);
+
+        if ($csrfMetaSnippet !== null) {
+            $signals[] = ['weight' => 20, 'label' => 'csrf-token meta tag present', 'snippet' => $csrfMetaSnippet];
         }
 
-        if ($this->htmlContainsAny($html, ['wire:id=', 'wire:model=', 'wire:click='])) {
-            $signals[] = ['weight' => 20, 'label' => 'Livewire wire: attributes present (Laravel package)'];
+        $wireNeedle = $this->firstMatchingNeedle($html, ['wire:id=', 'wire:model=', 'wire:click=']);
+
+        if ($wireNeedle !== null) {
+            $signals[] = [
+                'weight' => 20,
+                'label' => 'Livewire wire: attributes present (Laravel package)',
+                'snippet' => $this->htmlSnippet($html, $wireNeedle),
+            ];
         }
 
-        if ($this->anyLinkContains($result->jsLinks, ['/livewire/livewire.js', '/vendor/livewire/'])) {
-            $signals[] = ['weight' => 15, 'label' => 'Livewire asset path present (Laravel package)'];
+        $livewireLink = $this->firstMatchingLinkUrl($result->jsLinks, ['/livewire/livewire.js', '/vendor/livewire/']);
+
+        if ($livewireLink !== null) {
+            $signals[] = ['weight' => 15, 'label' => 'Livewire asset path present (Laravel package)', 'url' => $livewireLink];
         }
 
         return $this->buildResult('Laravel', version: null, signals: $signals);
@@ -255,23 +280,41 @@ final class TechnologyDetector
         $generator = $this->metaGeneratorContent($result);
 
         if ($generator !== null && stripos($generator, 'WordPress') !== false) {
-            $signals[] = ['weight' => 55, 'label' => "meta generator tag: \"{$generator}\""];
+            $signals[] = [
+                'weight' => 55,
+                'label' => "meta generator tag: \"{$generator}\"",
+                'snippet' => $this->metaGeneratorSnippet($generator),
+            ];
             $version = $this->extractVersion($generator, 'WordPress');
         }
 
-        if ($this->htmlContainsAny($html, ['api.w.org'])) {
-            $signals[] = ['weight' => 25, 'label' => 'WordPress REST API discovery link (api.w.org) present'];
+        $apiOrgNeedle = $this->firstMatchingNeedle($html, ['api.w.org']);
+
+        if ($apiOrgNeedle !== null) {
+            $signals[] = [
+                'weight' => 25,
+                'label' => 'WordPress REST API discovery link (api.w.org) present',
+                'snippet' => $this->htmlSnippet($html, $apiOrgNeedle),
+            ];
         }
 
-        if (
-            $this->anyLinkContains($result->cssLinks, ['/wp-content/', '/wp-includes/'])
-            || $this->anyLinkContains($result->jsLinks, ['/wp-content/', '/wp-includes/'])
-        ) {
-            $signals[] = ['weight' => 40, 'label' => '/wp-content/ or /wp-includes/ asset paths present'];
+        $wpAssetLink = $this->firstMatchingLinkUrl(
+            [...$result->cssLinks, ...$result->jsLinks],
+            ['/wp-content/', '/wp-includes/'],
+        );
+
+        if ($wpAssetLink !== null) {
+            $signals[] = ['weight' => 40, 'label' => '/wp-content/ or /wp-includes/ asset paths present', 'url' => $wpAssetLink];
         }
 
-        if ($this->hasCookiePrefixed($result, ['wordpress_', 'wp-settings-'])) {
-            $signals[] = ['weight' => 25, 'label' => 'WordPress cookie (wordpress_* / wp-settings-*) present'];
+        $wpCookie = $this->cookieSnippet($result, 'wordpress_', 'wp-settings-');
+
+        if ($wpCookie !== null) {
+            $signals[] = [
+                'weight' => 25,
+                'label' => 'WordPress cookie (wordpress_* / wp-settings-*) present',
+                'snippet' => "Set-Cookie: {$wpCookie}",
+            ];
         }
 
         return $this->buildResult('WordPress', $version, $signals);
@@ -286,27 +329,54 @@ final class TechnologyDetector
         $generator = $this->metaGeneratorContent($result);
 
         if ($generator !== null && stripos($generator, 'WooCommerce') !== false) {
-            $signals[] = ['weight' => 55, 'label' => "meta generator tag: \"{$generator}\""];
+            $signals[] = [
+                'weight' => 55,
+                'label' => "meta generator tag: \"{$generator}\"",
+                'snippet' => $this->metaGeneratorSnippet($generator),
+            ];
             $version = $this->extractVersion($generator, 'WooCommerce');
         }
 
-        if (
-            $this->anyLinkContains($result->cssLinks, ['/plugins/woocommerce/'])
-            || $this->anyLinkContains($result->jsLinks, ['/plugins/woocommerce/'])
-        ) {
-            $signals[] = ['weight' => 35, 'label' => '/plugins/woocommerce/ asset path present'];
+        $wcAssetLink = $this->firstMatchingLinkUrl(
+            [...$result->cssLinks, ...$result->jsLinks],
+            ['/plugins/woocommerce/'],
+        );
+
+        if ($wcAssetLink !== null) {
+            $signals[] = ['weight' => 35, 'label' => '/plugins/woocommerce/ asset path present', 'url' => $wcAssetLink];
         }
 
-        if ($this->htmlContainsAny($html, ['woocommerce_params', 'wc_add_to_cart_params', 'wc_cart_fragments_params'])) {
-            $signals[] = ['weight' => 30, 'label' => 'WooCommerce inline JS configuration object present'];
+        $wcJsNeedle = $this->firstMatchingNeedle(
+            $html,
+            ['woocommerce_params', 'wc_add_to_cart_params', 'wc_cart_fragments_params'],
+        );
+
+        if ($wcJsNeedle !== null) {
+            $signals[] = [
+                'weight' => 30,
+                'label' => 'WooCommerce inline JS configuration object present',
+                'snippet' => $this->htmlSnippet($html, $wcJsNeedle),
+            ];
         }
 
-        if ($this->htmlBodyHasClass($html, 'woocommerce')) {
-            $signals[] = ['weight' => 20, 'label' => '<body> element carries a "woocommerce" class'];
+        $bodyClassSnippet = $this->htmlBodyClassSnippet($html, 'woocommerce');
+
+        if ($bodyClassSnippet !== null) {
+            $signals[] = [
+                'weight' => 20,
+                'label' => '<body> element carries a "woocommerce" class',
+                'snippet' => $bodyClassSnippet,
+            ];
         }
 
-        if ($this->hasCookiePrefixed($result, ['woocommerce_', 'wp_woocommerce_session_'])) {
-            $signals[] = ['weight' => 25, 'label' => 'WooCommerce cookie (woocommerce_* / wp_woocommerce_session_*) present'];
+        $wcCookie = $this->cookieSnippet($result, 'woocommerce_', 'wp_woocommerce_session_');
+
+        if ($wcCookie !== null) {
+            $signals[] = [
+                'weight' => 25,
+                'label' => 'WooCommerce cookie (woocommerce_* / wp_woocommerce_session_*) present',
+                'snippet' => "Set-Cookie: {$wcCookie}",
+            ];
         }
 
         return $this->buildResult('WooCommerce', $version, $signals);
@@ -324,26 +394,46 @@ final class TechnologyDetector
         $generator = $this->metaGeneratorContent($result);
 
         if ($generator !== null && stripos($generator, 'Shopify') !== false) {
-            $signals[] = ['weight' => 55, 'label' => "meta generator tag: \"{$generator}\""];
+            $signals[] = [
+                'weight' => 55,
+                'label' => "meta generator tag: \"{$generator}\"",
+                'snippet' => $this->metaGeneratorSnippet($generator),
+            ];
         }
 
-        if (
-            $this->anyLinkContains($result->cssLinks, ['cdn.shopify.com', '.myshopify.com'])
-            || $this->anyLinkContains($result->jsLinks, ['cdn.shopify.com', '.myshopify.com'])
-        ) {
-            $signals[] = ['weight' => 40, 'label' => 'cdn.shopify.com / *.myshopify.com asset path present'];
+        $shopifyAssetLink = $this->firstMatchingLinkUrl(
+            [...$result->cssLinks, ...$result->jsLinks],
+            ['cdn.shopify.com', '.myshopify.com'],
+        );
+
+        if ($shopifyAssetLink !== null) {
+            $signals[] = ['weight' => 40, 'label' => 'cdn.shopify.com / *.myshopify.com asset path present', 'url' => $shopifyAssetLink];
         }
 
-        if ($this->htmlContainsAny($html, ['Shopify.shop', 'window.Shopify', 'Shopify.theme'])) {
-            $signals[] = ['weight' => 30, 'label' => 'Shopify inline JS global (window.Shopify) present'];
+        $shopifyJsNeedle = $this->firstMatchingNeedle($html, ['Shopify.shop', 'window.Shopify', 'Shopify.theme']);
+
+        if ($shopifyJsNeedle !== null) {
+            $signals[] = [
+                'weight' => 30,
+                'label' => 'Shopify inline JS global (window.Shopify) present',
+                'snippet' => $this->htmlSnippet($html, $shopifyJsNeedle),
+            ];
         }
 
-        if ($this->hasHeaderNamed($result, ['X-Shopify-Stage', 'X-ShardId', 'X-Sorting-Hat-PodId'])) {
-            $signals[] = ['weight' => 40, 'label' => 'Shopify infrastructure response header present'];
+        $shopifyHeader = $this->headerSnippet($result, 'X-Shopify-Stage', 'X-ShardId', 'X-Sorting-Hat-PodId');
+
+        if ($shopifyHeader !== null) {
+            $signals[] = ['weight' => 40, 'label' => 'Shopify infrastructure response header present', 'snippet' => $shopifyHeader];
         }
 
-        if ($this->hasCookieNamed($result, '_shopify_s') || $this->hasCookieNamed($result, '_shopify_y')) {
-            $signals[] = ['weight' => 20, 'label' => '_shopify_s / _shopify_y cookie present'];
+        $shopifyCookie = $this->cookieSnippet($result, '_shopify_s', '_shopify_y');
+
+        if ($shopifyCookie !== null) {
+            $signals[] = [
+                'weight' => 20,
+                'label' => '_shopify_s / _shopify_y cookie present',
+                'snippet' => "Set-Cookie: {$shopifyCookie}",
+            ];
         }
 
         return $this->buildResult('Shopify', version: null, signals: $signals);
@@ -362,16 +452,29 @@ final class TechnologyDetector
         $html = (string) $result->html;
         $signals = [];
 
-        if ($this->htmlContainsAny($html, ['data-reactroot', 'data-reactid'])) {
-            $signals[] = ['weight' => 35, 'label' => 'data-reactroot / data-reactid attribute present'];
+        $reactRootNeedle = $this->firstMatchingNeedle($html, ['data-reactroot', 'data-reactid']);
+
+        if ($reactRootNeedle !== null) {
+            $signals[] = [
+                'weight' => 35,
+                'label' => 'data-reactroot / data-reactid attribute present',
+                'snippet' => $this->htmlSnippet($html, $reactRootNeedle),
+            ];
         }
 
-        if ($this->htmlContainsAny($html, ['__REACT_DEVTOOLS_GLOBAL_HOOK__', 'ReactDOM.render', 'ReactDOM.hydrate', 'ReactDOM.createRoot'])) {
-            $signals[] = ['weight' => 30, 'label' => 'React inline JS marker present'];
+        $reactJsNeedle = $this->firstMatchingNeedle(
+            $html,
+            ['__REACT_DEVTOOLS_GLOBAL_HOOK__', 'ReactDOM.render', 'ReactDOM.hydrate', 'ReactDOM.createRoot'],
+        );
+
+        if ($reactJsNeedle !== null) {
+            $signals[] = ['weight' => 30, 'label' => 'React inline JS marker present', 'snippet' => $this->htmlSnippet($html, $reactJsNeedle)];
         }
 
-        if ($this->anyLinkContains($result->jsLinks, ['react-dom', 'react.production.min.js', 'react.development.js'])) {
-            $signals[] = ['weight' => 35, 'label' => 'react / react-dom asset path present'];
+        $reactLink = $this->firstMatchingLinkUrl($result->jsLinks, ['react-dom', 'react.production.min.js', 'react.development.js']);
+
+        if ($reactLink !== null) {
+            $signals[] = ['weight' => 35, 'label' => 'react / react-dom asset path present', 'url' => $reactLink];
         }
 
         $version = $this->extractVersionFromLinks($result->jsLinks, 'react');
@@ -389,16 +492,29 @@ final class TechnologyDetector
         $html = (string) $result->html;
         $signals = [];
 
-        if ($this->htmlContainsAny($html, ['data-v-', '__VUE__', 'window.__VUE_DEVTOOLS_GLOBAL_HOOK__'])) {
-            $signals[] = ['weight' => 30, 'label' => 'data-v-* scoped-style attribute or Vue global present'];
+        $vueMarkerNeedle = $this->firstMatchingNeedle($html, ['data-v-', '__VUE__', 'window.__VUE_DEVTOOLS_GLOBAL_HOOK__']);
+
+        if ($vueMarkerNeedle !== null) {
+            $signals[] = [
+                'weight' => 30,
+                'label' => 'data-v-* scoped-style attribute or Vue global present',
+                'snippet' => $this->htmlSnippet($html, $vueMarkerNeedle),
+            ];
         }
 
-        if ($this->htmlContainsAny($html, ['Vue.createApp', 'new Vue(', 'createApp('])) {
-            $signals[] = ['weight' => 30, 'label' => 'Vue inline JS marker present'];
+        $vueJsNeedle = $this->firstMatchingNeedle($html, ['Vue.createApp', 'new Vue(', 'createApp(']);
+
+        if ($vueJsNeedle !== null) {
+            $signals[] = ['weight' => 30, 'label' => 'Vue inline JS marker present', 'snippet' => $this->htmlSnippet($html, $vueJsNeedle)];
         }
 
-        if ($this->anyLinkContains($result->jsLinks, ['vue.global.js', 'vue.runtime.esm', 'vue.esm-browser', 'vue.min.js'])) {
-            $signals[] = ['weight' => 35, 'label' => 'vue asset path present'];
+        $vueLink = $this->firstMatchingLinkUrl(
+            $result->jsLinks,
+            ['vue.global.js', 'vue.runtime.esm', 'vue.esm-browser', 'vue.min.js'],
+        );
+
+        if ($vueLink !== null) {
+            $signals[] = ['weight' => 35, 'label' => 'vue asset path present', 'url' => $vueLink];
         }
 
         $version = $this->extractVersionFromLinks($result->jsLinks, 'vue');
@@ -418,16 +534,24 @@ final class TechnologyDetector
         $version = null;
 
         if (preg_match('/ng-version=["\']([0-9][0-9.]*)["\']/i', $html, $matches) === 1) {
-            $signals[] = ['weight' => 55, 'label' => "ng-version attribute present: \"{$matches[1]}\""];
+            $signals[] = ['weight' => 55, 'label' => "ng-version attribute present: \"{$matches[1]}\"", 'snippet' => $matches[0]];
             $version = $matches[1];
         }
 
-        if ($this->htmlContainsAny($html, ['<app-root'])) {
-            $signals[] = ['weight' => 20, 'label' => '<app-root> host element present'];
+        $appRootNeedle = $this->firstMatchingNeedle($html, ['<app-root']);
+
+        if ($appRootNeedle !== null) {
+            $signals[] = [
+                'weight' => 20,
+                'label' => '<app-root> host element present',
+                'snippet' => $this->htmlSnippet($html, $appRootNeedle),
+            ];
         }
 
-        if ($this->anyLinkContains($result->jsLinks, ['zone.js', 'runtime.js', 'polyfills.js'])) {
-            $signals[] = ['weight' => 20, 'label' => 'zone.js / Angular CLI runtime bundle asset path present'];
+        $angularLink = $this->firstMatchingLinkUrl($result->jsLinks, ['zone.js', 'runtime.js', 'polyfills.js']);
+
+        if ($angularLink !== null) {
+            $signals[] = ['weight' => 20, 'label' => 'zone.js / Angular CLI runtime bundle asset path present', 'url' => $angularLink];
         }
 
         return $this->buildResult('Angular', $version, $signals);
@@ -450,23 +574,38 @@ final class TechnologyDetector
         $generator = $this->metaGeneratorContent($result);
 
         if ($generator !== null && stripos($generator, 'Next.js') !== false) {
-            $signals[] = ['weight' => 40, 'label' => "meta generator tag: \"{$generator}\""];
+            $signals[] = [
+                'weight' => 40,
+                'label' => "meta generator tag: \"{$generator}\"",
+                'snippet' => $this->metaGeneratorSnippet($generator),
+            ];
             $version = $this->extractVersion($generator, 'Next.js');
         }
 
-        if ($this->htmlContainsAny($html, ['id="__NEXT_DATA__', "id='__NEXT_DATA__"])) {
-            $signals[] = ['weight' => 45, 'label' => '__NEXT_DATA__ script tag present'];
+        $nextDataNeedle = $this->firstMatchingNeedle($html, ['id="__NEXT_DATA__', "id='__NEXT_DATA__"]);
+
+        if ($nextDataNeedle !== null) {
+            $signals[] = [
+                'weight' => 45,
+                'label' => '__NEXT_DATA__ script tag present',
+                'snippet' => $this->htmlSnippet($html, $nextDataNeedle),
+            ];
         }
 
-        if (
-            $this->anyLinkContains($result->jsLinks, ['/_next/static/'])
-            || $this->anyLinkContains($result->cssLinks, ['/_next/static/'])
-        ) {
-            $signals[] = ['weight' => 35, 'label' => '/_next/static/ asset path present'];
+        $nextAssetLink = $this->firstMatchingLinkUrl([...$result->jsLinks, ...$result->cssLinks], ['/_next/static/']);
+
+        if ($nextAssetLink !== null) {
+            $signals[] = ['weight' => 35, 'label' => '/_next/static/ asset path present', 'url' => $nextAssetLink];
         }
 
-        if ($this->htmlContainsAny($html, ['name="next-head-count"', "name='next-head-count'"])) {
-            $signals[] = ['weight' => 20, 'label' => 'next-head-count meta tag present'];
+        $nextHeadNeedle = $this->firstMatchingNeedle($html, ['name="next-head-count"', "name='next-head-count'"]);
+
+        if ($nextHeadNeedle !== null) {
+            $signals[] = [
+                'weight' => 20,
+                'label' => 'next-head-count meta tag present',
+                'snippet' => $this->htmlSnippet($html, $nextHeadNeedle),
+            ];
         }
 
         return $this->buildResult('Next.js', $version, $signals);
@@ -487,23 +626,38 @@ final class TechnologyDetector
         $generator = $this->metaGeneratorContent($result);
 
         if ($generator !== null && stripos($generator, 'Nuxt') !== false) {
-            $signals[] = ['weight' => 40, 'label' => "meta generator tag: \"{$generator}\""];
+            $signals[] = [
+                'weight' => 40,
+                'label' => "meta generator tag: \"{$generator}\"",
+                'snippet' => $this->metaGeneratorSnippet($generator),
+            ];
             $version = $this->extractVersion($generator, 'Nuxt');
         }
 
-        if ($this->htmlContainsAny($html, ['window.__NUXT__', '__NUXT__='])) {
-            $signals[] = ['weight' => 45, 'label' => '__NUXT__ inline JS payload present'];
+        $nuxtPayloadNeedle = $this->firstMatchingNeedle($html, ['window.__NUXT__', '__NUXT__=']);
+
+        if ($nuxtPayloadNeedle !== null) {
+            $signals[] = [
+                'weight' => 45,
+                'label' => '__NUXT__ inline JS payload present',
+                'snippet' => $this->htmlSnippet($html, $nuxtPayloadNeedle),
+            ];
         }
 
-        if ($this->htmlContainsAny($html, ['id="__nuxt"', "id='__nuxt'"])) {
-            $signals[] = ['weight' => 25, 'label' => '#__nuxt root element present'];
+        $nuxtRootNeedle = $this->firstMatchingNeedle($html, ['id="__nuxt"', "id='__nuxt'"]);
+
+        if ($nuxtRootNeedle !== null) {
+            $signals[] = [
+                'weight' => 25,
+                'label' => '#__nuxt root element present',
+                'snippet' => $this->htmlSnippet($html, $nuxtRootNeedle),
+            ];
         }
 
-        if (
-            $this->anyLinkContains($result->jsLinks, ['/_nuxt/'])
-            || $this->anyLinkContains($result->cssLinks, ['/_nuxt/'])
-        ) {
-            $signals[] = ['weight' => 35, 'label' => '/_nuxt/ asset path present'];
+        $nuxtAssetLink = $this->firstMatchingLinkUrl([...$result->jsLinks, ...$result->cssLinks], ['/_nuxt/']);
+
+        if ($nuxtAssetLink !== null) {
+            $signals[] = ['weight' => 35, 'label' => '/_nuxt/ asset path present', 'url' => $nuxtAssetLink];
         }
 
         return $this->buildResult('Nuxt', $version, $signals);
@@ -521,16 +675,30 @@ final class TechnologyDetector
         $html = (string) $result->html;
         $signals = [];
 
-        if ($this->anyLinkContains($result->jsLinks, ['cdn.tailwindcss.com'])) {
-            $signals[] = ['weight' => 45, 'label' => 'cdn.tailwindcss.com Play CDN script present'];
+        $tailwindCdnLink = $this->firstMatchingLinkUrl($result->jsLinks, ['cdn.tailwindcss.com']);
+
+        if ($tailwindCdnLink !== null) {
+            $signals[] = ['weight' => 45, 'label' => 'cdn.tailwindcss.com Play CDN script present', 'url' => $tailwindCdnLink];
         }
 
-        if ($this->htmlContainsAny($html, ['tailwind.config'])) {
-            $signals[] = ['weight' => 35, 'label' => 'inline tailwind.config reference present'];
+        $tailwindConfigNeedle = $this->firstMatchingNeedle($html, ['tailwind.config']);
+
+        if ($tailwindConfigNeedle !== null) {
+            $signals[] = [
+                'weight' => 35,
+                'label' => 'inline tailwind.config reference present',
+                'snippet' => $this->htmlSnippet($html, $tailwindConfigNeedle),
+            ];
         }
 
-        if ($this->htmlHasDenseUtilityClasses($html)) {
-            $signals[] = ['weight' => 30, 'label' => 'class attributes are dominated by Tailwind-style utility classes'];
+        $utilitySnippet = $this->htmlDenseUtilityClassSnippet($html);
+
+        if ($utilitySnippet !== null) {
+            $signals[] = [
+                'weight' => 30,
+                'label' => 'class attributes are dominated by Tailwind-style utility classes',
+                'snippet' => $utilitySnippet,
+            ];
         }
 
         $version = $this->extractVersionFromLinks($result->jsLinks, 'tailwindcss');
@@ -543,15 +711,26 @@ final class TechnologyDetector
         $html = (string) $result->html;
         $signals = [];
 
-        if ($this->anyLinkContains(
+        $bootstrapLink = $this->firstMatchingLinkUrl(
             [...$result->cssLinks, ...$result->jsLinks],
             ['bootstrap.min.css', 'bootstrap.min.js', 'bootstrap.bundle.min.js'],
-        )) {
-            $signals[] = ['weight' => 45, 'label' => 'bootstrap.min.css / bootstrap(.bundle).min.js asset path present'];
+        );
+
+        if ($bootstrapLink !== null) {
+            $signals[] = [
+                'weight' => 45,
+                'label' => 'bootstrap.min.css / bootstrap(.bundle).min.js asset path present',
+                'url' => $bootstrapLink,
+            ];
         }
 
-        if ($this->htmlContainsAny($html, ['data-bs-toggle=', 'data-bs-target=', 'data-bs-dismiss=', 'data-bs-ride='])) {
-            $signals[] = ['weight' => 35, 'label' => 'data-bs-* attribute present'];
+        $bsAttrNeedle = $this->firstMatchingNeedle(
+            $html,
+            ['data-bs-toggle=', 'data-bs-target=', 'data-bs-dismiss=', 'data-bs-ride='],
+        );
+
+        if ($bsAttrNeedle !== null) {
+            $signals[] = ['weight' => 35, 'label' => 'data-bs-* attribute present', 'snippet' => $this->htmlSnippet($html, $bsAttrNeedle)];
         }
 
         $version = $this->extractVersionFromLinks([...$result->cssLinks, ...$result->jsLinks], 'bootstrap');
@@ -564,12 +743,16 @@ final class TechnologyDetector
         $html = (string) $result->html;
         $signals = [];
 
-        if ($this->anyLinkContains($result->jsLinks, ['jquery.min.js', 'jquery-'])) {
-            $signals[] = ['weight' => 45, 'label' => 'jquery.min.js / jquery-*.js asset path present'];
+        $jqueryLink = $this->firstMatchingLinkUrl($result->jsLinks, ['jquery.min.js', 'jquery-']);
+
+        if ($jqueryLink !== null) {
+            $signals[] = ['weight' => 45, 'label' => 'jquery.min.js / jquery-*.js asset path present', 'url' => $jqueryLink];
         }
 
-        if ($this->htmlContainsAny($html, ['$(document).ready(', 'jQuery(', '$(function('])) {
-            $signals[] = ['weight' => 30, 'label' => 'jQuery inline JS marker present'];
+        $jqueryNeedle = $this->firstMatchingNeedle($html, ['$(document).ready(', 'jQuery(', '$(function(']);
+
+        if ($jqueryNeedle !== null) {
+            $signals[] = ['weight' => 30, 'label' => 'jQuery inline JS marker present', 'snippet' => $this->htmlSnippet($html, $jqueryNeedle)];
         }
 
         $version = $this->extractJqueryVersionFromLinks($result->jsLinks);
@@ -582,20 +765,34 @@ final class TechnologyDetector
         $html = (string) $result->html;
         $signals = [];
 
-        if ($this->anyLinkContains($result->jsLinks, ['googletagmanager.com/gtag/js'])) {
-            $signals[] = ['weight' => 45, 'label' => 'googletagmanager.com/gtag/js asset path present'];
+        $gaLink = $this->firstMatchingLinkUrl($result->jsLinks, ['googletagmanager.com/gtag/js']);
+
+        if ($gaLink !== null) {
+            $signals[] = ['weight' => 45, 'label' => 'googletagmanager.com/gtag/js asset path present', 'url' => $gaLink];
         }
 
-        if ($this->htmlContainsAny($html, ["ga('create'", 'ga("create"'])) {
-            $signals[] = ['weight' => 40, 'label' => "inline ga('create' ...) Universal Analytics marker present"];
+        $gaCreateNeedle = $this->firstMatchingNeedle($html, ["ga('create'", 'ga("create"']);
+
+        if ($gaCreateNeedle !== null) {
+            $signals[] = [
+                'weight' => 40,
+                'label' => "inline ga('create' ...) Universal Analytics marker present",
+                'snippet' => $this->htmlSnippet($html, $gaCreateNeedle),
+            ];
         }
 
-        if (preg_match('/\bG-[A-Z0-9]{6,}\b|\bUA-[0-9]{4,}-[0-9]+\b/', $html) === 1) {
-            $signals[] = ['weight' => 40, 'label' => 'G- or UA- prefixed measurement/tracking ID present'];
+        if (preg_match('/\bG-[A-Z0-9]{6,}\b|\bUA-[0-9]{4,}-[0-9]+\b/', $html, $matches) === 1) {
+            $signals[] = ['weight' => 40, 'label' => 'G- or UA- prefixed measurement/tracking ID present', 'snippet' => $matches[0]];
         }
 
-        if ($this->htmlContainsAny($html, ['gtag('])) {
-            $signals[] = ['weight' => 15, 'label' => 'gtag( call present (shared with GTM/Google Ads, so weighted weakly alone)'];
+        $gtagNeedle = $this->firstMatchingNeedle($html, ['gtag(']);
+
+        if ($gtagNeedle !== null) {
+            $signals[] = [
+                'weight' => 15,
+                'label' => 'gtag( call present (shared with GTM/Google Ads, so weighted weakly alone)',
+                'snippet' => $this->htmlSnippet($html, $gtagNeedle),
+            ];
         }
 
         return $this->buildResult('Google Analytics', version: null, signals: $signals);
@@ -606,12 +803,14 @@ final class TechnologyDetector
         $html = (string) $result->html;
         $signals = [];
 
-        if ($this->anyLinkContains($result->jsLinks, ['googletagmanager.com/gtm.js'])) {
-            $signals[] = ['weight' => 45, 'label' => 'googletagmanager.com/gtm.js asset path present'];
+        $gtmLink = $this->firstMatchingLinkUrl($result->jsLinks, ['googletagmanager.com/gtm.js']);
+
+        if ($gtmLink !== null) {
+            $signals[] = ['weight' => 45, 'label' => 'googletagmanager.com/gtm.js asset path present', 'url' => $gtmLink];
         }
 
-        if (preg_match('/\bGTM-[A-Z0-9]{4,}\b/', $html) === 1) {
-            $signals[] = ['weight' => 40, 'label' => 'GTM- prefixed container ID present'];
+        if (preg_match('/\bGTM-[A-Z0-9]{4,}\b/', $html, $matches) === 1) {
+            $signals[] = ['weight' => 40, 'label' => 'GTM- prefixed container ID present', 'snippet' => $matches[0]];
         }
 
         return $this->buildResult('Google Tag Manager', version: null, signals: $signals);
@@ -622,12 +821,20 @@ final class TechnologyDetector
         $html = (string) $result->html;
         $signals = [];
 
-        if ($this->anyLinkContains($result->jsLinks, ['connect.facebook.net', 'fbevents.js'])) {
-            $signals[] = ['weight' => 45, 'label' => 'connect.facebook.net/.../fbevents.js asset path present'];
+        $fbLink = $this->firstMatchingLinkUrl($result->jsLinks, ['connect.facebook.net', 'fbevents.js']);
+
+        if ($fbLink !== null) {
+            $signals[] = ['weight' => 45, 'label' => 'connect.facebook.net/.../fbevents.js asset path present', 'url' => $fbLink];
         }
 
-        if ($this->htmlContainsAny($html, ["fbq('init'", 'fbq("init"'])) {
-            $signals[] = ['weight' => 40, 'label' => "inline fbq('init' ...) marker present"];
+        $fbqNeedle = $this->firstMatchingNeedle($html, ["fbq('init'", 'fbq("init"']);
+
+        if ($fbqNeedle !== null) {
+            $signals[] = [
+                'weight' => 40,
+                'label' => "inline fbq('init' ...) marker present",
+                'snippet' => $this->htmlSnippet($html, $fbqNeedle),
+            ];
         }
 
         return $this->buildResult('Facebook Pixel', version: null, signals: $signals);
@@ -638,12 +845,20 @@ final class TechnologyDetector
         $html = (string) $result->html;
         $signals = [];
 
-        if ($this->anyLinkContains($result->jsLinks, ['clarity.ms/tag'])) {
-            $signals[] = ['weight' => 45, 'label' => 'clarity.ms/tag asset path present'];
+        $clarityLink = $this->firstMatchingLinkUrl($result->jsLinks, ['clarity.ms/tag']);
+
+        if ($clarityLink !== null) {
+            $signals[] = ['weight' => 45, 'label' => 'clarity.ms/tag asset path present', 'url' => $clarityLink];
         }
 
-        if ($this->htmlContainsAny($html, ["clarity('init'", 'clarity("init"'])) {
-            $signals[] = ['weight' => 35, 'label' => "inline clarity('init' ...) marker present"];
+        $clarityNeedle = $this->firstMatchingNeedle($html, ["clarity('init'", 'clarity("init"']);
+
+        if ($clarityNeedle !== null) {
+            $signals[] = [
+                'weight' => 35,
+                'label' => "inline clarity('init' ...) marker present",
+                'snippet' => $this->htmlSnippet($html, $clarityNeedle),
+            ];
         }
 
         return $this->buildResult('Microsoft Clarity', version: null, signals: $signals);
@@ -654,19 +869,27 @@ final class TechnologyDetector
         $html = (string) $result->html;
         $signals = [];
 
-        if ($this->anyLinkContains($result->jsLinks, ['googleads.g.doubleclick.net'])) {
-            $signals[] = ['weight' => 45, 'label' => 'googleads.g.doubleclick.net asset path present'];
+        $adsLink = $this->firstMatchingLinkUrl($result->jsLinks, ['googleads.g.doubleclick.net']);
+
+        if ($adsLink !== null) {
+            $signals[] = ['weight' => 45, 'label' => 'googleads.g.doubleclick.net asset path present', 'url' => $adsLink];
         }
 
-        if ($this->htmlContainsAny($html, [
+        $awConfigNeedle = $this->firstMatchingNeedle($html, [
             "gtag('config', 'AW-", 'gtag("config", "AW-',
             "gtag('config','AW-", 'gtag("config","AW-',
-        ])) {
-            $signals[] = ['weight' => 40, 'label' => "inline gtag('config', 'AW-...') marker present"];
+        ]);
+
+        if ($awConfigNeedle !== null) {
+            $signals[] = [
+                'weight' => 40,
+                'label' => "inline gtag('config', 'AW-...') marker present",
+                'snippet' => $this->htmlSnippet($html, $awConfigNeedle),
+            ];
         }
 
-        if (preg_match('/\bAW-[0-9]{6,}\b/', $html) === 1) {
-            $signals[] = ['weight' => 35, 'label' => 'AW- prefixed conversion ID present'];
+        if (preg_match('/\bAW-[0-9]{6,}\b/', $html, $matches) === 1) {
+            $signals[] = ['weight' => 35, 'label' => 'AW- prefixed conversion ID present', 'snippet' => $matches[0]];
         }
 
         return $this->buildResult('Google Ads', version: null, signals: $signals);
@@ -676,14 +899,20 @@ final class TechnologyDetector
     {
         $signals = [];
 
-        if ($this->hasHeaderNamed($result, ['CF-Ray', 'CF-Cache-Status'])) {
-            $signals[] = ['weight' => 50, 'label' => 'CF-Ray / CF-Cache-Status response header present'];
+        $cfHeader = $this->headerSnippet($result, 'CF-Ray', 'CF-Cache-Status');
+
+        if ($cfHeader !== null) {
+            $signals[] = ['weight' => 50, 'label' => 'CF-Ray / CF-Cache-Status response header present', 'snippet' => $cfHeader];
         }
 
         $server = $this->headerValue($result, 'Server');
 
         if ($server !== null && stripos($server, 'cloudflare') !== false) {
-            $signals[] = ['weight' => 45, 'label' => "Server response header: \"{$server}\""];
+            $signals[] = [
+                'weight' => 45,
+                'label' => "Server response header: \"{$server}\"",
+                'snippet' => "Server: {$server}",
+            ];
         }
 
         return $this->buildResult('Cloudflare', version: null, signals: $signals);
@@ -705,7 +934,7 @@ final class TechnologyDetector
     }
 
     /**
-     * @param  array<int, array{weight: int, label: string}>  $signals
+     * @param  array<int, array{weight: int, label: string, url?: string, snippet?: string}>  $signals
      */
     private function buildResult(string $technology, ?string $version, array $signals): TechnologyDetectionResult
     {
@@ -721,14 +950,51 @@ final class TechnologyDetector
 
         $confidence = min(self::MAX_CONFIDENCE, array_sum(array_column($signals, 'weight')));
         $method = implode('; ', array_column($signals, 'label'));
+        $detected = $confidence >= $this->detectionThreshold;
+        $evidence = $detected ? $this->primaryEvidence($signals) : ['url' => null, 'snippet' => null];
 
         return new TechnologyDetectionResult(
             technology: $technology,
-            detected: $confidence >= $this->detectionThreshold,
-            version: $confidence >= $this->detectionThreshold ? $version : null,
+            detected: $detected,
+            version: $detected ? $version : null,
             confidenceScore: $confidence,
             detectionMethod: $method,
+            evidenceUrl: $evidence['url'],
+            evidenceSnippet: $evidence['snippet'],
         );
+    }
+
+    /**
+     * Picks the strongest evidence behind a technology's detection: the
+     * highest-weight signal among those that carry a 'url' or 'snippet'
+     * — not simply the first one checked in code — so the reported
+     * evidence is always the single most convincing reason the
+     * technology was flagged. Signals with no evidence attached (e.g. a
+     * boolean-only check that was never instrumented) are skipped
+     * entirely rather than winning by default.
+     *
+     * @param  array<int, array{weight: int, label: string, url?: string, snippet?: string}>  $signals
+     * @return array{url: ?string, snippet: ?string}
+     */
+    private function primaryEvidence(array $signals): array
+    {
+        $best = null;
+
+        foreach ($signals as $signal) {
+            if (! isset($signal['url']) && ! isset($signal['snippet'])) {
+                continue;
+            }
+
+            if ($best === null || $signal['weight'] > $best['weight']) {
+                $best = $signal;
+            }
+        }
+
+        if ($best === null) {
+            return ['url' => null, 'snippet' => null];
+        }
+
+        return ['url' => $best['url'] ?? null, 'snippet' => $best['snippet'] ?? null];
     }
 
     private function extractVersion(string $generatorContent, string $prefix): ?string
@@ -781,31 +1047,128 @@ final class TechnologyDetector
     }
 
     /**
-     * A rough, deliberately simple density check: Tailwind utility
-     * classes are highly repetitive short tokens (bg-, text-, flex,
-     * grid-, px-, py-, w-, h-, rounded-, shadow-, etc.) — this counts
-     * how many distinct class="..." attributes contain at least one
-     * such token and treats five or more as "dominated by" utility
-     * classes, since a handful of coincidental matches (e.g. a single
-     * custom ".flex" class) shouldn't alone suggest Tailwind is in use.
+     * Returns the first needle (case-insensitive) found in $haystack, or
+     * null if none match — used both to decide whether a signal fires
+     * and, via htmlSnippet(), to build that signal's evidence snippet
+     * from the specific needle that actually matched.
+     *
+     * @param  array<int, string>  $needles
      */
-    private function htmlHasDenseUtilityClasses(string $html): bool
+    private function firstMatchingNeedle(string $haystack, array $needles): ?string
     {
-        if (preg_match_all('/class=["\']([^"\']*)["\']/i', $html, $matches) === false) {
-            return false;
-        }
-
-        $utilityPattern = '/\b(?:bg|text|flex|grid|px|py|mx|my|w|h|rounded|shadow|border|justify|items)-[a-z0-9]+\b|\bflex\b|\bgrid\b/i';
-
-        $matchingAttributeCount = 0;
-
-        foreach ($matches[1] as $classAttribute) {
-            if (preg_match($utilityPattern, $classAttribute) === 1) {
-                $matchingAttributeCount++;
+        foreach ($needles as $needle) {
+            if (stripos($haystack, $needle) !== false) {
+                return $needle;
             }
         }
 
-        return $matchingAttributeCount >= 5;
+        return null;
+    }
+
+    /**
+     * Extracts a short, whitespace-collapsed raw excerpt of $html
+     * centered on the first occurrence of $needle, for use as a
+     * TechnologyDetectionResult's evidenceSnippet.
+     */
+    private function htmlSnippet(string $html, string $needle, int $context = 30): ?string
+    {
+        $pos = stripos($html, $needle);
+
+        if ($pos === false) {
+            return null;
+        }
+
+        $start = max(0, $pos - $context);
+        $length = mb_strlen($needle) + $context * 2;
+        $snippet = mb_substr($html, $start, $length);
+        $snippet = trim((string) preg_replace('/\s+/', ' ', $snippet));
+
+        return $snippet !== '' ? $snippet : null;
+    }
+
+    /**
+     * Returns the URL of the first link (CSS or JS) whose URL contains
+     * any of $needles (case-insensitive), or null if none match —
+     * doubles as both the detection check and the signal's evidenceUrl,
+     * since the matching URL *is* the evidence.
+     *
+     * @param  array<int, CssLink|ScriptLink>  $links
+     * @param  array<int, string>  $needles
+     */
+    private function firstMatchingLinkUrl(array $links, array $needles): ?string
+    {
+        foreach ($links as $link) {
+            foreach ($needles as $needle) {
+                if (stripos($link->url, $needle) !== false) {
+                    return $link->url;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Reconstructs a representative <meta name="generator" ...> tag
+     * snippet from its already-parsed content attribute, for use as a
+     * signal's evidenceSnippet. Reconstructed rather than scraped
+     * verbatim from raw HTML, since MetaData only retains the parsed
+     * content value, not the tag's original raw markup — this still
+     * accurately represents what was matched.
+     */
+    private function metaGeneratorSnippet(string $generatorContent): string
+    {
+        return '<meta name="generator" content="'.$generatorContent.'">';
+    }
+
+    /**
+     * Checks the Set-Cookie response header for a cookie whose name
+     * starts with any of the given exact names/prefixes, returning the
+     * matched "name=value" segment as evidence (or null if none
+     * matched). A single implementation covers both an exact cookie
+     * name (e.g. "laravel_session") and a prefix (e.g. "wordpress_")
+     * since the trailing [A-Za-z0-9_-]* in the pattern matches zero
+     * additional characters just as readily as several, and matches on
+     * a word boundary followed by "=" rather than splitting the header
+     * on commas, since Set-Cookie's Expires attribute itself contains a
+     * comma (e.g. "Expires=Wed, 21 Oct 2026 ...") and would otherwise
+     * break a naive split.
+     */
+    private function cookieSnippet(FetchResult $result, string ...$namesOrPrefixes): ?string
+    {
+        $cookieHeader = $this->headerValue($result, 'Set-Cookie');
+
+        if ($cookieHeader === null) {
+            return null;
+        }
+
+        foreach ($namesOrPrefixes as $prefix) {
+            $pattern = '/(?:^|[;,\s])('.preg_quote($prefix, '/').'[A-Za-z0-9_-]*=[^;,]*)/i';
+
+            if (preg_match($pattern, $cookieHeader, $matches) === 1) {
+                return trim($matches[1]);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the first of the given response header names that is
+     * present, formatted as "Name: value" evidence — or null if none
+     * of them are present.
+     */
+    private function headerSnippet(FetchResult $result, string ...$names): ?string
+    {
+        foreach ($names as $name) {
+            $value = $this->headerValue($result, $name);
+
+            if ($value !== null) {
+                return "{$name}: {$value}";
+            }
+        }
+
+        return null;
     }
 
     private function metaGeneratorContent(FetchResult $result): ?string
@@ -821,103 +1184,56 @@ final class TechnologyDetector
         return null;
     }
 
-    /**
-     * @param  array<int, CssLink|ScriptLink>  $links
-     * @param  array<int, string>  $needles
-     */
-    private function anyLinkContains(array $links, array $needles): bool
+    private function htmlMetaCsrfSnippet(string $html): ?string
     {
-        foreach ($links as $link) {
-            foreach ($needles as $needle) {
-                if (stripos($link->url, $needle) !== false) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return preg_match('/<meta\s[^>]*name=["\']csrf-token["\'][^>]*>/i', $html, $matches) === 1 ? $matches[0] : null;
     }
 
     /**
-     * @param  array<int, string>  $needles
+     * Returns the raw <body ...> opening-tag snippet when its class
+     * attribute includes $class, or null otherwise.
      */
-    private function htmlContainsAny(string $html, array $needles): bool
+    private function htmlBodyClassSnippet(string $html, string $class): ?string
     {
-        foreach ($needles as $needle) {
-            if (stripos($html, $needle) !== false) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private function htmlHasMetaCsrfToken(string $html): bool
-    {
-        return preg_match('/<meta\s[^>]*name=["\']csrf-token["\'][^>]*>/i', $html) === 1;
-    }
-
-    private function htmlBodyHasClass(string $html, string $class): bool
-    {
-        if (preg_match('/<body\b[^>]*class=["\']([^"\']*)["\']/i', $html, $matches) !== 1) {
-            return false;
+        if (preg_match('/<body\b[^>]*class=["\']([^"\']*)["\'][^>]*>/i', $html, $matches) !== 1) {
+            return null;
         }
 
         $classes = preg_split('/\s+/', trim($matches[1])) ?: [];
 
-        return in_array($class, $classes, true);
+        return in_array($class, $classes, true) ? $matches[0] : null;
     }
 
     /**
-     * Checks the Set-Cookie response header for a cookie of the given
-     * name. Matches on a word boundary followed by "=" rather than
-     * splitting the header on commas, since Set-Cookie's Expires
-     * attribute itself contains a comma (e.g. "Expires=Wed, 21 Oct
-     * 2026 ...") and would otherwise break a naive split.
+     * A rough, deliberately simple density check: Tailwind utility
+     * classes are highly repetitive short tokens (bg-, text-, flex,
+     * grid-, px-, py-, w-, h-, rounded-, shadow-, etc.) — this counts
+     * how many distinct class="..." attributes contain at least one
+     * such token and treats five or more as "dominated by" utility
+     * classes, since a handful of coincidental matches (e.g. a single
+     * custom ".flex" class) shouldn't alone suggest Tailwind is in use.
+     * Returns the first matching class="..." attribute as evidence when
+     * the density threshold is met, or null otherwise.
      */
-    private function hasCookieNamed(FetchResult $result, string $name): bool
+    private function htmlDenseUtilityClassSnippet(string $html): ?string
     {
-        $cookieHeader = $this->headerValue($result, 'Set-Cookie');
-
-        if ($cookieHeader === null) {
-            return false;
+        if (preg_match_all('/class=["\']([^"\']*)["\']/i', $html, $matches) === false) {
+            return null;
         }
 
-        return preg_match('/(?:^|[;,\s])'.preg_quote($name, '/').'=/i', $cookieHeader) === 1;
-    }
+        $utilityPattern = '/\b(?:bg|text|flex|grid|px|py|mx|my|w|h|rounded|shadow|border|justify|items)-[a-z0-9]+\b|\bflex\b|\bgrid\b/i';
 
-    /**
-     * @param  array<int, string>  $prefixes
-     */
-    private function hasCookiePrefixed(FetchResult $result, array $prefixes): bool
-    {
-        $cookieHeader = $this->headerValue($result, 'Set-Cookie');
+        $matchingAttributeCount = 0;
+        $firstMatch = null;
 
-        if ($cookieHeader === null) {
-            return false;
-        }
-
-        foreach ($prefixes as $prefix) {
-            if (preg_match('/(?:^|[;,\s])'.preg_quote($prefix, '/').'[A-Za-z0-9_]*=/i', $cookieHeader) === 1) {
-                return true;
+        foreach ($matches[1] as $classAttribute) {
+            if (preg_match($utilityPattern, $classAttribute) === 1) {
+                $matchingAttributeCount++;
+                $firstMatch ??= 'class="'.$classAttribute.'"';
             }
         }
 
-        return false;
-    }
-
-    /**
-     * @param  array<int, string>|string  $names
-     */
-    private function hasHeaderNamed(FetchResult $result, array|string $names): bool
-    {
-        foreach ((array) $names as $name) {
-            if ($this->headerValue($result, $name) !== null) {
-                return true;
-            }
-        }
-
-        return false;
+        return $matchingAttributeCount >= 5 ? $firstMatch : null;
     }
 
     private function headerValue(FetchResult $result, string $name): ?string
