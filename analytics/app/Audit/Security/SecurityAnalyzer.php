@@ -36,12 +36,12 @@ use App\Audit\Validation\Contracts\SslInspectorInterface;
 final class SecurityAnalyzer
 {
     /**
-     * @param  array<int, string>  $requiredSecurityHeaders  header names checked
-     *                                                       for presence under "Security Headers". Constructor-injected so
-     *                                                       the required set can change without editing this class.
-     * @param  array<int, string>  $cspUnsafeTokens  directives/sources that weaken a CSP even when present
-     * @param  array<int, string>  $weakReferrerPolicies  Referrer-Policy values treated as insufficiently strict
-     * @param  array<int, string>  $serverInfoHeaders  response headers checked for version/technology disclosure
+     * @param array<int, string> $requiredSecurityHeaders header names checked
+     *        for presence under "Security Headers". Constructor-injected so
+     *        the required set can change without editing this class.
+     * @param array<int, string> $cspUnsafeTokens directives/sources that weaken a CSP even when present
+     * @param array<int, string> $weakReferrerPolicies Referrer-Policy values treated as insufficiently strict
+     * @param array<int, string> $serverInfoHeaders response headers checked for version/technology disclosure
      */
     public function __construct(
         private readonly SslInspectorInterface $sslInspector,
@@ -75,7 +75,8 @@ final class SecurityAnalyzer
         private readonly int $gradeBThreshold = 75,
         private readonly int $gradeCThreshold = 60,
         private readonly int $gradeDThreshold = 40,
-    ) {}
+    ) {
+    }
 
     public function analyze(FetchResult $result): SecurityResult
     {
@@ -102,19 +103,19 @@ final class SecurityAnalyzer
             score: $score,
             grade: $grade,
             summary: $this->summary($checks, $score, $grade),
-            analyzedAt: (new \DateTimeImmutable)->format(DATE_ATOM),
+            analyzedAt: (new \DateTimeImmutable())->format(DATE_ATOM),
         );
     }
 
     /**
      * Runs analyze() over several already-fetched pages at once (see
-     * AnalyzeChunkJob, which fetches up to config('audit.security.per_page_limit')
+     * AnalyzeChunkJob, which fetches up to config('audit.multi_page_analysis.per_page_limit')
      * pages via WebsiteFetcherServiceInterface::fetchMany() before calling
      * this) and wraps the per-page results in a SecurityAuditResult.
      * Pages whose fetch itself failed are reported in failedPageUrls
      * rather than analyzed, since there's no response to check.
      *
-     * @param  array<string, FetchResult>  $fetchResults  keyed by page URL
+     * @param array<string, FetchResult> $fetchResults keyed by page URL
      */
     public function analyzeAll(array $fetchResults, string $startUrl): SecurityAuditResult
     {
@@ -145,7 +146,7 @@ final class SecurityAnalyzer
             pagesAnalyzed: count($pageResults),
             pagesFailed: count($failedPageUrls),
             averageScore: $averageScore,
-            analyzedAt: (new \DateTimeImmutable)->format(DATE_ATOM),
+            analyzedAt: (new \DateTimeImmutable())->format(DATE_ATOM),
         );
     }
 
@@ -254,9 +255,9 @@ final class SecurityAnalyzer
 
         return new SecurityCheckResult(
             check: 'Security Headers',
-            value: 'missing: '.implode(', ', $missing),
+            value: 'missing: ' . implode(', ', $missing),
             status: $allMissing ? SecurityCheckStatus::FAIL : SecurityCheckStatus::WARNING,
-            recommendation: 'Add the missing security headers: '.implode(', ', $missing).'.',
+            recommendation: 'Add the missing security headers: ' . implode(', ', $missing) . '.',
             pageUrl: $targetUrl,
             affectedElements: array_map(
                 fn (string $header): array => $this->element(null, null, "Missing header: {$header}"),
@@ -276,7 +277,7 @@ final class SecurityAnalyzer
                 value: null,
                 status: SecurityCheckStatus::FAIL,
                 recommendation: 'Add a Strict-Transport-Security header (e.g. "max-age=31536000; includeSubDomains") '
-                    .'to enforce HTTPS on future visits.',
+                    . 'to enforce HTTPS on future visits.',
                 pageUrl: $targetUrl,
                 affectedElements: [$this->element(null, null, 'No Strict-Transport-Security header present')],
             );
@@ -290,7 +291,7 @@ final class SecurityAnalyzer
                 value: $value,
                 status: SecurityCheckStatus::WARNING,
                 recommendation: "Increase the HSTS max-age to at least {$this->hstsMinMaxAgeSeconds} seconds "
-                    .'for stronger protection.',
+                    . 'for stronger protection.',
                 pageUrl: $targetUrl,
                 affectedElements: [$this->element(null, null, "max-age={$maxAge} (below recommended {$this->hstsMinMaxAgeSeconds})")],
             );
@@ -321,7 +322,7 @@ final class SecurityAnalyzer
                 value: null,
                 status: SecurityCheckStatus::WARNING,
                 recommendation: 'X-XSS-Protection is deprecated in modern browsers, but a strong Content-Security-Policy '
-                    .'is the current best defense against XSS — verify that CSP check passes.',
+                    . 'is the current best defense against XSS — verify that CSP check passes.',
                 pageUrl: $targetUrl,
                 affectedElements: [$this->element(null, null, 'No X-XSS-Protection header present')],
             );
@@ -335,7 +336,7 @@ final class SecurityAnalyzer
                 value: $value,
                 status: SecurityCheckStatus::FAIL,
                 recommendation: 'X-XSS-Protection is explicitly disabled (0). Remove this override or set it to '
-                    .'"1; mode=block", and rely on a strong Content-Security-Policy as the primary defense.',
+                    . '"1; mode=block", and rely on a strong Content-Security-Policy as the primary defense.',
                 pageUrl: $targetUrl,
                 affectedElements: [$this->element(null, null, "X-XSS-Protection: {$value}")],
             );
@@ -357,7 +358,7 @@ final class SecurityAnalyzer
                 value: $value,
                 status: SecurityCheckStatus::WARNING,
                 recommendation: 'X-XSS-Protection is enabled but without "mode=block", so the browser may sanitize '
-                    .'rather than block the page. Set it to "1; mode=block", or rely on CSP instead.',
+                    . 'rather than block the page. Set it to "1; mode=block", or rely on CSP instead.',
                 pageUrl: $targetUrl,
                 affectedElements: [$this->element(null, null, "X-XSS-Protection: {$value}")],
             );
@@ -368,7 +369,7 @@ final class SecurityAnalyzer
             value: $value,
             status: SecurityCheckStatus::WARNING,
             recommendation: 'X-XSS-Protection has an unrecognized value. Set it to "1; mode=block", or remove it '
-                .'and rely on a strong Content-Security-Policy instead.',
+                . 'and rely on a strong Content-Security-Policy instead.',
             pageUrl: $targetUrl,
             affectedElements: [$this->element(null, null, "X-XSS-Protection: {$value}")],
         );
@@ -385,7 +386,7 @@ final class SecurityAnalyzer
                 value: null,
                 status: SecurityCheckStatus::FAIL,
                 recommendation: 'Add a Content-Security-Policy header to restrict which sources scripts, styles, and '
-                    .'other resources can be loaded from.',
+                    . 'other resources can be loaded from.',
                 pageUrl: $targetUrl,
                 affectedElements: [$this->element(null, null, 'No Content-Security-Policy header present')],
             );
@@ -402,8 +403,8 @@ final class SecurityAnalyzer
                 check: 'Content Security Policy',
                 value: $value,
                 status: SecurityCheckStatus::WARNING,
-                recommendation: 'Tighten the CSP: it currently allows '.implode(', ', $foundUnsafeTokens)
-                    .', which weakens protection against injected scripts.',
+                recommendation: 'Tighten the CSP: it currently allows ' . implode(', ', $foundUnsafeTokens)
+                    . ', which weakens protection against injected scripts.',
                 pageUrl: $targetUrl,
                 affectedElements: array_map(
                     fn (string $token): array => $this->element(null, null, "CSP allows {$token}"),
@@ -432,7 +433,7 @@ final class SecurityAnalyzer
                 value: null,
                 status: SecurityCheckStatus::WARNING,
                 recommendation: 'Add a Referrer-Policy header (e.g. "strict-origin-when-cross-origin") to control how '
-                    .'much referrer information is sent to other sites.',
+                    . 'much referrer information is sent to other sites.',
                 pageUrl: $targetUrl,
                 affectedElements: [$this->element(null, null, 'No Referrer-Policy header present')],
             );
@@ -454,9 +455,9 @@ final class SecurityAnalyzer
                 check: 'Referrer Policy',
                 value: $value,
                 status: SecurityCheckStatus::WARNING,
-                recommendation: 'Referrer-Policy includes '.implode(', ', array_unique($weak))
-                    .', which leaks the full referrer URL to other origins. Use "strict-origin-when-cross-origin" '
-                    .'or "no-referrer" instead.',
+                recommendation: 'Referrer-Policy includes ' . implode(', ', array_unique($weak))
+                    . ', which leaks the full referrer URL to other origins. Use "strict-origin-when-cross-origin" '
+                    . 'or "no-referrer" instead.',
                 pageUrl: $targetUrl,
                 affectedElements: array_map(
                     fn (string $policy): array => $this->element(null, null, "Referrer-Policy includes {$policy}"),
@@ -516,8 +517,8 @@ final class SecurityAnalyzer
                 check: 'Cookie Security',
                 value: $value,
                 status: SecurityCheckStatus::FAIL,
-                recommendation: 'Set the Secure attribute on cookie(s): '.implode(', ', $missingSecure)
-                    .' — without it, the cookie can be sent over an unencrypted HTTP connection.',
+                recommendation: 'Set the Secure attribute on cookie(s): ' . implode(', ', $missingSecure)
+                    . ' — without it, the cookie can be sent over an unencrypted HTTP connection.',
                 pageUrl: $targetUrl,
                 affectedElements: array_map(
                     fn (string $name): array => $this->element(null, null, "Cookie \"{$name}\" is missing the Secure attribute"),
@@ -531,7 +532,7 @@ final class SecurityAnalyzer
             $affectedElements = [];
 
             if ($missingHttpOnly !== []) {
-                $notes[] = 'HttpOnly missing on: '.implode(', ', $missingHttpOnly);
+                $notes[] = 'HttpOnly missing on: ' . implode(', ', $missingHttpOnly);
 
                 foreach ($missingHttpOnly as $name) {
                     $affectedElements[] = $this->element(null, null, "Cookie \"{$name}\" is missing the HttpOnly attribute");
@@ -539,7 +540,7 @@ final class SecurityAnalyzer
             }
 
             if ($missingSameSite !== []) {
-                $notes[] = 'SameSite missing on: '.implode(', ', $missingSameSite);
+                $notes[] = 'SameSite missing on: ' . implode(', ', $missingSameSite);
 
                 foreach ($missingSameSite as $name) {
                     $affectedElements[] = $this->element(null, null, "Cookie \"{$name}\" is missing the SameSite attribute");
@@ -550,8 +551,8 @@ final class SecurityAnalyzer
                 check: 'Cookie Security',
                 value: $value,
                 status: SecurityCheckStatus::WARNING,
-                recommendation: 'Strengthen cookie attributes — '.implode('; ', $notes)
-                    .'. HttpOnly blocks JavaScript access (mitigating XSS theft); SameSite mitigates CSRF.',
+                recommendation: 'Strengthen cookie attributes — ' . implode('; ', $notes)
+                    . '. HttpOnly blocks JavaScript access (mitigating XSS theft); SameSite mitigates CSRF.',
                 pageUrl: $targetUrl,
                 affectedElements: $affectedElements,
             );
@@ -603,7 +604,7 @@ final class SecurityAnalyzer
                 : "{$count} insecure resources, including: {$sample}",
             status: SecurityCheckStatus::FAIL,
             recommendation: 'Update the insecure (http://) resource URL(s) to https:// — browsers block or warn '
-                .'on mixed content loaded into an HTTPS page.',
+                . 'on mixed content loaded into an HTTPS page.',
             pageUrl: $targetUrl,
             affectedElements: array_map(
                 fn (array $resource): array => $this->element($resource['url'], $resource['domPath'], 'Loaded over insecure http://'),
@@ -675,7 +676,7 @@ final class SecurityAnalyzer
             value: $title !== '' ? $title : 'directory listing detected',
             status: SecurityCheckStatus::FAIL,
             recommendation: 'Disable directory autoindexing on the web server (e.g. "Options -Indexes" on Apache, '
-                .'"autoindex off;" on nginx) and add an index file to every exposed directory.',
+                . '"autoindex off;" on nginx) and add an index file to every exposed directory.',
             pageUrl: $targetUrl,
             affectedElements: [$this->element($targetUrl, null, $title !== '' ? $title : 'Directory listing detected')],
         );
@@ -728,8 +729,8 @@ final class SecurityAnalyzer
             value: implode('; ', $exposed),
             status: SecurityCheckStatus::WARNING,
             recommendation: 'Suppress server/technology version details in response headers ('
-                .implode(', ', $this->serverInfoHeaders).') to avoid giving attackers a head start on known '
-                .'vulnerabilities for that exact version.',
+                . implode(', ', $this->serverInfoHeaders) . ') to avoid giving attackers a head start on known '
+                . 'vulnerabilities for that exact version.',
             pageUrl: $targetUrl,
             affectedElements: $affectedElements,
         );
@@ -802,7 +803,7 @@ final class SecurityAnalyzer
      * "unknown" exclusion — every security check here always resolves to
      * a definite status, so none are excluded.
      *
-     * @param  array<string, SecurityCheckResult>  $checks
+     * @param array<string, SecurityCheckResult> $checks
      */
     private function score(array $checks): int
     {
@@ -835,7 +836,7 @@ final class SecurityAnalyzer
     }
 
     /**
-     * @param  array<string, SecurityCheckResult>  $checks
+     * @param array<string, SecurityCheckResult> $checks
      */
     private function summary(array $checks, int $score, string $grade): string
     {

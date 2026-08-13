@@ -77,24 +77,29 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Security Analyzer
+    | Multi-Page Analysis
     |--------------------------------------------------------------------------
     |
-    | Consumed by App\Audit\Jobs\AnalyzeChunkJob when it fans SecurityAnalyzer
-    | out across every successfully crawled page (see
-    | SecurityAnalyzer::analyzeAll()) instead of just the entry page.
-    | per_page_limit caps how many of those pages actually get fetched
-    | and checked, since each one is its own HTTP request on top of the
-    | crawl that already happened — without a cap, a very large site
-    | could turn a single AnalyzeChunkJob run into dozens of extra
-    | requests. Pages beyond the limit are simply not analyzed for
-    | security (in crawl order, so the entry page and pages closest to
-    | it are always included); this does not affect audit.crawler.max_pages,
-    | which controls how many pages are crawled in the first place.
+    | Consumed by App\Audit\Jobs\AnalyzeChunkJob when it fans SecurityAnalyzer,
+    | AccessibilityAnalyzer, and ContentAnalyzer out across every successfully
+    | crawled page (see each analyzer's analyzeAll()) instead of just the
+    | entry page. per_page_limit caps how many of those pages actually get
+    | fetched and checked, since each one is its own HTTP request on top of
+    | the crawl that already happened — without a cap, a very large site
+    | could turn a single AnalyzeChunkJob run into dozens of extra requests.
+    | Pages beyond the limit are simply not analyzed by these three (in
+    | crawl order, so the entry page and pages closest to it are always
+    | included); this does not affect audit.crawler.max_pages, which
+    | controls how many pages are crawled in the first place. All three
+    | analyzers share one limit (and, within a single AnalyzeChunkJob run,
+    | the exact same fetched page set — see
+    | AnalyzeChunkJob::fetchPagesForMultiPageAnalysis()) since they all
+    | operate on the same FetchResult shape and there's no reason a site
+    | would want a different page cap per analyzer.
     |
     */
-    'security' => [
-        'per_page_limit' => (int) env('AUDIT_SECURITY_PER_PAGE_LIMIT', 20),
+    'multi_page_analysis' => [
+        'per_page_limit' => (int) env('AUDIT_MULTI_PAGE_ANALYSIS_PER_PAGE_LIMIT', 20),
     ],
 
     /*

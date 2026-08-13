@@ -17,7 +17,19 @@ use App\Audit\Fetching\DTO\FetchResult;
 /**
  * Foundation for the business opportunity checklist (e.g. contact
  * information, lead-generation elements, business credibility signals,
- * conversion paths) against a single fetched page.
+ * conversion paths) against a single fetched page via analyze().
+ * analyzeAll() runs the Website Problems, SEO Issues, and Performance
+ * Issues checks across every successfully fetched page in a multi-page
+ * set (each resulting WebsiteHealthIssue records which page it came
+ * from via $pageUrl — see WebsiteHealthIssue), while the remaining
+ * $websiteHealth categories, $checks/$score/$grade, and the derived
+ * $businessOpportunityScore/$salesOpportunity/$outreachMessage stay
+ * scoped to a single "entry" page — the site-level scoring, deal
+ * potential, and outreach draft aren't meaningfully something to
+ * average or duplicate across every page, unlike Website
+ * Problems/SEO/Performance issues, which are naturally page-by-page
+ * findings a prospect would want attributed to the exact page they're
+ * on.
  *
  * This phase only establishes the analyzer's structure — the checks
  * array, the score/grade/summary plumbing, and the public analyze()
@@ -89,24 +101,10 @@ final class BusinessOpportunityAnalyzer
         private readonly int $gradeBThreshold = 75,
         private readonly int $gradeCThreshold = 60,
         private readonly int $gradeDThreshold = 40,
-    ) {
-    }
+    ) {}
 
     public function analyze(FetchResult $result): BusinessOpportunityResult
     {
-        /**
-         * Future phases add one entry per business opportunity check
-         * here, e.g. 'contact_info' => $this->checkContactInfo($xpath),
-         * matching AccessibilityAnalyzer::analyze()'s pattern. Left
-         * empty in this phase — no checks are implemented yet.
-         *
-         * @var array<string, BusinessOpportunityCheckResult> $checks
-         */
-        $checks = [];
-
-        $score = $this->score($checks);
-        $grade = $score !== null ? $this->grade($score) : null;
-
         /**
          * Website Health issue list — Website Problems, SEO Issues,
          * Performance Issues only, kept separate from $checks above.
@@ -122,22 +120,102 @@ final class BusinessOpportunityAnalyzer
             'content_conversion_analysis' => $this->checkContentConversionIssues($result),
         ];
 
+        return $this->buildResult($result, $websiteHealth);
+    }
+
+    /**
+     * Runs analyze()'s Website Problems, SEO Issues, and Performance
+     * Issues checks across every successfully fetched page in
+     * $fetchResults (see AnalyzeChunkJob, which shares the fetched page
+     * set with Security/Accessibility/Content/UiUx's analyzeAll() via a
+     * common helper), merging the results into those three
+     * $websiteHealth categories — each resulting WebsiteHealthIssue
+     * carries the specific page it was found on via $pageUrl. The
+     * remaining three $websiteHealth categories (Website Modernization,
+     * Marketing Analysis, Content & Conversion Analysis) and the
+     * derived score/grade/businessOpportunityScore/salesOpportunity/
+     * outreachMessage are computed once, from a single "entry" page —
+     * the one keyed by $startUrl in $fetchResults, or the first
+     * available result if $startUrl isn't a key — since those represent
+     * a single site-level assessment and outreach draft rather than a
+     * per-page finding.
+     *
+     * @param  array<string, FetchResult>  $fetchResults  keyed by page URL
+     */
+    public function analyzeAll(array $fetchResults, string $startUrl): BusinessOpportunityResult
+    {
+        $entryResult = $fetchResults[$startUrl] ?? reset($fetchResults);
+
+        $successfulResults = array_values(array_filter(
+            $fetchResults,
+            static fn (FetchResult $result): bool => $result->success,
+        ));
+
+        $websiteProblems = [];
+        $seoIssues = [];
+        $performanceIssues = [];
+
+        foreach ($successfulResults as $pageResult) {
+            array_push($websiteProblems, ...$this->checkWebsiteProblems($pageResult));
+            array_push($seoIssues, ...$this->checkSeoIssues($pageResult));
+            array_push($performanceIssues, ...$this->checkPerformanceIssues($pageResult));
+        }
+
+        /**
+         * @var array<string, array<int, WebsiteHealthIssue>> $websiteHealth
+         */
+        $websiteHealth = [
+            'website_problems' => $websiteProblems,
+            'seo_issues' => $seoIssues,
+            'performance_issues' => $performanceIssues,
+            'website_modernization' => $this->checkWebsiteModernization($entryResult),
+            'marketing_analysis' => $this->checkMarketingIssues($entryResult),
+            'content_conversion_analysis' => $this->checkContentConversionIssues($entryResult),
+        ];
+
+        return $this->buildResult($entryResult, $websiteHealth);
+    }
+
+    /**
+     * Shared tail for analyze() and analyzeAll(): the $checks/score/
+     * grade/summary scaffold (still always empty/null — no $checks are
+     * implemented in this phase) plus the businessOpportunityScore/
+     * salesOpportunity/outreachMessage rollups derived from whatever
+     * $websiteHealth was already assembled by the caller.
+     *
+     * @param  array<string, array<int, WebsiteHealthIssue>>  $websiteHealth
+     */
+    private function buildResult(FetchResult $entryResult, array $websiteHealth): BusinessOpportunityResult
+    {
+        /**
+         * Future phases add one entry per business opportunity check
+         * here, e.g. 'contact_info' => $this->checkContactInfo($xpath),
+         * matching AccessibilityAnalyzer::analyze()'s pattern. Left
+         * empty in this phase — no checks are implemented yet.
+         *
+         * @var array<string, BusinessOpportunityCheckResult> $checks
+         */
+        $checks = [];
+
+        $score = $this->score($checks);
+        $grade = $score !== null ? $this->grade($score) : null;
+
         $businessOpportunityScore = $this->businessOpportunityScore($websiteHealth);
         $salesOpportunity = $this->salesOpportunity($websiteHealth, $businessOpportunityScore);
         $outreachMessage = $this->outreachMessage(
-            $result->url,
+            $entryResult->url,
             $websiteHealth,
             $businessOpportunityScore,
             $salesOpportunity,
         );
 
         return new BusinessOpportunityResult(
-            url: $result->url,
+            url: $entryResult->url,
             checks: $checks,
             score: $score,
             grade: $grade,
             summary: $this->summary($checks, $score, $grade),
-            analyzedAt: (new \DateTimeImmutable())->format(DATE_ATOM),
+            analyzedAt: (new \DateTimeImmutable)->format(DATE_ATOM),
             websiteHealth: $websiteHealth,
             businessOpportunityScore: $businessOpportunityScore,
             salesOpportunity: $salesOpportunity,
@@ -145,12 +223,17 @@ final class BusinessOpportunityAnalyzer
         );
     }
 
+    private function targetUrl(FetchResult $result): string
+    {
+        return $result->finalUrl ?? $result->url;
+    }
+
     /**
      * Averages points across every check. Returns null when there are
      * no checks to average yet — this analyzer has none implemented in
      * this phase.
      *
-     * @param array<string, BusinessOpportunityCheckResult> $checks
+     * @param  array<string, BusinessOpportunityCheckResult>  $checks
      */
     private function score(array $checks): ?int
     {
@@ -187,7 +270,7 @@ final class BusinessOpportunityAnalyzer
     }
 
     /**
-     * @param array<string, BusinessOpportunityCheckResult> $checks
+     * @param  array<string, BusinessOpportunityCheckResult>  $checks
      */
     private function summary(array $checks, ?int $score, ?string $grade): string
     {
@@ -203,7 +286,7 @@ final class BusinessOpportunityAnalyzer
 
         return sprintf(
             'Business opportunity score %d/100 (grade %s), based on %d check(s): %d passed, %d warning(s), '
-                . '%d failed.',
+                .'%d failed.',
             $score,
             $grade,
             count($checks),
@@ -233,13 +316,15 @@ final class BusinessOpportunityAnalyzer
                 BusinessOpportunityCheckStatus::PASS,
                 SeoSeverity::NOTICE,
                 null,
+                $result,
             )
             : $this->buildIssue(
                 'Page Fetch Errors',
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::CRITICAL,
                 'Resolve the fetch/transport errors preventing this page from loading reliably: '
-                    . implode('; ', $result->errors),
+                    .implode('; ', $result->errors),
+                $result,
             );
 
         $issues[] = match (true) {
@@ -248,39 +333,44 @@ final class BusinessOpportunityAnalyzer
                 BusinessOpportunityCheckStatus::PASS,
                 SeoSeverity::NOTICE,
                 null,
+                $result,
             ),
             $result->statusCode !== null && $result->statusCode >= 300 && $result->statusCode < 400 => $this->buildIssue(
                 'HTTP Status Code',
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::WARNING,
                 "Page returned a redirect status ({$result->statusCode}); point links directly at the final URL.",
+                $result,
             ),
             default => $this->buildIssue(
                 'HTTP Status Code',
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::CRITICAL,
                 'Page did not return a healthy 200 status code ('
-                    . ($result->statusCode !== null ? (string) $result->statusCode : 'none')
-                    . '); fix the error preventing a normal response.',
+                    .($result->statusCode !== null ? (string) $result->statusCode : 'none')
+                    .'); fix the error preventing a normal response.',
+                $result,
             ),
         };
 
         $issues[] = $result->robotsTxt->exists
-            ? $this->buildIssue('Robots.txt Presence', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null)
+            ? $this->buildIssue('Robots.txt Presence', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null, $result)
             : $this->buildIssue(
                 'Robots.txt Presence',
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::WARNING,
                 'Add a robots.txt file so search engine crawlers get explicit crawling guidance.',
+                $result,
             );
 
         $issues[] = $result->sitemap->exists
-            ? $this->buildIssue('XML Sitemap Presence', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null)
+            ? $this->buildIssue('XML Sitemap Presence', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null, $result)
             : $this->buildIssue(
                 'XML Sitemap Presence',
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::WARNING,
                 'Add an XML sitemap and reference it from robots.txt to help search engines discover pages.',
+                $result,
             );
 
         return $issues;
@@ -305,14 +395,16 @@ final class BusinessOpportunityAnalyzer
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::CRITICAL,
                 'Add a unique, descriptive <title> tag to the page.',
+                $result,
             ),
             $titleLength < 10 || $titleLength > 60 => $this->buildIssue(
                 'Title Tag',
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::WARNING,
                 'Adjust the title tag length to roughly 10-60 characters so it displays well in search results.',
+                $result,
             ),
-            default => $this->buildIssue('Title Tag', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null),
+            default => $this->buildIssue('Title Tag', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null, $result),
         };
 
         $description = $result->meta?->description;
@@ -324,28 +416,32 @@ final class BusinessOpportunityAnalyzer
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::WARNING,
                 'Add a meta description summarizing the page to improve search-result click-through.',
+                $result,
             ),
             $descriptionLength < 50 || $descriptionLength > 160 => $this->buildIssue(
                 'Meta Description',
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::NOTICE,
                 'Adjust the meta description length to roughly 50-160 characters so it isn\'t cut off in search results.',
+                $result,
             ),
             default => $this->buildIssue(
                 'Meta Description',
                 BusinessOpportunityCheckStatus::PASS,
                 SeoSeverity::NOTICE,
                 null,
+                $result,
             ),
         };
 
         $issues[] = $result->meta?->canonical !== null && trim($result->meta->canonical) !== ''
-            ? $this->buildIssue('Canonical Tag', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null)
+            ? $this->buildIssue('Canonical Tag', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null, $result)
             : $this->buildIssue(
                 'Canonical Tag',
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::WARNING,
                 'Add a rel="canonical" link tag to prevent duplicate-content ambiguity.',
+                $result,
             );
 
         $h1Count = count(array_filter($result->headings, static fn ($heading): bool => $heading->level === 1));
@@ -356,18 +452,21 @@ final class BusinessOpportunityAnalyzer
                 BusinessOpportunityCheckStatus::PASS,
                 SeoSeverity::NOTICE,
                 null,
+                $result,
             ),
             $h1Count === 0 => $this->buildIssue(
                 'Heading Structure (H1)',
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::CRITICAL,
                 'Add exactly one <h1> heading that describes the page\'s main topic.',
+                $result,
             ),
             default => $this->buildIssue(
                 'Heading Structure (H1)',
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::WARNING,
                 "Page has {$h1Count} <h1> headings; use exactly one <h1> per page.",
+                $result,
             ),
         };
 
@@ -378,7 +477,8 @@ final class BusinessOpportunityAnalyzer
      * Lightweight performance signals available directly from
      * FetchResult without a full browser render: response time,
      * render-blocking-style CSS/JS asset counts, and images missing
-     * explicit width/height (a layout-shift risk).
+     * explicit width/height (a layout-shift risk — the first such
+     * image's URL is recorded as the issue's elementUrl).
      *
      * @return array<int, WebsiteHealthIssue>
      */
@@ -392,67 +492,77 @@ final class BusinessOpportunityAnalyzer
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::NOTICE,
                 'Response time could not be measured for this fetch.',
+                $result,
             ),
             $result->responseTimeMs <= 800 => $this->buildIssue(
                 'Server Response Time',
                 BusinessOpportunityCheckStatus::PASS,
                 SeoSeverity::NOTICE,
                 null,
+                $result,
             ),
             $result->responseTimeMs <= 1800 => $this->buildIssue(
                 'Server Response Time',
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::WARNING,
                 "Server took {$result->responseTimeMs}ms to respond; investigate server-side or hosting bottlenecks.",
+                $result,
             ),
             default => $this->buildIssue(
                 'Server Response Time',
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::CRITICAL,
                 "Server took {$result->responseTimeMs}ms to respond, which is too slow; investigate server-side or hosting bottlenecks.",
+                $result,
             ),
         };
 
         $cssCount = count($result->cssLinks);
 
         $issues[] = $cssCount <= 6
-            ? $this->buildIssue('CSS File Count', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null)
+            ? $this->buildIssue('CSS File Count', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null, $result)
             : $this->buildIssue(
                 'CSS File Count',
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::WARNING,
                 "Page loads {$cssCount} separate stylesheets; combine or defer non-critical CSS to reduce render blocking.",
+                $result,
             );
 
         $jsCount = count($result->jsLinks);
 
         $issues[] = $jsCount <= 9
-            ? $this->buildIssue('JS File Count', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null)
+            ? $this->buildIssue('JS File Count', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null, $result)
             : $this->buildIssue(
                 'JS File Count',
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::WARNING,
                 "Page loads {$jsCount} separate scripts; bundle or defer non-critical JS to speed up page rendering.",
+                $result,
             );
 
-        $imagesMissingDimensions = count(array_filter(
+        $imagesMissingDimensions = array_values(array_filter(
             $result->images,
             static fn ($image): bool => $image->width === null || $image->height === null,
         ));
+        $missingCount = count($imagesMissingDimensions);
 
-        $issues[] = $imagesMissingDimensions === 0
+        $issues[] = $missingCount === 0
             ? $this->buildIssue(
                 'Image Dimensions',
                 BusinessOpportunityCheckStatus::PASS,
                 SeoSeverity::NOTICE,
                 null,
+                $result,
             )
             : $this->buildIssue(
                 'Image Dimensions',
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::WARNING,
-                "{$imagesMissingDimensions} image(s) are missing explicit width/height attributes; add them to "
-                    . 'prevent layout shift while images load.',
+                "{$missingCount} image(s) are missing explicit width/height attributes; add them to "
+                    .'prevent layout shift while images load.',
+                $result,
+                $imagesMissingDimensions[0]->url,
             );
 
         return $issues;
@@ -487,25 +597,29 @@ final class BusinessOpportunityAnalyzer
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::CRITICAL,
                 'Remove Flash/Java applet embeds (<embed>/<object>/<applet>) — they are unsupported by modern '
-                    . 'browsers and should be replaced with HTML5/CSS/JS equivalents.',
+                    .'browsers and should be replaced with HTML5/CSS/JS equivalents.',
+                $result,
             ),
             $hasLegacyDoctype => $this->buildIssue(
                 'Old Technology',
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::WARNING,
                 'Page uses a legacy HTML4/XHTML DOCTYPE; migrate to the HTML5 <!DOCTYPE html> declaration.',
+                $result,
             ),
             ! $hasViewportMeta => $this->buildIssue(
                 'Old Technology',
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::WARNING,
                 'Add a <meta name="viewport"> tag so the page renders responsively on modern devices.',
+                $result,
             ),
             default => $this->buildIssue(
                 'Old Technology',
                 BusinessOpportunityCheckStatus::PASS,
                 SeoSeverity::NOTICE,
                 null,
+                $result,
             ),
         };
 
@@ -527,33 +641,37 @@ final class BusinessOpportunityAnalyzer
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::CRITICAL,
                 'Serve the site over HTTPS with a valid SSL/TLS certificate; browsers flag HTTP pages as not secure.',
+                $result,
             ),
             ! $hasHsts => $this->buildIssue(
                 'Missing SSL',
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::WARNING,
                 'HTTPS is present but no Strict-Transport-Security header was found; add HSTS to prevent '
-                    . 'downgrade/protocol-stripping attacks.',
+                    .'downgrade/protocol-stripping attacks.',
+                $result,
             ),
-            default => $this->buildIssue('Missing SSL', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null),
+            default => $this->buildIssue('Missing SSL', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null, $result),
         };
 
         $issues[] = $result->schema !== []
-            ? $this->buildIssue('Missing Schema', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null)
+            ? $this->buildIssue('Missing Schema', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null, $result)
             : $this->buildIssue(
                 'Missing Schema',
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::WARNING,
                 'Add structured data (schema.org JSON-LD) so search engines can generate rich results for this page.',
+                $result,
             );
 
         $issues[] = $result->sitemap->exists
-            ? $this->buildIssue('Missing Sitemap', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null)
+            ? $this->buildIssue('Missing Sitemap', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null, $result)
             : $this->buildIssue(
                 'Missing Sitemap',
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::WARNING,
                 'Add an XML sitemap and reference it from robots.txt to help search engines discover and index pages.',
+                $result,
             );
 
         return $issues;
@@ -566,7 +684,10 @@ final class BusinessOpportunityAnalyzer
      * Detection is presence-only (no version/config parsing) — these
      * are simple "is a known third-party marketing script present at
      * all" checks, each covering several common providers so a site
-     * using any one of them isn't flagged as missing the category.
+     * using any one of them isn't flagged as missing the category. When
+     * the match came from a script asset specifically (rather than
+     * inline HTML), that script's URL is recorded as the issue's
+     * elementUrl — see findMarketingMatch().
      *
      * @return array<int, WebsiteHealthIssue>
      */
@@ -574,51 +695,75 @@ final class BusinessOpportunityAnalyzer
     {
         $issues = [];
 
-        $hasTrackingPixel = $this->pageContainsAny($result, [
+        $trackingPixel = $this->findMarketingMatch($result, [
             'fbq(', 'connect.facebook.net', 'googleadservices.com', 'googlesyndication.com',
             '_linkedin_partner_id', 'snap.licdn.com', 'ttq.load', 'analytics.tiktok.com',
             'px.ads.linkedin.com', 'bat.bing.com',
         ]);
 
-        $issues[] = $hasTrackingPixel
-            ? $this->buildIssue('No Tracking', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null)
+        $issues[] = $trackingPixel['matched']
+            ? $this->buildIssue(
+                'No Tracking',
+                BusinessOpportunityCheckStatus::PASS,
+                SeoSeverity::NOTICE,
+                null,
+                $result,
+                $trackingPixel['elementUrl'],
+            )
             : $this->buildIssue(
                 'No Tracking',
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::WARNING,
                 'No ad/marketing tracking pixel (e.g. Meta Pixel, Google Ads, LinkedIn Insight Tag) was detected; '
-                    . 'add one to measure campaign performance and enable conversion-based ad optimization.',
+                    .'add one to measure campaign performance and enable conversion-based ad optimization.',
+                $result,
             );
 
-        $hasAnalytics = $this->pageContainsAny($result, [
+        $analytics = $this->findMarketingMatch($result, [
             'googletagmanager.com', 'google-analytics.com', 'gtag(', "ga('create'", 'plausible.io',
             'matomo.js', 'piwik.js',
         ]);
 
-        $issues[] = $hasAnalytics
-            ? $this->buildIssue('No Analytics', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null)
+        $issues[] = $analytics['matched']
+            ? $this->buildIssue(
+                'No Analytics',
+                BusinessOpportunityCheckStatus::PASS,
+                SeoSeverity::NOTICE,
+                null,
+                $result,
+                $analytics['elementUrl'],
+            )
             : $this->buildIssue(
                 'No Analytics',
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::WARNING,
                 'No web analytics platform (e.g. Google Analytics/GA4, GTM) was detected; add one to understand '
-                    . 'visitor behavior and measure site performance against business goals.',
+                    .'visitor behavior and measure site performance against business goals.',
+                $result,
             );
 
-        $hasChatWidget = $this->pageContainsAny($result, [
+        $chatWidget = $this->findMarketingMatch($result, [
             'widget.intercom.io', 'Intercom(', 'js.driftt.com', 'drift.load', 'embed.tawk.to',
             'zdassets.com', 'zEmbed', 'client.crisp.chat', 'wa.me/', 'api.whatsapp.com/send',
             'customerchat',
         ]);
 
-        $issues[] = $hasChatWidget
-            ? $this->buildIssue('No Chat', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null)
+        $issues[] = $chatWidget['matched']
+            ? $this->buildIssue(
+                'No Chat',
+                BusinessOpportunityCheckStatus::PASS,
+                SeoSeverity::NOTICE,
+                null,
+                $result,
+                $chatWidget['elementUrl'],
+            )
             : $this->buildIssue(
                 'No Chat',
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::WARNING,
                 'No live-chat widget (e.g. Intercom, Drift, Tawk.to, WhatsApp chat) was detected; adding one gives '
-                    . 'visitors a low-friction way to ask questions and can improve lead conversion.',
+                    .'visitors a low-friction way to ask questions and can improve lead conversion.',
+                $result,
             );
 
         return $issues;
@@ -666,17 +811,19 @@ final class BusinessOpportunityAnalyzer
         $hasCtaMarkup = (bool) preg_match('/class=["\'][^"\']*\b(?:btn-primary|cta|call-to-action)\b/i', $html);
 
         $issues[] = $hasCtaAnchorText || $hasCtaMarkup
-            ? $this->buildIssue('Missing CTA', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null)
+            ? $this->buildIssue('Missing CTA', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null, $result)
             : $this->buildIssue(
                 'Missing CTA',
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::WARNING,
                 'No clear call-to-action (e.g. "Get Started", "Contact Us", "Buy Now") was found; add one so '
-                    . 'visitors know what action to take next.',
+                    .'visitors know what action to take next.',
+                $result,
             );
 
         $blogPattern = '/\bblog\b/i';
         $hasBlogLink = false;
+        $blogLinkUrl = null;
 
         foreach ($result->anchors as $anchor) {
             if (
@@ -684,22 +831,24 @@ final class BusinessOpportunityAnalyzer
                 || preg_match('#/blog(?:/|$)#i', $anchor->url) === 1
             ) {
                 $hasBlogLink = true;
+                $blogLinkUrl = $anchor->url;
 
                 break;
             }
         }
 
         $issues[] = $hasBlogLink
-            ? $this->buildIssue('No Blog', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null)
+            ? $this->buildIssue('No Blog', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null, $result, $blogLinkUrl)
             : $this->buildIssue(
                 'No Blog',
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::WARNING,
                 'No blog/articles section was found; regularly publishing content helps SEO and gives visitors a '
-                    . 'reason to return.',
+                    .'reason to return.',
+                $result,
             );
 
-        $issues[] = $this->checkOldBlog($result, $hasBlogLink);
+        $issues[] = $this->checkOldBlog($result, $hasBlogLink, $blogLinkUrl);
 
         $viewport = $result->meta?->viewport;
 
@@ -709,20 +858,23 @@ final class BusinessOpportunityAnalyzer
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::CRITICAL,
                 'No viewport meta tag was found; add <meta name="viewport" content="width=device-width, '
-                    . 'initial-scale=1"> so the page scales correctly on mobile devices.',
+                    .'initial-scale=1"> so the page scales correctly on mobile devices.',
+                $result,
             ),
             ! str_contains(strtolower($viewport), 'width=device-width') => $this->buildIssue(
                 'Poor Mobile UX',
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::WARNING,
                 "Viewport meta tag (\"{$viewport}\") doesn't set width=device-width; update it so the layout "
-                    . 'adapts to the visitor\'s screen width instead of a fixed desktop width.',
+                    .'adapts to the visitor\'s screen width instead of a fixed desktop width.',
+                $result,
             ),
             default => $this->buildIssue(
                 'Poor Mobile UX',
                 BusinessOpportunityCheckStatus::PASS,
                 SeoSeverity::NOTICE,
                 null,
+                $result,
             ),
         };
 
@@ -739,7 +891,7 @@ final class BusinessOpportunityAnalyzer
      * from a single page fetch, so that is reported plainly rather
      * than guessed at.
      */
-    private function checkOldBlog(FetchResult $result, bool $hasBlogLink): WebsiteHealthIssue
+    private function checkOldBlog(FetchResult $result, bool $hasBlogLink, ?string $blogLinkUrl): WebsiteHealthIssue
     {
         if (! $hasBlogLink) {
             return $this->buildIssue(
@@ -747,6 +899,7 @@ final class BusinessOpportunityAnalyzer
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::NOTICE,
                 'No blog was found on this page (see "No Blog"), so blog freshness could not be assessed.',
+                $result,
             );
         }
 
@@ -797,46 +950,62 @@ final class BusinessOpportunityAnalyzer
                 BusinessOpportunityCheckStatus::WARNING,
                 SeoSeverity::NOTICE,
                 'A blog was found, but no schema.org publish/update date was available to verify how recently it '
-                    . 'was updated; add BlogPosting structured data with datePublished/dateModified.',
+                    .'was updated; add BlogPosting structured data with datePublished/dateModified.',
+                $result,
+                $blogLinkUrl,
             );
         }
 
-        $twelveMonthsAgo = (new \DateTimeImmutable())->modify('-12 months');
+        $twelveMonthsAgo = (new \DateTimeImmutable)->modify('-12 months');
 
         return $latestDate >= $twelveMonthsAgo
-            ? $this->buildIssue('Old Blog', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null)
+            ? $this->buildIssue('Old Blog', BusinessOpportunityCheckStatus::PASS, SeoSeverity::NOTICE, null, $result, $blogLinkUrl)
             : $this->buildIssue(
                 'Old Blog',
                 BusinessOpportunityCheckStatus::FAIL,
                 SeoSeverity::WARNING,
-                'Most recent blog content is dated ' . $latestDate->format('Y-m-d')
-                    . ', which is over 12 months old; publish new content regularly to stay relevant to search '
-                    . 'engines and visitors.',
+                'Most recent blog content is dated '.$latestDate->format('Y-m-d')
+                    .', which is over 12 months old; publish new content regularly to stay relevant to search '
+                    .'engines and visitors.',
+                $result,
+                $blogLinkUrl,
             );
     }
 
     /**
      * Case-insensitive substring search across the page HTML and every
-     * JS asset URL — used for simple third-party script presence
-     * checks that don't need a dedicated weighted-signal method.
+     * JS asset URL, additionally reporting *which* specific resource
+     * matched (for use as a WebsiteHealthIssue's elementUrl): JS asset
+     * URLs are checked first (giving a concrete, useful elementUrl when
+     * the match is a linked script), falling back to a search of the
+     * inline page HTML — a match found there has no single resource URL
+     * to point at, so elementUrl stays null even though matched is
+     * true.
      *
-     * @param array<int, string> $needles
+     * @param  array<int, string>  $needles
+     * @return array{matched: bool, elementUrl: ?string}
      */
-    private function pageContainsAny(FetchResult $result, array $needles): bool
+    private function findMarketingMatch(FetchResult $result, array $needles): array
     {
-        $haystack = strtolower((string) $result->html);
-
         foreach ($result->jsLinks as $link) {
-            $haystack .= ' ' . strtolower($link->url);
-        }
+            $haystack = strtolower($link->url);
 
-        foreach ($needles as $needle) {
-            if (str_contains($haystack, strtolower($needle))) {
-                return true;
+            foreach ($needles as $needle) {
+                if (str_contains($haystack, strtolower($needle))) {
+                    return ['matched' => true, 'elementUrl' => $link->url];
+                }
             }
         }
 
-        return false;
+        $html = strtolower((string) $result->html);
+
+        foreach ($needles as $needle) {
+            if (str_contains($html, strtolower($needle))) {
+                return ['matched' => true, 'elementUrl' => null];
+            }
+        }
+
+        return ['matched' => false, 'elementUrl' => null];
     }
 
     /**
@@ -868,7 +1037,7 @@ final class BusinessOpportunityAnalyzer
      * or when Opportunity Score is otherwise high; Medium/Low
      * otherwise follow Opportunity Score.
      *
-     * @param array<string, array<int, WebsiteHealthIssue>> $websiteHealth
+     * @param  array<string, array<int, WebsiteHealthIssue>>  $websiteHealth
      */
     private function businessOpportunityScore(array $websiteHealth): BusinessOpportunityScore
     {
@@ -914,7 +1083,7 @@ final class BusinessOpportunityAnalyzer
      * if every issue were CRITICAL — used to normalize both
      * Opportunity Score and Lead Score to a 0-100 range.
      *
-     * @param array<int, WebsiteHealthIssue> $issues
+     * @param  array<int, WebsiteHealthIssue>  $issues
      * @return array{0: int, 1: int} [weightSum, maxWeightSum]
      */
     private function weighIssues(array $issues): array
@@ -941,7 +1110,7 @@ final class BusinessOpportunityAnalyzer
      * BusinessOpportunityScore) — i.e. the site's single biggest
      * problem area, framed as the most relevant service to pitch.
      *
-     * @param array<string, array<int, WebsiteHealthIssue>> $websiteHealth
+     * @param  array<string, array<int, WebsiteHealthIssue>>  $websiteHealth
      */
     private function salesOpportunity(array $websiteHealth, BusinessOpportunityScore $score): SalesOpportunity
     {
@@ -988,12 +1157,16 @@ final class BusinessOpportunityAnalyzer
         BusinessOpportunityCheckStatus $status,
         SeoSeverity $severity,
         ?string $recommendation,
+        FetchResult $result,
+        ?string $elementUrl = null,
     ): WebsiteHealthIssue {
         return new WebsiteHealthIssue(
             issue: $issue,
             status: $status,
             severity: $severity,
             recommendation: $recommendation,
+            pageUrl: $this->targetUrl($result),
+            elementUrl: $elementUrl,
         );
     }
 
@@ -1009,7 +1182,7 @@ final class BusinessOpportunityAnalyzer
      * Score, and closes with the Suggested Service and Estimated Deal
      * Potential as a soft call to action.
      *
-     * @param array<string, array<int, WebsiteHealthIssue>> $websiteHealth
+     * @param  array<string, array<int, WebsiteHealthIssue>>  $websiteHealth
      */
     private function outreachMessage(
         string $url,
@@ -1033,24 +1206,24 @@ final class BusinessOpportunityAnalyzer
 
         if ($topIssues === []) {
             $body = "Hi there,\n\nI took a look at {$host} and it's in solid shape overall — nothing major stood "
-                . "out in a quick audit. If you're open to it, I'd love to share a few smaller refinements that "
-                . "could help even further, particularly around {$sales->suggestedService}.\n\nWorth a quick chat?";
+                ."out in a quick audit. If you're open to it, I'd love to share a few smaller refinements that "
+                ."could help even further, particularly around {$sales->suggestedService}.\n\nWorth a quick chat?";
 
             return new OutreachMessage(subject: $subject, message: $body);
         }
 
         $issueLines = array_map(
-            static fn (WebsiteHealthIssue $issue): string => '- ' . $issue->issue
-                . ($issue->recommendation !== null ? ": {$issue->recommendation}" : ''),
+            static fn (WebsiteHealthIssue $issue): string => '- '.$issue->issue
+                .($issue->recommendation !== null ? ": {$issue->recommendation}" : ''),
             $topIssues,
         );
 
         $body = "Hi there,\n\nI ran a quick audit of {$host} and a few things stood out:\n\n"
-            . implode("\n", $issueLines)
-            . "\n\nThat puts the site at {$score->priority} priority for improvement (opportunity score "
-            . "{$score->opportunityScore}/100). A {$sales->suggestedService} would be the natural starting point "
-            . "here, typically in the {$sales->estimatedDealPotential} range.\n\n"
-            . 'Happy to walk through the full findings on a quick call if useful.';
+            .implode("\n", $issueLines)
+            ."\n\nThat puts the site at {$score->priority} priority for improvement (opportunity score "
+            ."{$score->opportunityScore}/100). A {$sales->suggestedService} would be the natural starting point "
+            ."here, typically in the {$sales->estimatedDealPotential} range.\n\n"
+            .'Happy to walk through the full findings on a quick call if useful.';
 
         return new OutreachMessage(subject: $subject, message: $body);
     }
@@ -1060,7 +1233,7 @@ final class BusinessOpportunityAnalyzer
      * $websiteHealth category, most severe first, capped at $limit.
      * Passing issues are excluded — there's nothing to pitch there.
      *
-     * @param array<string, array<int, WebsiteHealthIssue>> $websiteHealth
+     * @param  array<string, array<int, WebsiteHealthIssue>>  $websiteHealth
      * @return array<int, WebsiteHealthIssue>
      */
     private function topIssues(array $websiteHealth, int $limit): array

@@ -7,20 +7,24 @@ namespace App\Audit\UiUx;
 use App\Audit\Enums\UiUxElementStatus;
 use App\Audit\Fetching\DTO\FetchResult;
 use App\Audit\Fetching\DTO\SchemaBlock;
+use App\Audit\UiUx\DTO\UiUxAuditResult;
 use App\Audit\UiUx\DTO\UiUxElementResult;
 use App\Audit\UiUx\DTO\UiUxResult;
 
 /**
- * Runs a fixed set of basic UI/UX checks against a single fetched page:
- * presence and content of the primary navigation landmark, a hero
- * section near the top of the page, call-to-action buttons/links, form
- * usability, whitespace/spacing, color palette consistency, typography
- * consistency, button component quality, footer completeness, trust
- * signals, testimonials, reviews, and mobile-readiness — then rolls the
- * results up into an overall score, letter grade, summary, and a
+ * Runs a fixed set of basic UI/UX checks against a single fetched page via
+ * analyze(): presence and content of the primary navigation landmark, a
+ * hero section near the top of the page, call-to-action buttons/links,
+ * form usability, whitespace/spacing, color palette consistency,
+ * typography consistency, button component quality, footer completeness,
+ * trust signals, testimonials, reviews, and mobile-readiness — then rolls
+ * the results up into an overall score, letter grade, summary, and a
  * prioritized list of improvement suggestions. Mirrors
  * AccessibilityAnalyzer's (and, in turn, SecurityAnalyzer's)
- * score()/grade()/summary() points-averaging approach.
+ * score()/grade()/summary() points-averaging approach. analyzeAll() runs
+ * the same checklist across several fetched pages at once and wraps the
+ * per-page results in a UiUxAuditResult, mirroring
+ * SecurityAnalyzer::analyzeAll() and AccessibilityAnalyzer::analyzeAll().
  *
  * Deliberately scoped to only these thirteen elements.
  *
@@ -148,7 +152,7 @@ final class UiUxAnalyzer
 
     /**
      * Case-insensitive substrings checked against a descendant element's
-     * class/id (or the presence of a <cite> tag) to recognize an
+     * class/id (or the presence of a  tag) to recognize an
      * attributed author for a testimonial.
      *
      * @var array<int, string>
@@ -205,33 +209,33 @@ final class UiUxAnalyzer
         private readonly int $gradeBThreshold = 75,
         private readonly int $gradeCThreshold = 60,
         private readonly int $gradeDThreshold = 40,
-    ) {
-    }
+    ) {}
 
     public function analyze(FetchResult $result): UiUxResult
     {
         $html = (string) $result->html;
+        $pageUrl = $this->targetUrl($result);
 
         if (trim($html) === '') {
-            return $this->emptyResult($result);
+            return $this->emptyResult($result, $pageUrl);
         }
 
         $xpath = new \DOMXPath($this->loadDocument($html));
 
         $elements = [
-            'navigation' => $this->checkNavigation($xpath),
-            'hero_section' => $this->checkHeroSection($xpath),
-            'cta' => $this->checkCta($xpath),
-            'forms' => $this->checkForms($xpath),
-            'spacing' => $this->checkSpacing($xpath),
-            'color' => $this->checkColor($xpath),
-            'typography' => $this->checkTypography($xpath),
-            'button' => $this->checkButton($xpath),
-            'footer' => $this->checkFooter($xpath),
-            'trust_signals' => $this->checkTrustSignals($xpath),
-            'testimonials' => $this->checkTestimonials($xpath),
-            'reviews' => $this->checkReviews($xpath, $result->schema),
-            'mobile_design' => $this->checkMobileDesign($xpath),
+            'navigation' => $this->checkNavigation($xpath, $pageUrl),
+            'hero_section' => $this->checkHeroSection($xpath, $pageUrl),
+            'cta' => $this->checkCta($xpath, $pageUrl),
+            'forms' => $this->checkForms($xpath, $pageUrl),
+            'spacing' => $this->checkSpacing($xpath, $pageUrl),
+            'color' => $this->checkColor($xpath, $pageUrl),
+            'typography' => $this->checkTypography($xpath, $pageUrl),
+            'button' => $this->checkButton($xpath, $pageUrl),
+            'footer' => $this->checkFooter($xpath, $pageUrl),
+            'trust_signals' => $this->checkTrustSignals($xpath, $pageUrl),
+            'testimonials' => $this->checkTestimonials($xpath, $pageUrl),
+            'reviews' => $this->checkReviews($xpath, $result->schema, $pageUrl),
+            'mobile_design' => $this->checkMobileDesign($xpath, $pageUrl),
         ];
 
         $score = $this->score($elements);
@@ -244,15 +248,64 @@ final class UiUxAnalyzer
             grade: $grade,
             summary: $this->summary($elements, $score, $grade),
             prioritizedSuggestions: $this->prioritizedSuggestions($elements),
-            analyzedAt: (new \DateTimeImmutable())->format(DATE_ATOM),
+            analyzedAt: (new \DateTimeImmutable)->format(DATE_ATOM),
         );
+    }
+
+    /**
+     * Runs analyze() over several already-fetched pages at once (see
+     * AnalyzeChunkJob, which shares the fetched page set with
+     * SecurityAnalyzer::analyzeAll(), AccessibilityAnalyzer::analyzeAll(),
+     * and ContentAnalyzer::analyzeAll() via a common helper) and wraps
+     * the per-page results in a UiUxAuditResult. Pages whose fetch itself
+     * failed are reported in failedPageUrls rather than analyzed, since
+     * there's no response to check.
+     *
+     * @param  array<string, FetchResult>  $fetchResults  keyed by page URL
+     */
+    public function analyzeAll(array $fetchResults, string $startUrl): UiUxAuditResult
+    {
+        $pageResults = [];
+        $failedPageUrls = [];
+
+        foreach ($fetchResults as $url => $fetchResult) {
+            if (! $fetchResult->success) {
+                $failedPageUrls[] = $url;
+
+                continue;
+            }
+
+            $pageResults[$url] = $this->analyze($fetchResult);
+        }
+
+        $averageScore = $pageResults !== []
+            ? (int) round(
+                array_sum(array_map(static fn (UiUxResult $r): int => $r->score, $pageResults))
+                    / count($pageResults)
+            )
+            : 0;
+
+        return new UiUxAuditResult(
+            startUrl: $startUrl,
+            pages: $pageResults,
+            failedPageUrls: $failedPageUrls,
+            pagesAnalyzed: count($pageResults),
+            pagesFailed: count($failedPageUrls),
+            averageScore: $averageScore,
+            analyzedAt: (new \DateTimeImmutable)->format(DATE_ATOM),
+        );
+    }
+
+    private function targetUrl(FetchResult $result): string
+    {
+        return $result->finalUrl ?? $result->url;
     }
 
     private function loadDocument(string $html): \DOMDocument
     {
         $previous = libxml_use_internal_errors(true);
 
-        $dom = new \DOMDocument();
+        $dom = new \DOMDocument;
         $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_NONET);
 
         libxml_clear_errors();
@@ -261,114 +314,35 @@ final class UiUxAnalyzer
         return $dom;
     }
 
-    private function emptyResult(FetchResult $result): UiUxResult
+    private function emptyResult(FetchResult $result, string $pageUrl): UiUxResult
     {
-        $noHtml = new UiUxElementResult(
-            element: 'Navigation',
-            status: UiUxElementStatus::WARNING,
-            issues: ['no HTML content to analyze'],
-            suggestions: ['The page returned no HTML to inspect — re-fetch the page and re-run this analysis.'],
-        );
+        $labels = [
+            'navigation' => 'Navigation',
+            'hero_section' => 'Hero Section',
+            'cta' => 'CTA',
+            'forms' => 'Forms',
+            'spacing' => 'Spacing',
+            'color' => 'Color',
+            'typography' => 'Typography',
+            'button' => 'Button',
+            'footer' => 'Footer',
+            'trust_signals' => 'Trust Signals',
+            'testimonials' => 'Testimonials',
+            'reviews' => 'Reviews',
+            'mobile_design' => 'Mobile Design',
+        ];
 
-        $elements = [
-                'navigation' => $noHtml,
-                'hero_section' => new UiUxElementResult(
-                    element: 'Hero Section',
-                    status: UiUxElementStatus::WARNING,
-                    issues: ['no HTML content to analyze'],
-                    suggestions: [
-                        'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-                    ],
-                ),
-                'cta' => new UiUxElementResult(
-                    element: 'CTA',
-                    status: UiUxElementStatus::WARNING,
-                    issues: ['no HTML content to analyze'],
-                    suggestions: [
-                        'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-                    ],
-                ),
-                'forms' => new UiUxElementResult(
-                    element: 'Forms',
-                    status: UiUxElementStatus::WARNING,
-                    issues: ['no HTML content to analyze'],
-                    suggestions: [
-                        'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-                    ],
-                ),
-                'spacing' => new UiUxElementResult(
-                    element: 'Spacing',
-                    status: UiUxElementStatus::WARNING,
-                    issues: ['no HTML content to analyze'],
-                    suggestions: [
-                        'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-                    ],
-                ),
-                'color' => new UiUxElementResult(
-                    element: 'Color',
-                    status: UiUxElementStatus::WARNING,
-                    issues: ['no HTML content to analyze'],
-                    suggestions: [
-                        'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-                    ],
-                ),
-                'typography' => new UiUxElementResult(
-                    element: 'Typography',
-                    status: UiUxElementStatus::WARNING,
-                    issues: ['no HTML content to analyze'],
-                    suggestions: [
-                        'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-                    ],
-                ),
-                'button' => new UiUxElementResult(
-                    element: 'Button',
-                    status: UiUxElementStatus::WARNING,
-                    issues: ['no HTML content to analyze'],
-                    suggestions: [
-                        'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-                    ],
-                ),
-                'footer' => new UiUxElementResult(
-                    element: 'Footer',
-                    status: UiUxElementStatus::WARNING,
-                    issues: ['no HTML content to analyze'],
-                    suggestions: [
-                        'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-                    ],
-                ),
-                'trust_signals' => new UiUxElementResult(
-                    element: 'Trust Signals',
-                    status: UiUxElementStatus::WARNING,
-                    issues: ['no HTML content to analyze'],
-                    suggestions: [
-                        'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-                    ],
-                ),
-                'testimonials' => new UiUxElementResult(
-                    element: 'Testimonials',
-                    status: UiUxElementStatus::WARNING,
-                    issues: ['no HTML content to analyze'],
-                    suggestions: [
-                        'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-                    ],
-                ),
-                'reviews' => new UiUxElementResult(
-                    element: 'Reviews',
-                    status: UiUxElementStatus::WARNING,
-                    issues: ['no HTML content to analyze'],
-                    suggestions: [
-                        'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-                    ],
-                ),
-                'mobile_design' => new UiUxElementResult(
-                    element: 'Mobile Design',
-                    status: UiUxElementStatus::WARNING,
-                    issues: ['no HTML content to analyze'],
-                    suggestions: [
-                        'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-                    ],
-                ),
-            ];
+        $elements = [];
+
+        foreach ($labels as $key => $label) {
+            $elements[$key] = new UiUxElementResult(
+                element: $label,
+                status: UiUxElementStatus::WARNING,
+                issues: ['no HTML content to analyze'],
+                suggestions: ['The page returned no HTML to inspect — re-fetch the page and re-run this analysis.'],
+                pageUrl: $pageUrl,
+            );
+        }
 
         $score = $this->score($elements);
         $grade = $this->grade($score);
@@ -380,11 +354,11 @@ final class UiUxAnalyzer
             grade: $grade,
             summary: $this->summary($elements, $score, $grade),
             prioritizedSuggestions: $this->prioritizedSuggestions($elements),
-            analyzedAt: (new \DateTimeImmutable())->format(DATE_ATOM),
+            analyzedAt: (new \DateTimeImmutable)->format(DATE_ATOM),
         );
     }
 
-    private function checkNavigation(\DOMXPath $xpath): UiUxElementResult
+    private function checkNavigation(\DOMXPath $xpath, string $pageUrl): UiUxElementResult
     {
         $navs = iterator_to_array($xpath->query('//nav | //*[@role="navigation"]') ?: []);
 
@@ -395,7 +369,11 @@ final class UiUxAnalyzer
                 issues: ['no navigation landmark found (<nav> element or role="navigation")'],
                 suggestions: [
                     'Add a <nav> element (or role="navigation") wrapping the site\'s primary links so users '
-                        . 'and assistive technology can find it quickly.',
+                        .'and assistive technology can find it quickly.',
+                ],
+                pageUrl: $pageUrl,
+                affectedElements: [
+                    $this->element(null, 'No navigation landmark found (<nav> element or role="navigation")'),
                 ],
             );
         }
@@ -407,12 +385,18 @@ final class UiUxAnalyzer
             $totalLinks += $xpath->query('.//a[@href]', $nav)?->length ?? 0;
         }
 
+        /** @var \DOMElement $firstNav */
+        $firstNav = $navs[0];
+        $firstNavDomPath = $this->buildDomPath($firstNav);
+
         if ($totalLinks === 0) {
             return new UiUxElementResult(
                 element: 'Navigation',
                 status: UiUxElementStatus::FAIL,
                 issues: ['navigation landmark found but contains no links'],
                 suggestions: ['Add links to the site\'s primary pages inside the navigation landmark.'],
+                pageUrl: $pageUrl,
+                affectedElements: [$this->element($firstNavDomPath, 'Navigation landmark contains no links')],
             );
         }
 
@@ -424,6 +408,8 @@ final class UiUxAnalyzer
                 suggestions: [
                     'Add links to the site\'s other primary sections so users can reach the whole site from here.',
                 ],
+                pageUrl: $pageUrl,
+                affectedElements: [$this->element($firstNavDomPath, 'Navigation contains only 1 link')],
             );
         }
 
@@ -432,10 +418,11 @@ final class UiUxAnalyzer
             status: UiUxElementStatus::PASS,
             issues: [],
             suggestions: [],
+            pageUrl: $pageUrl,
         );
     }
 
-    private function checkHeroSection(\DOMXPath $xpath): UiUxElementResult
+    private function checkHeroSection(\DOMXPath $xpath, string $pageUrl): UiUxElementResult
     {
         $hero = $this->findHeroCandidate($xpath);
 
@@ -446,7 +433,11 @@ final class UiUxAnalyzer
                 issues: ['no hero section, page <header>, or top-of-page <h1> found'],
                 suggestions: [
                     'Add an introductory hero section near the top of the page with a clear heading and a '
-                        . 'call to action.',
+                        .'call to action.',
+                ],
+                pageUrl: $pageUrl,
+                affectedElements: [
+                    $this->element(null, 'No hero section, page <header>, or top-of-page <h1> found'),
                 ],
             );
         }
@@ -457,16 +448,23 @@ final class UiUxAnalyzer
 
         $issues = [];
         $suggestions = [];
+        $affectedElements = [];
+        $heroDomPath = $this->buildDomPath($hero);
 
         if (! $hasHeading) {
             $issues[] = 'hero section has no heading';
             $suggestions[] = 'Add a clear heading (h1-h3) summarizing the page\'s value proposition.';
+            $affectedElements[] = $this->element($heroDomPath, 'Hero section has no heading');
         }
 
         if (! $hasImage && ! $hasCta) {
             $issues[] = 'hero section has no supporting image and no call to action';
             $suggestions[] = 'Add a supporting image and/or a call-to-action button so the hero section '
-                . 'prompts a next step.';
+                .'prompts a next step.';
+            $affectedElements[] = $this->element(
+                $heroDomPath,
+                'Hero section has no supporting image and no call to action',
+            );
         }
 
         if ($issues === []) {
@@ -475,6 +473,7 @@ final class UiUxAnalyzer
                 status: UiUxElementStatus::PASS,
                 issues: [],
                 suggestions: [],
+                pageUrl: $pageUrl,
             );
         }
 
@@ -483,6 +482,8 @@ final class UiUxAnalyzer
             status: UiUxElementStatus::WARNING,
             issues: $issues,
             suggestions: $suggestions,
+            pageUrl: $pageUrl,
+            affectedElements: $affectedElements,
         );
     }
 
@@ -497,7 +498,7 @@ final class UiUxAnalyzer
     {
         foreach ($xpath->query('//*[@class or @id]') ?: [] as $node) {
             /** @var \DOMElement $node */
-            $haystack = strtolower($node->getAttribute('class') . ' ' . $node->getAttribute('id'));
+            $haystack = strtolower($node->getAttribute('class').' '.$node->getAttribute('id'));
 
             foreach (self::HERO_MARKERS as $marker) {
                 if (str_contains($haystack, $marker)) {
@@ -517,7 +518,7 @@ final class UiUxAnalyzer
         return $firstHeading instanceof \DOMElement ? $firstHeading : null;
     }
 
-    private function checkCta(\DOMXPath $xpath): UiUxElementResult
+    private function checkCta(\DOMXPath $xpath, string $pageUrl): UiUxElementResult
     {
         $ctas = $this->findCtaElements($xpath);
 
@@ -528,8 +529,10 @@ final class UiUxAnalyzer
                 issues: ['no call-to-action buttons or links found'],
                 suggestions: [
                     'Add a prominent call-to-action button or link with action-oriented text (e.g. '
-                        . '"Get Started", "Sign Up", "Contact Us").',
+                        .'"Get Started", "Sign Up", "Contact Us").',
                 ],
+                pageUrl: $pageUrl,
+                affectedElements: [$this->element(null, 'No call-to-action buttons or links found')],
             );
         }
 
@@ -544,6 +547,7 @@ final class UiUxAnalyzer
                 status: UiUxElementStatus::PASS,
                 issues: [],
                 suggestions: [],
+                pageUrl: $pageUrl,
             );
         }
 
@@ -559,8 +563,16 @@ final class UiUxAnalyzer
             ],
             suggestions: [
                 'Replace generic text like "click here" or "read more" with specific, action-oriented text '
-                    . 'that describes what happens next.',
+                    .'that describes what happens next.',
             ],
+            pageUrl: $pageUrl,
+            affectedElements: array_map(
+                fn (\DOMElement $cta): array => $this->element(
+                    $this->buildDomPath($cta),
+                    'Generic, non-descriptive call-to-action text',
+                ),
+                $generic,
+            ),
         );
     }
 
@@ -591,7 +603,7 @@ final class UiUxAnalyzer
 
     private function looksLikeCta(\DOMElement $node): bool
     {
-        $haystack = strtolower($node->getAttribute('class') . ' ' . $node->getAttribute('id'));
+        $haystack = strtolower($node->getAttribute('class').' '.$node->getAttribute('id'));
 
         foreach (self::CTA_MARKERS as $marker) {
             if (str_contains($haystack, $marker)) {
@@ -613,7 +625,7 @@ final class UiUxAnalyzer
         return in_array($text, self::GENERIC_CTA_TEXT, true);
     }
 
-    private function checkForms(\DOMXPath $xpath): UiUxElementResult
+    private function checkForms(\DOMXPath $xpath, string $pageUrl): UiUxElementResult
     {
         $forms = iterator_to_array($xpath->query('//form') ?: []);
 
@@ -623,6 +635,7 @@ final class UiUxAnalyzer
                 status: UiUxElementStatus::PASS,
                 issues: [],
                 suggestions: [],
+                pageUrl: $pageUrl,
             );
         }
 
@@ -637,22 +650,23 @@ final class UiUxAnalyzer
             )?->length ?? 0;
 
             if ($submitCount === 0) {
-                $missingSubmit[] = $this->describeElement($form);
+                $missingSubmit[] = $form;
             }
 
             $fieldCount = $xpath->query(
                 './/input[not(@type="hidden") and not(@type="submit") and not(@type="button")'
-                    . ' and not(@type="reset")] | .//select | .//textarea',
+                    .' and not(@type="reset")] | .//select | .//textarea',
                 $form,
             )?->length ?? 0;
 
             if ($fieldCount > self::FORM_MAX_FIELDS) {
-                $longForms[] = $this->describeElement($form);
+                $longForms[] = $form;
             }
         }
 
         $issues = [];
         $suggestions = [];
+        $affectedElements = [];
 
         if ($missingSubmit !== []) {
             $count = count($missingSubmit);
@@ -660,7 +674,11 @@ final class UiUxAnalyzer
                 ? '1 form has no visible submit control'
                 : "{$count} forms have no visible submit control";
             $suggestions[] = 'Give every form a visible submit control (a <button> or '
-                . '<input type="submit">) so users can tell how to complete it.';
+                .'<input type="submit">) so users can tell how to complete it.';
+
+            foreach ($missingSubmit as $form) {
+                $affectedElements[] = $this->element($this->buildDomPath($form), 'Form has no visible submit control');
+            }
         }
 
         if ($longForms !== []) {
@@ -670,7 +688,11 @@ final class UiUxAnalyzer
                 ? "1 form has more than {$max} fields"
                 : "{$count} forms have more than {$max} fields";
             $suggestions[] = 'Break long forms into shorter steps or sections — long single-page forms tend '
-                . 'to hurt completion rates.';
+                .'to hurt completion rates.';
+
+            foreach ($longForms as $form) {
+                $affectedElements[] = $this->element($this->buildDomPath($form), "Form has more than {$max} fields");
+            }
         }
 
         if ($issues === []) {
@@ -679,6 +701,7 @@ final class UiUxAnalyzer
                 status: UiUxElementStatus::PASS,
                 issues: [],
                 suggestions: [],
+                pageUrl: $pageUrl,
             );
         }
 
@@ -687,10 +710,12 @@ final class UiUxAnalyzer
             status: $missingSubmit !== [] ? UiUxElementStatus::FAIL : UiUxElementStatus::WARNING,
             issues: $issues,
             suggestions: $suggestions,
+            pageUrl: $pageUrl,
+            affectedElements: $affectedElements,
         );
     }
 
-    private function checkSpacing(\DOMXPath $xpath): UiUxElementResult
+    private function checkSpacing(\DOMXPath $xpath, string $pageUrl): UiUxElementResult
     {
         $declared = $this->countInlineSpacingDeclarations($xpath);
 
@@ -701,8 +726,9 @@ final class UiUxAnalyzer
                 issues: ['no inline margin/padding styles found to check'],
                 suggestions: [
                     'Spacing mostly depends on external CSS, which static HTML analysis cannot read. Verify '
-                        . 'with an automated tool or manually that content has adequate breathing room.',
+                        .'with an automated tool or manually that content has adequate breathing room.',
                 ],
+                pageUrl: $pageUrl,
             );
         }
 
@@ -714,11 +740,16 @@ final class UiUxAnalyzer
                 status: UiUxElementStatus::PASS,
                 issues: [],
                 suggestions: [],
+                pageUrl: $pageUrl,
             );
         }
 
         $count = count($cramped);
-        $sample = implode(', ', array_slice($cramped, 0, 3));
+        $sample = implode(', ', array_slice(
+            array_map(fn (\DOMElement $e): string => $this->describeElement($e), $cramped),
+            0,
+            3,
+        ));
 
         return new UiUxElementResult(
             element: 'Spacing',
@@ -727,13 +758,21 @@ final class UiUxAnalyzer
                 $count === 1
                     ? "1 inline-styled element has both margin and padding set to zero: {$sample}"
                     : "{$count} inline-styled elements have both margin and padding set to zero, "
-                        . "including: {$sample}",
+                        ."including: {$sample}",
             ],
             suggestions: [
                 'Add adequate margin/padding around content blocks so the layout has visual breathing room '
-                    . 'instead of feeling cramped. Note: only elements with inline margin/padding styles were '
-                    . 'checked — spacing set via external CSS is not visible to static analysis.',
+                    .'instead of feeling cramped. Note: only elements with inline margin/padding styles were '
+                    .'checked — spacing set via external CSS is not visible to static analysis.',
             ],
+            pageUrl: $pageUrl,
+            affectedElements: array_map(
+                fn (\DOMElement $e): array => $this->element(
+                    $this->buildDomPath($e),
+                    'Margin and padding both set to zero',
+                ),
+                $cramped,
+            ),
         );
     }
 
@@ -760,7 +799,7 @@ final class UiUxAnalyzer
     }
 
     /**
-     * @return array<int, string>
+     * @return array<int, \DOMElement>
      */
     private function collectZeroSpacingElements(\DOMXPath $xpath): array
     {
@@ -774,7 +813,7 @@ final class UiUxAnalyzer
 
             if ($margin !== null && $padding !== null
                 && $this->isAllZeroCssValue($margin) && $this->isAllZeroCssValue($padding)) {
-                $found[] = $this->describeElement($node);
+                $found[] = $node;
             }
         }
 
@@ -802,7 +841,7 @@ final class UiUxAnalyzer
         return true;
     }
 
-    private function checkColor(\DOMXPath $xpath): UiUxElementResult
+    private function checkColor(\DOMXPath $xpath, string $pageUrl): UiUxElementResult
     {
         $colors = $this->collectDistinctInlineColors($xpath);
 
@@ -813,25 +852,34 @@ final class UiUxAnalyzer
                 issues: ['no inline color/background-color styles found to check'],
                 suggestions: [
                     'Color palette mostly depends on external CSS, which static HTML analysis cannot read. '
-                        . 'Verify with an automated tool or manually that the page uses a small, deliberate '
-                        . 'color palette.',
+                        .'Verify with an automated tool or manually that the page uses a small, deliberate '
+                        .'color palette.',
                 ],
+                pageUrl: $pageUrl,
             );
         }
 
         $count = count($colors);
 
         if ($count > self::COLOR_DISTINCT_THRESHOLD) {
+            $affectedElements = [];
+
+            foreach ($colors as $color => $element) {
+                $affectedElements[] = $this->element($this->buildDomPath($element), "Uses color \"{$color}\"");
+            }
+
             return new UiUxElementResult(
                 element: 'Color',
                 status: UiUxElementStatus::WARNING,
                 issues: ["{$count} distinct inline colors found, which may signal an inconsistent color palette"],
                 suggestions: [
                     'Standardize on a small, deliberate color palette (e.g. via CSS custom properties or a '
-                        . 'design system) instead of one-off inline colors. Note: only inline color/'
-                        . 'background-color styles were checked — colors set via external CSS are not visible '
-                        . 'to static analysis.',
+                        .'design system) instead of one-off inline colors. Note: only inline color/'
+                        .'background-color styles were checked — colors set via external CSS are not visible '
+                        .'to static analysis.',
                 ],
+                pageUrl: $pageUrl,
+                affectedElements: $affectedElements,
             );
         }
 
@@ -840,15 +888,18 @@ final class UiUxAnalyzer
             status: UiUxElementStatus::PASS,
             issues: [],
             suggestions: [],
+            pageUrl: $pageUrl,
         );
     }
 
     /**
      * Collects every distinct inline `color` and background
      * (`background-color` or the shorthand `background`) value used on
-     * the page.
+     * the page, together with the first element found using each value
+     * (so the Color check can point at a concrete example when the
+     * distinct-color count is flagged).
      *
-     * @return array<int, string>
+     * @return array<string, \DOMElement> color/background value => first element using it
      */
     private function collectDistinctInlineColors(\DOMXPath $xpath): array
     {
@@ -861,23 +912,23 @@ final class UiUxAnalyzer
             $background = $this->extractCssValue($style, 'background-color')
                 ?? $this->extractCssValue($style, 'background');
 
-            if ($color !== null) {
-                $colors[$color] = true;
+            if ($color !== null && ! isset($colors[$color])) {
+                $colors[$color] = $node;
             }
 
-            if ($background !== null) {
-                $colors[$background] = true;
+            if ($background !== null && ! isset($colors[$background])) {
+                $colors[$background] = $node;
             }
         }
 
-        return array_keys($colors);
+        return $colors;
     }
 
-    private function checkTypography(\DOMXPath $xpath): UiUxElementResult
+    private function checkTypography(\DOMXPath $xpath, string $pageUrl): UiUxElementResult
     {
         $fontFamilies = $this->collectDistinctInlineFontFamilies($xpath);
-        $legacyNodes = $xpath->query('//font[@face]');
-        $legacyCount = $legacyNodes !== false ? $legacyNodes->length : 0;
+        $legacyNodes = iterator_to_array($xpath->query('//font[@face]') ?: []);
+        $legacyCount = count($legacyNodes);
 
         if ($fontFamilies === [] && $legacyCount === 0) {
             return new UiUxElementResult(
@@ -886,25 +937,39 @@ final class UiUxAnalyzer
                 issues: ['no inline font-family styles or legacy <font face> tags found to check'],
                 suggestions: [
                     'Typography mostly depends on external CSS, which static HTML analysis cannot read. '
-                        . 'Verify with an automated tool or manually that the page uses a small, consistent '
-                        . 'set of font families.',
+                        .'Verify with an automated tool or manually that the page uses a small, consistent '
+                        .'set of font families.',
                 ],
+                pageUrl: $pageUrl,
             );
         }
 
         $issues = [];
         $suggestions = [];
+        $affectedElements = [];
         $count = count($fontFamilies);
 
         if ($count > self::FONT_FAMILY_DISTINCT_THRESHOLD) {
             $issues[] = "{$count} distinct inline font-family declarations found, which may create visual "
-                . 'inconsistency';
+                .'inconsistency';
             $suggestions[] = 'Limit the page to 1-2 font families for a consistent, professional look.';
+
+            foreach ($fontFamilies as $font => $element) {
+                $affectedElements[] = $this->element(
+                    $this->buildDomPath($element),
+                    "Uses font-family \"{$font}\"",
+                );
+            }
         }
 
         if ($legacyCount > 0) {
             $issues[] = "{$legacyCount} legacy <font> tag(s) found";
             $suggestions[] = 'Replace legacy <font> tags with CSS font-family declarations on semantic elements.';
+
+            foreach ($legacyNodes as $node) {
+                /** @var \DOMElement $node */
+                $affectedElements[] = $this->element($this->buildDomPath($node), 'Legacy <font> tag');
+            }
         }
 
         if ($issues === []) {
@@ -913,6 +978,7 @@ final class UiUxAnalyzer
                 status: UiUxElementStatus::PASS,
                 issues: [],
                 suggestions: [],
+                pageUrl: $pageUrl,
             );
         }
 
@@ -921,11 +987,13 @@ final class UiUxAnalyzer
             status: UiUxElementStatus::WARNING,
             issues: $issues,
             suggestions: $suggestions,
+            pageUrl: $pageUrl,
+            affectedElements: $affectedElements,
         );
     }
 
     /**
-     * @return array<int, string>
+     * @return array<string, \DOMElement> font-family value => first element using it
      */
     private function collectDistinctInlineFontFamilies(\DOMXPath $xpath): array
     {
@@ -936,15 +1004,15 @@ final class UiUxAnalyzer
             $style = strtolower($node->getAttribute('style'));
             $value = $this->extractCssValue($style, 'font-family');
 
-            if ($value !== null) {
-                $fonts[$value] = true;
+            if ($value !== null && ! isset($fonts[$value])) {
+                $fonts[$value] = $node;
             }
         }
 
-        return array_keys($fonts);
+        return $fonts;
     }
 
-    private function checkButton(\DOMXPath $xpath): UiUxElementResult
+    private function checkButton(\DOMXPath $xpath, string $pageUrl): UiUxElementResult
     {
         $buttons = $this->findButtonElements($xpath);
 
@@ -954,6 +1022,7 @@ final class UiUxAnalyzer
                 status: UiUxElementStatus::PASS,
                 issues: [],
                 suggestions: [],
+                pageUrl: $pageUrl,
             );
         }
 
@@ -964,23 +1033,24 @@ final class UiUxAnalyzer
         foreach ($buttons as $button) {
             /** @var \DOMElement $button */
             if ($button->nodeName === 'button' && ! $button->hasAttribute('type')) {
-                $missingType[] = $this->describeElement($button);
+                $missingType[] = $button;
             }
 
             $text = $this->buttonAccessibleText($button);
             $wordCount = $text === '' ? 0 : count(preg_split('/\s+/u', $text) ?: []);
 
             if ($wordCount > self::BUTTON_MAX_TEXT_WORDS) {
-                $longText[] = $this->describeElement($button);
+                $longText[] = $button;
             }
 
             if ($this->isDisabledWithoutExplanation($button)) {
-                $unexplainedDisabled[] = $this->describeElement($button);
+                $unexplainedDisabled[] = $button;
             }
         }
 
         $issues = [];
         $suggestions = [];
+        $affectedElements = [];
 
         if ($missingType !== []) {
             $count = count($missingType);
@@ -988,8 +1058,12 @@ final class UiUxAnalyzer
                 ? '1 <button> element has no type attribute'
                 : "{$count} <button> elements have no type attribute";
             $suggestions[] = 'Add an explicit type="button" or type="submit" to every <button> — inside a '
-                . 'form, an untyped button defaults to submitting it, which is a common source of accidental '
-                . 'form submission.';
+                .'form, an untyped button defaults to submitting it, which is a common source of accidental '
+                .'form submission.';
+
+            foreach ($missingType as $button) {
+                $affectedElements[] = $this->element($this->buildDomPath($button), 'No type attribute');
+            }
         }
 
         if ($longText !== []) {
@@ -999,6 +1073,10 @@ final class UiUxAnalyzer
                 ? "1 button's text is longer than {$max} words"
                 : "{$count} buttons have text longer than {$max} words";
             $suggestions[] = 'Keep button text short and action-oriented so it can be scanned at a glance.';
+
+            foreach ($longText as $button) {
+                $affectedElements[] = $this->element($this->buildDomPath($button), "Text longer than {$max} words");
+            }
         }
 
         if ($unexplainedDisabled !== []) {
@@ -1007,7 +1085,14 @@ final class UiUxAnalyzer
                 ? '1 disabled button has no title or aria-label explaining why it is disabled'
                 : "{$count} disabled buttons have no title or aria-label explaining why they are disabled";
             $suggestions[] = 'Add a title or aria-label to disabled buttons so users understand what to do '
-                . 'to enable them, instead of leaving them to guess.';
+                .'to enable them, instead of leaving them to guess.';
+
+            foreach ($unexplainedDisabled as $button) {
+                $affectedElements[] = $this->element(
+                    $this->buildDomPath($button),
+                    'Disabled with no title/aria-label explaining why',
+                );
+            }
         }
 
         if ($issues === []) {
@@ -1016,6 +1101,7 @@ final class UiUxAnalyzer
                 status: UiUxElementStatus::PASS,
                 issues: [],
                 suggestions: [],
+                pageUrl: $pageUrl,
             );
         }
 
@@ -1024,6 +1110,8 @@ final class UiUxAnalyzer
             status: UiUxElementStatus::WARNING,
             issues: $issues,
             suggestions: $suggestions,
+            pageUrl: $pageUrl,
+            affectedElements: $affectedElements,
         );
     }
 
@@ -1070,7 +1158,7 @@ final class UiUxAnalyzer
             && trim($button->getAttribute('aria-describedby')) === '';
     }
 
-    private function checkFooter(\DOMXPath $xpath): UiUxElementResult
+    private function checkFooter(\DOMXPath $xpath, string $pageUrl): UiUxElementResult
     {
         $footer = $xpath->query('//footer | //*[@role="contentinfo"]')?->item(0);
 
@@ -1081,27 +1169,38 @@ final class UiUxAnalyzer
                 issues: ['no footer landmark found (<footer> element or role="contentinfo")'],
                 suggestions: [
                     'Add a <footer> element (or role="contentinfo") containing site links and copyright/legal '
-                        . 'information.',
+                        .'information.',
+                ],
+                pageUrl: $pageUrl,
+                affectedElements: [
+                    $this->element(null, 'No footer landmark found (<footer> element or role="contentinfo")'),
                 ],
             );
         }
 
+        $footerDomPath = $this->buildDomPath($footer);
         $linkCount = $xpath->query('.//a[@href]', $footer)?->length ?? 0;
         $hasLegalText = preg_match(self::FOOTER_LEGAL_PATTERN, $footer->textContent) === 1;
 
         $issues = [];
         $suggestions = [];
+        $affectedElements = [];
 
         if ($linkCount === 0) {
             $issues[] = 'footer contains no links';
             $suggestions[] = 'Add links to key pages (e.g. About, Privacy Policy, Terms, Contact) inside the '
-                . 'footer.';
+                .'footer.';
+            $affectedElements[] = $this->element($footerDomPath, 'Footer contains no links');
         }
 
         if (! $hasLegalText) {
             $issues[] = 'footer has no copyright notice or reference to legal terms';
             $suggestions[] = 'Add a copyright notice (e.g. "© 2026 Company Name") and/or a link to legal '
-                . 'terms in the footer.';
+                .'terms in the footer.';
+            $affectedElements[] = $this->element(
+                $footerDomPath,
+                'Footer has no copyright notice or reference to legal terms',
+            );
         }
 
         if ($issues === []) {
@@ -1110,6 +1209,7 @@ final class UiUxAnalyzer
                 status: UiUxElementStatus::PASS,
                 issues: [],
                 suggestions: [],
+                pageUrl: $pageUrl,
             );
         }
 
@@ -1118,10 +1218,12 @@ final class UiUxAnalyzer
             status: UiUxElementStatus::WARNING,
             issues: $issues,
             suggestions: $suggestions,
+            pageUrl: $pageUrl,
+            affectedElements: $affectedElements,
         );
     }
 
-    private function checkTrustSignals(\DOMXPath $xpath): UiUxElementResult
+    private function checkTrustSignals(\DOMXPath $xpath, string $pageUrl): UiUxElementResult
     {
         $hasLegalLink = $this->hasTrustLegalLink($xpath);
         $hasBadge = $this->hasTrustBadge($xpath);
@@ -1132,6 +1234,7 @@ final class UiUxAnalyzer
                 status: UiUxElementStatus::PASS,
                 issues: [],
                 suggestions: [],
+                pageUrl: $pageUrl,
             );
         }
 
@@ -1142,23 +1245,33 @@ final class UiUxAnalyzer
                 issues: ['no trust signals found (privacy/terms/guarantee links or security/payment badges)'],
                 suggestions: [
                     'Add a link to a privacy policy or terms of service, and consider security or payment '
-                        . 'trust badges, to reassure visitors before they convert.',
+                        .'trust badges, to reassure visitors before they convert.',
+                ],
+                pageUrl: $pageUrl,
+                affectedElements: [
+                    $this->element(
+                        null,
+                        'No trust signals found (privacy/terms/guarantee links or security/payment badges)',
+                    ),
                 ],
             );
         }
 
         $issues = [];
         $suggestions = [];
+        $affectedElements = [];
 
         if (! $hasLegalLink) {
             $issues[] = 'no privacy policy, terms, refund, or guarantee link found';
             $suggestions[] = 'Add a visible link to a privacy policy or terms of service.';
+            $affectedElements[] = $this->element(null, 'No privacy policy, terms, refund, or guarantee link found');
         }
 
         if (! $hasBadge) {
             $issues[] = 'no security or payment trust badge found';
             $suggestions[] = 'Consider adding a security seal or payment provider badge near checkout or '
-                . 'sign-up to build confidence.';
+                .'sign-up to build confidence.';
+            $affectedElements[] = $this->element(null, 'No security or payment trust badge found');
         }
 
         return new UiUxElementResult(
@@ -1166,6 +1279,8 @@ final class UiUxAnalyzer
             status: UiUxElementStatus::WARNING,
             issues: $issues,
             suggestions: $suggestions,
+            pageUrl: $pageUrl,
+            affectedElements: $affectedElements,
         );
     }
 
@@ -1173,7 +1288,7 @@ final class UiUxAnalyzer
     {
         foreach ($xpath->query('//a[@href]') ?: [] as $node) {
             /** @var \DOMElement $node */
-            $haystack = strtolower($node->getAttribute('href') . ' ' . $node->textContent);
+            $haystack = strtolower($node->getAttribute('href').' '.$node->textContent);
 
             foreach (self::TRUST_LINK_MARKERS as $marker) {
                 if (str_contains($haystack, $marker)) {
@@ -1190,7 +1305,7 @@ final class UiUxAnalyzer
         foreach ($xpath->query('//img') ?: [] as $node) {
             /** @var \DOMElement $node */
             $haystack = strtolower(
-                $node->getAttribute('alt') . ' ' . $node->getAttribute('class') . ' ' . $node->getAttribute('id'),
+                $node->getAttribute('alt').' '.$node->getAttribute('class').' '.$node->getAttribute('id'),
             );
 
             foreach (self::TRUST_BADGE_MARKERS as $marker) {
@@ -1203,7 +1318,7 @@ final class UiUxAnalyzer
         return false;
     }
 
-    private function checkTestimonials(\DOMXPath $xpath): UiUxElementResult
+    private function checkTestimonials(\DOMXPath $xpath, string $pageUrl): UiUxElementResult
     {
         $testimonials = $this->findTestimonialElements($xpath);
 
@@ -1214,8 +1329,10 @@ final class UiUxAnalyzer
                 issues: ['no testimonials found'],
                 suggestions: [
                     'Add customer testimonials with a name or photo to build social proof — not every page '
-                        . 'needs them, but they tend to help on pages that ask for a conversion.',
+                        .'needs them, but they tend to help on pages that ask for a conversion.',
                 ],
+                pageUrl: $pageUrl,
+                affectedElements: [$this->element(null, 'No testimonials found')],
             );
         }
 
@@ -1230,6 +1347,7 @@ final class UiUxAnalyzer
                 status: UiUxElementStatus::PASS,
                 issues: [],
                 suggestions: [],
+                pageUrl: $pageUrl,
             );
         }
 
@@ -1245,8 +1363,16 @@ final class UiUxAnalyzer
             ],
             suggestions: [
                 'Attribute each testimonial to a named person (and ideally a photo or company) — unattributed '
-                    . 'quotes are less persuasive and can look fabricated.',
+                    .'quotes are less persuasive and can look fabricated.',
             ],
+            pageUrl: $pageUrl,
+            affectedElements: array_map(
+                fn (\DOMElement $t): array => $this->element(
+                    $this->buildDomPath($t),
+                    'No visible author attribution',
+                ),
+                $unattributed,
+            ),
         );
     }
 
@@ -1259,7 +1385,7 @@ final class UiUxAnalyzer
 
         foreach ($xpath->query('//*[@class or @id]') ?: [] as $node) {
             /** @var \DOMElement $node */
-            $haystack = strtolower($node->getAttribute('class') . ' ' . $node->getAttribute('id'));
+            $haystack = strtolower($node->getAttribute('class').' '.$node->getAttribute('id'));
 
             foreach (self::TESTIMONIAL_MARKERS as $marker) {
                 if (str_contains($haystack, $marker)) {
@@ -1290,7 +1416,7 @@ final class UiUxAnalyzer
 
         foreach ($xpath->query('.//*[@class or @id]', $testimonial) ?: [] as $node) {
             /** @var \DOMElement $node */
-            $haystack = strtolower($node->getAttribute('class') . ' ' . $node->getAttribute('id'));
+            $haystack = strtolower($node->getAttribute('class').' '.$node->getAttribute('id'));
 
             foreach (self::TESTIMONIAL_ATTRIBUTION_MARKERS as $marker) {
                 if (str_contains($haystack, $marker)) {
@@ -1303,9 +1429,9 @@ final class UiUxAnalyzer
     }
 
     /**
-     * @param array<int, SchemaBlock> $schema
+     * @param  array<int, SchemaBlock>  $schema
      */
-    private function checkReviews(\DOMXPath $xpath, array $schema): UiUxElementResult
+    private function checkReviews(\DOMXPath $xpath, array $schema, string $pageUrl): UiUxElementResult
     {
         $schemaTypes = $this->collectLowercaseSchemaTypes($schema);
         $hasReviewSchema = $this->arrayContainsAny($schemaTypes, self::REVIEW_SCHEMA_TYPES);
@@ -1318,9 +1444,11 @@ final class UiUxAnalyzer
                 issues: ['no customer reviews found'],
                 suggestions: [
                     'Add customer reviews or ratings — not every page needs them, but they tend to build '
-                        . 'trust and improve conversion on product and pricing pages. Consider marking them '
-                        . 'up with Review/AggregateRating schema.org structured data for rich search results.',
+                        .'trust and improve conversion on product and pricing pages. Consider marking them '
+                        .'up with Review/AggregateRating schema.org structured data for rich search results.',
                 ],
+                pageUrl: $pageUrl,
+                affectedElements: [$this->element(null, 'No customer reviews found')],
             );
         }
 
@@ -1334,7 +1462,11 @@ final class UiUxAnalyzer
                 issues: ['reviews found but no visible star or numeric rating indicator'],
                 suggestions: [
                     'Show a visible aggregate rating (e.g. star icons or "4.8 out of 5") alongside the '
-                        . 'reviews so visitors can gauge sentiment at a glance.',
+                        .'reviews so visitors can gauge sentiment at a glance.',
+                ],
+                pageUrl: $pageUrl,
+                affectedElements: [
+                    $this->element(null, 'Reviews found but no visible star or numeric rating indicator'),
                 ],
             );
         }
@@ -1344,11 +1476,12 @@ final class UiUxAnalyzer
             status: UiUxElementStatus::PASS,
             issues: [],
             suggestions: [],
+            pageUrl: $pageUrl,
         );
     }
 
     /**
-     * @param array<int, SchemaBlock> $schema
+     * @param  array<int, SchemaBlock>  $schema
      * @return array<int, string>
      */
     private function collectLowercaseSchemaTypes(array $schema): array
@@ -1365,8 +1498,8 @@ final class UiUxAnalyzer
     }
 
     /**
-     * @param array<int, string> $haystack
-     * @param array<int, string> $needles
+     * @param  array<int, string>  $haystack
+     * @param  array<int, string>  $needles
      */
     private function arrayContainsAny(array $haystack, array $needles): bool
     {
@@ -1384,7 +1517,7 @@ final class UiUxAnalyzer
         foreach ($xpath->query('//*[@class or @id or @itemprop]') ?: [] as $node) {
             /** @var \DOMElement $node */
             $haystack = strtolower(
-                $node->getAttribute('class') . ' ' . $node->getAttribute('id') . ' ' . $node->getAttribute('itemprop'),
+                $node->getAttribute('class').' '.$node->getAttribute('id').' '.$node->getAttribute('itemprop'),
             );
 
             foreach (self::REVIEW_MARKERS as $marker) {
@@ -1402,7 +1535,7 @@ final class UiUxAnalyzer
         foreach ($xpath->query('//*[@class or @id or @itemprop]') ?: [] as $node) {
             /** @var \DOMElement $node */
             $haystack = strtolower(
-                $node->getAttribute('class') . ' ' . $node->getAttribute('id') . ' ' . $node->getAttribute('itemprop'),
+                $node->getAttribute('class').' '.$node->getAttribute('id').' '.$node->getAttribute('itemprop'),
             );
 
             foreach (self::RATING_INDICATOR_MARKERS as $marker) {
@@ -1423,13 +1556,85 @@ final class UiUxAnalyzer
     }
 
     /**
+     * Builds a readable CSS-selector-style path from the document root
+     * down to the given element, identical in approach to
+     * App\Audit\Fetching\HtmlParser::buildDomPath(),
+     * AccessibilityAnalyzer::buildDomPath(), and
+     * ContentAnalyzer::buildDomPath() — duplicated here for the same
+     * reason those document: this class parses its own fresh
+     * \DOMDocument from raw HTML, so there's no existing DOMElement
+     * from HtmlParser's own parse to reuse.
+     */
+    private function buildDomPath(\DOMElement $element): string
+    {
+        $segments = [];
+        $node = $element;
+
+        while ($node instanceof \DOMElement) {
+            $segments[] = $this->domPathSegment($node);
+            $parent = $node->parentNode;
+            $node = $parent instanceof \DOMElement ? $parent : null;
+        }
+
+        return implode(' > ', array_reverse($segments));
+    }
+
+    private function domPathSegment(\DOMElement $node): string
+    {
+        $tag = strtolower($node->nodeName);
+
+        $id = trim($node->getAttribute('id'));
+
+        if ($id !== '') {
+            return sprintf('%s#%s', $tag, $id);
+        }
+
+        $class = trim($node->getAttribute('class'));
+
+        if ($class !== '') {
+            $firstClass = preg_split('/\s+/', $class, -1, PREG_SPLIT_NO_EMPTY)[0] ?? '';
+
+            if ($firstClass !== '') {
+                return sprintf('%s.%s', $tag, $firstClass);
+            }
+        }
+
+        $position = 1;
+        $sibling = $node->previousSibling;
+
+        while ($sibling !== null) {
+            if ($sibling instanceof \DOMElement) {
+                $position++;
+            }
+
+            $sibling = $sibling->previousSibling;
+        }
+
+        return sprintf('%s:nth-child(%d)', $tag, $position);
+    }
+
+    /**
+     * Builds one entry of a UiUxElementResult's affectedElements list.
+     * Unlike SecurityAnalyzer::element()/AccessibilityAnalyzer::element()/
+     * ContentAnalyzer::element(), there's no 'url' field here — UI/UX
+     * findings are never tied to a resource URL, only a DOM location (or,
+     * for page-level absences, no location at all).
+     *
+     * @return array{domPath: ?string, detail: ?string}
+     */
+    private function element(?string $domPath, ?string $detail): array
+    {
+        return ['domPath' => $domPath, 'detail' => $detail];
+    }
+
+    /**
      * Extracts a single CSS property's value out of an inline style
      * string. The negative lookbehind on the property name keeps a
      * search for "color" from matching inside "background-color".
      */
     private function extractCssValue(string $style, string $property): ?string
     {
-        $pattern = '/(?<![a-z-])' . preg_quote($property, '/') . '\s*:\s*([^;]+)/i';
+        $pattern = '/(?<![a-z-])'.preg_quote($property, '/').'\s*:\s*([^;]+)/i';
 
         if (preg_match($pattern, $style, $matches) === 1) {
             return trim($matches[1]);
@@ -1438,7 +1643,7 @@ final class UiUxAnalyzer
         return null;
     }
 
-    private function checkMobileDesign(\DOMXPath $xpath): UiUxElementResult
+    private function checkMobileDesign(\DOMXPath $xpath, string $pageUrl): UiUxElementResult
     {
         $viewport = $xpath->query('//meta[@name="viewport"]')?->item(0);
 
@@ -1449,20 +1654,28 @@ final class UiUxAnalyzer
                 issues: ['no <meta name="viewport"> tag found'],
                 suggestions: [
                     'Add <meta name="viewport" content="width=device-width, initial-scale=1"> to <head> so '
-                        . 'the page scales correctly on mobile devices instead of rendering at desktop width.',
+                        .'the page scales correctly on mobile devices instead of rendering at desktop width.',
                 ],
+                pageUrl: $pageUrl,
+                affectedElements: [$this->element(null, 'No <meta name="viewport"> tag found')],
             );
         }
 
         $issues = [];
         $suggestions = [];
+        $affectedElements = [];
+        $viewportDomPath = $this->buildDomPath($viewport);
 
         $content = strtolower($viewport->getAttribute('content'));
 
         if (! str_contains($content, 'width=device-width')) {
             $issues[] = 'viewport meta tag is present but missing "width=device-width"';
             $suggestions[] = 'Set the viewport meta tag\'s content to include "width=device-width, '
-                . 'initial-scale=1" so the page matches the device\'s screen width.';
+                .'initial-scale=1" so the page matches the device\'s screen width.';
+            $affectedElements[] = $this->element(
+                $viewportDomPath,
+                'Viewport meta tag missing "width=device-width"',
+            );
         }
 
         $wideElements = $this->collectFixedWidthOverflowElements($xpath);
@@ -1470,12 +1683,23 @@ final class UiUxAnalyzer
         if ($wideElements !== []) {
             $count = count($wideElements);
             $max = self::MOBILE_FIXED_WIDTH_THRESHOLD_PX;
-            $sample = implode(', ', array_slice($wideElements, 0, 3));
+            $sample = implode(', ', array_slice(
+                array_map(fn (\DOMElement $e): string => $this->describeElement($e), $wideElements),
+                0,
+                3,
+            ));
             $issues[] = $count === 1
                 ? "1 element has an inline fixed width over {$max}px, including: {$sample}"
                 : "{$count} elements have an inline fixed width over {$max}px, including: {$sample}";
             $suggestions[] = 'Replace large fixed pixel widths with responsive units (%, max-width, rem) so '
-                . 'content does not force horizontal scrolling on narrow screens.';
+                .'content does not force horizontal scrolling on narrow screens.';
+
+            foreach ($wideElements as $element) {
+                $affectedElements[] = $this->element(
+                    $this->buildDomPath($element),
+                    "Inline fixed width over {$max}px",
+                );
+            }
         }
 
         if ($issues === []) {
@@ -1484,6 +1708,7 @@ final class UiUxAnalyzer
                 status: UiUxElementStatus::PASS,
                 issues: [],
                 suggestions: [],
+                pageUrl: $pageUrl,
             );
         }
 
@@ -1492,6 +1717,8 @@ final class UiUxAnalyzer
             status: UiUxElementStatus::WARNING,
             issues: $issues,
             suggestions: $suggestions,
+            pageUrl: $pageUrl,
+            affectedElements: $affectedElements,
         );
     }
 
@@ -1502,7 +1729,7 @@ final class UiUxAnalyzer
      * unit-less values are not flagged since only a fixed px width is a
      * reliable overflow signal from static markup alone.
      *
-     * @return array<int, string>
+     * @return array<int, \DOMElement>
      */
     private function collectFixedWidthOverflowElements(\DOMXPath $xpath): array
     {
@@ -1522,7 +1749,7 @@ final class UiUxAnalyzer
             }
 
             if ((float) $matches[1] > self::MOBILE_FIXED_WIDTH_THRESHOLD_PX) {
-                $found[] = $this->describeElement($node);
+                $found[] = $node;
             }
         }
 
@@ -1535,7 +1762,7 @@ final class UiUxAnalyzer
      * AccessibilityAnalyzer::score()'s (and, in turn, SecurityAnalyzer's)
      * points-averaging approach.
      *
-     * @param array<string, UiUxElementResult> $elements
+     * @param  array<string, UiUxElementResult>  $elements
      */
     private function score(array $elements): int
     {
@@ -1568,7 +1795,7 @@ final class UiUxAnalyzer
     }
 
     /**
-     * @param array<string, UiUxElementResult> $elements
+     * @param  array<string, UiUxElementResult>  $elements
      */
     private function summary(array $elements, int $score, string $grade): string
     {
@@ -1596,7 +1823,7 @@ final class UiUxAnalyzer
      * element, so the most impactful fixes surface first. Pass-status
      * elements contribute nothing, since they have no suggestions.
      *
-     * @param array<string, UiUxElementResult> $elements
+     * @param  array<string, UiUxElementResult>  $elements
      * @return array<int, string>
      */
     private function prioritizedSuggestions(array $elements): array

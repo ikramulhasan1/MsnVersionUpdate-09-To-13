@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Audit\Accessibility\DTO;
+namespace App\Audit\UiUx\DTO;
 
 /**
- * Site-wide wrapper around one AccessibilityResult per crawled page —
- * mirrors App\Audit\Security\DTO\SecurityAuditResult's shape (a per-page
- * result map plus a rolled-up summary) rather than AccessibilityAnalyzer's
- * older single-page analyze() return value, since accessibility issues
- * (missing alt text, unlabeled controls, low contrast) can differ page to
- * page on the same site.
+ * Site-wide wrapper around one UiUxResult per crawled page — mirrors
+ * App\Audit\Security\DTO\SecurityAuditResult's shape (a per-page result
+ * map plus a rolled-up summary) rather than UiUxAnalyzer's older
+ * single-page analyze() return value, since UI/UX issues (missing nav
+ * links, generic CTA text, cramped spacing) can differ page to page on
+ * the same site.
  */
-final readonly class AccessibilityAuditResult implements \JsonSerializable
+final readonly class UiUxAuditResult implements \JsonSerializable
 {
     /**
-     * @param array<string, AccessibilityResult> $pages per-page accessibility results, keyed
-     *        by page URL, only for pages that were successfully fetched and analyzed
-     * @param array<int, string> $failedPageUrls pages that couldn't be fetched, excluded from analysis
+     * @param  array<string, UiUxResult>  $pages  per-page UI/UX results, keyed
+     *                                            by page URL, only for pages that were successfully fetched and analyzed
+     * @param  array<int, string>  $failedPageUrls  pages that couldn't be fetched, excluded from analysis
      */
     public function __construct(
         public string $startUrl,
@@ -27,8 +27,7 @@ final readonly class AccessibilityAuditResult implements \JsonSerializable
         public int $pagesFailed,
         public int $averageScore,
         public string $analyzedAt,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string, mixed>
@@ -43,7 +42,7 @@ final readonly class AccessibilityAuditResult implements \JsonSerializable
                 'average_score' => $this->averageScore,
             ],
             'pages' => array_map(
-                static fn (AccessibilityResult $result): array => $result->toArray(),
+                static fn (UiUxResult $result): array => $result->toArray(),
                 $this->pages,
             ),
             'failed_page_urls' => $this->failedPageUrls,

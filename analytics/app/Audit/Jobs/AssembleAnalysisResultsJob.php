@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Audit\Jobs;
 
+use App\Audit\Accessibility\DTO\AccessibilityAuditResult;
+use App\Audit\Accessibility\DTO\AccessibilityResult;
 use App\Audit\AIRecommendation\AIRecommendationEngine;
 use App\Audit\AIRecommendation\DTO\AnalysisResults;
 use App\Audit\Cache\Contracts\AuditCacheServiceInterface;
+use App\Audit\Content\DTO\ContentAuditResult;
+use App\Audit\Content\DTO\ContentResult;
 use App\Audit\Enums\AuditStatus;
 use App\Audit\Jobs\Concerns\HasAuditUniqueness;
 use App\Audit\Lead\DTO\ProspectQualificationResult;
@@ -16,7 +20,11 @@ use App\Audit\Outreach\OutreachDraftGenerator;
 use App\Audit\Performance\DTO\PerformanceAuditResult;
 use App\Audit\Performance\DTO\PerformanceResult;
 use App\Audit\Repositories\Contracts\AuditRepositoryInterface;
+use App\Audit\Security\DTO\SecurityAuditResult;
+use App\Audit\Security\DTO\SecurityResult;
 use App\Audit\Technology\TechnologyUpgradeAnalyzer;
+use App\Audit\UiUx\DTO\UiUxAuditResult;
+use App\Audit\UiUx\DTO\UiUxResult;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Throwable;
 
@@ -80,6 +88,36 @@ final class AssembleAnalysisResultsJob extends AuditJob implements ShouldBeUniqu
         // fragment itself for anything that wants it directly.
         $performance = $this->extractEntryPagePerformance($fragments['performance'] ?? null);
 
+        // Same reasoning as $performance above: the 'security' fragment
+        // is now a site-wide SecurityAuditResult (see AnalyzeChunkJob and
+        // SecurityAnalyzer::analyzeAll()), and AnalysisResults still
+        // carries a single-page SecurityResult, so the entry page's
+        // result is pulled back out of the wrapper here too.
+        $security = $this->extractEntryPageSecurity($fragments['security'] ?? null);
+
+        // Same reasoning again: the 'accessibility' fragment is now a
+        // site-wide AccessibilityAuditResult (see AnalyzeChunkJob and
+        // AccessibilityAnalyzer::analyzeAll()), and AnalysisResults still
+        // carries a single-page AccessibilityResult.
+        $accessibility = $this->extractEntryPageAccessibility($fragments['accessibility'] ?? null);
+
+        // Same reasoning again: the 'content' fragment is now a
+        // site-wide ContentAuditResult (see AnalyzeChunkJob and
+        // ContentAnalyzer::analyzeAll()), and AnalysisResults still
+        // carries a single-page ContentResult. The wrapper's
+        // crossPageDuplicates (site-wide duplicate content across pages)
+        // has no equivalent field on the single-page ContentResult and
+        // is not carried into AnalysisResults here — it remains
+        // available from the cached fragment itself for anything that
+        // wants it directly.
+        $content = $this->extractEntryPageContent($fragments['content'] ?? null);
+
+        // Same reasoning again: the 'ui_ux' fragment is now a site-wide
+        // UiUxAuditResult (see AnalyzeChunkJob and
+        // UiUxAnalyzer::analyzeAll()), and AnalysisResults still carries
+        // a single-page UiUxResult.
+        $uiUx = $this->extractEntryPageUiUx($fragments['ui_ux'] ?? null);
+
         $technologyUpgradeOpportunities = [];
 
         if ($technology !== null) {
@@ -97,10 +135,10 @@ final class AssembleAnalysisResultsJob extends AuditJob implements ShouldBeUniqu
 
         $results = new AnalysisResults(
             url: $this->url,
-            security: $fragments['security'] ?? null,
-            accessibility: $fragments['accessibility'] ?? null,
-            content: $fragments['content'] ?? null,
-            uiUx: $fragments['ui_ux'] ?? null,
+            security: $security,
+            accessibility: $accessibility,
+            content: $content,
+            uiUx: $uiUx,
             performance: $performance,
             businessOpportunity: $fragments['business_opportunity'] ?? null,
             technology: $technology,
@@ -229,6 +267,75 @@ final class AssembleAnalysisResultsJob extends AuditJob implements ShouldBeUniqu
     private function extractEntryPagePerformance(?object $fragment): ?PerformanceResult
     {
         if (! $fragment instanceof PerformanceAuditResult) {
+            return null;
+        }
+
+        if (isset($fragment->pages[$this->url])) {
+            return $fragment->pages[$this->url];
+        }
+
+        return $fragment->pages === [] ? null : reset($fragment->pages);
+    }
+
+    /**
+     * Same reasoning as extractEntryPagePerformance() above, for the
+     * site-wide SecurityAuditResult now cached under the 'security'
+     * fragment key.
+     */
+    private function extractEntryPageSecurity(?object $fragment): ?SecurityResult
+    {
+        if (! $fragment instanceof SecurityAuditResult) {
+            return null;
+        }
+
+        if (isset($fragment->pages[$this->url])) {
+            return $fragment->pages[$this->url];
+        }
+
+        return $fragment->pages === [] ? null : reset($fragment->pages);
+    }
+
+    /**
+     * Same reasoning again, for the site-wide AccessibilityAuditResult
+     * now cached under the 'accessibility' fragment key.
+     */
+    private function extractEntryPageAccessibility(?object $fragment): ?AccessibilityResult
+    {
+        if (! $fragment instanceof AccessibilityAuditResult) {
+            return null;
+        }
+
+        if (isset($fragment->pages[$this->url])) {
+            return $fragment->pages[$this->url];
+        }
+
+        return $fragment->pages === [] ? null : reset($fragment->pages);
+    }
+
+    /**
+     * Same reasoning again, for the site-wide ContentAuditResult now
+     * cached under the 'content' fragment key.
+     */
+    private function extractEntryPageContent(?object $fragment): ?ContentResult
+    {
+        if (! $fragment instanceof ContentAuditResult) {
+            return null;
+        }
+
+        if (isset($fragment->pages[$this->url])) {
+            return $fragment->pages[$this->url];
+        }
+
+        return $fragment->pages === [] ? null : reset($fragment->pages);
+    }
+
+    /**
+     * Same reasoning again, for the site-wide UiUxAuditResult now
+     * cached under the 'ui_ux' fragment key.
+     */
+    private function extractEntryPageUiUx(?object $fragment): ?UiUxResult
+    {
+        if (! $fragment instanceof UiUxAuditResult) {
             return null;
         }
 

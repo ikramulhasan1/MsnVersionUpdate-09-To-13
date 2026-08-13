@@ -21,6 +21,14 @@ use App\Audit\Enums\SeoSeverity;
  * SeoSeverity for "Severity" (how serious the issue is if it didn't
  * pass) — the two are independent dimensions, e.g. a WARNING-status
  * check can still be a CRITICAL-severity issue.
+ *
+ * $pageUrl records which page (of potentially several — see
+ * BusinessOpportunityAnalyzer::analyzeAll()) this issue was found on;
+ * $elementUrl additionally records the specific resource responsible
+ * when there is one (e.g. the image missing width/height for an
+ * "Image Dimensions" issue) — null when the issue is a page-level
+ * finding with no single resource to point at (e.g. a missing title
+ * tag).
  */
 final readonly class WebsiteHealthIssue implements \JsonSerializable
 {
@@ -29,11 +37,12 @@ final readonly class WebsiteHealthIssue implements \JsonSerializable
         public BusinessOpportunityCheckStatus $status,
         public SeoSeverity $severity,
         public ?string $recommendation,
-    ) {
-    }
+        public ?string $pageUrl = null,
+        public ?string $elementUrl = null,
+    ) {}
 
     /**
-     * @return array{issue: string, status: string, severity: string, recommendation: ?string}
+     * @return array{issue: string, status: string, severity: string, recommendation: ?string, page_url: ?string, element_url: ?string}
      */
     public function toArray(): array
     {
@@ -42,6 +51,8 @@ final readonly class WebsiteHealthIssue implements \JsonSerializable
             'status' => $this->status->value,
             'severity' => $this->severity->value,
             'recommendation' => $this->recommendation,
+            'page_url' => $this->pageUrl,
+            'element_url' => $this->elementUrl,
         ];
     }
 

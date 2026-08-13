@@ -126,14 +126,17 @@ final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
             fn (): CrawlResult => $crawler->crawl($this->url),
         );
 
-        // Security and Accessibility both now analyze several crawled
-        // pages (up to config('audit.security.per_page_limit')) rather
-        // than just the entry page, and both need the exact same set of
-        // fetched FetchResults to do it. Resolved lazily — only fetched
-        // once, on whichever of 'security'/'accessibility' is processed
-        // first below — and reused for the other if this chunk happens
-        // to run both, so a chunk containing both keys never fetches the
-        // same extra pages twice.
+        // Security, Accessibility, Content, UI/UX, and Business
+        // Opportunity all now analyze several crawled pages (up to
+        // config('audit.multi_page_analysis.per_page_limit')) rather
+        // than just the entry page, and all five need the exact same
+        // set of fetched FetchResults to do it. Resolved lazily — only
+        // fetched once, on whichever of
+        // 'security'/'accessibility'/'content'/'ui_ux'/'business_opportunity'
+        // is processed first below — and reused for the others if this
+        // chunk happens to run more than one of them, so a chunk
+        // containing several of these keys never fetches the same extra
+        // pages twice.
         $multiPageFetchResults = null;
         $resolveMultiPageFetchResults = function () use (&$multiPageFetchResults, $crawlResult, $fetchResult, $fetcher): array {
             if ($multiPageFetchResults === null) {
@@ -146,8 +149,8 @@ final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
         foreach ($this->analyzerKeys as $key) {
             $result = match ($key) {
                 // Security now analyzes every successfully crawled page
-                // (up to config('audit.security.per_page_limit')), not just
-                // the entry page — see resolveMultiPageFetchResults()
+                // (up to config('audit.multi_page_analysis.per_page_limit')),
+                // not just the entry page — see resolveMultiPageFetchResults()
                 // above and fetchPagesForMultiPageAnalysis() below. Returns
                 // a SecurityAuditResult keyed by page URL.
                 'security' => $crawlResult->pages === []
@@ -160,9 +163,36 @@ final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
                 'accessibility' => $crawlResult->pages === []
                     ? null
                     : $accessibilityAnalyzer->analyzeAll($resolveMultiPageFetchResults(), $crawlResult->startUrl),
-                'content' => $contentAnalyzer->analyze($fetchResult),
-                'ui_ux' => $uiUxAnalyzer->analyze($fetchResult),
-                'business_opportunity' => $businessOpportunityAnalyzer->analyze($fetchResult),
+                // Content now analyzes every successfully crawled page too
+                // (same multi-page treatment as security/accessibility
+                // above, sharing the same fetched page set) and additionally
+                // detects cross-page duplicate content — see
+                // ContentAnalyzer::analyzeAll(). Returns a ContentAuditResult
+                // keyed by page URL.
+                'content' => $crawlResult->pages === []
+                    ? null
+                    : $contentAnalyzer->analyzeAll($resolveMultiPageFetchResults(), $crawlResult->startUrl),
+                // Same multi-page treatment again, sharing the same
+                // fetched page set. Returns a UiUxAuditResult keyed by
+                // page URL.
+                'ui_ux' => $crawlResult->pages === []
+                    ? null
+                    : $uiUxAnalyzer->analyzeAll($resolveMultiPageFetchResults(), $crawlResult->startUrl),
+                // Business Opportunity now runs its Website Problems/SEO
+                // Issues/Performance Issues checks across every
+                // successfully crawled page too (same multi-page
+                // treatment as above, sharing the same fetched page set)
+                // — each resulting WebsiteHealthIssue records which page
+                // it came from via pageUrl. The remaining website_health
+                // categories and the derived score/lead/outreach data
+                // stay scoped to the entry page — see
+                // BusinessOpportunityAnalyzer::analyzeAll(). Still
+                // returns a single BusinessOpportunityResult (not a
+                // per-page wrapper), so no change is needed downstream
+                // in AssembleAnalysisResultsJob/AnalysisResults.
+                'business_opportunity' => $crawlResult->pages === []
+                    ? null
+                    : $businessOpportunityAnalyzer->analyzeAll($resolveMultiPageFetchResults(), $crawlResult->startUrl),
                 'technology' => $technologyDetector->detect($fetchResult),
                 // Performance now analyzes every successfully crawled page
                 // (not just the entry page) and returns a
@@ -211,14 +241,15 @@ final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
     }
 
     /**
-     * Resolves the FetchResult for every page that Security's and
-     * Accessibility's analyzeAll() need — every successfully crawled page,
-     * up to config('audit.security.per_page_limit') taken in crawl order
-     * so the entry page and the pages closest to it are always included —
-     * fetching whichever of those pages weren't already fetched via
-     * WebsiteFetcherServiceInterface::fetchMany(). The entry page's
-     * FetchResult ($entryPageFetchResult, fetched once at the top of
-     * handle() for every other single-page analyzer here) is reused
+     * Resolves the FetchResult for every page that Security's,
+     * Accessibility's, Content's, UI/UX's, and Business Opportunity's
+     * analyzeAll() need — every successfully crawled page, up to
+     * config('audit.multi_page_analysis.per_page_limit') taken in crawl
+     * order so the entry page and the pages closest to it are always
+     * included — fetching whichever of those pages weren't already
+     * fetched via WebsiteFetcherServiceInterface::fetchMany(). The entry
+     * page's FetchResult ($entryPageFetchResult, fetched once at the top
+     * of handle() for every other single-page analyzer here) is reused
      * instead of being fetched a second time.
      *
      * @return array<string, FetchResult> keyed by page URL
@@ -237,7 +268,7 @@ final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
             return [];
         }
 
-        $limit = max(1, (int) config('audit.security.per_page_limit', 20));
+        $limit = max(1, (int) config('audit.multi_page_analysis.per_page_limit', 20));
         $limitedPages = array_slice($successfulPages, 0, $limit);
 
         $fetchResults = [];

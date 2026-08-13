@@ -4,15 +4,23 @@ declare(strict_types=1);
 
 namespace App\Audit\Content;
 
+use App\Audit\Content\DTO\ContentAuditResult;
 use App\Audit\Content\DTO\ContentCheckResult;
 use App\Audit\Content\DTO\ContentResult;
+use App\Audit\Content\DTO\CrossPageDuplicateGroup;
 use App\Audit\Enums\ContentCheckStatus;
 use App\Audit\Fetching\DTO\FetchResult;
 use App\Audit\Fetching\DTO\SchemaBlock;
 
 /**
  * Runs a fixed set of basic content-quality checks against a single
- * fetched page.
+ * fetched page via analyze(). analyzeAll() runs the same checklist across
+ * several fetched pages at once, wraps the per-page results in a
+ * ContentAuditResult (mirroring SecurityAnalyzer::analyzeAll() and
+ * AccessibilityAnalyzer::analyzeAll()), and additionally detects
+ * cross-page duplicate content — text blocks repeated verbatim across two
+ * or more of the analyzed pages, which single-page analyze() has no way
+ * to see on its own.
  *
  * Part 1: word count, estimated reading time, and a lightweight grammar
  * scan.
@@ -23,8 +31,10 @@ use App\Audit\Fetching\DTO\SchemaBlock;
  * available here, so each is scoped to what a single fetched page can
  * actually reveal:
  *  - Duplicate Content looks for repeated block-level text *within the
- *    page itself* (boilerplate/copy-paste signals), not duplication
- *    against other pages or sites.
+ *    page itself* (boilerplate/copy-paste signals). Cross-page
+ *    duplication (the same block appearing on more than one page of the
+ *    site) is a separate, site-wide concept handled by analyzeAll()'s
+ *    crossPageDuplicates, not by this per-page check.
  *  - AI Generated Probability is a lightweight stylometric proxy
  *    (sentence-length uniformity, common AI transition phrases, lexical
  *    diversity) — not a trained classifier, and not a reliable detector.
@@ -124,7 +134,9 @@ final class ContentAnalyzer
 
     /**
      * Block-level elements read as candidate "content blocks" for the
-     * Duplicate Content check.
+     * Duplicate Content check, the Grammar check's per-block issue
+     * locations, and the Keyword Density check's per-block keyword
+     * locations.
      *
      * @var array<int, string>
      */
@@ -299,29 +311,29 @@ final class ContentAnalyzer
         private readonly int $gradeBThreshold = 75,
         private readonly int $gradeCThreshold = 60,
         private readonly int $gradeDThreshold = 40,
-    ) {
-    }
+    ) {}
 
     public function analyze(FetchResult $result): ContentResult
     {
         $html = (string) $result->html;
+        $pageUrl = $this->targetUrl($result);
 
         if (trim($html) === '') {
-            return $this->emptyResult($result);
+            return $this->emptyResult($result, $pageUrl);
         }
 
         $xpath = new \DOMXPath($this->loadDocument($html));
         $bodyText = $this->extractBodyText($xpath);
 
         $checks = [
-            'word_count' => $this->checkWordCount($result->wordCount),
-            'reading_time' => $this->checkReadingTime($result->wordCount),
-            'grammar' => $this->checkGrammar($bodyText),
-            'duplicate_content' => $this->checkDuplicateContent($xpath),
-            'ai_generated_probability' => $this->checkAiGeneratedProbability($bodyText),
-            'keyword_density' => $this->checkKeywordDensity($bodyText),
-            'content_freshness' => $this->checkContentFreshness($xpath, $result),
-            'blog_frequency' => $this->checkBlogFrequency($xpath, $result),
+            'word_count' => $this->checkWordCount($result->wordCount, $pageUrl),
+            'reading_time' => $this->checkReadingTime($result->wordCount, $pageUrl),
+            'grammar' => $this->checkGrammar($xpath, $bodyText, $pageUrl),
+            'duplicate_content' => $this->checkDuplicateContent($xpath, $pageUrl),
+            'ai_generated_probability' => $this->checkAiGeneratedProbability($bodyText, $pageUrl),
+            'keyword_density' => $this->checkKeywordDensity($xpath, $bodyText, $pageUrl),
+            'content_freshness' => $this->checkContentFreshness($xpath, $result, $pageUrl),
+            'blog_frequency' => $this->checkBlogFrequency($xpath, $result, $pageUrl),
         ];
 
         $score = $this->score($checks);
@@ -333,15 +345,144 @@ final class ContentAnalyzer
             score: $score,
             grade: $grade,
             summary: $this->summary($checks, $score, $grade),
-            analyzedAt: (new \DateTimeImmutable())->format(DATE_ATOM),
+            analyzedAt: (new \DateTimeImmutable)->format(DATE_ATOM),
         );
+    }
+
+    /**
+     * Runs analyze() over several already-fetched pages at once (see
+     * AnalyzeChunkJob, which shares the fetched page set with
+     * SecurityAnalyzer::analyzeAll() and AccessibilityAnalyzer::analyzeAll()
+     * via a common helper) and wraps the per-page results in a
+     * ContentAuditResult. Pages whose fetch itself failed are reported in
+     * failedPageUrls rather than analyzed, since there's no response to
+     * check.
+     *
+     * Also runs cross-page duplicate detection: block-level text is
+     * re-extracted (with its DOM location) for every successfully
+     * analyzed page, and any block found verbatim on two or more pages
+     * is reported in crossPageDuplicates — something no single analyze()
+     * call could ever detect on its own, since it only ever sees one
+     * page at a time.
+     *
+     * @param  array<string, FetchResult>  $fetchResults  keyed by page URL
+     */
+    public function analyzeAll(array $fetchResults, string $startUrl): ContentAuditResult
+    {
+        $pageResults = [];
+        $failedPageUrls = [];
+
+        /** @var array<string, array<int, array{text: string, domPath: string}>> $blocksByPage */
+        $blocksByPage = [];
+
+        foreach ($fetchResults as $url => $fetchResult) {
+            if (! $fetchResult->success) {
+                $failedPageUrls[] = $url;
+
+                continue;
+            }
+
+            $pageResults[$url] = $this->analyze($fetchResult);
+
+            $html = (string) $fetchResult->html;
+
+            if (trim($html) !== '') {
+                $xpath = new \DOMXPath($this->loadDocument($html));
+                $blocksByPage[$url] = $this->extractContentBlocks($xpath);
+            }
+        }
+
+        $averageScore = $pageResults !== []
+            ? (int) round(
+                array_sum(array_map(static fn (ContentResult $r): int => $r->score, $pageResults))
+                    / count($pageResults)
+            )
+            : 0;
+
+        return new ContentAuditResult(
+            startUrl: $startUrl,
+            pages: $pageResults,
+            failedPageUrls: $failedPageUrls,
+            pagesAnalyzed: count($pageResults),
+            pagesFailed: count($failedPageUrls),
+            averageScore: $averageScore,
+            crossPageDuplicates: $this->findCrossPageDuplicates($blocksByPage),
+            analyzedAt: (new \DateTimeImmutable)->format(DATE_ATOM),
+        );
+    }
+
+    /**
+     * Compares every page's extracted content blocks against every other
+     * page's, grouping by normalized (lowercased) text. Blocks shorter
+     * than DUPLICATE_BLOCK_MIN_WORDS words are excluded, same as the
+     * per-page Duplicate Content check, so short boilerplate ("Read
+     * More", nav labels — which legitimately and harmlessly repeat
+     * across an entire site) doesn't flood the results. Only text found
+     * on two or more *distinct* pages is reported; repeats of the same
+     * block within a single page are already covered by that page's own
+     * Duplicate Content check and are not duplicated here.
+     *
+     * @param  array<string, array<int, array{text: string, domPath: string}>>  $blocksByPage  keyed by page URL
+     * @return array<int, CrossPageDuplicateGroup>
+     */
+    private function findCrossPageDuplicates(array $blocksByPage): array
+    {
+        /** @var array<string, array<string, string>> $occurrences normalized text => [pageUrl => domPath] */
+        $occurrences = [];
+        /** @var array<string, string> $displayText normalized text => original-cased text (first occurrence seen) */
+        $displayText = [];
+
+        foreach ($blocksByPage as $pageUrl => $blocks) {
+            foreach ($blocks as $block) {
+                if (str_word_count($block['text']) < self::DUPLICATE_BLOCK_MIN_WORDS) {
+                    continue;
+                }
+
+                $key = mb_strtolower($block['text']);
+
+                if (! isset($occurrences[$key])) {
+                    $occurrences[$key] = [];
+                    $displayText[$key] = $block['text'];
+                }
+
+                // The same block can legitimately repeat within one page
+                // (that's the per-page Duplicate Content check's concern)
+                // — only the first domPath on each page is kept here,
+                // since the finding is "this page has it too", not every
+                // in-page repeat.
+                if (! isset($occurrences[$key][$pageUrl])) {
+                    $occurrences[$key][$pageUrl] = $block['domPath'];
+                }
+            }
+        }
+
+        $groups = [];
+
+        foreach ($occurrences as $key => $pages) {
+            if (count($pages) < 2) {
+                continue;
+            }
+
+            $groups[] = new CrossPageDuplicateGroup(
+                text: $displayText[$key],
+                pageUrls: array_keys($pages),
+                domPathsByPage: $pages,
+            );
+        }
+
+        return $groups;
+    }
+
+    private function targetUrl(FetchResult $result): string
+    {
+        return $result->finalUrl ?? $result->url;
     }
 
     private function loadDocument(string $html): \DOMDocument
     {
         $previous = libxml_use_internal_errors(true);
 
-        $dom = new \DOMDocument();
+        $dom = new \DOMDocument;
         $dom->loadHTML($html, LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_NONET);
 
         libxml_clear_errors();
@@ -350,67 +491,32 @@ final class ContentAnalyzer
         return $dom;
     }
 
-    private function emptyResult(FetchResult $result): ContentResult
+    private function emptyResult(FetchResult $result, string $pageUrl): ContentResult
     {
-        $noHtml = new ContentCheckResult(
-            metric: 'Word Count',
-            value: 'no HTML content to analyze',
-            status: ContentCheckStatus::WARNING,
-            recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.',
-        );
+        $message = 'The page returned no HTML to inspect — re-fetch the page and re-run this analysis.';
 
-        $checks = [
-            'word_count' => $noHtml,
-            'reading_time' => new ContentCheckResult(
-                metric: 'Reading Time',
-                value: 'no HTML content to analyze',
-                status: ContentCheckStatus::WARNING,
-                recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this '
-                    . 'analysis.',
-            ),
-            'grammar' => new ContentCheckResult(
-                metric: 'Grammar',
-                value: 'no HTML content to analyze',
-                status: ContentCheckStatus::WARNING,
-                recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this '
-                    . 'analysis.',
-            ),
-            'duplicate_content' => new ContentCheckResult(
-                metric: 'Duplicate Content',
-                value: 'no HTML content to analyze',
-                status: ContentCheckStatus::WARNING,
-                recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this '
-                    . 'analysis.',
-            ),
-            'ai_generated_probability' => new ContentCheckResult(
-                metric: 'AI Generated Probability',
-                value: 'no HTML content to analyze',
-                status: ContentCheckStatus::WARNING,
-                recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this '
-                    . 'analysis.',
-            ),
-            'keyword_density' => new ContentCheckResult(
-                metric: 'Keyword Density',
-                value: 'no HTML content to analyze',
-                status: ContentCheckStatus::WARNING,
-                recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this '
-                    . 'analysis.',
-            ),
-            'content_freshness' => new ContentCheckResult(
-                metric: 'Content Freshness',
-                value: 'no HTML content to analyze',
-                status: ContentCheckStatus::WARNING,
-                recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this '
-                    . 'analysis.',
-            ),
-            'blog_frequency' => new ContentCheckResult(
-                metric: 'Blog Frequency',
-                value: 'no HTML content to analyze',
-                status: ContentCheckStatus::WARNING,
-                recommendation: 'The page returned no HTML to inspect — re-fetch the page and re-run this '
-                    . 'analysis.',
-            ),
+        $labels = [
+            'word_count' => 'Word Count',
+            'reading_time' => 'Reading Time',
+            'grammar' => 'Grammar',
+            'duplicate_content' => 'Duplicate Content',
+            'ai_generated_probability' => 'AI Generated Probability',
+            'keyword_density' => 'Keyword Density',
+            'content_freshness' => 'Content Freshness',
+            'blog_frequency' => 'Blog Frequency',
         ];
+
+        $checks = [];
+
+        foreach ($labels as $key => $label) {
+            $checks[$key] = new ContentCheckResult(
+                metric: $label,
+                value: 'no HTML content to analyze',
+                status: ContentCheckStatus::WARNING,
+                recommendation: $message,
+                pageUrl: $pageUrl,
+            );
+        }
 
         $score = $this->score($checks);
         $grade = $this->grade($score);
@@ -421,11 +527,11 @@ final class ContentAnalyzer
             score: $score,
             grade: $grade,
             summary: $this->summary($checks, $score, $grade),
-            analyzedAt: (new \DateTimeImmutable())->format(DATE_ATOM),
+            analyzedAt: (new \DateTimeImmutable)->format(DATE_ATOM),
         );
     }
 
-    private function checkWordCount(int $wordCount): ContentCheckResult
+    private function checkWordCount(int $wordCount, string $pageUrl): ContentCheckResult
     {
         $value = $wordCount === 1 ? '1 word' : "{$wordCount} words";
 
@@ -434,9 +540,10 @@ final class ContentAnalyzer
                 metric: 'Word Count',
                 value: $value,
                 status: ContentCheckStatus::CRITICAL,
-                recommendation: 'Content is very thin (under ' . self::WORD_COUNT_CRITICAL_MAX . ' words). Add '
-                    . 'more substantive, original content — thin pages tend to underperform for both readers '
-                    . 'and search engines.',
+                recommendation: 'Content is very thin (under '.self::WORD_COUNT_CRITICAL_MAX.' words). Add '
+                    .'more substantive, original content — thin pages tend to underperform for both readers '
+                    .'and search engines.',
+                pageUrl: $pageUrl,
             );
         }
 
@@ -445,8 +552,9 @@ final class ContentAnalyzer
                 metric: 'Word Count',
                 value: $value,
                 status: ContentCheckStatus::WARNING,
-                recommendation: 'Consider expanding the content further (aim for ' . self::WORD_COUNT_WARNING_MAX
-                    . '+ words where relevant) to more fully cover the topic.',
+                recommendation: 'Consider expanding the content further (aim for '.self::WORD_COUNT_WARNING_MAX
+                    .'+ words where relevant) to more fully cover the topic.',
+                pageUrl: $pageUrl,
             );
         }
 
@@ -455,10 +563,11 @@ final class ContentAnalyzer
             value: $value,
             status: ContentCheckStatus::GOOD,
             recommendation: null,
+            pageUrl: $pageUrl,
         );
     }
 
-    private function checkReadingTime(int $wordCount): ContentCheckResult
+    private function checkReadingTime(int $wordCount, string $pageUrl): ContentCheckResult
     {
         if ($wordCount === 0) {
             return new ContentCheckResult(
@@ -466,6 +575,7 @@ final class ContentAnalyzer
                 value: '0 min read',
                 status: ContentCheckStatus::CRITICAL,
                 recommendation: 'No readable content was found to estimate a reading time for. Add page content.',
+                pageUrl: $pageUrl,
             );
         }
 
@@ -478,7 +588,8 @@ final class ContentAnalyzer
                 value: $value,
                 status: ContentCheckStatus::CRITICAL,
                 recommendation: 'Estimated reading time is very short, which usually means the content is too '
-                    . 'thin to fully engage readers. Add more substantive content.',
+                    .'thin to fully engage readers. Add more substantive content.',
+                pageUrl: $pageUrl,
             );
         }
 
@@ -488,7 +599,8 @@ final class ContentAnalyzer
                 value: $value,
                 status: ContentCheckStatus::WARNING,
                 recommendation: 'Estimated reading time is long. Consider breaking the content into sections, '
-                    . 'adding a table of contents, or splitting it across multiple pages.',
+                    .'adding a table of contents, or splitting it across multiple pages.',
+                pageUrl: $pageUrl,
             );
         }
 
@@ -497,10 +609,11 @@ final class ContentAnalyzer
             value: $value,
             status: ContentCheckStatus::GOOD,
             recommendation: null,
+            pageUrl: $pageUrl,
         );
     }
 
-    private function checkGrammar(string $text): ContentCheckResult
+    private function checkGrammar(\DOMXPath $xpath, string $text, string $pageUrl): ContentCheckResult
     {
         if (trim($text) === '') {
             return new ContentCheckResult(
@@ -508,7 +621,8 @@ final class ContentAnalyzer
                 value: 'no readable text found to analyze',
                 status: ContentCheckStatus::WARNING,
                 recommendation: 'No readable body text was found to check — verify the page actually renders '
-                    . 'visible content.',
+                    .'visible content.',
+                pageUrl: $pageUrl,
             );
         }
 
@@ -520,6 +634,7 @@ final class ContentAnalyzer
                 value: 'no potential issues detected',
                 status: ContentCheckStatus::GOOD,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
 
@@ -538,9 +653,11 @@ final class ContentAnalyzer
             value: $value,
             status: $status,
             recommendation: 'This is a lightweight heuristic scan (repeated words, doubled spacing/punctuation, '
-                . 'sentences not starting with a capital letter) — it is not a substitute for a full grammar '
-                . 'checker. Proofread the flagged spots, or run the content through a dedicated grammar tool '
-                . 'for a thorough review.',
+                .'sentences not starting with a capital letter) — it is not a substitute for a full grammar '
+                .'checker. Proofread the flagged spots, or run the content through a dedicated grammar tool '
+                .'for a thorough review.',
+            pageUrl: $pageUrl,
+            affectedElements: $this->collectGrammarIssueLocations($xpath),
         );
     }
 
@@ -610,7 +727,7 @@ final class ContentAnalyzer
             $issues[] = 'repeated punctuation found (e.g. "!!" or "..")';
         }
 
-        $lowercaseStarts = $this->countLowercaseSentenceStarts($text);
+        $lowercaseStarts = count($this->lowercaseSentenceStarts($text));
 
         if ($lowercaseStarts > 0) {
             $issues[] = $lowercaseStarts === 1
@@ -621,26 +738,84 @@ final class ContentAnalyzer
         return $issues;
     }
 
-    private function countLowercaseSentenceStarts(string $text): int
+    /**
+     * Re-runs the same four grammar heuristics collectGrammarIssues()
+     * uses, but per content block (see extractContentBlocks()) rather
+     * than on the whole flattened body text, so each finding can be
+     * attributed to an approximate DOM location and a short snippet of
+     * the offending block — collectGrammarIssues() itself keeps working
+     * on the flattened text for the check's overall issue count/status,
+     * since a handful of blocks spanning a repeated word at their
+     * boundary is a vanishingly rare edge case not worth complicating
+     * the primary count for.
+     *
+     * @return array<int, array{url: ?string, domPath: ?string, detail: ?string}>
+     */
+    private function collectGrammarIssueLocations(\DOMXPath $xpath): array
     {
-        $sentences = preg_split('/(?<=[.!?])\s+/u', trim($text)) ?: [];
-        $count = 0;
+        $affectedElements = [];
 
-        foreach ($sentences as $sentence) {
-            $sentence = trim($sentence);
+        foreach ($this->extractContentBlocks($xpath) as $block) {
+            $blockText = $block['text'];
+            $snippet = mb_substr($blockText, 0, 80);
 
-            if ($sentence === '') {
-                continue;
+            if (preg_match('/\b(\w+)\s+\1\b/iu', $blockText, $m) === 1) {
+                $affectedElements[] = $this->element(
+                    null,
+                    $block['domPath'],
+                    "Repeated word \"{$m[1]} {$m[1]}\" in: \"{$snippet}...\"",
+                );
             }
 
-            $firstChar = mb_substr($sentence, 0, 1);
+            if (preg_match('/[ ]{2,}/', $blockText) === 1) {
+                $affectedElements[] = $this->element(null, $block['domPath'], "Multiple consecutive spaces in: \"{$snippet}...\"");
+            }
 
-            if (preg_match('/^\p{Ll}$/u', $firstChar) === 1) {
-                $count++;
+            if (preg_match('/[!?.]{2,}/', $blockText) === 1) {
+                $affectedElements[] = $this->element(null, $block['domPath'], "Repeated punctuation in: \"{$snippet}...\"");
+            }
+
+            foreach ($this->lowercaseSentenceStarts($blockText) as $sentence) {
+                $affectedElements[] = $this->element(
+                    null,
+                    $block['domPath'],
+                    'Sentence does not start with a capital letter: "'.mb_substr($sentence, 0, 80).'..."',
+                );
             }
         }
 
-        return $count;
+        return $affectedElements;
+    }
+
+    /**
+     * @return array<int, string> the offending sentences themselves (not just a count)
+     */
+    private function lowercaseSentenceStarts(string $text): array
+    {
+        $offending = [];
+
+        foreach ($this->splitSentences($text) as $sentence) {
+            $firstChar = mb_substr($sentence, 0, 1);
+
+            if (preg_match('/^\p{Ll}$/u', $firstChar) === 1) {
+                $offending[] = $sentence;
+            }
+        }
+
+        return $offending;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function splitSentences(string $text): array
+    {
+        $sentences = preg_split('/(?<=[.!?])\s+/u', trim($text)) ?: [];
+
+        return array_values(array_filter(
+            array_map('trim', $sentences),
+            static fn (string $sentence): bool => $sentence !== '',
+        ));
     }
 
     /**
@@ -652,8 +827,12 @@ final class ContentAnalyzer
      * against other pages or sites, so it can only surface internal
      * repetition — copy-pasted paragraphs, boilerplate blocks stuffed
      * into multiple sections, and similar within-page duplication.
+     * Duplication *across* pages of the same site is a separate,
+     * site-wide concept — see ContentAnalyzer::analyzeAll()'s
+     * crossPageDuplicates, which is the only place enough pages are
+     * available at once to detect it.
      */
-    private function checkDuplicateContent(\DOMXPath $xpath): ContentCheckResult
+    private function checkDuplicateContent(\DOMXPath $xpath, string $pageUrl): ContentCheckResult
     {
         $blocks = $this->extractDuplicateCandidateBlocks($xpath);
 
@@ -663,60 +842,84 @@ final class ContentAnalyzer
                 value: 'no block-level content found to compare',
                 status: ContentCheckStatus::WARNING,
                 recommendation: 'No paragraph, list item, or heading content was found to check for internal '
-                    . 'repetition — verify the page actually renders visible content.',
+                    .'repetition — verify the page actually renders visible content.',
+                pageUrl: $pageUrl,
             );
         }
 
         $groups = [];
 
         foreach ($blocks as $block) {
-            $key = mb_strtolower($block);
-            $groups[$key] = ($groups[$key] ?? 0) + 1;
+            $key = mb_strtolower($block['text']);
+
+            if (! isset($groups[$key])) {
+                $groups[$key] = ['text' => $block['text'], 'count' => 0, 'domPaths' => []];
+            }
+
+            $groups[$key]['count']++;
+            $groups[$key]['domPaths'][] = $block['domPath'];
         }
 
-        $duplicateGroups = array_filter($groups, static fn (int $count): bool => $count > 1);
+        $duplicateGroups = array_filter($groups, static fn (array $group): bool => $group['count'] > 1);
 
         if ($duplicateGroups === []) {
             return new ContentCheckResult(
                 metric: 'Duplicate Content',
-                value: 'no repeated blocks detected (' . count($blocks) . ' blocks checked)',
+                value: 'no repeated blocks detected ('.count($blocks).' blocks checked)',
                 status: ContentCheckStatus::GOOD,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
 
         $groupCount = count($duplicateGroups);
-        $repeatedInstances = array_sum($duplicateGroups) - $groupCount;
-        $example = mb_substr((string) array_key_first($duplicateGroups), 0, 80);
+        $repeatedInstances = array_sum(array_column($duplicateGroups, 'count')) - $groupCount;
+        $firstGroup = reset($duplicateGroups);
+        $example = mb_substr((string) $firstGroup['text'], 0, 80);
         $value = $groupCount === 1
             ? "1 block repeated on the page, e.g. \"{$example}...\""
             : "{$groupCount} distinct blocks repeated on the page ({$repeatedInstances} extra instances), "
-                . "e.g. \"{$example}...\"";
+                ."e.g. \"{$example}...\"";
 
         $status = $groupCount >= self::DUPLICATE_CRITICAL_MIN_GROUPS
             ? ContentCheckStatus::CRITICAL
             : ContentCheckStatus::WARNING;
+
+        $affectedElements = [];
+
+        foreach ($duplicateGroups as $group) {
+            $snippet = mb_substr((string) $group['text'], 0, 80);
+
+            foreach ($group['domPaths'] as $domPath) {
+                $affectedElements[] = $this->element(null, $domPath, "Repeated block: \"{$snippet}...\"");
+            }
+        }
 
         return new ContentCheckResult(
             metric: 'Duplicate Content',
             value: $value,
             status: $status,
             recommendation: 'This checks for text repeated within this page only, not duplication against other '
-                . 'pages or sites. Rewrite or consolidate the repeated blocks so each section adds distinct '
-                . 'value, and consider a dedicated plagiarism/duplicate-content tool for a cross-site check.',
+                .'pages or sites. Rewrite or consolidate the repeated blocks so each section adds distinct '
+                .'value, and consider a dedicated plagiarism/duplicate-content tool for a cross-site check.',
+            pageUrl: $pageUrl,
+            affectedElements: $affectedElements,
         );
     }
 
     /**
-     * Extracts trimmed, whitespace-normalized text from block-level
-     * elements (paragraphs, list items, headings), skipping anything
-     * shorter than DUPLICATE_BLOCK_MIN_WORDS words so that short,
-     * legitimately-repeated boilerplate (e.g. "Read More") doesn't
-     * trigger false positives.
+     * Extracts trimmed, whitespace-normalized text (and DOM location)
+     * from every block-level element (paragraphs, list items, headings)
+     * on the page, with no minimum length filter — the base extraction
+     * shared by checkDuplicateContent() (via
+     * extractDuplicateCandidateBlocks(), which applies the minimum-word
+     * filter on top), checkGrammar()'s per-block issue locations,
+     * checkKeywordDensity()'s per-block keyword locations, and
+     * analyzeAll()'s cross-page duplicate detection.
      *
-     * @return array<int, string>
+     * @return array<int, array{text: string, domPath: string}>
      */
-    private function extractDuplicateCandidateBlocks(\DOMXPath $xpath): array
+    private function extractContentBlocks(\DOMXPath $xpath): array
     {
         $query = implode(' | ', array_map(
             static fn (string $tag): string => "//{$tag}",
@@ -732,20 +935,104 @@ final class ContentAnalyzer
         $blocks = [];
 
         foreach ($nodes as $node) {
+            /** @var \DOMElement $node */
             $text = trim((string) preg_replace('/\s+/u', ' ', $node->textContent));
 
             if ($text === '') {
                 continue;
             }
 
-            if (str_word_count($text) < self::DUPLICATE_BLOCK_MIN_WORDS) {
-                continue;
-            }
-
-            $blocks[] = $text;
+            $blocks[] = ['text' => $text, 'domPath' => $this->buildDomPath($node)];
         }
 
         return $blocks;
+    }
+
+    /**
+     * extractContentBlocks() filtered down to blocks of at least
+     * DUPLICATE_BLOCK_MIN_WORDS words, so that short, legitimately
+     * repeated boilerplate (e.g. "Read More") doesn't trigger false
+     * positives in the Duplicate Content check.
+     *
+     * @return array<int, array{text: string, domPath: string}>
+     */
+    private function extractDuplicateCandidateBlocks(\DOMXPath $xpath): array
+    {
+        return array_values(array_filter(
+            $this->extractContentBlocks($xpath),
+            static fn (array $block): bool => str_word_count($block['text']) >= self::DUPLICATE_BLOCK_MIN_WORDS,
+        ));
+    }
+
+    /**
+     * Builds a readable CSS-selector-style path from the document root
+     * down to the given element, identical in approach to
+     * App\Audit\Fetching\HtmlParser::buildDomPath() and
+     * AccessibilityAnalyzer::buildDomPath() — duplicated here for the
+     * same reason AccessibilityAnalyzer documents: this class parses its
+     * own fresh \DOMDocument from raw HTML, so there's no existing
+     * DOMElement from HtmlParser's own parse to reuse.
+     */
+    private function buildDomPath(\DOMElement $element): string
+    {
+        $segments = [];
+        $node = $element;
+
+        while ($node instanceof \DOMElement) {
+            $segments[] = $this->domPathSegment($node);
+            $parent = $node->parentNode;
+            $node = $parent instanceof \DOMElement ? $parent : null;
+        }
+
+        return implode(' > ', array_reverse($segments));
+    }
+
+    private function domPathSegment(\DOMElement $node): string
+    {
+        $tag = strtolower($node->nodeName);
+
+        $id = trim($node->getAttribute('id'));
+
+        if ($id !== '') {
+            return sprintf('%s#%s', $tag, $id);
+        }
+
+        $class = trim($node->getAttribute('class'));
+
+        if ($class !== '') {
+            $firstClass = preg_split('/\s+/', $class, -1, PREG_SPLIT_NO_EMPTY)[0] ?? '';
+
+            if ($firstClass !== '') {
+                return sprintf('%s.%s', $tag, $firstClass);
+            }
+        }
+
+        $position = 1;
+        $sibling = $node->previousSibling;
+
+        while ($sibling !== null) {
+            if ($sibling instanceof \DOMElement) {
+                $position++;
+            }
+
+            $sibling = $sibling->previousSibling;
+        }
+
+        return sprintf('%s:nth-child(%d)', $tag, $position);
+    }
+
+    /**
+     * Builds one entry of a ContentCheckResult's affectedElements list.
+     * Mirrors SecurityAnalyzer::element()'s and
+     * AccessibilityAnalyzer::element()'s shape. $url is left null
+     * throughout this analyzer — content blocks aren't resources with a
+     * src/href — so domPath is what actually locates each finding.
+     *
+     * @return array{url: ?string, domPath: ?string, detail: ?string}
+     */
+    private function element(?string $url, ?string $domPath, ?string $detail): array
+    {
+        return ['url' => $url, 'domPath' => $domPath, 'detail' => $detail];
     }
 
     /**
@@ -760,7 +1047,7 @@ final class ContentAnalyzer
      * that is reported as Low/Medium/High, and the recommendation always
      * makes the heuristic nature explicit.
      */
-    private function checkAiGeneratedProbability(string $text): ContentCheckResult
+    private function checkAiGeneratedProbability(string $text, string $pageUrl): ContentCheckResult
     {
         if (trim($text) === '') {
             return new ContentCheckResult(
@@ -768,22 +1055,21 @@ final class ContentAnalyzer
                 value: 'no readable text found to analyze',
                 status: ContentCheckStatus::WARNING,
                 recommendation: 'No readable body text was found to check — verify the page actually renders '
-                    . 'visible content.',
+                    .'visible content.',
+                pageUrl: $pageUrl,
             );
         }
 
-        $sentences = array_values(array_filter(
-            array_map('trim', preg_split('/(?<=[.!?])\s+/u', trim($text)) ?: []),
-            static fn (string $sentence): bool => $sentence !== '',
-        ));
+        $sentences = $this->splitSentences($text);
 
         if (count($sentences) < self::AI_MIN_SENTENCES) {
             return new ContentCheckResult(
                 metric: 'AI Generated Probability',
-                value: 'not enough text to estimate (' . count($sentences) . ' sentences found)',
+                value: 'not enough text to estimate ('.count($sentences).' sentences found)',
                 status: ContentCheckStatus::WARNING,
                 recommendation: 'Add more page content to get a meaningful estimate — this heuristic needs at '
-                    . 'least ' . self::AI_MIN_SENTENCES . ' sentences to be reliable.',
+                    .'least '.self::AI_MIN_SENTENCES.' sentences to be reliable.',
+                pageUrl: $pageUrl,
             );
         }
 
@@ -825,7 +1111,7 @@ final class ContentAnalyzer
         };
 
         $value = "{$band} ({$score}/100) — sentence-length uniformity, stock phrase usage, and lexical "
-            . 'diversity signals';
+            .'diversity signals';
 
         return new ContentCheckResult(
             metric: 'AI Generated Probability',
@@ -834,9 +1120,10 @@ final class ContentAnalyzer
             recommendation: $status === ContentCheckStatus::GOOD
                 ? null
                 : 'This is a heuristic stylometric estimate, not a trained AI-detection model — treat it as a '
-                    . 'prompt to review, not a verdict. Vary sentence length and structure, cut stock transition '
-                    . 'phrases ("furthermore,", "in conclusion", "delve into"), and add specific, concrete '
-                    . 'detail to strengthen the page\'s distinct voice.',
+                    .'prompt to review, not a verdict. Vary sentence length and structure, cut stock transition '
+                    .'phrases ("furthermore,", "in conclusion", "delve into"), and add specific, concrete '
+                    .'detail to strengthen the page\'s distinct voice.',
+            pageUrl: $pageUrl,
         );
     }
 
@@ -844,7 +1131,7 @@ final class ContentAnalyzer
      * Coefficient of variation (population stdev / mean) of a list of
      * integers. Returns 0.0 for an empty list or a zero mean.
      *
-     * @param array<int, int> $values
+     * @param  array<int, int>  $values
      */
     private function coefficientOfVariation(array $values): float
     {
@@ -877,7 +1164,7 @@ final class ContentAnalyzer
      * keyword — the same proxy SEO tools fall back to for an at-a-glance
      * stuffing check when no target term is configured.
      */
-    private function checkKeywordDensity(string $text): ContentCheckResult
+    private function checkKeywordDensity(\DOMXPath $xpath, string $text, string $pageUrl): ContentCheckResult
     {
         if (trim($text) === '') {
             return new ContentCheckResult(
@@ -885,7 +1172,8 @@ final class ContentAnalyzer
                 value: 'no readable text found to analyze',
                 status: ContentCheckStatus::WARNING,
                 recommendation: 'No readable body text was found to check — verify the page actually renders '
-                    . 'visible content.',
+                    .'visible content.',
+                pageUrl: $pageUrl,
             );
         }
 
@@ -901,7 +1189,8 @@ final class ContentAnalyzer
                 value: 'no words found to analyze',
                 status: ContentCheckStatus::WARNING,
                 recommendation: 'No readable words were found to check — verify the page actually renders '
-                    . 'visible content.',
+                    .'visible content.',
+                pageUrl: $pageUrl,
             );
         }
 
@@ -922,10 +1211,11 @@ final class ContentAnalyzer
         if ($frequencies === []) {
             return new ContentCheckResult(
                 metric: 'Keyword Density',
-                value: 'no significant (non-stopword) terms found among ' . $totalWords . ' words',
+                value: 'no significant (non-stopword) terms found among '.$totalWords.' words',
                 status: ContentCheckStatus::WARNING,
                 recommendation: 'Add more substantive, topic-specific wording — the page is currently made up '
-                    . 'almost entirely of short/common words.',
+                    .'almost entirely of short/common words.',
+                pageUrl: $pageUrl,
             );
         }
 
@@ -942,8 +1232,10 @@ final class ContentAnalyzer
                 value: $value,
                 status: ContentCheckStatus::CRITICAL,
                 recommendation: "\"{$keyword}\" is repeated disproportionately often, which reads as keyword "
-                    . 'stuffing to both readers and search engines. Reduce repetition and use natural synonyms '
-                    . 'and related phrasing instead.',
+                    .'stuffing to both readers and search engines. Reduce repetition and use natural synonyms '
+                    .'and related phrasing instead.',
+                pageUrl: $pageUrl,
+                affectedElements: $this->findKeywordLocations($xpath, $keyword),
             );
         }
 
@@ -953,7 +1245,9 @@ final class ContentAnalyzer
                 value: $value,
                 status: ContentCheckStatus::WARNING,
                 recommendation: "\"{$keyword}\" is used quite frequently. Consider varying the wording with "
-                    . 'synonyms or related terms so the repetition reads naturally.',
+                    .'synonyms or related terms so the repetition reads naturally.',
+                pageUrl: $pageUrl,
+                affectedElements: $this->findKeywordLocations($xpath, $keyword),
             );
         }
 
@@ -962,7 +1256,38 @@ final class ContentAnalyzer
             value: $value,
             status: ContentCheckStatus::GOOD,
             recommendation: null,
+            pageUrl: $pageUrl,
         );
+    }
+
+    /**
+     * Locates every content block that contains the given keyword (whole
+     * word, case-insensitive), reporting how many times it appears in
+     * each — the "where" behind Keyword Density's density percentage,
+     * which on its own only reports a site-wide ratio with no location.
+     *
+     * @return array<int, array{url: ?string, domPath: ?string, detail: ?string}>
+     */
+    private function findKeywordLocations(\DOMXPath $xpath, string $keyword): array
+    {
+        $pattern = '/\b'.preg_quote($keyword, '/').'\b/iu';
+        $affectedElements = [];
+
+        foreach ($this->extractContentBlocks($xpath) as $block) {
+            $count = preg_match_all($pattern, $block['text']);
+
+            if ($count > 0) {
+                $affectedElements[] = $this->element(
+                    null,
+                    $block['domPath'],
+                    $count === 1
+                        ? "\"{$keyword}\" appears once in this block"
+                        : "\"{$keyword}\" appears {$count} times in this block",
+                );
+            }
+        }
+
+        return $affectedElements;
     }
 
     /**
@@ -981,7 +1306,7 @@ final class ContentAnalyzer
      * used, since a page can legitimately carry an old publish date
      * alongside a newer update date.
      */
-    private function checkContentFreshness(\DOMXPath $xpath, FetchResult $result): ContentCheckResult
+    private function checkContentFreshness(\DOMXPath $xpath, FetchResult $result, string $pageUrl): ContentCheckResult
     {
         $candidates = [
             ...$this->extractSchemaDates($result->schema),
@@ -996,8 +1321,9 @@ final class ContentAnalyzer
                 value: 'no last-updated/published date signal found on the page',
                 status: ContentCheckStatus::WARNING,
                 recommendation: 'No dateModified/datePublished structured data, date meta tag, Last-Modified '
-                    . 'header, or visible <time datetime> element was found. Add one of these so readers and '
-                    . 'search engines can tell how current the content is.',
+                    .'header, or visible <time datetime> element was found. Add one of these so readers and '
+                    .'search engines can tell how current the content is.',
+                pageUrl: $pageUrl,
             );
         }
 
@@ -1009,8 +1335,8 @@ final class ContentAnalyzer
             }
         }
 
-        $ageDays = max(0, (new \DateTimeImmutable())->diff($mostRecent)->days);
-        $value = 'most recent on-page date signal: ' . $mostRecent->format('Y-m-d') . " ({$ageDays} days ago)";
+        $ageDays = max(0, (new \DateTimeImmutable)->diff($mostRecent)->days);
+        $value = 'most recent on-page date signal: '.$mostRecent->format('Y-m-d')." ({$ageDays} days ago)";
 
         if ($ageDays <= self::FRESHNESS_GOOD_MAX_DAYS) {
             return new ContentCheckResult(
@@ -1018,6 +1344,7 @@ final class ContentAnalyzer
                 value: $value,
                 status: ContentCheckStatus::GOOD,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
 
@@ -1027,7 +1354,8 @@ final class ContentAnalyzer
                 value: $value,
                 status: ContentCheckStatus::WARNING,
                 recommendation: 'The content is getting dated. Review it for accuracy and update the '
-                    . 'dateModified/last-updated signal once you do.',
+                    .'dateModified/last-updated signal once you do.',
+                pageUrl: $pageUrl,
             );
         }
 
@@ -1036,8 +1364,9 @@ final class ContentAnalyzer
             value: $value,
             status: ContentCheckStatus::CRITICAL,
             recommendation: 'The most recent on-page date signal is over a year old. Refresh the content and '
-                . 'update its dateModified/last-updated signal — stale pages tend to lose both reader trust and '
-                . 'search ranking.',
+                .'update its dateModified/last-updated signal — stale pages tend to lose both reader trust and '
+                .'search ranking.',
+            pageUrl: $pageUrl,
         );
     }
 
@@ -1045,7 +1374,7 @@ final class ContentAnalyzer
      * Extracts dateModified/datePublished values from JSON-LD blocks
      * whose "@type" matches DATED_SCHEMA_TYPES.
      *
-     * @param array<int, SchemaBlock> $schema
+     * @param  array<int, SchemaBlock>  $schema
      * @return array<int, \DateTimeImmutable>
      */
     private function extractSchemaDates(array $schema): array
@@ -1083,7 +1412,7 @@ final class ContentAnalyzer
      * Extracts a freshness date from meta tags matching
      * FRESHNESS_META_KEYS.
      *
-     * @param array<int, array{name: ?string, property: ?string, content: ?string}> $rawMeta
+     * @param  array<int, array{name: ?string, property: ?string, content: ?string}>  $rawMeta
      * @return array<int, \DateTimeImmutable>
      */
     private function extractMetaFreshnessDates(array $rawMeta): array
@@ -1112,7 +1441,7 @@ final class ContentAnalyzer
      * Extracts a freshness date from the HTTP Last-Modified response
      * header, if present (header lookup is case-insensitive).
      *
-     * @param array<string, string> $headers
+     * @param  array<string, string>  $headers
      * @return array<int, \DateTimeImmutable>
      */
     private function extractHeaderDate(array $headers): array
@@ -1178,7 +1507,7 @@ final class ContentAnalyzer
      * this check says so rather than guessing from a single data
      * point.
      */
-    private function checkBlogFrequency(\DOMXPath $xpath, FetchResult $result): ContentCheckResult
+    private function checkBlogFrequency(\DOMXPath $xpath, FetchResult $result, string $pageUrl): ContentCheckResult
     {
         $dates = array_values(array_unique([
             ...$this->extractSchemaDates($result->schema),
@@ -1189,11 +1518,12 @@ final class ContentAnalyzer
             return new ContentCheckResult(
                 metric: 'Blog Frequency',
                 value: 'not enough on-page post dates found to estimate a posting cadence (found '
-                    . count($dates) . ')',
+                    .count($dates).')',
                 status: ContentCheckStatus::WARNING,
                 recommendation: 'This check can only estimate posting frequency from post dates exposed on this '
-                    . 'same page (e.g. a blog index/listing page). Run it against a blog listing page, or add '
-                    . 'datePublished structured data / visible <time datetime> elements to post teasers.',
+                    .'same page (e.g. a blog index/listing page). Run it against a blog listing page, or add '
+                    .'datePublished structured data / visible <time datetime> elements to post teasers.',
+                pageUrl: $pageUrl,
             );
         }
 
@@ -1206,8 +1536,8 @@ final class ContentAnalyzer
         }
 
         $avgGapDays = (int) round(array_sum($gaps) / count($gaps));
-        $value = "~{$avgGapDays} day average gap across " . count($dates) . ' on-page post dates (most recent: '
-            . $dates[0]->format('Y-m-d') . ', oldest: ' . $dates[count($dates) - 1]->format('Y-m-d') . ')';
+        $value = "~{$avgGapDays} day average gap across ".count($dates).' on-page post dates (most recent: '
+            .$dates[0]->format('Y-m-d').', oldest: '.$dates[count($dates) - 1]->format('Y-m-d').')';
 
         if ($avgGapDays <= self::BLOG_FREQUENCY_GOOD_MAX_AVG_DAYS) {
             return new ContentCheckResult(
@@ -1215,6 +1545,7 @@ final class ContentAnalyzer
                 value: $value,
                 status: ContentCheckStatus::GOOD,
                 recommendation: null,
+                pageUrl: $pageUrl,
             );
         }
 
@@ -1224,7 +1555,8 @@ final class ContentAnalyzer
                 value: $value,
                 status: ContentCheckStatus::WARNING,
                 recommendation: 'Publishing cadence looks moderate. Posting more consistently tends to improve '
-                    . 'both returning-reader engagement and search visibility.',
+                    .'both returning-reader engagement and search visibility.',
+                pageUrl: $pageUrl,
             );
         }
 
@@ -1233,7 +1565,8 @@ final class ContentAnalyzer
             value: $value,
             status: ContentCheckStatus::CRITICAL,
             recommendation: 'Posts on this page are spaced far apart. A more consistent publishing schedule '
-                . 'generally helps both audience retention and search performance.',
+                .'generally helps both audience retention and search performance.',
+            pageUrl: $pageUrl,
         );
     }
 
@@ -1243,7 +1576,7 @@ final class ContentAnalyzer
      * UiUxAnalyzer::score()'s (and, in turn, AccessibilityAnalyzer's and
      * SecurityAnalyzer's) points-averaging approach.
      *
-     * @param array<string, ContentCheckResult> $checks
+     * @param  array<string, ContentCheckResult>  $checks
      */
     private function score(array $checks): int
     {
@@ -1276,7 +1609,7 @@ final class ContentAnalyzer
     }
 
     /**
-     * @param array<string, ContentCheckResult> $checks
+     * @param  array<string, ContentCheckResult>  $checks
      */
     private function summary(array $checks, int $score, string $grade): string
     {
