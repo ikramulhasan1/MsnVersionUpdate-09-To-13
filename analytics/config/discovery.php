@@ -1,0 +1,152 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Industry Taxonomy
+    |--------------------------------------------------------------------------
+    |
+    | Main Industry => [Sub-Niche, Sub-Niche, ...]. This is the data
+    | source behind the Website Discovery module's Industry/Niche
+    | search — a discovered site's own `industry`/`sub_niche` columns
+    | (see database/migrations/2026_08_14_000000_create_discovered_websites_table.php)
+    | are expected to be drawn from these same values, so a search
+    | filter built from this list actually matches what's stored.
+    |
+    | App\Discovery\Taxonomy\IndustryTaxonomyService is the only thing
+    | that should read this array directly — everywhere else in the app
+    | goes through that service, not config('discovery.industries')
+    | directly, so this array's own shape can change without every
+    | caller needing to change with it.
+    |
+    | A fixed, hand-curated starter taxonomy — not fetched from or
+    | mapped to any external classification standard (e.g. NAICS/SIC
+    | codes) — chosen to be immediately useful for a lead-gen/web-audit
+    | search UI rather than exhaustive. Extend by adding entries here;
+    | nothing else needs to change.
+    |
+    */
+    'industries' => [
+
+        'Restaurant & Food Service' => [
+            'Italian', 'Chinese', 'Mexican', 'Japanese & Sushi', 'Fast Food',
+            'Cafe & Coffee Shop', 'Bakery', 'Bar & Pub', 'Catering', 'Fine Dining',
+            'Food Truck', 'Pizza',
+        ],
+
+        'Healthcare & Medical' => [
+            'General Practice', 'Dental', 'Dermatology', 'Chiropractic',
+            'Physical Therapy', 'Mental Health & Counseling', 'Veterinary',
+            'Optometry', 'Pharmacy', 'Urgent Care', 'Pediatrics',
+        ],
+
+        'Legal Services' => [
+            'Personal Injury', 'Family Law', 'Criminal Defense', 'Corporate Law',
+            'Real Estate Law', 'Immigration Law', 'Estate Planning',
+            'Bankruptcy Law', 'Employment Law',
+        ],
+
+        'Real Estate' => [
+            'Residential Sales', 'Commercial Real Estate', 'Property Management',
+            'Real Estate Investment', 'Vacation Rentals', 'Mortgage & Lending',
+            'Title & Escrow',
+        ],
+
+        'Home Services' => [
+            'Plumbing', 'Electrical', 'HVAC', 'Roofing', 'Landscaping',
+            'Cleaning Services', 'Pest Control', 'Painting', 'General Contracting',
+            'Handyman', 'Window & Door',
+        ],
+
+        'Automotive' => [
+            'Auto Repair', 'Car Dealership', 'Auto Detailing', 'Towing',
+            'Auto Parts', 'Tire Shop', 'Auto Body & Collision', 'Car Wash',
+        ],
+
+        'Beauty & Personal Care' => [
+            'Hair Salon', 'Nail Salon', 'Spa & Massage', 'Barbershop',
+            'Skincare & Esthetics', 'Tattoo & Piercing', 'Med Spa',
+        ],
+
+        'Fitness & Wellness' => [
+            'Gym & Fitness Center', 'Yoga Studio', 'Personal Training', 'CrossFit',
+            'Martial Arts', 'Nutrition Coaching', 'Pilates Studio',
+        ],
+
+        'Retail & E-commerce' => [
+            'Fashion & Apparel', 'Electronics', 'Home Goods', 'Sporting Goods',
+            'Toys & Games', 'Jewelry', 'Bookstore', 'Grocery', 'Furniture',
+        ],
+
+        'Professional Services' => [
+            'Accounting & Bookkeeping', 'Consulting', 'Marketing Agency',
+            'IT Services', 'Insurance Agency', 'Financial Advisory', 'HR Services',
+            'Web Design Agency',
+        ],
+
+        'Education' => [
+            'K-12 School', 'Tutoring', 'Online Courses', 'Language School',
+            'Music Lessons', 'Test Prep', 'Vocational Training', 'Driving School',
+        ],
+
+        'Hospitality & Travel' => [
+            'Hotel & Lodging', 'Bed & Breakfast', 'Travel Agency', 'Tour Operator',
+            'Event Venue', 'Vacation Rentals',
+        ],
+
+        'Construction & Trades' => [
+            'General Contractor', 'Home Builder', 'Remodeling', 'Masonry',
+            'Flooring', 'Fencing', 'Concrete',
+        ],
+
+        'Manufacturing' => [
+            'Industrial Equipment', 'Consumer Goods', 'Food Production',
+            'Textiles', 'Metal Fabrication', 'Packaging',
+        ],
+
+        'Technology & SaaS' => [
+            'Software Development', 'SaaS Product', 'Mobile App Development',
+            'Web Design Agency', 'IT Support & Managed Services', 'Cybersecurity',
+        ],
+
+        'Nonprofit & Community' => [
+            'Charity', 'Religious Organization', 'Community Center',
+            'Advocacy Group', 'Foundation',
+        ],
+
+        'Entertainment & Events' => [
+            'Event Planning', 'Photography & Videography', 'DJ & Entertainment',
+            'Wedding Services', 'Party Rentals', 'Live Music Venue',
+        ],
+
+        'Agriculture' => [
+            'Farming', 'Landscaping Supply', 'Nursery & Garden Center',
+            'Livestock', 'Agritourism', 'Winery & Vineyard',
+        ],
+
+        'Transportation & Logistics' => [
+            'Trucking', 'Moving Services', 'Courier & Delivery',
+            'Freight Forwarding', 'Taxi & Rideshare', 'Warehousing',
+        ],
+
+        'Financial Services' => [
+            'Banking', 'Investment Firm', 'Insurance', 'Credit Union',
+            'Tax Preparation', 'Payday Lending',
+        ],
+
+        'Pet Services' => [
+            'Pet Grooming', 'Pet Boarding', 'Dog Walking', 'Pet Training',
+            'Pet Store', 'Veterinary',
+        ],
+
+        'Childcare & Family' => [
+            'Daycare', 'Preschool', 'After-School Programs', 'Babysitting Services',
+            'Summer Camp',
+        ],
+
+    ],
+
+];

@@ -49,6 +49,11 @@
                 <span class="brand-mark">AI</span> Website Audit
             </a>
 
+            <a class="app-navbar-link ms-3 {{ request()->routeIs('discovery.*') ? 'active' : '' }}"
+                href="{{ route('discovery.index') }}">
+                <span class="brand-mark">WD</span> Website Discovery
+            </a>
+
             <button type="button" id="theme-toggle" class="btn btn-sm theme-toggle ms-auto"
                 aria-label="Toggle dark mode" aria-pressed="false">
                 <svg class="theme-toggle-icon theme-toggle-icon-light" viewBox="0 0 24 24" fill="none"
