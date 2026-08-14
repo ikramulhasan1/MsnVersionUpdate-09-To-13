@@ -21,14 +21,32 @@
     <section class="mb-4">
         <span class="report-eyebrow">01 / Overall Score</span>
 
-        <div class="card overall-score-card">
+        <div class="card overall-score-card" style="position: relative; overflow: hidden;">
+            {{--
+                Positioning/size/opacity are set as INLINE styles here,
+                deliberately duplicating what .overall-score-watermark
+                already declares in public/css/app.css, rather than
+                relying on that class alone: an external-stylesheet
+                caching/deploy timing issue (the file's mtime not
+                changing on deploy, defeating the ?v= cache-busting in
+                layouts/app.blade.php) meant the CSS class wasn't
+                reliably applied in practice, and the SVG rendered at
+                full size/opacity as a normal block element instead of a
+                small absolutely-positioned watermark. Inline styles
+                ship with the HTML response itself, so they take effect
+                immediately regardless of whether app.css has loaded,
+                finished loading, or is stuck on a stale cached copy —
+                this is the robust fix; the CSS class is left in place
+                only for organization/documentation, not depended on.
+            --}}
             <svg class="overall-score-watermark" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true" focusable="false">
+                aria-hidden="true" focusable="false"
+                style="position: absolute; top: -3rem; right: -3rem; width: 17rem; height: 17rem; max-width: 40%; color: var(--audit-primary); opacity: 0.04; pointer-events: none; z-index: 0;">
                 <path d="M100 6 L178 34 V96 C178 140 145 176 100 194 C55 176 22 140 22 96 V34 Z" fill="currentColor" />
                 <path d="M64 100 L88 126 L138 72" stroke="var(--audit-surface)" stroke-width="14" stroke-linecap="round"
                     stroke-linejoin="round" fill="none" />
             </svg>
-            <div class="card-body p-4 p-lg-5">
+            <div class="card-body p-4 p-lg-5" style="position: relative; z-index: 1;">
                 <div class="row g-4 align-items-center">
                     <div class="col-12 col-lg-4 text-center">
                         <div class="score-gauge"
