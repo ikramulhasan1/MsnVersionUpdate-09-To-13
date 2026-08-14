@@ -19,9 +19,22 @@
     specific styles are pushed onto the 'styles' stack by the view that
     extends this layout, so this file never needs to change as new
     sections are added.
+
+    Part 4 (PDF redesign): the two colors below (body text, footer) are
+    swapped for public/css/app.css's --audit-ink (#15181f) and
+    --audit-muted (#5b6270) design-token values, matching
+    report.blade.php's same color-only pass — see that file's docblock
+    for the full token list and why these are hardcoded hex rather than
+    var(--audit-*) references. 'DejaVu Sans' is intentionally NOT
+    swapped for app.css's Fraunces/Inter/JetBrains Mono: those aren't
+    registered with dompdf, and substituting an unregistered font name
+    silently falls back to a default rather than erroring, which would
+    quietly break Unicode rendering — a color mismatch is a much smaller
+    problem than that.
 --}}
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <title>@yield('title', 'Website Audit Report')</title>
@@ -43,10 +56,12 @@
             font-family: 'DejaVu Sans', sans-serif;
             font-size: 11px;
             line-height: 1.5;
-            color: #212529;
+            color: #15181f;
         }
 
-        h1, h2, h3 {
+        h1,
+        h2,
+        h3 {
             font-family: 'DejaVu Sans', sans-serif;
             font-weight: bold;
             line-height: 1.3;
@@ -76,7 +91,8 @@
             width: 100%;
         }
 
-        th, td {
+        th,
+        td {
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
@@ -101,9 +117,9 @@
             bottom: -40px;
             height: 24px;
             padding-top: 6px;
-            border-top: 1px solid #d9d9d9;
+            border-top: 1px solid #e3e1d9;
             font-size: 9px;
-            color: #6c757d;
+            color: #5b6270;
         }
 
         .pdf-footer-left {
@@ -120,6 +136,7 @@
         @stack('styles')
     </style>
 </head>
+
 <body>
     <div class="pdf-footer">
         <span class="pdf-footer-left">{{ config('app.name') }} &mdash; Website Audit Report</span>
@@ -128,4 +145,5 @@
 
     @yield('content')
 </body>
+
 </html>

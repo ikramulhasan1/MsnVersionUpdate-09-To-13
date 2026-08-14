@@ -22,6 +22,12 @@
         <span class="report-eyebrow">01 / Overall Score</span>
 
         <div class="card overall-score-card">
+            <svg class="overall-score-watermark" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true" focusable="false">
+                <path d="M100 6 L178 34 V96 C178 140 145 176 100 194 C55 176 22 140 22 96 V34 Z" fill="currentColor" />
+                <path d="M64 100 L88 126 L138 72" stroke="var(--audit-surface)" stroke-width="14" stroke-linecap="round"
+                    stroke-linejoin="round" fill="none" />
+            </svg>
             <div class="card-body p-4 p-lg-5">
                 <div class="row g-4 align-items-center">
                     <div class="col-12 col-lg-4 text-center">

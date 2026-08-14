@@ -111,12 +111,12 @@
                         <div class="progress progress-thin" role="progressbar"
                             aria-label="{{ $category['label'] }} checks breakdown" aria-valuenow="{{ $passCount }}"
                             aria-valuemin="0" aria-valuemax="{{ $total }}">
-                            <div class="progress-bar bg-success" style="width: {{ ($passCount / $total) * 100 }}%">
-                            </div>
-                            <div class="progress-bar bg-warning" style="width: {{ ($warnCount / $total) * 100 }}%">
-                            </div>
-                            <div class="progress-bar bg-danger" style="width: {{ ($failCount / $total) * 100 }}%">
-                            </div>
+                            <div class="progress-bar bg-success" style="width: {{ ($passCount / $total) * 100 }}%"
+                                title="Pass: {{ $passCount }}"></div>
+                            <div class="progress-bar bg-warning" style="width: {{ ($warnCount / $total) * 100 }}%"
+                                title="Warning: {{ $warnCount }}"></div>
+                            <div class="progress-bar bg-danger" style="width: {{ ($failCount / $total) * 100 }}%"
+                                title="Fail: {{ $failCount }}"></div>
                         </div>
                     </div>
                 @endforeach
@@ -163,7 +163,7 @@
                                         $checkUid = $category['key'] . '-' . $loop->index;
                                     @endphp
                                     <li
-                                        class="list-group-item d-flex align-items-start justify-content-between gap-3 px-0">
+                                        class="check-item check-item-{{ audit_check_variant($check['status']) }} list-group-item d-flex align-items-start justify-content-between gap-3 ps-3 pe-2 py-3">
                                         <div class="flex-grow-1">
                                             <p class="fw-medium mb-0">{{ $check['name'] }}</p>
                                             <p class="text-secondary small mb-0">{{ $check['note'] }}</p>
@@ -213,7 +213,32 @@
                                             @endif
                                         </div>
                                         <span
-                                            class="badge bg-{{ audit_check_variant($check['status']) }}-subtle text-{{ audit_check_variant($check['status']) }}-emphasis text-capitalize flex-shrink-0">
+                                            class="badge check-status-pill bg-{{ audit_check_variant($check['status']) }}-subtle text-{{ audit_check_variant($check['status']) }}-emphasis text-capitalize flex-shrink-0">
+                                            @php $checkVariant = audit_check_variant($check['status']); @endphp
+                                            @if ($checkVariant === 'success')
+                                                <svg width="11" height="11" viewBox="0 0 16 16"
+                                                    fill="none" aria-hidden="true">
+                                                    <path d="M13.5 4.5L6.5 12L2.5 8.2" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                </svg>
+                                            @elseif ($checkVariant === 'warning')
+                                                <svg width="11" height="11" viewBox="0 0 16 16"
+                                                    fill="none" aria-hidden="true">
+                                                    <path d="M8 1.5L15 14H1L8 1.5Z" stroke="currentColor"
+                                                        stroke-width="1.4" stroke-linejoin="round" />
+                                                    <path d="M8 6.25V9.75" stroke="currentColor" stroke-width="1.4"
+                                                        stroke-linecap="round" />
+                                                    <circle cx="8" cy="11.75" r="0.85"
+                                                        fill="currentColor" />
+                                                </svg>
+                                            @else
+                                                <svg width="11" height="11" viewBox="0 0 16 16"
+                                                    fill="none" aria-hidden="true">
+                                                    <path d="M3 3L13 13M13 3L3 13" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" />
+                                                </svg>
+                                            @endif
                                             {{ $check['status'] }}
                                         </span>
                                     </li>
