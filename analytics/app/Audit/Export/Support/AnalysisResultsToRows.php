@@ -96,19 +96,40 @@ final class AnalysisResultsToRows
 
         if ($results->security !== null) {
             foreach ($results->security->checks as $check) {
-                $rows->push(new AnalysisRow('Security', $check->check, $check->value, $check->status->value));
+                $rows->push(new AnalysisRow(
+                    'Security',
+                    $check->check,
+                    $check->value,
+                    $check->status->value,
+                    $check->pageUrl,
+                    $this->flattenLocation(null, $check->affectedElements),
+                ));
             }
         }
 
         if ($results->accessibility !== null) {
             foreach ($results->accessibility->checks as $check) {
-                $rows->push(new AnalysisRow('Accessibility', $check->check, $check->value, $check->status->value));
+                $rows->push(new AnalysisRow(
+                    'Accessibility',
+                    $check->check,
+                    $check->value,
+                    $check->status->value,
+                    $check->pageUrl,
+                    $this->flattenLocation(null, $check->affectedElements),
+                ));
             }
         }
 
         if ($results->content !== null) {
             foreach ($results->content->checks as $check) {
-                $rows->push(new AnalysisRow('Content', $check->metric, $check->value, $check->status->value));
+                $rows->push(new AnalysisRow(
+                    'Content',
+                    $check->metric,
+                    $check->value,
+                    $check->status->value,
+                    $check->pageUrl,
+                    $this->flattenLocation(null, $check->affectedElements),
+                ));
             }
         }
 
@@ -119,17 +140,23 @@ final class AnalysisResultsToRows
                     check: $element->element,
                     value: $element->issues === [] ? null : implode('; ', $element->issues),
                     status: $element->status->value,
+                    pageUrl: $element->pageUrl,
+                    elementLocation: $this->flattenLocation(null, $element->affectedElements),
                 ));
             }
         }
 
         if ($results->performance !== null) {
             foreach ($results->performance->metrics as $metric => $value) {
+                $affectedResource = is_array($value) ? ($value['affected_resource'] ?? null) : null;
+
                 $rows->push(new AnalysisRow(
                     category: 'Performance',
                     check: (string) $metric,
                     value: is_scalar($value) ? (string) $value : json_encode($value),
                     status: '',
+                    pageUrl: $results->performance->url,
+                    elementLocation: $affectedResource,
                 ));
             }
         }
@@ -137,12 +164,60 @@ final class AnalysisResultsToRows
         if ($results->seo !== null) {
             foreach ($results->seo->pages as $page) {
                 foreach ($page->issues as $issue) {
-                    $rows->push(new AnalysisRow('SEO', $issue->check, $issue->message, $issue->severity->value));
+                    $rows->push(new AnalysisRow(
+                        'SEO',
+                        $issue->check,
+                        $issue->message,
+                        $issue->severity->value,
+                        $issue->pageUrl,
+                        $this->flattenLocation(
+                            null,
+                            $issue->elementUrl !== null || $issue->domPath !== null || $issue->context !== null
+                                ? [['url' => $issue->elementUrl, 'domPath' => $issue->domPath, 'detail' => $issue->context]]
+                                : null,
+                        ),
+                    ));
                 }
             }
         }
 
         return $rows;
+    }
+
+    /**
+     * Flattens a check's DOM path / affected-elements location data into
+     * a single human-readable string for a worksheet cell — the Excel
+     * counterpart to AnalysisResultsToDashboardCategories::location(),
+     * which keeps the same data structured for the dashboard view
+     * instead. Each affected element renders as "domPath — detail —
+     * url" (whichever parts are present), multiple elements joined with
+     * "; ". Null when there's nothing to show.
+     *
+     * @param ?array<int, array{url?: ?string, domPath?: ?string, detail?: ?string}> $affectedElements
+     */
+    private function flattenLocation(?string $domPath, ?array $affectedElements): ?string
+    {
+        $parts = [];
+
+        if ($domPath !== null && $domPath !== '') {
+            $parts[] = $domPath;
+        }
+
+        foreach ($affectedElements ?? [] as $element) {
+            $bits = array_filter([
+                $element['domPath'] ?? null,
+                $element['detail'] ?? null,
+                $element['url'] ?? null,
+            ], static fn (?string $bit): bool => $bit !== null && $bit !== '');
+
+            if ($bits !== []) {
+                $parts[] = implode(' — ', $bits);
+            }
+        }
+
+        $parts = array_values(array_unique($parts));
+
+        return $parts === [] ? null : implode('; ', $parts);
     }
 
     /**

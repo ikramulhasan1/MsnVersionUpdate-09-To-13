@@ -22,6 +22,7 @@ use App\Audit\Enums\BusinessOpportunityCheckStatus;
 use App\Audit\Enums\SeoSeverity;
 use App\Audit\Performance\DTO\PerformanceResult;
 use App\Audit\Seo\DTO\SeoAuditResult;
+use App\Audit\Seo\DTO\SeoIssue;
 use App\Audit\UiUx\DTO\UiUxResult;
 
 /**
@@ -299,14 +300,16 @@ final class AIRecommendationEngine
      */
     private function collectIssues(AnalysisResults $results): array
     {
+        $siteUrl = $results->url;
+
         $issues = [
-            ...$this->fromPassWarnFailChecks($results->security?->checks ?? [], 'security'),
-            ...$this->fromPassWarnFailChecks($results->accessibility?->checks ?? [], 'accessibility'),
-            ...$this->fromContentChecks($results->content?->checks ?? []),
-            ...$this->fromUiUx($results->uiUx),
-            ...$this->fromPerformance($results->performance),
-            ...$this->fromBusinessOpportunity($results->businessOpportunity),
-            ...$this->fromSeo($results->seo),
+            ...$this->fromPassWarnFailChecks($results->security?->checks ?? [], 'security', $siteUrl),
+            ...$this->fromPassWarnFailChecks($results->accessibility?->checks ?? [], 'accessibility', $siteUrl),
+            ...$this->fromContentChecks($results->content?->checks ?? [], $siteUrl),
+            ...$this->fromUiUx($results->uiUx, $siteUrl),
+            ...$this->fromPerformance($results->performance, $siteUrl),
+            ...$this->fromBusinessOpportunity($results->businessOpportunity, $siteUrl),
+            ...$this->fromSeo($results->seo, $siteUrl),
         ];
 
         usort(
@@ -320,12 +323,17 @@ final class AIRecommendationEngine
     /**
      * Shared by Security and Accessibility: both key their checks by
      * name and use an (identically-shaped but distinct) pass/warning/fail
-     * status enum with ->check, ->value, ->status, ->recommendation.
+     * status enum with ->check, ->value, ->status, ->recommendation,
+     * ->pageUrl, ->affectedElements — the latter two added across the
+     * multi-page analyzer work (SecurityCheckResult/
+     * AccessibilityCheckResult), populated into this issue's own
+     * $pageUrl/$elementLocation (see self::flattenAffectedElements())
+     * rather than left implicit.
      *
-     * @param array<string, object{check: string, value: ?string, status: object{value: string, label: callable(): string}, recommendation: ?string}> $checks
+     * @param array<string, object{check: string, value: ?string, status: object{value: string, label: callable(): string}, recommendation: ?string, pageUrl: ?string, affectedElements: ?array}> $checks
      * @return array<int, PriorityIssue>
      */
-    private function fromPassWarnFailChecks(array $checks, string $category): array
+    private function fromPassWarnFailChecks(array $checks, string $category, string $siteUrl): array
     {
         $issues = [];
 
@@ -338,11 +346,13 @@ final class AIRecommendationEngine
 
             $issues[] = new PriorityIssue(
                 category: $category,
-                issue: $check->check,
+                issue: $this->appendPageContext($check->check, $check->pageUrl, $siteUrl),
                 severity: $severity,
                 status: $check->status->label(),
                 value: $check->value,
                 recommendation: $check->recommendation,
+                pageUrl: $check->pageUrl,
+                elementLocation: $this->flattenAffectedElements($check->affectedElements),
             );
         }
 
@@ -353,7 +363,7 @@ final class AIRecommendationEngine
      * @param array<string, \App\Audit\Content\DTO\ContentCheckResult> $checks
      * @return array<int, PriorityIssue>
      */
-    private function fromContentChecks(array $checks): array
+    private function fromContentChecks(array $checks, string $siteUrl): array
     {
         $issues = [];
 
@@ -366,11 +376,13 @@ final class AIRecommendationEngine
 
             $issues[] = new PriorityIssue(
                 category: 'content',
-                issue: $check->metric,
+                issue: $this->appendPageContext($check->metric, $check->pageUrl, $siteUrl),
                 severity: $severity,
                 status: $check->status->label(),
                 value: $check->value,
                 recommendation: $check->recommendation,
+                pageUrl: $check->pageUrl,
+                elementLocation: $this->flattenAffectedElements($check->affectedElements),
             );
         }
 
@@ -380,7 +392,7 @@ final class AIRecommendationEngine
     /**
      * @return array<int, PriorityIssue>
      */
-    private function fromUiUx(?UiUxResult $uiUx): array
+    private function fromUiUx(?UiUxResult $uiUx, string $siteUrl): array
     {
         if ($uiUx === null) {
             return [];
@@ -395,14 +407,18 @@ final class AIRecommendationEngine
                 continue;
             }
 
+            $elementLocation = $this->flattenAffectedElements($element->affectedElements);
+
             if ($element->issues === []) {
                 $issues[] = new PriorityIssue(
                     category: 'ui_ux',
-                    issue: $element->element,
+                    issue: $this->appendPageContext($element->element, $element->pageUrl, $siteUrl),
                     severity: $severity,
                     status: $element->status->label(),
                     value: null,
                     recommendation: $element->suggestions[0] ?? null,
+                    pageUrl: $element->pageUrl,
+                    elementLocation: $elementLocation,
                 );
 
                 continue;
@@ -411,11 +427,17 @@ final class AIRecommendationEngine
             foreach ($element->issues as $index => $issueText) {
                 $issues[] = new PriorityIssue(
                     category: 'ui_ux',
-                    issue: sprintf('%s: %s', $element->element, $issueText),
+                    issue: $this->appendPageContext(
+                        sprintf('%s: %s', $element->element, $issueText),
+                        $element->pageUrl,
+                        $siteUrl,
+                    ),
                     severity: $severity,
                     status: $element->status->label(),
                     value: null,
                     recommendation: $element->suggestions[$index] ?? ($element->suggestions[0] ?? null),
+                    pageUrl: $element->pageUrl,
+                    elementLocation: $elementLocation,
                 );
             }
         }
@@ -430,10 +452,13 @@ final class AIRecommendationEngine
      * reliable signal available in this phase is the overall score —
      * one issue is raised for the page's performance as a whole rather
      * than guessing at a per-metric structure that doesn't exist yet.
+     * $performance->url still gives this issue a real page reference
+     * (via self::appendPageContext()) even without a per-metric
+     * elementLocation.
      *
      * @return array<int, PriorityIssue>
      */
-    private function fromPerformance(?PerformanceResult $performance): array
+    private function fromPerformance(?PerformanceResult $performance, string $siteUrl): array
     {
         if ($performance === null || $performance->score === null) {
             return [];
@@ -452,11 +477,12 @@ final class AIRecommendationEngine
         return [
             new PriorityIssue(
                 category: 'performance',
-                issue: 'Overall page performance',
+                issue: $this->appendPageContext('Overall page performance', $performance->url, $siteUrl),
                 severity: $severity,
                 status: $performance->grade ?? (string) $performance->score,
                 value: (string) $performance->score,
                 recommendation: $performance->summary,
+                pageUrl: $performance->url,
             ),
         ];
     }
@@ -468,10 +494,15 @@ final class AIRecommendationEngine
      * dimension (see WebsiteHealthIssue), so it is the correct source
      * for prioritizable issues without re-deriving severity from
      * ->checks and risking double-counting the same problems.
+     * WebsiteHealthIssue's own $pageUrl/$elementUrl (added across the
+     * multi-page analyzer work) populate this issue's $pageUrl/
+     * $elementLocation directly — $elementUrl already is a single URL
+     * string, so no flattening is needed the way affectedElements
+     * arrays require.
      *
      * @return array<int, PriorityIssue>
      */
-    private function fromBusinessOpportunity(?BusinessOpportunityResult $businessOpportunity): array
+    private function fromBusinessOpportunity(?BusinessOpportunityResult $businessOpportunity, string $siteUrl): array
     {
         if ($businessOpportunity === null) {
             return [];
@@ -487,11 +518,17 @@ final class AIRecommendationEngine
 
                 $issues[] = new PriorityIssue(
                     category: 'business_opportunity',
-                    issue: sprintf('%s: %s', str_replace('_', ' ', $category), $healthIssue->issue),
+                    issue: $this->appendPageContext(
+                        sprintf('%s: %s', str_replace('_', ' ', $category), $healthIssue->issue),
+                        $healthIssue->pageUrl,
+                        $siteUrl,
+                    ),
                     severity: $healthIssue->severity,
                     status: $healthIssue->status->label(),
                     value: null,
                     recommendation: $healthIssue->recommendation,
+                    pageUrl: $healthIssue->pageUrl,
+                    elementLocation: $healthIssue->elementUrl,
                 );
             }
         }
@@ -500,9 +537,17 @@ final class AIRecommendationEngine
     }
 
     /**
+     * Uses each SeoIssue's own $pageUrl (added across the multi-page
+     * analyzer work) rather than the containing PageSeoResult's ->url —
+     * in practice the same value, but reading it off the issue keeps
+     * this extractor consistent with every other one here, all of
+     * which read location data off the issue/check object itself.
+     * $elementLocation is built from whichever of domPath/context/
+     * elementUrl the issue carries (see self::seoElementLocation()).
+     *
      * @return array<int, PriorityIssue>
      */
-    private function fromSeo(?SeoAuditResult $seo): array
+    private function fromSeo(?SeoAuditResult $seo, string $siteUrl): array
     {
         if ($seo === null) {
             return [];
@@ -512,19 +557,92 @@ final class AIRecommendationEngine
 
         foreach ($seo->pages as $page) {
             foreach ($page->issues as $issue) {
+                $pageUrl = $issue->pageUrl ?? $page->url;
+
                 $issues[] = new PriorityIssue(
                     category: 'seo',
-                    issue: $issue->message,
+                    issue: $this->appendPageContext($issue->message, $pageUrl, $siteUrl),
                     severity: $issue->severity,
                     status: $issue->severity->label(),
                     value: null,
                     recommendation: $issue->recommendation,
-                    pageUrl: $page->url,
+                    pageUrl: $pageUrl,
+                    elementLocation: $this->seoElementLocation($issue),
                 );
             }
         }
 
         return $issues;
+    }
+
+    private function seoElementLocation(SeoIssue $issue): ?string
+    {
+        $bits = array_filter(
+            [$issue->domPath, $issue->context, $issue->elementUrl],
+            static fn (?string $bit): bool => $bit !== null && $bit !== '',
+        );
+
+        return $bits === [] ? null : implode(' — ', $bits);
+    }
+
+    /**
+     * Flattens an analyzer check's affectedElements array (shape
+     * array<int, array{url?: ?string, domPath?: ?string, detail?:
+     * ?string}>, per Security/Accessibility/Content/UI-UX's own DTOs)
+     * into a single human-readable string for PriorityIssue's
+     * $elementLocation — the same flattening
+     * AnalysisResultsToRows::flattenLocation() applies for the Excel
+     * export's "Element / Location" column, so both surfaces describe
+     * an issue's location the same way. Each element renders as
+     * "domPath — detail — url" (whichever parts are present), multiple
+     * elements joined with "; ". Null when there's nothing to show.
+     *
+     * @param ?array<int, array{url?: ?string, domPath?: ?string, detail?: ?string}> $affectedElements
+     */
+    private function flattenAffectedElements(?array $affectedElements): ?string
+    {
+        if ($affectedElements === null || $affectedElements === []) {
+            return null;
+        }
+
+        $parts = [];
+
+        foreach ($affectedElements as $element) {
+            $bits = array_filter([
+                $element['domPath'] ?? null,
+                $element['detail'] ?? null,
+                $element['url'] ?? null,
+            ], static fn (?string $bit): bool => $bit !== null && $bit !== '');
+
+            if ($bits !== []) {
+                $parts[] = implode(' — ', $bits);
+            }
+        }
+
+        $parts = array_values(array_unique($parts));
+
+        return $parts === [] ? null : implode('; ', $parts);
+    }
+
+    /**
+     * Appends a specific page reference to an issue's display text when
+     * one is known and it differs from the site's own start URL — e.g.
+     * "Title Tag" becomes "Title Tag (on https://example.com/about)".
+     * Previously, every issue's text left the page implicit (assumed to
+     * always be the entry page); now that Security/Accessibility/
+     * Content/UI-UX/SEO/Business Opportunity all analyze several pages,
+     * leaving that implicit would be actively misleading for an issue
+     * found on a page other than the site's own start URL. Returns the
+     * text unchanged when $pageUrl is null or matches $siteUrl exactly,
+     * since restating the already-obvious entry page adds nothing.
+     */
+    private function appendPageContext(string $issueText, ?string $pageUrl, string $siteUrl): string
+    {
+        if ($pageUrl === null || $pageUrl === $siteUrl) {
+            return $issueText;
+        }
+
+        return "{$issueText} (on {$pageUrl})";
     }
 
     private function severityFromPassWarnFail(string $status): ?SeoSeverity
@@ -685,6 +803,7 @@ final class AIRecommendationEngine
             pageUrl: $issue->pageUrl,
             estimatedHoursMin: $hoursMin,
             estimatedHoursMax: $hoursMax,
+            elementLocation: $issue->elementLocation,
         );
     }
 

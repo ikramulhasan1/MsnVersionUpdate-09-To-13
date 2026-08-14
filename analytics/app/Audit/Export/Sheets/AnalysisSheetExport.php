@@ -61,3 +61,4 @@ final class AnalysisSheetExport implements FromCollection, ShouldAutoSize, WithE
         return 'Analysis';
     }
 }
+

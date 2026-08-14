@@ -19,6 +19,15 @@ use App\Audit\Enums\SeoSeverity;
  * vocabularies. $status keeps the analyzer's own status label (e.g.
  * "Fail", "Critical") for display, while $severity is what
  * cross-category prioritization sorts on.
+ *
+ * $pageUrl and $elementLocation surface the same per-page/per-element
+ * location data each source analyzer's own DTO already carries
+ * (pageUrl/domPath/elementUrl/affectedElements, added across the
+ * multi-page analyzer work) — see
+ * AIRecommendationEngine::flattenAffectedElements() for how
+ * $elementLocation is built from an analyzer's affectedElements array,
+ * and AIRecommendationEngine::appendPageContext() for how $issue's own
+ * text gets a specific page reference instead of staying generic.
  */
 final readonly class PriorityIssue implements \JsonSerializable
 {
@@ -30,6 +39,7 @@ final readonly class PriorityIssue implements \JsonSerializable
         public ?string $value,
         public ?string $recommendation,
         public ?string $pageUrl = null,
+        public ?string $elementLocation = null,
     ) {
     }
 
@@ -46,6 +56,7 @@ final readonly class PriorityIssue implements \JsonSerializable
             'value' => $this->value,
             'recommendation' => $this->recommendation,
             'page_url' => $this->pageUrl,
+            'element_location' => $this->elementLocation,
         ];
     }
 

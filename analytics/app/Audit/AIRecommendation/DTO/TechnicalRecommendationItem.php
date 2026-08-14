@@ -8,12 +8,12 @@ use App\Audit\Enums\SeoSeverity;
 
 /**
  * One issue carried over from {@see PriorityIssue} — same category,
- * severity, status, recommendation, and page URL — plus an estimated
- * hours range to fix it. A separate DTO from PriorityIssue rather than
- * adding hours fields to it: PriorityIssue is shared with Issue
- * Priority (Prompt 14.2), which has no effort dimension, so its shape
- * is left untouched; this DTO is what Quick Wins and Long-Term Fixes
- * both build their items from.
+ * severity, status, recommendation, page URL, and element location —
+ * plus an estimated hours range to fix it. A separate DTO from
+ * PriorityIssue rather than adding hours fields to it: PriorityIssue is
+ * shared with Issue Priority (Prompt 14.2), which has no effort
+ * dimension, so its shape is left untouched; this DTO is what Quick
+ * Wins and Long-Term Fixes both build their items from.
  */
 final readonly class TechnicalRecommendationItem implements \JsonSerializable
 {
@@ -26,6 +26,7 @@ final readonly class TechnicalRecommendationItem implements \JsonSerializable
         public ?string $pageUrl,
         public int $estimatedHoursMin,
         public int $estimatedHoursMax,
+        public ?string $elementLocation = null,
     ) {
     }
 
@@ -41,6 +42,7 @@ final readonly class TechnicalRecommendationItem implements \JsonSerializable
             'status' => $this->status,
             'recommendation' => $this->recommendation,
             'page_url' => $this->pageUrl,
+            'element_location' => $this->elementLocation,
             'estimated_hours' => [
                 'min' => $this->estimatedHoursMin,
                 'max' => $this->estimatedHoursMax,

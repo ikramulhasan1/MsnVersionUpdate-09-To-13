@@ -10,8 +10,11 @@ use App\Audit\AIRecommendation\DTO\AnalysisResults;
 use App\Audit\BusinessOpportunity\BusinessOpportunityAnalyzer;
 use App\Audit\Content\ContentAnalyzer;
 use App\Audit\Crawler\DTO\CrawledPage;
+use App\Audit\Enums\SecurityCheckStatus;
 use App\Audit\Fetching\DTO\FetchResult;
 use App\Audit\Performance\PerformanceAnalyzer;
+use App\Audit\Security\DTO\SecurityCheckResult;
+use App\Audit\Security\DTO\SecurityResult;
 use App\Audit\Security\SecurityAnalyzer;
 use App\Audit\Technology\TechnologyDetector;
 use App\Audit\UiUx\UiUxAnalyzer;
@@ -169,5 +172,105 @@ final class AIRecommendationEngineTest extends TestCase
 
         $this->assertSame(0, $result->recommendations['issue_priority']['total_issues']);
         $this->assertNull($result->recommendations['executive_summary']['overall_score']);
+    }
+
+    public function test_issue_priority_items_carry_the_page_url_the_check_was_found_on(): void
+    {
+        $fetch = FetchResultFactory::make(
+            url: 'https://example.com/',
+            statusCode: 500,
+            includeDefaultSecurityHeaders: false,
+        );
+
+        $results = $this->analysisResultsFor($fetch);
+        $result = $this->engine()->analyze($results);
+
+        $items = $result->recommendations['issue_priority']['items'];
+        $this->assertNotEmpty($items);
+
+        foreach ($items as $item) {
+            $this->assertArrayHasKey('page_url', $item);
+            $this->assertArrayHasKey('element_location', $item);
+        }
+    }
+
+    public function test_quick_win_items_carry_page_url_and_element_location(): void
+    {
+        $fetch = FetchResultFactory::make(includeDefaultSecurityHeaders: false);
+        $results = $this->analysisResultsFor($fetch);
+        $result = $this->engine()->analyze($results);
+
+        $items = $result->recommendations['quick_wins']['items'];
+        $this->assertNotEmpty($items);
+
+        foreach ($items as $item) {
+            $this->assertArrayHasKey('page_url', $item);
+            $this->assertArrayHasKey('element_location', $item);
+        }
+    }
+
+    public function test_an_issue_found_on_a_page_other_than_the_sites_start_url_names_that_page_in_its_text(): void
+    {
+        // Hand-built SecurityResult rather than the real SecurityAnalyzer:
+        // the analyzer only ever produces single-page results via
+        // ->analyze(), so a check whose pageUrl differs from the site's
+        // own start URL (the scenario this test targets) has to be
+        // constructed directly.
+        $security = new SecurityResult(
+            url: 'https://example.com/pricing',
+            checks: [
+                'https' => new SecurityCheckResult(
+                    check: 'HTTPS',
+                    status: SecurityCheckStatus::FAIL,
+                    value: 'Not using HTTPS',
+                    recommendation: 'Serve the site over HTTPS.',
+                    pageUrl: 'https://example.com/pricing',
+                    affectedElements: [['url' => null, 'domPath' => null, 'detail' => 'Page served over HTTP']],
+                ),
+            ],
+            score: 40,
+            grade: 'D',
+            summary: 'Security score 40/100 (grade D).',
+            analyzedAt: '2026-01-01T00:00:00+00:00',
+        );
+
+        $results = new AnalysisResults(url: 'https://example.com/', security: $security);
+        $result = $this->engine()->analyze($results);
+
+        $items = $result->recommendations['issue_priority']['items'];
+        $this->assertNotEmpty($items);
+
+        $httpsItem = $items[0];
+        $this->assertSame('https://example.com/pricing', $httpsItem['page_url']);
+        $this->assertStringContainsString('https://example.com/pricing', $httpsItem['issue']);
+        $this->assertSame('Page served over HTTP', $httpsItem['element_location']);
+    }
+
+    public function test_an_issue_found_on_the_sites_own_start_url_does_not_repeat_it_in_the_text(): void
+    {
+        $security = new SecurityResult(
+            url: 'https://example.com/',
+            checks: [
+                'https' => new SecurityCheckResult(
+                    check: 'HTTPS',
+                    status: SecurityCheckStatus::FAIL,
+                    value: 'Not using HTTPS',
+                    recommendation: 'Serve the site over HTTPS.',
+                    pageUrl: 'https://example.com/',
+                ),
+            ],
+            score: 40,
+            grade: 'D',
+            summary: 'Security score 40/100 (grade D).',
+            analyzedAt: '2026-01-01T00:00:00+00:00',
+        );
+
+        $results = new AnalysisResults(url: 'https://example.com/', security: $security);
+        $result = $this->engine()->analyze($results);
+
+        $httpsItem = $result->recommendations['issue_priority']['items'][0];
+
+        $this->assertSame('HTTPS', $httpsItem['issue']);
+        $this->assertStringNotContainsString('(on ', $httpsItem['issue']);
     }
 }

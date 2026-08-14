@@ -21,7 +21,7 @@ final class AnalysisResultsToDashboardCategoriesLeadIntelligenceTest extends Tes
     }
 
     /**
-     * @return array<int, array{key: string, abbr: string, label: string, score: ?int, grade: ?string, summary: string, checks: array<int, array{name: string, status: string, note: ?string}>, recommendations: array<int, string>}>
+     * @return array<int, array{key: string, abbr: string, label: string, score: ?int, grade: ?string, summary: string, checks: array<int, array{name: string, status: string, note: ?string, location: array{page_url: ?string, dom_path: ?string, affected_elements: array<int, array{url: ?string, domPath: ?string, detail: ?string}>}}>, recommendations: array<int, string>}>
      */
     private function categories(AnalysisResults $results): array
     {
@@ -105,7 +105,7 @@ final class AnalysisResultsToDashboardCategoriesLeadIntelligenceTest extends Tes
             url: 'https://example.com/',
             contactInfo: new ContactInfoResult(
                 url: 'https://example.com/',
-                emails: [['value' => 'sales@example.com', 'sourceUrl' => 'https://example.com/']],
+                emails: [['value' => 'sales@example.com', 'sourceUrl' => 'https://example.com/contact']],
                 phones: [],
                 socialProfiles: [],
                 teamMembers: [],
@@ -121,6 +121,88 @@ final class AnalysisResultsToDashboardCategoriesLeadIntelligenceTest extends Tes
         $this->assertSame('sales@example.com', $emailCheck['note']);
         $this->assertSame('warning', $phoneCheck['status']);
         $this->assertNull($phoneCheck['note']);
+    }
+
+    public function test_contact_info_email_check_reports_its_affected_elements_location(): void
+    {
+        $results = new AnalysisResults(
+            url: 'https://example.com/',
+            contactInfo: new ContactInfoResult(
+                url: 'https://example.com/',
+                emails: [['value' => 'sales@example.com', 'sourceUrl' => 'https://example.com/contact']],
+                phones: [],
+                socialProfiles: [],
+                teamMembers: [],
+                analyzedAt: '2026-01-01T00:00:00+00:00',
+            ),
+        );
+
+        $checks = $this->leadCard($results)['checks'];
+        $emailCheck = current(array_filter($checks, static fn (array $c): bool => $c['name'] === 'Emails found'));
+
+        $this->assertArrayHasKey('location', $emailCheck);
+        $this->assertNull($emailCheck['location']['page_url']);
+        $this->assertCount(1, $emailCheck['location']['affected_elements']);
+        $this->assertStringContainsString(
+            'sales@example.com',
+            $emailCheck['location']['affected_elements'][0]['detail'],
+        );
+        $this->assertStringContainsString(
+            'https://example.com/contact',
+            $emailCheck['location']['affected_elements'][0]['detail'],
+        );
+    }
+
+    public function test_review_presence_check_reports_the_page_it_was_found_on(): void
+    {
+        $results = new AnalysisResults(
+            url: 'https://example.com/',
+            reviewPresence: new ReviewPresenceResult(
+                url: 'https://example.com/',
+                platforms: [
+                    'clutch' => 'https://clutch.co/profile/example-agency',
+                    'g2' => null,
+                    'goodfirms' => null,
+                    'google' => null,
+                ],
+                analyzedAt: '2026-01-01T00:00:00+00:00',
+                platformSourcePages: [
+                    'clutch' => 'https://example.com/about',
+                    'g2' => null,
+                    'goodfirms' => null,
+                    'google' => null,
+                ],
+            ),
+        );
+
+        $checks = $this->leadCard($results)['checks'];
+        $clutchCheck = current(array_filter($checks, static fn (array $c): bool => $c['name'] === 'Review presence: Clutch'));
+
+        $this->assertSame('https://example.com/about', $clutchCheck['location']['page_url']);
+        $this->assertSame('https://clutch.co/profile/example-agency', $clutchCheck['location']['affected_elements'][0]['url']);
+    }
+
+    public function test_a_check_with_no_location_data_still_has_the_location_shape(): void
+    {
+        $opportunity = new TechnologyUpgradeOpportunity(
+            slug: 'jquery',
+            technology: 'jQuery',
+            detectedVersion: '2.0',
+            reason: 'outdated',
+            suggestedService: 'upgrade',
+        );
+
+        $results = new AnalysisResults(
+            url: 'https://example.com/',
+            technologyUpgradeOpportunities: [$opportunity],
+        );
+
+        $checks = $this->leadCard($results)['checks'];
+
+        $this->assertSame(
+            ['page_url' => null, 'dom_path' => null, 'affected_elements' => []],
+            $checks[0]['location'],
+        );
     }
 
     public function test_technology_upgrade_opportunities_become_recommendations(): void
