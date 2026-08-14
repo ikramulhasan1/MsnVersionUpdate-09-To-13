@@ -530,9 +530,21 @@ final class AnalysisResultsToDashboardCategories
                 // Social profile links aren't tracked per-source-page —
                 // ContactInfoExtractor::extractSocialProfiles() only
                 // records the first matching URL per platform, not which
-                // page it was found on — so there's no page/element
-                // location to surface here.
-                'location' => $this->location(null),
+                // page it was found on — so there's no page-level location
+                // to surface here. The profile URLs themselves are real
+                // data though, so they're still surfaced as affected
+                // elements (one per platform) so the dashboard's existing
+                // "N affected elements" link list shows each clickable
+                // profile URL, not just the bare platform name.
+                'location' => $this->location(null, null, array_map(
+                    static fn (string $platform, string $url): array => [
+                        'url' => $url,
+                        'domPath' => null,
+                        'detail' => ucfirst($platform),
+                    ],
+                    array_keys($contactInfo->socialProfiles),
+                    array_values($contactInfo->socialProfiles),
+                )),
             ],
             [
                 'name' => 'Team members identified',

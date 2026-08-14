@@ -21,7 +21,24 @@
         href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('css/app.css/') }}">
+    {{--
+        Cache-busted via a ?v= query string built from the file's own
+        last-modified time (falls back to time() if the file somehow
+        isn't readable, e.g. an unusual deployment layout — never a
+        broken <link>) — every deploy that edits app.css automatically
+        changes this URL, so browsers fetch the fresh file immediately
+        instead of serving a stale cached copy until the next hard
+        refresh. This was very likely the cause of the "watermark
+        renders huge and fully opaque" symptom reported after the PDF/
+        dashboard polish pass: the HTML (dashboard.blade.php) picked up
+        the new watermark markup right away, but a browser that had
+        already cached the previous app.css kept using it — without the
+        watermark's own CSS rule (position/size/opacity), the SVG falls
+        back to normal inline flow at its default size and full opacity,
+        which matches exactly what was reported.
+    --}}
+    <link rel="stylesheet"
+        href="{{ asset('css/app.css') }}?v={{ file_exists(public_path('css/app.css')) ? filemtime(public_path('css/app.css')) : time() }}">
     @stack('styles')
 </head>
 
