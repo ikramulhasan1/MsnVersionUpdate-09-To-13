@@ -212,14 +212,7 @@ final class DiscoveryController extends Controller
             ->with('status', 'Added to your watchlist.');
     }
 
-    public function unwatch(DiscoveredWebsite $website): RedirectResponse
-    {
-        $website->watchlistItem()->delete();
-
-        return redirect()
-            ->route('discovery.show', $website)
-            ->with('status', 'Removed from your watchlist.');
-    }
+    
 
     /**
      * Backs the Watchlist page (Phase G1) — every DiscoveryWatchlistItem,
@@ -450,38 +443,6 @@ final class DiscoveryController extends Controller
         ]);
     }
 
-    /**
-     * Backs the Saved Searches page's "Enable/Disable Auto-Refresh"
-     * button (Phase F4) — without this, is_scheduled could never become
-     * true for any saved search, and RunScheduledDiscoverySearchJob
-     * would have nothing to run against. A plain toggle rather than a
-     * richer schedule-configuration UI (custom frequency, etc.): every
-     * scheduled search currently shares the same hourly cadence (see
-     * routes/console.php), so "on or off" is the only real choice to
-     * expose yet.
-     */
-    public function toggleScheduledSearch(DiscoverySearch $search): RedirectResponse
-    {
-        $search->update(['is_scheduled' => ! $search->is_scheduled]);
-
-        return redirect()
-            ->route('discovery.searches.index')
-            ->with('status', $search->is_scheduled
-                ? 'Auto-refresh enabled for "'.$search->name.'".'
-                : 'Auto-refresh disabled for "'.$search->name.'".');
-    }
-
-    public function watch(DiscoveredWebsite $website): RedirectResponse
-    {
-        DiscoveryWatchlistItem::query()->updateOrCreate(
-            ['discovered_website_id' => $website->id],
-        );
-
-        return redirect()
-            ->route('discovery.show', $website)
-            ->with('status', 'Added to your watchlist.');
-    }
-
     public function unwatch(DiscoveredWebsite $website): RedirectResponse
     {
         $website->watchlistItem()->delete();
@@ -491,18 +452,4 @@ final class DiscoveryController extends Controller
             ->with('status', 'Removed from your watchlist.');
     }
 
-    /**
-     * Backs the Watchlist page (Phase G1) — every DiscoveryWatchlistItem,
-     * newest first, eager-loading discoveredWebsite so
-     * discovery/watchlist.blade.php can reuse result-card.blade.php per
-     * item without an N+1 query (the same eager-loading reasoning
-     * WebsiteSearchService::query() already applies for the same
-     * relation on the main results grid).
-     */
-    public function watchlist(): View
-    {
-        return view('discovery.watchlist', [
-            'items' => DiscoveryWatchlistItem::query()->with('discoveredWebsite')->latest()->get(),
-        ]);
-    }
 }
