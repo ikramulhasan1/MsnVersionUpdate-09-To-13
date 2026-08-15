@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Discovery\Enums\BusinessSize;
 use App\Discovery\Enums\ContactAvailability;
+use App\Discovery\Enums\DiscoverySortOption;
 use App\Discovery\Enums\LastUpdatedRange;
 use App\Discovery\Enums\OpportunityFilter;
 use App\Discovery\Enums\ServerSoftware;
@@ -14,16 +15,19 @@ use App\Discovery\Enums\TrafficRange;
 use App\Discovery\Enums\WebsiteConnectivityStatus;
 use App\Discovery\Enums\WebsiteType;
 use App\Discovery\Geo\Contracts\GeoLookupServiceInterface;
-use App\Discovery\Search\DiscoveryFilterCriteria;
+use App\Discovery\Search\DTO\DiscoveryFilterCriteria;
 use App\Discovery\Search\WebsiteSearchService;
 use App\Discovery\Taxonomy\IndustryTaxonomyService;
 use App\Discovery\Taxonomy\IssueFilterOptions;
 use App\Discovery\Taxonomy\TechnologyFilterOptions;
+use App\Http\Requests\SaveDiscoverySearchRequest;
+use App\Http\Requests\SearchDiscoveryRequest;
 use App\Models\DiscoveredWebsite;
-use App\Models\DiscoveryWatchlistItem;
-use Illuminate\Http\JsonResponse;
+use App\Models\DiscoverySearch;
+use App\Models\DiscoveryWatchlistItem;use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 /**
@@ -32,15 +36,24 @@ use Illuminate\View\View;
  * (Technology filters) / C3 (Website Quality score sliders + specific
  * issue filters) / C4 (Opportunity filters) / C5 (Age, Business Size,
  * Traffic & Social filters) / C6 (Contact Availability — the first
- * filter actually wired to a real query).
+ * filter wired to a real query) / D1 (WebsiteSearchService now applies
+ * most Advanced Filters groups — see DiscoveryFilterCriteria's own
+ * docblock for exactly which ones, and which are still deliberately
+ * unrepresented) / D2 (search() now validates via
+ * SearchDiscoveryRequest, and index() returns paginated results) / F3
+ * (Saved Searches — searches()/storeSearch()/destroySearch()) / F4
+ * (Scheduled Search — toggleScheduledSearch(); the actual scheduled
+ * run + "N New Websites Found" count come from
+ * App\Discovery\Jobs\RunScheduledDiscoverySearchJob, not this
+ * controller) / G1 (Watchlist page — watchlist()).
  *
  * Wires up the module's routes (see routes/web.php) with real,
  * working controller actions and view/route-model-binding plumbing,
  * matching AuditController's own conventions (final class, uuid route-
- * model binding via DiscoveredWebsite::getRouteKeyName()). The actual
- * Industry/Niche + advanced-filter *query* logic (applying a submitted
- * filter to $websites) is intentionally NOT implemented here — that's
- * a later phase's work; see index()'s own docblock.
+ * model binding via DiscoveredWebsite::getRouteKeyName()). Industry/
+ * Niche + most Advanced Filters are now real, applied filters (Phase
+ * D1/D2) — see index()'s own docblock for the handful still
+ * deliberately unrepresented and why.
  *
  * IndustryTaxonomyService/GeoLookupServiceInterface are injected here
  * (not resolved inside a view) purely to fetch the Industry list and
@@ -115,13 +128,21 @@ final class DiscoveryController extends Controller
      * only submitting and round-tripping through the URL — see
      * DiscoveryFilterCriteria's own docblock for why this one filter
      * is wired end-to-end while every other group still isn't.
+     *
+     * $websites (Phase D2) is now a real LengthAwarePaginator, not a
+     * flat Collection — see WebsiteSearchService::paginate().
+     *
+     * $sortOptions (Phase D4) backs the Results section's "Sort By"
+     * dropdown — genuinely applied via WebsiteSearchService::query()'s
+     * own applySort(), not UI-only, since every column it sorts by
+     * already exists.
      */
     public function index(Request $request): View
     {
         $criteria = DiscoveryFilterCriteria::fromRequestFilters($request->query());
 
         return view('discovery.index', [
-            'websites' => $this->websiteSearchService->search($criteria),
+            'websites' => $this->websiteSearchService->paginate($criteria),
             'filters' => $request->query(),
             'industries' => $this->industryTaxonomy->industries(),
             'countries' => $this->geoLookup->countries(),
@@ -137,21 +158,31 @@ final class DiscoveryController extends Controller
             'trafficRanges' => TrafficRange::cases(),
             'socialPlatforms' => SocialPlatform::cases(),
             'contactAvailabilityOptions' => ContactAvailability::cases(),
+            'sortOptions' => DiscoverySortOption::cases(),
         ]);
     }
 
     /**
-     * Round-trips whatever filter fields were submitted back onto the
-     * index page as query parameters, so the search form behaves like
-     * a real search bar (a bookmarkable/shareable URL, browser back/
-     * forward works, the submitted values repopulate the form) even
-     * before index() actually applies them to a query — see this
-     * class's own docblock for why that part is deferred to a later
-     * phase.
+     * Validates the submitted search form via SearchDiscoveryRequest
+     * (Phase D2) — every enum-backed field checked against its real
+     * enum's own cases (Rule::enum(), see that request class's own
+     * docblock), every array/range field shape-checked — before
+     * redirecting the now-validated values onto the index page's query
+     * string. Redirecting with ->validated() rather than
+     * ->except('_token') means only fields that actually passed
+     * validation ever become part of the URL, so index()'s own
+     * DiscoveryFilterCriteria::fromRequestFilters() never has to guess
+     * whether a query-string value it's reading is trustworthy.
+     *
+     * Still a real, submittable, round-tripping endpoint (a
+     * bookmarkable/shareable index URL, browser back/forward works,
+     * the submitted values repopulate the form) — see this class's own
+     * docblock for why redirecting to index() rather than rendering
+     * results directly from here is the deliberate choice.
      */
-    public function search(Request $request): RedirectResponse
+    public function search(SearchDiscoveryRequest $request): RedirectResponse
     {
-        return redirect()->route('discovery.index', $request->except('_token'));
+        return redirect()->route('discovery.index', $request->validated());
     }
 
     public function show(DiscoveredWebsite $website): View
@@ -188,6 +219,182 @@ final class DiscoveryController extends Controller
         return redirect()
             ->route('discovery.show', $website)
             ->with('status', 'Removed from your watchlist.');
+    }
+
+    /**
+     * Backs the Watchlist page (Phase G1) — every DiscoveryWatchlistItem,
+     * newest first, eager-loading discoveredWebsite so
+     * discovery/watchlist.blade.php can reuse result-card.blade.php per
+     * item without an N+1 query (the same eager-loading reasoning
+     * WebsiteSearchService::query() already applies for the same
+     * relation on the main results grid).
+     */
+    public function watchlist(): View
+    {
+        return view('discovery.watchlist', [
+            'items' => DiscoveryWatchlistItem::query()->with('discoveredWebsite')->latest()->get(),
+        ]);
+    }
+
+    /**
+     * Backs the floating "Compare (N)" button's link
+     * (public/js/discovery-compare.js, Phase E2) — reads ?websites[]=...
+     * uuids, validates 2-5 (the same bounds that JS already enforces
+     * client-side before ever letting the button appear/navigate, so
+     * this is defensive backend validation for a malformed/hand-edited
+     * URL, not the primary UX guard), and hands the matching
+     * DiscoveredWebsite rows to discovery/compare.blade.php in the same
+     * order they were selected (whereIn() alone doesn't guarantee
+     * that — a comparison table where columns silently reorder between
+     * visits would be confusing).
+     */
+    public function compare(Request $request): View|RedirectResponse
+    {
+        $uuids = array_values(array_unique(array_filter(
+            (array) $request->query('websites', []),
+            static fn (mixed $value): bool => is_string($value) && $value !== '',
+        )));
+
+        if (count($uuids) < 2 || count($uuids) > 5) {
+            return redirect()
+                ->route('discovery.index')
+                ->with('status', 'Select 2 to 5 websites to compare.');
+        }
+
+        $websites = DiscoveredWebsite::query()->whereIn('uuid', $uuids)->get();
+
+        $ordered = collect($uuids)
+            ->map(static fn (string $uuid) => $websites->firstWhere('uuid', $uuid))
+            ->filter()
+            ->values();
+
+        if ($ordered->count() < 2) {
+            return redirect()
+                ->route('discovery.index')
+                ->with('status', 'Select 2 to 5 websites to compare.');
+        }
+
+        return view('discovery.compare', [
+            'websites' => $ordered,
+        ]);
+    }
+
+    /**
+     * Backs the Map View's marker layer (public/js/discovery-map.js,
+     * Phase E3) — the same DiscoveryFilterCriteria the current List
+     * View results were built from (read straight off the current
+     * query string, so switching views never shows a different result
+     * set than what's on screen), but UNPAGINATED (via
+     * WebsiteSearchService::search(), capped at 500) rather than one
+     * page at a time: a map is only useful if it shows the full
+     * geographic spread of matching results, not just the current
+     * page's 20. Only sites with both latitude and longitude are
+     * included — plotting a marker needs both, and neither is
+     * populated by any current enrichment job yet (see
+     * App\Discovery\Jobs\EnrichDiscoveredWebsiteJob's own docblock),
+     * so this may return an empty list until a future phase adds that.
+     */
+    public function mapData(Request $request): JsonResponse
+    {
+        $criteria = DiscoveryFilterCriteria::fromRequestFilters($request->query());
+
+        $points = $this->websiteSearchService->search($criteria, 500)
+            ->filter(static fn (DiscoveredWebsite $website): bool => $website->latitude !== null
+                && $website->longitude !== null)
+            ->map(static fn (DiscoveredWebsite $website): array => [
+                'uuid' => $website->uuid,
+                'name' => $website->business_name,
+                'domain' => $website->domain,
+                'lat' => (float) $website->latitude,
+                'lng' => (float) $website->longitude,
+                'seo_score' => $website->seo_score,
+                'performance_score' => $website->performance_score,
+                'security_score' => $website->security_score,
+                'accessibility_score' => $website->accessibility_score,
+                'show_url' => route('discovery.show', $website),
+            ])
+            ->values();
+
+        return response()->json(['websites' => $points]);
+    }
+
+    /**
+     * Backs the "Saved Searches" page (Phase F3) — every saved search,
+     * newest first. No per-user scoping (see DiscoverySearch's own
+     * docblock, and database/migrations/2026_08_14_000001_create_discovery_searches_table.php's
+     * — user_id is nullable, and nothing in this module currently
+     * requires authentication), so this lists every saved search
+     * regardless of who saved it.
+     */
+    public function searches(): View
+    {
+        return view('discovery.saved', [
+            'searches' => DiscoverySearch::query()->latest()->get(),
+        ]);
+    }
+
+    /**
+     * Backs the search panel's "Save this search" button (Phase F3) —
+     * validated via SaveDiscoverySearchRequest (the same filter rules
+     * SearchDiscoveryRequest already enforces, plus a required `name`
+     * — see that request class's own docblock), then redirects back to
+     * the results for those same filters (rather than to the Saved
+     * Searches list) so saving a search doesn't interrupt whatever the
+     * user was doing.
+     *
+     * uuid is generated here explicitly rather than by the model — see
+     * DiscoverySearch's own docblock: it deliberately has no booted()
+     * hook of its own, mirroring how Audit's own uuid is set by
+     * AuditService::create() rather than the Audit model itself.
+     */
+    public function storeSearch(SaveDiscoverySearchRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+        $name = $validated['name'];
+        unset($validated['name']);
+
+        DiscoverySearch::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'name' => $name,
+            'filters' => $validated,
+        ]);
+
+        return redirect()
+            ->route('discovery.index', $validated)
+            ->with('status', 'Search saved as "'.$name.'".');
+    }
+
+    /**
+     * Backs the "Delete" button on the Saved Searches page.
+     */
+    public function destroySearch(DiscoverySearch $search): RedirectResponse
+    {
+        $search->delete();
+
+        return redirect()
+            ->route('discovery.searches.index')
+            ->with('status', 'Saved search removed.');
+    }
+
+    /**
+     * Backs the Saved Searches page's "Enable/Disable Auto-Refresh"
+     * button (Phase F4) — without this, is_scheduled could never become
+     * true for any saved search, and RunScheduledDiscoverySearchJob
+     * would have nothing to run against. A plain toggle rather than a
+     * richer schedule-configuration UI (custom frequency, etc.): every
+     * scheduled search currently shares the same hourly cadence (see
+     * routes/console.php), so "on or off" is the only real choice to
+     * expose yet.
+     */
+    public function toggleScheduledSearch(DiscoverySearch $search): RedirectResponse
+    {
+        $search->update(['is_scheduled' => ! $search->is_scheduled]);
+
+        return redirect()
+            ->route('discovery.searches.index')
+            ->with('status', $search->is_scheduled
+                ? 'Auto-refresh enabled for "'.$search->name.'".'
+                : 'Auto-refresh disabled for "'.$search->name.'".');
     }
 
     /**
@@ -240,6 +447,62 @@ final class DiscoveryController extends Controller
                 $country,
                 is_string($region) && $region !== '' ? $region : null,
             ),
+        ]);
+    }
+
+    /**
+     * Backs the Saved Searches page's "Enable/Disable Auto-Refresh"
+     * button (Phase F4) — without this, is_scheduled could never become
+     * true for any saved search, and RunScheduledDiscoverySearchJob
+     * would have nothing to run against. A plain toggle rather than a
+     * richer schedule-configuration UI (custom frequency, etc.): every
+     * scheduled search currently shares the same hourly cadence (see
+     * routes/console.php), so "on or off" is the only real choice to
+     * expose yet.
+     */
+    public function toggleScheduledSearch(DiscoverySearch $search): RedirectResponse
+    {
+        $search->update(['is_scheduled' => ! $search->is_scheduled]);
+
+        return redirect()
+            ->route('discovery.searches.index')
+            ->with('status', $search->is_scheduled
+                ? 'Auto-refresh enabled for "'.$search->name.'".'
+                : 'Auto-refresh disabled for "'.$search->name.'".');
+    }
+
+    public function watch(DiscoveredWebsite $website): RedirectResponse
+    {
+        DiscoveryWatchlistItem::query()->updateOrCreate(
+            ['discovered_website_id' => $website->id],
+        );
+
+        return redirect()
+            ->route('discovery.show', $website)
+            ->with('status', 'Added to your watchlist.');
+    }
+
+    public function unwatch(DiscoveredWebsite $website): RedirectResponse
+    {
+        $website->watchlistItem()->delete();
+
+        return redirect()
+            ->route('discovery.show', $website)
+            ->with('status', 'Removed from your watchlist.');
+    }
+
+    /**
+     * Backs the Watchlist page (Phase G1) — every DiscoveryWatchlistItem,
+     * newest first, eager-loading discoveredWebsite so
+     * discovery/watchlist.blade.php can reuse result-card.blade.php per
+     * item without an N+1 query (the same eager-loading reasoning
+     * WebsiteSearchService::query() already applies for the same
+     * relation on the main results grid).
+     */
+    public function watchlist(): View
+    {
+        return view('discovery.watchlist', [
+            'items' => DiscoveryWatchlistItem::query()->with('discoveredWebsite')->latest()->get(),
         ]);
     }
 }

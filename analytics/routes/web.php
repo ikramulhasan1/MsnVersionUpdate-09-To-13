@@ -30,6 +30,29 @@ Route::prefix('discovery')->name('discovery.')->group(function (): void {
     Route::get('/regions', [DiscoveryController::class, 'regions'])->name('regions');
     Route::get('/cities', [DiscoveryController::class, 'cities'])->name('cities');
 
+    // Also placed before /{website} for the same reason — "compare"
+    // would otherwise be swallowed as a uuid route segment (Phase E2).
+    Route::get('/compare', [DiscoveryController::class, 'compare'])->name('compare');
+
+    // Same reasoning again — "map-data" before /{website} (Phase E3).
+    Route::get('/map-data', [DiscoveryController::class, 'mapData'])->name('map-data');
+
+    // "searches" before /{website} for the same reason again (Phase
+    // F3) — /discovery/searches would otherwise be swallowed as a uuid
+    // route segment.
+    Route::get('/searches', [DiscoveryController::class, 'searches'])->name('searches.index');
+    Route::post('/searches', [DiscoveryController::class, 'storeSearch'])->name('searches.store');
+    Route::delete('/searches/{search}', [DiscoveryController::class, 'destroySearch'])->name('searches.destroy');
+
+    // Toggles is_scheduled — without this, is_scheduled could never
+    // become true for any saved search, and Phase F4's whole scheduled-
+    // search/new-website-detection feature would have nothing to act on.
+    Route::patch('/searches/{search}/schedule', [DiscoveryController::class, 'toggleScheduledSearch'])
+        ->name('searches.toggle-schedule');
+
+    // "watchlist" before /{website} for the same reason again (Phase G1).
+    Route::get('/watchlist', [DiscoveryController::class, 'watchlist'])->name('watchlist');
+
     Route::get('/{website}', [DiscoveryController::class, 'show'])->name('show');
     Route::get('/{website}/watch', [DiscoveryController::class, 'watch'])->name('watch');
     Route::delete('/{website}/watch', [DiscoveryController::class, 'unwatch'])->name('unwatch');
