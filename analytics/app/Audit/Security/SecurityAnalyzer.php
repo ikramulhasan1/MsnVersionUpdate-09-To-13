@@ -36,14 +36,44 @@ use App\Audit\Validation\Contracts\SslInspectorInterface;
 final class SecurityAnalyzer
 {
     /**
+     * Every SecurityCheckResult::$check name this analyzer can
+     * produce. Unlike SeoIssue, SecurityCheckResult carries no
+     * separate machine-readable code field (see that DTO's own
+     * docblock) — $check itself (already a short, human-readable
+     * string like "XSS Protection") is the finest-grained identifier
+     * a single security check has.
+     *
+     * Public so App\Discovery\Taxonomy\IssueFilterOptions (Website
+     * Discovery module) can reuse this exact vocabulary for its
+     * "Security Issues" filter checkboxes, so a discovered site's
+     * issues are described with exactly the same terms an audit of
+     * that same site would use — no second, hand-duplicated list to
+     * keep in sync by hand.
+     *
+     * @var array<int, string>
+     */
+    public const array CHECK_NAMES = [
+        'HTTPS',
+        'SSL',
+        'Security Headers',
+        'HSTS',
+        'XSS Protection',
+        'Content Security Policy',
+        'Referrer Policy',
+        'Cookie Security',
+        'Mixed Content',
+        'Directory Listing',
+        'Server Information Exposure',
+    ];
+
+    /**
      * @param array<int, string> $requiredSecurityHeaders header names checked
      *        for presence under "Security Headers". Constructor-injected so
      *        the required set can change without editing this class.
-     * @param array<int, string> $cspUnsafeTokens directives/sources that weaken a CSP even when present
-     * @param array<int, string> $weakReferrerPolicies Referrer-Policy values treated as insufficiently strict
-     * @param array<int, string> $serverInfoHeaders response headers checked for version/technology disclosure
+     * ...
      */
     public function __construct(
+        // (constructor unchanged)
         private readonly SslInspectorInterface $sslInspector,
         private readonly int $sslTimeoutSeconds = 10,
         private readonly int $sslExpiryWarningDays = 14,

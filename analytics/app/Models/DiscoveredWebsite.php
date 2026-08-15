@@ -6,7 +6,6 @@ namespace App\Models;
 
 use App\Discovery\Enums\BusinessSize;
 use App\Discovery\Enums\WebsiteType;
-use App\Models\DiscoveryWatchlistItem;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -61,6 +60,7 @@ final class DiscoveredWebsite extends Model
         'estimated_traffic_range',
         'email',
         'phone',
+        'contact_page_url',
         'social_profiles',
         'discovery_source',
         'discovered_at',

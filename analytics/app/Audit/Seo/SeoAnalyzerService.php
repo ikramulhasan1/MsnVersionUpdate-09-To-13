@@ -30,6 +30,53 @@ final class SeoAnalyzerService implements SeoAnalyzerServiceInterface
      */
     private const int MAX_RECOMMENDATIONS = 15;
 
+    /**
+     * Every SeoIssue::$code this analyzer can produce, mapped to a
+     * short human-readable label. This is a snapshot alongside — not
+     * generated from — each check*() method's own inline `code:`
+     * values below; update it here too whenever a check*() method's
+     * code changes or a new one is added.
+     *
+     * Public so App\Discovery\Taxonomy\IssueFilterOptions (Website
+     * Discovery module) can reuse this exact vocabulary for its "SEO
+     * Issues" filter checkboxes, so a discovered site's issues are
+     * described with exactly the same terms an audit of that same
+     * site would use — no second, hand-duplicated list to keep in
+     * sync by hand.
+     *
+     * @var array<string, string>
+     */
+    public const array ISSUE_LABELS = [
+        'title_missing' => 'Missing Title Tag',
+        'title_too_short' => 'Title Too Short',
+        'title_too_long' => 'Title Too Long',
+        'description_missing' => 'Missing Meta Description',
+        'description_too_short' => 'Meta Description Too Short',
+        'description_too_long' => 'Meta Description Too Long',
+        'keywords_missing' => 'Missing Meta Keywords',
+        'keywords_stuffing' => 'Meta Keywords Stuffing',
+        'canonical_missing' => 'Missing Canonical Tag',
+        'canonical_points_elsewhere' => 'Canonical Points Elsewhere',
+        'robots_noindex' => 'Page Set to Noindex',
+        'robots_nofollow' => 'Page Set to Nofollow',
+        'open_graph_incomplete' => 'Incomplete Open Graph Tags',
+        'twitter_card_missing' => 'Missing Twitter Card Tags',
+        'schema_missing' => 'Missing Structured Data',
+        'schema_invalid' => 'Invalid Structured Data',
+        'heading_h1_missing' => 'Missing H1 Heading',
+        'heading_h1_multiple' => 'Multiple H1 Headings',
+        'heading_level_skipped' => 'Heading Level Skipped',
+        'heading_empty' => 'Empty Heading',
+        'alt_missing' => 'Missing Image Alt Text',
+        'image_missing_dimensions' => 'Image Missing Dimensions',
+        'internal_links_none' => 'No Internal Links',
+        'external_links_excessive' => 'Excessive External Links',
+        'broken_links_found' => 'Broken Links Found',
+        'thin_content' => 'Thin Content',
+        'duplicate_title' => 'Duplicate Title Tag',
+        'duplicate_description' => 'Duplicate Meta Description',
+    ];
+
     public function __construct(
         private readonly int $titleMinLength = 30,
         private readonly int $titleMaxLength = 60,

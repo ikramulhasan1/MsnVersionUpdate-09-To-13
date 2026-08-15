@@ -69,14 +69,20 @@ final class TechnologyDetector
 
     /**
      * Maps each technology slug produced by detect()'s $detections array
-     * to the category it belongs to under in the "Complete Technology
+     * to the category it belongs to under the "Complete Technology
      * Stack" / "Technology Summary" output (see TechnologyResult::$technologyStack
-     * and $technologySummary). Not yet consumed anywhere — added ahead of
-     * the stack/summary-building logic that will read it.
+     * and $technologySummary, and buildTechnologyStack()/buildTechnologySummary()
+     * below, which already read this).
+     *
+     * Public (not private) so App\Discovery\Taxonomy\TechnologyFilterOptions
+     * can group this same vocabulary into the Website Discovery
+     * module's Technology filter checkboxes (CMS/Framework/Ecommerce
+     * Platform/CDN) — the audit engine and the discovery filter share
+     * one list rather than keeping two in sync by hand.
      *
      * @var array<string, string>
      */
-    private const array CATEGORY_MAP = [
+    public const array CATEGORY_MAP = [
         'laravel' => 'Backend Framework',
         'wordpress' => 'CMS',
         'woocommerce' => 'Ecommerce',
@@ -97,6 +103,41 @@ final class TechnologyDetector
         'cloudflare' => 'Infrastructure',
     ];
 
+    /**
+     * The human-readable display name for each technology slug — the
+     * exact same string each detect*() method below already passes as
+     * its TechnologyDetectionResult's own $technology parameter (e.g.
+     * detectWordPress()'s `new TechnologyDetectionResult(technology: 'WordPress', ...)`).
+     * Kept here too, publicly, purely so a caller that only has a slug
+     * (e.g. TechnologyFilterOptions, building filter checkboxes from
+     * CATEGORY_MAP's keys) can resolve a display name without running
+     * detection at all — this does not replace or feed into the
+     * per-technology detect*() methods themselves, which remain the
+     * source of truth for a real detection result's own $technology
+     * value.
+     *
+     * @var array<string, string>
+     */
+    public const array TECHNOLOGY_NAMES = [
+        'laravel' => 'Laravel',
+        'wordpress' => 'WordPress',
+        'woocommerce' => 'WooCommerce',
+        'shopify' => 'Shopify',
+        'react' => 'React',
+        'vue' => 'Vue',
+        'angular' => 'Angular',
+        'nextjs' => 'Next.js',
+        'nuxt' => 'Nuxt',
+        'tailwind' => 'Tailwind CSS',
+        'bootstrap' => 'Bootstrap',
+        'jquery' => 'jQuery',
+        'google_analytics' => 'Google Analytics',
+        'google_tag_manager' => 'Google Tag Manager',
+        'facebook_pixel' => 'Facebook Pixel',
+        'microsoft_clarity' => 'Microsoft Clarity',
+        'google_ads' => 'Google Ads',
+        'cloudflare' => 'Cloudflare',
+    ];
     public function __construct(
         private readonly int $detectionThreshold = self::DETECTION_THRESHOLD,
     ) {}

@@ -53,8 +53,16 @@ final class ContactInfoExtractor
 
     /**
      * @var array<string, string> platform => URL-substring pattern
+     *
+     * Public so App\Discovery\Enums\SocialPlatform (Website Discovery
+     * module) can keep its own filter vocabulary in sync with the
+     * platforms this extractor actually recognizes — PHP enum cases
+     * can't be generated from this array directly (enums are fixed at
+     * compile time), so that enum's cases are hand-kept matching these
+     * same five keys rather than auto-derived, but at least both now
+     * live where a future change to one is visible next to the other.
      */
-    private const array SOCIAL_PLATFORM_PATTERNS = [
+    public const array SOCIAL_PLATFORM_PATTERNS = [
         'linkedin' => '#linkedin\.com/(company|in)/#i',
         'facebook' => '#facebook\.com/#i',
         'instagram' => '#instagram\.com/#i',

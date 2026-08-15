@@ -1,19 +1,30 @@
 {{--
-    Website Discovery — Phase A4 (page shell).
+    Website Discovery — Phase A4 (page shell) / B3 (search form UI).
 
-    Deliberately just two empty section placeholders — "Search panel"
-    and "Results" — for later prompts to fill in incrementally (the
-    Industry/Niche + advanced filter form in one, the results
-    list/table in another), rather than the working-but-unfiltered
-    form+list Phase A3 originally built here. $websites/$filters are
-    still passed in by App\Http\Controllers\DiscoveryController
-    unchanged, ready for the "Results" section to start using as soon
-    as a later prompt replaces its placeholder with real markup — no
-    controller change needed when that happens.
+    "Search panel" is now a real, working section — see
+    discovery/partials/search-panel.blade.php — with Industry/Sub-Niche
+    and Country/Region/City cascading dropdowns plus a UI-only Radius
+    field. "Results" is still an empty placeholder for a later prompt
+    to fill in, since actually applying $filters to a query is deferred
+    (see App\Http\Controllers\DiscoveryController's own docblock).
 
     Expects:
-      $websites   \Illuminate\Database\Eloquent\Collection<int, \App\Models\DiscoveredWebsite>
-      $filters    array<string, mixed> — whatever query params search() redirected back with
+      $websites         \Illuminate\Database\Eloquent\Collection<int, \App\Models\DiscoveredWebsite>
+      $filters          array<string, mixed> — whatever query params search() redirected back with
+      $industries       array<int, string> — from IndustryTaxonomyService::industries()
+      $countries        array<int, array{code: string, name: string}> — from GeoLookupServiceInterface::countries()
+      $websiteStatuses  array<int, App\Discovery\Enums\WebsiteConnectivityStatus> — from ::cases() (Phase C1)
+      $websiteTypes     array<int, App\Discovery\Enums\WebsiteType> — from ::cases() (Phase C1)
+      $technologyGroups array<string, array<int, array{slug: string, name: string}>> — from TechnologyFilterOptions::all() (Phase C2)
+      $serverSoftware   array<int, App\Discovery\Enums\ServerSoftware> — from ::cases() (Phase C2)
+      $seoIssues        array<int, array{code: string, label: string}> — from IssueFilterOptions::seoIssues() (Phase C3)
+      $securityIssues   array<int, array{code: string, label: string}> — from IssueFilterOptions::securityIssues() (Phase C3)
+      $opportunityFilters array<int, App\Discovery\Enums\OpportunityFilter> — from ::cases() (Phase C4)
+      $businessSizes    array<int, App\Discovery\Enums\BusinessSize> — from ::cases() (Phase C5)
+      $lastUpdatedRanges array<int, App\Discovery\Enums\LastUpdatedRange> — from ::cases() (Phase C5)
+      $trafficRanges    array<int, App\Discovery\Enums\TrafficRange> — from ::cases() (Phase C5)
+      $socialPlatforms  array<int, App\Discovery\Enums\SocialPlatform> — from ::cases() (Phase C5)
+      $contactAvailabilityOptions array<int, App\Discovery\Enums\ContactAvailability> — from ::cases() (Phase C6)
 --}}
 @extends('layouts.app')
 
@@ -28,14 +39,31 @@
             </div>
         </div>
 
-        {{-- Search panel — Industry/Niche + advanced filters land here in a later prompt. --}}
         <section class="mb-4" id="discovery-search-panel">
-            <div class="discovery-placeholder">
-                <p class="mb-0">Search panel — coming in a later prompt.</p>
-            </div>
+            @include('discovery.partials.search-panel', [
+                'industries' => $industries,
+                'countries' => $countries,
+                'filters' => $filters,
+                'websiteStatuses' => $websiteStatuses,
+                'websiteTypes' => $websiteTypes,
+                'technologyGroups' => $technologyGroups,
+                'serverSoftware' => $serverSoftware,
+                'seoIssues' => $seoIssues,
+                'securityIssues' => $securityIssues,
+                'opportunityFilters' => $opportunityFilters,
+                'businessSizes' => $businessSizes,
+                'lastUpdatedRanges' => $lastUpdatedRanges,
+                'trafficRanges' => $trafficRanges,
+                'socialPlatforms' => $socialPlatforms,
+                'contactAvailabilityOptions' => $contactAvailabilityOptions,
+            ])
         </section>
 
-        {{-- Results — the discovered-sites list/table lands here in a later prompt. --}}
+        {{--
+            Results — the discovered-sites list/table UI itself still lands here in a later prompt, but
+            $websites is now a real, filtered query result (Contact Availability — see
+            App\Discovery\Search\WebsiteSearchService), not just an unfiltered listing.
+        --}}
         <section id="discovery-results">
             <div class="discovery-placeholder">
                 <p class="mb-0">Results — coming in a later prompt.</p>
@@ -43,3 +71,7 @@
         </section>
     </section>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/discovery-search-panel.js') }}"></script>
+@endpush
