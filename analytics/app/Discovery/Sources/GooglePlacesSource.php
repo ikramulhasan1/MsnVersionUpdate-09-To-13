@@ -9,6 +9,7 @@ use App\Discovery\Sources\Contracts\DiscoverySourceInterface;
 use App\Discovery\Sources\DTO\DiscoveredWebsiteDTO;
 use GuzzleHttp\ClientInterface;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 /**
@@ -140,6 +141,11 @@ final class GooglePlacesSource implements DiscoverySourceInterface
             ]);
 
             if ($response->getStatusCode() !== 200) {
+                Log::warning('GooglePlacesSource: Text Search returned non-200 status', [
+                    'http_status' => $response->getStatusCode(),
+                    'body' => (string) $response->getBody(),
+                ]);
+
                 return collect();
             }
 
@@ -151,13 +157,22 @@ final class GooglePlacesSource implements DiscoverySourceInterface
             // "nothing matched" ZERO_RESULTS) collapses to the same empty
             // Collection.
             if (($decoded['status'] ?? null) !== 'OK') {
+                Log::warning('GooglePlacesSource: Text Search status was not OK', [
+                    'status' => $decoded['status'] ?? null,
+                    'error_message' => $decoded['error_message'] ?? null,
+                ]);
+
                 return collect();
             }
 
             $results = $decoded['results'] ?? [];
 
             return is_array($results) ? collect($results) : collect();
-        } catch (Throwable) {
+        } catch (Throwable $exception) {
+            Log::warning('GooglePlacesSource: Text Search request threw', [
+                'exception' => $exception->getMessage(),
+            ]);
+
             return collect();
         }
     }
@@ -184,7 +199,7 @@ final class GooglePlacesSource implements DiscoverySourceInterface
     }
 
     /**
-     * @param array<string, mixed> $place
+     * @param  array<string, mixed>  $place
      */
     private function toDto(array $place, DiscoveryFilterCriteria $criteria): ?DiscoveredWebsiteDTO
     {
@@ -238,12 +253,23 @@ final class GooglePlacesSource implements DiscoverySourceInterface
             ]);
 
             if ($response->getStatusCode() !== 200) {
+                Log::warning('GooglePlacesSource: Place Details returned non-200 status', [
+                    'http_status' => $response->getStatusCode(),
+                    'place_id' => $placeId,
+                ]);
+
                 return null;
             }
 
             $decoded = json_decode((string) $response->getBody(), associative: true, flags: JSON_THROW_ON_ERROR);
 
             if (($decoded['status'] ?? null) !== 'OK') {
+                Log::warning('GooglePlacesSource: Place Details status was not OK', [
+                    'place_id' => $placeId,
+                    'status' => $decoded['status'] ?? null,
+                    'error_message' => $decoded['error_message'] ?? null,
+                ]);
+
                 return null;
             }
 
@@ -278,7 +304,7 @@ final class GooglePlacesSource implements DiscoverySourceInterface
      * own docblock on why `country` is a free-form string, not a forced
      * ISO code).
      *
-     * @param array<int, mixed> $addressComponents
+     * @param  array<int, mixed>  $addressComponents
      */
     private function addressComponent(array $addressComponents, string $type): ?string
     {
