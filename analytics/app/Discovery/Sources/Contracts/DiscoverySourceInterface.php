@@ -17,7 +17,7 @@ use Illuminate\Support\Collection;
  * implementation bound today (App\Discovery\Sources\InternalCrawlSource,
  * bound in App\Providers\DiscoveryServiceProvider), and every future
  * implementation (a GoogleSearchSource calling a search API,
- * a BusinessDirectorySource calling a Yelp/Google-Places-style API,
+ * a BusinessDirectorySource calling a Google-Places-style API,
  * ...) a drop-in replacement — swap the binding, no caller changes.
  *
  * discover() takes the SAME DiscoveryFilterCriteria the manual search

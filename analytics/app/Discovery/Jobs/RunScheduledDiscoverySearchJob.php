@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Discovery\Jobs;
 
+use App\Discovery\Ingestion\DiscoveryIngestionService;
 use App\Discovery\Search\DTO\DiscoveryFilterCriteria;
 use App\Discovery\Search\WebsiteSearchService;
+use App\Discovery\Sources\Contracts\DiscoverySourceInterface;
 use App\Models\DiscoverySearch;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -29,6 +31,21 @@ use Throwable;
  * App\Discovery\Jobs\EnrichDiscoveredWebsiteJob (Phase D0) already
  * established for this module's own jobs.
  *
+ * Phase J1: before recounting, this job now ALSO actually goes and
+ * looks for brand new candidates — via every source in
+ * config('discovery.sources') (today: GooglePlacesSource,
+ * InternalCrawlSource), through the exact same
+ * App\Discovery\Ingestion\DiscoveryIngestionService the search panel's
+ * own "Discover More" button uses. Before this phase, "re-run" only
+ * ever meant "recount whatever discovered_websites already happened to
+ * gain from some OTHER search's own activity" — a saved search could
+ * sit at "0 new websites" forever even with a real, growing pool of
+ * matching businesses out there it never actually asked about. One
+ * ingestion failure (an API outage, a missing API key) is caught and
+ * reported rather than aborting the recount that follows — a saved
+ * search should still get an accurate LOCAL count even on a run where
+ * fresh discovery itself didn't work.
+ *
  * "New" means discovered_at is strictly after this search's own
  * last_run_at at the START of this run — not new_results_count itself,
  * which this job overwrites with the freshly computed value every time
@@ -42,7 +59,13 @@ use Throwable;
  * Dispatched by php artisan discovery:run-scheduled-searches (see
  * app/Console/Commands/RunScheduledDiscoverySearchesCommand.php), which
  * routes/console.php schedules to run periodically — not dispatched
- * directly by anything else in this module today.
+ * directly by anything else in this module today. Running real
+ * ingestion (Google Places API calls) on an HOURLY schedule for every
+ * scheduled search is a genuine API-quota/billing cost to keep in mind
+ * if the number of scheduled searches grows large — see
+ * GooglePlacesSource's own docblock for its per-call cost (1 search
+ * call + up to MAX_DETAIL_LOOKUPS detail lookups, each of which is
+ * separately billed).
  */
 final class RunScheduledDiscoverySearchJob implements ShouldQueue
 {
@@ -53,16 +76,30 @@ final class RunScheduledDiscoverySearchJob implements ShouldQueue
 
     public int $tries = 3;
 
-    public int $timeout = 60;
+    public int $timeout = 120;
 
     public function __construct(
         public readonly DiscoverySearch $search,
-    ) {
-    }
+    ) {}
 
-    public function handle(WebsiteSearchService $websiteSearchService): void
+    public function handle(WebsiteSearchService $websiteSearchService, DiscoveryIngestionService $ingestionService): void
     {
         $criteria = DiscoveryFilterCriteria::fromRequestFilters($this->search->filters);
+
+        try {
+            $sources = collect(config('discovery.sources', []))
+                ->map(static fn (string $class): DiscoverySourceInterface => app($class))
+                ->all();
+
+            $ingestionService->discoverAndIngest($criteria, $sources);
+        } catch (Throwable $exception) {
+            report($exception);
+            // See this class's own docblock — a failed discovery pass
+            // still deserves an accurate recount of whatever this
+            // search already matches locally, so execution continues
+            // rather than aborting the rest of this method.
+        }
+
         $previousRunAt = $this->search->last_run_at;
 
         $query = $websiteSearchService->query($criteria);

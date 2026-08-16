@@ -90,6 +90,37 @@
     only UI — see App\Http\Controllers\DiscoveryController::index()
     and App\Discovery\Search\WebsiteSearchService.
 
+    Phase F1 adds a "Boolean Query (Advanced)" free-text field at the
+    top of the Advanced Filters accordion body — App\Discovery\Search\BooleanQueryParser
+    parses it into AND/OR/NOT terms, genuinely applied via
+    WebsiteSearchService::applyBooleanQuery() against a fixed set of
+    free-text columns (business name, domain, industry, sub-niche,
+    every technology column) — see that parser's own docblock for the
+    exact grammar it supports (and its deliberate lack of
+    parentheses/operator precedence).
+
+    Phase J1 adds "Discover More" next to Search/Save — the module's
+    first REAL external data acquisition, not just searching whatever
+    discovered_websites already has. Same form, same filters, submitted
+    to a different route (formaction="{{ route('discovery.discover') }}")
+    via DiscoveryController::discover() — see that method's and
+    App\Discovery\Ingestion\DiscoveryIngestionService's own docblocks.
+    public/js/discovery-search-panel.js adds a confirm() before this
+    button submits, warning about the wait (a real external API call,
+    synchronous, no queue worker — same constraint bulkAudit() already
+    documents elsewhere in this module).
+
+    Phase D1 wires most of the remaining Advanced Filters groups
+    (Industry/Sub-Niche, Location, Website Type, Business Size,
+    Technology, Website Quality score ranges, Domain Age, Last Updated,
+    Est. Traffic, Social Media) into WebsiteSearchService alongside
+    Contact Availability — see App\Discovery\Search\DTO\DiscoveryFilterCriteria's
+    own docblock for exactly which ones, and for the handful (Website
+    Status, Opportunity, SEO/Security specific issues, Employee
+    Estimate, Radius) still deliberately left UI-only and why. No
+    markup in this file changed for D1 — every field already submitted
+    the right value; only the backend now reads most of them.
+
     Expects:
       $industries       array<int, string> — from IndustryTaxonomyService::industries()
       $countries        array<int, array{code: string, name: string}> — from GeoLookupServiceInterface::countries()
@@ -176,10 +207,36 @@
                         step="1" value="{{ $filters['radius'] ?? '' }}" placeholder="e.g. 25">
                 </div>
 
+                <div class="col-12 col-lg-3 d-flex align-items-end gap-2">
+                    <button type="submit" class="btn btn-primary flex-grow-1">Search</button>
+                    <button type="button" class="btn btn-outline-secondary flex-shrink-0"
+                        id="discovery-save-search-btn" title="Save this search">
+                        Save
+                    </button>
+                </div>
+
                 <div class="col-12 col-lg-3 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                    {{-- formaction submits this SAME form (same filters) to a different
+                         route than the form's own action="" — see search-panel.blade.php's
+                         own docblock (Phase J1) and public/js/discovery-search-panel.js's
+                         confirm()-before-submit handler for this button. --}}
+                    <button type="submit" formaction="{{ route('discovery.discover') }}"
+                        class="btn btn-outline-primary w-100" id="discovery-discover-btn"
+                        title="Search Google Places (and any other connected source) for new websites matching these filters">
+                        Discover More
+                    </button>
                 </div>
             </div>
+
+            <p class="text-secondary small mt-2 mb-0">
+                "Search" looks through websites this module already knows about. "Discover More" goes out
+                and looks for brand new ones (via Google Places and any other connected source) matching
+                these same filters — this can take up to 15-20 seconds.
+            </p>
+
+            {{-- Filled in by JS (public/js/discovery-search-panel.js's "Save this search"
+                 handler, Phase F3) before the form is submitted to searches.store. --}}
+            <input type="hidden" name="name" id="discovery-save-search-name">
 
             {{-- Advanced Filters — Website Status / Website Type checkboxes (Phase C1).
                  Reuses the exact accordion markup dashboard-components.blade.php's
@@ -197,6 +254,18 @@
                     <div id="discovery-advanced-filters-collapse" class="accordion-collapse collapse"
                         aria-labelledby="discovery-advanced-filters-heading">
                         <div class="accordion-body">
+                            <p class="fw-medium mb-1">Boolean Query <span
+                                    class="text-secondary small fw-normal">(Advanced)</span></p>
+                            <p class="text-secondary small mb-2">
+                                Combine terms with AND / OR / NOT — e.g.
+                                <code>Restaurant AND WordPress AND NOT Facebook</code>. Evaluated left to right;
+                                parentheses/grouping aren't supported yet. Use quotes for a multi-word term, e.g.
+                                <code>"fine dining"</code>.
+                            </p>
+                            <input type="text" class="form-control mb-4" name="boolean_query"
+                                id="discovery-boolean-query" value="{{ $filters['boolean_query'] ?? '' }}"
+                                placeholder="e.g. Restaurant AND WordPress AND NOT Facebook" maxlength="500">
+
                             <div class="row g-4">
                                 <div class="col-12 col-md-6">
                                     <p class="form-label small fw-medium mb-2">Website Status</p>
@@ -492,8 +561,8 @@
 
                             <p class="fw-medium mb-1">Contact Availability</p>
                             <p class="text-secondary small mb-3">
-                                The only filter here that actually narrows the results below — every other
-                                Advanced Filters field is still UI-only for now.
+                                Narrows the results below, like most of the Advanced Filters groups above (see
+                                the note at the bottom of this panel for the ones that don't yet).
                             </p>
                             <div class="row g-2">
                                 <div class="col-12 col-sm-6 col-lg-3">
@@ -524,9 +593,11 @@
             </div>
 
             <p class="text-secondary small mb-0 mt-3">
-                Opportunity score filtering is coming in a later phase of this module. Radius search and every
-                other field/checkbox above are UI-only for now — they don't filter results yet. Contact
-                Availability is the one exception — it already narrows the results.
+                Industry/Sub-Niche, Location, Website Type, Business Size, Technology, Website Quality score
+                ranges, Domain Age, Last Updated, Est. Traffic, Social Media, Contact Availability, and the
+                Boolean Query field all narrow the results below. Website Status, Opportunity, SEO/Security
+                specific issues, Employee Estimate, and Radius are still UI-only for now — they submit and
+                round-trip, but don't filter yet.
             </p>
         </form>
     </div>

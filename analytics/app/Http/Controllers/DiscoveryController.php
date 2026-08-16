@@ -20,6 +20,7 @@ use App\Discovery\Enums\WebsiteType;
 use App\Discovery\Export\DiscoveredWebsitesToExportRows;
 use App\Discovery\Export\DiscoveryResultsExport;
 use App\Discovery\Geo\Contracts\GeoLookupServiceInterface;
+use App\Discovery\Ingestion\DiscoveryIngestionService;
 use App\Discovery\Search\DTO\DiscoveryFilterCriteria;
 use App\Discovery\Search\WebsiteSearchService;
 use App\Discovery\Taxonomy\IndustryTaxonomyService;
@@ -61,7 +62,10 @@ use Symfony\Component\HttpFoundation\Response;
  * injected there, not constructor-injected here — see that method's
  * own docblock for the real production incident that reasoning fixes)
  * / I1 (Search Analytics mini-dashboard — analytics computed by
- * SearchAnalyticsService, not this controller).
+ * SearchAnalyticsService, not this controller) / J1 (discover() —
+ * the module's first real external data acquisition; see
+ * App\Discovery\Ingestion\DiscoveryIngestionService's own docblock for
+ * what turns a source's candidates into real, persisted rows).
  *
  * Wires up the module's routes (see routes/web.php) with real,
  * working controller actions and view/route-model-binding plumbing,
@@ -212,6 +216,55 @@ final class DiscoveryController extends Controller
     public function search(SearchDiscoveryRequest $request): RedirectResponse
     {
         return redirect()->route('discovery.index', $request->validated());
+    }
+
+    /**
+     * Backs the search panel's "Discover More" button (added alongside
+     * "Save this search" — see search-panel.blade.php's own docblock
+     * for both) — the first time this module ever actually goes and
+     * finds NEW candidate websites rather than only searching whatever
+     * discovered_websites already happens to contain. Every source
+     * listed in config('discovery.sources') (today: GooglePlacesSource,
+     * InternalCrawlSource) runs against the SAME filters just
+     * submitted, via DiscoveryIngestionService — see that class's own
+     * docblock for exactly how a candidate becomes a real, deduplicated
+     * DiscoveredWebsite row.
+     *
+     * Validated the same way search() itself is (SearchDiscoveryRequest)
+     * before redirecting back to the results for those same filters —
+     * so a "Discover More" click behaves like an ordinary search
+     * submission from the user's point of view, just with an extra
+     * "go look for brand new candidates first" step before the results
+     * render.
+     *
+     * Synchronous, in this same request — this app has no queue worker
+     * (see bulkAudit()'s own docblock for the same constraint elsewhere
+     * in this controller), so a Google Places search plus up to
+     * GooglePlacesSource::MAX_DETAIL_LOOKUPS detail lookups all happen
+     * before this method returns; a real, noticeable wait (several
+     * seconds) is expected and is why the button's own confirm()
+     * dialog warns about it.
+     */
+    public function discover(
+        SearchDiscoveryRequest $request,
+        DiscoveryIngestionService $ingestionService,
+    ): RedirectResponse {
+        $validated = $request->validated();
+        $criteria = DiscoveryFilterCriteria::fromRequestFilters($validated);
+
+        $sources = collect(config('discovery.sources', []))
+            ->map(static fn (string $class) => app($class))
+            ->all();
+
+        $result = $ingestionService->discoverAndIngest($criteria, $sources);
+
+        return redirect()
+            ->route('discovery.index', $validated)
+            ->with('status', sprintf(
+                '%d new website(s) discovered and queued for scoring (%d already known).',
+                $result->created,
+                $result->skippedExisting,
+            ));
     }
 
     public function show(DiscoveredWebsite $website): View
