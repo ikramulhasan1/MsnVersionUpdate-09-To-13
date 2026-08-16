@@ -309,15 +309,33 @@
 @endpush
 
 @push('scripts')
-    <script src="{{ asset('js/discovery-search-panel.js') }}"></script>
-    <script src="{{ asset('js/discovery-compare.js') }}"></script>
-    <script src="{{ asset('js/discovery-bulk-audit.js') }}"></script>
+    {{--
+        Cache-busted with ?v={filemtime}, the same pattern layouts/app.blade.php's own
+        app.css link already uses — plain asset() alone (as these five previously were)
+        let LiteSpeed Cache/the browser keep serving an old cached copy of a JS file
+        after it changed on disk, which is exactly what silently broke the Sub-Niche/
+        Region/City cascade and "Save this search" in production once before: the fix
+        was deployed, but nothing ever told the cache the file was different now.
+    --}}
+    <script
+        src="{{ asset('js/discovery-search-panel.js') }}?v={{ file_exists(public_path('js/discovery-search-panel.js')) ? filemtime(public_path('js/discovery-search-panel.js')) : time() }}">
+    </script>
+    <script
+        src="{{ asset('js/discovery-compare.js') }}?v={{ file_exists(public_path('js/discovery-compare.js')) ? filemtime(public_path('js/discovery-compare.js')) : time() }}">
+    </script>
+    <script
+        src="{{ asset('js/discovery-bulk-audit.js') }}?v={{ file_exists(public_path('js/discovery-bulk-audit.js')) ? filemtime(public_path('js/discovery-bulk-audit.js')) : time() }}">
+    </script>
     {{-- Chart.js + dashboard-charts.js (Phase I1) — the exact same CDN version and
          local file the audit result page already loads for its own charts; see that
          file's own docblock for how it now serves both pages via per-chart canvas
          guards. --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-    <script src="{{ asset('js/dashboard-charts.js') }}"></script>
+    <script
+        src="{{ asset('js/dashboard-charts.js') }}?v={{ file_exists(public_path('js/dashboard-charts.js')) ? filemtime(public_path('js/dashboard-charts.js')) : time() }}">
+    </script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="{{ asset('js/discovery-map.js') }}"></script>
+    <script
+        src="{{ asset('js/discovery-map.js') }}?v={{ file_exists(public_path('js/discovery-map.js')) ? filemtime(public_path('js/discovery-map.js')) : time() }}">
+    </script>
 @endpush

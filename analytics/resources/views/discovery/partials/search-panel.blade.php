@@ -109,7 +109,8 @@
       $contactAvailabilityOptions array<int, App\Discovery\Enums\ContactAvailability> — from ::cases() (Phase C6)
 --}}
 <div class="card" id="discovery-search-panel-card" data-sub-niches-url="{{ route('discovery.sub-niches') }}"
-    data-regions-url="{{ route('discovery.regions') }}" data-cities-url="{{ route('discovery.cities') }}">
+    data-regions-url="{{ route('discovery.regions') }}" data-cities-url="{{ route('discovery.cities') }}"
+    data-searches-store-url="{{ route('discovery.searches.store') }}">
     <div class="card-body p-4">
         <form method="POST" action="{{ route('discovery.search') }}" id="discovery-search-form">
             @csrf

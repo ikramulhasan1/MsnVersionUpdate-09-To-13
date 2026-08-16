@@ -7,21 +7,28 @@ namespace App\Discovery\Geo;
 use App\Discovery\Geo\Contracts\GeoLookupServiceInterface;
 
 /**
- * Reads country/region data from two static JSON files at
- * storage/app/geo/countries.json and storage/app/geo/regions.json —
- * a deliberately lightweight starting point for the Website Discovery
- * module's Location filter, chosen over a Composer package (e.g.
- * league/iso3166) so this module has no new external dependency to
- * install/verify for what is, for the country list at least, a
- * genuinely small, rarely-changing dataset.
+ * Reads country/region data from two static JSON files bundled
+ * alongside this class (app/Discovery/Geo/data/countries.json and
+ * regions.json) — a deliberately lightweight starting point for the
+ * Website Discovery module's Location filter, chosen over a Composer
+ * package (e.g. league/iso3166) so this module has no new external
+ * dependency to install/verify for what is, for the country list at
+ * least, a genuinely small, rarely-changing dataset.
  *
- * Reads via storage_path() + plain file functions rather than the
- * Storage facade's 'local' disk: this Laravel installation's 'local'
- * disk root is storage/app/private (config/filesystems.php), not
- * storage/app itself, so Storage::disk('local') would look in the
- * wrong place for files at storage/app/geo/... — storage_path('app/geo/...')
- * always resolves to exactly that path regardless of how any disk's
- * root is configured.
+ * Resolved via __DIR__ (a PHP-native constant that always points to
+ * THIS file's own directory, regardless of how Laravel's own path
+ * helpers are configured), NOT storage_path() — this is a fix, not a
+ * style preference: on at least one real shared-hosting deployment of
+ * this app, storage_path('app/geo/countries.json') silently resolved
+ * to a location where the file didn't exist. readJsonFile()'s own
+ * is_file()/is_readable() guard then quietly returned an empty array
+ * rather than throwing, so the symptom wasn't a crash — it was the
+ * Country dropdown rendering with zero options and no error anywhere
+ * to explain why. Storing the data next to this class and resolving it
+ * with __DIR__ removes the dependency on Laravel's base_path()/
+ * storage_path() detection working correctly on any given host
+ * entirely; a plain PHP constant can't be misconfigured by a hosting
+ * environment's document-root/symlink setup the way those helpers can.
  *
  * What this implementation can and can't do, by design:
  *   - countries(): the full ISO 3166-1 alpha-2 country list — small
@@ -64,10 +71,9 @@ final class JsonGeoLookupService implements GeoLookupServiceInterface
     private ?array $regionsCache = null;
 
     public function __construct(
-        private readonly string $countriesPath = 'app/geo/countries.json',
-        private readonly string $regionsPath = 'app/geo/regions.json',
-    ) {
-    }
+        private readonly string $countriesPath = __DIR__.'/data/countries.json',
+        private readonly string $regionsPath = __DIR__.'/data/regions.json',
+    ) {}
 
     /**
      * @return array<int, array{code: string, name: string}>
@@ -103,10 +109,8 @@ final class JsonGeoLookupService implements GeoLookupServiceInterface
      * @param  array<string|int, mixed>  $default
      * @return array<mixed>
      */
-    private function readJsonFile(string $relativePath, array $default): array
+    private function readJsonFile(string $fullPath, array $default): array
     {
-        $fullPath = storage_path($relativePath);
-
         if (! is_file($fullPath) || ! is_readable($fullPath)) {
             return $default;
         }
