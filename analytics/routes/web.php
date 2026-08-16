@@ -20,7 +20,7 @@ Route::get('/audits/{audit}/export-excel', [AuditController::class, 'exportExcel
 Route::prefix('discovery')->name('discovery.')->group(function (): void {
     Route::get('/', [DiscoveryController::class, 'index'])->name('index');
     Route::post('/search', [DiscoveryController::class, 'search'])->name('search');
-
+    Route::post('/discover', [DiscoveryController::class, 'discover'])->name('discover');
     // JSON endpoints backing the search panel's cascading dropdowns
     // (Sub-Niche after Industry, Region/City after Country) — see
     // DiscoveryController's own docblock. Placed before /{website} so
