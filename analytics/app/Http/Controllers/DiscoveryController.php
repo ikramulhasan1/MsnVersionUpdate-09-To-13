@@ -57,9 +57,11 @@ use Symfony\Component\HttpFoundation\Response;
  * controller) / G1 (Watchlist page — watchlist()) / H1 (Bulk Audit —
  * bulkAudit(), reusing the existing single-audit pipeline in a loop,
  * not a new audit engine) / H2 (Export — export(), one row-mapping
- * pipeline shared across Excel/CSV/PDF/JSON) / I1 (Search Analytics
- * mini-dashboard — analytics computed by SearchAnalyticsService, not
- * this controller).
+ * pipeline shared across Excel/CSV/PDF/JSON; Excel/PDF are METHOD-
+ * injected there, not constructor-injected here — see that method's
+ * own docblock for the real production incident that reasoning fixes)
+ * / I1 (Search Analytics mini-dashboard — analytics computed by
+ * SearchAnalyticsService, not this controller).
  *
  * Wires up the module's routes (see routes/web.php) with real,
  * working controller actions and view/route-model-binding plumbing,
@@ -94,8 +96,6 @@ final class DiscoveryController extends Controller
         private readonly IssueFilterOptions $issueFilterOptions,
         private readonly WebsiteSearchService $websiteSearchService,
         private readonly SearchAnalyticsService $searchAnalyticsService,
-        private readonly Excel $excel,
-        private readonly PDF $pdf,
     ) {}
 
     /**
@@ -342,8 +342,21 @@ final class DiscoveryController extends Controller
      * applies for its own unpaginated fetch) rather than one page at a
      * time — exporting only the current page of 20 would defeat the
      * point of a bulk export.
+     *
+     * Excel/PDF are METHOD-injected here, not constructor-injected —
+     * this was a real production bug, not a style choice: constructor
+     * injection means Laravel's container must build EVERY dependency
+     * on EVERY call to ANY method on this controller, so a
+     * barryvdh/laravel-dompdf PDF instance failing to resolve on one
+     * particular host (its own ServiceProvider throwing "Cannot resolve
+     * public path", seen on a shared-hosting environment where
+     * public_path() doesn't resolve the way that package expects) broke
+     * the entire Discovery module — index(), watch(), search(), all of
+     * it — not just this one export() action that actually needs PDF.
+     * Method injection means only a request that actually reaches
+     * export() ever asks the container to build these two.
      */
-    public function export(Request $request): Response|JsonResponse
+    public function export(Request $request, Excel $excel, PDF $pdf): Response|JsonResponse
     {
         $format = strtolower((string) $request->query('format', 'excel'));
         $criteria = DiscoveryFilterCriteria::fromRequestFilters($request->query());
@@ -353,12 +366,12 @@ final class DiscoveryController extends Controller
 
         return match ($format) {
             'json' => response()->json(['websites' => $rows]),
-            'csv' => $this->excel->download(new DiscoveryResultsExport($rows), 'discovered-websites.csv'),
-            'pdf' => $this->pdf
+            'csv' => $excel->download(new DiscoveryResultsExport($rows), 'discovered-websites.csv'),
+            'pdf' => $pdf
                 ->loadView('discovery.pdf.export', ['rows' => $rows])
                 ->setPaper('a4', 'landscape')
                 ->download('discovered-websites.pdf'),
-            default => $this->excel->download(new DiscoveryResultsExport($rows), 'discovered-websites.xlsx'),
+            default => $excel->download(new DiscoveryResultsExport($rows), 'discovered-websites.xlsx'),
         };
     }
 
