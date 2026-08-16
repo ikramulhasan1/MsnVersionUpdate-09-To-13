@@ -53,6 +53,14 @@ Route::prefix('discovery')->name('discovery.')->group(function (): void {
     // "watchlist" before /{website} for the same reason again (Phase G1).
     Route::get('/watchlist', [DiscoveryController::class, 'watchlist'])->name('watchlist');
 
+    // POST route — no {website}-shaped wildcard conflict, but grouped here
+    // with this module's other action routes for readability (Phase H1).
+    Route::post('/bulk-audit', [DiscoveryController::class, 'bulkAudit'])->name('bulk-audit');
+
+    // "export" before /{website} for the same reason as every other
+    // static segment in this group (Phase H2).
+    Route::get('/export', [DiscoveryController::class, 'export'])->name('export');
+
     Route::get('/{website}', [DiscoveryController::class, 'show'])->name('show');
     Route::get('/{website}/watch', [DiscoveryController::class, 'watch'])->name('watch');
     Route::delete('/{website}/watch', [DiscoveryController::class, 'unwatch'])->name('unwatch');

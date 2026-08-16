@@ -8,6 +8,8 @@ use App\Discovery\Geo\Contracts\GeoLookupServiceInterface;
 use App\Discovery\Geo\JsonGeoLookupService;
 use App\Discovery\Search\Contracts\NaturalLanguageQueryParserInterface;
 use App\Discovery\Search\NaturalLanguageQueryParser;
+use App\Discovery\Sources\Contracts\DiscoverySourceInterface;
+use App\Discovery\Sources\InternalCrawlSource;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -25,6 +27,14 @@ use Illuminate\Support\ServiceProvider;
  * rule-based NaturalLanguageQueryParser today — see that class's own
  * docblock for exactly what it can/can't recognize. Swapping in a
  * future LLM-backed implementation is the same one-line change here.
+ *
+ * DiscoverySourceInterface (Phase I3) is bound to InternalCrawlSource
+ * today — the module's first and only discovery source. A future
+ * GoogleSearchSource/BusinessDirectorySource/... implementation is
+ * the same one-line rebind here; a caller wanting several sources at
+ * once would resolve each concrete class directly (or a small array of
+ * bindings tagged for that purpose) rather than this single default
+ * binding trying to represent more than one source simultaneously.
  */
 final class DiscoveryServiceProvider extends ServiceProvider
 {
@@ -32,20 +42,11 @@ final class DiscoveryServiceProvider extends ServiceProvider
     {
         $this->app->bind(GeoLookupServiceInterface::class, JsonGeoLookupService::class);
         $this->app->bind(NaturalLanguageQueryParserInterface::class, NaturalLanguageQueryParser::class);
+        $this->app->bind(DiscoverySourceInterface::class, InternalCrawlSource::class);
     }
 
     public function boot(): void
     {
-        // This whole app is built on Bootstrap 5 (see the CDN link in
-        // resources/views/layouts/app.blade.php) — Laravel's own
-        // pagination views default to Tailwind CSS classes, which would
-        // render completely unstyled here. Website Discovery's result
-        // list (Phase D3, resources/views/discovery/index.blade.php's
-        // $websites->links() call) is this app's first use of Laravel's
-        // paginator, so this wasn't needed until now.
         //
-        // (Note: Paginator::useBootstrapFive() lives in AppServiceProvider,
-        // not here — this boot() is intentionally empty; Discovery-specific
-        // service registration happens in register() above.)
     }
 }

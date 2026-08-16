@@ -30,6 +30,14 @@ use Illuminate\Support\Facades\Schema;
  *     a repeat discovery of the same URL should update the existing
  *     row, not create a duplicate.
  *
+ *     Phase I2 note: at the time this migration was written, `url_hash`
+ *     really was a plain md5(url) digest — App\Discovery\Normalization\DomainNormalizer
+ *     (added later, once duplicate near-identical URLs turned out to
+ *     slip past this same ->unique() constraint) now normalizes scheme/
+ *     www/trailing-slash before DiscoveredWebsite::booted() hashes it,
+ *     so this column's own type/uniqueness here is unchanged, only what
+ *     App\Models\DiscoveredWebsite feeds into md5() before storing it.
+ *
  * Every technographic/scoring/contact column is nullable: a site can
  * be discovered (and therefore searchable/filterable on whatever is
  * already known) well before every enrichment signal has been

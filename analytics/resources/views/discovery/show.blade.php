@@ -29,13 +29,29 @@
     Expects:
       $website     App\Models\DiscoveredWebsite
       $isWatched   bool
+
+    Phase G3 computes the Opportunity indicator (Overview tab) and its
+    full breakdown (Business Intelligence tab) via a live
+    App\Discovery\Scoring\OpportunityScorer call rather than the raw
+    (never-populated) DiscoveredWebsite::$opportunity_score column —
+    see that scorer's own docblock for the exact SEO/Performance/
+    Mobile/Accessibility/Technology-Age formula.
+
+    Phase G4 adds a "Recommended Services" badge row (Business
+    Intelligence tab) from App\Discovery\Scoring\ServiceOpportunityDetector
+    — the exact six rules App\Discovery\Enums\OpportunityFilter::criterion()
+    already documented back in Phase C4, finally evaluated against real
+    site data. See that detector's own docblock for exactly how honest
+    each of the six rules can be with the data this module currently has.
 --}}
 @extends('layouts.app')
 
 @section('title', $website->business_name ?? $website->domain)
 
 @php
-    $opportunityLevel = \App\Discovery\Enums\OpportunityLevel::fromScore($website->opportunity_score);
+    $opportunityResult = new \App\Discovery\Scoring\OpportunityScorer()->score($website);
+    $serviceOpportunities = new \App\Discovery\Scoring\ServiceOpportunityDetector()->detect($website);
+    $opportunityLevel = \App\Discovery\Enums\OpportunityLevel::fromScore($opportunityResult->score);
     $opportunityColor = match ($opportunityLevel) {
         \App\Discovery\Enums\OpportunityLevel::HIGH => 'var(--audit-danger)',
         \App\Discovery\Enums\OpportunityLevel::MEDIUM => 'var(--audit-warning)',
@@ -184,13 +200,12 @@
                                 @endif
                             </div>
 
-                            <div class="d-flex align-items-center gap-2 flex-shrink-0">
+                            <div class="d-flex align-items-center gap-2 flex-shrink-0"
+                                title="{{ $opportunityResult->summary }}">
                                 <span class="opportunity-dot" style="background-color: {{ $opportunityColor }};"></span>
                                 <span class="small fw-medium">
                                     {{ $opportunityLevel->label() }} Opportunity
-                                    @if ($website->opportunity_score !== null)
-                                        ({{ $website->opportunity_score }}/100)
-                                    @endif
+                                    ({{ $opportunityResult->score }}/100)
                                 </span>
                             </div>
                         </div>
@@ -412,8 +427,46 @@
                             <dd class="col-sm-8 d-flex align-items-center gap-2">
                                 <span class="opportunity-dot" style="background-color: {{ $opportunityColor }};"></span>
                                 {{ $opportunityLevel->label() }}
-                                @if ($website->opportunity_score !== null)
-                                    ({{ $website->opportunity_score }}/100)
+                                ({{ $opportunityResult->score }}/100, grade {{ $opportunityResult->grade }})
+                            </dd>
+
+                            <dt class="col-sm-4">Opportunity Breakdown</dt>
+                            <dd class="col-sm-8">
+                                <ul class="list-unstyled mb-0 small">
+                                    <li>SEO: {{ $opportunityResult->breakdown['seo'] }} / 25 pts</li>
+                                    <li>Performance: {{ $opportunityResult->breakdown['performance'] }} / 25 pts</li>
+                                    <li>Mobile: {{ $opportunityResult->breakdown['mobile'] }} / 20 pts</li>
+                                    <li>
+                                        Accessibility: {{ $opportunityResult->breakdown['accessibility'] }} / 15 pts
+                                    </li>
+                                    <li>
+                                        Technology Age: {{ $opportunityResult->breakdown['technology_age'] }} / 15 pts
+                                    </li>
+                                </ul>
+                                <p class="text-secondary small mb-0 mt-1">
+                                    Mobile and Technology Age currently read 0 for most sites — neither
+                                    mobile_score nor last_updated_at is populated by any enrichment job yet, so
+                                    those buckets have no real data to score from.
+                                </p>
+                            </dd>
+
+                            <dt class="col-sm-4">Recommended Services</dt>
+                            <dd class="col-sm-8">
+                                @if ($serviceOpportunities === [])
+                                    <span class="text-secondary small">
+                                        None detected yet — either this site doesn't meet any of the six
+                                        opportunity rules below its current data, or that data isn't available
+                                        yet (see the note above about Mobile/Technology Age).
+                                    </span>
+                                @else
+                                    <div class="d-flex flex-wrap gap-2">
+                                        @foreach ($serviceOpportunities as $opportunity)
+                                            <span class="badge bg-danger-subtle text-danger-emphasis"
+                                                title="{{ $opportunity->reason }}">
+                                                {{ $opportunity->serviceName }}
+                                            </span>
+                                        @endforeach
+                                    </div>
                                 @endif
                             </dd>
 

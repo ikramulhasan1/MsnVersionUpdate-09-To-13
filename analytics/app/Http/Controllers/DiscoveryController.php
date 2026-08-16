@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Audit\DTO\CreateAuditData;
+use App\Audit\Services\Contracts\AuditServiceInterface;
+use App\Discovery\Analytics\SearchAnalyticsService;
 use App\Discovery\Enums\BusinessSize;
 use App\Discovery\Enums\ContactAvailability;
 use App\Discovery\Enums\DiscoverySortOption;
@@ -14,6 +17,8 @@ use App\Discovery\Enums\SocialPlatform;
 use App\Discovery\Enums\TrafficRange;
 use App\Discovery\Enums\WebsiteConnectivityStatus;
 use App\Discovery\Enums\WebsiteType;
+use App\Discovery\Export\DiscoveredWebsitesToExportRows;
+use App\Discovery\Export\DiscoveryResultsExport;
 use App\Discovery\Geo\Contracts\GeoLookupServiceInterface;
 use App\Discovery\Search\DTO\DiscoveryFilterCriteria;
 use App\Discovery\Search\WebsiteSearchService;
@@ -24,11 +29,15 @@ use App\Http\Requests\SaveDiscoverySearchRequest;
 use App\Http\Requests\SearchDiscoveryRequest;
 use App\Models\DiscoveredWebsite;
 use App\Models\DiscoverySearch;
-use App\Models\DiscoveryWatchlistItem;use Illuminate\Http\JsonResponse;
+use App\Models\DiscoveryWatchlistItem;
+use Barryvdh\DomPDF\PDF;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Maatwebsite\Excel\Excel;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Website Discovery — Phase A3 (routes + navbar) / A4 (page shell) /
@@ -45,7 +54,12 @@ use Illuminate\View\View;
  * (Scheduled Search — toggleScheduledSearch(); the actual scheduled
  * run + "N New Websites Found" count come from
  * App\Discovery\Jobs\RunScheduledDiscoverySearchJob, not this
- * controller) / G1 (Watchlist page — watchlist()).
+ * controller) / G1 (Watchlist page — watchlist()) / H1 (Bulk Audit —
+ * bulkAudit(), reusing the existing single-audit pipeline in a loop,
+ * not a new audit engine) / H2 (Export — export(), one row-mapping
+ * pipeline shared across Excel/CSV/PDF/JSON) / I1 (Search Analytics
+ * mini-dashboard — analytics computed by SearchAnalyticsService, not
+ * this controller).
  *
  * Wires up the module's routes (see routes/web.php) with real,
  * working controller actions and view/route-model-binding plumbing,
@@ -66,14 +80,23 @@ use Illuminate\View\View;
  */
 final class DiscoveryController extends Controller
 {
+    /**
+     * See bulkAudit()'s own docblock for why this is capped so low —
+     * this app runs every audit's full pipeline synchronously, in the
+     * same request, with no queue worker.
+     */
+    private const int MAX_BULK_AUDIT = 5;
+
     public function __construct(
         private readonly IndustryTaxonomyService $industryTaxonomy,
         private readonly GeoLookupServiceInterface $geoLookup,
         private readonly TechnologyFilterOptions $technologyFilterOptions,
         private readonly IssueFilterOptions $issueFilterOptions,
         private readonly WebsiteSearchService $websiteSearchService,
-    ) {
-    }
+        private readonly SearchAnalyticsService $searchAnalyticsService,
+        private readonly Excel $excel,
+        private readonly PDF $pdf,
+    ) {}
 
     /**
      * $industries/$countries are the two top-level dropdowns the
@@ -136,6 +159,11 @@ final class DiscoveryController extends Controller
      * dropdown — genuinely applied via WebsiteSearchService::query()'s
      * own applySort(), not UI-only, since every column it sorts by
      * already exists.
+     *
+     * $analytics (Phase I1) is the "Search Analytics" mini-dashboard
+     * data — see SearchAnalyticsService's own docblock for exactly how
+     * each figure is computed and why three of its four are a capped
+     * sample rather than exact for a very large result set.
      */
     public function index(Request $request): View
     {
@@ -159,6 +187,7 @@ final class DiscoveryController extends Controller
             'socialPlatforms' => SocialPlatform::cases(),
             'contactAvailabilityOptions' => ContactAvailability::cases(),
             'sortOptions' => DiscoverySortOption::cases(),
+            'analytics' => $this->searchAnalyticsService->analyze($criteria),
         ]);
     }
 
@@ -212,7 +241,14 @@ final class DiscoveryController extends Controller
             ->with('status', 'Added to your watchlist.');
     }
 
-    
+    public function unwatch(DiscoveredWebsite $website): RedirectResponse
+    {
+        $website->watchlistItem()->delete();
+
+        return redirect()
+            ->route('discovery.show', $website)
+            ->with('status', 'Removed from your watchlist.');
+    }
 
     /**
      * Backs the Watchlist page (Phase G1) — every DiscoveryWatchlistItem,
@@ -227,6 +263,103 @@ final class DiscoveryController extends Controller
         return view('discovery.watchlist', [
             'items' => DiscoveryWatchlistItem::query()->with('discoveredWebsite')->latest()->get(),
         ]);
+    }
+
+    /**
+     * Backs the Results section's "Bulk Audit Selected" floating bar
+     * (Phase H1) — reuses the EXACT existing single-audit pipeline
+     * (AuditServiceInterface::submit()/run(), the same two calls
+     * AuditController::store() itself already makes for one URL — see
+     * that method's own docblock) once per selected website, rather
+     * than a new bulk-specific audit engine.
+     *
+     * This app has no queue worker (QUEUE_CONNECTION=sync — see
+     * AuditService::run()'s own docblock): each audit's full pipeline
+     * runs synchronously, in this same request, one after another. That
+     * makes a large bulk selection genuinely slow (and risks a web
+     * server/proxy request timeout) — capped at self::MAX_BULK_AUDIT
+     * (5) for exactly that reason, the same cap
+     * public/js/discovery-compare.js already uses for its own selection
+     * limit, chosen here to keep worst-case wait time bounded rather
+     * than for any UI-consistency reason. A future phase moving this
+     * app onto a real queue worker would let this cap grow (or go away
+     * entirely) without this method's own logic changing.
+     */
+    public function bulkAudit(Request $request, AuditServiceInterface $auditService): RedirectResponse
+    {
+        $uuids = array_values(array_unique(array_filter(
+            (array) $request->input('bulk_audit', []),
+            static fn (mixed $value): bool => is_string($value) && $value !== '',
+        )));
+
+        if ($uuids === []) {
+            return redirect()
+                ->route('discovery.index')
+                ->with('status', 'Select at least one website to audit.');
+        }
+
+        $uuids = array_slice($uuids, 0, self::MAX_BULK_AUDIT);
+
+        $websites = DiscoveredWebsite::query()->whereIn('uuid', $uuids)->get();
+
+        $completedAudits = [];
+
+        foreach ($websites as $website) {
+            $audit = $auditService->submit(CreateAuditData::fromArray(['url' => $website->url]));
+
+            // wasRecentlyCreated is false when submit() returned an
+            // already-in-flight/completed audit for this URL instead of
+            // creating a new one — the same duplicate-prevention check
+            // AuditController::store() already relies on; running the
+            // pipeline again here would be redundant.
+            if ($audit->wasRecentlyCreated) {
+                $auditService->run($audit);
+            }
+
+            $completedAudits[] = ['uuid' => $audit->uuid, 'url' => $website->url];
+        }
+
+        return redirect()
+            ->route('discovery.index')
+            ->with('status', sprintf('%d website(s) audited.', count($completedAudits)))
+            ->with('bulkAuditResults', $completedAudits);
+    }
+
+    /**
+     * Backs the export links (Phase H2) — ?format=excel|csv|pdf|json,
+     * defaulting to excel. Every format reads from the exact same
+     * DiscoveredWebsitesToExportRows mapping (see that class's own
+     * docblock for why Opportunity Score is live-computed rather than
+     * read off the never-populated DiscoveredWebsite::$opportunity_score
+     * column), so all four always show identical columns/values for the
+     * same filtered result set — only the file format differs.
+     *
+     * Uses the SAME DiscoveryFilterCriteria the current List/Map View
+     * results were built from (read straight off the query string, so
+     * an export link built from the current page's own URL exports
+     * exactly what's on screen), unpaginated (capped at 1000, the same
+     * "cap rather than truly unbounded" reasoning mapData() already
+     * applies for its own unpaginated fetch) rather than one page at a
+     * time — exporting only the current page of 20 would defeat the
+     * point of a bulk export.
+     */
+    public function export(Request $request): Response|JsonResponse
+    {
+        $format = strtolower((string) $request->query('format', 'excel'));
+        $criteria = DiscoveryFilterCriteria::fromRequestFilters($request->query());
+
+        $websites = $this->websiteSearchService->search($criteria, 1000);
+        $rows = (new DiscoveredWebsitesToExportRows)->map($websites);
+
+        return match ($format) {
+            'json' => response()->json(['websites' => $rows]),
+            'csv' => $this->excel->download(new DiscoveryResultsExport($rows), 'discovered-websites.csv'),
+            'pdf' => $this->pdf
+                ->loadView('discovery.pdf.export', ['rows' => $rows])
+                ->setPaper('a4', 'landscape')
+                ->download('discovered-websites.pdf'),
+            default => $this->excel->download(new DiscoveryResultsExport($rows), 'discovered-websites.xlsx'),
+        };
     }
 
     /**
@@ -442,14 +575,4 @@ final class DiscoveryController extends Controller
             ),
         ]);
     }
-
-    public function unwatch(DiscoveredWebsite $website): RedirectResponse
-    {
-        $website->watchlistItem()->delete();
-
-        return redirect()
-            ->route('discovery.show', $website)
-            ->with('status', 'Removed from your watchlist.');
-    }
-
 }
