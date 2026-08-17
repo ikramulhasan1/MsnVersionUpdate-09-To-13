@@ -13,7 +13,7 @@ return [
     */
     'show_warnings' => false,   // Throw an Exception on warnings from dompdf
 
-    'public_path' => base_path('public_html'), // আপনার আসল public ফোল্ডারের নাম/লোকেশন বসান
+    'public_path' => public_path(), // আপনার আসল public ফোল্ডারের নাম/লোকেশন বসান
     /*
      * Dejavu Sans font is missing glyphs for converted entities, turn it off if you need to show € and £.
      */
