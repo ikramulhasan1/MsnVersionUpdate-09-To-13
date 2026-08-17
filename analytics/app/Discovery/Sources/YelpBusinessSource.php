@@ -74,7 +74,15 @@ final class YelpBusinessSource implements DiscoverySourceInterface
      */
     private const int SEARCH_LIMIT = 20;
 
-    private const int MAX_DETAIL_LOOKUPS = 20;
+    /**
+     * Lowered from an earlier 20 — see
+     * App\Discovery\Sources\GooglePlacesSource::MAX_DETAIL_LOOKUPS's own
+     * docblock for the real production 504 Gateway Time-out this
+     * addresses, and DiscoveryController::discover()'s own docblock for
+     * the fastcgi_finish_request() fix that addresses nginx's side of
+     * the same incident.
+     */
+    private const int MAX_DETAIL_LOOKUPS = 10;
 
     private const int TIMEOUT_SECONDS = 15;
 

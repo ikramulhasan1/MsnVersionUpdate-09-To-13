@@ -237,13 +237,27 @@ final class DiscoveryController extends Controller
      * "go look for brand new candidates first" step before the results
      * render.
      *
-     * Synchronous, in this same request — this app has no queue worker
-     * (see bulkAudit()'s own docblock for the same constraint elsewhere
-     * in this controller), so a Google Places (and Yelp) search plus up
-     * to each source's own MAX_DETAIL_LOOKUPS detail lookups all happen
-     * before this method returns; a real, noticeable wait (several
-     * seconds) is expected and is why the button's own confirm()
-     * dialog warns about it.
+     * fastcgi_finish_request() — a REAL production fix, not a
+     * precaution: this app has no queue worker (see bulkAudit()'s own
+     * docblock for the same constraint elsewhere in this controller),
+     * and two external APIs' worth of search + up to
+     * MAX_DETAIL_LOOKUPS-per-source detail calls easily exceeds nginx's
+     * own default gateway timeout (60s) — a real "504 Gateway Time-out"
+     * was hit in production once the actual ingestion work grew past
+     * what a single HTTP request/response cycle can wait for.
+     * AuditController::store() already established this EXACT technique
+     * for the same underlying reason (its own docblock explains it in
+     * full) — the redirect is flushed to the browser and its connection
+     * closed FIRST, then discoverAndIngest() keeps running in this same
+     * PHP-FPM worker process afterward, so nginx never sees a response
+     * that took longer than its own timeout to arrive. The trade-off:
+     * since the redirect is sent before discovery actually finishes,
+     * this method can no longer report a real created/skippedExisting
+     * count in that redirect's flash message — see the status text
+     * below, which says "started in the background" rather than
+     * reporting numbers it doesn't have yet. A person clicking
+     * "Discover More" needs to reload discovery.index a little later
+     * (15-30s) to see any new results actually appear.
      */
     public function discover(
         SearchDiscoveryRequest $request,
@@ -252,19 +266,30 @@ final class DiscoveryController extends Controller
         $validated = $request->validated();
         $criteria = DiscoveryFilterCriteria::fromRequestFilters($validated);
 
+        $response = redirect()
+            ->route('discovery.index', $validated)
+            ->with('status', 'Discovery started in the background — refresh this page in about '
+                .'15-30 seconds to see any new results.');
+
+        // See this method's own docblock for the production incident
+        // this fixes — same technique, same caveats (only available
+        // under PHP-FPM; falls back to finishing discovery before the
+        // redirect goes out anywhere else, e.g. `php artisan serve` or
+        // Octane) as AuditController::store()'s own use of this
+        // function.
+        if (function_exists('fastcgi_finish_request')) {
+            $response->prepare($request);
+            $response->send();
+            fastcgi_finish_request();
+        }
+
         $sources = collect(config('discovery.sources', []))
             ->map(static fn (string $class) => app($class))
             ->all();
 
-        $result = $ingestionService->discoverAndIngest($criteria, $sources);
+        $ingestionService->discoverAndIngest($criteria, $sources);
 
-        return redirect()
-            ->route('discovery.index', $validated)
-            ->with('status', sprintf(
-                '%d new website(s) discovered and queued for scoring (%d already known).',
-                $result->created,
-                $result->skippedExisting,
-            ));
+        return $response;
     }
 
     public function show(DiscoveredWebsite $website): View

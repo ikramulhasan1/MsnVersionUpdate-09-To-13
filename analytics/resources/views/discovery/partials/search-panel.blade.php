@@ -139,10 +139,8 @@
       $socialPlatforms  array<int, App\Discovery\Enums\SocialPlatform> — from ::cases() (Phase C5)
       $contactAvailabilityOptions array<int, App\Discovery\Enums\ContactAvailability> — from ::cases() (Phase C6)
 --}}
-<div class="card" id="discovery-search-panel-card"
-    data-sub-niches-url="{{ route('discovery.sub-niches') }}"
-    data-regions-url="{{ route('discovery.regions') }}"
-    data-cities-url="{{ route('discovery.cities') }}"
+<div class="card" id="discovery-search-panel-card" data-sub-niches-url="{{ route('discovery.sub-niches') }}"
+    data-regions-url="{{ route('discovery.regions') }}" data-cities-url="{{ route('discovery.cities') }}"
     data-searches-store-url="{{ route('discovery.searches.store') }}">
     <div class="card-body p-4">
         <form method="POST" action="{{ route('discovery.search') }}" id="discovery-search-form">
@@ -176,8 +174,7 @@
                     <select class="form-select" id="discovery-country" name="country">
                         <option value="">Any country</option>
                         @foreach ($countries as $country)
-                            <option value="{{ $country['code'] }}"
-                                @selected(($filters['country'] ?? '') === $country['code'])>
+                            <option value="{{ $country['code'] }}" @selected(($filters['country'] ?? '') === $country['code'])>
                                 {{ $country['name'] }}
                             </option>
                         @endforeach
@@ -206,8 +203,8 @@
 
                 <div class="col-12 col-md-6 col-lg-3">
                     <label for="discovery-radius" class="form-label small fw-medium">Radius (miles)</label>
-                    <input type="number" class="form-control" id="discovery-radius" name="radius" min="0" step="1"
-                        value="{{ $filters['radius'] ?? '' }}" placeholder="e.g. 25">
+                    <input type="number" class="form-control" id="discovery-radius" name="radius" min="0"
+                        step="1" value="{{ $filters['radius'] ?? '' }}" placeholder="e.g. 25">
                 </div>
 
                 <div class="col-12 col-lg-3 d-flex align-items-end gap-2">
@@ -225,7 +222,7 @@
                          confirm()-before-submit handler for this button. --}}
                     <button type="submit" formaction="{{ route('discovery.discover') }}"
                         class="btn btn-outline-primary w-100" id="discovery-discover-btn"
-                        title="Search Google Places and Yelp (and any other connected source) for new websites matching these filters">
+                        title="Search Google Places and Yelp (and any other connected source) for new websites matching these filters — runs in the background">
                         Discover More
                     </button>
                 </div>
@@ -233,8 +230,9 @@
 
             <p class="text-secondary small mt-2 mb-0">
                 "Search" looks through websites this module already knows about. "Discover More" goes out
-                and looks for brand new ones (via Google Places, Yelp, and any other connected source) matching
-                these same filters — this can take up to 15-20 seconds.
+                and looks for brand new ones (via Google Places, Yelp, and any other connected source)
+                matching these same filters. It runs in the background — the page reloads right away, but
+                refresh it again in about 15-30 seconds to see any new results actually appear.
             </p>
 
             {{-- Filled in by JS (public/js/discovery-search-panel.js's "Save this search"
@@ -257,7 +255,8 @@
                     <div id="discovery-advanced-filters-collapse" class="accordion-collapse collapse"
                         aria-labelledby="discovery-advanced-filters-heading">
                         <div class="accordion-body">
-                            <p class="fw-medium mb-1">Boolean Query <span class="text-secondary small fw-normal">(Advanced)</span></p>
+                            <p class="fw-medium mb-1">Boolean Query <span
+                                    class="text-secondary small fw-normal">(Advanced)</span></p>
                             <p class="text-secondary small mb-2">
                                 Combine terms with AND / OR / NOT — e.g.
                                 <code>Restaurant AND WordPress AND NOT Facebook</code>. Evaluated left to right;
@@ -275,8 +274,7 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" name="status[]"
                                                 id="discovery-status-{{ $status->value }}"
-                                                value="{{ $status->value }}"
-                                                @checked(in_array($status->value, (array) ($filters['status'] ?? []), true))>
+                                                value="{{ $status->value }}" @checked(in_array($status->value, (array) ($filters['status'] ?? []), true))>
                                             <label class="form-check-label"
                                                 for="discovery-status-{{ $status->value }}">
                                                 {{ $status->label() }}
@@ -292,8 +290,7 @@
                                             <input class="form-check-input" type="checkbox" name="website_type[]"
                                                 id="discovery-type-{{ $type->value }}" value="{{ $type->value }}"
                                                 @checked(in_array($type->value, (array) ($filters['website_type'] ?? []), true))>
-                                            <label class="form-check-label"
-                                                for="discovery-type-{{ $type->value }}">
+                                            <label class="form-check-label" for="discovery-type-{{ $type->value }}">
                                                 {{ $type->label() }}
                                             </label>
                                         </div>
@@ -321,8 +318,7 @@
                                                 <input class="form-check-input" type="checkbox"
                                                     name="technology[{{ $group }}][]"
                                                     id="discovery-tech-{{ $group }}-{{ $option['slug'] }}"
-                                                    value="{{ $option['slug'] }}"
-                                                    @checked(in_array($option['slug'], (array) ($filters['technology'][$group] ?? []), true))>
+                                                    value="{{ $option['slug'] }}" @checked(in_array($option['slug'], (array) ($filters['technology'][$group] ?? []), true))>
                                                 <label class="form-check-label"
                                                     for="discovery-tech-{{ $group }}-{{ $option['slug'] }}">
                                                     {{ $option['name'] }}
@@ -341,8 +337,7 @@
                                             <input class="form-check-input" type="checkbox"
                                                 name="technology[server][]"
                                                 id="discovery-tech-server-{{ $server->value }}"
-                                                value="{{ $server->value }}"
-                                                @checked(in_array($server->value, (array) ($filters['technology']['server'] ?? []), true))>
+                                                value="{{ $server->value }}" @checked(in_array($server->value, (array) ($filters['technology']['server'] ?? []), true))>
                                             <label class="form-check-label"
                                                 for="discovery-tech-server-{{ $server->value }}">
                                                 {{ $server->label() }}
@@ -372,12 +367,14 @@
                                             </span>
                                         </div>
                                         <div class="discovery-range-slider" data-range-slider>
-                                            <input type="range" class="discovery-range-input" min="0" max="100"
-                                                step="1" name="quality[{{ $qualityKey }}][min]"
-                                                value="{{ $qualityMin }}" data-range-role="min">
-                                            <input type="range" class="discovery-range-input" min="0" max="100"
-                                                step="1" name="quality[{{ $qualityKey }}][max]"
-                                                value="{{ $qualityMax }}" data-range-role="max">
+                                            <input type="range" class="discovery-range-input" min="0"
+                                                max="100" step="1"
+                                                name="quality[{{ $qualityKey }}][min]" value="{{ $qualityMin }}"
+                                                data-range-role="min">
+                                            <input type="range" class="discovery-range-input" min="0"
+                                                max="100" step="1"
+                                                name="quality[{{ $qualityKey }}][max]" value="{{ $qualityMax }}"
+                                                data-range-role="max">
                                         </div>
                                     </div>
                                 @endforeach
@@ -389,11 +386,9 @@
                                     <div class="discovery-checkbox-scroll">
                                         @foreach ($seoIssues as $issue)
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    name="issue[seo][]"
+                                                <input class="form-check-input" type="checkbox" name="issue[seo][]"
                                                     id="discovery-issue-seo-{{ $issue['code'] }}"
-                                                    value="{{ $issue['code'] }}"
-                                                    @checked(in_array($issue['code'], (array) ($filters['issue']['seo'] ?? []), true))>
+                                                    value="{{ $issue['code'] }}" @checked(in_array($issue['code'], (array) ($filters['issue']['seo'] ?? []), true))>
                                                 <label class="form-check-label"
                                                     for="discovery-issue-seo-{{ $issue['code'] }}">
                                                     {{ $issue['label'] }}
@@ -411,8 +406,7 @@
                                                 <input class="form-check-input" type="checkbox"
                                                     name="issue[security][]"
                                                     id="discovery-issue-security-{{ $issue['code'] }}"
-                                                    value="{{ $issue['code'] }}"
-                                                    @checked(in_array($issue['code'], (array) ($filters['issue']['security'] ?? []), true))>
+                                                    value="{{ $issue['code'] }}" @checked(in_array($issue['code'], (array) ($filters['issue']['security'] ?? []), true))>
                                                 <label class="form-check-label"
                                                     for="discovery-issue-security-{{ $issue['code'] }}">
                                                     {{ $issue['label'] }}
@@ -433,8 +427,7 @@
                                             <input class="form-check-input" type="checkbox" name="opportunity[]"
                                                 id="discovery-opportunity-{{ $opportunity->value }}"
                                                 value="{{ $opportunity->value }}"
-                                                title="{{ $opportunity->criterion() }}"
-                                                @checked(in_array($opportunity->value, (array) ($filters['opportunity'] ?? []), true))>
+                                                title="{{ $opportunity->criterion() }}" @checked(in_array($opportunity->value, (array) ($filters['opportunity'] ?? []), true))>
                                             <label class="form-check-label"
                                                 for="discovery-opportunity-{{ $opportunity->value }}"
                                                 title="{{ $opportunity->criterion() }}">
@@ -464,12 +457,12 @@
                                         </span>
                                     </div>
                                     <div class="discovery-range-slider" data-range-slider>
-                                        <input type="range" class="discovery-range-input" min="0" max="20"
-                                            step="1" name="domain_age[min]" value="{{ $domainAgeMin }}"
-                                            data-range-role="min">
-                                        <input type="range" class="discovery-range-input" min="0" max="20"
-                                            step="1" name="domain_age[max]" value="{{ $domainAgeMax }}"
-                                            data-range-role="max">
+                                        <input type="range" class="discovery-range-input" min="0"
+                                            max="20" step="1" name="domain_age[min]"
+                                            value="{{ $domainAgeMin }}" data-range-role="min">
+                                        <input type="range" class="discovery-range-input" min="0"
+                                            max="20" step="1" name="domain_age[max]"
+                                            value="{{ $domainAgeMax }}" data-range-role="max">
                                     </div>
                                 </div>
 
@@ -482,12 +475,12 @@
                                         </span>
                                     </div>
                                     <div class="discovery-range-slider" data-range-slider>
-                                        <input type="range" class="discovery-range-input" min="0" max="500"
-                                            step="10" name="employees[min]" value="{{ $employeesMin }}"
-                                            data-range-role="min">
-                                        <input type="range" class="discovery-range-input" min="0" max="500"
-                                            step="10" name="employees[max]" value="{{ $employeesMax }}"
-                                            data-range-role="max">
+                                        <input type="range" class="discovery-range-input" min="0"
+                                            max="500" step="10" name="employees[min]"
+                                            value="{{ $employeesMin }}" data-range-role="min">
+                                        <input type="range" class="discovery-range-input" min="0"
+                                            max="500" step="10" name="employees[max]"
+                                            value="{{ $employeesMax }}" data-range-role="max">
                                     </div>
                                 </div>
 
@@ -498,8 +491,7 @@
                                     <select class="form-select" id="discovery-last-updated" name="last_updated">
                                         <option value="">Any time</option>
                                         @foreach ($lastUpdatedRanges as $range)
-                                            <option value="{{ $range->value }}"
-                                                @selected(($filters['last_updated'] ?? '') === $range->value)>
+                                            <option value="{{ $range->value }}" @selected(($filters['last_updated'] ?? '') === $range->value)>
                                                 {{ $range->label() }}
                                             </option>
                                         @endforeach
@@ -514,8 +506,7 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" name="business_size[]"
                                                 id="discovery-business-size-{{ $size->value }}"
-                                                value="{{ $size->value }}"
-                                                @checked(in_array($size->value, (array) ($filters['business_size'] ?? []), true))>
+                                                value="{{ $size->value }}" @checked(in_array($size->value, (array) ($filters['business_size'] ?? []), true))>
                                             <label class="form-check-label"
                                                 for="discovery-business-size-{{ $size->value }}">
                                                 {{ $size->label() }}
@@ -530,8 +521,7 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" name="traffic[]"
                                                 id="discovery-traffic-{{ $traffic->value }}"
-                                                value="{{ $traffic->value }}"
-                                                @checked(in_array($traffic->value, (array) ($filters['traffic'] ?? []), true))>
+                                                value="{{ $traffic->value }}" @checked(in_array($traffic->value, (array) ($filters['traffic'] ?? []), true))>
                                             <label class="form-check-label"
                                                 for="discovery-traffic-{{ $traffic->value }}">
                                                 {{ $traffic->label() }}
@@ -554,16 +544,13 @@
                                         <select class="form-select form-select-sm"
                                             id="discovery-social-{{ $platform->value }}"
                                             name="social[{{ $platform->value }}]">
-                                            <option value=""
-                                                @selected(($filters['social'][$platform->value] ?? '') === '')>
+                                            <option value="" @selected(($filters['social'][$platform->value] ?? '') === '')>
                                                 Any
                                             </option>
-                                            <option value="has"
-                                                @selected(($filters['social'][$platform->value] ?? '') === 'has')>
+                                            <option value="has" @selected(($filters['social'][$platform->value] ?? '') === 'has')>
                                                 Has {{ $platform->label() }}
                                             </option>
-                                            <option value="missing"
-                                                @selected(($filters['social'][$platform->value] ?? '') === 'missing')>
+                                            <option value="missing" @selected(($filters['social'][$platform->value] ?? '') === 'missing')>
                                                 Doesn't Have {{ $platform->label() }}
                                             </option>
                                         </select>
@@ -582,8 +569,7 @@
                                 <div class="col-12 col-sm-6 col-lg-3">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="contact_availability"
-                                            id="discovery-contact-any" value=""
-                                            @checked(empty($filters['contact_availability']))>
+                                            id="discovery-contact-any" value="" @checked(empty($filters['contact_availability']))>
                                         <label class="form-check-label" for="discovery-contact-any">Any</label>
                                     </div>
                                 </div>
@@ -593,8 +579,7 @@
                                             <input class="form-check-input" type="radio"
                                                 name="contact_availability"
                                                 id="discovery-contact-{{ $option->value }}"
-                                                value="{{ $option->value }}"
-                                                @checked(($filters['contact_availability'] ?? '') === $option->value)>
+                                                value="{{ $option->value }}" @checked(($filters['contact_availability'] ?? '') === $option->value)>
                                             <label class="form-check-label"
                                                 for="discovery-contact-{{ $option->value }}">
                                                 {{ $option->label() }}

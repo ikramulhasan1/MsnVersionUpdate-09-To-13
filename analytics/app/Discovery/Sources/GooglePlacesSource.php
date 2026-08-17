@@ -78,7 +78,20 @@ final class GooglePlacesSource implements DiscoverySourceInterface
      */
     private const string DETAILS_FIELDS = 'name,website,address_component';
 
-    private const int MAX_DETAIL_LOOKUPS = 20;
+    /**
+     * Lowered from an earlier 20 — a real production 504 Gateway
+     * Time-out (nginx's own default gateway timeout, ~60s) was hit
+     * once GooglePlacesSource and YelpBusinessSource's own detail
+     * lookups ran back-to-back in the same discover() call (see
+     * DiscoveryController::discover()'s own docblock for the
+     * fastcgi_finish_request() fix that addresses nginx's side of
+     * this). This constant addresses the OTHER half: PHP's own
+     * max_execution_time still applies to the background continuation
+     * fastcgi_finish_request() enables, and a lower cap here keeps this
+     * source's own worst-case wall time down regardless of what that
+     * limit is set to on a given host.
+     */
+    private const int MAX_DETAIL_LOOKUPS = 10;
 
     private const int TIMEOUT_SECONDS = 15;
 

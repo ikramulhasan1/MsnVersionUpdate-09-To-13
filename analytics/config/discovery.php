@@ -193,7 +193,6 @@ return [
     */
 
     'sources' => [
-        GooglePlacesSource::class,
         YelpBusinessSource::class,
         InternalCrawlSource::class,
     ],
