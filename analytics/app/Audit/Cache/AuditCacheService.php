@@ -63,6 +63,16 @@ final class AuditCacheService implements AuditCacheServiceInterface
         return $result;
     }
 
+    public function putFetchResult(string $url, FetchResult $result): void
+    {
+        // Same prefix + keyFor() as rememberFetchResult() above — this
+        // MUST match exactly, or a later rememberFetchResult() call for
+        // the same URL would look under a different key and miss the
+        // value this just wrote, silently defeating the whole point of
+        // pre-seeding it (see this method's own interface docblock).
+        $this->cache->put(self::FETCH_PREFIX . $this->keyFor($url), $result, $this->fetchTtlSeconds);
+    }
+
     public function rememberCrawlResult(string $url, Closure $callback): CrawlResult
     {
         $result = $this->cache->remember(

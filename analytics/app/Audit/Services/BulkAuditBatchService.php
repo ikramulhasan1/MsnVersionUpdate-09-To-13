@@ -7,7 +7,7 @@ namespace App\Audit\Services;
 use App\Audit\Enums\AuditMode;
 use App\Audit\Enums\AuditStatus;
 use App\Audit\Enums\BulkAuditBatchStatus;
-use App\Audit\Services\Contracts\AuditServiceInterface;
+use App\Audit\Jobs\BulkFetchJob;
 use App\Models\Audit;
 use App\Models\BulkAuditBatch;
 use Illuminate\Support\Collection;
@@ -18,12 +18,7 @@ use Illuminate\Support\Str;
  * point (BulkAuditController's own pasted-URL-list and CSV-upload
  * forms; DiscoveryController::bulkAudit()'s existing "Bulk Audit
  * Selected" checkbox flow) ends up calling. One BulkAuditBatch, one
- * App\Models\Audit per URL, every one of those audits' own pipelines
- * dispatched onto the dedicated 'audit-bulk' queue (see
- * App\Audit\Services\Contracts\AuditServiceInterface::run()'s own
- * docblock for why that queue exists, and
- * routes/console.php's own scheduled queue:work for how it gets
- * processed without a persistent worker).
+ * App\Models\Audit per URL.
  *
  * Deliberately does NOT reuse AuditServiceInterface::submit()'s own
  * duplicate-in-flight-audit reuse logic — that check exists so
@@ -37,21 +32,32 @@ use Illuminate\Support\Str;
  * batch has no relationship to. What this class DOES dedupe is
  * touched on in normalizeUrls()'s own docblock — repeats WITHIN the
  * same submission only.
+ *
+ * Phase K4 (parallel fetching): rather than dispatching each audit's
+ * own AuditServiceInterface::run() individually in the loop below
+ * (Phase K3's original shape — every Audit row's own
+ * FetchAndCrawlJob, fetching its own homepage sequentially once
+ * Laravel's queue worker got to it), this class now creates every
+ * Audit row first, then dispatches ONE App\Audit\Jobs\BulkFetchJob for
+ * the whole batch — see that job's own docblock for how it fetches
+ * every audit's own homepage CONCURRENTLY before fanning out each
+ * one's ordinary FetchAndCrawlJob. This class no longer needs
+ * AuditServiceInterface injected at all — BulkFetchJob is responsible
+ * for dispatching FetchAndCrawlJob itself, onto the same 'audit-bulk'
+ * queue this class's own QUEUE constant still names (BulkFetchJob
+ * reads its own $queue property, which is set to the same value —
+ * see that job's own docblock for why they need to match).
  */
 final class BulkAuditBatchService
 {
     /**
-     * Every App\Audit\Jobs\FetchAndCrawlJob dispatched for a bulk
-     * audit's own pipeline lands here — see
-     * AuditServiceInterface::run()'s own docblock for exactly what
-     * that isolates this queue from, and why.
+     * BulkFetchJob (and, in turn, every FetchAndCrawlJob it dispatches
+     * for this batch's own audits) lands here — see
+     * App\Audit\Jobs\BulkFetchJob's own docblock, and
+     * App\Audit\Services\Contracts\AuditServiceInterface::run()'s, for
+     * why a dedicated queue exists at all.
      */
     private const string QUEUE = 'audit-bulk';
-
-    public function __construct(
-        private readonly AuditServiceInterface $auditService,
-    ) {
-    }
 
     /**
      * @param array<int, string> $urls
@@ -71,21 +77,25 @@ final class BulkAuditBatchService
         ]);
 
         foreach ($urls as $url) {
-            $audit = Audit::query()->create([
+            Audit::query()->create([
                 'uuid' => (string) Str::uuid(),
                 'url' => $url,
                 'status' => AuditStatus::QUEUED->value,
                 'mode' => $mode->value,
                 'bulk_audit_batch_id' => $batch->id,
             ]);
-
-            $this->auditService->run($audit, self::QUEUE);
         }
 
+        // A single job for the WHOLE batch — see this class's own
+        // docblock (Phase K4) for why that's now BulkFetchJob rather
+        // than one AuditServiceInterface::run() call per audit here.
+        BulkFetchJob::dispatch($batch->uuid)->onQueue(self::QUEUE);
+
         // 'processing' the moment its own audits have actually been
-        // dispatched, not left at 'pending' until some later poll
-        // happens to notice — a batch with total_count > 0 rows already
-        // queued is, by definition, already processing.
+        // created and the batch fetch has been dispatched, not left at
+        // 'pending' until some later poll happens to notice — a batch
+        // with total_count > 0 rows already created is, by definition,
+        // already processing.
         $batch->update(['status' => BulkAuditBatchStatus::PROCESSING->value]);
 
         return $batch;

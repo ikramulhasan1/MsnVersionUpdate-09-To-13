@@ -33,6 +33,20 @@ interface AuditCacheServiceInterface
     public function rememberFetchResult(string $url, Closure $callback): FetchResult;
 
     /**
+     * Phase K4 (Bulk Audit) — pre-seeds the fetch cache for $url with
+     * an already-computed $result, using the SAME cache key
+     * rememberFetchResult() itself writes to and reads from. This is
+     * what lets App\Audit\Jobs\BulkFetchJob's own concurrent,
+     * whole-batch fetch (see that job's own docblock for why fetching
+     * concurrently matters for a bulk submission) actually save real
+     * time downstream: once this has been called for a URL, the FIRST
+     * rememberFetchResult() call any later FetchAndCrawlJob makes for
+     * that same URL is a cache HIT — the expensive network fetch
+     * itself never runs a second time, sequentially, per audit.
+     */
+    public function putFetchResult(string $url, FetchResult $result): void;
+
+    /**
      * Returns the cached CrawlResult for $url, computing and caching
      * it via $callback on a cache miss.
      */

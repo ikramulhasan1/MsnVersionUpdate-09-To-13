@@ -12,6 +12,7 @@ use App\Audit\Cache\Contracts\AuditCacheServiceInterface;
 use App\Audit\Content\DTO\ContentAuditResult;
 use App\Audit\Content\DTO\ContentResult;
 use App\Audit\Enums\AuditStatus;
+use App\Audit\Enums\BulkAuditBatchStatus;
 use App\Audit\Jobs\Concerns\HasAuditUniqueness;
 use App\Audit\Lead\DTO\ProspectQualificationResult;
 use App\Audit\Lead\ProspectQualificationScorer;
@@ -25,8 +26,15 @@ use App\Audit\Security\DTO\SecurityResult;
 use App\Audit\Technology\TechnologyUpgradeAnalyzer;
 use App\Audit\UiUx\DTO\UiUxAuditResult;
 use App\Audit\UiUx\DTO\UiUxResult;
+use App\Models\Audit;
+use App\Models\BulkAuditBatch;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Throwable;
+
+
+
+
+
 
 /**
  * Runs once per audit after the analyzer batch finishes (successfully
@@ -248,6 +256,46 @@ final class AssembleAnalysisResultsJob extends AuditJob implements ShouldBeUniqu
             100,
             $complete ? 'Done.' : 'Audit failed.',
         );
+
+        $this->updateBulkAuditBatchIfAny($audit, $complete);
+    }
+
+    /**
+     * Phase K4 (Bulk Audit) — a no-op for a standalone audit
+     * ($audit->bulk_audit_batch_id is null for every audit NOT
+     * submitted through App\Audit\Services\BulkAuditBatchService — see
+     * App\Models\Audit's own docblock on that column). For one that IS
+     * part of a batch, increments the matching counter
+     * (completed_count/failed_count — see
+     * database/migrations/2026_08_19_000000_create_bulk_audit_batches_table.php's
+     * own docblock for why these are denormalized counters rather than
+     * computed fresh on every read) and marks the whole batch COMPLETED
+     * once every one of its audits has reached a final state.
+     *
+     * Runs here rather than via a Bus::batch()-style callback because
+     * this app's audits are NOT dispatched as a Laravel Batch relative
+     * to one another — each audit's own pipeline (FetchAndCrawlJob →
+     * its own internal analyzer Batch → this job) is independent, and
+     * this job is the one place EVERY audit, bulk or not, always ends
+     * up exactly once, whether it completed or failed.
+     */
+    private function updateBulkAuditBatchIfAny(Audit $audit, bool $complete): void
+    {
+        if ($audit->bulk_audit_batch_id === null) {
+            return;
+        }
+
+        $batch = BulkAuditBatch::query()->find($audit->bulk_audit_batch_id);
+
+        if ($batch === null) {
+            return;
+        }
+
+        $batch->increment($complete ? 'completed_count' : 'failed_count');
+
+        if ($batch->completed_count + $batch->failed_count >= $batch->total_count) {
+            $batch->update(['status' => BulkAuditBatchStatus::COMPLETED->value]);
+        }
     }
 
     public function failed(Throwable $e): void
