@@ -35,7 +35,7 @@
 @php
     $displayName = $website->business_name ?? $website->domain;
 
-    $opportunityResult = new \App\Discovery\Scoring\OpportunityScorer()->score($website);
+    $opportunityResult = (new \App\Discovery\Scoring\OpportunityScorer())->score($website);
     $opportunityLevel = \App\Discovery\Enums\OpportunityLevel::fromScore($opportunityResult->score);
     $opportunityColor = match ($opportunityLevel) {
         \App\Discovery\Enums\OpportunityLevel::HIGH => 'var(--audit-danger)',
@@ -50,7 +50,7 @@
     // joined string as one long pill.
     $technologies = collect([$website->cms, $website->framework, $website->ecommerce_platform, $website->cdn])
         ->filter()
-        ->flatMap(fn(string $value): array => array_map('trim', explode(',', $value)))
+        ->flatMap(fn (string $value): array => array_map('trim', explode(',', $value)))
         ->filter()
         ->unique()
         ->values();
@@ -94,7 +94,8 @@
                 </div>
             </div>
 
-            <div class="d-flex align-items-center gap-2 flex-shrink-0" title="{{ $opportunityResult->summary }}">
+            <div class="d-flex align-items-center gap-2 flex-shrink-0"
+                title="{{ $opportunityResult->summary }}">
                 <span class="opportunity-dot" style="background-color: {{ $opportunityColor }};"></span>
                 <span class="small fw-medium">{{ $opportunityLevel->label() }} Opportunity
                     ({{ $opportunityResult->score }}/100)</span>
@@ -123,7 +124,8 @@
             @endforeach
         </div>
 
-        <div class="d-flex flex-wrap align-items-center gap-2 pt-3" style="border-top: 1px solid var(--audit-border);">
+        <div class="d-flex flex-wrap align-items-center gap-2 pt-3"
+            style="border-top: 1px solid var(--audit-border);">
             <a href="{{ $website->url }}" target="_blank" rel="noopener noreferrer"
                 class="btn btn-sm btn-outline-secondary">
                 View Website
