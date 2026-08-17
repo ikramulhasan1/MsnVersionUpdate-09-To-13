@@ -23,7 +23,8 @@ use Throwable;
  * this class ever put real candidate data INTO that table.
  * DiscoverySourceInterface (Phase I3) always had a real implementation
  * to call (App\Discovery\Sources\InternalCrawlSource, and now
- * App\Discovery\Sources\GooglePlacesSource), but that interface
+ * App\Discovery\Sources\GooglePlacesSource /
+ * App\Discovery\Sources\YelpBusinessSource), but that interface
  * deliberately stops at "here are some candidate URLs"
  * (DiscoveredWebsiteDTO) — see its own docblock. This class is the
  * "future ingestion step" that docblock always pointed to.

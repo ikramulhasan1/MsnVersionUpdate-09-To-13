@@ -34,7 +34,7 @@ use Throwable;
  * Phase J1: before recounting, this job now ALSO actually goes and
  * looks for brand new candidates — via every source in
  * config('discovery.sources') (today: GooglePlacesSource,
- * InternalCrawlSource), through the exact same
+ * YelpBusinessSource, InternalCrawlSource), through the exact same
  * App\Discovery\Ingestion\DiscoveryIngestionService the search panel's
  * own "Discover More" button uses. Before this phase, "re-run" only
  * ever meant "recount whatever discovered_websites already happened to

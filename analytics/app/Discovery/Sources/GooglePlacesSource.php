@@ -129,10 +129,12 @@ final class GooglePlacesSource implements DiscoverySourceInterface
      */
     private function searchPlaces(DiscoveryFilterCriteria $criteria): Collection
     {
+        $query = $this->searchQuery($criteria);
+
         try {
             $response = $this->httpClient->request('GET', self::TEXT_SEARCH_ENDPOINT, [
                 'query' => [
-                    'query' => $this->searchQuery($criteria),
+                    'query' => $query,
                     'key' => $this->apiKey,
                 ],
                 'timeout' => self::TIMEOUT_SECONDS,
@@ -142,6 +144,7 @@ final class GooglePlacesSource implements DiscoverySourceInterface
 
             if ($response->getStatusCode() !== 200) {
                 Log::warning('GooglePlacesSource: Text Search returned non-200 status', [
+                    'query' => $query,
                     'http_status' => $response->getStatusCode(),
                     'body' => (string) $response->getBody(),
                 ]);
@@ -153,12 +156,28 @@ final class GooglePlacesSource implements DiscoverySourceInterface
 
             // Google's own status field ('OK', 'ZERO_RESULTS', 'OVER_QUERY_LIMIT',
             // 'REQUEST_DENIED', ...) — only 'OK' has a `results` array worth
-            // reading; every other value (including a legitimate
-            // "nothing matched" ZERO_RESULTS) collapses to the same empty
-            // Collection.
-            if (($decoded['status'] ?? null) !== 'OK') {
+            // reading. Every other value collapses to an empty Collection,
+            // but each is logged at a different level: ZERO_RESULTS is a
+            // perfectly legitimate "nothing matched" outcome (info, not a
+            // warning — this is expected when a query has weak/no location
+            // signal, e.g. no Country selected), while anything else
+            // (OVER_QUERY_LIMIT, REQUEST_DENIED, INVALID_REQUEST, ...)
+            // means something is actually wrong with the request or the
+            // API key/billing itself and is worth a warning.
+            $status = $decoded['status'] ?? null;
+
+            if ($status === 'ZERO_RESULTS') {
+                Log::info('GooglePlacesSource: Text Search returned zero results', [
+                    'query' => $query,
+                ]);
+
+                return collect();
+            }
+
+            if ($status !== 'OK') {
                 Log::warning('GooglePlacesSource: Text Search status was not OK', [
-                    'status' => $decoded['status'] ?? null,
+                    'query' => $query,
+                    'status' => $status,
                     'error_message' => $decoded['error_message'] ?? null,
                 ]);
 
@@ -170,6 +189,7 @@ final class GooglePlacesSource implements DiscoverySourceInterface
             return is_array($results) ? collect($results) : collect();
         } catch (Throwable $exception) {
             Log::warning('GooglePlacesSource: Text Search request threw', [
+                'query' => $query,
                 'exception' => $exception->getMessage(),
             ]);
 
@@ -182,13 +202,23 @@ final class GooglePlacesSource implements DiscoverySourceInterface
      * separate category/location parameters — "<term> in <location>"
      * is Google's own documented pattern for this endpoint (e.g.
      * "restaurants in Chicago, IL").
+     *
+     * Falls back to "in United States" when NO Country/Region/City
+     * filter is set at all — a bare category term with zero geographic
+     * signal (e.g. just "Fashion & Apparel") is exactly the case most
+     * likely to come back ZERO_RESULTS from Google's own Text Search,
+     * since that endpoint leans heavily on the query string itself for
+     * location, unlike Nearby Search. Matches
+     * WebsiteSearchService's own "an empty criteria still returns a
+     * reasonable, broad result" convention rather than sending Google a
+     * query it's unlikely to match anything against.
      */
     private function searchQuery(DiscoveryFilterCriteria $criteria): string
     {
         $term = $criteria->subNiche ?? $criteria->industry ?? 'business';
-        $location = $this->locationString($criteria);
+        $location = $this->locationString($criteria) ?? 'United States';
 
-        return $location !== null ? sprintf('%s in %s', $term, $location) : $term;
+        return sprintf('%s in %s', $term, $location);
     }
 
     private function locationString(DiscoveryFilterCriteria $criteria): ?string
@@ -254,8 +284,8 @@ final class GooglePlacesSource implements DiscoverySourceInterface
 
             if ($response->getStatusCode() !== 200) {
                 Log::warning('GooglePlacesSource: Place Details returned non-200 status', [
-                    'http_status' => $response->getStatusCode(),
                     'place_id' => $placeId,
+                    'http_status' => $response->getStatusCode(),
                 ]);
 
                 return null;
@@ -282,12 +312,30 @@ final class GooglePlacesSource implements DiscoverySourceInterface
             $website = $result['website'] ?? null;
             $addressComponents = $result['address_components'] ?? [];
 
+            if (! is_string($website) || $website === '') {
+                // Logged at info (not warning) — this is the KNOWN,
+                // documented, non-error outcome this class's own
+                // docblock describes: not every Google Places listing
+                // has a website on file. Useful to see in logs anyway,
+                // since a run returning very few candidates is much
+                // easier to explain with "N of M places had no website"
+                // than by guessing.
+                Log::info('GooglePlacesSource: Place Details has no website field', [
+                    'place_id' => $placeId,
+                ]);
+            }
+
             return [
                 'website' => is_string($website) && $website !== '' ? $website : null,
                 'city' => $this->addressComponent($addressComponents, 'locality'),
                 'country' => $this->addressComponent($addressComponents, 'country'),
             ];
-        } catch (Throwable) {
+        } catch (Throwable $exception) {
+            Log::warning('GooglePlacesSource: Place Details request threw', [
+                'place_id' => $placeId,
+                'exception' => $exception->getMessage(),
+            ]);
+
             return null;
         }
     }

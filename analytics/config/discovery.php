@@ -1,8 +1,10 @@
 <?php
 
 declare(strict_types=1);
+
 use App\Discovery\Sources\GooglePlacesSource;
 use App\Discovery\Sources\InternalCrawlSource;
+use App\Discovery\Sources\YelpBusinessSource;
 
 return [
 
@@ -166,29 +168,33 @@ return [
     | Adding a future source (Bing, Clearbit, ...) is exactly two
     | steps, neither of which touches this array's own callers: (1)
     | build a new class implementing DiscoverySourceInterface (see
-    | App\Discovery\Sources\GooglePlacesSource for the pattern to
+    | App\Discovery\Sources\GooglePlacesSource or
+    | App\Discovery\Sources\YelpBusinessSource for the pattern to
     | follow — API credentials read from config('services.*'), a safe
     | empty-Collection no-op when no credentials are configured yet),
     | (2) list its class-string here.
     |
-    | GooglePlacesSource is the only external API source active by
-    | default (see that class's own docblock — Google Places' own
-    | `website` field on a Place Details lookup has a meaningfully
-    | higher fill rate than most comparable directory APIs, which is
-    | why it's this module's chosen primary source rather than one of
-    | several). It's a safe no-op if config('services.google_places.api_key')
-    | isn't set yet.
+    | GooglePlacesSource and YelpBusinessSource are both active by
+    | default — App\Discovery\Ingestion\DiscoveryIngestionService merges
+    | whatever each finds before deduplicating, so a business only one
+    | of the two would have surfaced (or would have surfaced WITH a
+    | usable website — see GooglePlacesSource's own docblock for why its
+    | fill rate on that front is meaningfully higher than Yelp's) still
+    | gets found. Each is independently a safe no-op if its own
+    | config('services.*') key isn't set yet — having both listed here
+    | doesn't require having both configured.
     |
-    | InternalCrawlSource (Phase I3) is included alongside it — it
+    | InternalCrawlSource (Phase I3) is included alongside them — it
     | crawls outward from whatever discovered_websites already has
-    | (including sites GooglePlacesSource itself just added), so
-    | keeping it active costs nothing on an empty table (it simply
-    | finds no seeds to crawl from yet) and starts pulling its weight
-    | the moment there's real data to expand from.
+    | (including sites the other two sources just added), so keeping it
+    | active costs nothing on an empty table (it simply finds no seeds
+    | to crawl from yet) and starts pulling its weight the moment
+    | there's real data to expand from.
     */
 
     'sources' => [
         GooglePlacesSource::class,
+        YelpBusinessSource::class,
         InternalCrawlSource::class,
     ],
 

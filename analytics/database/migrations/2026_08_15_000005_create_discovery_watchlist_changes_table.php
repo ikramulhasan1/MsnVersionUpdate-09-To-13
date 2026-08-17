@@ -49,6 +49,15 @@ return new class extends Migration
             $table->timestamp('detected_at');
             $table->timestamps();
 
+            // Explicit short name: Laravel's own auto-generated name for
+            // this composite index ("discovery_watchlist_changes_
+            // discovered_website_id_change_type_detected_at_index") is
+            // 82 characters — over MySQL's 64-character identifier
+            // limit, which made this migration fail outright on MySQL
+            // with "Identifier name ... is too long" (worked fine on
+            // SQLite, which has no such limit, so this went unnoticed
+            // until a real MySQL deployment). A short, explicit name
+            // sidesteps the limit entirely.
             $table->index(['discovered_website_id', 'change_type', 'detected_at'], 'dwc_website_type_detected_idx');
         });
     }

@@ -225,10 +225,10 @@ final class DiscoveryController extends Controller
      * finds NEW candidate websites rather than only searching whatever
      * discovered_websites already happens to contain. Every source
      * listed in config('discovery.sources') (today: GooglePlacesSource,
-     * InternalCrawlSource) runs against the SAME filters just
-     * submitted, via DiscoveryIngestionService — see that class's own
-     * docblock for exactly how a candidate becomes a real, deduplicated
-     * DiscoveredWebsite row.
+     * YelpBusinessSource, InternalCrawlSource) runs against the SAME
+     * filters just submitted, via DiscoveryIngestionService — see that
+     * class's own docblock for exactly how a candidate becomes a real,
+     * deduplicated DiscoveredWebsite row.
      *
      * Validated the same way search() itself is (SearchDiscoveryRequest)
      * before redirecting back to the results for those same filters —
@@ -239,8 +239,8 @@ final class DiscoveryController extends Controller
      *
      * Synchronous, in this same request — this app has no queue worker
      * (see bulkAudit()'s own docblock for the same constraint elsewhere
-     * in this controller), so a Google Places search plus up to
-     * GooglePlacesSource::MAX_DETAIL_LOOKUPS detail lookups all happen
+     * in this controller), so a Google Places (and Yelp) search plus up
+     * to each source's own MAX_DETAIL_LOOKUPS detail lookups all happen
      * before this method returns; a real, noticeable wait (several
      * seconds) is expected and is why the button's own confirm()
      * dialog warns about it.

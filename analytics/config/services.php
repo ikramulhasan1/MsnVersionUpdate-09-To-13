@@ -49,7 +49,7 @@ return [
     | discovery for the others.
     |
     | Adding a new source (Bing, Clearbit, ...) later is the same
-    | two-step pattern Google Places establishes here: add its
+    | two-step pattern Google Places/Yelp establish here: add its
     | credentials block below, then list its DiscoverySourceInterface
     | implementation class in config/discovery.php's 'sources' array —
     | nothing else in this module needs to change.
@@ -57,6 +57,10 @@ return [
 
     'google_places' => [
         'api_key' => env('GOOGLE_PLACES_API_KEY'),
+    ],
+
+    'yelp' => [
+        'api_key' => env('YELP_API_KEY'),
     ],
 
 ];
