@@ -24,10 +24,17 @@
                     <button type="button" class="btn btn-outline-secondary btn-sm d-print-none" onclick="window.print()">
                         Print Report
                     </button>
-                    <a href="{{ route('audits.export.excel', $audit) }}"
-                        class="btn btn-outline-secondary btn-sm d-print-none">
-                        Download Excel Report
-                    </a>
+                    @if ($audit->status === \App\Audit\Enums\AuditStatus::COMPLETED)
+                        <a href="{{ route('audits.export.excel', $audit) }}"
+                            class="btn btn-outline-secondary btn-sm d-print-none">
+                            Download Excel Report
+                        </a>
+                    @else
+                        <button type="button" class="btn btn-outline-secondary btn-sm d-print-none" disabled
+                            title="Available once the audit finishes">
+                            Download Excel Report
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>
