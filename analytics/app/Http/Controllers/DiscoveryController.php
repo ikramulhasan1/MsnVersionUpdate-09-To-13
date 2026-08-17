@@ -429,7 +429,7 @@ final class DiscoveryController extends Controller
      * Method injection means only a request that actually reaches
      * export() ever asks the container to build these two.
      */
-    public function export(Request $request, Excel $excel, PDF $pdf): Response|JsonResponse
+    public function export(Request $request, Excel $excel): Response|JsonResponse
     {
         $format = strtolower((string) $request->query('format', 'excel'));
         $criteria = DiscoveryFilterCriteria::fromRequestFilters($request->query());
@@ -440,7 +440,7 @@ final class DiscoveryController extends Controller
         return match ($format) {
             'json' => response()->json(['websites' => $rows]),
             'csv' => $excel->download(new DiscoveryResultsExport($rows), 'discovered-websites.csv'),
-            'pdf' => $pdf
+            'pdf' => app(PDF::class)
                 ->loadView('discovery.pdf.export', ['rows' => $rows])
                 ->setPaper('a4', 'landscape')
                 ->download('discovered-websites.pdf'),

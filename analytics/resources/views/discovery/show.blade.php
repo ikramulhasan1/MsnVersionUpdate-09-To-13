@@ -1,56 +1,10 @@
-{{--
-    Website Discovery — Phase E1 (detail page).
-
-    A full page (not an off-canvas drawer — this route already exists
-    as its own dedicated GET page, resources/views/discovery/show.blade.php
-    since Phase A3, and building a second off-canvas entry point
-    alongside it would mean maintaining two ways to reach the same
-    content; a full page also matches App\Audit's own
-    audit/result.blade.php detail-page precedent, which this file's own
-    header/tab styling deliberately draws from) with six Bootstrap
-    nav-tabs: Overview, SEO, Performance, Security, Technology, Business
-    Intelligence.
-
-    Every tab is honestly thinner than audit/result.blade.php's own
-    accordion-based "Detailed Results" section: discovered_websites only
-    ever stores AGGREGATE score/grade per category (see
-    App\Discovery\Jobs\EnrichDiscoveredWebsiteJob's own docblock — it
-    deliberately writes score+grade+technology stack only, never
-    per-check detail), so the SEO/Performance/Security tabs each show a
-    single score+grade "seal" (reusing dashboard.blade.php's own
-    .grade-seal class unchanged) rather than a checklist of individual
-    passes/warnings/fails the way an actual audit's own category card
-    does. Each of those three tabs ends with a "Run a Full Audit" button
-    (the same audits.store form pattern
-    resources/views/discovery/partials/result-card.blade.php's own
-    "Audit Website" button already uses) as the honest next step for
-    anyone who wants that granular detail.
-
-    Expects:
-      $website     App\Models\DiscoveredWebsite
-      $isWatched   bool
-
-    Phase G3 computes the Opportunity indicator (Overview tab) and its
-    full breakdown (Business Intelligence tab) via a live
-    App\Discovery\Scoring\OpportunityScorer call rather than the raw
-    (never-populated) DiscoveredWebsite::$opportunity_score column —
-    see that scorer's own docblock for the exact SEO/Performance/
-    Mobile/Accessibility/Technology-Age formula.
-
-    Phase G4 adds a "Recommended Services" badge row (Business
-    Intelligence tab) from App\Discovery\Scoring\ServiceOpportunityDetector
-    — the exact six rules App\Discovery\Enums\OpportunityFilter::criterion()
-    already documented back in Phase C4, finally evaluated against real
-    site data. See that detector's own docblock for exactly how honest
-    each of the six rules can be with the data this module currently has.
---}}
 @extends('layouts.app')
 
 @section('title', $website->business_name ?? $website->domain)
 
 @php
-    $opportunityResult = new \App\Discovery\Scoring\OpportunityScorer()->score($website);
-    $serviceOpportunities = new \App\Discovery\Scoring\ServiceOpportunityDetector()->detect($website);
+    $opportunityResult = (new \App\Discovery\Scoring\OpportunityScorer())->score($website);
+    $serviceOpportunities = (new \App\Discovery\Scoring\ServiceOpportunityDetector())->detect($website);
     $opportunityLevel = \App\Discovery\Enums\OpportunityLevel::fromScore($opportunityResult->score);
     $opportunityColor = match ($opportunityLevel) {
         \App\Discovery\Enums\OpportunityLevel::HIGH => 'var(--audit-danger)',
