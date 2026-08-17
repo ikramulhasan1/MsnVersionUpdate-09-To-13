@@ -79,11 +79,10 @@ final class BulkFetchJob implements ShouldQueue
      */
     public int $timeout = 600;
 
-    public string $queue = 'audit-bulk';
-
     public function __construct(
         private readonly string $batchUuid,
     ) {
+        $this->onQueue('audit-bulk');
     }
 
     public function handle(
