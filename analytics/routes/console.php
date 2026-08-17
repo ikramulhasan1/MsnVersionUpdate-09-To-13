@@ -90,6 +90,31 @@ Schedule::command('discovery:run-scheduled-searches')->hourly();
 // single, ordinary ad-hoc audit at the same time — --stop-when-empty
 // processes whichever of the three queues actually has work waiting,
 // in the order listed, every time this command runs.
+//
+// REAL PRODUCTION INCIDENT (2026-08-17): this combined command was
+// observed crashing with exit code 137 (OOM-kill, hitting --memory=128)
+// 15+ times in a single day — almost always while working through
+// 'default' (AnalyzeChunkJob, FetchAndCrawlJob) or 'discovery'
+// (DiscoverWebsitesJob) jobs that are individually heavy enough to
+// approach that memory cap on their own. Because 'audit-bulk' is LAST
+// in this list, any run that dies partway through 'default'/'discovery'
+// never reaches 'audit-bulk' at all that minute — and if 'default'/
+// 'discovery' keep receiving crash-prone jobs faster than they can be
+// drained, 'audit-bulk' can be starved indefinitely (a bulk batch
+// sitting at "Queued" for 15-20+ minutes with zero progress, even
+// though the job itself was queued successfully). Giving 'audit-bulk'
+// its own independent scheduled command means a crash while draining
+// 'default'/'discovery' can no longer block it — this entry gets its
+// own process and its own shot every minute regardless of what
+// happens to the other two queues. The 'audit-bulk' entry is also
+// listed a second time in the combined command below (harmless -- a
+// completed/empty queue is just a no-op for --stop-when-empty) purely
+// so a slow minute on the dedicated entry still gets backup coverage
+// from the combined one.
+Schedule::command('queue:work --queue=audit-bulk --stop-when-empty --max-time=50 --memory=128')
+    ->everyMinute()
+    ->withoutOverlapping();
+
 Schedule::command('queue:work --queue=default,discovery,audit-bulk --stop-when-empty --max-time=50 --memory=128')
     ->everyMinute()
     ->withoutOverlapping();
