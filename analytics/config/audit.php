@@ -74,7 +74,30 @@ return [
         'description_max_length' => (int) env('AUDIT_SEO_DESCRIPTION_MAX', 160),
         'thin_content_word_count' => (int) env('AUDIT_SEO_THIN_CONTENT_WORDS', 300),
     ],
-
+    /*
+    |--------------------------------------------------------------------------
+    | Quick Scan Mode
+    |--------------------------------------------------------------------------
+    |
+    | Consumed by App\Audit\Jobs\FetchAndCrawlJob when an audit's own
+    | App\Audit\Enums\AuditMode is QUICK (see that enum's own docblock
+    | for the full picture — this is one of its two speed levers, the
+    | other being App\Audit\Jobs\AnalyzeChunkJob skipping PageSpeed
+    | Insights outright regardless of audit.pagespeed.enabled).
+    |
+    | max_pages overrides audit.crawler.max_pages for a QUICK audit's
+    | own crawl() call specifically — WebsiteCrawlerServiceInterface::crawl()
+    | already accepts a per-call $maxPages override for exactly this,
+    | so this doesn't need any crawler-level change, only a different
+    | argument passed at the one call site. Left as its own key (not
+    | hardcoded to 1 directly in FetchAndCrawlJob) purely so a future
+    | "Quick Scan, but 3 pages instead of just the homepage" tuning
+    | doesn't require a code change.
+    |
+    */
+    'quick_scan' => [
+        'max_pages' => (int) env('AUDIT_QUICK_SCAN_MAX_PAGES', 1),
+    ],
     /*
     |--------------------------------------------------------------------------
     | Multi-Page Analysis

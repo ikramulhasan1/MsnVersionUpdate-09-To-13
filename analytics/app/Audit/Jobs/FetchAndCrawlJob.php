@@ -7,6 +7,7 @@ namespace App\Audit\Jobs;
 use App\Audit\Cache\Contracts\AuditCacheServiceInterface;
 use App\Audit\Crawler\Contracts\WebsiteCrawlerServiceInterface;
 use App\Audit\Crawler\DTO\CrawlResult;
+use App\Audit\Enums\AuditMode;
 use App\Audit\Enums\AuditStatus;
 use App\Audit\Fetching\Contracts\WebsiteFetcherServiceInterface;
 use App\Audit\Fetching\DTO\FetchResult;
@@ -31,6 +32,12 @@ use Throwable;
  * cached FetchResult/CrawlResult — a single worker process may be
  * holding in memory concurrently, and keeps the batch a fixed, small
  * size regardless of how many analyzers the pipeline grows to.
+ *
+ * Phase K1 (Quick Scan Mode): reads $audit->mode (already fetched
+ * above, no extra query) to shorten the crawl to just the entry page
+ * for a QUICK audit, and passes that same mode into every
+ * AnalyzeChunkJob it creates — see App\Audit\Enums\AuditMode's own
+ * docblock for the full picture of what QUICK changes.
  */
 final class FetchAndCrawlJob extends AuditJob implements ShouldBeUnique
 {
@@ -82,10 +89,22 @@ final class FetchAndCrawlJob extends AuditJob implements ShouldBeUnique
 
         $auditUuid = $this->auditUuid;
 
+        // Phase K1 (Quick Scan Mode) — see App\Audit\Enums\AuditMode's
+        // own docblock for the full picture. $audit->mode was already
+        // fetched from the repository above (no extra query needed
+        // here); QUICK overrides the crawl to just the entry page via
+        // WebsiteCrawlerServiceInterface::crawl()'s own per-call
+        // $maxPages parameter, leaving audit.crawler.max_pages (and
+        // every FULL-mode audit's own crawl) completely untouched.
+        $maxPages = $audit->mode === AuditMode::QUICK
+            ? (int) config('audit.quick_scan.max_pages', 1)
+            : null;
+
         $cache->rememberCrawlResult(
             $this->url,
             fn (): CrawlResult => $crawler->crawl(
                 $this->url,
+                maxPages: $maxPages,
                 onProgress: function (int $pagesCrawled, int $maxPages) use ($cache, $auditUuid): void {
                     // Crawling is the slowest phase by far (real, if now
                     // concurrent, network I/O across every page) so it
@@ -111,9 +130,19 @@ final class FetchAndCrawlJob extends AuditJob implements ShouldBeUnique
 
         $chunkSize = max(1, (int) config('audit.queue.chunk_size', 3));
 
+        $mode = $audit->mode;
+
         $chunks = Collection::make(AnalyzeChunkJob::ANALYZER_KEYS)
             ->chunk($chunkSize)
-            ->map(fn (Collection $keys): AnalyzeChunkJob => new AnalyzeChunkJob($auditUuid, $url, $keys->values()->all()))
+            // $mode is passed through so AnalyzeChunkJob's own
+            // 'performance' branch can skip PageSpeed Insights for a
+            // QUICK audit — see that job's own docblock. Read from
+            // $audit (already fetched above) rather than re-querying,
+            // and passed explicitly rather than having each chunk look
+            // it up itself, since AuditMode is a plain, serializable
+            // enum — cheap to carry along, no extra DB round-trip per
+            // chunk needed.
+            ->map(fn (Collection $keys): AnalyzeChunkJob => new AnalyzeChunkJob($auditUuid, $url, $keys->values()->all(), $mode))
             ->all();
 
         Bus::batch($chunks)

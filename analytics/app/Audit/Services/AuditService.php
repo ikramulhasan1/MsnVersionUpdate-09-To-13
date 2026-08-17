@@ -17,8 +17,7 @@ final class AuditService implements AuditServiceInterface
 {
     public function __construct(
         private readonly AuditRepositoryInterface $auditRepository,
-    ) {
-    }
+    ) {}
 
     public function submit(CreateAuditData $data): Audit
     {
@@ -34,6 +33,12 @@ final class AuditService implements AuditServiceInterface
             'uuid' => (string) Str::uuid(),
             'url' => $data->url,
             'status' => AuditStatus::QUEUED->value,
+            // Phase K1 — see App\Audit\Enums\AuditMode's own docblock.
+            // Persisted on the Audit row itself (not just held in this
+            // DTO) so FetchAndCrawlJob/AnalyzeChunkJob can read it back
+            // later without needing it threaded through every job
+            // constructor a second time.
+            'mode' => $data->mode->value,
         ]);
 
         // No queue worker in this deployment — the audit pipeline runs

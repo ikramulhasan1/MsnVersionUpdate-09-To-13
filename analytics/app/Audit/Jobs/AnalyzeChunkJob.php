@@ -13,6 +13,7 @@ use App\Audit\Content\ContentAnalyzer;
 use App\Audit\Crawler\Contracts\WebsiteCrawlerServiceInterface;
 use App\Audit\Crawler\DTO\CrawledPage;
 use App\Audit\Crawler\DTO\CrawlResult;
+use App\Audit\Enums\AuditMode;
 use App\Audit\Fetching\Contracts\WebsiteFetcherServiceInterface;
 use App\Audit\Fetching\DTO\FetchResult;
 use App\Audit\Jobs\Concerns\HasAuditUniqueness;
@@ -66,11 +67,18 @@ final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
 
     /**
      * @param  array<int, string>  $analyzerKeys  subset of ANALYZER_KEYS this chunk runs
+     * @param  AuditMode  $mode  Phase K1 — see that enum's own docblock.
+     *         Defaults to FULL so any pre-Phase-K1 caller (there are
+     *         none left in this codebase, but a queued job payload
+     *         serialized before this parameter existed could still be
+     *         waiting to run) unserializes into the same behavior this
+     *         job already had.
      */
     public function __construct(
         string $auditUuid,
         private readonly string $url,
         private readonly array $analyzerKeys,
+        private readonly AuditMode $mode = AuditMode::FULL,
     ) {
         parent::__construct();
 
@@ -203,7 +211,34 @@ final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
                 // AnalysisResults, which still carries a single-page result
                 // for backward compatibility with the AI recommendation
                 // engine and existing exports.
-                'performance' => $crawlResult->pages === [] ? null : $performanceAnalyzer->analyzeAll($crawlResult),
+                //
+                // Phase K1 (Quick Scan Mode): a QUICK audit never calls
+                // PageSpeed Insights, regardless of whether
+                // config('audit.pagespeed.enabled') is on globally —
+                // that's the single biggest source of audit latency
+                // (a real Lighthouse run on Google's own
+                // infrastructure), and skipping it is QUICK mode's
+                // whole point (see App\Audit\Enums\AuditMode's own
+                // docblock). $performanceAnalyzer (method-injected
+                // above, whatever PageSpeedInsightsClient the
+                // container bound it with) is only used for FULL —
+                // for QUICK, a throwaway PerformanceAnalyzer is
+                // constructed here with pageSpeedClient explicitly
+                // null via a named argument, which skips every
+                // OTHER (numeric-threshold) constructor parameter's
+                // own default entirely. This reuses
+                // PerformanceAnalyzer's own existing "no PSI client
+                // configured" fallback path (see
+                // fetchPageSpeedMetrics()'s own docblock) rather than
+                // adding a second, parallel code path for "PSI
+                // disabled" — QUICK mode and "PSI simply isn't
+                // configured on this install" produce identical
+                // Performance output by construction.
+                'performance' => $crawlResult->pages === [] ? null : (
+                    $this->mode === AuditMode::QUICK
+                        ? (new PerformanceAnalyzer(pageSpeedClient: null))->analyzeAll($crawlResult)
+                        : $performanceAnalyzer->analyzeAll($crawlResult)
+                ),
                 'seo' => $seoAnalyzerService->analyze($crawlResult),
                 // Same empty-pages guard as performance above, and for the
                 // same reason: BusinessSignalsDetector needs a concrete

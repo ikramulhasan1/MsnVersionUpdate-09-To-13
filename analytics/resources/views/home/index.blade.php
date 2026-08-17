@@ -27,6 +27,45 @@
                 class="audit-form mx-auto audit-form-width"
             >
                 @csrf
+
+                {{--
+                    Phase K1 (Quick Scan Mode) — App\Audit\Enums\AuditMode's
+                    own docblock has the full picture of what each option
+                    actually changes. Full Audit is old('mode') !== 'quick' by
+                    default (i.e. selected whenever nothing else was already
+                    chosen on a validation-error redisplay), matching this
+                    app's existing behavior for every audit submitted before
+                    this phase existed.
+                --}}
+                <div class="d-flex justify-content-center gap-4 mb-3">
+                    <div class="form-check">
+                        <input
+                            class="form-check-input"
+                            type="radio"
+                            name="mode"
+                            id="audit-mode-full"
+                            value="full"
+                            @checked(old('mode', 'full') === 'full')
+                        >
+                        <label class="form-check-label" for="audit-mode-full" title="{{ \App\Audit\Enums\AuditMode::FULL->description() }}">
+                            Full Audit
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input
+                            class="form-check-input"
+                            type="radio"
+                            name="mode"
+                            id="audit-mode-quick"
+                            value="quick"
+                            @checked(old('mode') === 'quick')
+                        >
+                        <label class="form-check-label" for="audit-mode-quick" title="{{ \App\Audit\Enums\AuditMode::QUICK->description() }}">
+                            Quick Scan
+                        </label>
+                    </div>
+                </div>
+
                 <div class="input-group input-group-lg shadow-sm">
                     <span class="input-group-text">https://</span>
                     <input
@@ -43,8 +82,8 @@
                         Analyze
                     </button>
                 </div>
-                <p class="text-secondary small mt-2 mb-0">
-                    Full report in minutes. No signup required.
+                <p class="text-secondary small mt-2 mb-0" id="audit-mode-hint">
+                    {{ old('mode') === 'quick' ? \App\Audit\Enums\AuditMode::QUICK->description() : \App\Audit\Enums\AuditMode::FULL->description() }}
                 </p>
             </form>
         </div>
@@ -53,6 +92,28 @@
 
 @push('scripts')
     <script>
+        // Phase K1 (Quick Scan Mode) — keeps the hint paragraph under the
+        // URL field in sync with whichever radio is currently selected,
+        // without a page reload. The descriptions themselves stay
+        // server-rendered (App\Audit\Enums\AuditMode::description()) on
+        // first load/validation-error redisplay; this only needs to swap
+        // between the same two fixed strings afterward, so they're
+        // duplicated here in plain JS rather than round-tripping to the
+        // server for text that never changes at runtime.
+        const AUDIT_MODE_HINTS = {
+            full: 'Crawls multiple pages and includes real PageSpeed Insights data. Takes longer, most complete.',
+            quick: 'Homepage only, no PageSpeed Insights call. Much faster, less depth.',
+        };
+
+        document.querySelectorAll('input[name="mode"]').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                const hint = document.getElementById('audit-mode-hint');
+                if (hint && AUDIT_MODE_HINTS[radio.value]) {
+                    hint.textContent = AUDIT_MODE_HINTS[radio.value];
+                }
+            });
+        });
+
         document.getElementById('audit-form')?.addEventListener('submit', function (event) {
             const urlField = document.getElementById('url');
             let value = urlField.value.trim();

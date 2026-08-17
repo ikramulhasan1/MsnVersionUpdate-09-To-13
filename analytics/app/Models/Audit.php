@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Audit\Enums\AuditMode;
 use App\Audit\Enums\AuditStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ final class Audit extends Model
         'url',
         'url_hash',
         'status',
+        'mode',
     ];
 
     /**
@@ -30,6 +32,10 @@ final class Audit extends Model
 
     protected $casts = [
         'status' => AuditStatus::class,
+        // Phase K1 — see App\Audit\Enums\AuditMode's own docblock. Cast
+        // the same way $status already is: an application-level enum
+        // over a plain string column, not a schema-level ENUM type.
+        'mode' => AuditMode::class,
     ];
 
     /**
