@@ -78,9 +78,18 @@ final class RunScheduledDiscoverySearchJob implements ShouldQueue
 
     public int $timeout = 120;
 
+    /**
+     * See App\Discovery\Jobs\DiscoverWebsitesJob::$queue's own docblock
+     * for the real production incident (Audit's own AnalyzeChunkJob
+     * getting timeout/OOM-killed) this scoping fixes — this job needs
+     * the exact same isolation for the exact same reason.
+     */
+    public string $queue = 'discovery';
+
     public function __construct(
         public readonly DiscoverySearch $search,
-    ) {}
+    ) {
+    }
 
     public function handle(WebsiteSearchService $websiteSearchService, DiscoveryIngestionService $ingestionService): void
     {

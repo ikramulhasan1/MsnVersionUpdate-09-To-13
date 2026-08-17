@@ -75,9 +75,32 @@ final class DiscoverWebsitesJob implements ShouldQueue
      */
     public int $timeout = 45;
 
+    /**
+     * A dedicated queue name — a real production incident, not an
+     * organizational nicety: routes/console.php's own scheduled
+     * `queue:work` command (added for THIS job) was originally
+     * unscoped, meaning it drained the entire default `jobs` table —
+     * including App\Audit\Jobs\AnalyzeChunkJob, Audit's own heavy
+     * analysis job, which this app's Audit module had never previously
+     * needed a real queue worker for. Once that scheduled command
+     * started actually running AnalyzeChunkJob under genuine queue
+     * worker conditions, its own $timeout became enforced for real
+     * (Illuminate\Queue\TimeoutExceededException) in a way it may never
+     * have been exercised under before, and the worker process itself
+     * was OOM-killed (exit code 137) partway through — audits that had
+     * been working started failing. Scoping this job (and
+     * RunScheduledDiscoverySearchJob) to their own 'discovery' queue,
+     * and scoping routes/console.php's scheduled `queue:work` to
+     * --queue=discovery specifically, means that cron entry can never
+     * touch Audit's own queued work again, regardless of how or why
+     * AnalyzeChunkJob ends up in the jobs table.
+     */
+    public string $queue = 'discovery';
+
     public function __construct(
         private readonly DiscoveryFilterCriteria $criteria,
-    ) {}
+    ) {
+    }
 
     public function handle(DiscoveryIngestionService $ingestionService): void
     {
