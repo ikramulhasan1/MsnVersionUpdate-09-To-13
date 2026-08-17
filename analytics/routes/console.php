@@ -25,40 +25,62 @@ Schedule::command('discovery:run-scheduled-searches')->hourly();
 // App\Discovery\Jobs\DiscoverWebsitesJob's own docblock for the real
 // production incident, a 504 Gateway Time-out, that made a queued job
 // necessary here in the first place). Instead of a long-running
-// worker, this drains whatever's queued on the 'discovery' queue
-// (App\Discovery\Jobs\DiscoverWebsitesJob, RunScheduledDiscoverySearchJob)
-// every minute, then exits — --stop-when-empty is what makes that
-// safe to fire from cron repeatedly rather than risking an
-// accumulating pile of overlapping long-running processes.
-// withoutOverlapping() is a second layer of the same protection, in
-// case one run is still draining a large backlog when the next
-// minute's tick fires. --max-time=50 (not the full 60s a minute would
-// allow) leaves a margin for shared-hosting cron itself firing a
-// little late, so this command's own process is never still running
-// when — and therefore never collides with — the NEXT minute's
-// invocation.
+// worker, this drains whatever's queued every minute, then exits —
+// --stop-when-empty is what makes that safe to fire from cron
+// repeatedly rather than risking an accumulating pile of overlapping
+// long-running processes. withoutOverlapping() is a second layer of
+// the same protection, in case one run is still draining a large
+// backlog when the next minute's tick fires. --max-time=50 (not the
+// full 60s a minute would allow) leaves a margin for shared-hosting
+// cron itself firing a little late, so this command's own process is
+// never still running when — and therefore never collides with — the
+// NEXT minute's invocation.
 //
-// --queue=discovery — a REAL production incident, not a naming
-// preference: this command originally had no --queue restriction,
-// meaning it drained the ENTIRE default jobs table — including
-// App\Audit\Jobs\AnalyzeChunkJob, the Audit module's own heavy
-// analysis job, which had never previously run under real queue-
-// worker conditions (no queue worker existed before this Discovery
-// feature needed one). Once this schedule started actually processing
-// AnalyzeChunkJob for real, its own $timeout became genuinely enforced
-// (Illuminate\Queue\TimeoutExceededException) and the worker process
-// itself was OOM-killed mid-job (exit code 137) — audits that used to
-// complete started failing. Restricting this command to
-// --queue=discovery, and scoping every Discovery job to that same
-// queue name (see DiscoverWebsitesJob::$queue's own docblock), means
-// this scheduled command can never touch Audit's own queued work
-// again, regardless of how or why an Audit job ends up in the jobs
-// table.
+// --queue=default,discovery — a two-part REAL production incident,
+// not a naming preference:
+//   1. This command originally had no --queue restriction at all,
+//      meaning it drained the entire jobs table indiscriminately —
+//      including App\Audit\Jobs\AnalyzeChunkJob (the Audit module's
+//      own heavy analysis job, dispatched via Bus::batch() from
+//      App\Audit\Jobs\FetchAndCrawlJob), which had never previously
+//      run under real, timeout-enforcing queue-worker conditions.
+//      AnalyzeChunkJob's own multi-page analysis (five analyzers each
+//      re-fetching and re-analyzing up to
+//      config('audit.multi_page_analysis.per_page_limit') pages) is
+//      genuinely heavy — under real enforcement its own $timeout
+//      started throwing Illuminate\Queue\TimeoutExceededException, and
+//      the worker PROCESS itself was OOM-killed mid-job (exit code
+//      137) on this host's memory cap.
+//   2. The fix for (1) — scoping this command to --queue=discovery
+//      ONLY — went too far the other way: this app's QUEUE_CONNECTION
+//      is 'database' (not 'sync', despite an earlier, incorrect
+//      assumption elsewhere in this codebase — see
+//      App\Audit\Services\AuditService::run()'s own docblock), so
+//      App\Audit\Jobs\FetchAndCrawlJob and its own AnalyzeChunkJob
+//      batch are REAL queued dispatches on Laravel's default queue
+//      name, same as every AuditJob subclass (none of them override
+//      $queue). Nothing else in this app has ever drained that default
+//      queue — this schedule, even before it existed, was
+//      (unintentionally) the only thing making audits progress past
+//      "Queued" at all. Restricting it to --queue=discovery only would
+//      have silently stopped the ENTIRE Audit pipeline from ever
+//      running again.
 //
-// This piggybacks on the exact same cron entry
-// (`* * * * * php artisan schedule:run`) the line above already
-// requires to exist for ITS OWN hourly job to fire at all — no new
-// infrastructure requirement, just a second scheduled entry.
-Schedule::command('queue:work --queue=discovery --stop-when-empty --max-time=50')
+// --memory=128 is the actual fix for the OOM half of incident (1) —
+// this makes the WORKER PROCESS gracefully stop and restart itself
+// once its own memory usage approaches that ceiling (checked between
+// jobs), rather than letting the OS's own out-of-memory killer end it
+// mid-job with no cleanup (exit 137). 128 is a conservative starting
+// point for a shared-hosting per-process cap — raise it if this host's
+// own limit comfortably allows more, or if audits still hit it.
+//
+// The other half of incident (1) — AnalyzeChunkJob's own multi-page
+// analysis being heavy enough to threaten its 90s timeout even without
+// memory pressure — is addressed in .env (AUDIT_MAX_PAGES,
+// AUDIT_MULTI_PAGE_ANALYSIS_PER_PAGE_LIMIT, AUDIT_QUEUE_CHUNK_SIZE,
+// AUDIT_QUEUE_ANALYZE_CHUNK_TIMEOUT_SECONDS), not here — this schedule
+// only controls how work gets picked up, not how much of it a single
+// chunk takes on.
+Schedule::command('queue:work --queue=default,discovery --stop-when-empty --max-time=50 --memory=128')
     ->everyMinute()
     ->withoutOverlapping();
