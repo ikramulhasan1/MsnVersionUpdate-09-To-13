@@ -30,6 +30,15 @@ Route::get('/audits/{audit}/export-excel', [AuditController::class, 'exportExcel
 Route::prefix('bulk-audits')->name('bulk-audits.')->group(function (): void {
     Route::get('/create', [BulkAuditController::class, 'create'])->name('create');
     Route::post('/', [BulkAuditController::class, 'store'])->name('store');
+
+    // Phase K5 — both need to sit BEFORE /{bulkAuditBatch} for the same
+    // reason every other module in this app's own route file already
+    // follows (see the discovery group below for several more examples
+    // of the same pattern): "progress"/"export" would otherwise be
+    // swallowed as the {bulkAuditBatch} wildcard segment itself.
+    Route::get('/{bulkAuditBatch}/progress', [BulkAuditController::class, 'progress'])->name('progress');
+    Route::get('/{bulkAuditBatch}/export', [BulkAuditController::class, 'export'])->name('export');
+
     Route::get('/{bulkAuditBatch}', [BulkAuditController::class, 'show'])->name('show');
 });
 

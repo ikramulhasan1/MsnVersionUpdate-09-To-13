@@ -5,11 +5,18 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Audit\Enums\AuditMode;
+use App\Audit\Enums\BulkAuditBatchStatus;
+use App\Audit\Export\BulkAuditBatchExport;
+use App\Audit\Export\BulkAuditExportRowMapper;
 use App\Audit\Services\BulkAuditBatchService;
 use App\Http\Requests\StoreBulkAuditRequest;
 use App\Models\BulkAuditBatch;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Maatwebsite\Excel\Excel;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Phase K3 (Bulk Audit) — two of this module's three submission entry
@@ -17,11 +24,14 @@ use Illuminate\View\View;
  * DiscoveryController::bulkAudit()'s own existing "Bulk Audit
  * Selected" checkbox flow, extended in this same phase to call the
  * exact same App\Audit\Services\BulkAuditBatchService this controller
- * does). show() is a deliberately minimal placeholder for now — Phase
- * K5 replaces its view with the real results dashboard (per-audit
- * scores, a live-polling progress bar, export); this phase only needs
- * somewhere real for store() to redirect to so a bulk submission has
- * an immediate, working confirmation page rather than a 404.
+ * does).
+ *
+ * Phase K5 fills in show() (the real results dashboard — a live-
+ * polling progress bar while the batch is still processing, then a
+ * per-audit score table once it's done), progress() (the JSON
+ * endpoint that polling reads from), and export() (Excel/CSV/JSON of
+ * the same rows the table itself shows) — all three replacing what
+ * was a deliberately minimal K3 placeholder.
  */
 final class BulkAuditController extends Controller
 {
@@ -75,11 +85,86 @@ final class BulkAuditController extends Controller
             ));
     }
 
-    public function show(BulkAuditBatch $bulkAuditBatch): View
+    /**
+     * $rows mirrors what BulkAuditExportRowMapper builds for the
+     * Excel/CSV/JSON export (Phase K5) — the SAME shape backs the
+     * on-screen table and every downloadable format, so a person never
+     * sees a score on the page that the export doesn't also carry, or
+     * vice versa. Recomputed on every request rather than cached
+     * separately: while the batch is still processing this legitimately
+     * needs to reflect whichever audits have finished BY NOW, and once
+     * finished, reading AnalysisResults straight from
+     * AuditCacheServiceInterface (already itself a cache) is cheap
+     * enough not to need a second layer of caching on top.
+     */
+    public function show(BulkAuditBatch $bulkAuditBatch, BulkAuditExportRowMapper $rowMapper): View
     {
+        $bulkAuditBatch->load('audits');
+
         return view('audit.bulk.show', [
             'batch' => $bulkAuditBatch,
+            'rows' => $rowMapper->map($bulkAuditBatch),
         ]);
+    }
+
+    /**
+     * Polled by public/js/bulk-audit-progress.js (Phase K5) roughly
+     * once every few seconds while a batch is still processing —
+     * mirrors AuditController::progress()'s own polling shape for a
+     * single audit, rolled up to a whole batch's own
+     * completed_count/failed_count/total_count instead of one audit's
+     * percent/label. A batch has no separate progress-cache entry of
+     * its own the way a single audit does (AuditCacheServiceInterface::
+     * getProgress()) — its own three counters, updated as each child
+     * audit finishes (see AssembleAnalysisResultsJob's own
+     * updateBulkAuditBatchIfAny(), and BulkFetchJob::failed()'s own
+     * catastrophic-failure path), are already a complete, cheap-to-read
+     * picture of where the batch stands.
+     */
+    public function progress(BulkAuditBatch $bulkAuditBatch): JsonResponse
+    {
+        return response()->json([
+            'status' => $bulkAuditBatch->status->value,
+            'completed' => $bulkAuditBatch->completed_count,
+            'failed' => $bulkAuditBatch->failed_count,
+            'total' => $bulkAuditBatch->total_count,
+            'percent' => $bulkAuditBatch->progressPercent(),
+            'finished' => $bulkAuditBatch->status === BulkAuditBatchStatus::COMPLETED,
+        ]);
+    }
+
+    /**
+     * Backs the results table's own Export button (Phase K5) —
+     * ?format=excel|csv|json, defaulting to excel. Reads from the exact
+     * same BulkAuditExportRowMapper show() itself uses, so an export
+     * always matches whatever's currently on screen (the same
+     * reasoning DiscoveryController::export()'s own docblock already
+     * documents for a completely different module's export).
+     *
+     * Unlike DiscoveryController::export()'s own PDF-related incident
+     * history, this method only ever needs Excel — there is no PDF
+     * branch here to isolate, so Excel stays a plain constructor-
+     * injected dependency rather than needing the method-injection
+     * workaround that fixed a real production issue there.
+     */
+    public function export(BulkAuditBatch $bulkAuditBatch, Request $request, Excel $excel, BulkAuditExportRowMapper $rowMapper): Response|JsonResponse
+    {
+        $format = strtolower((string) $request->query('format', 'excel'));
+
+        $bulkAuditBatch->load('audits');
+        $rows = $rowMapper->map($bulkAuditBatch);
+
+        return match ($format) {
+            'json' => response()->json(['audits' => $rows]),
+            'csv' => $excel->download(
+                new BulkAuditBatchExport($rows),
+                sprintf('bulk-audit-%s.csv', $bulkAuditBatch->uuid),
+            ),
+            default => $excel->download(
+                new BulkAuditBatchExport($rows),
+                sprintf('bulk-audit-%s.xlsx', $bulkAuditBatch->uuid),
+            ),
+        };
     }
 
     /**
