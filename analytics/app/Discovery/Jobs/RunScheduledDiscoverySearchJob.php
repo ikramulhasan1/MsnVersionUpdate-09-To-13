@@ -84,11 +84,10 @@ final class RunScheduledDiscoverySearchJob implements ShouldQueue
      * getting timeout/OOM-killed) this scoping fixes — this job needs
      * the exact same isolation for the exact same reason.
      */
-    public string $queue = 'discovery';
-
     public function __construct(
         public readonly DiscoverySearch $search,
     ) {
+        $this->onQueue('discovery');
     }
 
     public function handle(WebsiteSearchService $websiteSearchService, DiscoveryIngestionService $ingestionService): void

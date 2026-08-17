@@ -95,11 +95,11 @@ final class DiscoverWebsitesJob implements ShouldQueue
      * touch Audit's own queued work again, regardless of how or why
      * AnalyzeChunkJob ends up in the jobs table.
      */
-    public string $queue = 'discovery';
 
     public function __construct(
         private readonly DiscoveryFilterCriteria $criteria,
     ) {
+        $this->onQueue('discovery');
     }
 
     public function handle(DiscoveryIngestionService $ingestionService): void
