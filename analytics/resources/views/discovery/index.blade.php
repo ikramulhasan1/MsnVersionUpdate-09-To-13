@@ -13,19 +13,20 @@
     file's own docblock. A "List View | Map View" button group (Phase
     E3) toggles between this grid and a Leaflet map plotting every
     filtered result with a latitude/longitude — see
-    public/js/discovery-map.js's own docblock. Each card's separate
-    "Audit" checkbox (Phase H1) is wired up by
-    public/js/discovery-bulk-audit.js, submitting the hidden
-    #discovery-bulk-audit-form to DiscoveryController::bulkAudit() —
-    see that JS file's and controller method's own docblocks for why
-    this reuses the existing single-audit pipeline in a loop rather
-    than a new bulk audit engine, and why the selection is capped at 5.
-    An Export dropdown (Phase H2) links to DiscoveryController::export()
-    with the current filters plus &format=excel|csv|pdf|json, so an
-    export always matches whatever's currently on screen. A "Search
-    Analytics" mini-dashboard (Phase I1) sits between Search and
-    Results — see App\Discovery\Analytics\SearchAnalyticsService's own
-    docblock.
+    public/js/discovery-map.js's own docblock. An Export dropdown
+    (Phase H2) links to DiscoveryController::export() with the current
+    filters plus &format=excel|csv|json, so an export always matches
+    whatever's currently on screen. A "Search Analytics" mini-dashboard
+    (Phase I1) sits between Search and Results — see
+    App\Discovery\Analytics\SearchAnalyticsService's own docblock. Each
+    card's separate "Audit" checkbox (Phase H1, extended in Phase K3)
+    is wired up by public/js/discovery-bulk-audit.js, submitting the
+    hidden #discovery-bulk-audit-form to
+    DiscoveryController::bulkAudit() — which now dispatches through
+    App\Audit\Services\BulkAuditBatchService (a real, dedicated-queue
+    batch, capped at 100 selections) rather than running every selected
+    website's audit synchronously in this same request — see that
+    controller method's own docblock.
 
     Expects:
       $websites         \Illuminate\Contracts\Pagination\LengthAwarePaginator<\App\Models\DiscoveredWebsite> —
@@ -56,20 +57,7 @@
 @section('content')
     <section class="container dashboard-section">
         @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-                @if (session('bulkAuditResults'))
-                    <ul class="mb-0 mt-2 ps-3">
-                        @foreach (session('bulkAuditResults') as $bulkResult)
-                            <li>
-                                <a href="{{ route('audits.show', $bulkResult['uuid']) }}">
-                                    {{ $bulkResult['url'] }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                @endif
-            </div>
+            <div class="alert alert-success">{{ session('status') }}</div>
         @endif
 
         <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
@@ -91,7 +79,8 @@
              public/js/discovery-bulk-audit.js populates it with bulk_audit[] hidden
              inputs from the current selection and submits it, rather than building
              a form (and a CSRF token) from scratch in JS. --}}
-        <form method="POST" action="{{ route('discovery.bulk-audit') }}" id="discovery-bulk-audit-form" class="d-none">
+        <form method="POST" action="{{ route('discovery.bulk-audit') }}" id="discovery-bulk-audit-form"
+            class="d-none">
             @csrf
         </form>
         <section class="mb-4" id="discovery-search-panel">
@@ -201,8 +190,7 @@
 
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
                 <p class="mb-0 fw-medium">
-                    {{ number_format($websites->total()) }}
-                    {{ \Illuminate\Support\Str::plural('Website', $websites->total()) }} Found
+                    {{ number_format($websites->total()) }} {{ \Illuminate\Support\Str::plural('Website', $websites->total()) }} Found
                 </p>
 
                 <div class="d-flex align-items-center gap-3">
@@ -217,7 +205,18 @@
 
                     {{-- Each link carries the current filters (Phase H2) — built from the
                          same $filters array already used to repopulate the search panel and
-                         Sort By dropdown, so an export always matches what's on screen. --}}
+                         Sort By dropdown, so an export always matches what's on screen.
+
+                         PDF is deliberately NOT listed here — a real, unresolved production
+                         issue on this app's specific host: barryvdh/laravel-dompdf's own
+                         ServiceProvider throws "Cannot resolve public path" when actually
+                         building a PDF (DiscoveryController::export()'s own docblock has the
+                         full incident history). Excel/CSV/JSON never touch that package at
+                         all, so all three work regardless; PDF specifically doesn't yet.
+                         The route (discovery.export?format=pdf) and the controller's own
+                         'pdf' match arm are both left in place — re-adding this link is a
+                         one-line change once the underlying public_path() issue is fixed at
+                         the hosting/environment level, not a code change. --}}
                     <div class="dropdown">
                         <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -238,12 +237,6 @@
                             </li>
                             <li>
                                 <a class="dropdown-item"
-                                    href="{{ route('discovery.export', array_merge($filters, ['format' => 'pdf'])) }}">
-                                    PDF
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item"
                                     href="{{ route('discovery.export', array_merge($filters, ['format' => 'json'])) }}">
                                     JSON
                                 </a>
@@ -255,7 +248,8 @@
                         <label for="discovery-sort" class="form-label small fw-medium mb-0">Sort By</label>
                         <select class="form-select form-select-sm" id="discovery-sort" style="width: auto;">
                             @foreach ($sortOptions as $option)
-                                <option value="{{ $option->value }}" @selected(($filters['sort'] ?? '') === $option->value)>
+                                <option value="{{ $option->value }}"
+                                    @selected(($filters['sort'] ?? '') === $option->value)>
                                     {{ $option->label() }}
                                 </option>
                             @endforeach
@@ -317,25 +311,15 @@
         Region/City cascade and "Save this search" in production once before: the fix
         was deployed, but nothing ever told the cache the file was different now.
     --}}
-    <script
-        src="{{ asset('js/discovery-search-panel.js') }}?v={{ file_exists(public_path('js/discovery-search-panel.js')) ? filemtime(public_path('js/discovery-search-panel.js')) : time() }}">
-    </script>
-    <script
-        src="{{ asset('js/discovery-compare.js') }}?v={{ file_exists(public_path('js/discovery-compare.js')) ? filemtime(public_path('js/discovery-compare.js')) : time() }}">
-    </script>
-    <script
-        src="{{ asset('js/discovery-bulk-audit.js') }}?v={{ file_exists(public_path('js/discovery-bulk-audit.js')) ? filemtime(public_path('js/discovery-bulk-audit.js')) : time() }}">
-    </script>
+    <script src="{{ asset('js/discovery-search-panel.js') }}?v={{ file_exists(public_path('js/discovery-search-panel.js')) ? filemtime(public_path('js/discovery-search-panel.js')) : time() }}"></script>
+    <script src="{{ asset('js/discovery-compare.js') }}?v={{ file_exists(public_path('js/discovery-compare.js')) ? filemtime(public_path('js/discovery-compare.js')) : time() }}"></script>
+    <script src="{{ asset('js/discovery-bulk-audit.js') }}?v={{ file_exists(public_path('js/discovery-bulk-audit.js')) ? filemtime(public_path('js/discovery-bulk-audit.js')) : time() }}"></script>
     {{-- Chart.js + dashboard-charts.js (Phase I1) — the exact same CDN version and
          local file the audit result page already loads for its own charts; see that
          file's own docblock for how it now serves both pages via per-chart canvas
          guards. --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-    <script
-        src="{{ asset('js/dashboard-charts.js') }}?v={{ file_exists(public_path('js/dashboard-charts.js')) ? filemtime(public_path('js/dashboard-charts.js')) : time() }}">
-    </script>
+    <script src="{{ asset('js/dashboard-charts.js') }}?v={{ file_exists(public_path('js/dashboard-charts.js')) ? filemtime(public_path('js/dashboard-charts.js')) : time() }}"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script
-        src="{{ asset('js/discovery-map.js') }}?v={{ file_exists(public_path('js/discovery-map.js')) ? filemtime(public_path('js/discovery-map.js')) : time() }}">
-    </script>
+    <script src="{{ asset('js/discovery-map.js') }}?v={{ file_exists(public_path('js/discovery-map.js')) ? filemtime(public_path('js/discovery-map.js')) : time() }}"></script>
 @endpush

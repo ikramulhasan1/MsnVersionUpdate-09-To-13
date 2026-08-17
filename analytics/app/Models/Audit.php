@@ -8,6 +8,7 @@ use App\Audit\Enums\AuditMode;
 use App\Audit\Enums\AuditStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class Audit extends Model
 {
@@ -19,6 +20,11 @@ final class Audit extends Model
         'url_hash',
         'status',
         'mode',
+        // Phase K2 — see App\Models\BulkAuditBatch's own docblock. Null
+        // for every audit submitted the ordinary way (single-URL form)
+        // — this column is the one place that distinguishes a
+        // standalone audit from one submitted as part of a bulk batch.
+        'bulk_audit_batch_id',
     ];
 
     /**
@@ -45,6 +51,16 @@ final class Audit extends Model
     public function getRouteKeyName(): string
     {
         return 'uuid';
+    }
+
+    /**
+     * Null for a standalone audit (see $fillable's own comment on
+     * bulk_audit_batch_id) — Phase K2/K5's own batch results page is
+     * the only place this relation is actually loaded.
+     */
+    public function bulkAuditBatch(): BelongsTo
+    {
+        return $this->belongsTo(BulkAuditBatch::class);
     }
 
     /**

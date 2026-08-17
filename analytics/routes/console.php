@@ -81,6 +81,15 @@ Schedule::command('discovery:run-scheduled-searches')->hourly();
 // AUDIT_QUEUE_ANALYZE_CHUNK_TIMEOUT_SECONDS), not here — this schedule
 // only controls how work gets picked up, not how much of it a single
 // chunk takes on.
-Schedule::command('queue:work --queue=default,discovery --stop-when-empty --max-time=50 --memory=128')
+//
+// 'audit-bulk' (Phase K3) — App\Audit\Services\BulkAuditBatchService
+// dispatches every audit it creates onto this dedicated queue (see
+// App\Audit\Services\Contracts\AuditServiceInterface::run()'s own
+// docblock for why) rather than 'default', so a large bulk submission
+// (many URLs queued at once) can't starve out someone submitting a
+// single, ordinary ad-hoc audit at the same time — --stop-when-empty
+// processes whichever of the three queues actually has work waiting,
+// in the order listed, every time this command runs.
+Schedule::command('queue:work --queue=default,discovery,audit-bulk --stop-when-empty --max-time=50 --memory=128')
     ->everyMinute()
     ->withoutOverlapping();

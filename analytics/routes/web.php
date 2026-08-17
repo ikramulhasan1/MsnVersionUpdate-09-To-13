@@ -3,7 +3,9 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\AuditController;
+use App\Http\Controllers\BulkAuditController;
 use App\Http\Controllers\DiscoveryController;
+use App\Http\Middleware\PreventLiteSpeedCaching;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuditController::class, 'index'])->name('home');
@@ -17,10 +19,35 @@ Route::get('/audits/{audit}/export', [AuditController::class, 'export'])->name('
 Route::get('/audits/{audit}/export-excel', [AuditController::class, 'exportExcel'])
     ->name('audits.export.excel');
 
-Route::prefix('discovery')->name('discovery.')->group(function (): void {
+// Phase K3 (Bulk Audit) — "create" and "{bulkAuditBatch}" both need to
+// sit before any wildcard segment that could otherwise swallow them,
+// the same reasoning every other module in this app's own route file
+// already follows (see the discovery group below for several more
+// examples of the same pattern) — but this group has no OTHER
+// wildcard segment at all yet, so this is really just future-proofing
+// against one being added later without anyone remembering to check
+// route order again.
+Route::prefix('bulk-audits')->name('bulk-audits.')->group(function (): void {
+    Route::get('/create', [BulkAuditController::class, 'create'])->name('create');
+    Route::post('/', [BulkAuditController::class, 'store'])->name('store');
+    Route::get('/{bulkAuditBatch}', [BulkAuditController::class, 'show'])->name('show');
+});
+
+// PreventLiteSpeedCaching applied to the whole group, not just the
+// search-panel JSON endpoints — the index page's own HTML (with its
+// server-rendered filter values and cache-busted asset URLs) needs the
+// exact same "never cache this" treatment, or a stale cached page can
+// keep referencing an old, already-fixed JS file forever. See that
+// middleware's own docblock for the production incident this fixes.
+Route::prefix('discovery')->name('discovery.')->middleware(PreventLiteSpeedCaching::class)->group(function (): void {
     Route::get('/', [DiscoveryController::class, 'index'])->name('index');
     Route::post('/search', [DiscoveryController::class, 'search'])->name('search');
+
+    // POST — no {website}-shaped wildcard conflict, but this is the
+    // module's first REAL discovery action (Phase J1) — see
+    // DiscoveryController::discover()'s own docblock.
     Route::post('/discover', [DiscoveryController::class, 'discover'])->name('discover');
+
     // JSON endpoints backing the search panel's cascading dropdowns
     // (Sub-Niche after Industry, Region/City after Country) — see
     // DiscoveryController's own docblock. Placed before /{website} so

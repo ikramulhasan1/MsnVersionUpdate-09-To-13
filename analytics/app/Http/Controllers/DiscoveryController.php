@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Audit\DTO\CreateAuditData;
-use App\Audit\Services\Contracts\AuditServiceInterface;
+use App\Audit\Enums\AuditMode;
+use App\Audit\Services\BulkAuditBatchService;
 use App\Discovery\Analytics\SearchAnalyticsService;
 use App\Discovery\Enums\BusinessSize;
 use App\Discovery\Enums\ContactAvailability;
@@ -92,7 +92,7 @@ final class DiscoveryController extends Controller
      * this app runs every audit's full pipeline synchronously, in the
      * same request, with no queue worker.
      */
-    private const int MAX_BULK_AUDIT = 5;
+    private const int MAX_BULK_AUDIT = 100;
 
     public function __construct(
         private readonly IndustryTaxonomyService $industryTaxonomy,
@@ -340,25 +340,25 @@ final class DiscoveryController extends Controller
 
     /**
      * Backs the Results section's "Bulk Audit Selected" floating bar
-     * (Phase H1) — reuses the EXACT existing single-audit pipeline
-     * (AuditServiceInterface::submit()/run(), the same two calls
-     * AuditController::store() itself already makes for one URL — see
-     * that method's own docblock) once per selected website, rather
-     * than a new bulk-specific audit engine.
+     * (Phase H1). Phase K3 rewrote this to go through the exact same
+     * App\Audit\Services\BulkAuditBatchService the dedicated
+     * /bulk-audits/create form (BulkAuditController) uses — one
+     * App\Models\BulkAuditBatch, one Audit per selected website, every
+     * one of them dispatched onto the 'audit-bulk' queue — rather than
+     * running each selected website's audit synchronously, one after
+     * another, in this same request, which is what this method used to
+     * do (see self::MAX_BULK_AUDIT's own docblock for why that no
+     * longer needs to bound this request's own worst-case wait time).
      *
-     * This app has no queue worker (QUEUE_CONNECTION=sync — see
-     * AuditService::run()'s own docblock): each audit's full pipeline
-     * runs synchronously, in this same request, one after another. That
-     * makes a large bulk selection genuinely slow (and risks a web
-     * server/proxy request timeout) — capped at self::MAX_BULK_AUDIT
-     * (5) for exactly that reason, the same cap
-     * public/js/discovery-compare.js already uses for its own selection
-     * limit, chosen here to keep worst-case wait time bounded rather
-     * than for any UI-consistency reason. A future phase moving this
-     * app onto a real queue worker would let this cap grow (or go away
-     * entirely) without this method's own logic changing.
+     * Mode defaults to QUICK (see public/js/discovery-bulk-audit.js's
+     * own floating-bar <select> for how a person can choose FULL
+     * instead before submitting) — Discovery's own result cards are
+     * primarily a lead-scanning workflow (see G3's own Opportunity
+     * scoring), where a fast, homepage-only signal across many
+     * candidates at once is usually more useful than a slow, deep
+     * report on a handful.
      */
-    public function bulkAudit(Request $request, AuditServiceInterface $auditService): RedirectResponse
+    public function bulkAudit(Request $request, BulkAuditBatchService $bulkAuditBatchService): RedirectResponse
     {
         $uuids = array_values(array_unique(array_filter(
             (array) $request->input('bulk_audit', []),
@@ -373,29 +373,19 @@ final class DiscoveryController extends Controller
 
         $uuids = array_slice($uuids, 0, self::MAX_BULK_AUDIT);
 
-        $websites = DiscoveredWebsite::query()->whereIn('uuid', $uuids)->get();
+        $urls = DiscoveredWebsite::query()->whereIn('uuid', $uuids)->pluck('url')->all();
 
-        $completedAudits = [];
+        $mode = AuditMode::tryFrom((string) $request->input('mode', '')) ?? AuditMode::QUICK;
 
-        foreach ($websites as $website) {
-            $audit = $auditService->submit(CreateAuditData::fromArray(['url' => $website->url]));
-
-            // wasRecentlyCreated is false when submit() returned an
-            // already-in-flight/completed audit for this URL instead of
-            // creating a new one — the same duplicate-prevention check
-            // AuditController::store() already relies on; running the
-            // pipeline again here would be redundant.
-            if ($audit->wasRecentlyCreated) {
-                $auditService->run($audit);
-            }
-
-            $completedAudits[] = ['uuid' => $audit->uuid, 'url' => $website->url];
-        }
+        $batch = $bulkAuditBatchService->createBatch($urls, $mode);
 
         return redirect()
-            ->route('discovery.index')
-            ->with('status', sprintf('%d website(s) audited.', count($completedAudits)))
-            ->with('bulkAuditResults', $completedAudits);
+            ->route('bulk-audits.show', $batch)
+            ->with('status', sprintf(
+                '%d website(s) queued for %s.',
+                $batch->total_count,
+                $mode->label(),
+            ));
     }
 
     /**

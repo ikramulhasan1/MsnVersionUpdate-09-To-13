@@ -132,6 +132,19 @@ final class FetchAndCrawlJob extends AuditJob implements ShouldBeUnique
 
         $mode = $audit->mode;
 
+        // Phase K3 (Bulk Audit) — $this->queue is null for an ordinary,
+        // non-bulk audit (AuditService::run() never calls onQueue() for
+        // that flow) and 'audit-bulk' for one dispatched by
+        // App\Audit\Services\BulkAuditBatchService — either way,
+        // whatever queue THIS job itself landed on is the queue its own
+        // downstream work (the analyzer batch, and the assembly job
+        // that follows it) should land on too, so a bulk audit's entire
+        // pipeline — not just its first job — stays on the dedicated
+        // 'audit-bulk' queue routes/console.php's own scheduled
+        // queue:work processes separately from ordinary single-audit
+        // traffic.
+        $queue = $this->queue;
+
         $chunks = Collection::make(AnalyzeChunkJob::ANALYZER_KEYS)
             ->chunk($chunkSize)
             // $mode is passed through so AnalyzeChunkJob's own
@@ -145,7 +158,7 @@ final class FetchAndCrawlJob extends AuditJob implements ShouldBeUnique
             ->map(fn (Collection $keys): AnalyzeChunkJob => new AnalyzeChunkJob($auditUuid, $url, $keys->values()->all(), $mode))
             ->all();
 
-        Bus::batch($chunks)
+        $batch = Bus::batch($chunks)
             ->name("audit-analysis:{$auditUuid}")
             ->allowFailures()
             // Analyzer chunks each report a fraction of the fixed 70-90%
@@ -174,10 +187,19 @@ final class FetchAndCrawlJob extends AuditJob implements ShouldBeUnique
             // AssembleAnalysisResultsJob is responsible for deciding,
             // from which analyzer fragments actually made it into the
             // cache, whether the audit is COMPLETED or FAILED.
-            ->finally(function () use ($auditUuid, $url): void {
-                AssembleAnalysisResultsJob::dispatch($auditUuid, $url);
-            })
-            ->dispatch();
+            ->finally(function () use ($auditUuid, $url, $queue): void {
+                $dispatch = AssembleAnalysisResultsJob::dispatch($auditUuid, $url);
+
+                if ($queue !== null) {
+                    $dispatch->onQueue($queue);
+                }
+            });
+
+        if ($queue !== null) {
+            $batch->onQueue($queue);
+        }
+
+        $batch->dispatch();
     }
 
     public function failed(Throwable $e): void

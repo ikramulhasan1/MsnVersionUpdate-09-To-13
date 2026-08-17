@@ -17,7 +17,8 @@ final class AuditService implements AuditServiceInterface
 {
     public function __construct(
         private readonly AuditRepositoryInterface $auditRepository,
-    ) {}
+    ) {
+    }
 
     public function submit(CreateAuditData $data): Audit
     {
@@ -41,42 +42,61 @@ final class AuditService implements AuditServiceInterface
             'mode' => $data->mode->value,
         ]);
 
-        // No queue worker in this deployment — the audit pipeline runs
-        // directly in this PHP process (see run()) rather than being
-        // dispatched onto a queue for a separate `queue:work` process to
-        // pick up. AuditController::store() is responsible for actually
-        // calling run(), after (where the server supports it) flushing
-        // the redirect response to the browser first so the result
-        // page's progress bar has something to poll while this process
-        // keeps working — see that method for why the call isn't made
-        // here.
+        // The actual pipeline dispatch happens in run() (see this
+        // class's own docblock there for what "dispatch" really means
+        // on this app's QUEUE_CONNECTION=database setup) —
+        // AuditController::store() is responsible for actually calling
+        // run(), after (where the server supports it) flushing the
+        // redirect response to the browser first so the result page's
+        // progress bar has something to poll while the queue worker
+        // picks the job up.
         return $audit;
     }
 
-    public function run(Audit $audit): void
+    public function run(Audit $audit, ?string $queue = null): void
     {
-        // php.ini's max_execution_time (commonly 30-60s under a web
-        // SAPI) would otherwise kill this mid-audit — a real queue
-        // worker process never hits this because PHP's CLI SAPI
-        // defaults max_execution_time to unlimited. Since this now runs
-        // as a (possibly long) continuation of a web request instead,
-        // it needs its own explicit budget: generous enough to cover a
-        // slow/worst-case crawl, matching the timeout FetchAndCrawlJob
-        // itself would have been given by a queue worker.
+        // NOTE: this app's actual QUEUE_CONNECTION is 'database', not
+        // 'sync' — the comments below describing FetchAndCrawlJob::dispatch()
+        // as executing "immediately, in this same process" were WRONG
+        // relative to that real setting (see
+        // routes/console.php's own scheduled queue:work comment for the
+        // production incident — a 504 Gateway Time-out on a completely
+        // different module, plus an OOM-killed worker — that surfaced
+        // this same mistaken assumption and corrected it there). The
+        // dispatch below is a REAL queued job: it writes one row to the
+        // `jobs` table and returns almost immediately; the actual fetch/
+        // crawl/analyze work happens later, in whatever process next
+        // runs `php artisan queue:work` against that job's own queue.
+        //
+        // set_time_limit() below is a holdover from when this method's
+        // own docblock (incorrectly) assumed synchronous, in-request
+        // execution — with a real queued dispatch it has little left to
+        // protect against (this method returns almost instantly after
+        // the dispatch() call below), but is left in place rather than
+        // removed as an out-of-scope cleanup unrelated to what actually
+        // needed fixing here (Phase K3's own $queue parameter).
         set_time_limit((int) config('audit.queue.fetch_and_crawl_timeout_seconds', 300) + 30);
 
-        // QUEUE_CONNECTION=sync means this dispatch executes
-        // immediately, in this same process — no `queue:work` worker
-        // required. Deliberately going through the normal dispatch()
-        // rather than calling the job's handle() directly keeps this
-        // test-friendly — Queue::fake() / Bus::fake() intercept it
-        // exactly as they would any other queued dispatch — and
-        // preserves FetchAndCrawlJob's ShouldBeUnique / WithoutOverlapping
-        // guards, both of which a direct handle() call would silently
-        // skip. The sync driver already calls the job's failed()
-        // callback automatically on an uncaught exception, the same as
-        // a real worker would.
-        FetchAndCrawlJob::dispatch($audit->uuid, $audit->url);
+        // Deliberately going through the normal dispatch() rather than
+        // calling the job's handle() directly keeps this test-friendly
+        // — Queue::fake() / Bus::fake() intercept it exactly as they
+        // would any other queued dispatch — and preserves
+        // FetchAndCrawlJob's ShouldBeUnique / WithoutOverlapping guards,
+        // both of which a direct handle() call would silently skip.
+        //
+        // $queue (Phase K3) — see this method's own interface docblock
+        // for why App\Audit\Services\BulkAuditBatchService passes
+        // 'audit-bulk' here instead of leaving it null. onQueue() is
+        // only called when a queue was actually specified, rather than
+        // always calling onQueue($queue) with a possibly-null value —
+        // FetchAndCrawlJob's own $queue property then simply stays
+        // unset for an ordinary, non-bulk audit, exactly as it already
+        // did before this parameter existed.
+        $dispatch = FetchAndCrawlJob::dispatch($audit->uuid, $audit->url);
+
+        if ($queue !== null) {
+            $dispatch->onQueue($queue);
+        }
     }
 
     public function findOrFail(string $uuid): Audit
