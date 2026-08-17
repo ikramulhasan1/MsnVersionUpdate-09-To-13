@@ -222,17 +222,17 @@
                          confirm()-before-submit handler for this button. --}}
                     <button type="submit" formaction="{{ route('discovery.discover') }}"
                         class="btn btn-outline-primary w-100" id="discovery-discover-btn"
-                        title="Search Google Places and Yelp (and any other connected source) for new websites matching these filters — runs in the background">
+                        title="Queue a search of Google Places and Yelp (and any other connected source) for new websites matching these filters">
                         Discover More
                     </button>
                 </div>
             </div>
 
             <p class="text-secondary small mt-2 mb-0">
-                "Search" looks through websites this module already knows about. "Discover More" goes out
-                and looks for brand new ones (via Google Places, Yelp, and any other connected source)
-                matching these same filters. It runs in the background — the page reloads right away, but
-                refresh it again in about 15-30 seconds to see any new results actually appear.
+                "Search" looks through websites this module already knows about. "Discover More" queues a
+                background check (via Google Places, Yelp, and any other connected source) for brand new
+                ones matching these same filters. The page reloads right away, but it can take a minute or
+                two before any new results actually appear — refresh again after a couple of minutes.
             </p>
 
             {{-- Filled in by JS (public/js/discovery-search-panel.js's "Save this search"

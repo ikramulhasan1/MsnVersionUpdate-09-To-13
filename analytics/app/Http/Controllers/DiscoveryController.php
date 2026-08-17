@@ -20,7 +20,7 @@ use App\Discovery\Enums\WebsiteType;
 use App\Discovery\Export\DiscoveredWebsitesToExportRows;
 use App\Discovery\Export\DiscoveryResultsExport;
 use App\Discovery\Geo\Contracts\GeoLookupServiceInterface;
-use App\Discovery\Ingestion\DiscoveryIngestionService;
+use App\Discovery\Jobs\DiscoverWebsitesJob;
 use App\Discovery\Search\DTO\DiscoveryFilterCriteria;
 use App\Discovery\Search\WebsiteSearchService;
 use App\Discovery\Taxonomy\IndustryTaxonomyService;
@@ -63,9 +63,10 @@ use Symfony\Component\HttpFoundation\Response;
  * own docblock for the real production incident that reasoning fixes)
  * / I1 (Search Analytics mini-dashboard — analytics computed by
  * SearchAnalyticsService, not this controller) / J1 (discover() —
- * the module's first real external data acquisition; see
- * App\Discovery\Ingestion\DiscoveryIngestionService's own docblock for
- * what turns a source's candidates into real, persisted rows).
+ * dispatches App\Discovery\Jobs\DiscoverWebsitesJob and redirects
+ * immediately; see that job's own docblock for why an earlier
+ * fastcgi_finish_request()-based approach was replaced with a real
+ * queued job).
  *
  * Wires up the module's routes (see routes/web.php) with real,
  * working controller actions and view/route-model-binding plumbing,
@@ -224,11 +225,13 @@ final class DiscoveryController extends Controller
      * for both) — the first time this module ever actually goes and
      * finds NEW candidate websites rather than only searching whatever
      * discovered_websites already happens to contain. Every source
-     * listed in config('discovery.sources') (today: GooglePlacesSource,
-     * YelpBusinessSource, InternalCrawlSource) runs against the SAME
-     * filters just submitted, via DiscoveryIngestionService — see that
-     * class's own docblock for exactly how a candidate becomes a real,
-     * deduplicated DiscoveredWebsite row.
+     * listed in config('discovery.sources') (today: YelpBusinessSource,
+     * InternalCrawlSource) runs against the SAME filters just
+     * submitted, via DiscoveryIngestionService (called from inside
+     * App\Discovery\Jobs\DiscoverWebsitesJob, not this method directly
+     * — see that job's own docblock for why) — see that service's own
+     * docblock for exactly how a candidate becomes a real, deduplicated
+     * DiscoveredWebsite row.
      *
      * Validated the same way search() itself is (SearchDiscoveryRequest)
      * before redirecting back to the results for those same filters —
@@ -237,59 +240,51 @@ final class DiscoveryController extends Controller
      * "go look for brand new candidates first" step before the results
      * render.
      *
-     * fastcgi_finish_request() — a REAL production fix, not a
-     * precaution: this app has no queue worker (see bulkAudit()'s own
-     * docblock for the same constraint elsewhere in this controller),
-     * and two external APIs' worth of search + up to
-     * MAX_DETAIL_LOOKUPS-per-source detail calls easily exceeds nginx's
-     * own default gateway timeout (60s) — a real "504 Gateway Time-out"
-     * was hit in production once the actual ingestion work grew past
-     * what a single HTTP request/response cycle can wait for.
-     * AuditController::store() already established this EXACT technique
-     * for the same underlying reason (its own docblock explains it in
-     * full) — the redirect is flushed to the browser and its connection
-     * closed FIRST, then discoverAndIngest() keeps running in this same
-     * PHP-FPM worker process afterward, so nginx never sees a response
-     * that took longer than its own timeout to arrive. The trade-off:
-     * since the redirect is sent before discovery actually finishes,
-     * this method can no longer report a real created/skippedExisting
-     * count in that redirect's flash message — see the status text
-     * below, which says "started in the background" rather than
-     * reporting numbers it doesn't have yet. A person clicking
-     * "Discover More" needs to reload discovery.index a little later
-     * (15-30s) to see any new results actually appear.
+     * PRODUCTION INCIDENT HISTORY — read before changing this method:
+     * this action originally ran discoverAndIngest() directly, in this
+     * same request, and hit a real "504 Gateway Time-out" once two
+     * external APIs' worth of search + detail calls exceeded the
+     * gateway's own timeout. A first fix tried fastcgi_finish_request()
+     * (the same technique AuditController::store() already uses
+     * successfully for its own long-running work) to flush the
+     * redirect early and keep working in the background — but the SAME
+     * 504 recurred, because that function only helps when PHP is
+     * actually running under the FPM SAPI and every layer between the
+     * browser and PHP agrees "PHP says it's done" means "the request is
+     * finished"; on this app's specific host (nginx in front of what
+     * other evidence — an "x-lscache" response header seen during this
+     * same incident — suggests is a LiteSpeed backend), that
+     * assumption didn't hold.
+     *
+     * The actual fix: this method now does no external API work at
+     * all — it only dispatches DiscoverWebsitesJob (queued, not run
+     * inline) and redirects immediately. See that job's own docblock
+     * for exactly how it gets processed without a persistent queue
+     * worker (a scheduled `queue:work --stop-when-empty`, added to
+     * routes/console.php, piggybacking on the SAME cron this module's
+     * own Phase F4 scheduled-search feature already requires). The
+     * trade-off communicated in the status message below: a "Discover
+     * More" click waits for the next scheduler tick before the job
+     * even starts (up to ~60s), then the same 10-30s of actual API
+     * calls on top of that — noticeably slower than the
+     * fastcgi_finish_request() attempt's near-instant background start
+     * would have been if it had worked, but reliable regardless of
+     * which SAPI or proxy layers this app happens to be deployed
+     * behind.
      */
-    public function discover(
-        SearchDiscoveryRequest $request,
-        DiscoveryIngestionService $ingestionService,
-    ): RedirectResponse {
+    public function discover(SearchDiscoveryRequest $request): RedirectResponse
+    {
         $validated = $request->validated();
         $criteria = DiscoveryFilterCriteria::fromRequestFilters($validated);
 
-        $response = redirect()
+        DiscoverWebsitesJob::dispatch($criteria);
+
+        return redirect()
             ->route('discovery.index', $validated)
-            ->with('status', 'Discovery started in the background — refresh this page in about '
-                .'15-30 seconds to see any new results.');
-
-        // See this method's own docblock for the production incident
-        // this fixes — same technique, same caveats (only available
-        // under PHP-FPM; falls back to finishing discovery before the
-        // redirect goes out anywhere else, e.g. `php artisan serve` or
-        // Octane) as AuditController::store()'s own use of this
-        // function.
-        if (function_exists('fastcgi_finish_request')) {
-            $response->prepare($request);
-            $response->send();
-            fastcgi_finish_request();
-        }
-
-        $sources = collect(config('discovery.sources', []))
-            ->map(static fn (string $class) => app($class))
-            ->all();
-
-        $ingestionService->discoverAndIngest($criteria, $sources);
-
-        return $response;
+            ->with('status', 'Discovery has been queued — it can take a minute or two to '
+                .'actually run (it waits for a scheduled background check, not this page '
+                .'load). Refresh this page again in a couple of minutes to see any new '
+                .'results.');
     }
 
     public function show(DiscoveredWebsite $website): View
