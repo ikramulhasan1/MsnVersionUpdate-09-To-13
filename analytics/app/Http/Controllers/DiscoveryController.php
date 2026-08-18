@@ -322,11 +322,41 @@ final class DiscoveryController extends Controller
         AnalysisResultsToDashboardCategories $dashboardCategoryMapper,
     ): View {
         $normalizer = new DomainNormalizer();
+        $targetHash = $normalizer->hash($website->url);
+
+        // PRODUCTION INCIDENT — read before comparing against
+        // Audit::$url_hash directly again: that column is NOT the same
+        // hash DomainNormalizer::hash() produces. It's set by
+        // App\Models\Audit::booted() as a plain md5($audit->url) — no
+        // scheme/www/trailing-slash normalization at all — for a
+        // completely different purpose (AuditRepository's own exact-
+        // duplicate-request lookup optimization, see that column's own
+        // docblock on the model). The EXACT SAME literal URL string
+        // (confirmed directly against production data: DiscoveredWebsite
+        // and a real completed Audit both storing the identical
+        // "http://www.tavernacapranica.it") produced two DIFFERENT
+        // hashes here, because DomainNormalizer::hash() normalizes
+        // before hashing and Audit's own md5() doesn't — so a WHERE
+        // clause comparing the two was guaranteed to never match,
+        // regardless of how genuinely identical the underlying website
+        // was. The one place this SAME comparison IS valid is
+        // App\Audit\Jobs\AssembleAnalysisResultsJob::syncToDiscoveredWebsite(),
+        // which correctly compares DomainNormalizer::hash($audit->url)
+        // against DiscoveredWebsite::$url_hash — that column genuinely
+        // IS populated via DomainNormalizer (see that model's own
+        // booted() hook), unlike Audit's.
+        //
+        // The fix: narrow candidates via a cheap LIKE on the domain
+        // first (bounds this to a handful of rows, no new index
+        // needed), then compare DomainNormalizer::hash() computed
+        // fresh on BOTH sides in PHP — never against Audit's own
+        // url_hash column at all.
         $fullAudit = Audit::query()
-            ->where('url_hash', $normalizer->hash($website->url))
             ->where('status', AuditStatus::COMPLETED->value)
-            ->latest('updated_at')
-            ->first();
+            ->where('url', 'like', '%'.$website->domain.'%')
+            ->orderByDesc('updated_at')
+            ->get()
+            ->first(static fn (Audit $audit): bool => $normalizer->hash($audit->url) === $targetHash);
 
         $fullReportData = null;
 
