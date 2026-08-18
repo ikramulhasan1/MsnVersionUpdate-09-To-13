@@ -398,50 +398,8 @@
 
                             <p class="fw-medium mb-3">Website Quality</p>
                             <div class="row g-4 mb-2">
-                                {{--
-                                    PRODUCTION INCIDENT — read before putting an inline
-                                    associative array literal back directly inside the
-                                    loop directive below, as "iterable-value as key =>
-                                    value": that exact construct (an array literal with
-                                    its OWN key/value pairs, immediately followed by the
-                                    loop directive's own "as key => value" pair)
-                                    reliably failed to compile correctly on this app's
-                                    specific PHP/Laravel version — every pair-separator
-                                    token on that one line (five total: four inside the
-                                    array literal, one for the loop directive's own
-                                    split) left Blade's own compiler unable to reliably
-                                    isolate which one was the real separator, and the
-                                    resulting compiled PHP silently left that whole line
-                                    (and the small variable-assignment block immediately
-                                    after it) as literal, uncompiled text rather than
-                                    real PHP — which in turn meant the loop never
-                                    actually ran, and $qualityName (used several lines
-                                    below, once per iteration) was never assigned at
-                                    all, throwing "Undefined variable" at runtime. This
-                                    was reliably reproducible across cache-clears,
-                                    view:cache, and even renaming the loop variable
-                                    itself — the combination of the two pair-bearing
-                                    expressions on one line was the actual defect, not
-                                    caching or naming.
-
-                                    Extracting the array into its own $qualityGroups
-                                    variable FIRST, then looping over that variable (a
-                                    single, unambiguous pair-separator per line from
-                                    here on), sidesteps the parsing ambiguity entirely.
-
-                                    IMPORTANT FOR FUTURE EDITS TO THIS COMMENT: do not
-                                    write the literal directive keywords this incident
-                                    is about inside this comment block — Blade's own
-                                    directive compiler matched those literal keywords
-                                    EVEN INSIDE THIS COMMENT on a prior deploy attempt
-                                    (before comment-stripping ran), throwing off this
-                                    whole file's own loop-open/loop-close count and
-                                    causing a totally unrelated "unexpected end of
-                                    file" error much further down in this same file.
-                                    Describe the directives in prose only, never typed
-                                    out verbatim, if this comment is ever expanded.
-                                --}}
-                                @php
+                                
+                                                                @php
                                     $qualityGroups = [
                                         'seo' => 'SEO',
                                         'performance' => 'Performance',
@@ -449,29 +407,42 @@
                                         'accessibility' => 'Accessibility',
                                     ];
                                 @endphp
+
                                 @foreach ($qualityGroups as $qualityKey => $qualityName)
                                     @php
                                         $qualityMin = $filters['quality'][$qualityKey]['min'] ?? 0;
                                         $qualityMax = $filters['quality'][$qualityKey]['max'] ?? 100;
                                     @endphp
+
                                     <div class="col-12 col-md-6 col-lg-3">
                                         <div class="d-flex justify-content-between align-items-center mb-1">
                                             <label class="form-label small fw-medium mb-0">
                                                 {{ $qualityName }} Score
                                             </label>
+
                                             <span class="small text-secondary font-mono">
                                                 <span data-range-min-label>{{ $qualityMin }}</span>&ndash;<span
                                                     data-range-max-label>{{ $qualityMax }}</span>
                                             </span>
                                         </div>
+
                                         <div class="discovery-range-slider" data-range-slider>
-                                            <input type="range" class="discovery-range-input" min="0"
-                                                max="100" step="1"
-                                                name="quality[{{ $qualityKey }}][min]" value="{{ $qualityMin }}"
+                                            <input type="range"
+                                                class="discovery-range-input"
+                                                min="0"
+                                                max="100"
+                                                step="1"
+                                                name="quality[{{ $qualityKey }}][min]"
+                                                value="{{ $qualityMin }}"
                                                 data-range-role="min">
-                                            <input type="range" class="discovery-range-input" min="0"
-                                                max="100" step="1"
-                                                name="quality[{{ $qualityKey }}][max]" value="{{ $qualityMax }}"
+
+                                            <input type="range"
+                                                class="discovery-range-input"
+                                                min="0"
+                                                max="100"
+                                                step="1"
+                                                name="quality[{{ $qualityKey }}][max]"
+                                                value="{{ $qualityMax }}"
                                                 data-range-role="max">
                                         </div>
                                     </div>
