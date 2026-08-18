@@ -86,6 +86,16 @@
                     {{ old('mode') === 'quick' ? \App\Audit\Enums\AuditMode::QUICK->description() : \App\Audit\Enums\AuditMode::FULL->description() }}
                 </p>
             </form>
+
+            {{-- Phase K5 — a second, more contextual entry point into
+                 /bulk-audits/create alongside the navbar link
+                 (resources/views/layouts/app.blade.php) — right where a
+                 person auditing ONE site here would naturally wonder
+                 whether auditing several at once is possible too. --}}
+            <p class="text-secondary small mt-3 mb-0">
+                Need to audit multiple websites at once?
+                <a href="{{ route('bulk-audits.create') }}">Try Bulk Audit</a>.
+            </p>
         </div>
     </section>
 @endsection

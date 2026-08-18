@@ -54,6 +54,18 @@
                 <span class="brand-mark">WD</span> Website Discovery
             </a>
 
+            {{-- Phase K3/K5 (Bulk Audit) — the only navbar entry point into
+                 /bulk-audits/create; before this, that page (and the whole
+                 bulk-audit feature) had no link ANYWHERE pointing to it —
+                 Discovery's own "Bulk Audit Selected" floating bar is a
+                 separate, contextual entry point (only ever visible once
+                 some result cards are already selected there), not a
+                 substitute for a real, always-visible way in. --}}
+            <a class="app-navbar-link ms-3 {{ request()->routeIs('bulk-audits.*') ? 'active' : '' }}"
+                href="{{ route('bulk-audits.create') }}">
+                <span class="brand-mark">BA</span> Bulk Audit
+            </a>
+
             <button type="button" id="theme-toggle" class="btn btn-sm theme-toggle ms-auto"
                 aria-label="Toggle dark mode" aria-pressed="false">
                 <svg class="theme-toggle-icon theme-toggle-icon-light" viewBox="0 0 24 24" fill="none"
