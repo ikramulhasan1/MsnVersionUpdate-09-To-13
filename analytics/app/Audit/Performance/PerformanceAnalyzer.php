@@ -106,6 +106,37 @@ final class PerformanceAnalyzer
      * Insights is enabled) LCP/CLS/FID can all differ page to page on
      * the same site.
      */
+        /**
+     * PRODUCTION INCIDENT — read before calling $this->analyze($page)
+     * for every page again: this method used to do exactly that, which
+     * meant one real PageSpeed Insights HTTP call PER successfully
+     * crawled page (up to config('audit.multi_page_analysis.per_page_limit')
+     * pages) — each call itself bounded by PageSpeedInsightsClient's
+     * own timeout (20s by default), but with NO overall budget across
+     * however many pages were being analyzed in this one call. Several
+     * pages' worth of PSI calls, run sequentially, could easily exceed
+     * App\Audit\Jobs\AnalyzeChunkJob's own overall per-chunk timeout —
+     * which doesn't fail gracefully the way a single slow PSI call
+     * does (PageSpeedInsightsClient's own docblock: "every failure mode
+     * ... collapses to null") but instead kills the ENTIRE chunk job
+     * via Illuminate\Queue\TimeoutExceededException, mid-HTTP-request,
+     * which on this app's specific host also took the whole
+     * `queue:work` worker PROCESS down with it (exit code 137).
+     *
+     * The fix: only the entry page ($crawlResult->startUrl — the most
+     * representative, most valuable Core Web Vitals signal for the
+     * site as a whole) gets a real PSI-enriched analysis. Every OTHER
+     * page reuses the exact same no-PSI fallback path Quick Scan mode
+     * already established (App\Audit\Enums\AuditMode::QUICK — see
+     * App\Audit\Jobs\AnalyzeChunkJob's own 'performance' match arm): a
+     * fresh PerformanceAnalyzer constructed with pageSpeedClient: null,
+     * which makes NO HTTP call at all and returns instantly. This
+     * bounds a Full Audit's own worst-case PSI latency to ONE call,
+     * regardless of how many pages are being analyzed — matching
+     * QUICK mode's own reasoning that PSI is the single slowest step
+     * in the whole pipeline, just applied per-audit here instead of
+     * per-mode.
+     */
     public function analyzeAll(CrawlResult $crawlResult): PerformanceAuditResult
     {
         $successfulPages = array_values(array_filter(
@@ -113,10 +144,14 @@ final class PerformanceAnalyzer
             static fn (CrawledPage $page): bool => $page->success,
         ));
 
+        $noPsiAnalyzer = new self(pageSpeedClient: null);
+
         $pageResults = [];
 
         foreach ($successfulPages as $page) {
-            $pageResults[$page->url] = $this->analyze($page);
+            $pageResults[$page->url] = $page->url === $crawlResult->startUrl
+                ? $this->analyze($page)
+                : $noPsiAnalyzer->analyze($page);
         }
 
         $scoredResults = array_filter(
