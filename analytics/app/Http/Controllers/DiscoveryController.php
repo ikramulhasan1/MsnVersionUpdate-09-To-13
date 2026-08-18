@@ -178,7 +178,9 @@ final class DiscoveryController extends Controller
             'websites' => $this->websiteSearchService->paginate($criteria),
             'filters' => $request->query(),
             'industries' => $this->industryTaxonomy->industries(),
+            'industryCounts' => $this->websiteSearchService->countsByIndustry(),
             'countries' => $this->geoLookup->countries(),
+            'countryCounts' => $this->websiteSearchService->countsByCountry(),
             'websiteStatuses' => WebsiteConnectivityStatus::cases(),
             'websiteTypes' => WebsiteType::cases(),
             'technologyGroups' => $this->technologyFilterOptions->all(),
@@ -322,6 +324,7 @@ final class DiscoveryController extends Controller
             ->route('discovery.show', $website)
             ->with('status', 'Removed from your watchlist.');
     }
+
     /**
      * Backs each result card's delete icon (see
      * discovery/partials/result-card.blade.php) — permanently removes
@@ -353,6 +356,7 @@ final class DiscoveryController extends Controller
             ->back(fallback: route('discovery.index'))
             ->with('status', "Removed {$domain} from Website Discovery.");
     }
+
     /**
      * Backs the Watchlist page (Phase G1) — every DiscoveryWatchlistItem,
      * newest first, eager-loading discoveredWebsite so

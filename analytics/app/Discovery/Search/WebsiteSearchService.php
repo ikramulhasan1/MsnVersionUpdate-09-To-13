@@ -128,7 +128,52 @@ final class WebsiteSearchService
             ->paginate($perPage)
             ->withQueryString();
     }
+    /**
+     * Feature request — a real, direct answer to "which Industry
+     * dropdown options actually have matching data right now, and how
+     * much": a plain count(*) grouped by industry, completely
+     * unfiltered by any OTHER current search criteria (deliberately —
+     * this reflects the whole discovered_websites table, not "how many
+     * match my other filters too", so the count next to each Industry
+     * option in the dropdown stays meaningful/stable regardless of
+     * what else is currently selected). search-panel.blade.php uses
+     * this to append a "(N)" count to each option and disable
+     * (visually gray out) any industry with a count of zero, so a
+     * person can see at a glance which of the curated taxonomy's own
+     * 21 names actually have real data behind them right now, rather
+     * than discovering that only after selecting one and getting zero
+     * results back.
+     *
+     * @return array<string, int> industry name => matching row count
+     */
+    public function countsByIndustry(): array
+    {
+        return $this->model->newQuery()
+            ->whereNotNull('industry')
+            ->where('industry', '!=', '')
+            ->selectRaw('industry, count(*) as total')
+            ->groupBy('industry')
+            ->pluck('total', 'industry')
+            ->all();
+    }
 
+    /**
+     * Same reasoning as countsByIndustry() above, for the Country
+     * dropdown — see that method's own docblock.
+     *
+     * @return array<string, int> country value (as stored on
+     *         discovered_websites.country) => matching row count
+     */
+    public function countsByCountry(): array
+    {
+        return $this->model->newQuery()
+            ->whereNotNull('country')
+            ->where('country', '!=', '')
+            ->selectRaw('country, count(*) as total')
+            ->groupBy('country')
+            ->pluck('total', 'country')
+            ->all();
+    }
     public function query(DiscoveryFilterCriteria $criteria): Builder
     {
         // Eager-loads watchlistItem so a results list (see

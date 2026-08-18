@@ -146,14 +146,16 @@
         <form method="POST" action="{{ route('discovery.search') }}" id="discovery-search-form">
             @csrf
 
-            <div class="row g-3">
+                        <div class="row g-3">
                 <div class="col-12 col-md-6 col-lg-3">
                     <label for="discovery-industry" class="form-label small fw-medium">Industry</label>
                     <select class="form-select" id="discovery-industry" name="industry">
                         <option value="">Any industry</option>
                         @foreach ($industries as $industry)
-                            <option value="{{ $industry }}" @selected(($filters['industry'] ?? '') === $industry)>
-                                {{ $industry }}
+                            @php($industryCount = $industryCounts[$industry] ?? 0)
+                            <option value="{{ $industry }}" @selected(($filters['industry'] ?? '') === $industry)
+                                @disabled($industryCount === 0)>
+                                {{ $industry }} ({{ $industryCount }})
                             </option>
                         @endforeach
                     </select>
@@ -174,8 +176,10 @@
                     <select class="form-select" id="discovery-country" name="country">
                         <option value="">Any country</option>
                         @foreach ($countries as $country)
-                            <option value="{{ $country['code'] }}" @selected(($filters['country'] ?? '') === $country['code'])>
-                                {{ $country['name'] }}
+                            @php($countryCount = $countryCounts[$country['code']] ?? 0)
+                            <option value="{{ $country['code'] }}" @selected(($filters['country'] ?? '') === $country['code'])
+                                @disabled($countryCount === 0)>
+                                {{ $country['name'] }} ({{ $countryCount }})
                             </option>
                         @endforeach
                     </select>
