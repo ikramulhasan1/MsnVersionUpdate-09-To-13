@@ -472,9 +472,12 @@ final class AnalysisResultsToDashboardCategories
                 // since absence of a signal isn't itself a problem.
                 'status' => $detected ? 'pass' : 'warning',
                 'note' => $businessSignals->signalDetails[$signal] ?? null,
-                // BusinessSignalsResult carries no page/element location
-                // data of its own, so this is always the empty shape.
-                'location' => $this->location(null),
+                // Phase M4 — BusinessSignalsResult now DOES carry its own
+                // per-signal page location (BusinessSignalsResult::$signalPageUrls
+                // — see that property's own docblock for the incident this
+                // fixes), so this no longer needs to always be the empty
+                // shape the way it used to.
+                'location' => $this->location($businessSignals->signalPageUrls[$signal] ?? null),
             ];
         }
 
