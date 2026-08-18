@@ -206,7 +206,21 @@
                     <input type="number" class="form-control" id="discovery-radius" name="radius" min="0"
                         step="1" value="{{ $filters['radius'] ?? '' }}" placeholder="e.g. 25">
                 </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <label for="discovery-discovered-from" class="form-label small fw-medium">
+                        Discovered From
+                    </label>
+                    <input type="date" class="form-control" id="discovery-discovered-from" name="discovered_from"
+                        value="{{ $filters['discovered_from'] ?? '' }}">
+                </div>
 
+                <div class="col-12 col-md-6 col-lg-3">
+                    <label for="discovery-discovered-to" class="form-label small fw-medium">
+                        Discovered To
+                    </label>
+                    <input type="date" class="form-control" id="discovery-discovered-to" name="discovered_to"
+                        value="{{ $filters['discovered_to'] ?? '' }}">
+                </div>
                 <div class="col-12 col-lg-3 d-flex align-items-end gap-2">
                     <button type="submit" class="btn btn-primary flex-grow-1">Search</button>
                     <button type="button" class="btn btn-outline-secondary flex-shrink-0"

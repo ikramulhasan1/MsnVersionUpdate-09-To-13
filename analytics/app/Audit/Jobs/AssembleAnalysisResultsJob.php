@@ -29,6 +29,11 @@ use App\Audit\UiUx\DTO\UiUxResult;
 use App\Models\Audit;
 use App\Models\BulkAuditBatch;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
+use App\Audit\Technology\DTO\TechnologyResult;
+use App\Audit\Technology\TechnologyDetector;
+use App\Discovery\Normalization\DomainNormalizer;
+use App\Models\DiscoveredWebsite;
+use Illuminate\Support\Str;
 use Throwable;
 
 
@@ -258,6 +263,19 @@ final class AssembleAnalysisResultsJob extends AuditJob implements ShouldBeUniqu
         );
 
         $this->updateBulkAuditBatchIfAny($audit, $complete);
+        
+
+        // Feature request — see syncToDiscoveredWebsite()'s own
+        // docblock. Only for a genuinely COMPLETED audit ($complete):
+        // a FAILED audit's $results is a much thinner, partial DTO
+        // (whichever analyzer chunks actually made it into the cache
+        // before something else failed) — syncing that into Discovery
+        // would risk overwriting a real, healthy existing row's own
+        // scores with nulls/incomplete data, which is worse than not
+        // syncing at all.
+        if ($complete) {
+            $this->syncToDiscoveredWebsite($audit, $results);
+        }
     }
 
     /**
@@ -297,7 +315,144 @@ final class AssembleAnalysisResultsJob extends AuditJob implements ShouldBeUniqu
             $batch->update(['status' => BulkAuditBatchStatus::COMPLETED->value]);
         }
     }
+    /**
+     * Feature request — keeps App\Models\DiscoveredWebsite in sync with
+     * whatever a real audit (single or bulk — this job is the one place
+     * every audit's own pipeline converges regardless of how it was
+     * submitted, so hooking in here covers both without touching
+     * AuditService/BulkAuditBatchService separately) just found for a
+     * URL, and never creates a duplicate row for one.
+     *
+     * MATCHING: uses the exact same normalize-then-hash logic
+     * App\Models\DiscoveredWebsite::booted() itself already applies to
+     * every row's own url_hash (via App\Discovery\Normalization\DomainNormalizer
+     * — the same normalizer App\Discovery\Ingestion\DiscoveryIngestionService
+     * already relies on for the SAME "never duplicate a URL" guarantee
+     * across Discovery's own external sources), so an audit of
+     * "https://example.com/" and a Yelp-discovered "http://www.example.com"
+     * are correctly recognized as the SAME site rather than creating a
+     * second row.
+     *
+     * UPDATE vs CREATE: if a matching DiscoveredWebsite already exists,
+     * only its score/grade/technology/last_updated_at columns are
+     * overwritten — industry/country/city/business_size/... (whatever
+     * some OTHER source, e.g. Yelp, already populated) are left
+     * completely untouched, since an audit has no signal for any of
+     * those at all. A brand new row created here gets `industry` set
+     * to the literal string 'Uncategorized' rather than left null —
+     * a deliberate choice: every other column CAN honestly stay empty
+     * (this source simply doesn't know), but Industry specifically
+     * always gets a real, non-null value so a row that started life as
+     * a direct audit is never invisible to (or silently excluded from)
+     * the Industry filter/dynamic dropdown
+     * (App\Discovery\Taxonomy\IndustryTaxonomyService) the way a NULL
+     * value already correctly is.
+     *
+     * Wrapped in its own try/catch — a failure syncing to Discovery
+     * must never turn an otherwise-successfully-completed audit into a
+     * failed one; this is a side effect of a completed audit, not a
+     * required step of completing one.
+     */
+    private function syncToDiscoveredWebsite(Audit $audit, AnalysisResults $results): void
+    {
+        try {
+            $normalizer = new DomainNormalizer();
+            $hash = $normalizer->hash($audit->url);
+            $host = parse_url($audit->url, PHP_URL_HOST);
+            $domain = is_string($host) && $host !== '' ? $host : $audit->url;
 
+            $columns = [
+                'seo_score' => $results->seo?->averageScore,
+                'seo_grade' => $results->seo !== null ? $this->seoGradeFor($results->seo->averageScore) : null,
+                'performance_score' => $results->performance?->score,
+                'performance_grade' => $results->performance?->grade,
+                'security_score' => $results->security?->score,
+                'security_grade' => $results->security?->grade,
+                'accessibility_score' => $results->accessibility?->score,
+                'accessibility_grade' => $results->accessibility?->grade,
+                'last_updated_at' => now(),
+            ];
+
+            if ($results->technology !== null) {
+                $columns['cms'] = $this->technologyColumnValue($results->technology, ['CMS']);
+                $columns['framework'] = $this->technologyColumnValue(
+                    $results->technology,
+                    ['Backend Framework', 'JavaScript Framework', 'CSS Framework'],
+                );
+                $columns['ecommerce_platform'] = $this->technologyColumnValue($results->technology, ['Ecommerce']);
+                $columns['server'] = $results->technology->serverHeader;
+                $columns['cdn'] = $this->technologyColumnValue($results->technology, ['Infrastructure']);
+            }
+
+            $existing = DiscoveredWebsite::query()->where('url_hash', $hash)->first();
+
+            if ($existing !== null) {
+                $existing->update($columns);
+
+                return;
+            }
+
+            DiscoveredWebsite::query()->create(array_merge($columns, [
+                'uuid' => (string) Str::uuid(),
+                'domain' => $domain,
+                'url' => $audit->url,
+                // See this method's own docblock for why this specific
+                // column always gets a real value rather than staying
+                // null like every other one here.
+                'industry' => 'Uncategorized',
+                'discovery_source' => 'audit',
+                'discovered_at' => now(),
+            ]));
+        } catch (Throwable $exception) {
+            report($exception);
+        }
+    }
+
+    /**
+     * SeoAuditResult has no grade of its own (unlike Security/
+     * Accessibility/Performance, whose analyzers already compute one)
+     * — mirrors the exact A/B/C/D/F thresholds
+     * App\Discovery\Jobs\EnrichDiscoveredWebsiteJob's own gradeFor()
+     * already uses for the identical purpose, so an SEO grade written
+     * here means the same thing as one written by that job.
+     */
+    private function seoGradeFor(int $score): string
+    {
+        return match (true) {
+            $score >= 90 => 'A',
+            $score >= 75 => 'B',
+            $score >= 60 => 'C',
+            $score >= 40 => 'D',
+            default => 'F',
+        };
+    }
+
+    /**
+     * Copied from (not shared with, via a trait, across a Discovery <->
+     * Audit namespace boundary) App\Discovery\Jobs\Concerns\BuildsSinglePageCrawlResult's
+     * own technologyColumnValue() — identical logic, kept as its own
+     * small, self-contained private method here rather than pulling in
+     * that trait's other, unrelated methods (crawledPageFrom(),
+     * singlePageCrawlResult()) that this job has no use for.
+     */
+    private function technologyColumnValue(TechnologyResult $technology, array $categories): ?string
+    {
+        $names = [];
+
+        foreach (TechnologyDetector::CATEGORY_MAP as $slug => $category) {
+            if (! in_array($category, $categories, true)) {
+                continue;
+            }
+
+            $detection = $technology->detections[$slug] ?? null;
+
+            if ($detection !== null && $detection->detected) {
+                $names[] = TechnologyDetector::TECHNOLOGY_NAMES[$slug] ?? ucfirst($slug);
+            }
+        }
+
+        return $names === [] ? null : implode(', ', $names);
+    }
     public function failed(Throwable $e): void
     {
         $this->markAuditFailedIfNotFinished($e);

@@ -91,6 +91,8 @@ final readonly class DiscoveryFilterCriteria
         public ?ContactAvailability $contactAvailability = null,
         public ?DiscoverySortOption $sort = null,
         public array $booleanTerms = [],
+        public ?string $discoveredFrom = null,
+        public ?string $discoveredTo = null,
     ) {
     }
 
@@ -117,6 +119,8 @@ final readonly class DiscoveryFilterCriteria
             contactAvailability: self::enumFrom(ContactAvailability::class, $filters['contact_availability'] ?? null),
             sort: self::enumFrom(DiscoverySortOption::class, $filters['sort'] ?? null),
             booleanTerms: self::booleanTerms($filters['boolean_query'] ?? null),
+            discoveredFrom: self::validDateString($filters['discovered_from'] ?? null),
+            discoveredTo: self::validDateString($filters['discovered_to'] ?? null),
         );
     }
 
@@ -124,7 +128,16 @@ final readonly class DiscoveryFilterCriteria
     {
         return is_string($value) && $value !== '' ? $value : null;
     }
+    private static function validDateString(mixed $value): ?string
+    {
+        if (! is_string($value) || $value === '') {
+            return null;
+        }
 
+        $date = \DateTimeImmutable::createFromFormat('Y-m-d', $value);
+
+        return $date instanceof \DateTimeImmutable && $date->format('Y-m-d') === $value ? $value : null;
+    }
     private static function nonEmptyInt(mixed $value): ?int
     {
         return is_numeric($value) ? (int) $value : null;

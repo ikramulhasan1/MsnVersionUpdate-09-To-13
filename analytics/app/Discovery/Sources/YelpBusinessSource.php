@@ -236,11 +236,12 @@ final class YelpBusinessSource implements DiscoverySourceInterface
         /** @var array<string, mixed> $location */
         $location = is_array($business['location'] ?? null) ? $business['location'] : [];
 
-        return new DiscoveredWebsiteDTO(
+                return new DiscoveredWebsiteDTO(
             url: $website,
             domain: $host,
             discoverySource: $this->sourceName(),
             industry: $this->firstCategoryTitle($business),
+            subNiche: $this->secondCategoryTitle($business),
             country: is_string($location['country'] ?? null) ? $location['country'] : null,
             city: is_string($location['city'] ?? null) ? $location['city'] : null,
         );
@@ -307,6 +308,18 @@ final class YelpBusinessSource implements DiscoverySourceInterface
         }
 
         $title = $categories[0]['title'] ?? null;
+
+        return is_string($title) ? $title : null;
+    }
+        private function secondCategoryTitle(array $business): ?string
+    {
+        $categories = $business['categories'] ?? [];
+
+        if (! is_array($categories) || ! isset($categories[1]) || ! is_array($categories[1])) {
+            return null;
+        }
+
+        $title = $categories[1]['title'] ?? null;
 
         return is_string($title) ? $title : null;
     }

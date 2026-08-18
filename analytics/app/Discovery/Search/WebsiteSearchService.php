@@ -151,6 +151,7 @@ final class WebsiteSearchService
         $this->applyContactAvailability($query, $criteria->contactAvailability);
         $this->applySort($query, $criteria->sort);
         $this->applyBooleanQuery($query, $criteria->booleanTerms);
+        $this->applyDiscoveredDateRange($query, $criteria);
 
         return $query;
     }
@@ -273,7 +274,16 @@ final class WebsiteSearchService
             $query->where('domain_age_days', '<=', $maxYears * 365);
         }
     }
+    private function applyDiscoveredDateRange(Builder $query, DiscoveryFilterCriteria $criteria): void
+    {
+        if ($criteria->discoveredFrom !== null) {
+            $query->whereDate('discovered_at', '>=', $criteria->discoveredFrom);
+        }
 
+        if ($criteria->discoveredTo !== null) {
+            $query->whereDate('discovered_at', '<=', $criteria->discoveredTo);
+        }
+    }
     /**
      * Every LastUpdatedRange case except OVER_YEAR means "at or after
      * this cutoff" (a recency floor); OVER_YEAR is the one case that

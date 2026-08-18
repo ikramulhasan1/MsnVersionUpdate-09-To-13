@@ -115,6 +115,7 @@ final class DiscoveryIngestionService
                     'domain' => $candidate->domain,
                     'url' => $candidate->url,
                     'industry' => $candidate->industry,
+                    'sub_niche' => $candidate->subNiche,
                     'country' => $candidate->country,
                     'city' => $candidate->city,
                     'discovery_source' => $candidate->discoverySource,

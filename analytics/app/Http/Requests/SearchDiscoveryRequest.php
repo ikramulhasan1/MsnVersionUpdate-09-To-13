@@ -52,6 +52,8 @@ final class SearchDiscoveryRequest extends FormRequest
             'region' => ['nullable', 'string', 'max:150'],
             'city' => ['nullable', 'string', 'max:150'],
             'radius' => ['nullable', 'integer', 'min:0'],
+            'discovered_from' => ['nullable', 'date_format:Y-m-d'],
+            'discovered_to' => ['nullable', 'date_format:Y-m-d', 'after_or_equal:discovered_from'],
 
             'status' => ['nullable', 'array'],
             'status.*' => ['string', Rule::enum(WebsiteConnectivityStatus::class)],

@@ -22,14 +22,18 @@ namespace App\Discovery\Sources\DTO;
  * see InternalCrawlSource's own docblock for exactly where that
  * boundary sits.
  *
- * $industry/$country/$city are deliberately nullable and, for
- * InternalCrawlSource specifically, always null: that source has no
- * real signal for either (see its own docblock) and this DTO would
- * rather leave a field empty than have a source guess at data it
+ * $industry/$subNiche/$country/$city are deliberately nullable and,
+ * for InternalCrawlSource specifically, always null: that source has
+ * no real signal for any of them (see its own docblock) and this DTO
+ * would rather leave a field empty than have a source guess at data it
  * doesn't actually know, the same "don't fabricate what isn't there"
  * rule this module's other components already follow. A future source
  * with a genuine signal for these (e.g. a business directory API that
  * returns a category/location directly) can populate them for real.
+ * $subNiche in particular is only ever populated by
+ * App\Discovery\Sources\YelpBusinessSource today, and only when a
+ * business happens to have a second Yelp category — see that class's
+ * own docblock.
  */
 final readonly class DiscoveredWebsiteDTO
 {
@@ -38,7 +42,9 @@ final readonly class DiscoveredWebsiteDTO
         public string $domain,
         public string $discoverySource,
         public ?string $industry = null,
+        public ?string $subNiche = null,
         public ?string $country = null,
         public ?string $city = null,
-    ) {}
+    ) {
+    }
 }
