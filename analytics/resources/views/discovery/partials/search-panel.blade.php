@@ -146,9 +146,18 @@
         <form method="POST" action="{{ route('discovery.search') }}" id="discovery-search-form">
             @csrf
 
-                        <div class="row g-3">
+            <div class="row g-3">
                 <div class="col-12 col-md-6 col-lg-3">
                     <label for="discovery-industry" class="form-label small fw-medium">Industry</label>
+                    {{-- Feature request — each option shows a real "(N)" count of
+                         matching websites (WebsiteSearchService::countsByIndustry(),
+                         completely unfiltered by any OTHER current search criteria —
+                         see that method's own docblock for why) and is disabled
+                         (grayed out by the browser natively) when that count is
+                         zero, so a person can see at a glance which of the curated
+                         taxonomy's own 21 names actually have real data behind them
+                         right now, rather than discovering that only after
+                         selecting one and getting zero results back. --}}
                     <select class="form-select" id="discovery-industry" name="industry">
                         <option value="">Any industry</option>
                         @foreach ($industries as $industry)
@@ -173,6 +182,16 @@
 
                 <div class="col-12 col-md-6 col-lg-3">
                     <label for="discovery-country" class="form-label small fw-medium">Country</label>
+                    {{-- Same "(N)" count + disabled-when-zero treatment as Industry
+                         above — see WebsiteSearchService::countsByCountry()'s own
+                         docblock. Also doubles as a real diagnostic: if EVERY
+                         country here shows (0) despite discovered_websites clearly
+                         having rows, that's a strong sign this dropdown's own
+                         $country['code'] values (ISO 3166-1 alpha-2, from
+                         GeoLookupServiceInterface::countries()) don't actually match
+                         whatever raw value discovered_websites.country is storing
+                         for real rows — worth checking directly against the table's
+                         own data if that happens. --}}
                     <select class="form-select" id="discovery-country" name="country">
                         <option value="">Any country</option>
                         @foreach ($countries as $country)
@@ -185,7 +204,6 @@
                     </select>
                 </div>
 
-                
                 <div class="col-12 col-md-6 col-lg-3">
                     <label for="discovery-region" class="form-label small fw-medium">Region</label>
                     <select class="form-select" id="discovery-region" name="region"
@@ -211,6 +229,15 @@
                     <input type="number" class="form-control" id="discovery-radius" name="radius" min="0"
                         step="1" value="{{ $filters['radius'] ?? '' }}" placeholder="e.g. 25">
                 </div>
+
+                {{-- Feature request: filter by WHEN this module found a site
+                     (discovered_at), separate from the Advanced Filters accordion's
+                     own "Last Updated" bucket (last_updated_at — a SITE's own content
+                     freshness, not when this module found it). Plain <input type="date">
+                     rather than a bucketed <select> like Last Updated, since a specific
+                     from/to range is exactly what "discovered date" means as a request,
+                     unlike Last Updated's own deliberately coarse buckets — see
+                     WebsiteSearchService::applyDiscoveredDateRange()'s own docblock. --}}
                 <div class="col-12 col-md-6 col-lg-3">
                     <label for="discovery-discovered-from" class="form-label small fw-medium">
                         Discovered From
@@ -226,6 +253,7 @@
                     <input type="date" class="form-control" id="discovery-discovered-to" name="discovered_to"
                         value="{{ $filters['discovered_to'] ?? '' }}">
                 </div>
+
                 <div class="col-12 col-lg-3 d-flex align-items-end gap-2">
                     <button type="submit" class="btn btn-primary flex-grow-1">Search</button>
                     <button type="button" class="btn btn-outline-secondary flex-shrink-0"
