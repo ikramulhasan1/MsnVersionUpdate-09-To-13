@@ -21,15 +21,50 @@
                     <span class="badge {{ audit_status_badge_class($audit->status) }} fs-6 px-3 py-2">
                         {{ audit_status_label($audit->status) }}
                     </span>
+                    {{--
+                        PRODUCTION INCIDENT (Phase M3) — this "Print Report"
+                        button only ever called the BROWSER's own
+                        window.print() on the LIVE page (its real Chart.js
+                        canvases included) — never
+                        route('audits.export', $audit), the actual
+                        dompdf-rendered PDF export
+                        (App\Audit\Export\Pdf\AuditPdfExportService, whose own
+                        Charts section — resources/views/audit/pdf/partials/charts.blade.php
+                        — was ALREADY built as dompdf-safe HTML/CSS bars
+                        specifically to avoid a JS-canvas-in-PDF problem) —
+                        that route existed and worked, it was simply never
+                        linked from anywhere in this page. Browser print-to-PDF
+                        is well known to render <canvas> content unreliably
+                        (often blank, or cut off mid-page depending on when
+                        print fires relative to Chart.js finishing its own
+                        draw), which is almost certainly why charts (and,
+                        depending on where a page break fell, sometimes score
+                        figures) were reported missing/wrong specifically in
+                        "the PDF" — the PDF being downloaded was never
+                        actually this app's own dompdf export at all.
+                        window.print() is left in place as a quick,
+                        no-download option for someone who just wants to
+                        print/preview the page as-is — but "Download PDF
+                        Report" (this new link) is now the one real way to
+                        get the actual, chart-safe, correctly-scored file.
+                    --}}
                     <button type="button" class="btn btn-outline-secondary btn-sm d-print-none" onclick="window.print()">
                         Print Report
                     </button>
                     @if ($audit->status === \App\Audit\Enums\AuditStatus::COMPLETED)
+                        <a href="{{ route('audits.export', $audit) }}"
+                            class="btn btn-outline-secondary btn-sm d-print-none">
+                            Download PDF Report
+                        </a>
                         <a href="{{ route('audits.export.excel', $audit) }}"
                             class="btn btn-outline-secondary btn-sm d-print-none">
                             Download Excel Report
                         </a>
                     @else
+                        <button type="button" class="btn btn-outline-secondary btn-sm d-print-none" disabled
+                            title="Available once the audit finishes">
+                            Download PDF Report
+                        </button>
                         <button type="button" class="btn btn-outline-secondary btn-sm d-print-none" disabled
                             title="Available once the audit finishes">
                             Download Excel Report

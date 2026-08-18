@@ -133,6 +133,24 @@ final class AIRecommendationEngine
      */
     private function executiveSummary(AnalysisResults $results, array $issues): ExecutiveSummary
     {
+        // PRODUCTION INCIDENT (Phase M3) — this array used to have only
+        // 7 entries, missing $results->prospectQualification?->score.
+        // App\Http\Controllers\AuditController::show()'s own
+        // $overallScore (the number the web dashboard actually shows —
+        // see App\Audit\Export\Support\AnalysisResultsToDashboardCategories::categories(),
+        // which includes a 'lead_intelligence' category card scored
+        // from prospectQualification->score) averages 8 categories,
+        // this one only averaged 7 — the exact same set MINUS Prospect
+        // Qualification. Whenever a real ProspectQualificationResult
+        // existed and its score differed from the other 7 categories'
+        // own average (the common case, not an edge case), this
+        // method's own overall_score — which
+        // App\Audit\Export\Support\SummaryResultsToRows::summary()
+        // reads directly for the PDF/Excel "Overall Score" row — simply
+        // did not match what the web page showed for the same audit.
+        // Adding it here is the fix: both now average the exact same 8
+        // inputs, so they can never disagree again for the same
+        // AnalysisResults.
         $scores = array_values(array_filter(
             [
                 $results->security?->score,
@@ -142,6 +160,7 @@ final class AIRecommendationEngine
                 $results->performance?->score,
                 $results->businessOpportunity?->score,
                 $results->seo?->averageScore,
+                $results->prospectQualification?->score,
             ],
             static fn (?int $score): bool => $score !== null,
         ));
