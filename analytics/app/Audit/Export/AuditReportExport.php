@@ -9,7 +9,6 @@ use App\Audit\AIRecommendation\DTO\AnalysisResults;
 use App\Audit\Export\Sheets\AnalysisSheetExport;
 use App\Audit\Export\Sheets\BusinessAnalysisSheetExport;
 use App\Audit\Export\Sheets\ChartsSheetExport;
-use App\Audit\Export\Sheets\LeadIntelligenceSheetExport;
 use App\Audit\Export\Sheets\RecommendationsSheetExport;
 use App\Audit\Export\Sheets\ScoresSheetExport;
 use App\Audit\Export\Sheets\SummarySheetExport;
@@ -55,14 +54,29 @@ use Maatwebsite\Excel\Concerns\WithMultipleSheets;
  *     capped column width — applied via WithEvents so it never touches
  *     any sheet's collection()/array()/headings()/title() logic.
  *
- * Group U adds a final "Lead Intelligence" worksheet, covering prospect
- * score/grade/priority, business signals, contacts found, and
- * technology upgrade opportunities — see
- * AnalysisResultsToRows::leadIntelligence(). Added conditionally, the
- * same way Recommendations already is: only when there's at least one
- * real row to show, so an audit with none of prospectQualification /
- * businessSignals / contactInfo / technologyUpgradeOpportunities simply
- * doesn't get an empty worksheet.
+ * Group U added a "Lead Intelligence" worksheet (prospect score/grade/
+ * priority, business signals, contacts found, and technology upgrade
+ * opportunities — via AnalysisResultsToRows::leadIntelligence()).
+ *
+ * PRODUCTION INCIDENT (Phase M2) — that worksheet was removed on
+ * request: Lead Intelligence and Prospect Qualification data (the
+ * SAME leadIntelligence() method covered both together — prospect
+ * score/grade/priority IS the Prospect Qualification data, folded into
+ * that one method rather than living in a separate one) don't belong
+ * in a report meant to hand to a prospect or client, only on the
+ * in-app dashboard (audit/partials/dashboard-components.blade.php's
+ * own "Lead Intelligence" category card, and
+ * audit/partials/full-report.blade.php's own dedicated "Prospect
+ * Qualification" block — see that partial's own docblock — are both
+ * UNCHANGED by this: this fix only touches what gets EXPORTED, not
+ * what the app itself shows). Outreach Draft was never exported here
+ * to begin with — it has no corresponding sheet/mapper method and
+ * needed no removal. leadIntelligence() itself, LeadIntelligenceRow,
+ * and LeadIntelligenceSheetExport are left in place as dead code
+ * rather than deleted outright — removing an unused class carries more
+ * risk of missing some other caller than leaving it unreferenced does,
+ * and this class's own docblock plus this one together make clear
+ * why it's no longer called from here.
  *
  * $recommendationResult stays nullable throughout: Recommendations,
  * the recommendation-derived rows on Summary, and the severity pie
@@ -109,11 +123,11 @@ final class AuditReportExport implements WithMultipleSheets
             );
         }
 
-        $leadIntelligenceRows = $this->mapper->leadIntelligence($this->results);
-
-        if ($leadIntelligenceRows->isNotEmpty()) {
-            $sheets[] = new LeadIntelligenceSheetExport($leadIntelligenceRows);
-        }
+        // Phase M2 — Lead Intelligence sheet deliberately removed here.
+        // See this class's own docblock for the full incident: that
+        // sheet also carried Prospect Qualification data, so removing
+        // it satisfies both "no Lead Intelligence" and "no Prospect
+        // Qualification" in the exported file at once.
 
         $sheets[] = new ChartsSheetExport($scoreRows, $this->severityCounts());
 
