@@ -43,21 +43,59 @@ final readonly class ProspectQualificationResult implements \JsonSerializable
     // these should be tuned against it rather than left as-is indefinitely.
 
     /**
-     * @param  int  $score  0-100, higher means a stronger sales lead (more real
-     *         issues/signals/upgrade opportunities to sell against), not a
-     *         quality/health score — see ProspectQualificationScorer.
-     * @param  ?string  $grade  letter grade (A-F) derived from $score.
+     * @param  int  $score  raw points from whatever buckets were actually
+     *         computable (see $isPartial below) — higher means a stronger
+     *         sales lead (more real issues/signals/upgrade opportunities
+     *         to sell against), not a quality/health score — see
+     *         ProspectQualificationScorer.
+     * @param  ?string  $grade  letter grade (A-F) derived from $score —
+     *         ALWAYS null when $isPartial is true (Phase M6): a letter
+     *         grade implies "graded against the full 100-point rubric",
+     *         which would be a fabricated claim of completeness for a
+     *         result some of whose inputs were genuinely unavailable.
      * @param  array<string, int>  $breakdown  points contributed by each input,
      *         keyed 'website_issues', 'business_signals',
      *         'technology_upgrade_opportunities' — always present and summing
      *         to $score, so the score is auditable rather than a black box.
      * @param  string  $summary  human-readable overview of the qualification result.
+     * @param  int  $maxPossibleScore  (Phase M6) the sum of ONLY the
+     *         buckets that actually had real data to score from — 100
+     *         when every input was available (the pre-Phase-M6 case, and
+     *         still by far the common one), less than 100 when e.g.
+     *         BusinessOpportunityResult was null (see
+     *         ProspectQualificationScorer's own docblock for exactly why
+     *         that happens and how this value is computed). $score /
+     *         $maxPossibleScore is this result's own honest completion
+     *         ratio — a caller that wants "how much of the full lead
+     *         picture is this score actually based on" reads this, not
+     *         $score alone.
+     * @param  bool  $isPartial  true when $maxPossibleScore < 100 — i.e.
+     *         at least one of the three scoring inputs
+     *         (BusinessOpportunityResult, a real BusinessSignalsResult,
+     *         technology upgrade opportunities) was genuinely
+     *         unavailable for this audit, not merely "found nothing".
+     * @param  array<string, bool>  $availableBuckets  which of
+     *         'website_issues' / 'business_signals' /
+     *         'technology_upgrade_opportunities' actually had real data
+     *         to score from — a caller rendering $breakdown (e.g.
+     *         audit/partials/full-report.blade.php's own Prospect
+     *         Qualification card) uses this to show "N/A — no data" for
+     *         a bucket that's false here, rather than a misleading
+     *         "0/60 pts" that would look identical to "measured and
+     *         found zero problems".
      */
     public function __construct(
         public int $score,
         public ?string $grade,
         public array $breakdown,
         public string $summary,
+        public int $maxPossibleScore = 100,
+        public bool $isPartial = false,
+        public array $availableBuckets = [
+            'website_issues' => true,
+            'business_signals' => true,
+            'technology_upgrade_opportunities' => true,
+        ],
     ) {
     }
 
@@ -65,6 +103,19 @@ final readonly class ProspectQualificationResult implements \JsonSerializable
      * Maps $score to a coarse sales-priority bucket: 'High' (score >=
      * self::HIGH_PRIORITY_THRESHOLD), 'Medium' (score >=
      * self::MEDIUM_PRIORITY_THRESHOLD), otherwise 'Low'.
+     *
+     * Phase M6 — compares a NORMALIZED score ($score projected onto a
+     * full 0-100 scale via $maxPossibleScore) against these thresholds,
+     * not raw $score directly: the thresholds themselves were tuned
+     * assuming a /100 score, so comparing a partial result's raw,
+     * necessarily-smaller $score against them directly would silently
+     * bias every partial result toward 'Low' regardless of how
+     * genuinely strong a lead the AVAILABLE data suggests. A partial
+     * 18/40 (45%) is treated the same as a complete 45/100 here — both
+     * read as 'Medium' — which is the fair comparison; only $grade
+     * itself (see that property's own docblock) stays withheld for a
+     * partial result, since a priority bucket is a coarser, lower-
+     * stakes claim than a specific letter grade.
      *
      * Typed ?string (rather than string) to mirror the original "null
      * when score is null" requirement this was specified against — but
@@ -78,15 +129,19 @@ final readonly class ProspectQualificationResult implements \JsonSerializable
      */
     public function priority(): ?string
     {
+        $normalizedScore = $this->maxPossibleScore > 0
+            ? ($this->score / $this->maxPossibleScore) * 100
+            : 0.0;
+
         return match (true) {
-            $this->score >= self::HIGH_PRIORITY_THRESHOLD => 'High',
-            $this->score >= self::MEDIUM_PRIORITY_THRESHOLD => 'Medium',
+            $normalizedScore >= self::HIGH_PRIORITY_THRESHOLD => 'High',
+            $normalizedScore >= self::MEDIUM_PRIORITY_THRESHOLD => 'Medium',
             default => 'Low',
         };
     }
 
     /**
-     * @return array{score: int, grade: ?string, breakdown: array<string, int>, summary: string, priority: ?string}
+     * @return array{score: int, grade: ?string, breakdown: array<string, int>, summary: string, priority: ?string, max_possible_score: int, is_partial: bool, available_buckets: array<string, bool>}
      */
     public function toArray(): array
     {
@@ -96,6 +151,9 @@ final readonly class ProspectQualificationResult implements \JsonSerializable
             'breakdown' => $this->breakdown,
             'summary' => $this->summary,
             'priority' => $this->priority(),
+            'max_possible_score' => $this->maxPossibleScore,
+            'is_partial' => $this->isPartial,
+            'available_buckets' => $this->availableBuckets,
         ];
     }
 

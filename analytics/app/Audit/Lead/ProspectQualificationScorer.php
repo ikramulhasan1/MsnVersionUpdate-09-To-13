@@ -29,27 +29,50 @@ use App\Audit\Technology\DTO\TechnologyUpgradeOpportunity;
  *    (higher = fewer problems). Inverted here because a website with
  *    more real problems is a *stronger* sales lead, not a weaker one:
  *    points = round((100 - businessOpportunity->score) * (60 / 100)).
- *    When BusinessOpportunityResult::$score itself is null (no business
- *    opportunity checks have run yet), this bucket contributes 0 —
- *    unknown health is never treated as "unhealthy" for scoring purposes.
  *
  *  - 'business_signals' (0-25 pts, $businessSignalsMaxPoints): derived
  *    from BusinessSignalsResult::$signals, the fraction of detected
  *    signals (careers/hiring/blog_update/funding/new_product) that are
  *    true: points = round((count(true signals) / count(all signals)) * 25).
- *    0 when $businessSignals is null or carries no signals at all.
  *
  *  - 'technology_upgrade_opportunities' (0-15 pts, $technologyMaxPoints):
  *    derived from AnalysisResults::$technologyUpgradeOpportunities — a
  *    flat 5 points ($technologyPointsPerOpportunity) per real
  *    opportunity found, capped at 15: points =
- *    min(count(opportunities) * 5, 15).
+ *    min(count(opportunities) * 5, 15). This bucket's own data is
+ *    always genuinely "available" even when it finds zero
+ *    opportunities — an empty result here means "checked, found none",
+ *    never "couldn't check" — unlike the two buckets above, which can
+ *    each genuinely be unavailable (see PRODUCTION INCIDENT below).
  *
  * The three max points above always sum to 100 with the constructor
- * defaults, so $score is simply array_sum($breakdown) — never a
- * separately-fabricated number. Every weight is constructor-injected so
- * it can be tuned (e.g. against real close-rate data, per Group S) without
- * editing this class.
+ * defaults.
+ *
+ * PRODUCTION INCIDENT (Phase M6) — read before reverting to "null
+ * BusinessOpportunityResult means the whole score is null": this used
+ * to return null outright whenever $results->businessOpportunity was
+ * null (e.g. the entry page's own multi-page analysis failed, or timed
+ * out — a real, non-rare failure mode, not an edge case), even when
+ * BusinessSignalsResult and/or real technology upgrade opportunities
+ * WERE available. That threw away two-fifths of this score's own
+ * inputs whenever the single hardest-to-compute one happened to be
+ * missing, showing "no Prospect Qualification data at all" for an
+ * audit that actually had real, usable signal.
+ *
+ * The fix: only return null when literally NONE of the three inputs
+ * are available (matching the same "any subset present is enough"
+ * rule App\Audit\Export\Support\AnalysisResultsToDashboardCategories::leadIntelligence()
+ * already applies for the SAME reason). Otherwise, $score sums
+ * whichever buckets ARE computable (an unavailable bucket contributes
+ * 0, same as before), but $maxPossibleScore now honestly reflects
+ * that a partial score isn't out of 100 — it's out of however many
+ * points were actually reachable — and $isPartial/$availableBuckets
+ * (see ProspectQualificationResult's own docblock for both) let a
+ * caller show that honestly rather than silently presenting a partial
+ * score as if it were a complete one. $grade is deliberately left null
+ * for a partial result (see ProspectQualificationResult::$grade's own
+ * docblock) — a letter grade implies "graded on the full rubric",
+ * which a partial result, by definition, wasn't.
  */
 final class ProspectQualificationScorer
 {
@@ -67,28 +90,53 @@ final class ProspectQualificationScorer
 
     public function score(AnalysisResults $results): ?ProspectQualificationResult
     {
-        // Website-issue data is this score's primary input — without a
-        // BusinessOpportunityResult there is nothing real to qualify
-        // against, so a null here means "not computable", never a
-        // fabricated 0.
-        if ($results->businessOpportunity === null) {
+        $businessOpportunityAvailable = $results->businessOpportunity !== null;
+        $businessSignalsAvailable = $results->businessSignals !== null
+            && $results->businessSignals->signals !== [];
+
+        // Only genuinely nothing to work with returns null now — see
+        // this class's own PRODUCTION INCIDENT docblock above.
+        if (
+            ! $businessOpportunityAvailable
+            && ! $businessSignalsAvailable
+            && $results->technologyUpgradeOpportunities === []
+        ) {
             return null;
         }
 
         $breakdown = [
-            'website_issues' => $this->websiteIssuesPoints($results->businessOpportunity->score),
+            'website_issues' => $this->websiteIssuesPoints($results->businessOpportunity?->score),
             'business_signals' => $this->businessSignalsPoints($results->businessSignals?->signals ?? []),
             'technology_upgrade_opportunities' => $this->technologyPoints($results->technologyUpgradeOpportunities),
         ];
 
+        $availableBuckets = [
+            'website_issues' => $businessOpportunityAvailable,
+            'business_signals' => $businessSignalsAvailable,
+            // Always available — see this class's own docblock for why
+            // an empty opportunities list is a real, complete answer,
+            // not missing data.
+            'technology_upgrade_opportunities' => true,
+        ];
+
+        $maxPossibleScore = ($businessOpportunityAvailable ? $this->websiteIssuesMaxPoints : 0)
+            + ($businessSignalsAvailable ? $this->businessSignalsMaxPoints : 0)
+            + $this->technologyMaxPoints;
+
+        $fullMaxScore = $this->websiteIssuesMaxPoints + $this->businessSignalsMaxPoints + $this->technologyMaxPoints;
+        $isPartial = $maxPossibleScore < $fullMaxScore;
+
         $score = array_sum($breakdown);
-        $grade = $this->grade($score);
+        $grade = $isPartial ? null : $this->grade($score);
 
         return new ProspectQualificationResult(
             score: $score,
             grade: $grade,
             breakdown: $breakdown,
-            summary: $this->summary($score, $grade, $breakdown),
+            summary: $this->summary($score, $grade, $breakdown, $maxPossibleScore, $isPartial),
+            maxPossibleScore: $maxPossibleScore,
+            isPartial: $isPartial,
+            availableBuckets: $availableBuckets,
         );
     }
 
@@ -140,8 +188,21 @@ final class ProspectQualificationScorer
     /**
      * @param  array<string, int>  $breakdown
      */
-    private function summary(int $score, string $grade, array $breakdown): string
+    private function summary(int $score, ?string $grade, array $breakdown, int $maxPossibleScore, bool $isPartial): string
     {
+        if ($isPartial) {
+            return sprintf(
+                'Prospect qualification score %d/%d (partial — not every scoring input was available for this '
+                    .'audit) — %d point(s) from website issues, %d point(s) from business signals, %d point(s) '
+                    .'from technology upgrade opportunities.',
+                $score,
+                $maxPossibleScore,
+                $breakdown['website_issues'],
+                $breakdown['business_signals'],
+                $breakdown['technology_upgrade_opportunities'],
+            );
+        }
+
         return sprintf(
             'Prospect qualification score %d/100 (grade %s) — %d point(s) from website issues, '
                 .'%d point(s) from business signals, %d point(s) from technology upgrade opportunities.',

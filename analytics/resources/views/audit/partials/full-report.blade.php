@@ -46,7 +46,18 @@
 --}}
 @if ($prospectQualification)
     @php
-        $qualificationVariant = audit_score_variant($prospectQualification->score);
+        // Phase M6 — audit_score_variant()'s own thresholds (90/70/50)
+        // assume a /100 input; a partial result's raw ->score can be a
+        // small number purely because maxPossibleScore is small (e.g.
+        // 18/40), which would misleadingly read as "danger" red even
+        // though 18/40 = 45% is a reasonably strong partial signal.
+        // Normalizing onto a /100 scale first keeps the badge color
+        // meaningful regardless of how much data was actually
+        // available.
+        $normalizedQualificationScore = $prospectQualification->maxPossibleScore > 0
+            ? (int) round(($prospectQualification->score / $prospectQualification->maxPossibleScore) * 100)
+            : 0;
+        $qualificationVariant = audit_score_variant($normalizedQualificationScore);
         $bucketMaxPoints = [
             'website_issues' => 60,
             'business_signals' => 25,
@@ -65,7 +76,7 @@
                         </span>
                         <span
                             class="badge bg-{{ $qualificationVariant }}-subtle text-{{ $qualificationVariant }}-emphasis">
-                            {{ $prospectQualification->score }}/100
+                            {{ $prospectQualification->score }}/{{ $prospectQualification->maxPossibleScore }}
                         </span>
                         @if ($prospectQualification->grade)
                             <span class="grade-seal"
@@ -76,26 +87,51 @@
                     </div>
                 </div>
 
+                {{--
+                    Phase M6 — see ProspectQualificationResult::$isPartial's
+                    own docblock: shown only when at least one scoring
+                    input (most commonly BusinessOpportunityResult, worth
+                    60 of the full 100 points) was genuinely unavailable
+                    for this audit, so the score/badge above is honestly
+                    out of a smaller number rather than silently
+                    presented as if it were a complete /100 score with no
+                    grade shown.
+                --}}
+                @if ($prospectQualification->isPartial)
+                    <div class="alert alert-warning py-2 px-3 small mb-3">
+                        Partial data — not every scoring input was available for this audit (see the "N/A"
+                        row(s) below), so this score is out of
+                        {{ $prospectQualification->maxPossibleScore }}, not the full 100, and no letter grade
+                        is shown.
+                    </div>
+                @endif
+
                 <p class="text-secondary">{{ $prospectQualification->summary }}</p>
 
                 <ul class="list-group list-group-flush mb-0">
                     @foreach ($prospectQualification->breakdown as $bucket => $points)
                         @php
+                            $bucketAvailable = $prospectQualification->availableBuckets[$bucket] ?? true;
                             $bucketMax = $bucketMaxPoints[$bucket] ?? max($points, 1);
-                            $bucketPct = $bucketMax > 0 ? min(100, ($points / $bucketMax) * 100) : 0;
+                            $bucketPct = $bucketAvailable && $bucketMax > 0 ? min(100, ($points / $bucketMax) * 100) : 0;
                             $bucketLabel = ucwords(str_replace('_', ' ', $bucket));
                         @endphp
                         <li class="list-group-item d-flex flex-column gap-1 px-0 py-2">
                             <div class="d-flex align-items-center justify-content-between">
                                 <span class="fw-medium small">{{ $bucketLabel }}</span>
-                                <span class="text-secondary small font-mono">{{ $points }}
-                                    / {{ $bucketMax }} pts</span>
+                                @if ($bucketAvailable)
+                                    <span class="text-secondary small font-mono">{{ $points }}
+                                        / {{ $bucketMax }} pts</span>
+                                @else
+                                    <span class="text-secondary small font-mono">N/A — no data</span>
+                                @endif
                             </div>
                             <div class="progress progress-thin" role="progressbar"
                                 aria-label="{{ $bucketLabel }} points" aria-valuenow="{{ $points }}"
                                 aria-valuemin="0" aria-valuemax="{{ $bucketMax }}">
-                                <div class="progress-bar bg-{{ $qualificationVariant }}"
-                                    style="width: {{ $bucketPct }}%"></div>
+                                <div class="progress-bar {{ $bucketAvailable ? 'bg-'.$qualificationVariant : 'bg-secondary' }}"
+                                    style="width: {{ $bucketAvailable ? $bucketPct : 100 }}%; {{ $bucketAvailable ? '' : 'opacity: 0.25;' }}">
+                                </div>
                             </div>
                         </li>
                     @endforeach
