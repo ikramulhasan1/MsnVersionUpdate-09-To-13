@@ -117,6 +117,19 @@
                     Business Intelligence
                 </button>
             </li>
+            {{-- Phase M1 — see App\Http\Controllers\DiscoveryController::show()'s
+                 own docblock for how $fullAudit/$fullReportData are found/built,
+                 and audit/partials/full-report.blade.php's own docblock for why
+                 this tab includes the SAME partial the single-audit result page
+                 (audit/result.blade.php) does, rather than a second copy of that
+                 markup. --}}
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="discovery-tab-full-audit" data-bs-toggle="tab"
+                    data-bs-target="#discovery-pane-full-audit" type="button" role="tab"
+                    aria-controls="discovery-pane-full-audit" aria-selected="false">
+                    Full Audit Report
+                </button>
+            </li>
         </ul>
 
         <div class="tab-content pt-4" id="discoveryDetailTabsContent">
@@ -440,6 +453,57 @@
                     </div>
                 </div>
             </div>
+
+            {{-- Full Audit Report --------------------------------------------------- --}}
+            <div class="tab-pane fade" id="discovery-pane-full-audit" role="tabpanel"
+                aria-labelledby="discovery-tab-full-audit" tabindex="0">
+                @if ($fullReportData !== null)
+                    <p class="text-secondary small mb-3">
+                        Full audit completed
+                        {{ $fullAudit->updated_at?->diffForHumans() ?? 'recently' }} —
+                        <a href="{{ route('audits.show', $fullAudit) }}">open the standalone report</a>
+                        for the print/export options.
+                    </p>
+                    @include('audit.partials.full-report', $fullReportData)
+                @else
+                    <div class="card">
+                        <div class="card-body p-4 text-center">
+                            <p class="mb-3">
+                                @if ($fullAudit !== null)
+                                    An audit was queued for this website but hasn't finished yet.
+                                    <a href="{{ route('audits.show', $fullAudit) }}">Check its progress</a>.
+                                @else
+                                    This website hasn't been audited yet — run a full audit to see
+                                    SEO, Performance, Security, Accessibility, and every other section
+                                    here, right alongside its Discovery data.
+                                @endif
+                            </p>
+                            @if ($fullAudit === null)
+                                <form method="POST" action="{{ route('audits.store') }}" class="d-inline">
+                                    @csrf
+                                    <input type="hidden" name="url" value="{{ $website->url }}">
+                                    <button type="submit" class="btn btn-primary btn-sm">Audit Now</button>
+                                </form>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+            </div>
         </div>
     </section>
 @endsection
+
+@if ($fullReportData !== null)
+    {{-- Same two scripts audit/result.blade.php itself loads for the exact
+         same partial (audit/partials/dashboard-components.blade.php's own
+         Chart.js canvases) — dashboard-charts.js is already written to guard
+         per-canvas-id existence, so loading it here on a page that ALSO has
+         Discovery's own charts elsewhere is safe. --}}
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+        <script src="{{ asset('js/dashboard-charts.js') }}"></script>
+        @if ($fullReportData['outreachDraft'])
+            <script src="{{ asset('js/outreach-copy.js') }}"></script>
+        @endif
+    @endpush
+@endif

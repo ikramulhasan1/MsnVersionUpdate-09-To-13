@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Audit\Cache\Contracts\AuditCacheServiceInterface;
 use App\Audit\Enums\AuditMode;
+use App\Audit\Enums\AuditStatus;
+use App\Audit\Export\Support\AnalysisResultsToDashboardCategories;
 use App\Audit\Services\BulkAuditBatchService;
 use App\Discovery\Analytics\SearchAnalyticsService;
 use App\Discovery\Enums\BusinessSize;
@@ -21,6 +24,7 @@ use App\Discovery\Export\DiscoveredWebsitesToExportRows;
 use App\Discovery\Export\DiscoveryResultsExport;
 use App\Discovery\Geo\Contracts\GeoLookupServiceInterface;
 use App\Discovery\Jobs\DiscoverWebsitesJob;
+use App\Discovery\Normalization\DomainNormalizer;
 use App\Discovery\Search\DTO\DiscoveryFilterCriteria;
 use App\Discovery\Search\WebsiteSearchService;
 use App\Discovery\Taxonomy\IndustryTaxonomyService;
@@ -28,6 +32,7 @@ use App\Discovery\Taxonomy\IssueFilterOptions;
 use App\Discovery\Taxonomy\TechnologyFilterOptions;
 use App\Http\Requests\SaveDiscoverySearchRequest;
 use App\Http\Requests\SearchDiscoveryRequest;
+use App\Models\Audit;
 use App\Models\DiscoveredWebsite;
 use App\Models\DiscoverySearch;
 use App\Models\DiscoveryWatchlistItem;
@@ -178,6 +183,11 @@ final class DiscoveryController extends Controller
             'websites' => $this->websiteSearchService->paginate($criteria),
             'filters' => $request->query(),
             'industries' => $this->industryTaxonomy->industries(),
+            // Feature request — see WebsiteSearchService::countsByIndustry()/
+            // countsByCountry()'s own docblocks: lets the Industry/Country
+            // dropdowns show a real "(N)" count per option, and gray out
+            // options with no matching data at all, rather than a person
+            // discovering that only after selecting one and searching.
             'industryCounts' => $this->websiteSearchService->countsByIndustry(),
             'countries' => $this->geoLookup->countries(),
             'countryCounts' => $this->websiteSearchService->countsByCountry(),
@@ -289,11 +299,64 @@ final class DiscoveryController extends Controller
                 .'results.');
     }
 
-    public function show(DiscoveredWebsite $website): View
-    {
+    /**
+     * Phase M1 (Full Audit Report tab) — looks up whether a COMPLETED
+     * Audit already exists for this SAME website, using the exact same
+     * DomainNormalizer::hash() matching
+     * App\Audit\Jobs\AssembleAnalysisResultsJob::syncToDiscoveredWebsite()
+     * already uses for the reverse direction (Audit → DiscoveredWebsite
+     * sync) — so "the same website" means the same thing in both
+     * places. When one exists, builds the exact same
+     * $categories/$overallScore/$prospectQualification/$outreachDraft
+     * shape AuditController::show() already builds for the single-
+     * audit result page, and hands it to
+     * audit/partials/full-report.blade.php — the SAME partial that
+     * page itself now includes (see that partial's own docblock) —
+     * via discovery/show.blade.php's own "Full Audit Report" tab. When
+     * none exists, $fullAudit stays null and that tab shows an
+     * "Audit Now" prompt instead.
+     */
+    public function show(
+        DiscoveredWebsite $website,
+        AuditCacheServiceInterface $cache,
+        AnalysisResultsToDashboardCategories $dashboardCategoryMapper,
+    ): View {
+        $normalizer = new DomainNormalizer();
+        $fullAudit = Audit::query()
+            ->where('url_hash', $normalizer->hash($website->url))
+            ->where('status', AuditStatus::COMPLETED->value)
+            ->latest('updated_at')
+            ->first();
+
+        $fullReportData = null;
+
+        if ($fullAudit !== null) {
+            $results = $cache->getAnalysisResults($fullAudit->uuid);
+
+            if ($results !== null) {
+                $categories = $dashboardCategoryMapper->categories($results);
+
+                $scoredCategories = array_filter($categories, static fn (array $category): bool => $category['score'] !== null);
+                $overallScore = $scoredCategories === []
+                    ? null
+                    : (int) round(array_sum(array_column($scoredCategories, 'score')) / count($scoredCategories));
+
+                $fullReportData = [
+                    'audit' => $fullAudit,
+                    'categories' => $categories,
+                    'overallScore' => $overallScore,
+                    'prospectQualification' => $results->prospectQualification,
+                    'outreachDraft' => $results->outreachDraft,
+                    'generatedAt' => $fullAudit->updated_at?->format('M j, Y \a\t g:i A') ?? 'just now',
+                ];
+            }
+        }
+
         return view('discovery.show', [
             'website' => $website,
             'isWatched' => $website->watchlistItem()->exists(),
+            'fullAudit' => $fullAudit,
+            'fullReportData' => $fullReportData,
         ]);
     }
 
@@ -323,38 +386,6 @@ final class DiscoveryController extends Controller
         return redirect()
             ->route('discovery.show', $website)
             ->with('status', 'Removed from your watchlist.');
-    }
-
-    /**
-     * Backs each result card's delete icon (see
-     * discovery/partials/result-card.blade.php) — permanently removes
-     * a DiscoveredWebsite, not just from the watchlist (see unwatch()
-     * above for that separate, narrower action). cascadeOnDelete() on
-     * discovery_watchlist/discovery_watchlist_changes' own
-     * discovered_website_id foreign keys already handles cleaning up
-     * anything referencing this row, so a plain delete() here is
-     * enough — no manual cleanup of related tables needed.
-     *
-     * redirect()->back() (not ->route('discovery.index')) so deleting
-     * a card from a filtered/paginated results page returns to that
-     * SAME filtered/paginated view rather than resetting to an
-     * unfiltered first page — the same reasoning DiscoveryController's
-     * other in-place result-grid actions (watch/unwatch) already
-     * follow by redirecting back to a URL the person was already on,
-     * just applied via ->back() instead of a named route since there's
-     * no single "the page this card lives on" route to redirect to
-     * here (unlike show(), which always goes to discovery.show for
-     * this SAME website).
-     */
-    public function destroy(DiscoveredWebsite $website): RedirectResponse
-    {
-        $domain = $website->domain;
-
-        $website->delete();
-
-        return redirect()
-            ->back(fallback: route('discovery.index'))
-            ->with('status', "Removed {$domain} from Website Discovery.");
     }
 
     /**
