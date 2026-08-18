@@ -55,6 +55,13 @@
                     <h2 class="h5" id="audit-progress-label">
                         {{ audit_status_label($audit->status) }}&hellip;
                     </h2>
+                    {{-- ETA — see public/js/audit-progress.js's own docblock for how
+                         this is estimated (elapsed-time / percent-so-far, extrapolated
+                         to 100%) and why it ticks down every second on its own rather
+                         than only updating when a real poll response arrives. --}}
+                    <p class="text-secondary small fw-medium mb-2" id="audit-progress-eta">
+                        Estimating time remaining&hellip;
+                    </p>
                     <p class="text-secondary mb-0">
                         This usually takes a few seconds. The page updates automatically &mdash; no need to refresh.
                     </p>

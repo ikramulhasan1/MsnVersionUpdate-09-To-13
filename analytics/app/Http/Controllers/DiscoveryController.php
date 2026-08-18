@@ -322,7 +322,37 @@ final class DiscoveryController extends Controller
             ->route('discovery.show', $website)
             ->with('status', 'Removed from your watchlist.');
     }
+    /**
+     * Backs each result card's delete icon (see
+     * discovery/partials/result-card.blade.php) — permanently removes
+     * a DiscoveredWebsite, not just from the watchlist (see unwatch()
+     * above for that separate, narrower action). cascadeOnDelete() on
+     * discovery_watchlist/discovery_watchlist_changes' own
+     * discovered_website_id foreign keys already handles cleaning up
+     * anything referencing this row, so a plain delete() here is
+     * enough — no manual cleanup of related tables needed.
+     *
+     * redirect()->back() (not ->route('discovery.index')) so deleting
+     * a card from a filtered/paginated results page returns to that
+     * SAME filtered/paginated view rather than resetting to an
+     * unfiltered first page — the same reasoning DiscoveryController's
+     * other in-place result-grid actions (watch/unwatch) already
+     * follow by redirecting back to a URL the person was already on,
+     * just applied via ->back() instead of a named route since there's
+     * no single "the page this card lives on" route to redirect to
+     * here (unlike show(), which always goes to discovery.show for
+     * this SAME website).
+     */
+    public function destroy(DiscoveredWebsite $website): RedirectResponse
+    {
+        $domain = $website->domain;
 
+        $website->delete();
+
+        return redirect()
+            ->back(fallback: route('discovery.index'))
+            ->with('status', "Removed {$domain} from Website Discovery.");
+    }
     /**
      * Backs the Watchlist page (Phase G1) — every DiscoveryWatchlistItem,
      * newest first, eager-loading discoveredWebsite so

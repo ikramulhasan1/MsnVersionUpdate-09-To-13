@@ -100,4 +100,13 @@ Route::prefix('discovery')->name('discovery.')->middleware(PreventLiteSpeedCachi
     Route::get('/{website}', [DiscoveryController::class, 'show'])->name('show');
     Route::get('/{website}/watch', [DiscoveryController::class, 'watch'])->name('watch');
     Route::delete('/{website}/watch', [DiscoveryController::class, 'unwatch'])->name('unwatch');
+
+    // Delete a discovered website outright (not just remove it from the
+    // watchlist — see unwatch() above for that separate, narrower
+    // action). cascadeOnDelete() on discovery_watchlist/discovery_watchlist_changes'
+    // own discovered_website_id foreign keys (see those two migrations'
+    // own docblocks) already handles cleaning up anything referencing
+    // this row — this route only needs to delete the DiscoveredWebsite
+    // itself.
+    Route::delete('/{website}', [DiscoveryController::class, 'destroy'])->name('destroy');
 });

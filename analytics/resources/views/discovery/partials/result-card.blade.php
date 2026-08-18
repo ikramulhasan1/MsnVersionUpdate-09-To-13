@@ -178,6 +178,9 @@
             {{-- Wired up by public/js/discovery-bulk-audit.js (Phase H1) — a separate
                  selection from Compare's own checkbox above (different feature, different
                  cap); see that file's own docblock. --}}
+                        {{-- Wired up by public/js/discovery-bulk-audit.js (Phase H1) — a separate
+                 selection from Compare's own checkbox above (different feature, different
+                 cap); see that file's own docblock. --}}
             <div class="form-check mb-0">
                 <input class="form-check-input" type="checkbox" name="bulk_audit[]" value="{{ $website->uuid }}"
                     id="discovery-bulk-audit-{{ $website->uuid }}">
@@ -185,6 +188,28 @@
                     Audit
                 </label>
             </div>
+
+            {{-- Permanently removes this DiscoveredWebsite (not just the watchlist —
+                 see the Save/Watch button above for that separate, narrower action).
+                 A confirm() first since this is destructive and, unlike watch/unwatch,
+                 not something a person would want to undo by clicking again. --}}
+            <form method="POST" action="{{ route('discovery.destroy', $website) }}" class="d-inline"
+                onsubmit="return confirm('Permanently remove {{ $website->domain }} from Website Discovery? This cannot be undone.');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-sm btn-outline-danger" title="Remove this website"
+                    aria-label="Remove {{ $website->domain }} from Website Discovery">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                        <path d="M10 11v6"></path>
+                        <path d="M14 11v6"></path>
+                        <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                </button>
+            </form>
         </div>
     </div>
 </div>

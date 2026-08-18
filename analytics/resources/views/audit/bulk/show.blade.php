@@ -78,7 +78,7 @@
         <div class="card mb-4" id="bulk-audit-progress-card"
             style="{{ $batch->status->value === 'completed' ? 'display: none;' : '' }}">
             <div class="card-body p-4">
-                <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="fw-medium" id="bulk-audit-progress-label">
                         {{ $batch->status->label() }}
                     </span>
@@ -91,7 +91,14 @@
                     <div class="progress-bar" id="bulk-audit-progress-bar"
                         style="width: {{ $batch->progressPercent() }}%;"></div>
                 </div>
-                <p class="text-secondary small mt-2 mb-0">
+                {{-- ETA — see public/js/bulk-audit-progress.js's own docblock for how
+                     this is estimated (average time per finished audit so far,
+                     extrapolated across however many are still left) and why it ticks
+                     down every second on its own rather than only updating on poll. --}}
+                <p class="text-secondary small fw-medium mt-2 mb-0" id="bulk-audit-progress-eta">
+                    Estimating time remaining&hellip;
+                </p>
+                <p class="text-secondary small mt-1 mb-0">
                     This page updates automatically — no need to refresh.
                 </p>
             </div>
