@@ -161,12 +161,15 @@
                     <select class="form-select" id="discovery-industry" name="industry">
                         <option value="">Any industry</option>
                         @foreach ($industries as $industry)
-                            @php($industryCount = $industryCounts[$industry] ?? 0)
-                            <option value="{{ $industry }}" @selected(($filters['industry'] ?? '') === $industry)
-                                @disabled($industryCount === 0)>
-                                {{ $industry }} ({{ $industryCount }})
-                            </option>
-                        @endforeach
+    @php
+        $industryCount = $industryCounts[$industry] ?? 0;
+    @endphp
+
+    <option value="{{ $industry }}" @selected(($filters['industry'] ?? '') === $industry)
+        @disabled($industryCount === 0)>
+        {{ $industry }} ({{ $industryCount }})
+    </option>
+@endforeach
                     </select>
                 </div>
 
@@ -195,12 +198,15 @@
                     <select class="form-select" id="discovery-country" name="country">
                         <option value="">Any country</option>
                         @foreach ($countries as $country)
-                            @php($countryCount = $countryCounts[$country['code']] ?? 0)
-                            <option value="{{ $country['code'] }}" @selected(($filters['country'] ?? '') === $country['code'])
-                                @disabled($countryCount === 0)>
-                                {{ $country['name'] }} ({{ $countryCount }})
-                            </option>
-                        @endforeach
+    @php
+        $countryCount = $countryCounts[$country['code']] ?? 0;
+    @endphp
+
+    <option value="{{ $country['code'] }}" @selected(($filters['country'] ?? '') === $country['code'])
+        @disabled($countryCount === 0)>
+        {{ $country['name'] }} ({{ $countryCount }})
+    </option>
+@endforeach
                     </select>
                 </div>
 
