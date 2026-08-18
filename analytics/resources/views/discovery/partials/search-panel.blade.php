@@ -397,60 +397,35 @@
                             <hr class="my-4" style="border-color: var(--audit-border);">
 
                             <p class="fw-medium mb-3">Website Quality</p>
-
-<div class="row g-4 mb-2">
-    @foreach ([
-        'seo' => 'SEO',
-        'performance' => 'Performance',
-        'security' => 'Security',
-        'accessibility' => 'Accessibility',
-    ] as $qualityKey => $qualityLabel)
-
-        @php
-            $qualityMin = $filters['quality'][$qualityKey]['min'] ?? 0;
-            $qualityMax = $filters['quality'][$qualityKey]['max'] ?? 100;
-        @endphp
-
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="d-flex justify-content-between align-items-center mb-1">
-                <label class="form-label small fw-medium mb-0">
-                    {{ $qualityLabel }} Score
-                </label>
-
-                <span class="small text-secondary font-mono">
-                    <span data-range-min-label>{{ $qualityMin }}</span>
-                    &ndash;
-                    <span data-range-max-label>{{ $qualityMax }}</span>
-                </span>
-            </div>
-
-            <div class="discovery-range-slider" data-range-slider>
-                <input
-                    type="range"
-                    class="discovery-range-input"
-                    min="0"
-                    max="100"
-                    step="1"
-                    name="quality[{{ $qualityKey }}][min]"
-                    value="{{ $qualityMin }}"
-                    data-range-role="min"
-                >
-
-                <input
-                    type="range"
-                    class="discovery-range-input"
-                    min="0"
-                    max="100"
-                    step="1"
-                    name="quality[{{ $qualityKey }}][max]"
-                    value="{{ $qualityMax }}"
-                    data-range-role="max"
-                >
-            </div>
-        </div>
-
-    @endforeach
-</div>
+                            <div class="row g-4 mb-2">
+                                @foreach (['seo' => 'SEO', 'performance' => 'Performance', 'security' => 'Security', 'accessibility' => 'Accessibility'] as $qualityKey => $qualityLabel)
+                                    @php
+                                        $qualityMin = $filters['quality'][$qualityKey]['min'] ?? 0;
+                                        $qualityMax = $filters['quality'][$qualityKey]['max'] ?? 100;
+                                    @endphp
+                                    <div class="col-12 col-md-6 col-lg-3">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="form-label small fw-medium mb-0">
+                                                {{ $qualityLabel }} Score
+                                            </label>
+                                            <span class="small text-secondary font-mono">
+                                                <span data-range-min-label>{{ $qualityMin }}</span>&ndash;<span
+                                                    data-range-max-label>{{ $qualityMax }}</span>
+                                            </span>
+                                        </div>
+                                        <div class="discovery-range-slider" data-range-slider>
+                                            <input type="range" class="discovery-range-input" min="0"
+                                                max="100" step="1"
+                                                name="quality[{{ $qualityKey }}][min]" value="{{ $qualityMin }}"
+                                                data-range-role="min">
+                                            <input type="range" class="discovery-range-input" min="0"
+                                                max="100" step="1"
+                                                name="quality[{{ $qualityKey }}][max]" value="{{ $qualityMax }}"
+                                                data-range-role="max">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
 
                             <div class="row g-4">
                                 <div class="col-12 col-md-6">
