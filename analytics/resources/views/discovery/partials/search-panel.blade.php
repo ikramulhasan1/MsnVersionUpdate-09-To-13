@@ -165,8 +165,7 @@
         $industryCount = $industryCounts[$industry] ?? 0;
     @endphp
 
-    <option value="{{ $industry }}" @selected(($filters['industry'] ?? '') === $industry)
-        @disabled($industryCount === 0)>
+    <option value="{{ $industry }}" @selected(($filters['industry'] ?? '') === $industry)>
         {{ $industry }} ({{ $industryCount }})
     </option>
 @endforeach
@@ -176,7 +175,7 @@
                 <div class="col-12 col-md-6 col-lg-3">
                     <label for="discovery-sub-niche" class="form-label small fw-medium">Sub-Niche</label>
                     <select class="form-select" id="discovery-sub-niche" name="sub_niche"
-                        data-selected="{{ $filters['sub_niche'] ?? '' }}" @disabled(empty($filters['industry']))>
+                        data-selected="{{ $filters['sub_niche'] ?? '' }}">
                         <option value="">
                             {{ empty($filters['industry']) ? 'Choose an industry first' : 'Any sub-niche' }}
                         </option>
@@ -203,7 +202,7 @@
     @endphp
 
     <option value="{{ $country['code'] }}" @selected(($filters['country'] ?? '') === $country['code'])
-        @disabled($countryCount === 0)>
+        >
         {{ $country['name'] }} ({{ $countryCount }})
     </option>
 @endforeach
@@ -213,7 +212,7 @@
                 <div class="col-12 col-md-6 col-lg-3">
                     <label for="discovery-region" class="form-label small fw-medium">Region</label>
                     <select class="form-select" id="discovery-region" name="region"
-                        data-selected="{{ $filters['region'] ?? '' }}" @disabled(empty($filters['country']))>
+                        data-selected="{{ $filters['region'] ?? '' }}">
                         <option value="">
                             {{ empty($filters['country']) ? 'Choose a country first' : 'Any region' }}
                         </option>
@@ -223,7 +222,7 @@
                 <div class="col-12 col-md-6 col-lg-3">
                     <label for="discovery-city" class="form-label small fw-medium">City</label>
                     <select class="form-select" id="discovery-city" name="city"
-                        data-selected="{{ $filters['city'] ?? '' }}" @disabled(empty($filters['country']))>
+                        data-selected="{{ $filters['city'] ?? '' }}">
                         <option value="">
                             {{ empty($filters['country']) ? 'Choose a country first' : 'Any city' }}
                         </option>
