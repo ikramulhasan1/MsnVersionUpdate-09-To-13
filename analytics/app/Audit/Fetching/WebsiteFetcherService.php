@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Audit\Fetching;
 
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Promise\Utils;
+use Illuminate\Support\Facades\Log;
+use Psr\Http\Message\ResponseInterface;
 use App\Audit\Fetching\Contracts\HtmlParserInterface;
 use App\Audit\Fetching\Contracts\WebsiteFetcherServiceInterface;
 use App\Audit\Fetching\DTO\DiscoveredResource;
 use App\Audit\Fetching\DTO\FetchResult;
 use App\Audit\Fetching\DTO\ParsedHtml;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Promise\Utils;
-use Psr\Http\Message\ResponseInterface;
 
 final class WebsiteFetcherService implements WebsiteFetcherServiceInterface
 {
@@ -108,6 +109,28 @@ final class WebsiteFetcherService implements WebsiteFetcherServiceInterface
             if ($outcome === null || $outcome['state'] !== PromiseInterface::FULFILLED) {
                 $reason = $outcome['reason'] ?? null;
                 $message = $reason instanceof \Throwable ? $reason->getMessage() : 'the request could not be completed';
+
+                // PRODUCTION INCIDENT — this branch used to fail
+                // silently: fetchMany() itself never logged anything,
+                // so when many URLs in the same call all failed at
+                // once (a real bulk-audit batch where every one of 60
+                // real, distinct external websites came back
+                // unfetchable), there was no way to tell FROM THE LOGS
+                // whether that was genuinely 60 unrelated network
+                // failures or one single, shared underlying cause
+                // (e.g. a DNS/outbound-connectivity/TLS issue specific
+                // to how this queue worker's own process reaches the
+                // network) — the only visible symptom was a much later,
+                // unrelated-looking TypeError several layers downstream
+                // (see App\Audit\Jobs\AnalyzeChunkJob::fetchPagesForMultiPageAnalysis()'s
+                // own docblock for that specific crash and its fix).
+                // Logging the REAL Guzzle-level reason here, per URL,
+                // is what actually lets that distinction be made from
+                // storage/logs/laravel.log after the fact.
+                Log::warning('WebsiteFetcherService::fetchMany() request failed', [
+                    'url' => $url,
+                    'reason' => $message,
+                ]);
 
                 $results[$url] = $this->failureResult($url, $fetchedAt, [
                     'Unable to fetch the page: ' . $message,

@@ -287,6 +287,27 @@ final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
      * of handle() for every other single-page analyzer here) is reused
      * instead of being fetched a second time.
      *
+     * PRODUCTION INCIDENT — read before changing the $successfulPages
+     * === [] branch below: this used to `return []` there (no crawled
+     * page came back successful — e.g. the site was unreachable, or
+     * every request in that wave failed for some other reason). Every
+     * one of the five multi-page analyzers that consume this method's
+     * own return value (Security/Accessibility/Content/UiUx/
+     * BusinessOpportunity — see each one's own analyzeAll(
+     * array $fetchResults, ...)) reads its entry page back via
+     * `$fetchResults[$startUrl] ?? reset($fetchResults)`. reset() on an
+     * EMPTY array returns bool(false), not null — and PHP happily lets
+     * that flow through the `??` into a parameter typed FetchResult,
+     * because `??` only short-circuits on an actually-MISSING array
+     * key, not on a present-but-false-ish one; the TypeError only
+     * surfaces later, deep inside that analyzer's own logic
+     * (BusinessOpportunityAnalyzer::checkWebsiteModernization() is
+     * where it was actually caught, but every one of these five
+     * analyzers had the exact same exposure). A real, uncontrolled
+     * external website simply being unreachable is an entirely
+     * ordinary, expected outcome — not something that should be able
+     * to crash five analyzers' worth of a chunk job outright.
+     *
      * @return array<string, FetchResult> keyed by page URL
      */
     private function fetchPagesForMultiPageAnalysis(
@@ -300,7 +321,13 @@ final class AnalyzeChunkJob extends AuditJob implements ShouldBeUnique
         ));
 
         if ($successfulPages === []) {
-            return [];
+            // See this method's own docblock — always return the entry
+            // page's own FetchResult rather than an empty array, even
+            // though it may itself represent a failed fetch
+            // ($entryPageFetchResult->success === false is a normal,
+            // well-typed state every analyzer already knows how to
+            // handle; a literal bool(false) in its place is not).
+            return [$this->url => $entryPageFetchResult];
         }
 
         $limit = max(1, (int) config('audit.multi_page_analysis.per_page_limit', 20));
