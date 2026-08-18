@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Audit\Fetching;
 
+use App\Audit\Fetching\Contracts\HtmlParserInterface;
+use App\Audit\Fetching\Contracts\WebsiteFetcherServiceInterface;
+use App\Audit\Fetching\DTO\DiscoveredResource;
+use App\Audit\Fetching\DTO\FetchResult;
+use App\Audit\Fetching\DTO\ParsedHtml;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Promise\Utils;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\ResponseInterface;
-use App\Audit\Fetching\Contracts\HtmlParserInterface;
-use App\Audit\Fetching\Contracts\WebsiteFetcherServiceInterface;
-use App\Audit\Fetching\DTO\DiscoveredResource;
-use App\Audit\Fetching\DTO\FetchResult;
-use App\Audit\Fetching\DTO\ParsedHtml;
 
 final class WebsiteFetcherService implements WebsiteFetcherServiceInterface
 {
@@ -200,6 +200,7 @@ final class WebsiteFetcherService implements WebsiteFetcherServiceInterface
             fetchedAt: $fetchedAt,
             mailtoLinks: $parsed->mailtoLinks,
             telLinks: $parsed->telLinks,
+            plainTextEmails: $parsed->plainTextEmails,
         );
     }
 

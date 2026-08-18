@@ -29,6 +29,15 @@ final readonly class CrawledPage implements \JsonSerializable
      * @param array<int, string> $errors
      * @param array<int, string> $mailtoLinks raw addresses from every mailto: link on this page
      * @param array<int, string> $telLinks raw numbers from every tel: link on this page
+     * @param array<int, string> $plainTextEmails email addresses found
+     *        in this page's own visible text with no mailto: link
+     *        around them (Phase M5) — see
+     *        App\Audit\Fetching\HtmlParser::parsePlainTextEmails()'s
+     *        own docblock for why this is a separate field rather than
+     *        merged into $mailtoLinks: a caller may legitimately want
+     *        to know whether a given address was a real mailto: link
+     *        (higher confidence) or found in plain text only (still
+     *        real, slightly lower confidence).
      */
     public function __construct(
         public string $url,
@@ -56,6 +65,7 @@ final readonly class CrawledPage implements \JsonSerializable
         public array $errors,
         public array $mailtoLinks = [],
         public array $telLinks = [],
+        public array $plainTextEmails = [],
     ) {
     }
 
@@ -93,6 +103,7 @@ final readonly class CrawledPage implements \JsonSerializable
             'errors' => $this->errors,
             'mailto_links' => $this->mailtoLinks,
             'tel_links' => $this->telLinks,
+            'plain_text_emails' => $this->plainTextEmails,
         ];
     }
 

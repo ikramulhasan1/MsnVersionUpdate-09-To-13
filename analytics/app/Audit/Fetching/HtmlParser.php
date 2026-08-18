@@ -48,6 +48,11 @@ final class HtmlParser implements HtmlParserInterface
             wordCount: $this->countWords($xpath),
             mailtoLinks: $this->parseSchemeLinks($xpath, 'mailto:'),
             telLinks: $this->parseSchemeLinks($xpath, 'tel:'),
+            // Phase M5 — see ParsedHtml::$plainTextEmails's own docblock
+            // for the real gap this closes: a real, published business
+            // email with no mailto: link was invisible to this whole
+            // pipeline until now.
+            plainTextEmails: $this->parsePlainTextEmails($xpath),
         );
     }
 
@@ -531,6 +536,98 @@ final class HtmlParser implements HtmlParserInterface
         }
 
         return count(preg_split('/\s+/u', $text) ?: []);
+    }
+
+    /**
+     * PRODUCTION INCIDENT (Phase M5) — read before removing this method
+     * again: App\Audit\Contacts\ContactInfoExtractor used to read
+     * emails ONLY from mailto: links (see that class's own now-updated
+     * docblock for the reasoning that originally justified this — real
+     * false positives from prose-scanning image filenames/example
+     * numbers). In practice, a real, common pattern defeated that
+     * assumption outright: a site whose ONLY mailto: link is a generic
+     * personal address (a founder's own Gmail in a footer, say) while
+     * the REAL business contact address is published as plain,
+     * unlinked text elsewhere on the page (e.g. "Contact us:
+     * info@example.com" with no <a href="mailto:..."> around it) — the
+     * mailto:-only pipeline would find the Gmail address and MISS the
+     * actual business email entirely, the exact opposite of what a
+     * lead-generation tool needs.
+     *
+     * This closes that gap with a real (not prose-guessed) regex scan
+     * of the page's own VISIBLE text — same clean-text extraction
+     * countWords() above already uses (a detached body clone with
+     * NON_CONTENT_TAGS removed, so <script>/<style>/<noscript>/<template>
+     * text — the actual source of the false-positive risk the old
+     * docblock warned about, e.g. a filename embedded in an inline
+     * script — never reaches this regex at all). The false-positive
+     * concern that originally ruled this out (image filenames, example
+     * numbers) applies far less to EMAIL addresses specifically than it
+     * would to phone numbers: a string matching a strict
+     * local-part@domain.tld shape in genuinely visible body text is
+     * overwhelmingly likely to be a real, intentionally-published email
+     * address, not incidental noise — phone-shaped numbers remain
+     * mailto:/tel:-link-only, unchanged, since THAT false-positive risk
+     * (a price, a date, a product SKU) is real and unchanged by this
+     * fix.
+     *
+     * @return array<int, string> lowercased, deduplicated, in document order
+     */
+    private function parsePlainTextEmails(\DOMXPath $xpath): array
+    {
+        $bodyNodes = $xpath->query('//body');
+
+        if ($bodyNodes === false || $bodyNodes->length === 0) {
+            return [];
+        }
+
+        $body = $bodyNodes->item(0);
+
+        if (! $body instanceof \DOMElement) {
+            return [];
+        }
+
+        $clone = $body->cloneNode(true);
+
+        if (! $clone instanceof \DOMElement) {
+            return [];
+        }
+
+        $nonContentQuery = implode(' | ', array_map(
+            static fn (string $tag): string => ".//{$tag}",
+            self::NON_CONTENT_TAGS,
+        ));
+
+        $nonContentNodes = $xpath->query($nonContentQuery, $clone) ?: [];
+
+        foreach (iterator_to_array($nonContentNodes) as $node) {
+            $node->parentNode?->removeChild($node);
+        }
+
+        $text = $clone->textContent;
+
+        // A conservative, standard email shape — deliberately not
+        // RFC 5322's full grammar (which accepts many rarely-real-world
+        // forms that would only increase false-positive risk here);
+        // this is the same practical pattern most real-world email
+        // extraction settles on.
+        preg_match_all('/[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+/', $text, $matches);
+
+        $emails = [];
+        $seen = [];
+
+        foreach ($matches[0] as $match) {
+            $normalized = strtolower($match);
+
+            if (isset($seen[$normalized]) || filter_var($normalized, FILTER_VALIDATE_EMAIL) === false) {
+                continue;
+            }
+
+            $seen[$normalized] = true;
+            $emails[] = $normalized;
+        }
+
+        return $emails;
     }
 
     /**

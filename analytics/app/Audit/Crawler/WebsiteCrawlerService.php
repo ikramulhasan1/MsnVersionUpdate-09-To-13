@@ -245,6 +245,7 @@ final class WebsiteCrawlerService implements WebsiteCrawlerServiceInterface
             errors: $result->errors,
             mailtoLinks: $result->mailtoLinks,
             telLinks: $result->telLinks,
+            plainTextEmails: $result->plainTextEmails,
         );
     }
 

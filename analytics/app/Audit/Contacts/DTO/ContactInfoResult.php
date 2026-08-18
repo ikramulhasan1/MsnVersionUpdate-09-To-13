@@ -7,7 +7,7 @@ namespace App\Audit\Contacts\DTO;
 final readonly class ContactInfoResult implements \JsonSerializable
 {
     /**
-     * @param  array<int, array{value: string, sourceUrl: string}>  $emails  deduplicated
+     * @param  array<int, array{value: string, sourceUrl: string, source: string, isBusinessDomain: bool}>  $emails  deduplicated
      *                                                                       email addresses found on-site, with common false positives (image
      *                                                                       filenames like photo@2x.png, placeholder addresses like
      *                                                                       example@example.com) already excluded. Each entry's sourceUrl is
@@ -16,6 +16,22 @@ final readonly class ContactInfoResult implements \JsonSerializable
      *                                                                       repeated across multiple pages keeps the first page it appeared
      *                                                                       on, the same "first occurrence wins" rule teamMembers already
      *                                                                       follows for a given name.
+     *
+     *                                                                       Phase M5 added two fields: `source` is either 'mailto' (found
+     *                                                                       via a real &lt;a href="mailto:..."&gt; link — higher
+     *                                                                       confidence) or 'plain_text' (found via a regex scan of the
+     *                                                                       page's own visible text with no mailto: link around it — see
+     *                                                                       App\Audit\Fetching\HtmlParser::parsePlainTextEmails()'s own
+     *                                                                       docblock for why that source exists at all). `isBusinessDomain`
+     *                                                                       is true when the email's own domain matches the audited
+     *                                                                       website's own domain (e.g. info@example.com found while
+     *                                                                       auditing example.com), as opposed to a personal/free-provider
+     *                                                                       address that happens to be published on the site. $emails is
+     *                                                                       sorted with isBusinessDomain=true entries first
+     *                                                                       (mailto-sourced before plain-text-sourced within each group),
+     *                                                                       so `$emails[0] ?? null` is always this extractor's own single
+     *                                                                       best guess at the real business contact address, not merely
+     *                                                                       whichever mailto: link happened to appear first in the HTML.
      * @param  array<int, array{value: string, sourceUrl: string}>  $phones  deduplicated
      *                                                                       phone numbers found on-site, in whatever format they appeared in
      *                                                                       — see ContactInfoExtractor's docblock for this field's known

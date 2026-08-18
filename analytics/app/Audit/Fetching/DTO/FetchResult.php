@@ -20,6 +20,11 @@ final readonly class FetchResult implements \JsonSerializable
      * @param array<int, string> $errors
      * @param array<int, string> $mailtoLinks raw addresses from every mailto: link on the page
      * @param array<int, string> $telLinks raw numbers from every tel: link on the page
+     * @param array<int, string> $plainTextEmails email addresses found
+     *        in this page's own visible text with no mailto: link
+     *        around them (Phase M5) — see
+     *        App\Audit\Fetching\HtmlParser::parsePlainTextEmails()'s
+     *        own docblock.
      */
     public function __construct(
         public string $url,
@@ -47,6 +52,7 @@ final readonly class FetchResult implements \JsonSerializable
         public string $fetchedAt,
         public array $mailtoLinks = [],
         public array $telLinks = [],
+        public array $plainTextEmails = [],
     ) {
     }
 
@@ -81,6 +87,7 @@ final readonly class FetchResult implements \JsonSerializable
             'fetched_at' => $this->fetchedAt,
             'mailto_links' => $this->mailtoLinks,
             'tel_links' => $this->telLinks,
+            'plain_text_emails' => $this->plainTextEmails,
         ];
     }
 

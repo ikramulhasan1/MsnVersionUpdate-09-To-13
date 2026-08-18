@@ -39,6 +39,17 @@ final readonly class ParsedHtml
         public int $wordCount,
         public array $mailtoLinks = [],
         public array $telLinks = [],
+        /**
+         * Phase M5 — see HtmlParser::parsePlainTextEmails()'s own
+         * docblock for the real gap this closes: a real, published
+         * business email with no mailto: link around it (plain text
+         * only) was invisible to App\Audit\Contacts\ContactInfoExtractor
+         * until now. Lowercased, deduplicated, in document order — the
+         * same shape $mailtoLinks already uses.
+         *
+         * @var array<int, string>
+         */
+        public array $plainTextEmails = [],
     ) {
     }
 
@@ -58,6 +69,7 @@ final readonly class ParsedHtml
             wordCount: 0,
             mailtoLinks: [],
             telLinks: [],
+            plainTextEmails: [],
         );
     }
 }
