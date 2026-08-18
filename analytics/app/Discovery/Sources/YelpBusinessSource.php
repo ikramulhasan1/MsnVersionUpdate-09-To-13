@@ -10,6 +10,7 @@ use App\Discovery\Sources\DTO\DiscoveredWebsiteDTO;
 use GuzzleHttp\ClientInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use App\Discovery\Taxonomy\YelpCategoryClassifier;
 use Throwable;
 
 /**
@@ -233,15 +234,17 @@ final class YelpBusinessSource implements DiscoverySourceInterface
             return null;
         }
 
-        /** @var array<string, mixed> $location */
+                /** @var array<string, mixed> $location */
         $location = is_array($business['location'] ?? null) ? $business['location'] : [];
 
-                return new DiscoveredWebsiteDTO(
+        $classification = (new YelpCategoryClassifier())->classify($this->categoryTitles($business));
+
+        return new DiscoveredWebsiteDTO(
             url: $website,
             domain: $host,
             discoverySource: $this->sourceName(),
-            industry: $this->firstCategoryTitle($business),
-            subNiche: $this->secondCategoryTitle($business),
+            industry: $classification['industry'],
+            subNiche: $classification['subNiche'],
             country: is_string($location['country'] ?? null) ? $location['country'] : null,
             city: is_string($location['city'] ?? null) ? $location['city'] : null,
         );
@@ -322,5 +325,29 @@ final class YelpBusinessSource implements DiscoverySourceInterface
         $title = $categories[1]['title'] ?? null;
 
         return is_string($title) ? $title : null;
+    }
+        private function categoryTitles(array $business): array
+    {
+        $categories = $business['categories'] ?? [];
+
+        if (! is_array($categories)) {
+            return [];
+        }
+
+        $titles = [];
+
+        foreach ($categories as $category) {
+            if (! is_array($category)) {
+                continue;
+            }
+
+            $title = $category['title'] ?? null;
+
+            if (is_string($title) && $title !== '') {
+                $titles[] = $title;
+            }
+        }
+
+        return $titles;
     }
 }
