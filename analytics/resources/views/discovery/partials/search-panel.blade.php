@@ -398,7 +398,7 @@
 
                             <p class="fw-medium mb-3">Website Quality</p>
                             <div class="row g-4 mb-2">
-                                @foreach (['seo' => 'SEO', 'performance' => 'Performance', 'security' => 'Security', 'accessibility' => 'Accessibility'] as $qualityKey => $qualityLabel)
+                                @foreach (['seo' => 'SEO', 'performance' => 'Performance', 'security' => 'Security', 'accessibility' => 'Accessibility'] as $qualityKey => $qualityName)
                                     @php
                                         $qualityMin = $filters['quality'][$qualityKey]['min'] ?? 0;
                                         $qualityMax = $filters['quality'][$qualityKey]['max'] ?? 100;
@@ -406,7 +406,7 @@
                                     <div class="col-12 col-md-6 col-lg-3">
                                         <div class="d-flex justify-content-between align-items-center mb-1">
                                             <label class="form-label small fw-medium mb-0">
-                                                {{ $qualityLabel }} Score
+                                                {{ $qualityName }} Score
                                             </label>
                                             <span class="small text-secondary font-mono">
                                                 <span data-range-min-label>{{ $qualityMin }}</span>&ndash;<span
