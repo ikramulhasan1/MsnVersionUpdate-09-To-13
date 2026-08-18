@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Discovery\Taxonomy;
 
 use App\Models\DiscoveredWebsite;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * PRODUCTION INCIDENT — read before reverting to config('discovery.industries'):
@@ -35,35 +34,42 @@ use Illuminate\Support\Facades\Cache;
  * docblock for why sub_niche in particular was almost entirely empty
  * before this fix, independent of the dropdown-mismatch problem above.
  *
- * Cached briefly (see self::CACHE_TTL_SECONDS) rather than querying
- * DISTINCT on every single search-panel render — the underlying data
- * only actually changes when a new site is discovered/enriched, not on
- * every page load, and a short TTL keeps a newly-discovered industry
- * showing up in the dropdown within a minute or two without needing an
- * explicit cache-bust anywhere.
+ * PRODUCTION INCIDENT, ROUND TWO — a first version of this fix wrapped
+ * both queries in Cache::remember() with a 5-minute TTL, reasoning that
+ * DISTINCT-querying on every search-panel render was wasteful since the
+ * underlying data rarely changes between page loads. In practice this
+ * caused real, confusing staleness instead: a person discovering new
+ * websites (via "Discover More", a bulk audit sync, ...) and then
+ * immediately checking the Industry dropdown would see it NOT yet
+ * reflect what had just been added, for up to 5 minutes, with no
+ * visible reason why — indistinguishable from the dropdown being
+ * broken again. Given this app's actual traffic/data volume, a plain
+ * DISTINCT query on an indexed column (industry/sub_niche are both
+ * indexed — see database/migrations/2026_08_14_000000_create_discovered_websites_table.php)
+ * is cheap enough not to need caching at all; correctness (the
+ * dropdown always matching what's actually in the table, right now)
+ * matters far more here than shaving a few milliseconds off a
+ * low-traffic page's own query time. No caching layer at all now —
+ * every call is a direct, live query.
  */
 final class IndustryTaxonomyService
 {
-    private const int CACHE_TTL_SECONDS = 300;
-
     /**
      * Every distinct, non-null industry value actually present on
-     * discovered_websites, alphabetically — not config-driven anymore,
-     * see this class's own docblock for why.
+     * discovered_websites, alphabetically — not config-driven, and not
+     * cached, see this class's own docblock for why.
      *
      * @return array<int, string>
      */
     public function industries(): array
     {
-        return Cache::remember('discovery-taxonomy:industries', self::CACHE_TTL_SECONDS, static function (): array {
-            return DiscoveredWebsite::query()
-                ->whereNotNull('industry')
-                ->where('industry', '!=', '')
-                ->distinct()
-                ->orderBy('industry')
-                ->pluck('industry')
-                ->all();
-        });
+        return DiscoveredWebsite::query()
+            ->whereNotNull('industry')
+            ->where('industry', '!=', '')
+            ->distinct()
+            ->orderBy('industry')
+            ->pluck('industry')
+            ->all();
     }
 
     /**
@@ -84,18 +90,14 @@ final class IndustryTaxonomyService
      */
     public function subNiches(string $industry): array
     {
-        $cacheKey = 'discovery-taxonomy:sub-niches:' . md5($industry);
-
-        return Cache::remember($cacheKey, self::CACHE_TTL_SECONDS, static function () use ($industry): array {
-            return DiscoveredWebsite::query()
-                ->where('industry', $industry)
-                ->whereNotNull('sub_niche')
-                ->where('sub_niche', '!=', '')
-                ->distinct()
-                ->orderBy('sub_niche')
-                ->pluck('sub_niche')
-                ->all();
-        });
+        return DiscoveredWebsite::query()
+            ->where('industry', $industry)
+            ->whereNotNull('sub_niche')
+            ->where('sub_niche', '!=', '')
+            ->distinct()
+            ->orderBy('sub_niche')
+            ->pluck('sub_niche')
+            ->all();
     }
 
     /**
