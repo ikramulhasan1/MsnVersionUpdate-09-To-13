@@ -6,7 +6,7 @@
 
     A plain include rather than a Blade component, matching this
     project's existing Blade convention (see audit/partials/*.blade.php)
-    of @@include-based partials over anonymous components.
+    of @include-based partials over anonymous components.
 
     Expects:
       $header    an App\Audit\Export\Pdf\DTO\PdfHeaderData — logo, company
@@ -86,7 +86,24 @@
             </tr>
         </table>
         <p class="pdf-score-badge-caption">
-            Overall Score: {{ $overallScore }} / 100@if ($overallGrade)
+            {{-- PRODUCTION INCIDENT — read before packing "@if" (or any
+                 Blade directive) directly against the end of a
+                 preceding {{ }} echo or plain text with no whitespace/
+                 newline between them, e.g. "100@if (...)": Blade's own
+                 directive-parsing regex reliably failed to recognize
+                 that "@if" as a real directive when it had no
+                 whitespace/newline immediately before it, and silently
+                 left it as literal, uncompiled text — which meant the
+                 matching @endif a few lines down had no opening @if to
+                 close, throwing "unexpected token 'else'" at this
+                 partial's OWN @else (further down, for the surrounding
+                 $overallScore !== null / else block) once the compiler
+                 got that far and found one @endif too many already
+                 consumed by the corrupted inner block. Always put a
+                 directive on its own line (or with real whitespace
+                 before it) rather than immediately after other output. --}}
+            Overall Score: {{ $overallScore }} / 100
+            @if ($overallGrade)
                 &nbsp;&mdash;&nbsp;Grade {{ $overallGrade }}
             @endif
         </p>
