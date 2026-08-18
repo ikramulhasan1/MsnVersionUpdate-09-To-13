@@ -398,7 +398,42 @@
 
                             <p class="fw-medium mb-3">Website Quality</p>
                             <div class="row g-4 mb-2">
-                                @foreach (['seo' => 'SEO', 'performance' => 'Performance', 'security' => 'Security', 'accessibility' => 'Accessibility'] as $qualityKey => $qualityName)
+                                {{--
+                                    PRODUCTION INCIDENT — read before putting an inline
+                                    associative array literal back directly inside a
+                                    @foreach (... as $key => $value) expression: this
+                                    exact construct (an array literal with its OWN => pairs,
+                                    immediately followed by the foreach's own " as $k => $v"
+                                    => pair) reliably failed to compile correctly on this
+                                    app's specific PHP/Laravel version — every "=>" in the
+                                    line (five total: four inside the array literal, one for
+                                    the foreach's own key=>value split) left Blade's own
+                                    @foreach compiler unable to reliably isolate which
+                                    "=>" was the real key=>value separator, and the
+                                    resulting compiled PHP silently left @foreach (and the
+                                    @php block immediately after it) as literal, uncompiled
+                                    text rather than real PHP — which in turn meant the loop
+                                    never actually ran, and $qualityName (used several lines
+                                    below, once per iteration) was never assigned at all,
+                                    throwing "Undefined variable" at runtime. This was
+                                    reliably reproducible across cache-clears, view:cache,
+                                    and even renaming the loop variable itself — the
+                                    combination of the two "=>"-bearing expressions on one
+                                    line was the actual defect, not caching or naming.
+                                    Extracting the array into its own $qualityGroups
+                                    variable in a plain @php block FIRST, then looping over
+                                    that variable (a single, unambiguous "=>" per line from
+                                    here on), sidesteps the parsing ambiguity entirely.
+                                --}}
+                                @php
+                                    $qualityGroups = [
+                                        'seo' => 'SEO',
+                                        'performance' => 'Performance',
+                                        'security' => 'Security',
+                                        'accessibility' => 'Accessibility',
+                                    ];
+                                @endphp
+                                @foreach ($qualityGroups as $qualityKey => $qualityName)
                                     @php
                                         $qualityMin = $filters['quality'][$qualityKey]['min'] ?? 0;
                                         $qualityMax = $filters['quality'][$qualityKey]['max'] ?? 100;
