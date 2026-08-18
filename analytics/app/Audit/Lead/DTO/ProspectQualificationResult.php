@@ -166,4 +166,67 @@ final readonly class ProspectQualificationResult implements \JsonSerializable
     {
         return $this->toArray();
     }
+
+    /**
+     * PRODUCTION INCIDENT — read before removing these two methods:
+     * App\Audit\Cache\AuditCacheService stores a whole AnalysisResults
+     * object graph (this class included, nested under
+     * AnalysisResults::$prospectQualification) via PHP's native
+     * serialize()/unserialize() in the `cache` database table. Phase M6
+     * added three new typed, readonly properties to this class
+     * ($maxPossibleScore, $isPartial, $availableBuckets) — real cache
+     * ROWS WRITTEN BEFORE that change simply have no value for any of
+     * the three in their own serialized blob. PHP's default
+     * unserialize() behavior for a readonly class does NOT run the
+     * constructor and does NOT apply the constructor's own default
+     * values for a property missing from the serialized data — it
+     * leaves that typed property genuinely, permanently uninitialized,
+     * so the very first read of it anywhere (e.g.
+     * audit/partials/full-report.blade.php's own
+     * $prospectQualification->maxPossibleScore) throws "must not be
+     * accessed before initialization" — a real production error hit on
+     * this exact class the first time a pre-Phase-M6 cached audit was
+     * viewed after deploying Phase M6.
+     *
+     * __serialize()/__unserialize() are PHP's own supported mechanism
+     * for exactly this situation: __unserialize() runs as real code
+     * (unlike the default unserialize path) and can supply a sensible
+     * default for a key that's missing from OLDER serialized data.
+     * Defaults chosen here match this class's own pre-Phase-M6
+     * behavior — a full, non-partial 100-point result — since every
+     * cache row old enough to be missing these keys was necessarily
+     * written before partial results existed at all.
+     *
+     * @return array<string, mixed>
+     */
+    public function __serialize(): array
+    {
+        return [
+            'score' => $this->score,
+            'grade' => $this->grade,
+            'breakdown' => $this->breakdown,
+            'summary' => $this->summary,
+            'maxPossibleScore' => $this->maxPossibleScore,
+            'isPartial' => $this->isPartial,
+            'availableBuckets' => $this->availableBuckets,
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function __unserialize(array $data): void
+    {
+        $this->score = $data['score'];
+        $this->grade = $data['grade'];
+        $this->breakdown = $data['breakdown'];
+        $this->summary = $data['summary'];
+        $this->maxPossibleScore = $data['maxPossibleScore'] ?? 100;
+        $this->isPartial = $data['isPartial'] ?? false;
+        $this->availableBuckets = $data['availableBuckets'] ?? [
+            'website_issues' => true,
+            'business_signals' => true,
+            'technology_upgrade_opportunities' => true,
+        ];
+    }
 }

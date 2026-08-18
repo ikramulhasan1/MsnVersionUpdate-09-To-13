@@ -67,4 +67,46 @@ final readonly class BusinessSignalsResult implements \JsonSerializable
     {
         return $this->toArray();
     }
+
+    /**
+     * PRODUCTION INCIDENT — see
+     * App\Audit\Lead\DTO\ProspectQualificationResult's own identical
+     * pair of methods for the full explanation: Phase M4 added
+     * $signalPageUrls, a new typed, readonly property, to this class.
+     * A cache row written before that change has no value for it in
+     * its own serialized blob, and PHP's default unserialize()
+     * behavior for a readonly class leaves a property missing from
+     * the data genuinely uninitialized rather than applying the
+     * constructor's own default — throwing "must not be accessed
+     * before initialization" the first time anything reads
+     * ->signalPageUrls on an object unserialized from old cached data.
+     * Defaults to an empty array here, matching this property's own
+     * constructor default and pre-Phase-M4 behavior (no page-location
+     * data available) — exactly what was true for every cache row old
+     * enough to be missing this key.
+     *
+     * @return array<string, mixed>
+     */
+    public function __serialize(): array
+    {
+        return [
+            'url' => $this->url,
+            'signals' => $this->signals,
+            'signalDetails' => $this->signalDetails,
+            'analyzedAt' => $this->analyzedAt,
+            'signalPageUrls' => $this->signalPageUrls,
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function __unserialize(array $data): void
+    {
+        $this->url = $data['url'];
+        $this->signals = $data['signals'];
+        $this->signalDetails = $data['signalDetails'];
+        $this->analyzedAt = $data['analyzedAt'];
+        $this->signalPageUrls = $data['signalPageUrls'] ?? [];
+    }
 }
