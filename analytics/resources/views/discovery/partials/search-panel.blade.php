@@ -400,30 +400,46 @@
                             <div class="row g-4 mb-2">
                                 {{--
                                     PRODUCTION INCIDENT — read before putting an inline
-                                    associative array literal back directly inside a
-                                    @foreach (... as $key => $value) expression: this
-                                    exact construct (an array literal with its OWN => pairs,
-                                    immediately followed by the foreach's own " as $k => $v"
-                                    => pair) reliably failed to compile correctly on this
-                                    app's specific PHP/Laravel version — every "=>" in the
-                                    line (five total: four inside the array literal, one for
-                                    the foreach's own key=>value split) left Blade's own
-                                    @foreach compiler unable to reliably isolate which
-                                    "=>" was the real key=>value separator, and the
-                                    resulting compiled PHP silently left @foreach (and the
-                                    @php block immediately after it) as literal, uncompiled
-                                    text rather than real PHP — which in turn meant the loop
-                                    never actually ran, and $qualityName (used several lines
-                                    below, once per iteration) was never assigned at all,
-                                    throwing "Undefined variable" at runtime. This was
-                                    reliably reproducible across cache-clears, view:cache,
-                                    and even renaming the loop variable itself — the
-                                    combination of the two "=>"-bearing expressions on one
-                                    line was the actual defect, not caching or naming.
+                                    associative array literal back directly inside the
+                                    loop directive below, as "iterable-value as key =>
+                                    value": that exact construct (an array literal with
+                                    its OWN key/value pairs, immediately followed by the
+                                    loop directive's own "as key => value" pair)
+                                    reliably failed to compile correctly on this app's
+                                    specific PHP/Laravel version — every pair-separator
+                                    token on that one line (five total: four inside the
+                                    array literal, one for the loop directive's own
+                                    split) left Blade's own compiler unable to reliably
+                                    isolate which one was the real separator, and the
+                                    resulting compiled PHP silently left that whole line
+                                    (and the small variable-assignment block immediately
+                                    after it) as literal, uncompiled text rather than
+                                    real PHP — which in turn meant the loop never
+                                    actually ran, and $qualityName (used several lines
+                                    below, once per iteration) was never assigned at
+                                    all, throwing "Undefined variable" at runtime. This
+                                    was reliably reproducible across cache-clears,
+                                    view:cache, and even renaming the loop variable
+                                    itself — the combination of the two pair-bearing
+                                    expressions on one line was the actual defect, not
+                                    caching or naming.
+
                                     Extracting the array into its own $qualityGroups
-                                    variable in a plain @php block FIRST, then looping over
-                                    that variable (a single, unambiguous "=>" per line from
+                                    variable FIRST, then looping over that variable (a
+                                    single, unambiguous pair-separator per line from
                                     here on), sidesteps the parsing ambiguity entirely.
+
+                                    IMPORTANT FOR FUTURE EDITS TO THIS COMMENT: do not
+                                    write the literal directive keywords this incident
+                                    is about inside this comment block — Blade's own
+                                    directive compiler matched those literal keywords
+                                    EVEN INSIDE THIS COMMENT on a prior deploy attempt
+                                    (before comment-stripping ran), throwing off this
+                                    whole file's own loop-open/loop-close count and
+                                    causing a totally unrelated "unexpected end of
+                                    file" error much further down in this same file.
+                                    Describe the directives in prose only, never typed
+                                    out verbatim, if this comment is ever expanded.
                                 --}}
                                 @php
                                     $qualityGroups = [
