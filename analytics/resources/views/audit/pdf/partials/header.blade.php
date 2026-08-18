@@ -6,7 +6,7 @@
 
     A plain include rather than a Blade component, matching this
     project's existing Blade convention (see audit/partials/*.blade.php)
-    of @include-based partials over anonymous components.
+    of @@include-based partials over anonymous components.
 
     Expects:
       $header    an App\Audit\Export\Pdf\DTO\PdfHeaderData — logo, company
