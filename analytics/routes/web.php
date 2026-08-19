@@ -32,6 +32,12 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('/', [AuditController::class, 'index'])->name('home');
 
+// Phase N1.5 (Homepage + Quick Audit Hero) — see
+// App\Http\Controllers\AuditController::quickAudit()'s own docblock.
+// Public and unauthenticated, deliberately: this is this app's SECOND
+// (and only other) genuinely public route besides 'home' itself.
+Route::post('/quick-audit', [AuditController::class, 'quickAudit'])->name('quick-audit');
+
 Route::middleware(['auth', 'verified'])->group(function (): void {
     // Phase N4 (User Dashboard) — no permission gate, unlike every
     // feature group below: every logged-in, verified account sees
@@ -52,7 +58,7 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     // RolesAndPermissionsSeeder's own docblock on 'export-data' for
     // why this ONE permission covers both Audit's and Discovery's own
     // export surfaces, not two module-specific ones).
-    Route::middleware('permission:export-data')->group(function (): void {
+    Route::middleware(['permission:export-data', 'plan:export-data'])->group(function (): void {
         Route::get('/audits/{audit}/export', [AuditController::class, 'export'])->name('audits.export');
         Route::get('/audits/{audit}/export-excel', [AuditController::class, 'exportExcel'])
             ->name('audits.export.excel');
@@ -66,7 +72,7 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     // wildcard segment at all yet, so this is really just future-proofing
     // against one being added later without anyone remembering to check
     // route order again.
-    Route::prefix('bulk-audits')->name('bulk-audits.')->middleware('permission:run-bulk-audit')
+    Route::prefix('bulk-audits')->name('bulk-audits.')->middleware(['permission:run-bulk-audit', 'plan:run-bulk-audit'])
         ->group(function (): void {
             Route::get('/create', [BulkAuditController::class, 'create'])->name('create');
             Route::post('/', [BulkAuditController::class, 'store'])->name('store');
@@ -151,7 +157,7 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
             // own middleware comment above for why 'export-data' is stacked
             // on ONLY this one route rather than applied group-wide.
             Route::get('/export', [DiscoveryController::class, 'export'])->name('export')
-                ->middleware('permission:export-data');
+                ->middleware(['permission:export-data', 'plan:export-data']);
 
             Route::get('/{website}', [DiscoveryController::class, 'show'])->name('show');
             Route::get('/{website}/watch', [DiscoveryController::class, 'watch'])->name('watch');

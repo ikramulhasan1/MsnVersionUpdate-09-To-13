@@ -49,19 +49,17 @@ final class DashboardController extends Controller
             'watchlistCount' => $watchlistCount,
             'recentNotifications' => $recentNotifications,
             'unreadNotificationCount' => $user->unreadNotifications()->count(),
-            // Phase N4 — a deliberate placeholder. Phase N5 (Dynamic
-            // Pricing/Subscription) is where this becomes a real
-            // relation read off a genuine subscriptions table; nothing
-            // in resources/views/dashboard/index.blade.php's own
-            // Subscription card needs to change when that lands, since
-            // this array already carries the exact shape a real plan
-            // record will (name/status/renewsAt) — only this literal
-            // array gets replaced with a real query.
-            'subscription' => [
-                'plan' => 'Not subscribed yet',
-                'status' => 'placeholder',
-                'renewsAt' => null,
-            ],
+            // Phase N1.5 (Free Trial) — real data now, no longer a
+            // placeholder: $user->plan/onTrial()/trialExpired() are
+            // all real, queried values (see App\Models\User's own
+            // docblock on each). Phase N5 (Dynamic Pricing/
+            // Subscription) is where a PAID, non-trial subscription's
+            // own richer status (renewal date, payment method, ...)
+            // gets added — this same $user->plan relation is what that
+            // phase builds on, not a replacement for it.
+            'plan' => $user->plan,
+            'onTrial' => $user->onTrial(),
+            'trialExpired' => $user->trialExpired(),
         ]);
     }
 }

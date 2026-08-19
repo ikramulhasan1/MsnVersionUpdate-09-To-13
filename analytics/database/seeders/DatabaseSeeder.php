@@ -22,6 +22,15 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
+        // Phase N1.5 (Free Trial) — must run before
+        // RolesAndPermissionsSeeder's own ADMIN_EMAIL bootstrap has any
+        // real bearing on this, and well before any real registration
+        // ever happens: App\Http\Controllers\Auth\RegisteredUserController::store()
+        // looks up the is_default_trial plan at registration time, so
+        // this seeder needs to have run at least once before the first
+        // real signup.
+        $this->call(PlansSeeder::class);
+
         // Phase N3 (Role & Permission System) — must run AFTER any
         // User rows this method creates above it, so
         // RolesAndPermissionsSeeder's own ADMIN_EMAIL bootstrap (see

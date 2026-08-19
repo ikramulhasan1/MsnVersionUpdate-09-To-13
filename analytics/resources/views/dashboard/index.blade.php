@@ -4,6 +4,17 @@
 
 @section('content')
     <section class="container py-4">
+        {{--
+            Phase N1.5 — flashed by
+            App\Http\Middleware\EnsurePlanAllowsFeature or
+            App\Http\Controllers\AuditController::store()'s own
+            PlanLimitExceededException catch, whenever a blocked action
+            redirected here instead of completing.
+        --}}
+        @if (session('plan_limit_message'))
+            <div class="alert alert-warning small mb-4">{{ session('plan_limit_message') }}</div>
+        @endif
+
         <h1 class="h4 fw-semibold mb-1">Welcome back, {{ auth()->user()->name }}</h1>
         <p class="text-secondary mb-4">Here's what's happening with your account.</p>
 
@@ -59,20 +70,55 @@
                     </div>
                 </div>
 
-                {{-- Phase N5 (Dynamic Pricing/Subscription) placeholder — see
-                     App\Http\Controllers\DashboardController::index()'s own
-                     docblock on $subscription for exactly what changes when
-                     that phase lands. --}}
+                {{--
+                    Phase N1.5 (Free Trial) — real plan/trial data now
+                    (see App\Http\Controllers\DashboardController::index()'s
+                    own docblock). Phase N5 (Dynamic Pricing/Subscription)
+                    is where "Upgrade Now" below gets a real destination
+                    (a plan-picker/checkout page) — for now it's a
+                    disabled, honest placeholder rather than a link to a
+                    page that doesn't exist yet.
+                --}}
                 <div class="card">
                     <div class="card-body p-4">
                         <h2 class="h6 fw-semibold mb-2">Subscription</h2>
-                        <p class="mb-1">
-                            <span class="fw-medium">{{ $subscription['plan'] }}</span>
-                        </p>
-                        <p class="text-secondary small mb-0">
-                            Subscription plans are coming soon — every feature is currently available to
-                            every account at no charge.
-                        </p>
+
+                        @if ($plan === null)
+                            <p class="text-secondary small mb-0">No plan assigned yet.</p>
+                        @else
+                            <p class="mb-1">
+                                <span class="fw-medium">{{ $plan->name }}</span>
+                                @if ($onTrial)
+                                    <span class="badge bg-warning-subtle text-warning-emphasis ms-1">
+                                        Trial &mdash; ends {{ auth()->user()->trial_ends_at->diffForHumans() }}
+                                    </span>
+                                @elseif ($trialExpired)
+                                    <span class="badge bg-danger-subtle text-danger-emphasis ms-1">
+                                        Trial ended
+                                    </span>
+                                @endif
+                            </p>
+
+                            @if ($trialExpired)
+                                <p class="text-secondary small mb-3">
+                                    Your free trial has ended. Upgrade to keep running audits, use Bulk
+                                    Audit, and export your reports.
+                                </p>
+                                <button type="button" class="btn btn-primary btn-sm" disabled
+                                    title="Subscription upgrades are coming soon">
+                                    Upgrade Now
+                                </button>
+                            @elseif ($onTrial)
+                                <p class="text-secondary small mb-0">
+                                    {{ $plan->dailyAuditLimit() !== null ? $plan->dailyAuditLimit() . ' audit(s)/day, ' : '' }}
+                                    {{ $plan->allowsFeature('run-bulk-audit') ? '' : 'no Bulk Audit, ' }}
+                                    {{ $plan->allowsFeature('export-data') ? '' : 'no exports' }}
+                                    &mdash; during your trial.
+                                </p>
+                            @else
+                                <p class="text-secondary small mb-0">{{ $plan->priceLabel() }}</p>
+                            @endif
+                        @endif
                     </div>
                 </div>
             </div>

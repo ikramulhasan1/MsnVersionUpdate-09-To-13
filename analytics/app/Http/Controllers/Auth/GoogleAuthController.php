@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Auth\NewUserOnboarder;
+use App\Http\Controllers\Auth\Concerns\RedirectsToPendingAudit;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -45,6 +47,13 @@ use Laravel\Socialite\Two\User as SocialiteUser;
  */
 final class GoogleAuthController extends Controller
 {
+    use RedirectsToPendingAudit;
+
+    public function __construct(
+        private readonly NewUserOnboarder $onboarder,
+    ) {
+    }
+
     public function redirect(): RedirectResponse
     {
         return Socialite::driver('google')->redirect();
@@ -68,6 +77,8 @@ final class GoogleAuthController extends Controller
             $user = User::query()->where('email', $googleUser->getEmail())->first();
         }
 
+        $isNewAccount = $user === null;
+
         if ($user !== null) {
             $user->forceFill([
                 'google_id' => $user->google_id ?? $googleUser->getId(),
@@ -89,13 +100,25 @@ final class GoogleAuthController extends Controller
             ]);
         }
 
+        // Phase N1.5 — ONLY for a genuinely brand new account
+        // ($isNewAccount, captured above BEFORE either branch runs).
+        // See App\Auth\NewUserOnboarder's own docblock for exactly why
+        // re-onboarding an EXISTING account here would be a real bug
+        // (silently resetting a real paid plan back to Free Trial the
+        // moment they link Google to an account that already existed).
+        if ($isNewAccount) {
+            $this->onboarder->onboard($user);
+        }
+
         Auth::login($user, remember: true);
 
         request()->session()->regenerate();
 
-        // Phase N4 (User Dashboard) — see
+        // Phase N1.5 (Quick Audit Hero) — see
         // App\Http\Controllers\Auth\AuthenticatedSessionController::store()'s
         // own identical comment.
-        return redirect()->intended(route('dashboard', absolute: false));
+        return $this->redirectAfterAuthentication(
+            redirect()->intended(route('dashboard', absolute: false)),
+        );
     }
 }

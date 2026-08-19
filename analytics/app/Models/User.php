@@ -49,6 +49,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'google_id',
         'avatar_url',
+        // Phase N1.5 — see this class's own plan()/onTrial() methods.
+        'plan_id',
+        'subscribed_at',
+        'trial_ends_at',
     ];
 
     /**
@@ -71,6 +75,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'subscribed_at' => 'datetime',
+            'trial_ends_at' => 'datetime',
         ];
     }
 
@@ -108,5 +114,62 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isAdmin(): bool
     {
         return $this->hasRole('Admin');
+    }
+
+    /**
+     * Phase N1.5 (Free Trial) — null for any account created before
+     * this column existed, or one an Admin hasn't assigned a plan to
+     * yet.
+     */
+    public function plan(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Plan::class);
+    }
+
+    /**
+     * True only while both a plan AND a real trial_ends_at are set
+     * AND that date hasn't passed — a paid, non-expiring plan
+     * (trial_ends_at null) is never "on trial" even though it's a
+     * real assigned plan, and a user with no plan at all isn't either.
+     */
+    public function onTrial(): bool
+    {
+        return $this->plan_id !== null
+            && $this->trial_ends_at !== null
+            && $this->trial_ends_at->isFuture();
+    }
+
+    /**
+     * True specifically for a trial that existed and has now passed —
+     * NOT true for someone who was never on a trial at all (a plan
+     * with no expiry, or no plan whatsoever). Used by
+     * resources/views/dashboard/index.blade.php's own "Upgrade Now"
+     * banner and App\Http\Middleware\EnsurePlanAllowsFeature to tell
+     * "you were never on a trial" apart from "your trial just ended",
+     * which call for different messaging.
+     */
+    public function trialExpired(): bool
+    {
+        return $this->trial_ends_at !== null && $this->trial_ends_at->isPast();
+    }
+
+    /**
+     * Phase N1.5 — the ONE method every feature-gating check in this
+     * app (App\Http\Middleware\EnsurePlanAllowsFeature,
+     * App\Audit\Services\AuditService::submit()'s own daily-limit
+     * check) actually calls, rather than each reaching into
+     * $this->plan->features directly. False whenever there's no plan
+     * at all OR the plan itself has expired (trialExpired()) — an
+     * expired trial blocks EVERY plan feature, not just the ones the
+     * plan's own JSON already marked false, since the whole plan
+     * period is over.
+     */
+    public function planAllowsFeature(string $key): bool
+    {
+        if ($this->plan === null || $this->trialExpired()) {
+            return false;
+        }
+
+        return $this->plan->allowsFeature($key);
     }
 }

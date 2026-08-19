@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Auth\Concerns\RedirectsToPendingAudit;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
@@ -16,6 +17,8 @@ use Illuminate\View\View;
  */
 final class AuthenticatedSessionController extends Controller
 {
+    use RedirectsToPendingAudit;
+
     public function create(): View
     {
         return view('auth.login');
@@ -39,11 +42,16 @@ final class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // Phase N4 (User Dashboard) — resolves the TODO this redirect
-        // originally carried: a logged-in person's own landing page
-        // now really is their dashboard, not the public marketing
-        // homepage they just came from.
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Phase N1.5 (Quick Audit Hero) — checks session('pending_audit_uuid')
+        // first (see App\Http\Controllers\Auth\Concerns\RedirectsToPendingAudit's
+        // own docblock); redirect()->intended(...) is the fallback,
+        // preserving Phase N4's own original behavior for every other
+        // login (someone who hit a protected page while logged out
+        // still lands back there, not on a Quick Audit result that was
+        // never theirs to begin with).
+        return $this->redirectAfterAuthentication(
+            redirect()->intended(route('dashboard', absolute: false)),
+        );
     }
 
     public function destroy(Request $request): RedirectResponse

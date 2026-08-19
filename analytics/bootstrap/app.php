@@ -26,6 +26,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+            // Phase N1.5 (Free Trial) — see
+            // App\Http\Middleware\EnsurePlanAllowsFeature's own
+            // docblock for how this differs from 'permission' above.
+            'plan' => \App\Http\Middleware\EnsurePlanAllowsFeature::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

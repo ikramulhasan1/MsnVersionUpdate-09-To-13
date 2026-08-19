@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Auth\Concerns\RedirectsToPendingAudit;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -18,16 +19,29 @@ use Illuminate\Http\RedirectResponse;
  */
 final class VerifyEmailController extends Controller
 {
+    use RedirectsToPendingAudit;
+
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->route('dashboard', ['verified' => 1]);
+            return $this->redirectAfterAuthentication(
+                redirect()->route('dashboard', ['verified' => 1]),
+            );
         }
 
         if ($request->user()->markEmailAsVerified()) {
             event(new Verified($request->user()));
         }
 
-        return redirect()->route('dashboard', ['verified' => 1]);
+        // Phase N1.5 (Quick Audit Hero) — THIS is the real "just
+        // finished authenticating" moment for a brand new registration
+        // (see App\Http\Controllers\Auth\RegisteredUserController::store()'s
+        // own comment on why it doesn't check
+        // session('pending_audit_uuid') itself — email verification
+        // sits between registering and actually being able to view a
+        // protected page like audits.show).
+        return $this->redirectAfterAuthentication(
+            redirect()->route('dashboard', ['verified' => 1]),
+        );
     }
 }

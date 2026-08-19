@@ -6,6 +6,7 @@ namespace App\Audit\Services;
 
 use App\Audit\DTO\CreateAuditData;
 use App\Audit\Enums\AuditStatus;
+use App\Audit\Exceptions\PlanLimitExceededException;
 use App\Audit\Jobs\FetchAndCrawlJob;
 use App\Audit\Repositories\Contracts\AuditRepositoryInterface;
 use App\Audit\Services\Contracts\AuditServiceInterface;
@@ -20,8 +21,47 @@ final class AuditService implements AuditServiceInterface
     ) {
     }
 
+    /**
+     * @throws PlanLimitExceededException when a LOGGED-IN user's
+     *         current plan blocks this — see that exception's own
+     *         docblock. Never thrown for an anonymous submission (the
+     *         Phase N1.5 Quick Audit Hero,
+     *         App\Http\Controllers\AuditController::quickAudit()) —
+     *         there's no plan to check against at all when auth()->id()
+     *         is null, so this whole block is skipped entirely rather
+     *         than blocking the one deliberately-public entry point
+     *         this app has.
+     */
     public function submit(CreateAuditData $data): Audit
     {
+        $user = auth()->user();
+
+        if ($user !== null) {
+            if (! $user->planAllowsFeature('run-audit')) {
+                throw new PlanLimitExceededException(
+                    $user->trialExpired()
+                        ? 'Your free trial has ended. Upgrade your plan to keep running audits.'
+                        : 'Your current plan doesn\'t include running audits.',
+                );
+            }
+
+            $dailyLimit = $user->plan?->dailyAuditLimit();
+
+            if ($dailyLimit !== null) {
+                $todayCount = Audit::query()
+                    ->where('user_id', $user->id)
+                    ->whereDate('created_at', now()->toDateString())
+                    ->count();
+
+                if ($todayCount >= $dailyLimit) {
+                    throw new PlanLimitExceededException(
+                        "You've reached your plan's limit of {$dailyLimit} audit(s) per day. "
+                            .'Upgrade your plan to run more today.',
+                    );
+                }
+            }
+        }
+
         // Duplicate audit prevention: reuse an in-flight audit for the same URL
         // instead of queuing a second one.
         //
