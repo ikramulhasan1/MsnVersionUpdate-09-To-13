@@ -8,6 +8,7 @@ use App\Audit\Enums\AuditMode;
 use App\Audit\Enums\BulkAuditBatchStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -36,6 +37,9 @@ final class BulkAuditBatch extends Model
 
     protected $fillable = [
         'uuid',
+        // Phase N2 — see App\Models\Audit's own identical comment on
+        // its own 'user_id' for the full reasoning.
+        'user_id',
         'name',
         'total_count',
         'completed_count',
@@ -65,6 +69,14 @@ final class BulkAuditBatch extends Model
     public function audits(): HasMany
     {
         return $this->hasMany(Audit::class);
+    }
+
+    /**
+     * Phase N2 — see App\Models\Audit::user()'s own identical docblock.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\User::class);
     }
 
     /**

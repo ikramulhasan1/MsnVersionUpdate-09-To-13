@@ -24,6 +24,17 @@ final class AuditService implements AuditServiceInterface
     {
         // Duplicate audit prevention: reuse an in-flight audit for the same URL
         // instead of queuing a second one.
+        //
+        // KNOWN EDGE CASE (Phase N2) — if a SECOND person requests the
+        // same URL while a FIRST person's audit for it is still
+        // pending, this returns the FIRST person's own Audit row —
+        // meaning App\Notifications\AuditCompletedNotification only
+        // ever reaches the first person, not the second. Accepted as
+        // a real, documented limitation rather than fixed here:
+        // properly fixing it means tracking multiple "watchers" per
+        // audit (a many-to-many, not the simple belongsTo user_id
+        // this phase added), which is more machinery than a rare
+        // coincidental-timing edge case warrants right now.
         $pending = $this->auditRepository->findLatestPendingByUrl($data->url);
 
         if ($pending !== null) {
@@ -32,6 +43,14 @@ final class AuditService implements AuditServiceInterface
 
         $audit = $this->auditRepository->create([
             'uuid' => (string) Str::uuid(),
+            // Phase N2 — see App\Models\Audit's own docblock on this
+            // column. auth()->id() rather than requiring a $userId
+            // constructor param threaded in from every caller: every
+            // route that reaches submit() is already behind the
+            // 'auth' middleware (Phase N1), so a real authenticated
+            // user is always available here without needing to change
+            // this method's own signature.
+            'user_id' => auth()->id(),
             'url' => $data->url,
             'status' => AuditStatus::QUEUED->value,
             // Phase K1 — see App\Audit\Enums\AuditMode's own docblock.

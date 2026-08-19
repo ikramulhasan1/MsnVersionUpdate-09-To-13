@@ -68,6 +68,11 @@ final class BulkAuditBatchService
 
         $batch = BulkAuditBatch::query()->create([
             'uuid' => (string) Str::uuid(),
+            // Phase N2 — see App\Models\BulkAuditBatch's own docblock
+            // on this column; same reasoning as
+            // App\Audit\Services\AuditService::submit()'s own
+            // identical change.
+            'user_id' => auth()->id(),
             'name' => $name,
             'total_count' => $urls->count(),
             'completed_count' => 0,

@@ -289,7 +289,7 @@ final class DiscoveryController extends Controller
         $validated = $request->validated();
         $criteria = DiscoveryFilterCriteria::fromRequestFilters($validated);
 
-        DiscoverWebsitesJob::dispatch($criteria);
+        DiscoverWebsitesJob::dispatch($criteria, auth()->id());
 
         return redirect()
             ->route('discovery.index', $validated)

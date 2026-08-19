@@ -4,6 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{-- Phase N2 — public/js/notifications.js reads this directly
+         (rather than relying solely on finding some other @csrf-rendered
+         form's own hidden input already on the page, which isn't
+         guaranteed on every page) to submit its own mark-as-read form
+         POSTs. --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Website Audit & Analysis Platform')</title>
 
     {{-- Applied before first paint to avoid a light/dark flash on load --}}
@@ -43,92 +49,90 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg app-navbar d-print-none">
-        <div class="container">
-            <a class="navbar-brand fw-semibold" href="{{ route('home') }}">
-                <span class="brand-mark">AI</span> Website Audit
-            </a>
+    {{--
+        Phase N2 (Sidebar Navigation) — replaces the old single
+        top-navbar layout. app-sidebar (see that partial's own
+        docblock) is the primary navigation now; app-topbar keeps only
+        the sidebar-collapse toggle, theme toggle, and user menu — the
+        same three things this app's OLD navbar's own right-hand side
+        already had, just relocated rather than redesigned.
+    --}}
+    @include('layouts.partials.sidebar')
 
-            <a class="app-navbar-link ms-3 {{ request()->routeIs('discovery.*') ? 'active' : '' }}"
-                href="{{ route('discovery.index') }}">
-                <span class="brand-mark">WD</span> Website Discovery
-            </a>
-
-            {{-- Phase K3/K5 (Bulk Audit) — the only navbar entry point into
-                 /bulk-audits/create; before this, that page (and the whole
-                 bulk-audit feature) had no link ANYWHERE pointing to it —
-                 Discovery's own "Bulk Audit Selected" floating bar is a
-                 separate, contextual entry point (only ever visible once
-                 some result cards are already selected there), not a
-                 substitute for a real, always-visible way in. --}}
-            <a class="app-navbar-link ms-3 {{ request()->routeIs('bulk-audits.*') ? 'active' : '' }}"
-                href="{{ route('bulk-audits.create') }}">
-                <span class="brand-mark">BA</span> Bulk Audit
-            </a>
-
-            <button type="button" id="theme-toggle" class="btn btn-sm theme-toggle ms-auto"
-                aria-label="Toggle dark mode" aria-pressed="false">
-                <svg class="theme-toggle-icon theme-toggle-icon-light" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    aria-hidden="true">
-                    <circle cx="12" cy="12" r="4"></circle>
-                    <path
-                        d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41">
-                    </path>
-                </svg>
-                <svg class="theme-toggle-icon theme-toggle-icon-dark" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    aria-hidden="true">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    <div class="app-main-wrapper">
+        <div class="app-topbar d-print-none">
+            <button type="button" id="app-sidebar-toggle" class="btn btn-sm app-sidebar-toggle-btn"
+                aria-label="Toggle sidebar" aria-expanded="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
 
-            {{-- Phase N1 (Authentication Foundation) — first real "who's
-                 logged in" indicator anywhere in this app's UI. Auth::check()
-                 rather than @auth here specifically (this layout is shared
-                 by both protected pages, which always have a user, and
-                 'home' itself, which doesn't) so a logged-out visitor on
-                 the homepage sees Login/Sign Up links instead of a broken
-                 avatar. --}}
-            @auth
-                <div class="dropdown ms-3">
-                    <button class="btn btn-sm app-user-menu-toggle dropdown-toggle d-flex align-items-center gap-2"
-                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        @if (auth()->user()->avatar_url)
-                            <img src="{{ auth()->user()->avatar_url }}" alt="" class="app-user-avatar"
-                                width="24" height="24">
-                        @else
-                            <span class="app-user-avatar app-user-avatar-initials">{{ auth()->user()->initials() }}</span>
-                        @endif
-                        <span class="d-none d-md-inline">{{ auth()->user()->name }}</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><h6 class="dropdown-header">{{ auth()->user()->email }}</h6></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="dropdown-item">Log Out</button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-            @else
-                <a href="{{ route('login') }}" class="btn btn-sm btn-outline-secondary ms-3">Log In</a>
-                <a href="{{ route('register') }}" class="btn btn-sm btn-primary ms-2">Sign Up</a>
-            @endauth
-        </div>
-    </nav>
+            <div class="ms-auto d-flex align-items-center">
+                <button type="button" id="theme-toggle" class="btn btn-sm theme-toggle"
+                    aria-label="Toggle dark mode" aria-pressed="false">
+                    <svg class="theme-toggle-icon theme-toggle-icon-light" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <circle cx="12" cy="12" r="4"></circle>
+                        <path
+                            d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41">
+                        </path>
+                    </svg>
+                    <svg class="theme-toggle-icon theme-toggle-icon-dark" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
 
-    <main>
-        @yield('content')
-    </main>
-
-    <footer class="app-footer text-center text-secondary py-4 d-print-none">
-        <div class="container small">
-            &copy; {{ date('Y') }} Website Audit &amp; Analysis Platform.
+                {{-- Phase N1 (Authentication Foundation) — see this
+                     block's own original comment (unchanged by Phase N2,
+                     just relocated from the old navbar into this new top
+                     bar): @auth rather than Auth::check() so a
+                     logged-out visitor on the public homepage sees
+                     Login/Sign Up links instead of a broken avatar. --}}
+                @auth
+                    <div class="dropdown ms-3">
+                        <button class="btn btn-sm app-user-menu-toggle dropdown-toggle d-flex align-items-center gap-2"
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @if (auth()->user()->avatar_url)
+                                <img src="{{ auth()->user()->avatar_url }}" alt="" class="app-user-avatar"
+                                    width="24" height="24">
+                            @else
+                                <span class="app-user-avatar app-user-avatar-initials">{{ auth()->user()->initials() }}</span>
+                            @endif
+                            <span class="d-none d-md-inline">{{ auth()->user()->name }}</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><h6 class="dropdown-header">{{ auth()->user()->email }}</h6></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">Log Out</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-sm btn-outline-secondary ms-3">Log In</a>
+                    <a href="{{ route('register') }}" class="btn btn-sm btn-primary ms-2">Sign Up</a>
+                @endauth
+            </div>
         </div>
-    </footer>
+
+        <main>
+            @yield('content')
+        </main>
+
+        <footer class="app-footer text-center text-secondary py-4 d-print-none">
+            <div class="container small">
+                &copy; {{ date('Y') }} Website Audit &amp; Analysis Platform.
+            </div>
+        </footer>
+    </div>
 
     <div id="loading-overlay" class="loading-overlay d-none d-print-none">
         <div class="text-center">
@@ -140,6 +144,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/theme.js') }}"></script>
+    <script src="{{ asset('js/sidebar.js') }}"></script>
+    @auth
+        {{-- Only loaded for a logged-in visitor — the bell dropdown this
+             script drives (see resources/views/layouts/partials/sidebar.blade.php's
+             own docblock) doesn't exist in the DOM at all for a
+             logged-out one, so there's nothing for it to do. --}}
+        <script src="{{ asset('js/notifications.js') }}"
+            data-recent-url="{{ route('notifications.recent') }}"></script>
+    @endauth
     @stack('scripts')
 </body>
 

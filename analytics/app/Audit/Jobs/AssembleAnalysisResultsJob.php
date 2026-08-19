@@ -23,17 +23,17 @@ use App\Audit\Performance\DTO\PerformanceResult;
 use App\Audit\Repositories\Contracts\AuditRepositoryInterface;
 use App\Audit\Security\DTO\SecurityAuditResult;
 use App\Audit\Security\DTO\SecurityResult;
+use App\Audit\Technology\DTO\TechnologyResult;
+use App\Audit\Technology\TechnologyDetector;
 use App\Audit\Technology\TechnologyUpgradeAnalyzer;
 use App\Audit\UiUx\DTO\UiUxAuditResult;
 use App\Audit\UiUx\DTO\UiUxResult;
+use App\Discovery\Normalization\DomainNormalizer;
 use App\Models\Audit;
 use App\Models\BulkAuditBatch;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
-use App\Audit\Technology\DTO\TechnologyResult;
-use App\Audit\Technology\TechnologyDetector;
-use App\Discovery\Normalization\DomainNormalizer;
 use App\Models\DiscoveredWebsite;
 use Illuminate\Support\Str;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Throwable;
 
 
@@ -263,7 +263,25 @@ final class AssembleAnalysisResultsJob extends AuditJob implements ShouldBeUniqu
         );
 
         $this->updateBulkAuditBatchIfAny($audit, $complete);
-        
+
+        // Phase N2 (Dynamic Notification System) — standalone audits
+        // only. See App\Notifications\AuditCompletedNotification's own
+        // docblock for why a BULK audit's individual completions stay
+        // silent instead (the batch-level notification, sent from
+        // updateBulkAuditBatchIfAny() below once the whole batch is
+        // actually done, covers that case). Wrapped in its own
+        // try/catch — a notification failure (e.g. a DB write hiccup)
+        // must never turn an otherwise-successfully-completed audit
+        // into a failed one, the same reasoning
+        // syncToDiscoveredWebsite() below already documents for
+        // itself.
+        if ($audit->bulk_audit_batch_id === null && $audit->user_id !== null) {
+            try {
+                $audit->user?->notify(new \App\Notifications\AuditCompletedNotification($audit, $complete));
+            } catch (Throwable $exception) {
+                report($exception);
+            }
+        }
 
         // Feature request — see syncToDiscoveredWebsite()'s own
         // docblock. Only for a genuinely COMPLETED audit ($complete):
@@ -313,8 +331,26 @@ final class AssembleAnalysisResultsJob extends AuditJob implements ShouldBeUniqu
 
         if ($batch->completed_count + $batch->failed_count >= $batch->total_count) {
             $batch->update(['status' => BulkAuditBatchStatus::COMPLETED->value]);
+
+            // Phase N2 (Dynamic Notification System) — the ONE
+            // notification a bulk audit produces (see
+            // App\Notifications\BulkAuditBatchCompletedNotification's
+            // own docblock for why every individual audit inside it
+            // stays silent). $batch was just re-fetched via find()
+            // above rather than reused from whatever caller passed
+            // $audit in, so completed_count/failed_count here are
+            // guaranteed fresh, not a stale in-memory copy from
+            // before this same method's own increment() above.
+            if ($batch->user_id !== null) {
+                try {
+                    $batch->user?->notify(new \App\Notifications\BulkAuditBatchCompletedNotification($batch));
+                } catch (Throwable $exception) {
+                    report($exception);
+                }
+            }
         }
     }
+
     /**
      * Feature request — keeps App\Models\DiscoveredWebsite in sync with
      * whatever a real audit (single or bulk — this job is the one place
@@ -453,6 +489,7 @@ final class AssembleAnalysisResultsJob extends AuditJob implements ShouldBeUniqu
 
         return $names === [] ? null : implode(', ', $names);
     }
+
     public function failed(Throwable $e): void
     {
         $this->markAuditFailedIfNotFinished($e);

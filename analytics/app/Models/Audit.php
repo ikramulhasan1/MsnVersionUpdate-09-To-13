@@ -16,6 +16,13 @@ final class Audit extends Model
 
     protected $fillable = [
         'uuid',
+        // Phase N2 — nullable (see this column's own migration
+        // docblock: database/migrations/2026_08_19_000002_add_user_id_to_audits_table.php),
+        // set from auth()->id() at creation
+        // (App\Audit\Services\AuditService::submit()/App\Audit\Services\BulkAuditBatchService::createBatch()) —
+        // the ONLY way App\Notifications\AuditCompletedNotification
+        // knows who to notify once this audit finishes.
+        'user_id',
         'url',
         'url_hash',
         'status',
@@ -61,6 +68,16 @@ final class Audit extends Model
     public function bulkAuditBatch(): BelongsTo
     {
         return $this->belongsTo(BulkAuditBatch::class);
+    }
+
+    /**
+     * Phase N2 — null for any audit that either predates this column
+     * or was somehow created without an authenticated session. See
+     * $fillable's own comment on 'user_id'.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\User::class);
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\BulkAuditController;
 use App\Http\Controllers\DiscoveryController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Middleware\PreventLiteSpeedCaching;
 use Illuminate\Support\Facades\Route;
 
@@ -129,6 +130,20 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
         // this row — this route only needs to delete the DiscoveredWebsite
         // itself.
         Route::delete('/{website}', [DiscoveryController::class, 'destroy'])->name('destroy');
+    });
+
+    // Phase N2 (Sidebar + Dynamic Notification System) — "recent" (the
+    // bell dropdown's own polling endpoint) and "read-all" both need to
+    // sit before /{notification} for the same "static segment before
+    // wildcard" reasoning this file's other route groups already
+    // follow throughout (see the discovery group above for several
+    // more examples).
+    Route::prefix('notifications')->name('notifications.')->group(function (): void {
+        Route::get('/', [NotificationController::class, 'index'])->name('index');
+        Route::get('/recent', [NotificationController::class, 'recent'])->name('recent');
+        Route::post('/read-all', [NotificationController::class, 'markAllAsRead'])->name('read-all');
+        Route::post('/{notification}/read', [NotificationController::class, 'markAsRead'])->name('read');
+        Route::delete('/{notification}', [NotificationController::class, 'destroy'])->name('destroy');
     });
 });
 

@@ -96,8 +96,23 @@ final class DiscoverWebsitesJob implements ShouldQueue
      * AnalyzeChunkJob ends up in the jobs table.
      */
 
+    /**
+     * Phase N2 (Dynamic Notification System) — see
+     * App\Notifications\DiscoveryNewWebsitesFoundNotification's own
+     * docblock for exactly when/why a notification does or doesn't
+     * fire. Null for a SCHEDULED search run
+     * (App\Discovery\Jobs\RunScheduledDiscoverySearchJob dispatches
+     * this without a $userId at all — no browser/request is involved,
+     * so there's no "whoever clicked the button" to notify), non-null
+     * for an ad-hoc "Discover More" click
+     * (App\Http\Controllers\DiscoveryController::discover() passes
+     * auth()->id() — every route reaching that method is already
+     * behind the 'auth' middleware, Phase N1, so a real user is always
+     * available there).
+     */
     public function __construct(
         private readonly DiscoveryFilterCriteria $criteria,
+        private readonly ?int $userId = null,
     ) {
         $this->onQueue('discovery');
     }
@@ -108,7 +123,13 @@ final class DiscoverWebsitesJob implements ShouldQueue
             ->map(static fn (string $class): DiscoverySourceInterface => app($class))
             ->all();
 
-        $ingestionService->discoverAndIngest($this->criteria, $sources);
+        $result = $ingestionService->discoverAndIngest($this->criteria, $sources);
+
+        if ($this->userId !== null && $result->created > 0) {
+            $user = \App\Models\User::query()->find($this->userId);
+
+            $user?->notify(new \App\Notifications\DiscoveryNewWebsitesFoundNotification($result->created));
+        }
     }
 
     public function failed(Throwable $exception): void
