@@ -70,6 +70,19 @@
         </tr>
     </table>
 
+    {{--
+        Default contact info, shown on the cover page below the logo —
+        the same three lines repeated on every page's own footer (see
+        resources/views/audit/pdf/layout.blade.php's own
+        .pdf-footer-contact), kept as its own literal strings here for
+        the same reason that file's own comment explains.
+    --}}
+    <p class="pdf-cover-contact">
+        &#128172; WhatsApp: https://wa.me/8801325359909 &nbsp;|&nbsp;
+        Email: support@msnsofttech.com &nbsp;|&nbsp;
+        Web: https://msnsofttech.com/
+    </p>
+
     <h1 class="pdf-cover-title">Website Audit Report</h1>
 
     <p class="pdf-cover-url">{{ $header->websiteUrl }}</p>
@@ -79,9 +92,30 @@
         <table role="presentation" class="pdf-score-badge-table">
             <tr>
                 <td class="pdf-score-badge-cell">
-                    <div class="pdf-score-badge" style="background-color: {{ $scoreBadgeColor }};">
-                        <div class="pdf-score-badge-number">{{ $overallScore }}</div>
-                    </div>
+                    {{--
+                        PRODUCTION INCIDENT — read before going back to a
+                        single <div> + line-height:104px for vertical
+                        centering: dompdf's own CSS support does not
+                        reliably center a block of text using line-height
+                        the way real browsers do — the number rendered
+                        with its own baseline sitting well below the
+                        104px circle's own clipped boundary (the actual
+                        bug reported: "67" appearing half below the
+                        circle rather than centered inside it). A nested
+                        HTML table with a single cell using
+                        vertical-align: middle (dompdf's table-cell
+                        rendering is solid, unlike its line-height
+                        handling) is the reliable fix — this is the exact
+                        same "use a table for reliable vertical
+                        centering" technique already applied elsewhere in
+                        this same PDF layout.
+                    --}}
+                    <table role="presentation" class="pdf-score-badge-outer"
+                        style="background-color: {{ $scoreBadgeColor }};">
+                        <tr>
+                            <td class="pdf-score-badge-number">{{ $overallScore }}</td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
         </table>

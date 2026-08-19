@@ -88,6 +88,25 @@ final class SummaryResultsToRows
         ));
     }
 
+    /**
+     * PRODUCTION INCIDENT (PDF Summary feedback) — read before adding
+     * "Estimated Cost" back to this method, or before reverting
+     * "Estimated Development Time" back to raw hours: this row USED to
+     * also push an "Estimated Cost" row (from
+     * $result->recommendations['estimated_cost']) and displayed
+     * Estimated Development Time in raw hours (e.g. "191-487 hours") —
+     * both removed/changed on explicit request against the actual PDF
+     * Summary page. "Estimated Cost" is gone outright (not merely
+     * hidden by CSS — the row is simply never pushed here at all), and
+     * "Estimated Development Time" now shows the SAME underlying hour
+     * range converted to weeks, via the identical conversion
+     * AIRecommendationEngine::weeksRangeLabel() already applies to its
+     * own generated sentences (that class's own docblock explains the
+     * rounding rule) — kept as its own small, duplicated private
+     * method here rather than a shared dependency, since this class
+     * lives in a different namespace and the conversion itself is
+     * simple/stateless enough not to warrant one.
+     */
     private function appendEffortTotals(Collection $rows, AIRecommendationResult $result): void
     {
         $devTime = $result->recommendations['estimated_development_time'] ?? null;
@@ -95,18 +114,32 @@ final class SummaryResultsToRows
         if ($devTime !== null) {
             $rows->push(new SummaryRow(
                 'Estimated Development Time',
-                "{$devTime['total_estimated_hours']['min']}-{$devTime['total_estimated_hours']['max']} hours",
+                $this->weeksRangeLabel(
+                    $devTime['total_estimated_hours']['min'],
+                    $devTime['total_estimated_hours']['max'],
+                ),
             ));
         }
+    }
 
-        $cost = $result->recommendations['estimated_cost'] ?? null;
+    private function weeksRangeLabel(int $hoursMin, int $hoursMax): string
+    {
+        // 6 productive hours/day, 5-day business week — matches
+        // AIRecommendationEngine::PRODUCTIVE_HOURS_PER_DAY exactly
+        // (see that class's own weeksRangeLabel() docblock for why
+        // this small conversion is duplicated here rather than shared).
+        $hoursPerWeek = 6 * 5;
 
-        if ($cost !== null) {
-            $rows->push(new SummaryRow(
-                'Estimated Cost',
-                "\${$cost['total_cost']['min']} - \${$cost['total_cost']['max']}",
-            ));
+        $weeksMin = $hoursMin > 0 ? max(1, (int) ceil($hoursMin / $hoursPerWeek)) : 0;
+        $weeksMax = $hoursMax > 0 ? max(1, (int) ceil($hoursMax / $hoursPerWeek)) : 0;
+
+        if ($weeksMin === 0 && $weeksMax === 0) {
+            return '0 week(s)';
         }
+
+        return $weeksMin === $weeksMax
+            ? "{$weeksMin} week(s)"
+            : "{$weeksMin}-{$weeksMax} week(s)";
     }
 
     private function appendBusinessOpportunity(Collection $rows, AnalysisResults $results): void

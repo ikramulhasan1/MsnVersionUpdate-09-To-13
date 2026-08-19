@@ -119,6 +119,13 @@
     color: #9c7a3c;
     }
 
+    .pdf-cover-contact {
+    text-align: center;
+    font-size: 10px;
+    color: #5b6270;
+    margin: 6px 0 14px;
+    }
+
     .pdf-cover-title {
     font-family: 'DejaVu Serif', serif;
     font-size: 30px;
@@ -150,20 +157,32 @@
     text-align: center;
     }
 
-    .pdf-score-badge {
-    display: inline-block;
+    /* PRODUCTION INCIDENT — see resources/views/audit/pdf/partials/header.blade.php's
+       own comment at this same badge's markup for the full story: this
+       used to be a single <div style="width:104px;height:104px;border-radius:52px">
+       with a nested <div style="line-height:104px"> for vertical
+       centering, which dompdf rendered with the number's own baseline
+       well below the circle's own clipped boundary. Replaced with a
+       one-cell HTML table using vertical-align: middle, centered
+       explicitly rather than left to rely on the table's own natural
+       layout. */
+    .pdf-score-badge-outer {
     width: 104px;
     height: 104px;
     border-radius: 52px;
-    color: #ffffff;
+    border-collapse: collapse;
+    margin: 0 auto;
     }
 
     .pdf-score-badge-number {
+    width: 104px;
+    height: 104px;
     font-family: 'DejaVu Serif', serif;
     font-size: 36px;
     font-weight: bold;
-    line-height: 104px;
+    color: #ffffff;
     text-align: center;
+    vertical-align: middle;
     }
 
     .pdf-score-badge-caption {

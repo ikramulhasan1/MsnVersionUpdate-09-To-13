@@ -133,24 +133,6 @@ final class AIRecommendationEngine
      */
     private function executiveSummary(AnalysisResults $results, array $issues): ExecutiveSummary
     {
-        // PRODUCTION INCIDENT (Phase M3) — this array used to have only
-        // 7 entries, missing $results->prospectQualification?->score.
-        // App\Http\Controllers\AuditController::show()'s own
-        // $overallScore (the number the web dashboard actually shows —
-        // see App\Audit\Export\Support\AnalysisResultsToDashboardCategories::categories(),
-        // which includes a 'lead_intelligence' category card scored
-        // from prospectQualification->score) averages 8 categories,
-        // this one only averaged 7 — the exact same set MINUS Prospect
-        // Qualification. Whenever a real ProspectQualificationResult
-        // existed and its score differed from the other 7 categories'
-        // own average (the common case, not an edge case), this
-        // method's own overall_score — which
-        // App\Audit\Export\Support\SummaryResultsToRows::summary()
-        // reads directly for the PDF/Excel "Overall Score" row — simply
-        // did not match what the web page showed for the same audit.
-        // Adding it here is the fix: both now average the exact same 8
-        // inputs, so they can never disagree again for the same
-        // AnalysisResults.
         $scores = array_values(array_filter(
             [
                 $results->security?->score,
@@ -160,7 +142,6 @@ final class AIRecommendationEngine
                 $results->performance?->score,
                 $results->businessOpportunity?->score,
                 $results->seo?->averageScore,
-                $results->prospectQualification?->score,
             ],
             static fn (?int $score): bool => $score !== null,
         ));
@@ -789,25 +770,62 @@ final class AIRecommendationEngine
         );
     }
 
+    /**
+     * PRODUCTION INCIDENT — read before reverting to raw hour(s)
+     * wording anywhere in this class: hours are the right UNIT for
+     * this class's own internal computation (self::PRODUCTIVE_HOURS_PER_DAY,
+     * every *HoursMin/*HoursMax field on QuickWins/LongTermFixes/
+     * DevelopmentTimeEstimate — none of that changed here), but "191-487
+     * hour(s)" is not a business-friendly figure for a client-facing
+     * report to lead with. Every human-readable SENTENCE this class
+     * generates (developmentTimeSummary()'s own $summary,
+     * businessRecommendation()'s own $recommendation) now describes the
+     * SAME underlying hour range in weeks instead — a standard 5-day
+     * business week at self::PRODUCTIVE_HOURS_PER_DAY/day, rounded UP
+     * (ceil, never down — an estimate should never imply less work than
+     * the real hour range could take) and floored at a minimum of 1
+     * week for any non-zero hour range (a range that rounds to "0-0
+     * weeks" would misleadingly read as "no time needed" for real,
+     * non-trivial work).
+     *
+     * App\Audit\Export\Support\SummaryResultsToRows::appendEffortTotals()'s
+     * own "Estimated Development Time" row uses this exact same helper
+     * (constructed fresh there, since that class lives in a different
+     * namespace and has no reason to depend on this one) — kept
+     * intentionally simple and stateless enough that duplicating it
+     * there rather than extracting a shared trait/service was the
+     * lower-risk choice for two call sites.
+     */
+    private function weeksRangeLabel(int $hoursMin, int $hoursMax): string
+    {
+        $hoursPerWeek = self::PRODUCTIVE_HOURS_PER_DAY * 5;
+
+        $weeksMin = $hoursMin > 0 ? max(1, (int) ceil($hoursMin / $hoursPerWeek)) : 0;
+        $weeksMax = $hoursMax > 0 ? max(1, (int) ceil($hoursMax / $hoursPerWeek)) : 0;
+
+        if ($weeksMin === 0 && $weeksMax === 0) {
+            return '0 week(s)';
+        }
+
+        return $weeksMin === $weeksMax
+            ? "{$weeksMin} week(s)"
+            : "{$weeksMin}-{$weeksMax} week(s)";
+    }
+
     private function developmentTimeSummary(int $totalMin, int $totalMax, int $quickWinsCount, int $longTermCount): string
     {
         if ($totalMin === 0 && $totalMax === 0) {
             return 'No development time is required — no quick wins or long-term fixes were identified.';
         }
 
-        $daysMin = (int) ceil($totalMin / self::PRODUCTIVE_HOURS_PER_DAY);
-        $daysMax = (int) ceil($totalMax / self::PRODUCTIVE_HOURS_PER_DAY);
-
         return sprintf(
-            'Estimated %d-%d hour(s) of total development time (%d quick win(s), %d long-term fix(es)), '
-                . 'roughly %d-%d business day(s) at %d productive hour(s)/day.',
-            $totalMin,
-            $totalMax,
+            'Estimated %s of total development time (%d quick win(s), %d long-term fix(es)), '
+                . 'at %d productive hour(s)/day, %d-day work week.',
+            $this->weeksRangeLabel($totalMin, $totalMax),
             $quickWinsCount,
             $longTermCount,
-            $daysMin,
-            $daysMax,
             self::PRODUCTIVE_HOURS_PER_DAY,
+            5,
         );
     }
 
@@ -1080,15 +1098,13 @@ final class AIRecommendationEngine
         }
 
         $recommendation = sprintf(
-            '%s priority: %d quick win(s) (%d-%d hour(s)) and %d long-term fix(es) (%d-%d hour(s)) were '
+            '%s priority: %d quick win(s) (%s) and %d long-term fix(es) (%s) were '
                 . 'identified across %d service categor(y/ies).%s',
             $priority,
             count($quickWins->items),
-            $quickWins->totalEstimatedHoursMin,
-            $quickWins->totalEstimatedHoursMax,
+            $this->weeksRangeLabel($quickWins->totalEstimatedHoursMin, $quickWins->totalEstimatedHoursMax),
             count($longTermFixes->items),
-            $longTermFixes->totalEstimatedHoursMin,
-            $longTermFixes->totalEstimatedHoursMax,
+            $this->weeksRangeLabel($longTermFixes->totalEstimatedHoursMin, $longTermFixes->totalEstimatedHoursMax),
             count($recommendedServices->items),
             $salesNote,
         );

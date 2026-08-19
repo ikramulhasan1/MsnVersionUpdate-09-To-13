@@ -44,7 +44,7 @@
            flush against the page edge. */
         @page {
             size: a4;
-            margin: 30px 32px 55px 32px;
+            margin: 30px 32px 68px 32px;
         }
 
         * {
@@ -109,13 +109,19 @@
            are dompdf's built-in page-numbering tokens — they only
            resolve inside a `position: fixed` element, which is also
            what makes this element repeat on every page rather than
-           appearing once. */
+           appearing once.
+
+           Two lines now (was one) — see this file's own @page margin
+           comment: the bottom page margin was increased from 55px to
+           68px specifically to fit the new second line
+           (.pdf-footer-contact) added below on explicit request, so
+           this taller footer never overlaps real report content. */
         .pdf-footer {
             position: fixed;
             left: 0;
             right: 0;
-            bottom: -40px;
-            height: 24px;
+            bottom: -53px;
+            height: 36px;
             padding-top: 6px;
             border-top: 1px solid #e3e1d9;
             font-size: 9px;
@@ -133,6 +139,12 @@
             text-align: right;
         }
 
+        .pdf-footer-contact {
+            margin-top: 3px;
+            font-size: 8.5px;
+            color: #7a8092;
+        }
+
         @stack('styles')
     </style>
 </head>
@@ -141,6 +153,21 @@
     <div class="pdf-footer">
         <span class="pdf-footer-left">{{ config('app.name') }} &mdash; Website Audit Report</span>
         <span class="pdf-footer-right">Page {PAGE_NUM} of {PAGE_COUNT}</span>
+        {{--
+            Default contact info, shown on every page's own footer —
+            same three lines as the cover page's own contact block
+            (resources/views/audit/pdf/partials/header.blade.php), kept
+            as its own literal strings here rather than shared config,
+            matching how this whole PDF layout already keeps its
+            own display text self-contained rather than pulling from
+            app-wide settings that could change independently of this
+            report's own branding.
+        --}}
+        <div class="pdf-footer-contact">
+            &#128172; WhatsApp: https://wa.me/8801325359909 &nbsp;|&nbsp;
+            Email: support@msnsofttech.com &nbsp;|&nbsp;
+            Web: https://msnsofttech.com/
+        </div>
     </div>
 
     @yield('content')
