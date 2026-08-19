@@ -63,4 +63,25 @@ return [
         'api_key' => env('YELP_API_KEY'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Google Sign-In (Phase N1, Authentication Foundation)
+    |--------------------------------------------------------------------------
+    |
+    | Consumed by App\Http\Controllers\Auth\GoogleAuthController via
+    | laravel/socialite (composer require laravel/socialite — see that
+    | controller's own docblock). client_id/client_secret come from a
+    | Google Cloud OAuth 2.0 Client ID (console.cloud.google.com ->
+    | APIs & Services -> Credentials); redirect must EXACTLY match one
+    | of that client's own "Authorized redirect URIs" or Google will
+    | reject the callback outright — typically
+    | https://your-domain.example/auth/google/callback (see
+    | routes/auth.php's own 'auth.google.callback' route).
+    */
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI'),
+    ],
+
 ];

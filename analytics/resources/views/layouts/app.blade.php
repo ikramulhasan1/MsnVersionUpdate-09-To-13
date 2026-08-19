@@ -82,6 +82,41 @@
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                 </svg>
             </button>
+
+            {{-- Phase N1 (Authentication Foundation) — first real "who's
+                 logged in" indicator anywhere in this app's UI. Auth::check()
+                 rather than @auth here specifically (this layout is shared
+                 by both protected pages, which always have a user, and
+                 'home' itself, which doesn't) so a logged-out visitor on
+                 the homepage sees Login/Sign Up links instead of a broken
+                 avatar. --}}
+            @auth
+                <div class="dropdown ms-3">
+                    <button class="btn btn-sm app-user-menu-toggle dropdown-toggle d-flex align-items-center gap-2"
+                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        @if (auth()->user()->avatar_url)
+                            <img src="{{ auth()->user()->avatar_url }}" alt="" class="app-user-avatar"
+                                width="24" height="24">
+                        @else
+                            <span class="app-user-avatar app-user-avatar-initials">{{ auth()->user()->initials() }}</span>
+                        @endif
+                        <span class="d-none d-md-inline">{{ auth()->user()->name }}</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><h6 class="dropdown-header">{{ auth()->user()->email }}</h6></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item">Log Out</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            @else
+                <a href="{{ route('login') }}" class="btn btn-sm btn-outline-secondary ms-3">Log In</a>
+                <a href="{{ route('register') }}" class="btn btn-sm btn-primary ms-2">Sign Up</a>
+            @endauth
         </div>
     </nav>
 
