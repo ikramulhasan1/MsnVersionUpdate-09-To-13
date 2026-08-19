@@ -172,4 +172,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return $this->plan->allowsFeature($key);
     }
+
+    /**
+     * Phase N5 (Dynamic Pricing/Subscription).
+     */
+    public function planUpgradeRequests(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\PlanUpgradeRequest::class);
+    }
 }

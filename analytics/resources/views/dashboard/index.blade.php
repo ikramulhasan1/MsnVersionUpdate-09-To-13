@@ -71,13 +71,11 @@
                 </div>
 
                 {{--
-                    Phase N1.5 (Free Trial) — real plan/trial data now
+                    Phase N1.5 (Free Trial) — real plan/trial data
                     (see App\Http\Controllers\DashboardController::index()'s
                     own docblock). Phase N5 (Dynamic Pricing/Subscription)
-                    is where "Upgrade Now" below gets a real destination
-                    (a plan-picker/checkout page) — for now it's a
-                    disabled, honest placeholder rather than a link to a
-                    page that doesn't exist yet.
+                    — "Upgrade Now" below now links to the real
+                    subscription.upgrade page.
                 --}}
                 <div class="card">
                     <div class="card-body p-4">
@@ -104,10 +102,9 @@
                                     Your free trial has ended. Upgrade to keep running audits, use Bulk
                                     Audit, and export your reports.
                                 </p>
-                                <button type="button" class="btn btn-primary btn-sm" disabled
-                                    title="Subscription upgrades are coming soon">
+                                <a href="{{ route('subscription.upgrade') }}" class="btn btn-primary btn-sm">
                                     Upgrade Now
-                                </button>
+                                </a>
                             @elseif ($onTrial)
                                 <p class="text-secondary small mb-0">
                                     {{ $plan->dailyAuditLimit() !== null ? $plan->dailyAuditLimit() . ' audit(s)/day, ' : '' }}
@@ -137,6 +134,16 @@
                             </a>
                             <a href="{{ route('discovery.watchlist') }}" class="btn btn-outline-secondary btn-sm">
                                 View My Watchlist
+                            </a>
+                            {{-- Phase N5 — always available here, not
+                                 only when the trial has expired (the
+                                 Subscription card's own conditional CTA
+                                 above only shows then) — a real
+                                 subscriber wanting to change plans
+                                 shouldn't need to wait for their trial
+                                 to lapse first. --}}
+                            <a href="{{ route('subscription.upgrade') }}" class="btn btn-outline-secondary btn-sm">
+                                Upgrade Subscription
                             </a>
                         </div>
                     </div>

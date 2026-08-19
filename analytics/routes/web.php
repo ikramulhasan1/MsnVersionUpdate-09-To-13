@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\BulkAuditController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscoveryController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Middleware\PreventLiteSpeedCaching;
 use Illuminate\Support\Facades\Route;
 
@@ -202,7 +204,39 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
             Route::get('/', [UserManagementController::class, 'index'])->name('index');
             Route::get('/{user}/edit', [UserManagementController::class, 'edit'])->name('edit');
             Route::put('/{user}', [UserManagementController::class, 'update'])->name('update');
+            // Phase N5 — a separate route/method from update() above,
+            // matching admin/users/edit.blade.php's own separate <form>
+            // for plan assignment (see
+            // App\Http\Controllers\Admin\UserManagementController::updatePlan()'s
+            // own docblock for why the two are independent).
+            Route::put('/{user}/plan', [UserManagementController::class, 'updatePlan'])->name('update-plan');
         });
+
+        // Phase N5 (Dynamic Pricing/Subscription) — "create"/"{plan}"
+        // ordering doesn't actually matter here (Plan's own route
+        // model binding is numeric-id-based, not a string that could
+        // collide with the literal word "create" the way a uuid-typed
+        // binding could — see the discovery group above for where that
+        // DOES matter), but ordered this way anyway for readability,
+        // matching this file's own convention throughout.
+        Route::prefix('plans')->name('plans.')->group(function (): void {
+            Route::get('/', [PlanController::class, 'index'])->name('index');
+            Route::get('/create', [PlanController::class, 'create'])->name('create');
+            Route::post('/', [PlanController::class, 'store'])->name('store');
+            Route::get('/{plan}/edit', [PlanController::class, 'edit'])->name('edit');
+            Route::put('/{plan}', [PlanController::class, 'update'])->name('update');
+            Route::delete('/{plan}', [PlanController::class, 'destroy'])->name('destroy');
+        });
+    });
+
+    // Phase N5 (Dynamic Pricing/Subscription) — no permission/plan gate
+    // of its own: every logged-in, verified user (regardless of role
+    // or current plan) can see available plans and request an upgrade,
+    // including someone whose trial has fully expired — that's
+    // arguably the person MOST likely to want this page.
+    Route::prefix('subscription')->name('subscription.')->group(function (): void {
+        Route::get('/upgrade', [SubscriptionController::class, 'upgrade'])->name('upgrade');
+        Route::post('/upgrade', [SubscriptionController::class, 'requestUpgrade'])->name('request-upgrade');
     });
 });
 

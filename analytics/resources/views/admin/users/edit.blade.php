@@ -71,5 +71,72 @@
                 <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary">Cancel</a>
             </div>
         </form>
+
+        {{--
+            Phase N5 (Dynamic Pricing/Subscription) — a SEPARATE <form>
+            from the role/permission one above, on purpose: plan
+            assignment and role/permission changes are two independent
+            actions (see
+            App\Http\Controllers\Admin\UserManagementController::updatePlan()'s
+            own docblock), so they submit — and can fail validation —
+            independently too, rather than one bad field in either
+            silently blocking the other from saving.
+        --}}
+        @if ($pendingUpgradeRequests->isNotEmpty())
+            <div class="alert alert-warning small mb-4">
+                <strong>{{ $targetUser->name }}</strong> has requested:
+                @foreach ($pendingUpgradeRequests as $request)
+                    {{ $request->plan->name }}{{ ! $loop->last ? ', ' : '' }}
+                @endforeach
+                — assigning that plan below marks the request fulfilled automatically.
+            </div>
+        @endif
+
+        <div class="card mb-4">
+            <div class="card-body p-4">
+                <h2 class="h6 fw-semibold mb-1">Plan</h2>
+                <p class="text-secondary small mb-3">
+                    Assign any plan directly — including a custom expiry below, independent of that
+                    plan's own default duration. Leave "No Plan" selected to remove this person's plan
+                    entirely.
+                </p>
+
+                <form method="POST" action="{{ route('admin.users.update-plan', $targetUser) }}">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="mb-3">
+                        <label for="plan_id" class="form-label">Plan</label>
+                        <select class="form-select" id="plan_id" name="plan_id">
+                            <option value="" @selected($targetUser->plan_id === null)>No Plan</option>
+                            @foreach ($plans as $plan)
+                                <option value="{{ $plan->id }}" @selected($targetUser->plan_id === $plan->id)>
+                                    {{ $plan->name }} ({{ $plan->priceLabel() }})
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="trial_ends_at" class="form-label">
+                            Expires On <span class="text-secondary small">(blank = use the plan's own default, or never expires for a plan with no duration)</span>
+                        </label>
+                        <input type="date" class="form-control" id="trial_ends_at" name="trial_ends_at"
+                            value="{{ $targetUser->trial_ends_at?->format('Y-m-d') }}" style="max-width: 220px;">
+                    </div>
+
+                    @if ($targetUser->plan !== null)
+                        <p class="text-secondary small mb-3">
+                            Current: <strong>{{ $targetUser->plan->name }}</strong>
+                            @if ($targetUser->trial_ends_at !== null)
+                                &mdash; expires {{ $targetUser->trial_ends_at->diffForHumans() }}
+                            @endif
+                        </p>
+                    @endif
+
+                    <button type="submit" class="btn btn-primary btn-sm">Save Plan</button>
+                </form>
+            </div>
+        </div>
     </section>
 @endsection

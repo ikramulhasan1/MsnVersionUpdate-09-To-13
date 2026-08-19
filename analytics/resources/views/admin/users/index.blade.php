@@ -11,6 +11,8 @@
             </div>
         </div>
 
+        @include('admin.partials.nav')
+
         @if (session('status'))
             <div class="alert alert-success small">{{ session('status') }}</div>
         @endif
