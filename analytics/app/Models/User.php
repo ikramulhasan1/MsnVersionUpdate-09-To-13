@@ -10,45 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
-/**
- * Phase N1 (Authentication Foundation) — the first real use of this
- * model anywhere in the app; every column below except id/name/email/
- * password/timestamps was added specifically to support real
- * authentication (see this migration:
- * database/migrations/2026_08_19_000000_add_google_auth_columns_to_users_table.php).
- *
- * Implements MustVerifyEmail — a freshly-registered (password-based)
- * account must confirm ownership of the email address before the rest
- * of the app treats it as fully active (see the 'verified' middleware
- * applied to every protected route group in routes/web.php). A Google-
- * signed-in account (App\Http\Controllers\Auth\GoogleAuthController)
- * is marked verified immediately at creation instead — Google has
- * already confirmed that email on this app's behalf, so asking the
- * person to verify it again would be redundant friction with no real
- * security benefit.
- *
- * Phase N3 (Role & Permission System) adds HasRoles
- * (spatie/laravel-permission) — every real permission/role check
- * anywhere in this app (route middleware, blade @can, this model's
- * own isAdmin() below) goes through methods this trait provides
- * ($user->hasRole(), $user->hasPermissionTo(), $user->can(), ...),
- * never a hand-rolled column/check of this app's own.
- */
- * Phase N6 (Multiple Payment Methods) adds Billable
- * (laravel/cashier) — used for EXACTLY ONE thing:
- * Billable::checkout(), which creates a one-time Stripe Checkout
- * Session (see App\Http\Controllers\Payments\CheckoutController's own
- * docblock). This app deliberately does NOT use Cashier's own
- * recurring-subscription features (Billable::subscription(), the
- * `subscriptions`/`subscription_items` tables Cashier would otherwise
- * need) — App\Models\Plan/$this->plan_id (Phase N1.5/N5) stays the
- * ONE source of truth for what plan a user is actually on; Stripe is
- * purely a payment PROCESSOR here, never the system of record for
- * subscription state. See
- * database/migrations/2026_08_19_000010_add_stripe_id_to_users_table.php's
- * own docblock for why only stripe_id was added, not Cashier's other
- * usual columns.
- */
+
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
