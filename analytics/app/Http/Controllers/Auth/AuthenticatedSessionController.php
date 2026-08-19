@@ -39,13 +39,11 @@ final class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // TODO (Phase N4, User Dashboard): once a real 'dashboard'
-        // route exists, redirect there instead of 'home' — a logged-in
-        // person's own landing page after signing in should be their
-        // dashboard, not the public marketing homepage they just came
-        // from. Left as 'home' for now since Phase N4 hasn't been
-        // built yet and this route must not 404.
-        return redirect()->intended(route('home', absolute: false));
+        // Phase N4 (User Dashboard) — resolves the TODO this redirect
+        // originally carried: a logged-in person's own landing page
+        // now really is their dashboard, not the public marketing
+        // homepage they just came from.
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 
     public function destroy(Request $request): RedirectResponse

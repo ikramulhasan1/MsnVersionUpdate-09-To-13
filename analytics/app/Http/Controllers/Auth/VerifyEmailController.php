@@ -20,16 +20,14 @@ final class VerifyEmailController extends Controller
 {
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
-        // TODO (Phase N4, User Dashboard): redirect to 'dashboard'
-        // instead of 'home' once that route exists.
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->route('home', ['verified' => 1]);
+            return redirect()->route('dashboard', ['verified' => 1]);
         }
 
         if ($request->user()->markEmailAsVerified()) {
             event(new Verified($request->user()));
         }
 
-        return redirect()->route('home', ['verified' => 1]);
+        return redirect()->route('dashboard', ['verified' => 1]);
     }
 }

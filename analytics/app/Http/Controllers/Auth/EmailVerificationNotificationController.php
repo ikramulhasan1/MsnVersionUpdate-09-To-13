@@ -16,10 +16,8 @@ final class EmailVerificationNotificationController extends Controller
 {
     public function store(Request $request): RedirectResponse
     {
-        // TODO (Phase N4, User Dashboard): redirect to 'dashboard'
-        // instead of 'home' once that route exists.
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->route('home');
+            return redirect()->route('dashboard');
         }
 
         $request->user()->sendEmailVerificationNotification();

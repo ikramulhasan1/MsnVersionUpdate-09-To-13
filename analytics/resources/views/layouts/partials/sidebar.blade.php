@@ -22,22 +22,24 @@
     <nav class="app-sidebar-nav">
         @foreach (config('sidebar.items', []) as $item)
             @php
-                // Phase N3 — see config/sidebar.php's own docblock on
-                // 'permission'/'role' for exactly what each means. A
-                // logged-out visitor (auth()->check() === false) never
-                // passes a permission/role check at all (there's no
-                // user to check them against), so an item with either
-                // set is correctly hidden for them too — only 'home'
-                // (permission/role both null) shows regardless of auth
-                // state.
-                $canSeeItem = true;
+                // Phase N3/N4 — see config/sidebar.php's own docblock
+                // on 'public'/'permission'/'role' for exactly what each
+                // means. Only an item with 'public' => true is ever
+                // shown to a logged-out visitor; every other item
+                // requires at least being logged in, on top of
+                // whatever permission/role it also carries.
+                $canSeeItem = ! empty($item['public']);
 
-                if (! empty($item['permission']) && (! auth()->check() || ! auth()->user()->can($item['permission']))) {
-                    $canSeeItem = false;
-                }
+                if (auth()->check()) {
+                    $canSeeItem = true;
 
-                if (! empty($item['role']) && (! auth()->check() || ! auth()->user()->hasRole($item['role']))) {
-                    $canSeeItem = false;
+                    if (! empty($item['permission']) && ! auth()->user()->can($item['permission'])) {
+                        $canSeeItem = false;
+                    }
+
+                    if (! empty($item['role']) && ! auth()->user()->hasRole($item['role'])) {
+                        $canSeeItem = false;
+                    }
                 }
             @endphp
             @continue(! $canSeeItem)

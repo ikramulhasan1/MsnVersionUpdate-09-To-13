@@ -128,6 +128,7 @@ final class WebsiteSearchService
             ->paginate($perPage)
             ->withQueryString();
     }
+
     /**
      * Feature request — a real, direct answer to "which Industry
      * dropdown options actually have matching data right now, and how
@@ -174,6 +175,7 @@ final class WebsiteSearchService
             ->pluck('total', 'country')
             ->all();
     }
+
     public function query(DiscoveryFilterCriteria $criteria): Builder
     {
         // Eager-loads watchlistItem so a results list (see
@@ -181,7 +183,18 @@ final class WebsiteSearchService
         // can check "is this site already watchlisted?" per row without
         // an N+1 query — one extra query for the whole page of results
         // instead of one per card.
-        $query = $this->model->newQuery()->with('watchlistItem');
+        //
+        // Phase N4 — constrained to auth()->id() specifically: now that
+        // discovery_watchlist is per-user (see that migration's own
+        // docblock), an unconstrained eager-load would pull back
+        // WHICHEVER user's watchlist row happened to exist for a given
+        // site (Eloquent's own hasOne "pick one" behavior when several
+        // rows match), which could show a card as "watched" because a
+        // DIFFERENT person watched it — this constraint is what keeps
+        // that check correctly scoped to "did I watch this".
+        $query = $this->model->newQuery()->with([
+            'watchlistItem' => static fn ($relation) => $relation->where('user_id', auth()->id()),
+        ]);
 
         $this->applyIndustry($query, $criteria);
         $this->applyLocation($query, $criteria);
@@ -319,6 +332,19 @@ final class WebsiteSearchService
             $query->where('domain_age_days', '<=', $maxYears * 365);
         }
     }
+
+    /**
+     * Feature request — filters on discovered_at (when THIS module
+     * found the site), not last_updated_at (see applyLastUpdated()
+     * below for that separate, site-own-freshness filter).
+     * $discoveredTo is treated as inclusive of the whole day it names
+     * (whereDate() compares the DATE portion of the timestamp column
+     * directly, so a site discovered at any time during that day
+     * matches — a person picking "2026-08-17" as their end date
+     * expects everything discovered ON that day to be included, not
+     * excluded because discovered_at also carries a time-of-day past
+     * midnight).
+     */
     private function applyDiscoveredDateRange(Builder $query, DiscoveryFilterCriteria $criteria): void
     {
         if ($criteria->discoveredFrom !== null) {
@@ -329,6 +355,7 @@ final class WebsiteSearchService
             $query->whereDate('discovered_at', '<=', $criteria->discoveredTo);
         }
     }
+
     /**
      * Every LastUpdatedRange case except OVER_YEAR means "at or after
      * this cutoff" (a recency floor); OVER_YEAR is the one case that

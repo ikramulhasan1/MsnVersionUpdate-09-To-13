@@ -93,8 +93,9 @@ final class GoogleAuthController extends Controller
 
         request()->session()->regenerate();
 
-        // TODO (Phase N4, User Dashboard): redirect to 'dashboard'
-        // instead of 'home' once that route exists.
-        return redirect()->intended(route('home', absolute: false));
+        // Phase N4 (User Dashboard) — see
+        // App\Http\Controllers\Auth\AuthenticatedSessionController::store()'s
+        // own identical comment.
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 }

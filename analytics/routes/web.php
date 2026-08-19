@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\BulkAuditController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscoveryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Middleware\PreventLiteSpeedCaching;
@@ -32,6 +33,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [AuditController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function (): void {
+    // Phase N4 (User Dashboard) — no permission gate, unlike every
+    // feature group below: every logged-in, verified account sees
+    // THEIR OWN dashboard regardless of role/permissions (an Employee
+    // with zero feature permissions granted yet still has an account
+    // and should still be able to land somewhere real after logging
+    // in, rather than a dashboard route that 403s for them specifically).
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     Route::middleware('permission:run-audit')->group(function (): void {
         Route::post('/audits', [AuditController::class, 'store'])->name('audits.store');
         Route::get('/audits/{audit}', [AuditController::class, 'show'])->name('audits.show');

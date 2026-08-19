@@ -29,32 +29,49 @@ declare(strict_types=1);
  *              (e.g. Discovery's own item should stay highlighted on
  *              its watchlist/saved-searches/compare sub-pages too).
  *   permission ?string (Phase N3) — a spatie/laravel-permission
- *              permission name this item requires; omitted (or null)
- *              means "always visible, no gate" (only 'home' below is
- *              like this — it's this app's own public entry point, see
- *              routes/web.php's own docblock on why that ONE route
- *              stays ungated). The sidebar partial hides an item
- *              entirely (not merely grays it out) for a viewer who
- *              lacks this — a logged-out visitor or a permission-less
- *              Employee sees a shorter, honest sidebar rather than
- *              menu items that would just redirect/403 if clicked.
+ *              permission name this item requires; null means "no
+ *              SPECIFIC permission needed", but see 'public' below —
+ *              null here does NOT by itself mean "visible to a
+ *              logged-out visitor".
  *   role       ?string (Phase N3) — same idea as 'permission' above,
  *              but a ROLE name instead (Admin Panel below uses this,
  *              not a permission — see
  *              database/seeders/RolesAndPermissionsSeeder's own
  *              docblock on 'view-admin-panel' for why the admin panel
  *              is gated by role, not that permission). An item can
- *              have 'permission', 'role', both, or neither — the
- *              sidebar partial requires ALL of whichever are present.
+ *              have 'permission', 'role', both, or neither.
+ *   public     bool (Phase N4) — true means this item shows even to a
+ *              logged-out visitor; every other item requires at least
+ *              being logged in, on top of whatever 'permission'/'role'
+ *              it also carries. Only 'home' below is true — this
+ *              app's own genuinely public entry point (see
+ *              routes/web.php's own docblock on why that ONE route
+ *              stays ungated) — 'Dashboard' specifically has no
+ *              permission/role of its own but still isn't public: a
+ *              logged-out visitor has no dashboard to see at all. The
+ *              sidebar partial hides an item entirely (not merely
+ *              grays it out) for a viewer who fails any of these
+ *              checks — a logged-out visitor or a permission-less
+ *              Employee sees a shorter, honest sidebar rather than
+ *              menu items that would just redirect/403 if clicked.
  */
 return [
     'items' => [
+        [
+            'label' => 'Dashboard',
+            'icon' => '<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 0 0 1 1h3m10-11l2 2m-2-2v10a1 1 0 0 1-1 1h-3m-6 0a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round"/>',
+            'route' => 'dashboard',
+            'active' => ['dashboard'],
+            'permission' => null,
+            'public' => false,
+        ],
         [
             'label' => 'Website Audit',
             'icon' => '<path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'home',
             'active' => ['home', 'audits.*'],
             'permission' => null,
+            'public' => true,
         ],
         [
             'label' => 'Website Discovery',

@@ -384,25 +384,35 @@ final class DiscoveryController extends Controller
 
         return view('discovery.show', [
             'website' => $website,
-            'isWatched' => $website->watchlistItem()->exists(),
+            // Phase N4 — scoped to auth()->id() specifically, not
+            // ->watchlistItem()->exists() alone: see
+            // App\Discovery\Search\WebsiteSearchService::query()'s own
+            // identical constraint comment for why an unscoped check
+            // would show this as "watched" even when a DIFFERENT user
+            // was the one who watched it.
+            'isWatched' => $website->watchlistItem()->where('user_id', auth()->id())->exists(),
             'fullAudit' => $fullAudit,
             'fullReportData' => $fullReportData,
         ]);
     }
 
     /**
-     * updateOrCreate() rather than create(): discovery_watchlist's own
-     * discovered_website_id column is unique (see database/migrations/
-     * 2026_08_14_000002_create_discovery_watchlist_table.php's
-     * docblock — a site can only be on the watchlist once), so
-     * "watch" on an already-watched site is a harmless no-op update
-     * rather than a duplicate-key error.
+     * Phase N4 — updateOrCreate()'s own unique key is now
+     * (discovered_website_id, user_id), matching
+     * discovery_watchlist's own new composite unique constraint (see
+     * that migration's own docblock) — "watch" on a site THIS user
+     * already watches is still a harmless no-op update (e.g. of
+     * ->notes, if that's ever exposed on this form later), but a
+     * DIFFERENT user watching the SAME site now correctly creates
+     * their own separate row instead of colliding with the first
+     * person's.
      */
     public function watch(DiscoveredWebsite $website): RedirectResponse
     {
-        DiscoveryWatchlistItem::query()->updateOrCreate(
-            ['discovered_website_id' => $website->id],
-        );
+        DiscoveryWatchlistItem::query()->updateOrCreate([
+            'discovered_website_id' => $website->id,
+            'user_id' => auth()->id(),
+        ]);
 
         return redirect()
             ->route('discovery.show', $website)
@@ -411,7 +421,7 @@ final class DiscoveryController extends Controller
 
     public function unwatch(DiscoveredWebsite $website): RedirectResponse
     {
-        $website->watchlistItem()->delete();
+        $website->watchlistItem()->where('user_id', auth()->id())->delete();
 
         return redirect()
             ->route('discovery.show', $website)
@@ -419,8 +429,11 @@ final class DiscoveryController extends Controller
     }
 
     /**
-     * Backs the Watchlist page (Phase G1) — every DiscoveryWatchlistItem,
-     * newest first, eager-loading discoveredWebsite so
+     * Backs the Watchlist page (Phase G1) — every DiscoveryWatchlistItem
+     * belonging to the CURRENT user (Phase N4 — see
+     * database/migrations/2026_08_19_000005_add_user_id_to_discovery_watchlist_table.php's
+     * own docblock for why this scoping exists now at all), newest
+     * first, eager-loading discoveredWebsite so
      * discovery/watchlist.blade.php can reuse result-card.blade.php per
      * item without an N+1 query (the same eager-loading reasoning
      * WebsiteSearchService::query() already applies for the same
@@ -429,7 +442,11 @@ final class DiscoveryController extends Controller
     public function watchlist(): View
     {
         return view('discovery.watchlist', [
-            'items' => DiscoveryWatchlistItem::query()->with('discoveredWebsite')->latest()->get(),
+            'items' => DiscoveryWatchlistItem::query()
+                ->where('user_id', auth()->id())
+                ->with('discoveredWebsite')
+                ->latest()
+                ->get(),
         ]);
     }
 

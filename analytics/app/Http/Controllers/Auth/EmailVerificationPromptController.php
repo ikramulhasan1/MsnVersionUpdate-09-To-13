@@ -21,7 +21,7 @@ final class EmailVerificationPromptController extends Controller
         // exists — see AuthenticatedSessionController::store()'s own
         // identical TODO for the same reasoning.
         return $request->user()?->hasVerifiedEmail()
-            ? redirect()->route('home')
+            ? redirect()->route('dashboard')
             : view('auth.verify-email');
     }
 }
