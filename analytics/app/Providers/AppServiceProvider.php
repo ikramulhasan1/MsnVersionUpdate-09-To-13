@@ -8,6 +8,7 @@ use App\Audit\Repositories\AuditRepository;
 use App\Audit\Repositories\Contracts\AuditRepositoryInterface;
 use App\Audit\Services\AuditService;
 use App\Audit\Services\Contracts\AuditServiceInterface;
+use App\Payments\SslCommerzGateway;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,6 +31,16 @@ class AppServiceProvider extends ServiceProvider
             AuditPdfExportServiceInterface::class,
             AuditPdfExportService::class
         );
+
+        // Phase N6 (Multiple Payment Methods) — SslCommerzGateway's own
+        // constructor takes plain config values, not auto-resolvable
+        // without an explicit binding the way a class with only
+        // type-hinted class dependencies would be.
+        $this->app->singleton(SslCommerzGateway::class, static fn (): SslCommerzGateway => new SslCommerzGateway(
+            storeId: (string) config('services.sslcommerz.store_id'),
+            storePassword: (string) config('services.sslcommerz.store_password'),
+            sandbox: (bool) config('services.sslcommerz.sandbox'),
+        ));
     }
 
     /**
@@ -45,5 +56,14 @@ class AppServiceProvider extends ServiceProvider
         // $websites->links() call) is this app's first use of Laravel's
         // paginator, so this wasn't needed until now.
         Paginator::useBootstrapFive();
+
+        // Phase N6 (Multiple Payment Methods) — see routes/web.php's
+        // own comment on the 'cashier.webhook' route for the full
+        // "why": without this, Cashier's own auto-registered webhook
+        // route would point at Cashier's generic base controller
+        // instead of App\Http\Controllers\Payments\StripeWebhookController,
+        // and every real Stripe payment would silently never activate
+        // a plan.
+        \Laravel\Cashier\Cashier::ignoreRoutes();
     }
 }

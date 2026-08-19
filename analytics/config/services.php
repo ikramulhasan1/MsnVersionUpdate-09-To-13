@@ -84,4 +84,24 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | SSLCommerz (Phase N6, Multiple Payment Methods)
+    |--------------------------------------------------------------------------
+    |
+    | Consumed by App\Payments\SslCommerzGateway. store_id/store_password
+    | come from an SSLCommerz merchant account (sslcommerz.com — a
+    | sandbox account is free and instant for testing, at
+    | sandbox.sslcommerz.com). sandbox=true uses
+    | https://sandbox.sslcommerz.com's own API host; sandbox=false uses
+    | the real https://securepay.sslcommerz.com host — this app must
+    | NEVER go live with sandbox=true, real customer payments would
+    | never actually process.
+    */
+    'sslcommerz' => [
+        'store_id' => env('SSLCOMMERZ_STORE_ID'),
+        'store_password' => env('SSLCOMMERZ_STORE_PASSWORD'),
+        'sandbox' => env('SSLCOMMERZ_SANDBOX', true),
+    ],
+
 ];

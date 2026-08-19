@@ -36,6 +36,13 @@ final class Plan extends Model
         'slug',
         'description',
         'price_cents',
+        // Phase N6 — see this column's own migration docblock
+        // (database/migrations/2026_08_19_000011_add_price_bdt_cents_to_plans_table.php)
+        // for the currency-mismatch bug this exists to prevent. Null
+        // means "no BDT price set" — SSLCommerz checkout is simply not
+        // offered for a plan in that state, see
+        // App\Http\Controllers\Payments\CheckoutController.
+        'price_bdt_cents',
         'billing_cycle',
         'duration_days',
         'features',
@@ -48,6 +55,7 @@ final class Plan extends Model
     {
         return [
             'price_cents' => 'integer',
+            'price_bdt_cents' => 'integer',
             'duration_days' => 'integer',
             'features' => 'array',
             'is_default_trial' => 'boolean',
@@ -96,5 +104,30 @@ final class Plan extends Model
         return $this->billing_cycle !== null
             ? "\${$dollars}/{$this->billing_cycle}"
             : "\${$dollars}";
+    }
+
+    /**
+     * Phase N6 — true only when a real, explicit BDT price has been
+     * set (see this column's own migration docblock). Used by
+     * resources/views/subscription/checkout.blade.php to decide
+     * whether SSLCommerz is even offered as a payment option for this
+     * particular plan.
+     */
+    public function hasSslCommerzPrice(): bool
+    {
+        return $this->price_bdt_cents !== null && $this->price_bdt_cents > 0;
+    }
+
+    public function priceBdtLabel(): ?string
+    {
+        if (! $this->hasSslCommerzPrice()) {
+            return null;
+        }
+
+        $taka = number_format($this->price_bdt_cents / 100, 2);
+
+        return $this->billing_cycle !== null
+            ? "\u{09F3}{$taka}/{$this->billing_cycle}"
+            : "\u{09F3}{$taka}";
     }
 }

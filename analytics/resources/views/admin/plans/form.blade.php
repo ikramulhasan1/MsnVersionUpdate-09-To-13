@@ -69,6 +69,29 @@
                         </div>
                     </div>
 
+                    {{--
+                        Phase N6 (Multiple Payment Methods) — see
+                        App\Models\Plan::hasSslCommerzPrice()'s own
+                        docblock for why this is a SEPARATE, explicit
+                        field rather than an automatic USD-to-BDT
+                        conversion: a plan with this left blank simply
+                        won't offer SSLCommerz (bKash/Nagad/local card)
+                        as a checkout option at all.
+                    --}}
+                    <div class="mb-3">
+                        <label for="price_bdt_taka" class="form-label">
+                            Price (BDT) <span class="text-secondary small">(for bKash/Nagad/local card via SSLCommerz — blank disables that option for this plan)</span>
+                        </label>
+                        <input type="number" step="0.01" min="0"
+                            class="form-control @error('price_bdt_taka') is-invalid @enderror" id="price_bdt_taka"
+                            name="price_bdt_taka"
+                            value="{{ old('price_bdt_taka', $plan->exists && $plan->price_bdt_cents !== null ? number_format($plan->price_bdt_cents / 100, 2, '.', '') : '') }}"
+                            style="max-width: 220px;">
+                        @error('price_bdt_taka')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                     <div class="row g-3 mb-3">
                         <div class="col-6">
                             <label for="duration_days" class="form-label">

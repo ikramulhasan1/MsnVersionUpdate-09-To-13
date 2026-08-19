@@ -145,6 +145,12 @@
                             <a href="{{ route('subscription.upgrade') }}" class="btn btn-outline-secondary btn-sm">
                                 Upgrade Subscription
                             </a>
+                            {{-- Phase N6 (Multiple Payment Methods) — this
+                                 phase's own explicit "Billing History
+                                 page" requirement, linked from here. --}}
+                            <a href="{{ route('billing.history') }}" class="btn btn-outline-secondary btn-sm">
+                                Billing History
+                            </a>
                         </div>
                     </div>
                 </div>

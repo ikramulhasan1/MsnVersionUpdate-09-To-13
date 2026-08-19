@@ -119,6 +119,11 @@ final class PlanController extends Controller
             ],
             'description' => ['nullable', 'string', 'max:1000'],
             'price_dollars' => ['required', 'numeric', 'min:0'],
+            // Phase N6 — nullable: not every plan needs a BDT price
+            // set (see App\Models\Plan::hasSslCommerzPrice()'s own
+            // docblock — SSLCommerz checkout simply isn't offered for
+            // a plan without one).
+            'price_bdt_taka' => ['nullable', 'numeric', 'min:0'],
             'billing_cycle' => ['nullable', 'string', 'in:month,year'],
             'duration_days' => ['nullable', 'integer', 'min:1'],
             'is_public' => ['nullable', 'boolean'],
@@ -153,6 +158,9 @@ final class PlanController extends Controller
             'slug' => $validated['slug'] ?? Str::slug($validated['name']),
             'description' => $validated['description'] ?? null,
             'price_cents' => (int) round(((float) $validated['price_dollars']) * 100),
+            'price_bdt_cents' => isset($validated['price_bdt_taka']) && $validated['price_bdt_taka'] !== null
+                ? (int) round(((float) $validated['price_bdt_taka']) * 100)
+                : null,
             'billing_cycle' => $validated['billing_cycle'] ?? null,
             'duration_days' => $validated['duration_days'] ?? null,
             'is_public' => (bool) ($validated['is_public'] ?? false),

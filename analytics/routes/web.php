@@ -5,10 +5,13 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\AuditController;
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\BulkAuditController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscoveryController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Payments\CheckoutController;
+use App\Http\Controllers\Payments\SslCommerzController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Middleware\PreventLiteSpeedCaching;
 use Illuminate\Support\Facades\Route;
@@ -237,7 +240,65 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::prefix('subscription')->name('subscription.')->group(function (): void {
         Route::get('/upgrade', [SubscriptionController::class, 'upgrade'])->name('upgrade');
         Route::post('/upgrade', [SubscriptionController::class, 'requestUpgrade'])->name('request-upgrade');
+
+        // Phase N6 (Multiple Payment Methods) — the real checkout flow
+        // Phase N5's own "request an upgrade" above deliberately
+        // deferred to this phase.
+        Route::get('/checkout/{plan}', [CheckoutController::class, 'show'])->name('checkout');
+        Route::post('/checkout/{plan}', [CheckoutController::class, 'start'])->name('checkout.start');
+    });
+
+    // Phase N6 — Billing History (this phase's own explicit
+    // requirement) plus the Stripe success-redirect fallback (see
+    // App\Http\Controllers\BillingController::stripeSuccess()'s own
+    // docblock for why this exists alongside the real webhook).
+    Route::prefix('billing')->name('billing.')->group(function (): void {
+        Route::get('/', [BillingController::class, 'history'])->name('history');
+        Route::get('/stripe/success', [BillingController::class, 'stripeSuccess'])->name('stripe.success');
     });
 });
+
+// Phase N6 — payment gateway callbacks, deliberately OUTSIDE the
+// auth+verified group above: SSLCommerz's own redirect/IPN requests
+// come from the person's browser (which may have lost its session by
+// the time they return, e.g. a long detour through a banking app) or
+// directly from SSLCommerz's own servers (no user session at all,
+// ever) — neither could pass an 'auth' check. Each of these routes
+// independently confirms the real payment via
+// App\Payments\SslCommerzGateway::validateTransaction() before doing
+// anything, rather than relying on the request being authenticated at
+// all — see App\Http\Controllers\Payments\SslCommerzController's own
+// docblock.
+Route::prefix('billing/sslcommerz')->name('billing.sslcommerz.')->group(function (): void {
+    Route::post('/success', [SslCommerzController::class, 'success'])->name('success');
+    Route::post('/fail', [SslCommerzController::class, 'fail'])->name('fail');
+    Route::post('/cancel', [SslCommerzController::class, 'cancel'])->name('cancel');
+    Route::post('/ipn', [SslCommerzController::class, 'ipn'])
+        ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class])
+        ->name('ipn');
+});
+
+// Phase N6 — PRODUCTION GAP CLOSED: laravel/cashier auto-registers its
+// OWN webhook route (at config('cashier.path').'/webhook', i.e.
+// /stripe/webhook) pointing at Cashier's OWN base
+// Laravel\Cashier\Http\Controllers\WebhookController — NOT at
+// App\Http\Controllers\Payments\StripeWebhookController, this app's
+// own subclass that actually implements handleCheckoutSessionCompleted().
+// Left alone, Stripe's real webhook deliveries would hit Cashier's
+// generic base controller, which has no idea what
+// checkout.session.completed should DO for this app — every payment
+// would silently never activate a plan. Cashier::ignoreRoutes()
+// (called from App\Providers\AppServiceProvider::boot() — see that
+// file's own comment) disables Cashier's own auto-registration
+// entirely, and THIS route below — pointing explicitly at this app's
+// own controller — is what replaces it. VerifyCsrfToken is removed the
+// same way the SSLCommerz IPN route's is above: Stripe's own webhook
+// POST carries no CSRF token at all (it's server-to-server, not a
+// browser form submission), and Cashier's own base controller
+// verifies the request via the Stripe-Signature header instead — a
+// strictly stronger check than CSRF ever was for this kind of request.
+Route::post('stripe/webhook', [\App\Http\Controllers\Payments\StripeWebhookController::class, 'handleWebhook'])
+    ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class])
+    ->name('cashier.webhook');
 
 require __DIR__.'/auth.php';

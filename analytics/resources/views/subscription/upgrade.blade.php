@@ -54,11 +54,28 @@
                                 $alreadyRequested = $pendingRequests->contains(fn ($r) => $r->plan_id === $plan->id);
                             @endphp
 
+                            {{--
+                                Phase N6 (Multiple Payment Methods) —
+                                real checkout, now that it exists,
+                                replaces "Request This Plan" as the
+                                PRIMARY action; the request-based flow
+                                (Phase N5, fulfilled manually by an
+                                Admin) stays available as a smaller
+                                secondary option below it — useful for
+                                someone who'd rather not pay online
+                                immediately, or wants to arrange custom
+                                terms directly.
+                            --}}
+                            <a href="{{ route('subscription.checkout', $plan) }}" class="btn btn-primary w-100 mb-2">
+                                Checkout
+                            </a>
+
                             <form method="POST" action="{{ route('subscription.request-upgrade') }}">
                                 @csrf
                                 <input type="hidden" name="plan_id" value="{{ $plan->id }}">
-                                <button type="submit" class="btn btn-primary w-100" @disabled($alreadyRequested)>
-                                    {{ $alreadyRequested ? 'Requested' : 'Request This Plan' }}
+                                <button type="submit" class="btn btn-outline-secondary btn-sm w-100"
+                                    @disabled($alreadyRequested)>
+                                    {{ $alreadyRequested ? 'Requested — awaiting review' : 'Or request this plan without paying online' }}
                                 </button>
                             </form>
                         </div>
@@ -67,8 +84,8 @@
             </div>
 
             <p class="text-secondary small mt-4">
-                Requesting a plan sends a request to our team — payment and instant checkout are coming
-                soon.
+                Checkout accepts card payments via Stripe, or bKash/Nagad/local card via SSLCommerz where
+                available for a plan.
             </p>
         @endif
     </section>
