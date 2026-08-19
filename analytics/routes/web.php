@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\BulkAuditController;
 use App\Http\Controllers\DiscoveryController;
@@ -12,33 +13,41 @@ use Illuminate\Support\Facades\Route;
 /**
  * Phase N1 (Authentication Foundation) — every route below EXCEPT
  * 'home' now requires a real, logged-in AND email-verified session
- * (the 'auth' + 'verified' middleware group). Before this phase, the
- * entire app — running a real audit, browsing Website Discovery,
- * Bulk Audit, every export — was reachable by anyone with the URL, no
- * account at all. 'home' itself stays public deliberately: Phase N1.5
- * (Homepage + Quick Audit Hero) replaces AuditController::index()'s
- * own view with a public marketing page whose Hero section lets an
- * anonymous visitor START a Quick Audit — the SUBMIT target
- * (audits.store, now protected below) is where the actual login gate
- * kicks in, redirecting to login/register and back to that same
- * pending audit afterward. Until Phase N1.5 replaces it, 'home' still
- * shows the original audit-input form — protecting audits.store here
- * already means that form's own submission redirects an anonymous
- * visitor to login first, which is the same experience Phase N1.5
- * refines with real hero/marketing design rather than a behavior
- * this phase needs to hold off on.
+ * (the 'auth' + 'verified' middleware group). 'home' itself stays
+ * public deliberately — see this file's own earlier docblock history
+ * (Phase N1.5, Homepage + Quick Audit Hero, not yet built) for why.
+ *
+ * Phase N3 (Role & Permission System) layers a PERMISSION check on top
+ * of that auth requirement for every real feature route — see
+ * database/seeders/RolesAndPermissionsSeeder's own docblock for
+ * exactly what each of the 5 permission names below means and which
+ * role(s) get it by default. A logged-in, verified user who lacks the
+ * relevant permission (e.g. an Employee an Admin hasn't granted
+ * run-bulk-audit to) gets a real 403 Forbidden here, via spatie/
+ * laravel-permission's own 'permission' middleware alias (registered
+ * in bootstrap/app.php — see that file's own docblock for why that
+ * registration had to be explicit on this Laravel version) — never a
+ * silent redirect or a broken page.
  */
 Route::get('/', [AuditController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function (): void {
-    Route::post('/audits', [AuditController::class, 'store'])->name('audits.store');
+    Route::middleware('permission:run-audit')->group(function (): void {
+        Route::post('/audits', [AuditController::class, 'store'])->name('audits.store');
+        Route::get('/audits/{audit}', [AuditController::class, 'show'])->name('audits.show');
+        Route::get('/audits/{audit}/progress', [AuditController::class, 'progress'])->name('audits.progress');
+    });
 
-    Route::get('/audits/{audit}', [AuditController::class, 'show'])->name('audits.show');
-    Route::get('/audits/{audit}/progress', [AuditController::class, 'progress'])->name('audits.progress');
-    Route::get('/audits/{audit}/export', [AuditController::class, 'export'])->name('audits.export');
-
-    Route::get('/audits/{audit}/export-excel', [AuditController::class, 'exportExcel'])
-        ->name('audits.export.excel');
+    // Phase N3 — split out from the run-audit group above: exporting a
+    // report is a separately-toggleable capability (see
+    // RolesAndPermissionsSeeder's own docblock on 'export-data' for
+    // why this ONE permission covers both Audit's and Discovery's own
+    // export surfaces, not two module-specific ones).
+    Route::middleware('permission:export-data')->group(function (): void {
+        Route::get('/audits/{audit}/export', [AuditController::class, 'export'])->name('audits.export');
+        Route::get('/audits/{audit}/export-excel', [AuditController::class, 'exportExcel'])
+            ->name('audits.export.excel');
+    });
 
     // Phase K3 (Bulk Audit) — "create" and "{bulkAuditBatch}" both need to
     // sit before any wildcard segment that could otherwise swallow them,
@@ -48,20 +57,21 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     // wildcard segment at all yet, so this is really just future-proofing
     // against one being added later without anyone remembering to check
     // route order again.
-    Route::prefix('bulk-audits')->name('bulk-audits.')->group(function (): void {
-        Route::get('/create', [BulkAuditController::class, 'create'])->name('create');
-        Route::post('/', [BulkAuditController::class, 'store'])->name('store');
+    Route::prefix('bulk-audits')->name('bulk-audits.')->middleware('permission:run-bulk-audit')
+        ->group(function (): void {
+            Route::get('/create', [BulkAuditController::class, 'create'])->name('create');
+            Route::post('/', [BulkAuditController::class, 'store'])->name('store');
 
-        // Phase K5 — both need to sit BEFORE /{bulkAuditBatch} for the same
-        // reason every other module in this app's own route file already
-        // follows (see the discovery group below for several more examples
-        // of the same pattern): "progress"/"export" would otherwise be
-        // swallowed as the {bulkAuditBatch} wildcard segment itself.
-        Route::get('/{bulkAuditBatch}/progress', [BulkAuditController::class, 'progress'])->name('progress');
-        Route::get('/{bulkAuditBatch}/export', [BulkAuditController::class, 'export'])->name('export');
+            // Phase K5 — both need to sit BEFORE /{bulkAuditBatch} for the same
+            // reason every other module in this app's own route file already
+            // follows (see the discovery group below for several more examples
+            // of the same pattern): "progress"/"export" would otherwise be
+            // swallowed as the {bulkAuditBatch} wildcard segment itself.
+            Route::get('/{bulkAuditBatch}/progress', [BulkAuditController::class, 'progress'])->name('progress');
+            Route::get('/{bulkAuditBatch}/export', [BulkAuditController::class, 'export'])->name('export');
 
-        Route::get('/{bulkAuditBatch}', [BulkAuditController::class, 'show'])->name('show');
-    });
+            Route::get('/{bulkAuditBatch}', [BulkAuditController::class, 'show'])->name('show');
+        });
 
     // PreventLiteSpeedCaching applied to the whole group, not just the
     // search-panel JSON endpoints — the index page's own HTML (with its
@@ -69,81 +79,115 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     // exact same "never cache this" treatment, or a stale cached page can
     // keep referencing an old, already-fixed JS file forever. See that
     // middleware's own docblock for the production incident this fixes.
-    Route::prefix('discovery')->name('discovery.')->middleware(PreventLiteSpeedCaching::class)->group(function (): void {
-        Route::get('/', [DiscoveryController::class, 'index'])->name('index');
-        Route::post('/search', [DiscoveryController::class, 'search'])->name('search');
+    //
+    // Phase N3 — 'permission:view-discovery' gates the WHOLE group;
+    // "/export" additionally requires 'permission:export-data' (stacked
+    // on top of view-discovery, not instead of it — exporting Discovery
+    // data without being able to view Discovery at all wouldn't make
+    // sense) via its own extra ->middleware() call below, rather than
+    // being pulled out into a separate top-level group the way Audit's
+    // own export routes were: Discovery's "export" still needs to sit
+    // in THIS exact position in the route list (before /{website})
+    // for the route-ordering reason this group's own comments already
+    // explain throughout.
+    Route::prefix('discovery')->name('discovery.')
+        ->middleware([PreventLiteSpeedCaching::class, 'permission:view-discovery'])
+        ->group(function (): void {
+            Route::get('/', [DiscoveryController::class, 'index'])->name('index');
+            Route::post('/search', [DiscoveryController::class, 'search'])->name('search');
 
-        // POST — no {website}-shaped wildcard conflict, but this is the
-        // module's first REAL discovery action (Phase J1) — see
-        // DiscoveryController::discover()'s own docblock.
-        Route::post('/discover', [DiscoveryController::class, 'discover'])->name('discover');
+            // POST — no {website}-shaped wildcard conflict, but this is the
+            // module's first REAL discovery action (Phase J1) — see
+            // DiscoveryController::discover()'s own docblock.
+            Route::post('/discover', [DiscoveryController::class, 'discover'])->name('discover');
 
-        // JSON endpoints backing the search panel's cascading dropdowns
-        // (Sub-Niche after Industry, Region/City after Country) — see
-        // DiscoveryController's own docblock. Placed before /{website} so
-        // "sub-niches"/"regions"/"cities" are never swallowed by that
-        // catch-all uuid route segment.
-        Route::get('/sub-niches', [DiscoveryController::class, 'subNiches'])->name('sub-niches');
-        Route::get('/regions', [DiscoveryController::class, 'regions'])->name('regions');
-        Route::get('/cities', [DiscoveryController::class, 'cities'])->name('cities');
+            // JSON endpoints backing the search panel's cascading dropdowns
+            // (Sub-Niche after Industry, Region/City after Country) — see
+            // DiscoveryController's own docblock. Placed before /{website} so
+            // "sub-niches"/"regions"/"cities" are never swallowed by that
+            // catch-all uuid route segment.
+            Route::get('/sub-niches', [DiscoveryController::class, 'subNiches'])->name('sub-niches');
+            Route::get('/regions', [DiscoveryController::class, 'regions'])->name('regions');
+            Route::get('/cities', [DiscoveryController::class, 'cities'])->name('cities');
 
-        // Also placed before /{website} for the same reason — "compare"
-        // would otherwise be swallowed as a uuid route segment (Phase E2).
-        Route::get('/compare', [DiscoveryController::class, 'compare'])->name('compare');
+            // Also placed before /{website} for the same reason — "compare"
+            // would otherwise be swallowed as a uuid route segment (Phase E2).
+            Route::get('/compare', [DiscoveryController::class, 'compare'])->name('compare');
 
-        // Same reasoning again — "map-data" before /{website} (Phase E3).
-        Route::get('/map-data', [DiscoveryController::class, 'mapData'])->name('map-data');
+            // Same reasoning again — "map-data" before /{website} (Phase E3).
+            Route::get('/map-data', [DiscoveryController::class, 'mapData'])->name('map-data');
 
-        // "searches" before /{website} for the same reason again (Phase
-        // F3) — /discovery/searches would otherwise be swallowed as a uuid
-        // route segment.
-        Route::get('/searches', [DiscoveryController::class, 'searches'])->name('searches.index');
-        Route::post('/searches', [DiscoveryController::class, 'storeSearch'])->name('searches.store');
-        Route::delete('/searches/{search}', [DiscoveryController::class, 'destroySearch'])->name('searches.destroy');
+            // "searches" before /{website} for the same reason again (Phase
+            // F3) — /discovery/searches would otherwise be swallowed as a uuid
+            // route segment.
+            Route::get('/searches', [DiscoveryController::class, 'searches'])->name('searches.index');
+            Route::post('/searches', [DiscoveryController::class, 'storeSearch'])->name('searches.store');
+            Route::delete('/searches/{search}', [DiscoveryController::class, 'destroySearch'])->name('searches.destroy');
 
-        // Toggles is_scheduled — without this, is_scheduled could never
-        // become true for any saved search, and Phase F4's whole scheduled-
-        // search/new-website-detection feature would have nothing to act on.
-        Route::patch('/searches/{search}/schedule', [DiscoveryController::class, 'toggleScheduledSearch'])
-            ->name('searches.toggle-schedule');
+            // Toggles is_scheduled — without this, is_scheduled could never
+            // become true for any saved search, and Phase F4's whole scheduled-
+            // search/new-website-detection feature would have nothing to act on.
+            Route::patch('/searches/{search}/schedule', [DiscoveryController::class, 'toggleScheduledSearch'])
+                ->name('searches.toggle-schedule');
 
-        // "watchlist" before /{website} for the same reason again (Phase G1).
-        Route::get('/watchlist', [DiscoveryController::class, 'watchlist'])->name('watchlist');
+            // "watchlist" before /{website} for the same reason again (Phase G1).
+            Route::get('/watchlist', [DiscoveryController::class, 'watchlist'])->name('watchlist');
 
-        // POST route — no {website}-shaped wildcard conflict, but grouped here
-        // with this module's other action routes for readability (Phase H1).
-        Route::post('/bulk-audit', [DiscoveryController::class, 'bulkAudit'])->name('bulk-audit');
+            // POST route — no {website}-shaped wildcard conflict, but grouped here
+            // with this module's other action routes for readability (Phase H1).
+            Route::post('/bulk-audit', [DiscoveryController::class, 'bulkAudit'])->name('bulk-audit');
 
-        // "export" before /{website} for the same reason as every other
-        // static segment in this group (Phase H2).
-        Route::get('/export', [DiscoveryController::class, 'export'])->name('export');
+            // "export" before /{website} for the same reason as every other
+            // static segment in this group (Phase H2). See this whole group's
+            // own middleware comment above for why 'export-data' is stacked
+            // on ONLY this one route rather than applied group-wide.
+            Route::get('/export', [DiscoveryController::class, 'export'])->name('export')
+                ->middleware('permission:export-data');
 
-        Route::get('/{website}', [DiscoveryController::class, 'show'])->name('show');
-        Route::get('/{website}/watch', [DiscoveryController::class, 'watch'])->name('watch');
-        Route::delete('/{website}/watch', [DiscoveryController::class, 'unwatch'])->name('unwatch');
+            Route::get('/{website}', [DiscoveryController::class, 'show'])->name('show');
+            Route::get('/{website}/watch', [DiscoveryController::class, 'watch'])->name('watch');
+            Route::delete('/{website}/watch', [DiscoveryController::class, 'unwatch'])->name('unwatch');
 
-        // Delete a discovered website outright (not just remove it from the
-        // watchlist — see unwatch() above for that separate, narrower
-        // action). cascadeOnDelete() on discovery_watchlist/discovery_watchlist_changes'
-        // own discovered_website_id foreign keys (see those two migrations'
-        // own docblocks) already handles cleaning up anything referencing
-        // this row — this route only needs to delete the DiscoveredWebsite
-        // itself.
-        Route::delete('/{website}', [DiscoveryController::class, 'destroy'])->name('destroy');
-    });
+            // Delete a discovered website outright (not just remove it from the
+            // watchlist — see unwatch() above for that separate, narrower
+            // action). cascadeOnDelete() on discovery_watchlist/discovery_watchlist_changes'
+            // own discovered_website_id foreign keys (see those two migrations'
+            // own docblocks) already handles cleaning up anything referencing
+            // this row — this route only needs to delete the DiscoveredWebsite
+            // itself.
+            Route::delete('/{website}', [DiscoveryController::class, 'destroy'])->name('destroy');
+        });
 
     // Phase N2 (Sidebar + Dynamic Notification System) — "recent" (the
     // bell dropdown's own polling endpoint) and "read-all" both need to
     // sit before /{notification} for the same "static segment before
     // wildcard" reasoning this file's other route groups already
     // follow throughout (see the discovery group above for several
-    // more examples).
+    // more examples). No permission gate — every logged-in, verified
+    // user can see/manage their OWN notifications regardless of role;
+    // App\Http\Controllers\NotificationController's own docblock is
+    // what actually keeps this scoped to auth()->user() only.
     Route::prefix('notifications')->name('notifications.')->group(function (): void {
         Route::get('/', [NotificationController::class, 'index'])->name('index');
         Route::get('/recent', [NotificationController::class, 'recent'])->name('recent');
         Route::post('/read-all', [NotificationController::class, 'markAllAsRead'])->name('read-all');
         Route::post('/{notification}/read', [NotificationController::class, 'markAsRead'])->name('read');
         Route::delete('/{notification}', [NotificationController::class, 'destroy'])->name('destroy');
+    });
+
+    // Phase N3 — role:Admin, not a permission check: the admin panel
+    // is an all-or-nothing surface reachable only by this one specific
+    // role, unlike every feature group above (which an Employee can be
+    // granted piecemeal access to). See
+    // database/seeders/RolesAndPermissionsSeeder's own docblock on
+    // 'view-admin-panel' for why that permission exists but isn't what
+    // actually gates this group.
+    Route::prefix('admin')->name('admin.')->middleware('role:Admin')->group(function (): void {
+        Route::prefix('users')->name('users.')->group(function (): void {
+            Route::get('/', [UserManagementController::class, 'index'])->name('index');
+            Route::get('/{user}/edit', [UserManagementController::class, 'edit'])->name('edit');
+            Route::put('/{user}', [UserManagementController::class, 'update'])->name('update');
+        });
     });
 });
 

@@ -21,5 +21,16 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Phase N3 (Role & Permission System) — must run AFTER any
+        // User rows this method creates above it, so
+        // RolesAndPermissionsSeeder's own ADMIN_EMAIL bootstrap (see
+        // that class's own docblock) has a real chance of finding a
+        // matching user if ADMIN_EMAIL happens to be one created here.
+        // In practice this app's own real Admin is a person who
+        // registers through the normal /register flow, not this
+        // factory-created test user — but the ordering is still
+        // correct either way.
+        $this->call(RolesAndPermissionsSeeder::class);
     }
 }

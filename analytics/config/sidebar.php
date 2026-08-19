@@ -28,6 +28,24 @@ declare(strict_types=1);
  *              usually more than just the exact route name itself
  *              (e.g. Discovery's own item should stay highlighted on
  *              its watchlist/saved-searches/compare sub-pages too).
+ *   permission ?string (Phase N3) — a spatie/laravel-permission
+ *              permission name this item requires; omitted (or null)
+ *              means "always visible, no gate" (only 'home' below is
+ *              like this — it's this app's own public entry point, see
+ *              routes/web.php's own docblock on why that ONE route
+ *              stays ungated). The sidebar partial hides an item
+ *              entirely (not merely grays it out) for a viewer who
+ *              lacks this — a logged-out visitor or a permission-less
+ *              Employee sees a shorter, honest sidebar rather than
+ *              menu items that would just redirect/403 if clicked.
+ *   role       ?string (Phase N3) — same idea as 'permission' above,
+ *              but a ROLE name instead (Admin Panel below uses this,
+ *              not a permission — see
+ *              database/seeders/RolesAndPermissionsSeeder's own
+ *              docblock on 'view-admin-panel' for why the admin panel
+ *              is gated by role, not that permission). An item can
+ *              have 'permission', 'role', both, or neither — the
+ *              sidebar partial requires ALL of whichever are present.
  */
 return [
     'items' => [
@@ -36,18 +54,28 @@ return [
             'icon' => '<path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'home',
             'active' => ['home', 'audits.*'],
+            'permission' => null,
         ],
         [
             'label' => 'Website Discovery',
             'icon' => '<path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.35-4.35" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'discovery.index',
             'active' => ['discovery.*'],
+            'permission' => 'view-discovery',
         ],
         [
             'label' => 'Bulk Audit',
             'icon' => '<path d="M4 6h16M4 12h16M4 18h7" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'bulk-audits.create',
             'active' => ['bulk-audits.*'],
+            'permission' => 'run-bulk-audit',
+        ],
+        [
+            'label' => 'Admin Panel',
+            'icon' => '<path d="M12 2a4 4 0 0 1 4 4v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h1V6a4 4 0 0 1 4-4zM9 8h6V6a3 3 0 0 0-6 0v2z" stroke-linecap="round" stroke-linejoin="round"/>',
+            'route' => 'admin.users.index',
+            'active' => ['admin.*'],
+            'role' => 'Admin',
         ],
     ],
 ];

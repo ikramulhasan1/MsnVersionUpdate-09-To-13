@@ -17,6 +17,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | First Admin Bootstrap (Phase N3, Role & Permission System)
+    |--------------------------------------------------------------------------
+    |
+    | Read by database/seeders/RolesAndPermissionsSeeder — the ONE email
+    | address that seeder promotes to the Admin role automatically, so
+    | there's a real way into App\Http\Controllers\Admin\UserManagementController's
+    | own panel without a chicken-and-egg "only an Admin can grant Admin"
+    | problem. Set ADMIN_EMAIL in .env to whichever account should start
+    | as this app's first Admin, then run that seeder (or re-run it
+    | later, after that account actually registers, if it doesn't exist
+    | yet the first time).
+    */
+    'admin_email' => env('ADMIN_EMAIL'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

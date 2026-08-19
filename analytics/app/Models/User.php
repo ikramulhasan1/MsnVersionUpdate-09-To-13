@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * Phase N1 (Authentication Foundation) — the first real use of this
@@ -24,11 +25,18 @@ use Illuminate\Notifications\Notifiable;
  * already confirmed that email on this app's behalf, so asking the
  * person to verify it again would be redundant friction with no real
  * security benefit.
+ *
+ * Phase N3 (Role & Permission System) adds HasRoles
+ * (spatie/laravel-permission) — every real permission/role check
+ * anywhere in this app (route middleware, blade @can, this model's
+ * own isAdmin() below) goes through methods this trait provides
+ * ($user->hasRole(), $user->hasPermissionTo(), $user->can(), ...),
+ * never a hand-rolled column/check of this app's own.
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -87,5 +95,18 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return mb_strtoupper(mb_substr($parts[0], 0, 1) . mb_substr($parts[count($parts) - 1], 0, 1));
+    }
+
+    /**
+     * Phase N3 — a thin, readable wrapper over $this->hasRole('Admin')
+     * (HasRoles' own method), used in several places
+     * (resources/views/layouts/partials/sidebar.blade.php's own
+     * conditional Admin Panel link, App\Http\Middleware — anywhere a
+     * plain boolean reads more clearly than a string-comparison role
+     * check spelled out inline).
+     */
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('Admin');
     }
 }
