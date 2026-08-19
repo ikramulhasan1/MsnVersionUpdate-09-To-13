@@ -130,9 +130,14 @@
 
         .pdf-footer-left {
             display: inline-block;
-            width: 70%;
+            width: 100%;
         }
 
+        /* .pdf-footer-right is no longer used anywhere in the markup
+           below (the page-number span was removed on explicit
+           request) — left defined here, unused, rather than deleted
+           outright, in case a future request brings page numbers back
+           in some form and wants this same right-aligned slot again. */
         .pdf-footer-right {
             display: inline-block;
             width: 30%;
@@ -152,10 +157,9 @@
 <body>
     <div class="pdf-footer">
         <span class="pdf-footer-left">{{ config('app.name') }} &mdash; Website Audit Report</span>
-        {{-- Simplified on request from the fuller "Page {PAGE_NUM} of
-             {PAGE_COUNT}" wording to just the raw numbers, still in
-             this same bottom-right corner. --}}
-        <span class="pdf-footer-right">{PAGE_NUM} / {PAGE_COUNT}</span>
+        {{-- Page-number span removed on explicit request — the footer
+             now shows only the report name (left) and contact info
+             (second line), nothing on the right. --}}
         {{--
             Default contact info, shown on every page's own footer —
             same three lines as the cover page's own contact block
