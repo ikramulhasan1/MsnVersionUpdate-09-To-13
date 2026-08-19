@@ -140,7 +140,7 @@
         }
 
         .pdf-footer-contact {
-            margin-top: 3px;
+            margin-top: 1px;
             font-size: 8.5px;
             color: #7a8092;
         }
@@ -152,7 +152,10 @@
 <body>
     <div class="pdf-footer">
         <span class="pdf-footer-left">{{ config('app.name') }} &mdash; Website Audit Report</span>
-        <span class="pdf-footer-right">Page {PAGE_NUM} of {PAGE_COUNT}</span>
+        {{-- Simplified on request from the fuller "Page {PAGE_NUM} of
+             {PAGE_COUNT}" wording to just the raw numbers, still in
+             this same bottom-right corner. --}}
+        <span class="pdf-footer-right">{PAGE_NUM} / {PAGE_COUNT}</span>
         {{--
             Default contact info, shown on every page's own footer —
             same three lines as the cover page's own contact block
