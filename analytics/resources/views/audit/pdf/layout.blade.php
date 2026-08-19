@@ -179,5 +179,4 @@
 
     @yield('content')
 </body>
-
 </html>
