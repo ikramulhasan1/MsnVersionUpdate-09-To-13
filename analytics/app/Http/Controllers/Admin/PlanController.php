@@ -39,6 +39,13 @@ final class PlanController extends Controller
             'run-audit' => 'Website Audit',
             'run-bulk-audit' => 'Bulk Audit',
             'export-data' => 'Export (PDF/Excel/CSV/JSON)',
+            // PRODUCTION INCIDENT — see this feature's own backfill
+            // migration (database/migrations/2026_08_20_000001_backfill_view_discovery_plan_feature.php)
+            // for the full "why": this key genuinely didn't exist on
+            // any plan until that migration ran, and 'view-discovery'
+            // was ONLY ever gated by role permission before that, not
+            // by the person's actual Plan at all.
+            'view-discovery' => 'Website Discovery',
         ];
     }
 

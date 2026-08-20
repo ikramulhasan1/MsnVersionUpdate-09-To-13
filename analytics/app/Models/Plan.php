@@ -86,11 +86,26 @@ final class Plan extends Model
      * Null means unlimited — see this class's own docblock on
      * 'daily_audit_limit'.
      */
+    /**
+     * PRODUCTION INCIDENT — read before reverting to a strict
+     * is_int() check: this app's own real production data has at
+     * least one plan (Free Trial) with daily_audit_limit stored as the
+     * STRING "3" rather than the integer 3 in its own features JSON
+     * (a real, already-happened form-submission/casting quirk, not a
+     * hypothetical) — is_int("3") is false, so the old strict check
+     * silently treated that plan's real 3-per-day limit as "null =
+     * unlimited", letting Free Trial accounts run audits with no
+     * daily cap at all. is_numeric() + an explicit (int) cast handles
+     * BOTH a real integer (Admin Pricing Plans UI's own normal path,
+     * unaffected) and a numeric string (the buggy historical data)
+     * identically and correctly, without needing a separate one-off
+     * data-repair migration for the existing row.
+     */
     public function dailyAuditLimit(): ?int
     {
         $limit = $this->features['daily_audit_limit'] ?? null;
 
-        return is_int($limit) ? $limit : null;
+        return is_numeric($limit) ? (int) $limit : null;
     }
 
     public function priceLabel(): string

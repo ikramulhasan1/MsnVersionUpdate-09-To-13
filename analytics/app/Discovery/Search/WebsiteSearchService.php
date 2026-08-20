@@ -149,9 +149,13 @@ final class WebsiteSearchService
      */
     public function countsByIndustry(): array
     {
-        return $this->model->newQuery()
+        $query = $this->model->newQuery()
             ->whereNotNull('industry')
-            ->where('industry', '!=', '')
+            ->where('industry', '!=', '');
+
+        $this->applyAuditOwnershipVisibility($query);
+
+        return $query
             ->selectRaw('industry, count(*) as total')
             ->groupBy('industry')
             ->pluck('total', 'industry')
@@ -167,9 +171,13 @@ final class WebsiteSearchService
      */
     public function countsByCountry(): array
     {
-        return $this->model->newQuery()
+        $query = $this->model->newQuery()
             ->whereNotNull('country')
-            ->where('country', '!=', '')
+            ->where('country', '!=', '');
+
+        $this->applyAuditOwnershipVisibility($query);
+
+        return $query
             ->selectRaw('country, count(*) as total')
             ->groupBy('country')
             ->pluck('total', 'country')
@@ -196,6 +204,8 @@ final class WebsiteSearchService
             'watchlistItem' => static fn ($relation) => $relation->where('user_id', auth()->id()),
         ]);
 
+        $this->applyAuditOwnershipVisibility($query);
+
         $this->applyIndustry($query, $criteria);
         $this->applyLocation($query, $criteria);
         $this->applyWebsiteTypes($query, $criteria);
@@ -221,6 +231,46 @@ final class WebsiteSearchService
      * here rather than its own method: there is no query shape where
      * subNiche is set but industry isn't.
      */
+    /**
+     * PRODUCTION INCIDENT (Website Discovery access control) — the
+     * actual fix for a real production data leak: every
+     * discovered_websites row from a REAL Discovery search/crawl
+     * (discovery_source = 'yelp'/'internal_crawl'/'web') has no
+     * individual owner and stays visible to every user with
+     * view-discovery access — completely unaffected by this method,
+     * exactly as this shared lead-gen pool has always worked. Only a
+     * row with discovery_source = 'audit' (created from someone's
+     * PRIVATE audit — see
+     * App\Audit\Jobs\AssembleAnalysisResultsJob::syncToDiscoveredWebsite())
+     * is restricted here: visible ONLY to the user_id that owns it, or
+     * to an Admin (who has full access to everything, by this app's
+     * own explicit requirement — see App\Providers\AppServiceProvider's
+     * own Gate::before() for the same principle applied to permissions).
+     * The 4 rows in this app's own real production data that predate
+     * this column existing at all (user_id still null, no way to
+     * retroactively know who audited them) fall into "visible to
+     * Admin only" — kept, not deleted, but no longer shown to every
+     * other user, which is the actual fix that was asked for over
+     * deleting that real historical data outright.
+     */
+    private function applyAuditOwnershipVisibility(Builder $query): void
+    {
+        $user = auth()->user();
+        $isAdmin = $user !== null && $user->isAdmin();
+
+        if ($isAdmin) {
+            return;
+        }
+
+        $query->where(function (Builder $query) use ($user): void {
+            $query->where('discovery_source', '!=', 'audit');
+
+            if ($user !== null) {
+                $query->orWhere('user_id', $user->id);
+            }
+        });
+    }
+
     private function applyIndustry(Builder $query, DiscoveryFilterCriteria $criteria): void
     {
         if ($criteria->industry !== null) {

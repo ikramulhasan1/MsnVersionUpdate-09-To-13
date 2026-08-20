@@ -389,6 +389,48 @@ final class AssembleAnalysisResultsJob extends AuditJob implements ShouldBeUniqu
      * failed one; this is a side effect of a completed audit, not a
      * required step of completing one.
      */
+    /**
+     * PRODUCTION INCIDENT — read before removing the user_id
+     * assignment below and going back to a fully-shared, unowned
+     * create: this whole sync was built when this app was
+     * single-tenant (before Phase N1's real per-account auth existed
+     * at all), when "every audited site becomes part of the shared
+     * lead pool" was a reasonable, intended feature. Now that
+     * Discovery is a genuinely SHARED, cross-account table (every
+     * discovered_websites row is visible to every user with
+     * view-discovery access, regardless of who found/audited it),
+     * that same create-on-audit behavior became a real data leak: a
+     * PRIVATE audit of a URL nobody had ever run through Discovery
+     * before silently created a brand new row every OTHER user could
+     * see too, exposing what someone chose to audit to the entire
+     * user base. Confirmed in this app's own real production data (4
+     * discovery_source = 'audit' rows, unowned, visible to everyone).
+     *
+     * An EARLIER fix for this simply stopped creating a new row at
+     * all when none existed — technically correct, but it also
+     * silently discarded a real, sometimes valuable side effect: a
+     * genuinely new business the audited site's own owner might have
+     * wanted to see in THEIR OWN Discovery view later. The fix here
+     * instead creates the row as PROPERLY OWNED —
+     * $audit->user_id, not null — see
+     * App\Discovery\Search\WebsiteSearchService::query()'s own
+     * visibility filter for how ownership is enforced: only the
+     * owning user (or an Admin) can see a discovery_source = 'audit'
+     * row that has a real owner; the 4 existing rows from before this
+     * column existed have no owner at all (user_id stays null for
+     * those, forever — there's no way to retroactively know who
+     * audited them) and are visible to an Admin only, matching this
+     * app's own explicit "keep the data, but restrict who sees it"
+     * decision over deleting it outright.
+     *
+     * Still never overwrites an EXISTING row's own ownership — see the
+     * $existing branch below, which updates scores only, leaving
+     * whatever user_id (or lack of one) that row already had
+     * untouched. A site that's already part of the SHARED pool (found
+     * via a real Discovery search) stays shared when someone happens
+     * to audit it too; only a genuinely NEW row gets the auditing
+     * user's own ownership.
+     */
     private function syncToDiscoveredWebsite(Audit $audit, AnalysisResults $results): void
     {
         try {
@@ -423,6 +465,9 @@ final class AssembleAnalysisResultsJob extends AuditJob implements ShouldBeUniqu
             $existing = DiscoveredWebsite::query()->where('url_hash', $hash)->first();
 
             if ($existing !== null) {
+                // Ownership (or lack of it) on an already-existing row
+                // is never touched here — see this method's own
+                // docblock for why.
                 $existing->update($columns);
 
                 return;
@@ -438,6 +483,15 @@ final class AssembleAnalysisResultsJob extends AuditJob implements ShouldBeUniqu
                 'industry' => 'Uncategorized',
                 'discovery_source' => 'audit',
                 'discovered_at' => now(),
+                // PRODUCTION INCIDENT — see this method's own docblock.
+                // Null for a genuinely anonymous/system-triggered audit
+                // (there is no case in this app today where that
+                // actually happens for a completed audit, but the sync
+                // itself has no hard requirement that $audit->user_id
+                // be set), real otherwise — this is the ONE column
+                // that makes a NEW row private-by-default instead of
+                // immediately shared with the whole user base.
+                'user_id' => $audit->user_id,
             ]));
         } catch (Throwable $exception) {
             report($exception);

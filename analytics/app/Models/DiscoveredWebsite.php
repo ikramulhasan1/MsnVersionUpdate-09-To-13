@@ -41,6 +41,12 @@ final class DiscoveredWebsite extends Model
 
     protected $fillable = [
         'uuid',
+        // PRODUCTION INCIDENT — see this column's own migration
+        // (database/migrations/2026_08_20_000002_add_user_id_to_discovered_websites_table.php)
+        // for the full "why". Nullable — null for every row from a
+        // REAL Discovery search/crawl (this column only ever matters
+        // for a row created from a private audit).
+        'user_id',
         'domain',
         'business_name',
         'url',
@@ -123,6 +129,16 @@ final class DiscoveredWebsite extends Model
     public function watchlistItem(): HasOne
     {
         return $this->hasOne(DiscoveryWatchlistItem::class);
+    }
+
+    /**
+     * PRODUCTION INCIDENT — see this column's own migration docblock.
+     * Null for every row from a real Discovery search/crawl; only ever
+     * meaningfully set for a row created from a private audit.
+     */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\User::class);
     }
 
     /**

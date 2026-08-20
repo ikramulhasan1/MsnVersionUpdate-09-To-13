@@ -110,8 +110,17 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     // in THIS exact position in the route list (before /{website})
     // for the route-ordering reason this group's own comments already
     // explain throughout.
+    //
+    // PRODUCTION INCIDENT CLOSED — 'plan:view-discovery' added: until
+    // now, this whole group was gated ONLY by role permission, never
+    // by the person's actual Pricing Plan — see
+    // database/migrations/2026_08_20_000001_backfill_view_discovery_plan_feature.php's
+    // own docblock for the full "why" and the required backfill that
+    // migration performs before this middleware can safely go live
+    // (deploy that migration FIRST, or every existing customer loses
+    // Discovery access the moment this line does).
     Route::prefix('discovery')->name('discovery.')
-        ->middleware([PreventLiteSpeedCaching::class, 'permission:view-discovery'])
+        ->middleware([PreventLiteSpeedCaching::class, 'permission:view-discovery', 'plan:view-discovery'])
         ->group(function (): void {
             Route::get('/', [DiscoveryController::class, 'index'])->name('index');
             Route::post('/search', [DiscoveryController::class, 'search'])->name('search');

@@ -321,6 +321,25 @@ final class DiscoveryController extends Controller
         AuditCacheServiceInterface $cache,
         AnalysisResultsToDashboardCategories $dashboardCategoryMapper,
     ): View {
+        // PRODUCTION INCIDENT — see
+        // App\Discovery\Search\WebsiteSearchService::applyAuditOwnershipVisibility()'s
+        // own docblock for the full "why". That method only hides a
+        // private audit-sourced row from the LISTING/search results —
+        // without this same check here too, someone who somehow got
+        // hold of the direct /discovery/{uuid} link (e.g. a
+        // notification, a bookmark from before ownership existed)
+        // could still open it directly. A real ownership row (this
+        // app's own explicit requirement) has to be enforced
+        // everywhere the data is reachable, not just the one listing
+        // page.
+        if ($website->discovery_source === 'audit') {
+            $user = auth()->user();
+            $isOwner = $user !== null && $website->user_id === $user->id;
+            $isAdmin = $user !== null && $user->isAdmin();
+
+            abort_unless($isOwner || $isAdmin, 403);
+        }
+
         $normalizer = new DomainNormalizer();
         $targetHash = $normalizer->hash($website->url);
 

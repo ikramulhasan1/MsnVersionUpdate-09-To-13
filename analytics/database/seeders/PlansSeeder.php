@@ -37,6 +37,7 @@ final class PlansSeeder extends Seeder
                 'duration_days' => 3,
                 'features' => [
                     'run-audit' => true,
+                    'view-discovery' => true,
                     'run-bulk-audit' => false,
                     'export-data' => false,
                     'daily_audit_limit' => 3,
@@ -57,6 +58,7 @@ final class PlansSeeder extends Seeder
                 'duration_days' => null,
                 'features' => [
                     'run-audit' => true,
+                    'view-discovery' => true,
                     'run-bulk-audit' => true,
                     'export-data' => true,
                     'daily_audit_limit' => 25,
@@ -77,6 +79,7 @@ final class PlansSeeder extends Seeder
                 'duration_days' => null,
                 'features' => [
                     'run-audit' => true,
+                    'view-discovery' => true,
                     'run-bulk-audit' => true,
                     'export-data' => true,
                     'daily_audit_limit' => null,
