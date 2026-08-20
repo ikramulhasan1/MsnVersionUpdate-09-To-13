@@ -123,7 +123,14 @@ final class DiscoverWebsitesJob implements ShouldQueue
             ->map(static fn (string $class): DiscoverySourceInterface => app($class))
             ->all();
 
-        $result = $ingestionService->discoverAndIngest($this->criteria, $sources);
+        // PRODUCTION INCIDENT — see
+        // App\Discovery\Ingestion\DiscoveryIngestionService::discoverAndIngest()'s
+        // own docblock. $this->userId here is the SAME value this
+        // class's own constructor already carried for notification
+        // purposes (Phase N2) — now reused as the real OWNER of
+        // whatever new rows this run creates, not just who gets
+        // notified about them.
+        $result = $ingestionService->discoverAndIngest($this->criteria, $sources, $this->userId);
 
         if ($this->userId !== null && $result->created > 0) {
             $user = \App\Models\User::query()->find($this->userId);

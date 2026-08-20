@@ -72,7 +72,22 @@ final class DiscoveryIngestionService
     /**
      * @param  array<int, DiscoverySourceInterface>  $sources
      */
-    public function discoverAndIngest(DiscoveryFilterCriteria $criteria, array $sources): IngestionResult
+    /**
+     * PRODUCTION INCIDENT (Website Discovery per-user privacy) — read
+     * before dropping $userId back to nothing: this app's own explicit
+     * requirement changed Website Discovery from a shared lead-gen
+     * pool (its ORIGINAL design, back when this app was single-tenant)
+     * to fully per-user data — every website a search discovers now
+     * belongs to whoever triggered that search
+     * (App\Http\Controllers\DiscoveryController::discover() passes
+     * auth()->id() for an ad-hoc "Discover More" click;
+     * App\Discovery\Jobs\RunScheduledDiscoverySearchJob passes the
+     * saved DiscoverySearch's own user_id for an automated scheduled
+     * run), never shared with anyone else — see
+     * App\Discovery\Search\WebsiteSearchService::applyOwnershipVisibility()
+     * for how that ownership is actually enforced on every read.
+     */
+    public function discoverAndIngest(DiscoveryFilterCriteria $criteria, array $sources, ?int $userId = null): IngestionResult
     {
         $candidates = collect();
 
@@ -87,13 +102,13 @@ final class DiscoveryIngestionService
             }
         }
 
-        return $this->ingest($candidates);
+        return $this->ingest($candidates, $userId);
     }
 
     /**
      * @param  Collection<int, DiscoveredWebsiteDTO>  $candidates
      */
-    public function ingest(Collection $candidates): IngestionResult
+    public function ingest(Collection $candidates, ?int $userId = null): IngestionResult
     {
         $created = 0;
         $skippedExisting = 0;
@@ -112,6 +127,15 @@ final class DiscoveryIngestionService
             try {
                 $website = DiscoveredWebsite::query()->create([
                     'uuid' => (string) Str::uuid(),
+                    // PRODUCTION INCIDENT — see this class's own
+                    // discoverAndIngest() docblock. Null only when
+                    // this method is called with no real owner at all
+                    // (there is no such call site in this app today,
+                    // but the parameter itself stays optional rather
+                    // than required, so a future caller that genuinely
+                    // has no user to attribute to doesn't need to
+                    // invent one).
+                    'user_id' => $userId,
                     'domain' => $candidate->domain,
                     'url' => $candidate->url,
                     'industry' => $candidate->industry,

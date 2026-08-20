@@ -99,7 +99,14 @@ final class RunScheduledDiscoverySearchJob implements ShouldQueue
                 ->map(static fn (string $class): DiscoverySourceInterface => app($class))
                 ->all();
 
-            $ingestionService->discoverAndIngest($criteria, $sources);
+            // PRODUCTION INCIDENT — see
+            // App\Discovery\Ingestion\DiscoveryIngestionService::discoverAndIngest()'s
+            // own docblock: a scheduled run has no browser/request
+            // involved at all, but the saved DiscoverySearch this job
+            // runs FOR already has its own real owner
+            // ($this->search->user_id) — that's who any newly-
+            // discovered website from this automated run belongs to.
+            $ingestionService->discoverAndIngest($criteria, $sources, $this->search->user_id);
         } catch (Throwable $exception) {
             report($exception);
             // See this class's own docblock — a failed discovery pass

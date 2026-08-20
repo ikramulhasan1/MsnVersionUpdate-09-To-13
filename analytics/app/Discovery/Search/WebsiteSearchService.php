@@ -153,7 +153,7 @@ final class WebsiteSearchService
             ->whereNotNull('industry')
             ->where('industry', '!=', '');
 
-        $this->applyAuditOwnershipVisibility($query);
+        $this->applyOwnershipVisibility($query);
 
         return $query
             ->selectRaw('industry, count(*) as total')
@@ -175,7 +175,7 @@ final class WebsiteSearchService
             ->whereNotNull('country')
             ->where('country', '!=', '');
 
-        $this->applyAuditOwnershipVisibility($query);
+        $this->applyOwnershipVisibility($query);
 
         return $query
             ->selectRaw('country, count(*) as total')
@@ -204,7 +204,7 @@ final class WebsiteSearchService
             'watchlistItem' => static fn ($relation) => $relation->where('user_id', auth()->id()),
         ]);
 
-        $this->applyAuditOwnershipVisibility($query);
+        $this->applyOwnershipVisibility($query);
 
         $this->applyIndustry($query, $criteria);
         $this->applyLocation($query, $criteria);
@@ -253,7 +253,34 @@ final class WebsiteSearchService
      * other user, which is the actual fix that was asked for over
      * deleting that real historical data outright.
      */
-    private function applyAuditOwnershipVisibility(Builder $query): void
+    /**
+     * PRODUCTION INCIDENT (Website Discovery per-user privacy) — read
+     * before restoring the old "discovery_source != 'audit'" exemption
+     * this method used to have: Website Discovery was ORIGINALLY built
+     * (before Phase N1's real per-account auth existed at all) as a
+     * genuinely SHARED lead-gen pool — every discovered_websites row
+     * visible to everyone, regardless of who ran the search that found
+     * it. That made sense when this app was single-tenant. This app's
+     * own explicit, later requirement changed that: EVERY row —
+     * regardless of discovery_source (a real Yelp/crawl search result
+     * is treated exactly the same as a row created from someone's own
+     * audit) — now belongs to whoever's search/audit created it (see
+     * App\Discovery\Ingestion\DiscoveryIngestionService::ingest()'s own
+     * user_id assignment, and
+     * App\Audit\Jobs\AssembleAnalysisResultsJob::syncToDiscoveredWebsite()'s),
+     * and is visible ONLY to that owner (or an Admin, who has full
+     * access to everything by this app's own explicit requirement —
+     * see App\Providers\AppServiceProvider's own Gate::before() for the
+     * same principle applied to permissions).
+     *
+     * A row with no owner at all (user_id null — every row that
+     * predates this column existing, from back when this app was
+     * genuinely single-tenant) is visible to an Admin only: kept, not
+     * deleted, but no longer shown to any other user — the explicit,
+     * deliberate choice made over either deleting that historical data
+     * or leaving it shared with everyone.
+     */
+    private function applyOwnershipVisibility(Builder $query): void
     {
         $user = auth()->user();
         $isAdmin = $user !== null && $user->isAdmin();
@@ -262,13 +289,16 @@ final class WebsiteSearchService
             return;
         }
 
-        $query->where(function (Builder $query) use ($user): void {
-            $query->where('discovery_source', '!=', 'audit');
+        if ($user === null) {
+            // No session at all (shouldn't happen behind this app's
+            // own 'auth' middleware, but never silently show
+            // everyone's data if it somehow does) — matches nothing.
+            $query->whereRaw('1 = 0');
 
-            if ($user !== null) {
-                $query->orWhere('user_id', $user->id);
-            }
-        });
+            return;
+        }
+
+        $query->where('user_id', $user->id);
     }
 
     private function applyIndustry(Builder $query, DiscoveryFilterCriteria $criteria): void
