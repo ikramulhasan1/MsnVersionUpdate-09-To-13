@@ -9,7 +9,12 @@
                 <p class="text-secondary small mb-1">Admin</p>
                 <h1 class="h4 fw-semibold mb-0">API Providers</h1>
             </div>
-            <a href="{{ route('admin.api-providers.create') }}" class="btn btn-primary btn-sm">New Provider</a>
+            <div class="d-flex gap-2">
+                <a href="{{ route('admin.api-providers.quick-setup-dataforseo') }}" class="btn btn-outline-secondary btn-sm">
+                    DataForSEO Quick Setup
+                </a>
+                <a href="{{ route('admin.api-providers.create') }}" class="btn btn-primary btn-sm">New Provider</a>
+            </div>
         </div>
 
         @include('admin.partials.nav')
@@ -52,7 +57,7 @@
                                     <td class="small">
                                         @forelse ($provider->capabilities as $capability)
                                             <span class="badge bg-secondary-subtle text-secondary-emphasis me-1">
-                                                {{ \App\Enums\KeywordCapability::from($capability)->label() }}
+                                                {{ $provider->capabilityLabel($capability) }}
                                             </span>
                                         @empty
                                             <span class="text-secondary">None selected</span>

@@ -11,6 +11,8 @@ use App\Http\Controllers\BillingController;
 use App\Http\Controllers\BulkAuditController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscoveryController;
+use App\Http\Controllers\BacklinkAnalysisController;
+use App\Http\Controllers\CompetitorAnalysisController;
 use App\Http\Controllers\KeywordListController;
 use App\Http\Controllers\KeywordMagicToolController;
 use App\Http\Controllers\KeywordResearchController;
@@ -230,6 +232,21 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
         Route::get('/{keywordList}/export', [KeywordListController::class, 'export'])->name('export');
     });
 
+    // Phase Q2 (Competitor Analysis page) — 'show' before any
+    // wildcard-style route for the same "static segment ordering"
+    // reasoning this file's other groups already follow.
+    Route::prefix('competitor-analysis')->name('competitor-analysis.')->group(function (): void {
+        Route::get('/', [CompetitorAnalysisController::class, 'index'])->name('index');
+        Route::get('/results', [CompetitorAnalysisController::class, 'show'])->name('show');
+    });
+
+    // Phase Q3 (Backlink Analysis page) — same route-ordering and
+    // gating reasoning as Competitor Analysis's own group just above.
+    Route::prefix('backlink-analysis')->name('backlink-analysis.')->group(function (): void {
+        Route::get('/', [BacklinkAnalysisController::class, 'index'])->name('index');
+        Route::get('/results', [BacklinkAnalysisController::class, 'show'])->name('show');
+    });
+
     // Phase N2 (Sidebar + Dynamic Notification System) — "recent" (the
     // bell dropdown's own polling endpoint) and "read-all" both need to
     // sit before /{notification} for the same "static segment before
@@ -292,6 +309,12 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
             Route::get('/', [ApiProviderController::class, 'index'])->name('index');
             Route::get('/create', [ApiProviderController::class, 'create'])->name('create');
             Route::post('/', [ApiProviderController::class, 'store'])->name('store');
+            // A convenience shortcut on top of the plain CRUD above —
+            // see App\Http\Controllers\Admin\DataForSeoQuickSetupController's
+            // own docblock. 'quick-setup-dataforseo' before
+            // /{apiProvider}/edit for the same reasoning.
+            Route::get('/quick-setup-dataforseo', [\App\Http\Controllers\Admin\DataForSeoQuickSetupController::class, 'show'])->name('quick-setup-dataforseo');
+            Route::post('/quick-setup-dataforseo', [\App\Http\Controllers\Admin\DataForSeoQuickSetupController::class, 'store'])->name('quick-setup-dataforseo.store');
             Route::get('/{apiProvider}/edit', [ApiProviderController::class, 'edit'])->name('edit');
             Route::put('/{apiProvider}', [ApiProviderController::class, 'update'])->name('update');
             Route::delete('/{apiProvider}', [ApiProviderController::class, 'destroy'])->name('destroy');

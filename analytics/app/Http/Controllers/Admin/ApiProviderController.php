@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\ApiProviders\ApiProviderConnectionTester;
 use App\Enums\ApiProviderType;
+use App\Enums\DomainCapability;
 use App\Enums\KeywordCapability;
 use App\Http\Controllers\Controller;
 use App\Models\ApiProvider;
@@ -36,7 +37,7 @@ final class ApiProviderController extends Controller
         return view('admin.api-providers.form', [
             'provider' => new ApiProvider(['capabilities' => []]),
             'types' => ApiProviderType::cases(),
-            'allCapabilities' => KeywordCapability::cases(),
+            'allCapabilities' => [...KeywordCapability::cases(), ...DomainCapability::cases()],
         ]);
     }
 
@@ -54,7 +55,7 @@ final class ApiProviderController extends Controller
         return view('admin.api-providers.form', [
             'provider' => $apiProvider,
             'types' => ApiProviderType::cases(),
-            'allCapabilities' => KeywordCapability::cases(),
+            'allCapabilities' => [...KeywordCapability::cases(), ...DomainCapability::cases()],
         ]);
     }
 

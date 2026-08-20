@@ -113,6 +113,23 @@ return [
             'active' => ['keyword-lists.*'],
         ],
         [
+            // Phase Q2 (Competitor Analysis) — no 'permission' key, same
+            // reasoning as Keyword Research's own item (gated by
+            // provider availability, not a role/plan check).
+            'label' => 'Competitor Analysis',
+            'icon' => '<path d="M17 20h5v-2a4 4 0 0 0-3-3.87M9 20H4v-2a4 4 0 0 1 3-3.87m6-1.13a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm6 4a4 4 0 1 0-8 0" stroke-linecap="round" stroke-linejoin="round"/>',
+            'route' => 'competitor-analysis.index',
+            'active' => ['competitor-analysis.*'],
+        ],
+        [
+            // Phase Q3 (Backlink Analysis) — same gating reasoning as
+            // Competitor Analysis's own item just above.
+            'label' => 'Backlink Analysis',
+            'icon' => '<path d="M13.828 10.172a4 4 0 0 0-5.656 0l-4 4a4 4 0 1 0 5.656 5.656l1.102-1.101m-.758-4.899a4 4 0 0 0 5.656 0l4-4a4 4 0 0 0-5.656-5.656l-1.1 1.1" stroke-linecap="round" stroke-linejoin="round"/>',
+            'route' => 'backlink-analysis.index',
+            'active' => ['backlink-analysis.*'],
+        ],
+        [
             'label' => 'Bulk Audit',
             'icon' => '<path d="M4 6h16M4 12h16M4 18h7" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'bulk-audits.create',

@@ -90,7 +90,7 @@
                                     <tr>
                                         <td class="small">{{ $log->created_at->diffForHumans() }}</td>
                                         <td class="small">{{ $log->provider?->name ?? 'Deleted provider' }}</td>
-                                        <td class="small">{{ \App\Enums\KeywordCapability::from($log->capability)->label() }}</td>
+                                        <td class="small">{{ $log->provider?->capabilityLabel($log->capability) ?? $log->capability }}</td>
                                         <td>{{ $log->keyword_count }}</td>
                                         <td>${{ number_format($log->estimated_cost_usd, 6) }}</td>
                                     </tr>

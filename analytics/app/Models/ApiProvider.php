@@ -68,4 +68,27 @@ final class ApiProvider extends Model
     {
         return in_array($capability, $this->capabilities ?? [], true);
     }
+
+    /**
+     * PRODUCTION BUG AVOIDED (Phase Q1) — resources/views/admin/api-providers/index.blade.php's
+     * own capability-badge list used to call
+     * App\Enums\KeywordCapability::from($capability) unconditionally
+     * for every saved capability string — correct for a
+     * DATAFORSEO_KEYWORDS/DATAFORSEO_LABS/GOOGLE_ADS row (whose
+     * capabilities are all KeywordCapability values), but a genuine
+     * \ValueError (uncaught, would have crashed that whole page) the
+     * moment a DATAFORSEO_BACKLINKS/MAJESTIC/MOZ row's own
+     * DomainCapability values (Phase Q1) reached that same line. This
+     * method tries KeywordCapability first, falls back to
+     * DomainCapability, and returns the raw string as a last resort
+     * (never throws) — the one place that ambiguity gets resolved, so
+     * the view itself never needs to know which enum a given
+     * capability string belongs to.
+     */
+    public function capabilityLabel(string $capability): string
+    {
+        return \App\Enums\KeywordCapability::tryFrom($capability)?->label()
+            ?? \App\Enums\DomainCapability::tryFrom($capability)?->label()
+            ?? $capability;
+    }
 }
