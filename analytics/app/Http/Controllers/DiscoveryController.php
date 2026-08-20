@@ -450,19 +450,29 @@ final class DiscoveryController extends Controller
      * WebsiteSearchService::query() already applies for the same
      * relation on the main results grid).
      *
-     * PRODUCTION GAP CLOSED — see
+     * PRODUCTION GAP CLOSED, THEN NARROWED — see
      * App\Http\Controllers\DashboardController's own identical
-     * comment: an Admin sees EVERY watchlist item (own, other users',
-     * AND rows that predate this column existing at all —
-     * user_id = NULL), never just their own — this app's own explicit
-     * requirement is that an Admin has full access, which has to
-     * include legacy data no per-user scope could otherwise surface.
+     * comment: an Admin sees their OWN watchlist items plus genuinely
+     * ownerless legacy rows (user_id = NULL, from before this column
+     * existed) — never a DIFFERENT real user's own watchlist. An
+     * earlier version of this fix widened Admin's scope to literally
+     * every user's own data, which showed other people's private
+     * watchlists to an Admin — narrower than that was the actual ask.
      */
     public function watchlist(Request $request): View
     {
+        $user = $request->user();
+        $isAdmin = $user->isAdmin();
+
         return view('discovery.watchlist', [
             'items' => DiscoveryWatchlistItem::query()
-                ->when(! $request->user()->isAdmin(), fn ($query) => $query->where('user_id', auth()->id()))
+                ->where(function ($query) use ($user, $isAdmin): void {
+                    $query->where('user_id', $user->id);
+
+                    if ($isAdmin) {
+                        $query->orWhereNull('user_id');
+                    }
+                })
                 ->with('discoveredWebsite')
                 ->latest()
                 ->get(),

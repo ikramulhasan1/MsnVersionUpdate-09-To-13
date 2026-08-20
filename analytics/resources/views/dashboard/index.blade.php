@@ -19,8 +19,8 @@
 
         @if ($isAdmin)
             <div class="alert alert-info small mb-4">
-                You're viewing as Admin — the numbers and audits below include every user's data
-                (including older audits from before per-account ownership existed), not just your own.
+                You're viewing as Admin — the numbers and audits below include your own data plus older
+                audits from before per-account ownership existed, but not other users' own data.
             </div>
         @endif
         <p class="text-secondary mb-4">Here's what's happening with your account.</p>
