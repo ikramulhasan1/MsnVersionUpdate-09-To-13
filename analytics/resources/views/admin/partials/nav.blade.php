@@ -25,4 +25,10 @@
             Pricing Plans
         </a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('admin.api-providers.*') ? 'active' : '' }}"
+            href="{{ route('admin.api-providers.index') }}">
+            API Providers
+        </a>
+    </li>
 </ul>

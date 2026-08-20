@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Admin\ApiProviderController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\AuditController;
@@ -238,6 +239,22 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
             Route::get('/{plan}/edit', [PlanController::class, 'edit'])->name('edit');
             Route::put('/{plan}', [PlanController::class, 'update'])->name('update');
             Route::delete('/{plan}', [PlanController::class, 'destroy'])->name('destroy');
+        });
+
+        // Phase O1 (API Provider Management System) — the foundation
+        // for Keyword Research/Keyword Magic Tool (Phase O3/O4). "test"
+        // and "toggle" both sit before /{apiProvider}/edit for the same
+        // "static segment before wildcard" reasoning this file's other
+        // route groups already follow throughout.
+        Route::prefix('api-providers')->name('api-providers.')->group(function (): void {
+            Route::get('/', [ApiProviderController::class, 'index'])->name('index');
+            Route::get('/create', [ApiProviderController::class, 'create'])->name('create');
+            Route::post('/', [ApiProviderController::class, 'store'])->name('store');
+            Route::get('/{apiProvider}/edit', [ApiProviderController::class, 'edit'])->name('edit');
+            Route::put('/{apiProvider}', [ApiProviderController::class, 'update'])->name('update');
+            Route::delete('/{apiProvider}', [ApiProviderController::class, 'destroy'])->name('destroy');
+            Route::post('/{apiProvider}/toggle', [ApiProviderController::class, 'toggleActive'])->name('toggle');
+            Route::post('/{apiProvider}/test', [ApiProviderController::class, 'testConnection'])->name('test');
         });
     });
 
