@@ -185,15 +185,7 @@ final class KeywordDataService
             static fn (ApiProviderAdapterInterface $adapter, array $missing): array => $adapter->getCompetitiveDensity($missing, $country, $language),
         );
     }
-     * difficulty, intent) above — splits the requested keywords into
-     * already-cached vs genuinely missing, only sends the missing ones
-     * to a real provider, then merges cached + fresh results back into
-     * ONE array covering every originally-requested keyword.
-     *
-     * @param  array<int, string>  $keywords
-     * @param  callable(ApiProviderAdapterInterface, array<int, string>): array<string, mixed>  $fetcher
-     * @return array<string, mixed>
-     */
+    
     private function bulkKeywordLookup(
         KeywordCapability $capability,
         array $keywords,
