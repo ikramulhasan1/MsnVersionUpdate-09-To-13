@@ -96,6 +96,16 @@ return [
             'active' => ['keyword-research.*'],
         ],
         [
+            // Phase O4 (Keyword Magic Tool) — same reasoning as Keyword
+            // Research's own item just above: no 'permission' key,
+            // gated by provider availability rather than a role/plan
+            // check.
+            'label' => 'Keyword Magic Tool',
+            'icon' => '<path d="M15 4l-1 3-3 1 3 1 1 3 1-3 3-1-3-1-1-3zM6 14l-.7 2-2 .7 2 .7.7 2 .7-2 2-.7-2-.7-.7-2z" stroke-linecap="round" stroke-linejoin="round"/>',
+            'route' => 'keyword-magic-tool.index',
+            'active' => ['keyword-magic-tool.*'],
+        ],
+        [
             'label' => 'Bulk Audit',
             'icon' => '<path d="M4 6h16M4 12h16M4 18h7" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'bulk-audits.create',

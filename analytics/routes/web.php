@@ -11,6 +11,7 @@ use App\Http\Controllers\BillingController;
 use App\Http\Controllers\BulkAuditController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscoveryController;
+use App\Http\Controllers\KeywordMagicToolController;
 use App\Http\Controllers\KeywordResearchController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Payments\CheckoutController;
@@ -200,6 +201,13 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::prefix('keyword-research')->name('keyword-research.')->group(function (): void {
         Route::get('/', [KeywordResearchController::class, 'index'])->name('index');
         Route::get('/results', [KeywordResearchController::class, 'show'])->name('show');
+    });
+
+    // Phase O4 (Keyword Magic Tool page) — same route-ordering and
+    // gating reasoning as Keyword Research's own group just above.
+    Route::prefix('keyword-magic-tool')->name('keyword-magic-tool.')->group(function (): void {
+        Route::get('/', [KeywordMagicToolController::class, 'index'])->name('index');
+        Route::get('/results', [KeywordMagicToolController::class, 'show'])->name('show');
     });
 
     // Phase N2 (Sidebar + Dynamic Notification System) — "recent" (the

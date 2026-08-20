@@ -203,8 +203,8 @@
                                 remove this @if once Phase O4 actually
                                 registers that route name.
                             --}}
-                            @if (\Illuminate\Support\Facades\Route::has('keyword-magic-tool.index'))
-                                <a href="{{ route('keyword-magic-tool.index', ['seed' => $keyword]) }}" class="small">
+                            @if (\Illuminate\Support\Facades\Route::has('keyword-magic-tool.show'))
+                                <a href="{{ route('keyword-magic-tool.show', ['seed' => $keyword, 'country' => $country, 'language' => $language]) }}" class="small">
                                     See more in Keyword Magic Tool &rarr;
                                 </a>
                             @endif
