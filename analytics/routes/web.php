@@ -11,6 +11,7 @@ use App\Http\Controllers\BillingController;
 use App\Http\Controllers\BulkAuditController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscoveryController;
+use App\Http\Controllers\KeywordListController;
 use App\Http\Controllers\KeywordMagicToolController;
 use App\Http\Controllers\KeywordResearchController;
 use App\Http\Controllers\NotificationController;
@@ -208,6 +209,25 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::prefix('keyword-magic-tool')->name('keyword-magic-tool.')->group(function (): void {
         Route::get('/', [KeywordMagicToolController::class, 'index'])->name('index');
         Route::get('/results', [KeywordMagicToolController::class, 'show'])->name('show');
+    });
+
+    // Phase O5 (Keyword List/Project Management) — 'json' and
+    // 'add-item' both sit before /{keywordList} for the same "static
+    // segment before wildcard" reasoning this file's other groups
+    // already follow. Every method receiving a {keywordList} enforces
+    // its own ownership check inside the controller itself (see
+    // App\Http\Controllers\KeywordListController's own class docblock)
+    // rather than a route-level scope, matching how this app's other
+    // per-user resources (Website Discovery) already handle it.
+    Route::prefix('keyword-lists')->name('keyword-lists.')->group(function (): void {
+        Route::get('/', [KeywordListController::class, 'index'])->name('index');
+        Route::get('/json', [KeywordListController::class, 'listJson'])->name('json');
+        Route::post('/add-item', [KeywordListController::class, 'addItem'])->name('add-item');
+        Route::post('/', [KeywordListController::class, 'store'])->name('store');
+        Route::get('/{keywordList}', [KeywordListController::class, 'show'])->name('show');
+        Route::delete('/{keywordList}', [KeywordListController::class, 'destroy'])->name('destroy');
+        Route::delete('/{keywordList}/items/{item}', [KeywordListController::class, 'removeItem'])->name('remove-item');
+        Route::get('/{keywordList}/export', [KeywordListController::class, 'export'])->name('export');
     });
 
     // Phase N2 (Sidebar + Dynamic Notification System) — "recent" (the

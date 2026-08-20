@@ -167,4 +167,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(\App\Models\Payment::class);
     }
+
+    /**
+     * Phase O5 (Keyword List/Project Management).
+     */
+    public function keywordLists(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\KeywordList::class);
+    }
 }

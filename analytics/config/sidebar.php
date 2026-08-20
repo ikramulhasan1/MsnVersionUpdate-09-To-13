@@ -106,6 +106,13 @@ return [
             'active' => ['keyword-magic-tool.*'],
         ],
         [
+            // Phase O5 (Keyword List/Project Management).
+            'label' => 'My Keyword Lists',
+            'icon' => '<path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2" stroke-linecap="round" stroke-linejoin="round"/>',
+            'route' => 'keyword-lists.index',
+            'active' => ['keyword-lists.*'],
+        ],
+        [
             'label' => 'Bulk Audit',
             'icon' => '<path d="M4 6h16M4 12h16M4 18h7" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'bulk-audits.create',

@@ -56,6 +56,21 @@
                 </div>
             @else
                 {{-- Core metrics --}}
+                <div class="d-flex justify-content-end mb-2">
+                    {{--
+                        Phase O5 — calls the SAME shared modal/JS both
+                        this page and Keyword Magic Tool use (see
+                        public/js/keyword-lists.js's own docblock).
+                    --}}
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="KeywordLists.open({
+                            keyword: @json($keyword),
+                            volume: @json($result['volume']),
+                            difficulty: @json($result['difficulty']),
+                            cpc: @json($result['cpc']),
+                        })">
+                        + Add to List
+                    </button>
+                </div>
                 <div class="row g-3 mb-4">
                     <div class="col-6 col-md-3">
                         <div class="card h-100">
@@ -259,4 +274,11 @@
             </script>
         @endpush
     @endif
+
+    {{-- Phase O5 (Keyword List/Project Management) — the shared "Add
+         to List" modal + JS this page's own button above uses. --}}
+    @include('keyword-lists._add-to-list-modal')
+    @push('scripts')
+        <script src="{{ asset('js/keyword-lists.js') }}"></script>
+    @endpush
 @endsection

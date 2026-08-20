@@ -167,6 +167,7 @@
                                                 <th style="cursor:pointer" data-sort="cpc">CPC</th>
                                                 <th>Intent</th>
                                                 <th>SERP</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody id="kmt-tbody"></tbody>
@@ -335,6 +336,24 @@
                                 '<td>' + (kw.cpc !== null ? '$' + kw.cpc.toFixed(2) : '—') + '</td>' +
                                 '<td>' + intentBadge + '</td>' +
                                 '<td>' + serpBadge + '</td>' +
+                                // Phase O5 — calls the SAME shared
+                                // modal/JS Keyword Research uses (see
+                                // public/js/keyword-lists.js's own
+                                // docblock). Built as a plain onclick
+                                // string here (not a real DOM listener
+                                // added below like the other row
+                                // controls) since this whole row is
+                                // itself already a template-string join,
+                                // and passing structured data through an
+                                // inline onclick is simplest given that.
+                                '<td><button type="button" class="btn btn-sm btn-outline-secondary" onclick="KeywordLists.open(' +
+                                    JSON.stringify({
+                                        keyword: kw.keyword,
+                                        volume: kw.volume,
+                                        difficulty: kw.difficulty,
+                                        cpc: kw.cpc,
+                                    }).replace(/"/g, '&quot;') +
+                                    ')">+</button></td>' +
                                 '</tr>';
                         }).join('');
 
@@ -435,4 +454,11 @@
             </script>
         @endpush
     @endif
+
+    {{-- Phase O5 (Keyword List/Project Management) — the shared "Add
+         to List" modal + JS this page's own per-row "+" buttons use. --}}
+    @include('keyword-lists._add-to-list-modal')
+    @push('scripts')
+        <script src="{{ asset('js/keyword-lists.js') }}"></script>
+    @endpush
 @endsection
