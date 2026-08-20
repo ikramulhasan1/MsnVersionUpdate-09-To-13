@@ -19,6 +19,20 @@ Artisan::command('inspire', function () {
 // is the actual dispatch logic; this line only schedules it.
 Schedule::command('discovery:run-scheduled-searches')->hourly();
 
+// PRODUCTION INCIDENT — see
+// App\Console\Commands\MarkAbandonedAuditsFailedCommand's own docblock
+// and App\Audit\Repositories\AuditRepository::findLatestPendingByUrl()'s
+// for the full incident (186 real Audit rows — 70% of this app's own
+// production data — permanently stuck in a non-terminal status,
+// silently blocking every future audit request for the same 87 URLs
+// from ever creating a new, properly-owned row). This is the ongoing
+// cleanup half of that fix — without it, a NEWLY-abandoned audit
+// (the SAME failure mode recurring for a different reason later) would
+// still sit visibly wrong forever, even though
+// findLatestPendingByUrl()'s own hour-long window already stops it
+// from blocking anyone else's new submissions.
+Schedule::command('audits:mark-abandoned-failed')->hourly();
+
 // Website Discovery — Phase J1 (Discover More). This app has no
 // persistent `php artisan queue:work` process (the same hosting
 // constraint documented throughout this module — see
