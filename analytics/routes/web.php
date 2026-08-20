@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\ApiProviderController;
+use App\Http\Controllers\Admin\ApiUsageController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\AuditController;
@@ -255,6 +256,12 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
             Route::delete('/{apiProvider}', [ApiProviderController::class, 'destroy'])->name('destroy');
             Route::post('/{apiProvider}/toggle', [ApiProviderController::class, 'toggleActive'])->name('toggle');
             Route::post('/{apiProvider}/test', [ApiProviderController::class, 'testConnection'])->name('test');
+        });
+
+        // Phase O2 (Keyword Data Service Layer) — read-only, see
+        // App\Http\Controllers\Admin\ApiUsageController's own docblock.
+        Route::prefix('api-usage')->name('api-usage.')->group(function (): void {
+            Route::get('/', [ApiUsageController::class, 'index'])->name('index');
         });
     });
 

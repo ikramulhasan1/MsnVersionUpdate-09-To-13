@@ -31,4 +31,10 @@
             API Providers
         </a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('admin.api-usage.*') ? 'active' : '' }}"
+            href="{{ route('admin.api-usage.index') }}">
+            API Usage
+        </a>
+    </li>
 </ul>
