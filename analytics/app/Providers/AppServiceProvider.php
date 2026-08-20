@@ -88,6 +88,40 @@ class AppServiceProvider extends ServiceProvider
         // (routes/web.php) goes through Laravel's own Gate system
         // under the hood, so this one callback covers all of them —
         // no route file needs to special-case Admin individually.
-        Gate::before(static fn (User $user, string $ability): ?bool => $user->isAdmin() ? true : null);
+        // PRODUCTION INCIDENT — read before reverting to the simpler
+        // "Admin bypass only, defer to spatie for everyone else"
+        // version of this callback: on this app's own live deployment,
+        // spatie/laravel-permission's OWN Gate registration (the
+        // mechanism this package normally uses to make
+        // $user->can('some-permission-name') work automatically)
+        // was NOT correctly authorizing a real, confirmed permission —
+        // $user->hasPermissionTo('run-audit') returned true (spatie's
+        // own direct, non-Gate method — always reliable), but
+        // $user->can('run-audit') / Gate::forUser($user)->check(...)
+        // returned false for the SAME user and SAME permission,
+        // immediately after a permission-cache reset ruled out staleness
+        // as the cause. Root cause not fully isolated (a registration-
+        // order interaction between this app's own Gate::before() and
+        // spatie's own is suspected, but not confirmed) — rather than
+        // depend on spatie's own hook running correctly at all, this
+        // callback now independently verifies hasPermissionTo() itself
+        // for ability names that are real Permission rows, making it
+        // the single, self-sufficient source of truth for every
+        // permission check in this app: Admin bypasses unconditionally,
+        // then hasPermissionTo() is checked directly, and only an
+        // ability name that ISN'T a real permission at all falls
+        // through as null (deferring to whatever other Gate/policy
+        // logic exists, currently none in this app, harmlessly).
+        Gate::before(static function (User $user, string $ability): ?bool {
+            if ($user->isAdmin()) {
+                return true;
+            }
+
+            if (\Spatie\Permission\Models\Permission::where('name', $ability)->where('guard_name', 'web')->exists()) {
+                return $user->hasPermissionTo($ability) ? true : false;
+            }
+
+            return null;
+        });
     }
 }
