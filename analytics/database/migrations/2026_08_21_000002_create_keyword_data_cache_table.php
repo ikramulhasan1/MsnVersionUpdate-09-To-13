@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Schema;
  * stored as JSON either way, this table's own shape doesn't need to
  * change to support that.
  */
+
 return new class extends Migration
 {
     public function up(): void
