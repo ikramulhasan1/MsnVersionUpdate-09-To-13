@@ -322,32 +322,19 @@ final class DiscoveryController extends Controller
         AnalysisResultsToDashboardCategories $dashboardCategoryMapper,
     ): View {
         // PRODUCTION INCIDENT — see
-        // App\Discovery\Search\WebsiteSearchService::applyAuditOwnershipVisibility()'s
-        // own docblock for the full "why". That method only hides a
-        // private audit-sourced row from the LISTING/search results —
-        // without this same check here too, someone who somehow got
-        // hold of the direct /discovery/{uuid} link (e.g. a
-        // notification, a bookmark from before ownership existed)
-        // could still open it directly. A real ownership row (this
-        // app's own explicit requirement) has to be enforced
-        // everywhere the data is reachable, not just the one listing
-        // page.
         // PRODUCTION INCIDENT (Website Discovery per-user privacy) —
         // see App\Discovery\Search\WebsiteSearchService::applyOwnershipVisibility()'s
-        // own docblock for the full "why" this now applies to EVERY
-        // row, not only ones with discovery_source = 'audit' — that
-        // method only hides a private row from the LISTING/search
-        // results; without this same check here too, someone who
-        // somehow got hold of the direct /discovery/{uuid} link (e.g.
-        // a notification, a bookmark from before ownership existed)
-        // could still open it directly. Real ownership has to be
-        // enforced everywhere the data is reachable, not just the one
-        // listing page.
+        // own docblock for the full "why" this applies to EVERY row,
+        // and for why an Admin's own bypass is "own or unowned",
+        // never "any row regardless of owner" — this same check here
+        // covers the direct /discovery/{uuid} link (a notification, a
+        // bookmark) that the listing page's own filter alone
+        // wouldn't.
         $user = auth()->user();
         $isOwner = $user !== null && $website->user_id === $user->id;
-        $isAdmin = $user !== null && $user->isAdmin();
+        $isAdminAndUnowned = $user !== null && $user->isAdmin() && $website->user_id === null;
 
-        abort_unless($isOwner || $isAdmin, 403);
+        abort_unless($isOwner || $isAdminAndUnowned, 403);
 
         $normalizer = new DomainNormalizer();
         $targetHash = $normalizer->hash($website->url);

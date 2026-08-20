@@ -280,14 +280,39 @@ final class WebsiteSearchService
      * deliberate choice made over either deleting that historical data
      * or leaving it shared with everyone.
      */
+    /**
+     * PRODUCTION INCIDENT (Website Discovery per-user privacy) — read
+     * before restoring the earlier "Admin bypasses this filter
+     * entirely" version: Website Discovery was ORIGINALLY built
+     * (before Phase N1's real per-account auth existed at all) as a
+     * genuinely SHARED lead-gen pool. This app's own explicit, later
+     * requirement changed that: every row now belongs to whoever's
+     * search/audit created it (see
+     * App\Discovery\Ingestion\DiscoveryIngestionService::ingest()'s
+     * own user_id assignment, and
+     * App\Audit\Jobs\AssembleAnalysisResultsJob::syncToDiscoveredWebsite()'s),
+     * visible ONLY to that owner — see
+     * App\Http\Controllers\DashboardController's own identical
+     * "own + orphaned, never another real user's own data" pattern
+     * for the SAME principle already applied there.
+     *
+     * An EARLIER version of this method let an Admin bypass the filter
+     * entirely, seeing every user's own private data — that's wrong:
+     * this app's own explicit requirement is that an Admin sees their
+     * OWN data (the 94 rows that predate per-user ownership, which get
+     * attributed to the Admin account by
+     * database/migrations/2026_08_20_000003_backfill_discovered_websites_owner.php,
+     * plus whatever the Admin THEMSELVES discovers/audits going
+     * forward, since a row THEY create gets their own real user_id)
+     * AND any genuinely ownerless legacy row — but NEVER a different
+     * real user's own private audit/discovery, no matter their role.
+     * "প্রত্যেকের টা প্রত্যেকে দেখবে" (everyone sees only their own) —
+     * this app's own explicit, repeated instruction — applies to an
+     * Admin too, for any OTHER user's data specifically.
+     */
     private function applyOwnershipVisibility(Builder $query): void
     {
         $user = auth()->user();
-        $isAdmin = $user !== null && $user->isAdmin();
-
-        if ($isAdmin) {
-            return;
-        }
 
         if ($user === null) {
             // No session at all (shouldn't happen behind this app's
@@ -298,7 +323,13 @@ final class WebsiteSearchService
             return;
         }
 
-        $query->where('user_id', $user->id);
+        $query->where(function (Builder $query) use ($user): void {
+            $query->where('user_id', $user->id);
+
+            if ($user->isAdmin()) {
+                $query->orWhereNull('user_id');
+            }
+        });
     }
 
     private function applyIndustry(Builder $query, DiscoveryFilterCriteria $criteria): void
