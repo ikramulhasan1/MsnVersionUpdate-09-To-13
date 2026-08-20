@@ -439,11 +439,30 @@ final class DiscoveryController extends Controller
      * WebsiteSearchService::query() already applies for the same
      * relation on the main results grid).
      */
-    public function watchlist(): View
+    /**
+     * Backs the Watchlist page (Phase G1) — every DiscoveryWatchlistItem
+     * belonging to the CURRENT user (Phase N4 — see
+     * database/migrations/2026_08_19_000005_add_user_id_to_discovery_watchlist_table.php's
+     * own docblock for why this scoping exists now at all), newest
+     * first, eager-loading discoveredWebsite so
+     * discovery/watchlist.blade.php can reuse result-card.blade.php per
+     * item without an N+1 query (the same eager-loading reasoning
+     * WebsiteSearchService::query() already applies for the same
+     * relation on the main results grid).
+     *
+     * PRODUCTION GAP CLOSED — see
+     * App\Http\Controllers\DashboardController's own identical
+     * comment: an Admin sees EVERY watchlist item (own, other users',
+     * AND rows that predate this column existing at all —
+     * user_id = NULL), never just their own — this app's own explicit
+     * requirement is that an Admin has full access, which has to
+     * include legacy data no per-user scope could otherwise surface.
+     */
+    public function watchlist(Request $request): View
     {
         return view('discovery.watchlist', [
             'items' => DiscoveryWatchlistItem::query()
-                ->where('user_id', auth()->id())
+                ->when(! $request->user()->isAdmin(), fn ($query) => $query->where('user_id', auth()->id()))
                 ->with('discoveredWebsite')
                 ->latest()
                 ->get(),

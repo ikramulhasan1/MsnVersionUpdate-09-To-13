@@ -31,6 +31,22 @@ use Symfony\Component\HttpFoundation\Response;
  * access-control violation worth a blunt 403, but a plan limit is
  * something the person can ACT on (upgrade), so it gets a clear,
  * actionable message and a path forward instead.
+ *
+ * PRODUCTION GAP CLOSED — read before removing the isAdmin() check
+ * below: this middleware used to check $user->planAllowsFeature()
+ * unconditionally, even for an Admin. An Admin promoted via the
+ * documented `$user->assignRole('Admin')` tinker command has no plan
+ * assigned at all (that command only grants the role — plan
+ * assignment is a separate step, normally handled by
+ * App\Auth\NewUserOnboarder during NORMAL registration, which a
+ * manually-promoted Admin account never went through) — meaning
+ * planAllowsFeature() returned false for literally every feature, and
+ * an Admin with every PERMISSION already granted (see
+ * App\Providers\AppServiceProvider's own Gate::before() bypass) was
+ * STILL blocked here by the separate plan check. This app's own
+ * explicit requirement was "Admin (সব এক্সেস)" — an Admin must never
+ * be limited by plan/trial state, which by definition doesn't apply
+ * to them at all.
  */
 final class EnsurePlanAllowsFeature
 {
@@ -38,7 +54,7 @@ final class EnsurePlanAllowsFeature
     {
         $user = $request->user();
 
-        if ($user !== null && $user->planAllowsFeature($featureKey)) {
+        if ($user !== null && ($user->isAdmin() || $user->planAllowsFeature($featureKey))) {
             return $next($request);
         }
 

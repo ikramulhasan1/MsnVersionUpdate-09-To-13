@@ -20,6 +20,19 @@ use Illuminate\View\View;
  * is used throughout for the same reason the rest of this app's
  * newer controllers prefer it — it's the request-bound instance
  * Laravel already resolved, not a second global-facade lookup.
+ *
+ * PRODUCTION GAP CLOSED — read before removing the isAdmin() branch
+ * below: every Audit row created before Phase N2 added the user_id
+ * column has user_id = NULL — genuinely orphaned, not owned by
+ * anyone. A strict where('user_id', $user->id) scope (correct for
+ * every REAL user, who should only ever see their own data) meant
+ * this legacy data was invisible to EVERYONE, including an Admin —
+ * this app's own explicit requirement is that an Admin has full
+ * access to everything, which has to include data that predates
+ * per-user ownership existing at all. For an Admin specifically, the
+ * scope widens to "everything" (own rows AND every orphaned/other
+ * user's row) rather than narrowing further — an Admin overview is
+ * exactly what "full access" means here.
  */
 final class DashboardController extends Controller
 {
@@ -30,16 +43,22 @@ final class DashboardController extends Controller
     public function index(Request $request): View
     {
         $user = $request->user();
+        $isAdmin = $user->isAdmin();
 
         $recentAudits = Audit::query()
-            ->where('user_id', $user->id)
+            ->when(! $isAdmin, static fn ($query) => $query->where('user_id', $user->id))
             ->whereNull('bulk_audit_batch_id')
             ->latest()
             ->limit(self::RECENT_AUDITS_LIMIT)
             ->get();
 
-        $auditCount = Audit::query()->where('user_id', $user->id)->count();
-        $watchlistCount = DiscoveryWatchlistItem::query()->where('user_id', $user->id)->count();
+        $auditCount = Audit::query()
+            ->when(! $isAdmin, static fn ($query) => $query->where('user_id', $user->id))
+            ->count();
+
+        $watchlistCount = DiscoveryWatchlistItem::query()
+            ->when(! $isAdmin, static fn ($query) => $query->where('user_id', $user->id))
+            ->count();
 
         $recentNotifications = $user->notifications()->latest()->limit(self::RECENT_NOTIFICATIONS_LIMIT)->get();
 
@@ -60,6 +79,7 @@ final class DashboardController extends Controller
             'plan' => $user->plan,
             'onTrial' => $user->onTrial(),
             'trialExpired' => $user->trialExpired(),
+            'isAdmin' => $isAdmin,
         ]);
     }
 }

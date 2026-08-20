@@ -36,7 +36,14 @@ final class AuditService implements AuditServiceInterface
     {
         $user = auth()->user();
 
-        if ($user !== null) {
+        // PRODUCTION GAP CLOSED — see
+        // App\Http\Middleware\EnsurePlanAllowsFeature's own identical
+        // comment for the full "why": an Admin has no plan/trial
+        // limitation at all, by this app's own explicit requirement —
+        // ! $user->isAdmin() is what skips this ENTIRE block (both the
+        // feature check and the daily limit) for an Admin account,
+        // regardless of whether they happen to have a plan assigned.
+        if ($user !== null && ! $user->isAdmin()) {
             if (! $user->planAllowsFeature('run-audit')) {
                 throw new PlanLimitExceededException(
                     $user->trialExpired()

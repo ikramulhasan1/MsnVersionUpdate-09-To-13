@@ -8,8 +8,10 @@ use App\Audit\Repositories\AuditRepository;
 use App\Audit\Repositories\Contracts\AuditRepositoryInterface;
 use App\Audit\Services\AuditService;
 use App\Audit\Services\Contracts\AuditServiceInterface;
+use App\Models\User;
 use App\Payments\SslCommerzGateway;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -65,5 +67,27 @@ class AppServiceProvider extends ServiceProvider
         // and every real Stripe payment would silently never activate
         // a plan.
         \Laravel\Cashier\Cashier::ignoreRoutes();
+
+        // PRODUCTION GAP CLOSED (post-Phase N3) — this app's own
+        // explicit requirement was "Admin (সব এক্সেস)" — Admin should
+        // never need any INDIVIDUAL permission granted at all, every
+        // feature check should simply pass. Phase N3's own
+        // RolesAndPermissionsSeeder tried to achieve this by
+        // syncPermissions()-ing every KNOWN permission onto the Admin
+        // role — which works for permissions that existed when that
+        // seeder last ran, but silently stops covering a NEW
+        // permission added later (e.g. a future Phase N7 API
+        // permission) unless someone remembers to re-run that seeder.
+        // A real Admin promoted by hand via `$user->assignRole('Admin')`
+        // (the documented tinker command for bootstrapping the very
+        // first Admin) already has every CURRENT permission from that
+        // sync — but this Gate::before() is what makes "Admin bypasses
+        // everything" actually TRUE and future-proof, not just true by
+        // coincidence of when the seeder last ran. Every
+        // ->middleware('permission:...') check anywhere in this app
+        // (routes/web.php) goes through Laravel's own Gate system
+        // under the hood, so this one callback covers all of them —
+        // no route file needs to special-case Admin individually.
+        Gate::before(static fn (User $user, string $ability): ?bool => $user->isAdmin() ? true : null);
     }
 }
