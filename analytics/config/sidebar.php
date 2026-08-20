@@ -81,6 +81,21 @@ return [
             'permission' => 'view-discovery',
         ],
         [
+            // Phase O3 (Keyword Research) — no 'permission' key at all,
+            // matching how 'Bulk Audit' below has none either: this
+            // sidebar item is visible to any logged-in user, gated
+            // instead by whether App\KeywordData\KeywordDataService
+            // actually has an active provider configured for what the
+            // page needs — see
+            // resources/views/keyword-research/index.blade.php's own
+            // handling of App\KeywordData\Exceptions\NoAvailableProviderException
+            // for what a visitor sees if no provider is set up yet.
+            'label' => 'Keyword Research',
+            'icon' => '<path d="M9 3v18M3 9h18" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="9" r="6"/>',
+            'route' => 'keyword-research.index',
+            'active' => ['keyword-research.*'],
+        ],
+        [
             'label' => 'Bulk Audit',
             'icon' => '<path d="M4 6h16M4 12h16M4 18h7" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'bulk-audits.create',

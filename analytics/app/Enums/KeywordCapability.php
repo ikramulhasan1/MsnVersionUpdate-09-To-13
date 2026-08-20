@@ -21,6 +21,16 @@ enum KeywordCapability: string
     case RELATED_KEYWORDS = 'related_keywords';
     case SEARCH_INTENT = 'search_intent';
     case SERP_DATA = 'serp_data';
+    // Phase O3 (Keyword Research page) — added after Phase O2 shipped,
+    // once that page's own real requirements (a 12-month trend graph,
+    // a Competitive Density metric) turned out to need two more
+    // distinct pieces of data than Phase O2 originally scoped. Both
+    // come from the SAME underlying DataForSEO Keywords Data response
+    // App\KeywordData\Adapters\DataForSeoKeywordsAdapter::searchVolumeData()
+    // already fetches for plain search volume — see that method's own
+    // updated docblock.
+    case VOLUME_TREND = 'volume_trend';
+    case COMPETITIVE_DENSITY = 'competitive_density';
 
     public function label(): string
     {
@@ -31,6 +41,8 @@ enum KeywordCapability: string
             self::RELATED_KEYWORDS => 'Related Keywords',
             self::SEARCH_INTENT => 'Search Intent',
             self::SERP_DATA => 'SERP Data',
+            self::VOLUME_TREND => 'Search Volume Trend',
+            self::COMPETITIVE_DENSITY => 'Competitive Density',
         };
     }
 }

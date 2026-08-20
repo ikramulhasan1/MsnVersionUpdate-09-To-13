@@ -58,6 +58,43 @@ final class DataForSeoKeywordsAdapter implements ApiProviderAdapterInterface
         throw new CapabilityNotSupportedException('DataForSEO Keywords Data API does not provide keyword difficulty — use the Labs API provider instead.');
     }
 
+    /**
+     * Phase O3 — DataForSEO's own search_volume response already
+     * carries a full monthly_searches breakdown (typically the
+     * trailing 12 months) per keyword — the SAME response
+     * searchVolumeData() already fetches for plain volume/CPC, just a
+     * field this class didn't read out before Phase O3 needed it.
+     *
+     * @return array<int, array{month: string, volume: ?int}>
+     */
+    public function getSearchVolumeTrend(string $keyword, string $country, string $language): array
+    {
+        $data = $this->searchVolumeData([$keyword], $country, $language);
+        $monthly = $data[$keyword]['monthly_searches'] ?? [];
+
+        return array_map(
+            static fn (array $row): array => [
+                'month' => sprintf('%04d-%02d', $row['year'] ?? 0, $row['month'] ?? 0),
+                'volume' => $row['search_volume'] ?? null,
+            ],
+            $monthly,
+        );
+    }
+
+    /**
+     * Phase O3 — same underlying response as volume/CPC/trend, one
+     * more field (competition_index) projected out of it.
+     */
+    public function getCompetitiveDensity(array $keywords, string $country, string $language): array
+    {
+        $data = $this->searchVolumeData($keywords, $country, $language);
+
+        return array_map(
+            static fn (?array $row): ?int => $row['competition_index'] ?? null,
+            $data,
+        );
+    }
+
     public function getRelatedKeywords(string $seedKeyword, string $country, string $language, int $limit): array
     {
         throw new CapabilityNotSupportedException('DataForSEO Keywords Data API does not provide related keywords — use the Labs API provider instead.');
@@ -74,14 +111,15 @@ final class DataForSeoKeywordsAdapter implements ApiProviderAdapterInterface
     }
 
     /**
-     * Shared by getSearchVolume()/getCpc() — one real API call answers
-     * both, so this fetches once and each public method above just
-     * projects the one field it needs out of the same response,
-     * rather than making two separate HTTP requests for data that
-     * comes back together anyway.
+     * Shared by every method above that needs the search_volume
+     * endpoint's own response (volume, CPC, trend, competitive
+     * density) — one real API call answers all four, so this fetches
+     * once and each public method just projects the one field it
+     * needs out of the same response, rather than making four separate
+     * HTTP requests for data that comes back together anyway.
      *
      * @param  array<int, string>  $keywords
-     * @return array<string, ?array{search_volume: ?int, cpc: ?float}>
+     * @return array<string, ?array{search_volume: ?int, cpc: ?float, competition_index: ?int, monthly_searches: array<int, array{year: int, month: int, search_volume: ?int}>}>
      */
     private function searchVolumeData(array $keywords, string $country, string $language): array
     {
@@ -116,6 +154,8 @@ final class DataForSeoKeywordsAdapter implements ApiProviderAdapterInterface
                 $result[$keyword] = [
                     'search_volume' => $row['search_volume'] ?? null,
                     'cpc' => $row['cpc'] ?? null,
+                    'competition_index' => $row['competition_index'] ?? null,
+                    'monthly_searches' => $row['monthly_searches'] ?? [],
                 ];
             }
         }

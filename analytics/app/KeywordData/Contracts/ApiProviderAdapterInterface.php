@@ -76,4 +76,30 @@ interface ApiProviderAdapterInterface
      * @throws CapabilityNotSupportedException
      */
     public function getSerpData(string $keyword, string $country, string $language): array;
+
+    /**
+     * Phase O3 (Keyword Research page) — added after this interface's
+     * own initial Phase O2 version, once that page's own trend graph
+     * turned out to need this. See
+     * App\Enums\KeywordCapability::VOLUME_TREND's own docblock.
+     *
+     * @return array<int, array{month: string, volume: ?int}> exactly
+     *         12 entries, oldest first, month formatted 'YYYY-MM'
+     *
+     * @throws CapabilityNotSupportedException
+     */
+    public function getSearchVolumeTrend(string $keyword, string $country, string $language): array;
+
+    /**
+     * Phase O3 — 0-100, DataForSEO's own normalized measure of paid-ad
+     * competition for this keyword (NOT the same thing as organic
+     * Keyword Difficulty — a keyword can have low ad competition but
+     * high organic difficulty, or vice versa).
+     *
+     * @param  array<int, string>  $keywords
+     * @return array<string, ?int>
+     *
+     * @throws CapabilityNotSupportedException
+     */
+    public function getCompetitiveDensity(array $keywords, string $country, string $language): array;
 }

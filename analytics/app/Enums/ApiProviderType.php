@@ -73,6 +73,10 @@ enum ApiProviderType: string
             self::DATAFORSEO_KEYWORDS => [
                 KeywordCapability::VOLUME,
                 KeywordCapability::CPC,
+                // Phase O3 — see KeywordCapability::VOLUME_TREND/COMPETITIVE_DENSITY's
+                // own docblock for why these were added after Phase O2.
+                KeywordCapability::VOLUME_TREND,
+                KeywordCapability::COMPETITIVE_DENSITY,
             ],
             self::DATAFORSEO_LABS => [
                 KeywordCapability::DIFFICULTY,

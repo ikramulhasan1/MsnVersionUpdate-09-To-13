@@ -176,6 +176,25 @@ final class GoogleAdsAdapter implements ApiProviderAdapterInterface
         return $map[$country] ?? $map['United States'];
     }
 
+    /**
+     * Phase O3 — Google Ads' own Keyword Plan Idea Service (what
+     * keywordIdeasData() calls) returns a SINGLE current avg-monthly-
+     * searches figure, not a real 12-point historical breakdown the
+     * way DataForSEO's own response does; a genuine trend would need
+     * Google Ads' own SEPARATE generateKeywordHistoricalMetrics
+     * endpoint, not implemented here — kept unsupported rather than
+     * approximated from a single data point.
+     */
+    public function getSearchVolumeTrend(string $keyword, string $country, string $language): array
+    {
+        throw new CapabilityNotSupportedException('Google Ads API adapter does not implement search volume trend — use a DataForSEO Keywords Data provider instead.');
+    }
+
+    public function getCompetitiveDensity(array $keywords, string $country, string $language): array
+    {
+        throw new CapabilityNotSupportedException('Google Ads API does not provide competitive density in the shape this app expects — use a DataForSEO Keywords Data provider instead.');
+    }
+
     private function languageConstant(string $language): string
     {
         $map = [

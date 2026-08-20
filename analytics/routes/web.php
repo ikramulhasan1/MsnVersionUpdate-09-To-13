@@ -11,6 +11,7 @@ use App\Http\Controllers\BillingController;
 use App\Http\Controllers\BulkAuditController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscoveryController;
+use App\Http\Controllers\KeywordResearchController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Payments\CheckoutController;
 use App\Http\Controllers\Payments\SslCommerzController;
@@ -188,6 +189,18 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
             // itself.
             Route::delete('/{website}', [DiscoveryController::class, 'destroy'])->name('destroy');
         });
+
+    // Phase O3 (Keyword Research page) — 'show' before any wildcard-
+    // style route for the same "static segment ordering" reasoning
+    // this file's other groups already follow; no permission/plan
+    // middleware of its own (see config/sidebar.php's own comment on
+    // this item — gated by provider availability, not a role/plan
+    // check, since Keyword Research isn't tied into the Pricing Plan
+    // system yet).
+    Route::prefix('keyword-research')->name('keyword-research.')->group(function (): void {
+        Route::get('/', [KeywordResearchController::class, 'index'])->name('index');
+        Route::get('/results', [KeywordResearchController::class, 'show'])->name('show');
+    });
 
     // Phase N2 (Sidebar + Dynamic Notification System) — "recent" (the
     // bell dropdown's own polling endpoint) and "read-all" both need to

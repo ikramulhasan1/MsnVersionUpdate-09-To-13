@@ -144,7 +144,47 @@ final class KeywordDataService
     }
 
     /**
-     * Shared by every "per-keyword" bulk method (volume, CPC,
+     * Phase O3 (Keyword Research page) — added after this service's
+     * own initial Phase O2 version. See
+     * App\Enums\KeywordCapability::VOLUME_TREND's own docblock.
+     *
+     * @return array<int, array{month: string, volume: ?int}>
+     *
+     * @throws NoAvailableProviderException
+     */
+    public function getSearchVolumeTrend(string $keyword, string $country, string $language): array
+    {
+        $cached = $this->cache->get($keyword, $country, $language, KeywordCapability::VOLUME_TREND->value);
+
+        if ($cached !== null) {
+            return $cached;
+        }
+
+        $result = $this->tryProvidersInOrder(
+            KeywordCapability::VOLUME_TREND,
+            static fn (ApiProviderAdapterInterface $adapter): array => $adapter->getSearchVolumeTrend($keyword, $country, $language),
+            keywordCount: 1,
+        );
+
+        $this->cache->put($keyword, $country, $language, KeywordCapability::VOLUME_TREND->value, $result);
+
+        return $result;
+    }
+
+    /**
+     * @param  array<int, string>  $keywords
+     * @return array<string, ?int>
+     */
+    public function getCompetitiveDensity(array $keywords, string $country, string $language): array
+    {
+        return $this->bulkKeywordLookup(
+            KeywordCapability::COMPETITIVE_DENSITY,
+            $keywords,
+            $country,
+            $language,
+            static fn (ApiProviderAdapterInterface $adapter, array $missing): array => $adapter->getCompetitiveDensity($missing, $country, $language),
+        );
+    }
      * difficulty, intent) above — splits the requested keywords into
      * already-cached vs genuinely missing, only sends the missing ones
      * to a real provider, then merges cached + fresh results back into

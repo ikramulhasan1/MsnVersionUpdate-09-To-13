@@ -191,6 +191,21 @@ final class DataForSeoLabsAdapter implements ApiProviderAdapterInterface
     }
 
     /**
+     * Phase O3 — DataForSEO Labs has no search-volume data of its own
+     * at all (see this class's own getSearchVolume()); a trend graph
+     * is derived from volume, so it's equally unsupported here.
+     */
+    public function getSearchVolumeTrend(string $keyword, string $country, string $language): array
+    {
+        throw new CapabilityNotSupportedException('DataForSEO Labs API does not provide search volume trend — use a Keywords Data provider instead.');
+    }
+
+    public function getCompetitiveDensity(array $keywords, string $country, string $language): array
+    {
+        throw new CapabilityNotSupportedException('DataForSEO Labs API does not provide competitive density — use a Keywords Data provider instead.');
+    }
+
+    /**
      * @param  array<int, mixed>  $payload
      * @return array<string, mixed>
      */
