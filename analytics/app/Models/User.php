@@ -175,4 +175,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(\App\Models\KeywordList::class);
     }
+
+    /**
+     * Phase R2 (Technical SEO Audit).
+     */
+    public function technicalSeoScans(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\TechnicalSeoScan::class);
+    }
 }

@@ -12,6 +12,8 @@ use App\Http\Controllers\BulkAuditController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscoveryController;
 use App\Http\Controllers\BacklinkAnalysisController;
+use App\Http\Controllers\OnPageSeoController;
+use App\Http\Controllers\TechnicalSeoController;
 use App\Http\Controllers\CompetitorAnalysisController;
 use App\Http\Controllers\KeywordListController;
 use App\Http\Controllers\KeywordMagicToolController;
@@ -245,6 +247,32 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::prefix('backlink-analysis')->name('backlink-analysis.')->group(function (): void {
         Route::get('/', [BacklinkAnalysisController::class, 'index'])->name('index');
         Route::get('/results', [BacklinkAnalysisController::class, 'show'])->name('show');
+    });
+
+    // Phase R1 (On-Page SEO Checker) — 'show'/'export-pdf'/'export-csv'
+    // before any wildcard-style route, matching this file's own
+    // static-before-wildcard convention throughout.
+    Route::prefix('on-page-seo')->name('on-page-seo.')->group(function (): void {
+        Route::get('/', [OnPageSeoController::class, 'index'])->name('index');
+        Route::get('/results', [OnPageSeoController::class, 'show'])->name('show');
+        Route::get('/export-pdf', [OnPageSeoController::class, 'exportPdf'])->name('export-pdf');
+        Route::get('/export-csv', [OnPageSeoController::class, 'exportCsv'])->name('export-csv');
+    });
+
+    // Phase R2 (Technical SEO Audit) — 'progress'/'export-csv' before
+    // /{technicalSeoScan} for the same static-before-wildcard
+    // reasoning this file's other groups already follow. Every action
+    // receiving a {technicalSeoScan} enforces its own ownership check
+    // inside the controller itself (see
+    // App\Http\Controllers\TechnicalSeoController's own class
+    // docblock) — no route-level scope, matching how Keyword Lists
+    // (Phase O5) already handles the same pattern.
+    Route::prefix('technical-seo')->name('technical-seo.')->group(function (): void {
+        Route::get('/', [TechnicalSeoController::class, 'index'])->name('index');
+        Route::post('/', [TechnicalSeoController::class, 'store'])->name('store');
+        Route::get('/{technicalSeoScan}', [TechnicalSeoController::class, 'show'])->name('show');
+        Route::get('/{technicalSeoScan}/progress', [TechnicalSeoController::class, 'progress'])->name('progress');
+        Route::get('/{technicalSeoScan}/export-csv', [TechnicalSeoController::class, 'exportCsv'])->name('export-csv');
     });
 
     // Phase N2 (Sidebar + Dynamic Notification System) — "recent" (the

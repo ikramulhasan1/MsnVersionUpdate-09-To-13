@@ -130,6 +130,20 @@ return [
             'active' => ['backlink-analysis.*'],
         ],
         [
+            // Phase R1 (On-Page SEO Checker).
+            'label' => 'On-Page SEO Checker',
+            'icon' => '<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2z" stroke-linecap="round" stroke-linejoin="round"/>',
+            'route' => 'on-page-seo.index',
+            'active' => ['on-page-seo.*'],
+        ],
+        [
+            // Phase R2 (Technical SEO Audit).
+            'label' => 'Technical SEO Audit',
+            'icon' => '<path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>',
+            'route' => 'technical-seo.index',
+            'active' => ['technical-seo.*'],
+        ],
+        [
             'label' => 'Bulk Audit',
             'icon' => '<path d="M4 6h16M4 12h16M4 18h7" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'bulk-audits.create',
