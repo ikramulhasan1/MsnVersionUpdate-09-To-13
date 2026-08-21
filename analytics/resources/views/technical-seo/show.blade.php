@@ -151,8 +151,8 @@
                                     <tr>
                                         <td class="small text-truncate" style="max-width: 300px;">{{ $page['url'] }}</td>
                                         <td>{{ $page['score'] ?? '—' }}</td>
-                                        <td class="small">{{ $page['lcp']['value'] ?? $page['lcp'] ?? '—' }}</td>
-                                        <td class="small">{{ $page['cls']['value'] ?? $page['cls'] ?? '—' }}</td>
+                                        <td class="small">{{ $page['lcp']['value'] ?? 'Unknown' }}</td>
+                                        <td class="small">{{ $page['cls']['value'] ?? 'Unknown' }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
