@@ -192,4 +192,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(\App\Models\OnPageSeoCheck::class);
     }
+
+    /**
+     * Image Everything (Phase S1).
+     */
+    public function imageProcessingJobs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\ImageProcessingJob::class);
+    }
 }

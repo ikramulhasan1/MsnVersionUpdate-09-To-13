@@ -38,6 +38,32 @@ return [
             'report' => false,
         ],
 
+        /*
+        |----------------------------------------------------------------
+        | Image Everything (Phase S1) — temporary, per-job image storage
+        |----------------------------------------------------------------
+        |
+        | A DEDICATED disk, not just reusing 'local' above, specifically
+        | so every image-processing path in the codebase reads
+        | Storage::disk('private-images') and is instantly recognizable
+        | as "this file is temporary and will be auto-deleted" — never
+        | mixed in with whatever else 'local' might hold for unrelated
+        | purposes. NEVER served publicly (no 'url'/'serve' key here,
+        | unlike 'local' above) — every real file under this root sits
+        | at storage/app/private/image-processing/{job-uuid}/... and is
+        | only ever reachable through an authenticated, ownership-checked
+        | controller action, never a direct URL. See
+        | App\Console\Commands\CleanupExpiredImageJobsCommand for what
+        | actually deletes files from here once a job's own expires_at
+        | passes.
+        */
+        'private-images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private/image-processing'),
+            'throw' => false,
+            'report' => false,
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

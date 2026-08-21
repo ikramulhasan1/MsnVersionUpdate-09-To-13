@@ -19,18 +19,25 @@ Artisan::command('inspire', function () {
 // is the actual dispatch logic; this line only schedules it.
 Schedule::command('discovery:run-scheduled-searches')->hourly();
 
+// Image Everything (Phase S1) — every 10 minutes: frequent enough that
+// an expired/abandoned job's real files don't sit on disk for long
+// after they should be gone (this app's own explicit "no image stored
+// longer than its TTL" requirement), not so frequent that a routine
+// cleanup pass with nothing to do adds meaningful load running every
+// minute. See App\Console\Commands\CleanupExpiredImageJobsCommand's
+// own docblock for exactly what "expired" vs "abandoned" means here.
+Schedule::command('images:cleanup-expired')->everyTenMinutes();
+
 // PRODUCTION INCIDENT — see
-// App\Console\Commands\MarkAbandonedAuditsFailedCommand's own docblock
-// and App\Audit\Repositories\AuditRepository::findLatestPendingByUrl()'s
-// for the full incident (186 real Audit rows — 70% of this app's own
-// production data — permanently stuck in a non-terminal status,
-// silently blocking every future audit request for the same 87 URLs
-// from ever creating a new, properly-owned row). This is the ongoing
-// cleanup half of that fix — without it, a NEWLY-abandoned audit
-// (the SAME failure mode recurring for a different reason later) would
-// still sit visibly wrong forever, even though
-// findLatestPendingByUrl()'s own hour-long window already stops it
-// from blocking anyone else's new submissions.
+// App\Audit\Repositories\AuditRepository::findLatestPendingByUrl()'s
+// own docblock and App\Console\Commands\MarkAbandonedAuditsFailedCommand's
+// own docblock for the full incident (186 real Audit rows — 70% of
+// this app's own production data — permanently stuck in a non-
+// terminal status, silently blocking every future audit request for
+// the same URLs from ever creating a new, properly-owned row). This
+// line was confirmed MISSING on this app's own local environment even
+// though the command file itself existed — the command was never
+// actually scheduled to run automatically until now.
 Schedule::command('audits:mark-abandoned-failed')->hourly();
 
 // Website Discovery — Phase J1 (Discover More). This app has no
