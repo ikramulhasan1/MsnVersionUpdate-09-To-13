@@ -37,12 +37,25 @@ use Illuminate\Support\Facades\Response;
  *      AnalysisResults with ONLY ->seo populated (see
  *      App\OnPageSeo\OnPageSeoAnalyzer::toSeoAuditResult()'s own
  *      docblock for exactly how that bridge works).
+ *
+ * PRODUCTION GAP CLOSED — every completed check is now saved to
+ * App\Models\OnPageSeoCheck (see that table's own migration docblock
+ * for why this stayed synchronous — no queue/status needed the way
+ * Phase R2's own Technical SEO Audit needs one). index() shows the
+ * current user's own past checks, matching how
+ * App\Http\Controllers\TechnicalSeoController::index() already works
+ * for that feature.
  */
 final class OnPageSeoController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        return view('on-page-seo.index', ['result' => null, 'url' => null, 'aiResult' => null]);
+        return view('on-page-seo.index', [
+            'checks' => $request->user()->onPageSeoChecks()->latest()->limit(20)->get(),
+            'result' => null,
+            'url' => null,
+            'aiResult' => null,
+        ]);
     }
 
     public function show(
@@ -63,6 +76,7 @@ final class OnPageSeoController extends Controller
 
         if (! $fetchResult->success) {
             return view('on-page-seo.index', [
+                'checks' => $request->user()->onPageSeoChecks()->latest()->limit(20)->get(),
                 'result' => null,
                 'url' => $url,
                 'aiResult' => null,
@@ -106,7 +120,20 @@ final class OnPageSeoController extends Controller
         $analysisResults = new AnalysisResults(url: $url, seo: $seoAuditResult);
         $aiResult = $recommendationEngine->analyze($analysisResults);
 
+        // PRODUCTION GAP CLOSED — see App\Models\OnPageSeoCheck's own
+        // migration docblock. Saved AFTER everything above succeeds,
+        // never partially — a failed fetch (handled in the early
+        // return above) never reaches here, so no half-populated row
+        // is ever created.
+        $request->user()->onPageSeoChecks()->create([
+            'url' => $url,
+            'target_keyword' => $targetKeyword,
+            'score' => $seoAuditResult->averageScore,
+            'result' => $result->toArray(),
+        ]);
+
         return view('on-page-seo.index', [
+            'checks' => $request->user()->onPageSeoChecks()->latest()->limit(20)->get(),
             'result' => $result,
             'url' => $url,
             'targetKeyword' => $targetKeyword,
@@ -114,6 +141,71 @@ final class OnPageSeoController extends Controller
             'aiResult' => $aiResult,
             'fetchError' => null,
         ]);
+    }
+
+    /**
+     * PRODUCTION GAP CLOSED — views a past, already-saved check
+     * without re-fetching/re-analyzing the URL at all (no new HTTP
+     * request, no new keyword-API cost) — reconstructs
+     * App\OnPageSeo\DTO\OnPageSeoResult purely from the stored JSON via
+     * a small local hydration, and re-derives the AI Priority Fix List
+     * from that same stored data (App\Audit\AIRecommendation\AIRecommendationEngine
+     * is cheap/local — no external call — so re-running it fresh here
+     * is simpler than also storing its own output).
+     *
+     * Same "own checks only, no exception, including for an Admin"
+     * ownership pattern App\Http\Controllers\KeywordListController's
+     * own class docblock already established for this app's other
+     * per-user history features.
+     */
+    public function showSaved(Request $request, \App\Models\OnPageSeoCheck $onPageSeoCheck, OnPageSeoAnalyzer $analyzer, AIRecommendationEngine $recommendationEngine): View
+    {
+        abort_unless($onPageSeoCheck->user_id === $request->user()->id, 403);
+
+        $result = $this->hydrateResult($onPageSeoCheck->result);
+        $seoAuditResult = $analyzer->toSeoAuditResult($result);
+        $aiResult = $recommendationEngine->analyze(new AnalysisResults(url: $onPageSeoCheck->url, seo: $seoAuditResult));
+
+        return view('on-page-seo.index', [
+            'checks' => $request->user()->onPageSeoChecks()->latest()->limit(20)->get(),
+            'result' => $result,
+            'url' => $onPageSeoCheck->url,
+            'targetKeyword' => $onPageSeoCheck->target_keyword,
+            // Volume/difficulty were never stored (only the placement-
+            // based score was, inside $result->keywordOptimization) —
+            // re-fetching them here would spend API credits just to
+            // re-view an old check, so this simply stays unavailable
+            // for a saved check rather than silently spending money.
+            'keywordMetrics' => null,
+            'aiResult' => $aiResult,
+            'fetchError' => null,
+        ]);
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    private function hydrateResult(array $data): OnPageSeoResult
+    {
+        return new OnPageSeoResult(
+            url: $data['url'],
+            title: $data['title'],
+            metaDescription: $data['meta_description'],
+            headings: $data['headings'],
+            content: $data['content'],
+            images: $data['images'],
+            links: $data['links'],
+            urlAnalysis: $data['url_analysis'],
+            canonical: $data['canonical'],
+            social: $data['social'],
+            schema: $data['schema'],
+            keywordOptimization: $data['keyword_optimization'],
+            issues: array_map(
+                static fn (array $i): \App\OnPageSeo\DTO\OnPageSeoIssue => new \App\OnPageSeo\DTO\OnPageSeoIssue($i['check'], $i['severity'], $i['message'], $i['recommendation'] ?? null),
+                $data['issues'],
+            ),
+            analyzedAt: $data['analyzed_at'],
+        );
     }
 
     /**

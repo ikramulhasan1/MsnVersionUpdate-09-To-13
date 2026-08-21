@@ -183,4 +183,13 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(\App\Models\TechnicalSeoScan::class);
     }
+
+    /**
+     * PRODUCTION GAP CLOSED — see on_page_seo_checks' own migration
+     * docblock.
+     */
+    public function onPageSeoChecks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\OnPageSeoCheck::class);
+    }
 }

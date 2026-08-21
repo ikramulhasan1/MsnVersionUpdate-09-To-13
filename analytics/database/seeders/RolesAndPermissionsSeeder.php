@@ -17,41 +17,46 @@ use Spatie\Permission\Models\Role;
  * never a plain create() that would throw a duplicate-key error or
  * pile up duplicate rows on a second run.
  *
- * PERMISSIONS (5, matching this phase's own requirement list
- * exactly):
- *   run-audit         Submit/view a single Website Audit
- *                      (routes/web.php's own audits.store/show/progress).
- *   view-discovery     Browse Website Discovery (routes/web.php's own
- *                      discovery.* group, minus its own export route).
- *   run-bulk-audit      Submit/view a Bulk Audit batch
- *                      (routes/web.php's own bulk-audits.* group).
- *   export-data         Download a PDF/Excel/CSV/JSON export from
- *                      EITHER Website Audit or Website Discovery —
- *                      ONE permission covering both export surfaces
- *                      (not two), since "can this person export data
- *                      out of the app at all" is a single meaningful
- *                      question an admin would want to toggle as one
- *                      switch, not worry about separately per module.
- *   view-admin-panel    Reach anything under /admin — see
- *                      routes/web.php's own 'admin.' route group,
- *                      protected by role:Admin middleware rather than
- *                      this specific permission directly (Admin is the
- *                      only role that should EVER reach the admin
- *                      panel, by definition — granting this one
- *                      permission to an Employee wouldn't actually let
- *                      them in, since the route itself checks the
- *                      ROLE, not this permission; it exists mainly for
- *                      completeness/future use, e.g. a future Gate
- *                      check inside an admin view that wants finer
- *                      granularity than "is Admin" alone).
+ * PERMISSIONS (12 as of this update — the original 5 from Phase N3,
+ * plus 7 more added later, closing a real production gap: every
+ * feature built across Phase O (Keyword Research/Magic Tool/Lists),
+ * Phase Q (Competitor/Backlink Analysis), and Phase R (On-Page/
+ * Technical SEO) shipped with NO permission gate at all — each
+ * sidebar item/route had no 'permission' key/middleware, reachable by
+ * any logged-in user regardless of role. That matched those phases'
+ * own explicit design AT THE TIME (deliberately not tied into the
+ * Plan/Permission system yet — see each phase's own sidebar comment,
+ * e.g. "gated by provider availability, not a role/plan check"), but
+ * left an Admin with no way to actually RESTRICT an Employee/User from
+ * a specific one of these tools, which defeats the whole point of a
+ * granular Employee role. The 7 new permissions below close that gap
+ * the same way the original 5 already work for Website Audit/
+ * Discovery/Bulk Audit/Export:
+ *   use-keyword-research     Keyword Research page (Phase O3).
+ *   use-keyword-magic-tool   Keyword Magic Tool page (Phase O4).
+ *   use-keyword-lists        My Keyword Lists page (Phase O5) — kept
+ *                            SEPARATE from the two above rather than
+ *                            folded into either one, since a person
+ *                            could reasonably be allowed to run
+ *                            Keyword Research/Magic Tool without being
+ *                            allowed to save/manage persistent lists,
+ *                            or vice versa.
+ *   use-competitor-analysis  Competitor Analysis page (Phase Q2).
+ *   use-backlink-analysis    Backlink Analysis page (Phase Q3).
+ *   use-onpage-seo-checker   On-Page SEO Checker page (Phase R1).
+ *   use-technical-seo-audit  Technical SEO Audit page (Phase R2).
  *
  * ROLES (3, matching this phase's own requirement list exactly):
  *   Admin        every permission above, unconditionally — the
- *                sync() call below means adding a 6th permission to
+ *                sync() call below means adding a permission to
  *                this list in the future automatically reaches every
  *                Admin without this seeder needing to change, as long
  *                as it's added to $permissions before this role's own
- *                sync() call runs.
+ *                sync() call runs. Also see App\Providers\AppServiceProvider's
+ *                own Gate::before() — an Admin bypasses every
+ *                permission check outright regardless of what's
+ *                actually synced here, so this sync is more about
+ *                keeping the DATA consistent than the access itself.
  *   Employee     NO permissions by default — "নির্দিষ্ট,
  *                admin-নির্ধারিত এক্সেস" (specific, admin-determined
  *                access) was this phase's own literal requirement: an
@@ -61,16 +66,18 @@ use Spatie\Permission\Models\Role;
  *                own per-user permission checkboxes, rather than this
  *                seeder guessing a "reasonable default" set that would
  *                just get immediately overridden anyway.
- *   User         run-audit, view-discovery, run-bulk-audit,
- *                export-data — every FEATURE permission except
- *                view-admin-panel. Phase N5 (Dynamic Pricing/
+ *   User         every FEATURE permission except view-admin-panel —
+ *                the 7 new ones included, so a re-run of this seeder
+ *                on an EXISTING production database doesn't silently
+ *                take away access every existing customer already had
+ *                (these tools were reachable by any logged-in user
+ *                before this permission existed at all; this seeder
+ *                preserves that same access, just makes it a real,
+ *                Admin-toggleable permission going forward rather than
+ *                an unconditional given). Phase N5 (Dynamic Pricing/
  *                Subscription) is where this stops being a flat role-
  *                wide grant and starts being gated per subscription
- *                plan instead — see that phase's own docblock (once
- *                written) for exactly how; until then, every
- *                registered customer has full feature access, which
- *                is the correct default for an app with no billing
- *                system live yet (nothing to actually restrict against).
+ *                plan instead.
  */
 final class RolesAndPermissionsSeeder extends Seeder
 {
@@ -82,6 +89,14 @@ final class RolesAndPermissionsSeeder extends Seeder
             'run-bulk-audit',
             'export-data',
             'view-admin-panel',
+            // PRODUCTION GAP CLOSED — see this class's own docblock.
+            'use-keyword-research',
+            'use-keyword-magic-tool',
+            'use-keyword-lists',
+            'use-competitor-analysis',
+            'use-backlink-analysis',
+            'use-onpage-seo-checker',
+            'use-technical-seo-audit',
         ];
 
         foreach ($permissions as $permission) {
@@ -100,6 +115,13 @@ final class RolesAndPermissionsSeeder extends Seeder
             'view-discovery',
             'run-bulk-audit',
             'export-data',
+            'use-keyword-research',
+            'use-keyword-magic-tool',
+            'use-keyword-lists',
+            'use-competitor-analysis',
+            'use-backlink-analysis',
+            'use-onpage-seo-checker',
+            'use-technical-seo-audit',
         ]);
 
         // Bootstraps the FIRST real Admin — without this, there is no

@@ -94,6 +94,7 @@ return [
             'icon' => '<path d="M9 3v18M3 9h18" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="9" r="6"/>',
             'route' => 'keyword-research.index',
             'active' => ['keyword-research.*'],
+            'permission' => 'use-keyword-research',
         ],
         [
             // Phase O4 (Keyword Magic Tool) — same reasoning as Keyword
@@ -104,6 +105,7 @@ return [
             'icon' => '<path d="M15 4l-1 3-3 1 3 1 1 3 1-3 3-1-3-1-1-3zM6 14l-.7 2-2 .7 2 .7.7 2 .7-2 2-.7-2-.7-.7-2z" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'keyword-magic-tool.index',
             'active' => ['keyword-magic-tool.*'],
+            'permission' => 'use-keyword-magic-tool',
         ],
         [
             // Phase O5 (Keyword List/Project Management).
@@ -111,6 +113,7 @@ return [
             'icon' => '<path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'keyword-lists.index',
             'active' => ['keyword-lists.*'],
+            'permission' => 'use-keyword-lists',
         ],
         [
             // Phase Q2 (Competitor Analysis) — no 'permission' key, same
@@ -120,6 +123,7 @@ return [
             'icon' => '<path d="M17 20h5v-2a4 4 0 0 0-3-3.87M9 20H4v-2a4 4 0 0 1 3-3.87m6-1.13a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm6 4a4 4 0 1 0-8 0" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'competitor-analysis.index',
             'active' => ['competitor-analysis.*'],
+            'permission' => 'use-competitor-analysis',
         ],
         [
             // Phase Q3 (Backlink Analysis) — same gating reasoning as
@@ -128,6 +132,7 @@ return [
             'icon' => '<path d="M13.828 10.172a4 4 0 0 0-5.656 0l-4 4a4 4 0 1 0 5.656 5.656l1.102-1.101m-.758-4.899a4 4 0 0 0 5.656 0l4-4a4 4 0 0 0-5.656-5.656l-1.1 1.1" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'backlink-analysis.index',
             'active' => ['backlink-analysis.*'],
+            'permission' => 'use-backlink-analysis',
         ],
         [
             // Phase R1 (On-Page SEO Checker).
@@ -135,6 +140,7 @@ return [
             'icon' => '<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2z" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'on-page-seo.index',
             'active' => ['on-page-seo.*'],
+            'permission' => 'use-onpage-seo-checker',
         ],
         [
             // Phase R2 (Technical SEO Audit).
@@ -142,6 +148,7 @@ return [
             'icon' => '<path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'technical-seo.index',
             'active' => ['technical-seo.*'],
+            'permission' => 'use-technical-seo-audit',
         ],
         [
             'label' => 'Bulk Audit',

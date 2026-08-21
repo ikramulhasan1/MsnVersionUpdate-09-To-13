@@ -203,14 +203,14 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     // this item — gated by provider availability, not a role/plan
     // check, since Keyword Research isn't tied into the Pricing Plan
     // system yet).
-    Route::prefix('keyword-research')->name('keyword-research.')->group(function (): void {
+    Route::prefix('keyword-research')->name('keyword-research.')->middleware('permission:use-keyword-research')->group(function (): void {
         Route::get('/', [KeywordResearchController::class, 'index'])->name('index');
         Route::get('/results', [KeywordResearchController::class, 'show'])->name('show');
     });
 
     // Phase O4 (Keyword Magic Tool page) — same route-ordering and
     // gating reasoning as Keyword Research's own group just above.
-    Route::prefix('keyword-magic-tool')->name('keyword-magic-tool.')->group(function (): void {
+    Route::prefix('keyword-magic-tool')->name('keyword-magic-tool.')->middleware('permission:use-keyword-magic-tool')->group(function (): void {
         Route::get('/', [KeywordMagicToolController::class, 'index'])->name('index');
         Route::get('/results', [KeywordMagicToolController::class, 'show'])->name('show');
     });
@@ -223,7 +223,7 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     // App\Http\Controllers\KeywordListController's own class docblock)
     // rather than a route-level scope, matching how this app's other
     // per-user resources (Website Discovery) already handle it.
-    Route::prefix('keyword-lists')->name('keyword-lists.')->group(function (): void {
+    Route::prefix('keyword-lists')->name('keyword-lists.')->middleware('permission:use-keyword-lists')->group(function (): void {
         Route::get('/', [KeywordListController::class, 'index'])->name('index');
         Route::get('/json', [KeywordListController::class, 'listJson'])->name('json');
         Route::post('/add-item', [KeywordListController::class, 'addItem'])->name('add-item');
@@ -237,14 +237,14 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     // Phase Q2 (Competitor Analysis page) — 'show' before any
     // wildcard-style route for the same "static segment ordering"
     // reasoning this file's other groups already follow.
-    Route::prefix('competitor-analysis')->name('competitor-analysis.')->group(function (): void {
+    Route::prefix('competitor-analysis')->name('competitor-analysis.')->middleware('permission:use-competitor-analysis')->group(function (): void {
         Route::get('/', [CompetitorAnalysisController::class, 'index'])->name('index');
         Route::get('/results', [CompetitorAnalysisController::class, 'show'])->name('show');
     });
 
     // Phase Q3 (Backlink Analysis page) — same route-ordering and
     // gating reasoning as Competitor Analysis's own group just above.
-    Route::prefix('backlink-analysis')->name('backlink-analysis.')->group(function (): void {
+    Route::prefix('backlink-analysis')->name('backlink-analysis.')->middleware('permission:use-backlink-analysis')->group(function (): void {
         Route::get('/', [BacklinkAnalysisController::class, 'index'])->name('index');
         Route::get('/results', [BacklinkAnalysisController::class, 'show'])->name('show');
     });
@@ -252,11 +252,16 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     // Phase R1 (On-Page SEO Checker) — 'show'/'export-pdf'/'export-csv'
     // before any wildcard-style route, matching this file's own
     // static-before-wildcard convention throughout.
-    Route::prefix('on-page-seo')->name('on-page-seo.')->group(function (): void {
+    Route::prefix('on-page-seo')->name('on-page-seo.')->middleware('permission:use-onpage-seo-checker')->group(function (): void {
         Route::get('/', [OnPageSeoController::class, 'index'])->name('index');
         Route::get('/results', [OnPageSeoController::class, 'show'])->name('show');
         Route::get('/export-pdf', [OnPageSeoController::class, 'exportPdf'])->name('export-pdf');
         Route::get('/export-csv', [OnPageSeoController::class, 'exportCsv'])->name('export-csv');
+        // PRODUCTION GAP CLOSED — see App\Models\OnPageSeoCheck's own
+        // migration docblock. Static segments above already sit before
+        // this wildcard-style route, matching this file's own
+        // convention.
+        Route::get('/checks/{onPageSeoCheck}', [OnPageSeoController::class, 'showSaved'])->name('show-saved');
     });
 
     // Phase R2 (Technical SEO Audit) — 'progress'/'export-csv' before
@@ -267,7 +272,7 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     // App\Http\Controllers\TechnicalSeoController's own class
     // docblock) — no route-level scope, matching how Keyword Lists
     // (Phase O5) already handles the same pattern.
-    Route::prefix('technical-seo')->name('technical-seo.')->group(function (): void {
+    Route::prefix('technical-seo')->name('technical-seo.')->middleware('permission:use-technical-seo-audit')->group(function (): void {
         Route::get('/', [TechnicalSeoController::class, 'index'])->name('index');
         Route::post('/', [TechnicalSeoController::class, 'store'])->name('store');
         Route::get('/{technicalSeoScan}', [TechnicalSeoController::class, 'show'])->name('show');

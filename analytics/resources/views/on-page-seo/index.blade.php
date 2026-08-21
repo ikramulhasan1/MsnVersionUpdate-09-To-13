@@ -35,6 +35,51 @@
             </div>
         @endif
 
+        {{--
+            PRODUCTION GAP CLOSED — see App\Models\OnPageSeoCheck's own
+            migration docblock: every completed check is now saved and
+            browsable here, the same "history list" every other
+            analysis tool in this app already offers.
+        --}}
+        @if ($result === null)
+            <h2 class="h6 fw-semibold mb-3">Recent Checks</h2>
+
+            @if ($checks->isEmpty())
+                <div class="card">
+                    <div class="card-body p-4 text-center text-secondary">No checks yet.</div>
+                </div>
+            @else
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>URL</th>
+                                    <th>Target Keyword</th>
+                                    <th>Score</th>
+                                    <th>Checked</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($checks as $check)
+                                    <tr>
+                                        <td class="small text-truncate" style="max-width: 320px;">{{ $check->url }}</td>
+                                        <td class="small">{{ $check->target_keyword ?? '—' }}</td>
+                                        <td>{{ $check->score ?? '—' }}</td>
+                                        <td class="small text-secondary">{{ $check->created_at->diffForHumans() }}</td>
+                                        <td class="text-end">
+                                            <a href="{{ route('on-page-seo.show-saved', $check) }}" class="btn btn-sm btn-outline-secondary">View</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endif
+        @endif
+
         @if ($result !== null)
             <div class="d-flex gap-2 mb-3">
                 <a href="{{ route('on-page-seo.export-pdf', ['url' => $url, 'target_keyword' => $targetKeyword ?? null]) }}"
