@@ -151,6 +151,16 @@ return [
             'permission' => 'use-technical-seo-audit',
         ],
         [
+            // Phase S3 (Image SEO / Smart Metadata Generator) — placed
+            // directly under Technical SEO Audit per this phase's own
+            // requirement.
+            'label' => 'Image SEO',
+            'icon' => '<rect x="3" y="4" width="18" height="16" rx="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5.5-5.5a2 2 0 0 0-2.83 0L4 19" stroke-linecap="round" stroke-linejoin="round"/>',
+            'route' => 'image-seo.index',
+            'active' => ['image-seo.*'],
+            'permission' => 'use-image-seo',
+        ],
+        [
             'label' => 'Bulk Audit',
             'icon' => '<path d="M4 6h16M4 12h16M4 18h7" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'bulk-audits.create',

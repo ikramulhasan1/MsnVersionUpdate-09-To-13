@@ -23,6 +23,7 @@ final class ImageProcessingJob extends Model
         'status',
         'total_images',
         'processed_images',
+        'context',
         'expires_at',
         'last_activity_at',
     ];
@@ -33,6 +34,7 @@ final class ImageProcessingJob extends Model
             'status' => ImageJobStatus::class,
             'total_images' => 'integer',
             'processed_images' => 'integer',
+            'context' => 'array',
             'expires_at' => 'datetime',
             'last_activity_at' => 'datetime',
         ];

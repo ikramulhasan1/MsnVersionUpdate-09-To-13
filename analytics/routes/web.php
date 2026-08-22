@@ -12,6 +12,7 @@ use App\Http\Controllers\BulkAuditController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscoveryController;
 use App\Http\Controllers\BacklinkAnalysisController;
+use App\Http\Controllers\ImageSeoController;
 use App\Http\Controllers\OnPageSeoController;
 use App\Http\Controllers\TechnicalSeoController;
 use App\Http\Controllers\CompetitorAnalysisController;
@@ -278,6 +279,21 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
         Route::get('/{technicalSeoScan}', [TechnicalSeoController::class, 'show'])->name('show');
         Route::get('/{technicalSeoScan}/progress', [TechnicalSeoController::class, 'progress'])->name('progress');
         Route::get('/{technicalSeoScan}/export-csv', [TechnicalSeoController::class, 'exportCsv'])->name('export-csv');
+    });
+
+    // Phase S3 (Image SEO / Smart Metadata Generator). Every action
+    // receiving a {job}/{item} enforces its own ownership check inside
+    // the controller itself (see App\Http\Controllers\ImageSeoController's
+    // own class docblock), matching Technical SEO Audit's own pattern
+    // just above — no route-level scope.
+    Route::prefix('image-seo')->name('image-seo.')->middleware('permission:use-image-seo')->group(function (): void {
+        Route::get('/', [ImageSeoController::class, 'index'])->name('index');
+        Route::post('/', [ImageSeoController::class, 'store'])->name('store');
+        Route::get('/{job}', [ImageSeoController::class, 'show'])->name('show');
+        Route::get('/{job}/export/{format}', [ImageSeoController::class, 'export'])->name('export');
+        Route::get('/{job}/items/{item}/preview', [ImageSeoController::class, 'preview'])->name('items.preview');
+        Route::post('/{job}/items/{item}/regenerate', [ImageSeoController::class, 'regenerate'])->name('items.regenerate');
+        Route::post('/{job}/items/{item}/select', [ImageSeoController::class, 'select'])->name('items.select');
     });
 
     // Phase N2 (Sidebar + Dynamic Notification System) — "recent" (the

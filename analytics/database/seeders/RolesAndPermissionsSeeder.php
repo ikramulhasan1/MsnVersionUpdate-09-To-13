@@ -45,6 +45,11 @@ use Spatie\Permission\Models\Role;
  *   use-backlink-analysis    Backlink Analysis page (Phase Q3).
  *   use-onpage-seo-checker   On-Page SEO Checker page (Phase R1).
  *   use-technical-seo-audit  Technical SEO Audit page (Phase R2).
+ *   use-image-seo            Image SEO / Smart Metadata Generator page
+ *                            (Phase S3) — same "close the gap" reasoning
+ *                            as the 7 above, added at the same time this
+ *                            page itself shipped rather than retrofitted
+ *                            later.
  *
  * ROLES (3, matching this phase's own requirement list exactly):
  *   Admin        every permission above, unconditionally — the
@@ -97,6 +102,7 @@ final class RolesAndPermissionsSeeder extends Seeder
             'use-backlink-analysis',
             'use-onpage-seo-checker',
             'use-technical-seo-audit',
+            'use-image-seo',
         ];
 
         foreach ($permissions as $permission) {
@@ -122,6 +128,7 @@ final class RolesAndPermissionsSeeder extends Seeder
             'use-backlink-analysis',
             'use-onpage-seo-checker',
             'use-technical-seo-audit',
+            'use-image-seo',
         ]);
 
         // Bootstraps the FIRST real Admin — without this, there is no

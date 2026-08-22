@@ -145,4 +145,119 @@ return [
         'analysis_max_dimension_px' => 1600,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Image SEO / Smart Metadata Generator (Phase S3)
+    |--------------------------------------------------------------------------
+    |
+    | Every tunable knob App\ImageProcessing\SmartMetadataGenerator,
+    | App\ImageProcessing\KeywordStuffingDetector,
+    | App\ImageProcessing\DuplicateAltDetector, and
+    | App\ImageProcessing\ImageSeoScorer use, so tuning any threshold
+    | below never means editing those classes themselves — same
+    | reasoning as 'quality_analysis' above.
+    */
+    'image_seo' => [
+
+        // A single job (batch) can't grow unbounded — this caps how
+        // many images one "Image Context" submission accepts at once.
+        'max_images_per_batch' => 20,
+
+        // The dropdown App\Http\Controllers\ImageSeoController's own
+        // store() validates 'purpose' against — kept here (not a PHP
+        // enum) since these are purely display/template labels, never
+        // switched on with the kind of exhaustive match() an enum
+        // would justify elsewhere in this app.
+        'purposes' => [
+            'product' => 'Product',
+            'blog' => 'Blog',
+            'hero' => 'Hero',
+            'infographic' => 'Infographic',
+            'screenshot' => 'Screenshot',
+            'logo' => 'Logo',
+            'decorative' => 'Decorative',
+            'author' => 'Author',
+            'gallery' => 'Gallery',
+            'advertisement' => 'Advertisement',
+        ],
+
+        // Alt text style keys App\ImageProcessing\SmartMetadataGenerator
+        // builds three candidates for, and the order they're shown in
+        // the UI.
+        'alt_styles' => [
+            'seo' => 'SEO-focused',
+            'accessibility' => 'Accessibility-focused',
+            'short' => 'Short',
+            'detailed' => 'Detailed',
+        ],
+
+        // Recommended alt-text length window (characters) — screen
+        // readers and Google both effectively stop reading well past
+        // this, so the generator trims toward this range rather than
+        // treating "longer is always more thorough" as better.
+        'alt_length_min' => 30,
+        'alt_length_max' => 125,
+
+        // App\ImageProcessing\KeywordStuffingDetector — a generated
+        // text is flagged once its single most-repeated significant
+        // word accounts for MORE than this share of all significant
+        // words in that text, OR appears at least
+        // 'stuffing_min_repeats' times outright (the ratio alone would
+        // under-flag very short texts like a Short-style alt where 2
+        // repeats of a 4-word phrase already reads as stuffed).
+        'stuffing_ratio_threshold' => 0.30,
+        'stuffing_min_repeats' => 3,
+
+        // App\ImageProcessing\DuplicateAltDetector — two images' alt
+        // text is flagged as a likely duplicate once normalized
+        // token-overlap similarity is AT/ABOVE this share (1.0 =
+        // identical).
+        'duplicate_alt_similarity_threshold' => 0.80,
+
+        // App\ImageProcessing\ImageSeoScorer — the 0-100 checklist
+        // score is a straight sum of these four weights (each already
+        // expressed directly in points, summing to 100 — unlike
+        // 'quality_analysis' above this isn't a 0-1 blend, since the
+        // UI shows each criterion's own points directly, not just the
+        // final blended number).
+        'checklist_weights' => [
+            'filename' => 25,
+            'alt_text' => 30,
+            'context_relevance' => 20,
+            'format' => 25,
+        ],
+
+        // Formats treated as fully "web-friendly" for the Format
+        // criterion above vs. ones that still work but cost points —
+        // GIF/BMP are the common "should really be converted" cases in
+        // real image libraries.
+        'web_friendly_formats' => ['WEBP', 'JPG', 'JPEG', 'PNG'],
+
+        // Generic, non-descriptive filename patterns (case-insensitive
+        // regex fragments) the Filename checklist criterion checks the
+        // ORIGINAL upload name against — a camera/screenshot default
+        // name never became "SEO-friendly" just by sitting next to a
+        // keyword-rich generated suggestion the person hasn't actually
+        // adopted yet.
+        'generic_filename_patterns' => [
+            '/^img[_-]?\d+$/i',
+            '/^dsc[_-]?\d+$/i',
+            '/^image\d*$/i',
+            '/^photo\d*$/i',
+            '/^screenshot/i',
+            '/^untitled/i',
+        ],
+
+        // Common English stopwords the generator/detector both strip
+        // before counting "significant" words — deliberately small and
+        // fixed, not a full linguistic stopword library, since this
+        // app's own generated text is short marketing copy, not
+        // arbitrary prose.
+        'stopwords' => [
+            'a', 'an', 'the', 'and', 'or', 'for', 'of', 'in', 'on', 'at',
+            'to', 'with', 'by', 'is', 'are', 'this', 'that', 'from',
+            'your', 'our', 'it', 'its',
+        ],
+    ],
+
 ];
