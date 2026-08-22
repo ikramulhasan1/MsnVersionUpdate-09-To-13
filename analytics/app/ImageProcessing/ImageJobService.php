@@ -7,6 +7,7 @@ namespace App\ImageProcessing;
 use App\Enums\ImageItemStatus;
 use App\Enums\ImageJobStatus;
 use App\ImageProcessing\Exceptions\InvalidImageException;
+use App\ImageProcessing\Jobs\AnalyzeImageMetadataJob;
 use App\Models\ImageProcessingItem;
 use App\Models\ImageProcessingJob;
 use App\Models\User;
@@ -100,6 +101,13 @@ final class ImageJobService
             'total_images' => $job->items()->count(),
             'last_activity_at' => now(),
         ]);
+
+        // Phase S2 — queued, not synchronous (see
+        // App\ImageProcessing\Jobs\AnalyzeImageMetadataJob's own docblock for why):
+        // dispatched once per image, right as that image's own upload
+        // finishes, so a bulk upload's images each start analysis
+        // independently rather than waiting on one another.
+        AnalyzeImageMetadataJob::dispatch($item);
 
         return $item;
     }

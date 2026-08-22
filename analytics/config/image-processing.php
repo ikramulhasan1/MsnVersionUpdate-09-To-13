@@ -71,4 +71,78 @@ return [
     */
     'default_max_file_size_mb' => 10,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Quality Analysis (Phase S2)
+    |--------------------------------------------------------------------------
+    |
+    | Every knob App\ImageProcessing\ImageMetadataExtractor's own
+    | analyzeQuality() uses to turn raw Imagick measurements into the
+    | final 0-100 quality_score, so tuning the formula later never
+    | means editing that class itself.
+    |
+    | 'weights' must sum to 1.0 — each weight is how much that one
+    | metric's own 0-100 sub-score contributes to the final blended
+    | score. 'compression' effectively drops out (its own weight is
+    | redistributed proportionally across the rest) for any image
+    | that ISN'T a JPEG, since block-boundary compression artifacts
+    | are a JPEG-specific DCT-encoding phenomenon — see
+    | calculateCompressionArtifacts()'s own docblock.
+    */
+    'quality_analysis' => [
+        'weights' => [
+            'sharpness' => 0.40,
+            'noise' => 0.20,
+            'compression' => 0.20,
+            'dynamic_range' => 0.20,
+        ],
+
+        // Laplacian-variance blur detection: variance AT or BELOW this
+        // is treated as fully blurry (sharpness sub-score 0); AT or
+        // ABOVE the ceiling is treated as fully sharp (sub-score 100).
+        // Values in between are scaled linearly. These two numbers are
+        // the well-known rough thresholds for the "variance of
+        // Laplacian" method on 8-bit grayscale images — genuinely
+        // blurry photos commonly fall under ~100, crisp ones commonly
+        // land in the thousands.
+        'blur_variance_floor' => 50.0,
+        'blur_variance_ceiling' => 1500.0,
+
+        // Noise estimate: standard deviation (0-255 scale) measured
+        // across the smoothest blocks of the image (see
+        // calculateNoiseEstimate()'s own docblock). AT/BELOW the floor
+        // is "clean" (sub-score 100); AT/ABOVE the ceiling is "noisy"
+        // (sub-score 0).
+        'noise_floor' => 1.0,
+        'noise_ceiling' => 12.0,
+
+        // Compression-artifact (JPEG block-boundary) blockiness ratio:
+        // AT/BELOW the floor is "no visible blocking" (sub-score 100);
+        // AT/ABOVE the ceiling is "heavily blocked" (sub-score 0).
+        'blockiness_floor' => 1.05,
+        'blockiness_ceiling' => 3.0,
+
+        // How large a region (longest edge, in pixels, rounded down to
+        // a multiple of 8) the compression-artifact check reads raw
+        // pixels from. Cropped from the file's own ORIGINAL, un-resized
+        // pixel grid — never resized — see
+        // calculateCompressionArtifacts()'s own docblock for why
+        // resizing before this specific check would be wrong.
+        'compression_sample_px' => 512,
+
+        // Dynamic range sub-score is just (max-min)/255 as a
+        // percentage directly — no floor/ceiling needed, but the
+        // sampling grid size for the noise/blockiness block analysis
+        // below IS configurable, since a finer grid costs more CPU.
+        'block_size_px' => 16,
+
+        // Working images larger than this (longest edge, in pixels)
+        // are downscaled onto a throwaway clone before any of the
+        // quality metrics run — the metrics themselves are statistical
+        // (variance/histograms), not pixel-exact, so this trades a
+        // little precision for a lot of CPU/memory headroom on huge
+        // uploads. The ORIGINAL is never touched or overwritten.
+        'analysis_max_dimension_px' => 1600,
+    ],
+
 ];

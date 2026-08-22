@@ -31,6 +31,10 @@ final class ImageProcessingItem extends Model
         'status',
         'error_message',
         'result',
+        'metadata',
+        'quality_analysis',
+        'quality_score',
+        'analyzed_at',
     ];
 
     protected function casts(): array
@@ -41,7 +45,24 @@ final class ImageProcessingItem extends Model
             'width' => 'integer',
             'height' => 'integer',
             'result' => 'array',
+            'metadata' => 'array',
+            'quality_analysis' => 'array',
+            'quality_score' => 'integer',
+            'analyzed_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Phase S2 — convenience for callers (controllers/views) that just
+     * need "should I show a privacy warning" without reaching into the
+     * $metadata JSON shape themselves. See
+     * App\ImageProcessing\ImageMetadataExtractor's own docblock for why
+     * GPS EXIF fields are extracted (not silently dropped) alongside
+     * this flag rather than instead of it.
+     */
+    public function hasGpsData(): bool
+    {
+        return (bool) data_get($this->metadata, 'exif.gps.present', false);
     }
 
     public function job(): BelongsTo
