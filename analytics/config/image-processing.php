@@ -260,4 +260,124 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Image Studio — Resize / Compress / Convert (Phase S4)
+    |--------------------------------------------------------------------------
+    |
+    | Every tunable knob App\ImageProcessing\ImageStudioProcessor (the
+    | actual Imagick engine) and App\ImageProcessing\ImageStudioRecommender
+    | (pure heuristic mapping — NEVER AI/subject-detection, see that
+    | class's own docblock) use.
+    */
+    'image_studio' => [
+
+        // A single batch can't grow unbounded, same reasoning as
+        // Phase S3's own 'image_seo.max_images_per_batch'.
+        'max_images_per_batch' => 20,
+
+        // Preset widths (px) the Resize panel offers as one-click
+        // buttons, plus a dedicated small "Thumbnail" preset — both
+        // App\ImageProcessing\ImageStudioProcessor::resize() and the
+        // resources/views/image-studio/show.blade.php UI read this
+        // same list so the buttons never drift out of sync with what
+        // the backend actually accepts.
+        'resize_presets' => [1920, 1600, 1200, 1024, 800, 600, 400],
+        'thumbnail_width' => 200,
+
+        // "Smart Resize for..." — App\ImageProcessing\ImageStudioRecommender
+        // ONLY task is looking a key up in this fixed table below and
+        // handing back its width/height; it is NEVER shown pixel
+        // content and NEVER detects a "subject" in the photo. Purely a
+        // pre-defined rule/mapping, exactly as this app's own
+        // requirement specifies.
+        'smart_resize_presets' => [
+            'blog_featured' => ['label' => 'Blog Featured Image', 'width' => 1200, 'height' => 675],
+            'product' => ['label' => 'Product Image', 'width' => 1200, 'height' => 1200],
+            'hero_banner' => ['label' => 'Hero Banner', 'width' => 1920, 'height' => 1080],
+            'social_share' => ['label' => 'Social Share (OG)', 'width' => 1200, 'height' => 630],
+            'thumbnail' => ['label' => 'Thumbnail', 'width' => 200, 'height' => 200],
+            'avatar' => ['label' => 'Avatar / Profile Photo', 'width' => 400, 'height' => 400],
+        ],
+
+        // Crop panel — FIXED ratio presets only, plus "Free". This app's
+        // own explicit requirement: manual or CENTER crop only, no
+        // "smart"/AI subject detection claimed anywhere — see
+        // App\ImageProcessing\ImageStudioProcessor::crop()'s own
+        // docblock.
+        'crop_ratios' => [
+            'free' => null,
+            '1:1' => [1, 1],
+            '4:3' => [4, 3],
+            '16:9' => [16, 9],
+            '3:2' => [3, 2],
+            '9:16' => [9, 16],
+        ],
+
+        // Compression mode presets — App\ImageProcessing\ImageStudioRecommender::qualityForMode()
+        // is the ONLY place these numbers are read; the Quality slider
+        // (10-100) always wins when a person adjusts it directly after
+        // picking a mode.
+        'compression_modes' => [
+            'lossless' => ['label' => 'Lossless', 'quality' => 100],
+            'high_quality' => ['label' => 'High Quality', 'quality' => 90],
+            'balanced' => ['label' => 'Balanced', 'quality' => 75],
+            'maximum_compression' => ['label' => 'Maximum Compression', 'quality' => 40],
+        ],
+
+        // App\ImageProcessing\ImageStudioRecommender::estimateCompressedSize()
+        // — a PURE ARITHMETIC ESTIMATE (never a real re-encode) used for
+        // the compression panel's "live" before/after preview as the
+        // quality slider moves; the REAL size only exists once the
+        // queued operation actually finishes. Each format's own curve
+        // is modeled as roughly linear between these two calibration
+        // points (quality 100 keeps 'retain_at_100' of the original
+        // size; quality 10 keeps 'retain_at_10').
+        'compression_estimate_curve' => [
+            'JPG' => ['retain_at_100' => 0.95, 'retain_at_10' => 0.08],
+            'JPEG' => ['retain_at_100' => 0.95, 'retain_at_10' => 0.08],
+            'PNG' => ['retain_at_100' => 0.90, 'retain_at_10' => 0.20],
+            'WEBP' => ['retain_at_100' => 0.85, 'retain_at_10' => 0.05],
+            'AVIF' => ['retain_at_100' => 0.70, 'retain_at_10' => 0.03],
+            'GIF' => ['retain_at_100' => 0.98, 'retain_at_10' => 0.35],
+        ],
+
+        // Format Conversion panel — App\ImageProcessing\ImageStudioRecommender::recommendFormat()
+        // is a SIMPLE HEURISTIC only (this app's own requirement:
+        // "একটা simple heuristic দিয়ে") — an expected-savings percent
+        // per FROM=>TO pair, not a measurement of this specific file.
+        'formats' => ['JPG', 'PNG', 'WEBP', 'AVIF'],
+        'format_conversion_savings_estimate' => [
+            'PNG' => ['to' => 'WEBP', 'savings_percent' => 35],
+            'JPG' => ['to' => 'WEBP', 'savings_percent' => 25],
+            'JPEG' => ['to' => 'WEBP', 'savings_percent' => 25],
+            'WEBP' => ['to' => 'AVIF', 'savings_percent' => 20],
+            'GIF' => ['to' => 'WEBP', 'savings_percent' => 40],
+        ],
+
+        // Responsive Image Generator — one WebP variant is produced at
+        // each of these widths (an original narrower than a given
+        // width is simply skipped for that width, never upscaled). See
+        // App\ImageProcessing\ImageStudioProcessor::responsive()'s own
+        // docblock.
+        'responsive_widths' => [400, 800, 1200, 1600, 2000],
+        'responsive_format' => 'WEBP',
+        'responsive_quality' => 82,
+
+        // Belt-and-braces Imagick resource caps, same reasoning as
+        // App\ImageProcessing\ImageMetadataExtractor's own loadImage()
+        // — this app's own queue worker processes many images back to
+        // back in the same PHP process.
+        'imagick_memory_limit_mb' => 256,
+        'imagick_map_limit_mb' => 256,
+        'imagick_disk_limit_mb' => 512,
+
+        // A hard ceiling on requested resize/crop dimensions — refuses
+        // an absurd width/height (whether typed by mistake or crafted
+        // deliberately) before it ever reaches Imagick, rather than
+        // letting a single operation balloon memory/CPU on the queue
+        // worker.
+        'max_dimension_px' => 8000,
+    ],
+
 ];

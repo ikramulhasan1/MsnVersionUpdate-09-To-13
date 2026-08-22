@@ -161,6 +161,16 @@ return [
             'permission' => 'use-image-seo',
         ],
         [
+            // Phase S4 (Image Studio: Resize/Compress/Convert) —
+            // placed directly under Image SEO per this phase's own
+            // requirement.
+            'label' => 'Image Studio',
+            'icon' => '<rect x="3" y="3" width="7" height="7" rx="1" stroke-linecap="round" stroke-linejoin="round"/><rect x="14" y="3" width="7" height="7" rx="1" stroke-linecap="round" stroke-linejoin="round"/><rect x="3" y="14" width="7" height="7" rx="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 17.5h7M17.5 14v7" stroke-linecap="round" stroke-linejoin="round"/>',
+            'route' => 'image-studio.index',
+            'active' => ['image-studio.*'],
+            'permission' => 'use-image-studio',
+        ],
+        [
             'label' => 'Bulk Audit',
             'icon' => '<path d="M4 6h16M4 12h16M4 18h7" stroke-linecap="round" stroke-linejoin="round"/>',
             'route' => 'bulk-audits.create',

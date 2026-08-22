@@ -50,6 +50,9 @@ use Spatie\Permission\Models\Role;
  *                            as the 7 above, added at the same time this
  *                            page itself shipped rather than retrofitted
  *                            later.
+ *   use-image-studio         Image Studio: Resize/Compress/Convert page
+ *                            (Phase S4) — same reasoning as use-image-seo
+ *                            just above.
  *
  * ROLES (3, matching this phase's own requirement list exactly):
  *   Admin        every permission above, unconditionally — the
@@ -103,6 +106,7 @@ final class RolesAndPermissionsSeeder extends Seeder
             'use-onpage-seo-checker',
             'use-technical-seo-audit',
             'use-image-seo',
+            'use-image-studio',
         ];
 
         foreach ($permissions as $permission) {
@@ -129,6 +133,7 @@ final class RolesAndPermissionsSeeder extends Seeder
             'use-onpage-seo-checker',
             'use-technical-seo-audit',
             'use-image-seo',
+            'use-image-studio',
         ]);
 
         // Bootstraps the FIRST real Admin — without this, there is no

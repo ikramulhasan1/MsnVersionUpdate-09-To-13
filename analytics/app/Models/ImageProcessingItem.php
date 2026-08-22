@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\ImageItemStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Image Everything (Phase S1) — see this table's own migration
@@ -68,5 +69,16 @@ final class ImageProcessingItem extends Model
     public function job(): BelongsTo
     {
         return $this->belongsTo(ImageProcessingJob::class, 'job_id');
+    }
+
+    /**
+     * Phase S4 — every resize/crop/compress/convert/responsive
+     * operation ever run against this item, oldest first. See
+     * App\Models\ImageProcessingOperation's own docblock for why this
+     * is a separate table rather than another column here.
+     */
+    public function operations(): HasMany
+    {
+        return $this->hasMany(ImageProcessingOperation::class, 'item_id')->oldest();
     }
 }

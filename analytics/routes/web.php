@@ -13,6 +13,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscoveryController;
 use App\Http\Controllers\BacklinkAnalysisController;
 use App\Http\Controllers\ImageSeoController;
+use App\Http\Controllers\ImageStudioController;
 use App\Http\Controllers\OnPageSeoController;
 use App\Http\Controllers\TechnicalSeoController;
 use App\Http\Controllers\CompetitorAnalysisController;
@@ -294,6 +295,24 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
         Route::get('/{job}/items/{item}/preview', [ImageSeoController::class, 'preview'])->name('items.preview');
         Route::post('/{job}/items/{item}/regenerate', [ImageSeoController::class, 'regenerate'])->name('items.regenerate');
         Route::post('/{job}/items/{item}/select', [ImageSeoController::class, 'select'])->name('items.select');
+    });
+
+    // Phase S4 (Image Studio: Resize/Compress/Convert). Every action
+    // receiving a {job}/{item}/{operation} enforces its own ownership
+    // check inside the controller itself (see
+    // App\Http\Controllers\ImageStudioController's own class
+    // docblock), matching Image SEO's own pattern just above — no
+    // route-level scope.
+    Route::prefix('image-studio')->name('image-studio.')->middleware('permission:use-image-studio')->group(function (): void {
+        Route::get('/', [ImageStudioController::class, 'index'])->name('index');
+        Route::post('/', [ImageStudioController::class, 'store'])->name('store');
+        Route::get('/{job}', [ImageStudioController::class, 'show'])->name('show');
+        Route::get('/{job}/download-zip', [ImageStudioController::class, 'downloadZip'])->name('download-zip');
+        Route::get('/{job}/items/{item}/preview', [ImageStudioController::class, 'previewOriginal'])->name('items.preview');
+        Route::post('/{job}/items/{item}/operations', [ImageStudioController::class, 'storeOperation'])->name('items.operations.store');
+        Route::get('/{job}/items/{item}/operations/{operation}/poll', [ImageStudioController::class, 'pollOperation'])->name('items.operations.poll');
+        Route::get('/{job}/items/{item}/operations/{operation}/preview', [ImageStudioController::class, 'previewOperation'])->name('items.operations.preview');
+        Route::get('/{job}/items/{item}/operations/{operation}/download', [ImageStudioController::class, 'downloadOperation'])->name('items.operations.download');
     });
 
     // Phase N2 (Sidebar + Dynamic Notification System) — "recent" (the
